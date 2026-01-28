@@ -12,47 +12,64 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $cliente = \App\Models\User::factory()->create([
+        $cliente = \App\Models\User::updateOrCreate([
+            'email' => 'cliente@teste.com'
+        ], [
             'name' => 'Cliente Teste',
-            'email' => 'cliente@teste.com',
+            'password' => bcrypt('password'),
             'role' => 'cliente',
         ]);
-        $cliente->profile()->create([
+        \App\Models\Profile::updateOrCreate([
+            'user_id' => $cliente->id
+        ], [
             'saldo' => 0,
             'patrocinado' => false,
+            // Do not set codigo_afiliado for cliente
         ]);
-        $cliente->wallet()->create([
+        \App\Models\Wallet::updateOrCreate([
+            'user_id' => $cliente->id
+        ], [
             'saldo' => 0,
             'saldo_pendente' => 0,
             'saque_minimo' => 20000,
             'taxa_saque' => 20.00,
         ]);
 
-        $freelancer = \App\Models\User::factory()->create([
+        $freelancer = \App\Models\User::updateOrCreate([
+            'email' => 'freelancer@teste.com'
+        ], [
             'name' => 'Freelancer Teste',
-            'email' => 'freelancer@teste.com',
+            'password' => bcrypt('password'),
             'role' => 'freelancer',
         ]);
-        $freelancer->profile()->create([
+        \App\Models\Profile::updateOrCreate([
+            'user_id' => $freelancer->id
+        ], [
             'saldo' => 10000,
             'patrocinado' => true,
             'patrocinio_expira_em' => now()->addMonth(),
             'codigo_afiliado' => 'FREELA123',
             'ganhos_afiliado' => 540,
         ]);
-        $freelancer->wallet()->create([
+        \App\Models\Wallet::updateOrCreate([
+            'user_id' => $freelancer->id
+        ], [
             'saldo' => 10000,
             'saldo_pendente' => 5000,
             'saque_minimo' => 20000,
             'taxa_saque' => 20.00,
         ]);
-        $freelancer->affiliate()->create([
+        \App\Models\Affiliate::updateOrCreate([
+            'user_id' => $freelancer->id
+        ], [
             'codigo' => 'FREELA123',
             'ganhos' => 540,
             'status' => 'ativo',
         ]);
-        $freelancer->sponsorships()->create([
-            'plano' => '1_mes',
+        \App\Models\Sponsorship::updateOrCreate([
+            'user_id' => $freelancer->id,
+            'plano' => '1_mes'
+        ], [
             'status' => 'ativo',
             'data_inicio' => now(),
             'data_fim' => now()->addMonth(),
