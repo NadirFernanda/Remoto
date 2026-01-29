@@ -57,3 +57,48 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Fluxo de Novo Pedido
+
+O fluxo de criação de um novo pedido no sistema funciona assim:
+
+1. **Briefing do Pedido**
+   - O cliente preenche um formulário com:
+     - Título do pedido (obrigatório)
+     - Tipo de negócio
+     - Necessidade
+     - Público-alvo
+     - Estilo desejado
+     - Cores preferidas
+     - Onde será utilizado
+   - O sistema gera automaticamente uma descrição profissional (briefing inteligente) a partir das respostas.
+   - O cliente pode revisar/editar a descrição sugerida.
+
+2. **Definição do Valor**
+   - O cliente informa o valor do serviço.
+   - O sistema calcula e exibe a taxa da plataforma e o valor líquido do freelancer.
+
+3. **Pagamento**
+   - O cliente realiza o pagamento do pedido.
+   - Após confirmação, o pedido é publicado e fica disponível para freelancers.
+
+4. **Notificações para Freelancers**
+   - Todos os freelancers ativos recebem uma **notificação interna** no sistema sobre o novo projeto.
+   - Freelancers que optaram por receber e-mails também recebem uma **notificação por e-mail** com detalhes do projeto e link direto para aceitar.
+   - O freelancer pode ativar/desativar o recebimento de e-mails de novos projetos nas configurações da conta.
+
+5. **Exibição Pública**
+   - No site público, cada projeto exibe:
+     - Título
+     - Status
+     - Descrição (texto gerado pelo briefing inteligente)
+     - Valor
+     - Data de publicação
+
+6. **Edição de Título**
+   - O cliente pode editar o título do pedido já criado diretamente na tela de detalhes, via modal e AJAX.
+
+> **Observação:**
+> O valor informado pelo cliente no momento do pedido é **fixo e não negociável**. Cabe ao freelancer decidir se aceita ou recusa o projeto conforme o valor e as condições apresentadas.
+
+Esse fluxo garante que todos os pedidos tenham título, descrição clara, estejam prontos para análise dos freelancers e que os profissionais sejam notificados de novas oportunidades.

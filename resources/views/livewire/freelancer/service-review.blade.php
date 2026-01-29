@@ -1,6 +1,9 @@
 <div class="container mx-auto px-4 py-8 max-w-xl">
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Serviço</h2>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
+        <div class="mb-4 p-2 bg-yellow-100 text-yellow-800 text-xs rounded">
+            <strong>Debug:</strong> auth()->id() = {{ auth()->id() }} | cliente_id = {{ $service->cliente_id }} | status = {{ $service->status }}
+        </div>
         <div class="mb-2">
             <span class="font-semibold">Título:</span> {{ $service->titulo }}
         </div>
@@ -23,6 +26,16 @@
         </div>
         <div class="mb-4">
             <span class="font-semibold">Status:</span>
+            @php
+                $statusLabels = [
+                    'published' => 'Publicado',
+                    'accepted' => 'Aceite',
+                    'in_progress' => 'Em andamento',
+                    'delivered' => 'Entregue',
+                    'completed' => 'Concluído',
+                    'cancelled' => 'Cancelado',
+                ];
+            @endphp
             <span class="px-2 py-1 rounded text-xs font-bold
                 @if($service->status === 'published') bg-gray-200 text-gray-700
                 @elseif($service->status === 'accepted') bg-cyan-100 text-cyan-700
@@ -30,7 +43,7 @@
                 @elseif($service->status === 'delivered') bg-blue-100 text-blue-700
                 @elseif($service->status === 'completed') bg-green-100 text-green-700
                 @endif">
-                {{ ucfirst($service->status) }}
+                {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
             </span>
         </div>
         @if(auth()->user() && $service->cliente_id !== auth()->id())

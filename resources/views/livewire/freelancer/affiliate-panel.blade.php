@@ -14,8 +14,16 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-semibold">Status do afiliado:</label>
+        @php
+            $affiliateStatusLabels = [
+                'ativo' => 'Ativo',
+                'inativo' => 'Inativo',
+                'pendente' => 'Pendente',
+                'recusado' => 'Recusado',
+            ];
+        @endphp
         <span class="inline-block px-3 py-1 rounded-full text-white {{ $status === 'ativo' ? 'bg-green-500' : 'bg-gray-400' }}">
-            {{ ucfirst($status) }}
+            {{ $affiliateStatusLabels[$status] ?? ucfirst($status) }}
         </span>
     </div>
     <div>

@@ -77,8 +77,18 @@
 											'cancelled' => '#888',
 										];
 									@endphp
+									@php
+									    $statusLabels = [
+									        'published' => 'Publicado',
+									        'accepted' => 'Aceite',
+									        'in_progress' => 'Em andamento',
+									        'delivered' => 'Entregue',
+									        'completed' => 'Concluído',
+									        'cancelled' => 'Cancelado',
+									    ];
+									@endphp
 									<span class="font-bold" style="color: {{ $statusColors[$order->status] ?? '#222' }}">
-										{{ ucfirst(str_replace('_', ' ', $order->status)) }}
+									    {{ $statusLabels[$order->status] ?? ucfirst(str_replace('_', ' ', $order->status)) }}
 									</span>
 								</td>
 								<td class="py-2 px-4">Kz {{ number_format($order->valor, 2, ',', '.') }}</td>

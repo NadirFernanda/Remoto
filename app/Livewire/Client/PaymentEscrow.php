@@ -5,6 +5,8 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Service;
+use App\Models\User;
+use App\Models\Notification;
 
 class PaymentEscrow extends Component
 {
@@ -156,6 +158,25 @@ class PaymentEscrow extends Component
             'valor_liquido' => $this->valor_liquido,
             'status' => 'aguardando',
         ]);
+
+        // Notificação interna para freelancers ativos
+        if ($service) {
+            $freelancers = User::where('role', 'freelancer')->get();
+            foreach ($freelancers as $freelancer) {
+                Notification::create([
+                    'user_id' => $freelancer->id,
+                    'type' => 'novo_projeto',
+                    'title' => 'Novo projeto publicado',
+                    'message' => 'Um novo projeto foi publicado: ' . $service->titulo,
+                    'read' => false,
+                ]);
+                // Notificação por e-mail (apenas se preferir)
+                if ($freelancer->notify_new_project_email) {
+                    $serviceUrl = route('freelancer.service.review', $service->id);
+                    $freelancer->notify(new \App\Notifications\NewProjectNotification($service, $serviceUrl));
+                }
+            }
+        }
 
         if ($service) {
             session()->flash('success', 'Pagamento realizado e pedido publicado com sucesso!');

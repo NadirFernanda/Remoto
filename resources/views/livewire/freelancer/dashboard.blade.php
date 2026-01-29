@@ -1,5 +1,6 @@
 <div>
 
+
     <div class="flex min-h-screen bg-gray-50">
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 px-4">
@@ -10,6 +11,7 @@
         </div>
         <nav class="flex flex-col gap-2">
             <a href="{{ route('freelancer.dashboard') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Dashboard</a>
+            <a href="{{ route('freelancer.available-projects') }}" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Projetos Disponíveis</a>
             <a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
             <form method="POST" action="{{ route('logout') }}" class="mt-4">
                 @csrf
@@ -59,8 +61,18 @@
                             <tr class="border-b">
                                 <td class="py-2 px-4">{{ $project->titulo ?? '-' }}</td>
                                 <td class="py-2 px-4">
+                                    @php
+                                        $statusLabels = [
+                                            'published' => 'Publicado',
+                                            'accepted' => 'Aceite',
+                                            'in_progress' => 'Em andamento',
+                                            'delivered' => 'Entregue',
+                                            'completed' => 'Concluído',
+                                            'cancelled' => 'Cancelado',
+                                        ];
+                                    @endphp
                                     <span class="font-bold" style="color: #222;">
-                                        {{ ucfirst(str_replace('_', ' ', $project->status)) }}
+                                        {{ $statusLabels[$project->status] ?? ucfirst(str_replace('_', ' ', $project->status)) }}
                                     </span>
                                 </td>
                                 <td class="py-2 px-4">Kz {{ number_format($project->valor, 2, ',', '.') }}</td>

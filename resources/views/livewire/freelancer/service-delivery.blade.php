@@ -6,12 +6,22 @@
         </div>
         <div class="mb-2">
             <span class="font-semibold">Status:</span>
+            @php
+                $statusLabels = [
+                    'published' => 'Publicado',
+                    'accepted' => 'Aceite',
+                    'in_progress' => 'Em andamento',
+                    'delivered' => 'Entregue',
+                    'completed' => 'Concluído',
+                    'cancelled' => 'Cancelado',
+                ];
+            @endphp
             <span class="px-2 py-1 rounded text-xs font-bold
                 @if($service->status === 'in_progress') bg-yellow-100 text-yellow-700
                 @elseif($service->status === 'delivered') bg-blue-100 text-blue-700
                 @elseif($service->status === 'completed') bg-green-100 text-green-700
                 @endif">
-                {{ ucfirst($service->status) }}
+                {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
             </span>
         </div>
         <form wire:submit.prevent="entregarServico" enctype="multipart/form-data">

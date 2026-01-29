@@ -2,8 +2,16 @@
     <h2 class="text-2xl font-bold mb-4">Patrocínio de Perfil</h2>
     <div class="mb-4">
         <label class="block text-gray-700 font-semibold">Status do patrocínio:</label>
+        @php
+            $sponsorshipStatusLabels = [
+                'aprovado' => 'Aprovado',
+                'em análise' => 'Em análise',
+                'recusado' => 'Recusado',
+                'pendente' => 'Pendente',
+            ];
+        @endphp
         <span class="inline-block px-3 py-1 rounded-full text-white {{ $status === 'aprovado' ? 'bg-green-500' : ($status === 'em análise' ? 'bg-yellow-500' : ($status === 'recusado' ? 'bg-red-500' : 'bg-gray-400')) }}">
-            {{ ucfirst($status) }}
+            {{ $sponsorshipStatusLabels[$status] ?? ucfirst($status) }}
         </span>
     </div>
     <div class="mb-4">
