@@ -22,7 +22,7 @@
 	<main class="flex-1 p-8">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
 			<h1 class="font-semibold text-2xl text-[#222]">Dashboard do Cliente</h1>
-			<a href="{{ route('client.publish') }}" class="inline-block bg-[#00B6E6] hover:bg-[#009E4F] text-white font-bold py-2 px-6 rounded transition">+ Novo Pedido</a>
+			<a href="{{ route('client.publish') }}" class="inline-block bg-[#00B6E6] hover:bg-[#00A6C6] text-white font-bold py-2 px-6 rounded transition">+ Novo Pedido</a>
 		</div>
 		<!-- KPIs -->
 		<div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
