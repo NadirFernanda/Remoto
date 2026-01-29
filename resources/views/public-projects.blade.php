@@ -49,11 +49,11 @@
             </form>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($projects as $project)
-                    <div class="bg-white/90 rounded-xl shadow-lg p-6 flex flex-col justify-between border border-cyan-200 hover:shadow-2xl transition">
+                    <div class="rounded-xl shadow-lg p-6 flex flex-col justify-between border border-cyan-200 hover:shadow-2xl transition" style="background: transparent;">
                         <div>
-                            <h2 class="text-xl font-bold text-[#0e4c92] mb-2">{{ $project->titulo }}</h2>
+                            <h2 class="text-xl font-bold text-cyan-400 mb-2">{{ $project->titulo }}</h2>
                             <div class="mb-2">
-                                <span class="font-semibold text-[#0e4c92]">Status:</span>
+                                <span class="font-semibold text-cyan-400">Status:</span>
                                 <span class="inline-block px-3 py-1 rounded-full text-white font-bold text-xs" style="background:#0e4c92;">
                                     @php
                                         $statusMap = [
@@ -92,8 +92,8 @@
                                     <span class="text-gray-500">Sem briefing disponível.</span>
                                 @endif
                             </div>
-                            <div class="mb-2"><span class="font-semibold text-[#0e4c92]">Valor:</span> <span class="text-[#0e4c92]">R$ {{ number_format($project->valor, 2, ',', '.') }}</span></div>
-                            <div class="mb-2"><span class="font-semibold text-[#0e4c92]">Publicado em:</span> <span class="text-[#0e4c92]">{{ $project->created_at->format('d/m/Y') }}</span></div>
+                            <div class="mb-2"><span class="font-semibold text-cyan-400">Valor:</span> <span class="text-white">R$ {{ number_format($project->valor, 2, ',', '.') }}</span></div>
+                            <div class="mb-2"><span class="font-semibold text-cyan-400">Publicado em:</span> <span class="text-white">{{ $project->created_at->format('d/m/Y') }}</span></div>
                         </div>
                         <div class="mt-4 flex flex-col gap-2">
                             <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-[#0e4c92] text-white font-bold py-2 px-4 rounded w-full block text-center transition-all hover:bg-[#09386a] mb-2">Ver detalhes</a>
