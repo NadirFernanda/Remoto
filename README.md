@@ -98,7 +98,32 @@ O fluxo de criação de um novo pedido no sistema funciona assim:
 6. **Edição de Título**
    - O cliente pode editar o título do pedido já criado diretamente na tela de detalhes, via modal e AJAX.
 
+7. **Aceite ou Recusa do Freelancer**
+   - O freelancer pode visualizar todos os projetos disponíveis e optar por **aceitar** ou **recusar** cada um.
+   - Ao aceitar, o projeto é atribuído ao freelancer e sai da lista de disponíveis para outros.
+   - Ao recusar, o projeto permanece disponível para outros freelancers.
+
+8. **Pós-Aceite: Execução e Entrega**
+   - Após o aceite, o freelancer inicia o trabalho e pode interagir com o cliente pela plataforma.
+   - O freelancer faz a entrega do serviço pela área do projeto.
+   - O cliente avalia a entrega e, se aprovado, o pagamento é liberado ao freelancer.
+
 > **Observação:**
 > O valor informado pelo cliente no momento do pedido é **fixo e não negociável**. Cabe ao freelancer decidir se aceita ou recusa o projeto conforme o valor e as condições apresentadas.
 
-Esse fluxo garante que todos os pedidos tenham título, descrição clara, estejam prontos para análise dos freelancers e que os profissionais sejam notificados de novas oportunidades.
+Esse fluxo garante que todos os pedidos tenham título, descrição clara, estejam prontos para análise dos freelancers e que os profissionais sejam notificados de novas oportunidades, com etapas claras de aceite, execução e entrega.
+
+## Melhorias de Usabilidade e Funcionalidade nas Configurações do Freelancer
+
+Para garantir uma experiência moderna e eficiente ao freelancer, as seguintes melhorias foram implementadas ou recomendadas na tela de configurações:
+
+- Permitir upload e visualização da foto de perfil.
+- Edição de nome e e-mail diretamente na tela de configurações.
+- Status visual para notificações de e-mail (badge “Ativado”/“Desativado”).
+- Separação clara em seções: Perfil e Notificações.
+- Feedback visual ao salvar alterações (mensagem de sucesso/erro).
+- Botão de salvar destacado e com feedback visual.
+- Validação de campos obrigatórios (nome, e-mail, foto).
+- Layout responsivo e acessível.
+
+Essas melhorias tornam a área de configurações mais intuitiva, funcional e alinhada com as melhores práticas de UX.

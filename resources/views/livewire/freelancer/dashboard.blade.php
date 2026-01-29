@@ -13,6 +13,7 @@
             <a href="{{ route('freelancer.dashboard') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Dashboard</a>
             <a href="{{ route('freelancer.available-projects') }}" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Projetos Disponíveis</a>
             <a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
+            <a href="{{ route('freelancer.settings') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Configurações</a>
             <form method="POST" action="{{ route('logout') }}" class="mt-4">
                 @csrf
                 <button type="submit" class="w-full py-2 px-4 rounded bg-red-100 text-red-600 font-bold hover:bg-red-200">Sair</button>

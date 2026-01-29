@@ -44,6 +44,7 @@ Route::middleware(['auth', 'role:freelancer'])->group(function () {
 	Route::get('/freelancer/afiliados', AffiliatePanel::class)->name('freelancer.affiliate');
 	Route::get('/freelancer/patrocinio', SponsorshipPanel::class)->name('freelancer.sponsorship');
 	Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
+	Route::view('/freelancer/configuracoes', 'livewire.freelancer.settings')->name('freelancer.settings');
 });
 
 // Removed duplicate middleware for client profile and settings
