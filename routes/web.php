@@ -162,3 +162,7 @@ Route::get('/projetos', function () {
     $projects = $query->orderByDesc('created_at')->paginate(12);
     return view('public-projects', compact('projects'));
 })->name('public.projects');
+
+use App\Http\Controllers\Client\ServiceTitleController;
+
+Route::middleware(['auth'])->post('/cliente/pedido/{service}/cancelar/edit-title', [ServiceTitleController::class, 'update']);

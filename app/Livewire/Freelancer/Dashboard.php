@@ -28,6 +28,6 @@ class Dashboard extends Component
             'kpi_total_recebido' => 0,
             'kpi_projetos_concluidos' => 0,
             'kpi_projetos_andamento' => 0,
-        ]);
+        ])->layout('layouts.livewire');
     }
 }

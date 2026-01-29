@@ -119,11 +119,13 @@ class PaymentEscrow extends Component
 
         // Processa o briefing antes de salvar
         $briefing_processado = $this->processBriefing($briefing);
-        // Recupera o título digitado pelo cliente na sessão
+        // Recupera o título digitado pelo cliente na sessão e prioriza sempre que possível
         $titulo_cliente = session('briefing_title');
         if ($titulo_cliente && is_string($titulo_cliente) && trim($titulo_cliente) !== '') {
             $titulo = trim($titulo_cliente);
-        } elseif (is_array($briefing_processado) && isset($briefing_processado['business_type'])) {
+        } elseif (isset($briefing['title']) && is_string($briefing['title']) && trim($briefing['title']) !== '') {
+            $titulo = trim($briefing['title']);
+        } elseif (is_array($briefing_processado) && isset($briefing_processado['business_type']) && trim($briefing_processado['business_type']) !== '') {
             $titulo = $briefing_processado['business_type'];
         } else {
             $titulo = 'Pedido sem título';
@@ -133,6 +135,12 @@ class PaymentEscrow extends Component
                 }
             }
         }
+        if (!$titulo || $titulo === '') {
+            $titulo = 'Pedido sem título';
+        }
+        // Limpa a sessão do título após uso
+        session()->forget('briefing_title');
+        \Log::debug('TÍTULO DO PROJETO DEFINIDO:', ['titulo' => $titulo]);
         // Briefing final
         if (is_array($briefing_processado)) {
             $briefing_final = isset($briefing_processado['texto']) ? $briefing_processado['texto'] : json_encode($briefing_processado);

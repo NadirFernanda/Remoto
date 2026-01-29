@@ -5,26 +5,68 @@
     </a>
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Pedido</h2>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <div class="mb-2">
-            <span class="font-semibold">Título:</span> {{ $service->titulo }}
+        <div class="mb-2 flex items-center gap-2">
+            <span class="font-semibold">Título:</span> <span id="service-title">{{ $service->titulo }}</span>
+            <button type="button" onclick="document.getElementById('editTitleModal').showModal()" class="ml-2 px-2 py-1 text-xs bg-cyan-100 text-cyan-800 rounded hover:bg-cyan-200">Editar título</button>
         </div>
+
+        <dialog id="editTitleModal" class="rounded-lg shadow-lg p-0">
+            <form method="dialog" class="p-6 bg-white rounded-lg flex flex-col gap-4" onsubmit="event.preventDefault(); window.submitEditTitle()">
+                <h3 class="font-bold text-cyan-700 text-lg mb-2">Editar título do pedido</h3>
+                <input type="text" id="newTitleInput" value="{{ $service->titulo }}" maxlength="100" class="border border-cyan-400 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" required>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="document.getElementById('editTitleModal').close()" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Cancelar</button>
+                    <button type="submit" class="px-3 py-1 rounded bg-cyan-500 text-white hover:bg-cyan-600">Salvar</button>
+                </div>
+            </form>
+        </dialog>
+        <script>
+        function submitEditTitle(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('newTitleInput');
+            const modal = document.getElementById('editTitleModal');
+            const titleSpan = document.getElementById('service-title');
+            const csrfMeta = document.querySelector('meta[name=csrf-token]');
+            if (!input || !modal || !titleSpan) {
+                alert('Elementos do formulário não encontrados. Recarregue a página.');
+                return;
+            }
+            if (!csrfMeta) {
+                alert('CSRF token não encontrado. Recarregue a página.');
+                return;
+            }
+            const newTitle = input.value;
+            fetch(window.location.pathname + '/edit-title', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfMeta.content
+                },
+                body: JSON.stringify({ titulo: newTitle })
+            }).then(resp => resp.json()).then(data => {
+                if (data.success) {
+                    titleSpan.innerText = newTitle;
+                    modal.close();
+                } else {
+                    alert('Erro ao salvar título!');
+                }
+            });
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('#editTitleModal form');
+            if (form) {
+                form.addEventListener('submit', submitEditTitle);
+            }
+        });
+        </script>
         <div class="mb-2">
             <span class="font-semibold">Briefing:</span>
             @php
                 $briefing = $service->briefing;
                 $briefingArray = @json_decode($briefing, true);
+                $briefingText = is_array($briefingArray) && isset($briefingArray['texto']) ? $briefingArray['texto'] : $briefing;
             @endphp
-            @if(is_string($briefing) && !$briefingArray)
-                <div class="mt-2 text-gray-800 whitespace-pre-line">{{ $briefing }}</div>
-            @else
-                <ul class="list-disc ml-6 text-gray-700">
-                    <li><span class="font-semibold">Tipo de negócio:</span> {{ $briefingArray['business_type'] ?? '' }}</li>
-                    <li><span class="font-semibold">Público-alvo:</span> {{ $briefingArray['target_audience'] ?? '' }}</li>
-                    <li><span class="font-semibold">Estilo desejado:</span> {{ $briefingArray['style'] ?? '' }}</li>
-                    <li><span class="font-semibold">Cores preferidas:</span> {{ $briefingArray['colors'] ?? '' }}</li>
-                    <li><span class="font-semibold">Onde será utilizado:</span> {{ $briefingArray['usage'] ?? '' }}</li>
-                </ul>
-            @endif
+            <div class="mt-2 text-gray-800 whitespace-pre-line">{{ $briefingText }}</div>
         </div>
         <div class="mb-2">
             <span class="font-semibold">Valor:</span> <span class="text-cyan-700 font-bold">{{ number_format($service->valor, 2, ',', '.') }} Kz</span>

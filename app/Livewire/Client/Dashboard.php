@@ -59,6 +59,6 @@ class Dashboard extends Component
             'kpi_freelancers_contratados' => $this->kpi_freelancers_contratados,
             'kpi_projetos_andamento' => $this->kpi_projetos_andamento,
             'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
-        ])->layout('layouts.app');
+        ])->layout('layouts.livewire');
     }
 }

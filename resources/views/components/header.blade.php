@@ -32,7 +32,7 @@
     </div>
     <nav class="flex items-center gap-2 md:gap-6 text-xs md:text-sm">
         <a href="#categorias" class="nav-link">Categorias</a>
-        <a href="#servicos" class="nav-link">Serviços</a>
+        <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
         <a href="#depoimentos" class="nav-link">Depoimentos</a>
         <a href="/login" class="nav-link">Login</a>
         <a href="/register" class="nav-link">Cadastro</a>

@@ -3,24 +3,45 @@
 namespace App\Livewire\Client;
 
 use Livewire\Component;
-
-
 use App\Models\Service;
 use App\Services\BriefingTextGenerator;
 
 class Briefing extends Component
 {
-    public string $title = '';
-    public string $business_type = '';
-    public string $target_audience = '';
-    public string $style = '';
-    public string $colors = '';
-    public string $usage = '';
+    public $title1 = null;
+    public $business_type1 = null;
+    public $necessity1 = null;
+    public $target_audience1 = null;
+    public $style1 = null;
+    public $colors1 = null;
+    public $usage = null;
     public int $step = 1;
     public $edit = null;
+    public $generated_description = '';
+    public function generateDescription()
+    {
+        $briefingData = [
+            'title' => $this->title1,
+            'business_type' => $this->business_type1,
+            'necessity' => $this->necessity1,
+            'target_audience' => $this->target_audience1,
+            'style' => $this->style1,
+            'colors' => $this->colors1,
+            'usage' => $this->usage,
+        ];
+        $this->generated_description = BriefingTextGenerator::generate($briefingData);
+    }
 
     public function nextStep()
     {
+        // Garante que cada campo mantém seu valor individual ao avançar
+        $this->title1 = (string) $this->title1;
+        $this->business_type1 = (string) $this->business_type1;
+        $this->necessity1 = (string) $this->necessity1;
+        $this->target_audience1 = (string) $this->target_audience1;
+        $this->style1 = (string) $this->style1;
+        $this->colors1 = (string) $this->colors1;
+        $this->usage = (string) $this->usage;
         $this->step++;
     }
 
@@ -32,19 +53,21 @@ class Briefing extends Component
     public function submitBriefing()
     {
         $this->validate([
-            'title' => 'required|max:100',
-            'business_type' => 'required|max:100',
-            'target_audience' => 'required|max:100',
-            'style' => 'required|max:100',
-            'colors' => 'required|max:100',
+            'title1' => 'required|max:100',
+            'business_type1' => 'required|max:100',
+            'necessity1' => 'required|max:100',
+            'target_audience1' => 'required|max:100',
+            'style1' => 'required|max:100',
+            'colors1' => 'required|max:100',
             'usage' => 'required|max:100',
         ]);
         $briefingData = [
-            'title' => $this->title,
-            'business_type' => $this->business_type,
-            'target_audience' => $this->target_audience,
-            'style' => $this->style,
-            'colors' => $this->colors,
+            'title' => $this->title1,
+            'business_type' => $this->business_type1,
+            'necessity' => $this->necessity1,
+            'target_audience' => $this->target_audience1,
+            'style' => $this->style1,
+            'colors' => $this->colors1,
             'usage' => $this->usage,
         ];
         // Gerar texto profissional do briefing
@@ -53,13 +76,13 @@ class Briefing extends Component
         if ($this->edit) {
             $service = Service::find($this->edit);
             if ($service && $service->cliente_id === auth()->id()) {
-                $service->titulo = $this->title;
+                $service->titulo = $this->title1;
                 $service->briefing = $briefingText;
                 $service->save();
             }
         }
         // Salvar briefing e título na sessão
-        session(['briefing' => $briefingText, 'briefing_title' => $this->title]);
+        session(['briefing' => $briefingText, 'briefing_title' => $this->title1]);
         return redirect()->route('client.value');
     }
 
@@ -70,14 +93,24 @@ class Briefing extends Component
             $service = Service::find($editId);
             if ($service && $service->cliente_id === auth()->id()) {
                 $briefing = json_decode($service->briefing, true);
-                $this->title = $service->titulo ?? '';
-                $this->business_type = $briefing['business_type'] ?? '';
-                $this->target_audience = $briefing['target_audience'] ?? '';
-                $this->style = $briefing['style'] ?? '';
-                $this->colors = $briefing['colors'] ?? '';
+                $this->title1 = $service->titulo ?? '';
+                $this->business_type1 = $briefing['business_type'] ?? '';
+                $this->necessity1 = $briefing['necessity'] ?? '';
+                $this->target_audience1 = $briefing['target_audience'] ?? '';
+                $this->style1 = $briefing['style'] ?? '';
+                $this->colors1 = $briefing['colors'] ?? '';
                 $this->usage = $briefing['usage'] ?? '';
                 $this->edit = $editId;
             }
+        } else {
+            // Limpa todos os campos ao iniciar novo briefing
+            $this->title1 = '';
+            $this->business_type1 = '';
+            $this->necessity1 = '';
+            $this->target_audience1 = '';
+            $this->style1 = '';
+            $this->colors1 = '';
+            $this->usage = '';
         }
     }
 

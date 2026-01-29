@@ -70,26 +70,12 @@
                             </div>
                             <div class="mb-2 text-sm" style="color: #fff;">
                                 @php $briefing = json_decode($project->briefing, true); @endphp
-                                @if($briefing)
-                                    <ul class="list-none ml-0">
-                                        @foreach($briefing as $key => $value)
-                                            @php
-                                                $labels = [
-                                                    'business_type' => 'Tipo de negócio',
-                                                    'target_audience' => 'Público-alvo',
-                                                    'style' => 'Estilo desejado',
-                                                    'colors' => 'Cores preferidas',
-                                                    'usage' => 'Onde será utilizado',
-                                                ];
-                                            @endphp
-                                            <li class="mb-1">
-                                                <span class="font-semibold">{{ $labels[$key] ?? ucfirst(str_replace('_', ' ', $key)) }}:</span>
-                                                <span style="color: #fff;">{{ $value }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                @if(is_array($briefing) && isset($briefing['texto']))
+                                    <span class="font-semibold">Descrição:</span> <span style="color: #fff;">{{ $briefing['texto'] }}</span>
+                                @elseif(is_string($project->briefing) && trim($project->briefing) !== '')
+                                    <span class="font-semibold">Descrição:</span> <span style="color: #fff;">{{ $project->briefing }}</span>
                                 @else
-                                    <span class="text-gray-500">Sem briefing disponível.</span>
+                                    <span class="text-gray-500">Sem descrição disponível.</span>
                                 @endif
                             </div>
                             <div class="mb-2"><span class="font-semibold text-cyan-400">Valor:</span> <span class="text-white">R$ {{ number_format($project->valor, 2, ',', '.') }}</span></div>
