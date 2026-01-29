@@ -60,7 +60,9 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/pedido', PublishRequest::class)->name('client.publish');
+	Route::get('/pedido', function () {
+		return view('client-publish');
+	})->name('client.publish');
 	Route::get('/briefing', Briefing::class)->name('client.briefing');
 	Route::get('/valor', ServiceValue::class)->name('client.value');
 	Route::get('/pagamento', PaymentEscrow::class)->name('client.payment');
