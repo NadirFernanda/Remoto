@@ -6,7 +6,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body style="background: #101c2c; color: #fff; min-height: 100vh;">
     @include('components.header')
     <main class="pt-24">
         @yield('content')

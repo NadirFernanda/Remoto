@@ -7,10 +7,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-50 min-h-screen">
-    @include('components.header')
-    <main class="pt-24">
-        @yield('content')
-    </main>
-    @include('components.footer')
+    @yield('content')
 </body>
 </html>

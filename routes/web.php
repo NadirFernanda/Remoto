@@ -1,8 +1,11 @@
-
 <?php
 require_once __DIR__.'/auth.php';
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Role;
+
+Route::aliasMiddleware('role', Role::class);
+
 use App\Livewire\NotificationPanel;
 use App\Livewire\Chat\ServiceChat;
 use App\Livewire\Freelancer\Wallet as FreelancerWallet;
@@ -22,9 +25,12 @@ use App\Livewire\Client\ServiceCancel;
 Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/pedido/{service}/cancelar', ServiceCancel::class)->name('client.service.cancel');
 });
+	Route::get('/cliente/financeiro/export-csv', [\App\Livewire\Client\FinanceHistory::class, 'exportCsv'])->name('client.finance.exportCsv');
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/cliente/dashboard', Dashboard::class)->name('client.dashboard');
+	Route::get('/cliente/dashboard', function () {
+		return view('client-dashboard');
+	})->name('client.dashboard');
 });
 Route::middleware(['auth'])->group(function () {
 	Route::get('/notificacoes', NotificationPanel::class)->name('notifications');
@@ -115,3 +121,32 @@ RouteFacade::get('/pagamento/paypal/retorno', function () {
 		return redirect()->route('client.payment')->with('error', 'Erro ao criar o pedido. Tente novamente.');
 	}
 })->name('client.paypal.return');
+
+use App\Models\Service;
+
+Route::get('/projetos', function () {
+    $query = Service::query();
+    if (request('valor_min')) {
+        $query->where('valor', '>=', request('valor_min'));
+    }
+    if (request('valor_max')) {
+        $query->where('valor', '<=', request('valor_max'));
+    }
+    if (request('data_inicio')) {
+        $query->whereDate('created_at', '>=', request('data_inicio'));
+    }
+    if (request('data_fim')) {
+        $query->whereDate('created_at', '<=', request('data_fim'));
+    }
+    if (request('status')) {
+        $query->where('status', request('status'));
+    }
+    if (request('business_type')) {
+        $query->whereRaw("briefing::json->>'business_type' = ?", [request('business_type')]);
+    }
+    if (request('target_audience')) {
+        $query->whereRaw("briefing::json->>'target_audience' = ?", [request('target_audience')]);
+    }
+    $projects = $query->orderByDesc('created_at')->paginate(12);
+    return view('public-projects', compact('projects'));
+})->name('public.projects');

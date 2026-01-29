@@ -287,5 +287,7 @@
     <footer class="w-full bg-[#101c2c] border-t border-cyan-900 py-4 text-center mt-0">
         <span class="text-gray-400 text-sm">&copy; 2026 Plataforma 24 Horas Remoto. Todos os direitos reservados.</span>
     </footer>
+
+    @include('components.freelancer-modal')
 </body>
 </html>

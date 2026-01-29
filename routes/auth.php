@@ -35,3 +35,11 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
+// Rota GET para exibir o formulário de cadastro de freelancer
+Route::get('/register', function (Request $request) {
+    if ($request->query('freelancer') == 1) {
+        return view('auth.register');
+    }
+    // Se quiser, pode adicionar lógica para outros tipos de cadastro
+    return view('auth.register');
+})->name('register');

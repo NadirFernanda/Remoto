@@ -45,34 +45,16 @@ class UserSeeder extends Seeder
         \App\Models\Profile::updateOrCreate([
             'user_id' => $freelancer->id
         ], [
-            'saldo' => 10000,
-            'patrocinado' => true,
-            'patrocinio_expira_em' => now()->addMonth(),
-            'codigo_afiliado' => 'FREELA123',
-            'ganhos_afiliado' => 540,
+            'saldo' => 0,
+            'patrocinado' => false,
         ]);
         \App\Models\Wallet::updateOrCreate([
             'user_id' => $freelancer->id
         ], [
-            'saldo' => 10000,
-            'saldo_pendente' => 5000,
+            'saldo' => 0,
+            'saldo_pendente' => 0,
             'saque_minimo' => 20000,
             'taxa_saque' => 20.00,
-        ]);
-        \App\Models\Affiliate::updateOrCreate([
-            'user_id' => $freelancer->id
-        ], [
-            'codigo' => 'FREELA123',
-            'ganhos' => 540,
-            'status' => 'ativo',
-        ]);
-        \App\Models\Sponsorship::updateOrCreate([
-            'user_id' => $freelancer->id,
-            'plano' => '1_mes'
-        ], [
-            'status' => 'ativo',
-            'data_inicio' => now(),
-            'data_fim' => now()->addMonth(),
         ]);
     }
 }

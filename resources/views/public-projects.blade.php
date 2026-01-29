@@ -1,11 +1,11 @@
 
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('content')
     <div class="min-h-screen pt-24 pb-12" style="background: #101c2c; color: #fff;">
         <div class="container mx-auto px-4 py-8">
             <h1 class="text-3xl font-extrabold text-cyan-400 mb-8 text-center tracking-tight drop-shadow">Projetos Disponíveis</h1>
-            <form method="GET" class="mb-8 bg-white/80 rounded-lg p-4 flex flex-wrap gap-4 items-end justify-center shadow">
+            <form method="GET" class="mb-8 rounded-lg p-4 flex flex-wrap gap-4 items-end justify-center shadow">
                 <div>
                     <label class="block text-xs font-bold text-cyan-700 mb-1" for="valor_min">Valor mínimo</label>
                     <input type="number" step="0.01" name="valor_min" id="valor_min" class="px-2 py-1 rounded border focus:ring-cyan-400" value="{{ request('valor_min') }}">
@@ -119,4 +119,5 @@
             <div class="mt-10 flex justify-center">{{ $projects->links() }}</div>
         </div>
     </div>
+    {{-- Rodapé já incluso pelo layout --}}
 @endsection
