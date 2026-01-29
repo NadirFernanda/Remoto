@@ -6,9 +6,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-50 min-h-screen">
+<body class="bg-gray-50 min-h-screen flex flex-col">
     @include('components.header')
-    <main class="pt-24">
+    <main class="flex-1 pt-24">
         @yield('content')
     </main>
     @include('components.footer')
