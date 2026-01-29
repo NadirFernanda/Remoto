@@ -27,8 +27,12 @@ class PaymentEscrow extends Component
      * Processa o briefing do cliente: corrige ortografia, remove ofensas e clarifica o texto.
      * (Simples exemplo, pode ser expandido com IA ou APIs externas)
      */
-    public function processBriefing(array $briefing): array
+    public function processBriefing($briefing): array
     {
+        // Se já for string (texto profissional), retorna como array padronizado
+        if (is_string($briefing)) {
+            return ['texto' => $briefing];
+        }
         $ofensas = ['idiota', 'burro', 'estúpido']; // Exemplo de palavras ofensivas
         $substituir = '[removido]';
         $processado = [];
@@ -41,7 +45,6 @@ class PaymentEscrow extends Component
             $texto = ucfirst(trim(preg_replace('/\s+/', ' ', $texto)));
             $processado[$campo] = $texto;
         }
-
         return $processado;
     }
 
@@ -116,10 +119,30 @@ class PaymentEscrow extends Component
 
         // Processa o briefing antes de salvar
         $briefing_processado = $this->processBriefing($briefing);
+        // Recupera o título digitado pelo cliente na sessão
+        $titulo_cliente = session('briefing_title');
+        if ($titulo_cliente && is_string($titulo_cliente) && trim($titulo_cliente) !== '') {
+            $titulo = trim($titulo_cliente);
+        } elseif (is_array($briefing_processado) && isset($briefing_processado['business_type'])) {
+            $titulo = $briefing_processado['business_type'];
+        } else {
+            $titulo = 'Pedido sem título';
+            if (is_string($briefing_processado['texto'] ?? null)) {
+                if (preg_match('/Tipo de negócio: ([^\.]+)\./', $briefing_processado['texto'], $m)) {
+                    $titulo = trim($m[1]);
+                }
+            }
+        }
+        // Briefing final
+        if (is_array($briefing_processado)) {
+            $briefing_final = isset($briefing_processado['texto']) ? $briefing_processado['texto'] : json_encode($briefing_processado);
+        } else {
+            $briefing_final = (string)$briefing_processado;
+        }
         $service = Service::create([
             'cliente_id' => $user->id,
-            'titulo' => $briefing_processado['business_type'] ?? 'Pedido sem título',
-            'briefing' => json_encode($briefing_processado),
+            'titulo' => $titulo ?: 'Pedido sem título',
+            'briefing' => $briefing_final,
             'valor' => $this->valor,
             'taxa' => $this->taxa,
             'valor_liquido' => $this->valor_liquido,

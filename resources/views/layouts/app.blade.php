@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'Laravel') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
     @include('components.header')
@@ -12,5 +13,6 @@
         @yield('content')
     </main>
     @include('components.footer')
+    @livewireScripts
 </body>
 </html>

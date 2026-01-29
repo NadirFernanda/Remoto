@@ -6,9 +6,11 @@ use Livewire\Component;
 
 
 use App\Models\Service;
+use App\Services\BriefingTextGenerator;
 
 class Briefing extends Component
 {
+    public string $title = '';
     public string $business_type = '';
     public string $target_audience = '';
     public string $style = '';
@@ -30,6 +32,7 @@ class Briefing extends Component
     public function submitBriefing()
     {
         $this->validate([
+            'title' => 'required|max:100',
             'business_type' => 'required|max:100',
             'target_audience' => 'required|max:100',
             'style' => 'required|max:100',
@@ -37,22 +40,26 @@ class Briefing extends Component
             'usage' => 'required|max:100',
         ]);
         $briefingData = [
+            'title' => $this->title,
             'business_type' => $this->business_type,
             'target_audience' => $this->target_audience,
             'style' => $this->style,
             'colors' => $this->colors,
             'usage' => $this->usage,
         ];
+        // Gerar texto profissional do briefing
+        $briefingText = BriefingTextGenerator::generate($briefingData);
         // Se estiver editando, salva direto no serviço
         if ($this->edit) {
             $service = Service::find($this->edit);
             if ($service && $service->cliente_id === auth()->id()) {
-                $service->briefing = json_encode($briefingData);
+                $service->titulo = $this->title;
+                $service->briefing = $briefingText;
                 $service->save();
             }
         }
-        // Salvar briefing na sessão e redirecionar para definição de valor
-        session(['briefing' => $briefingData]);
+        // Salvar briefing e título na sessão
+        session(['briefing' => $briefingText, 'briefing_title' => $this->title]);
         return redirect()->route('client.value');
     }
 
@@ -63,6 +70,7 @@ class Briefing extends Component
             $service = Service::find($editId);
             if ($service && $service->cliente_id === auth()->id()) {
                 $briefing = json_decode($service->briefing, true);
+                $this->title = $service->titulo ?? '';
                 $this->business_type = $briefing['business_type'] ?? '';
                 $this->target_audience = $briefing['target_audience'] ?? '';
                 $this->style = $briefing['style'] ?? '';

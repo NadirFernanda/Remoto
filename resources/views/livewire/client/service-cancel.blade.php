@@ -1,18 +1,30 @@
 <div class="container mx-auto px-4 py-8 max-w-xl">
-    <h2 class="text-xl font-bold text-cyan-600 mb-4">Cancelar Pedido</h2>
+    <a href="{{ route('client.orders') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-800 font-bold text-sm bg-white border border-cyan-100 rounded-full px-4 py-2 shadow transition mb-4">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Voltar
+    </a>
+    <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Pedido</h2>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <div class="mb-2">
             <span class="font-semibold">Título:</span> {{ $service->titulo }}
         </div>
         <div class="mb-2">
             <span class="font-semibold">Briefing:</span>
-            <ul class="list-disc ml-6 text-gray-700">
-                <li><span class="font-semibold">Tipo de negócio:</span> {{ json_decode($service->briefing, true)['business_type'] ?? '' }}</li>
-                <li><span class="font-semibold">Público-alvo:</span> {{ json_decode($service->briefing, true)['target_audience'] ?? '' }}</li>
-                <li><span class="font-semibold">Estilo desejado:</span> {{ json_decode($service->briefing, true)['style'] ?? '' }}</li>
-                <li><span class="font-semibold">Cores preferidas:</span> {{ json_decode($service->briefing, true)['colors'] ?? '' }}</li>
-                <li><span class="font-semibold">Onde será utilizado:</span> {{ json_decode($service->briefing, true)['usage'] ?? '' }}</li>
-            </ul>
+            @php
+                $briefing = $service->briefing;
+                $briefingArray = @json_decode($briefing, true);
+            @endphp
+            @if(is_string($briefing) && !$briefingArray)
+                <div class="mt-2 text-gray-800 whitespace-pre-line">{{ $briefing }}</div>
+            @else
+                <ul class="list-disc ml-6 text-gray-700">
+                    <li><span class="font-semibold">Tipo de negócio:</span> {{ $briefingArray['business_type'] ?? '' }}</li>
+                    <li><span class="font-semibold">Público-alvo:</span> {{ $briefingArray['target_audience'] ?? '' }}</li>
+                    <li><span class="font-semibold">Estilo desejado:</span> {{ $briefingArray['style'] ?? '' }}</li>
+                    <li><span class="font-semibold">Cores preferidas:</span> {{ $briefingArray['colors'] ?? '' }}</li>
+                    <li><span class="font-semibold">Onde será utilizado:</span> {{ $briefingArray['usage'] ?? '' }}</li>
+                </ul>
+            @endif
         </div>
         <div class="mb-2">
             <span class="font-semibold">Valor:</span> <span class="text-cyan-700 font-bold">{{ number_format($service->valor, 2, ',', '.') }} Kz</span>

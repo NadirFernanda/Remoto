@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-cyan-700 mb-1" for="status">Status</label>
-                    <select name="status" id="status" class="px-2 py-1 rounded border focus:ring-cyan-400">
+                    <select name="status" id="status" class="px-2 py-1 rounded border border-cyan-400 bg-[#101c2c] text-white focus:ring-cyan-400 focus:border-cyan-400">
                         <option value="">Todos</option>
                         <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publicado</option>
                         <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Aceito</option>

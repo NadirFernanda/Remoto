@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         \App\Console\Commands\DeleteAllServices::class,
+        \App\Console\Commands\ConvertBriefingsToText::class,
     ];
 
     protected function schedule(Schedule $schedule)

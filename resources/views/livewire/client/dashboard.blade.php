@@ -77,7 +77,7 @@
 										];
 									@endphp
 									<span class="font-bold" style="color: {{ $statusColors[$order->status] ?? '#222' }}">
-										{{ ucfirst(str_replace('_', ' ', $order->status)) }}
+										{{ $order->status === 'published' ? 'Publicado' : ucfirst(str_replace('_', ' ', $order->status)) }}
 									</span>
 								</td>
 								<td class="py-2 px-4">Kz {{ number_format($order->valor, 2, ',', '.') }}</td>
