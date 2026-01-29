@@ -22,6 +22,12 @@ class Dashboard extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.dashboard');
+        return view('livewire.freelancer.dashboard', [
+            'projects' => $this->services,
+            'saldo_pendente' => $this->saldo_pendente,
+            'kpi_total_recebido' => 0,
+            'kpi_projetos_concluidos' => 0,
+            'kpi_projetos_andamento' => 0,
+        ]);
     }
 }

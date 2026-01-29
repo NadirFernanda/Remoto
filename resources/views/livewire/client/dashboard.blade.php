@@ -1,4 +1,5 @@
-<div class="flex min-h-screen bg-gray-50">
+<div>
+	<div class="flex min-h-screen bg-gray-50">
 	<!-- Sidebar -->
 	<aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 px-4">
 		<div class="mb-8">
@@ -77,7 +78,7 @@
 										];
 									@endphp
 									<span class="font-bold" style="color: {{ $statusColors[$order->status] ?? '#222' }}">
-										{{ $order->status === 'published' ? 'Publicado' : ucfirst(str_replace('_', ' ', $order->status)) }}
+										{{ ucfirst(str_replace('_', ' ', $order->status)) }}
 									</span>
 								</td>
 								<td class="py-2 px-4">Kz {{ number_format($order->valor, 2, ',', '.') }}</td>
@@ -113,4 +114,3 @@
 		</div>
 	</main>
 </div>
-// ...

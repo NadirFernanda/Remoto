@@ -28,9 +28,7 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/financeiro/export-csv', [\App\Livewire\Client\FinanceHistory::class, 'exportCsv'])->name('client.finance.exportCsv');
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/cliente/dashboard', function () {
-		return view('client-dashboard');
-	})->name('client.dashboard');
+	Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
 });
 Route::middleware(['auth'])->group(function () {
 	Route::get('/notificacoes', NotificationPanel::class)->name('notifications');
