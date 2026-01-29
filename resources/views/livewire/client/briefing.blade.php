@@ -1,4 +1,6 @@
-<div class="container mx-auto px-4 py-8 flex flex-col items-center">
+<div>
+    <div>DEBUG: Entrou no briefing</div>
+    <div class="container mx-auto px-4 py-8 flex flex-col items-center">
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Briefing do Pedido</h2>
     <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
         <form wire:submit.prevent="submitBriefing">

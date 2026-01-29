@@ -63,8 +63,12 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/pedido', function () {
 		return view('client-publish');
 	})->name('client.publish');
-	Route::get('/briefing', Briefing::class)->name('client.briefing');
-	Route::get('/valor', ServiceValue::class)->name('client.value');
+	Route::get('/briefing', function () {
+		return view('client-briefing');
+	})->name('client.briefing');
+	Route::get('/valor', function () {
+		return view('client-value');
+	})->name('client.value');
 	Route::get('/pagamento', PaymentEscrow::class)->name('client.payment');
 	Route::get('/cliente/pedidos', OrderHistory::class)->name('client.orders');
 });
