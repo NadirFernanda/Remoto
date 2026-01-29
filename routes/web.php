@@ -69,8 +69,16 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/valor', function () {
 		return view('client-value');
 	})->name('client.value');
-	Route::get('/pagamento', PaymentEscrow::class)->name('client.payment');
-	Route::get('/cliente/pedidos', OrderHistory::class)->name('client.orders');
+	Route::get('/pagamento', function () {
+		return view('client-payment');
+	})->name('client.payment');
+	Route::get('/cliente/pedidos', function () {
+		return view('client-orders');
+	})->name('client.orders');
+	Route::get('/cliente/pedido/{service}/cancelar', function ($service) {
+		$service = \App\Models\Service::findOrFail($service);
+		return view('client-service-cancel', compact('service'));
+	})->name('client.service.cancel');
 });
 
 // Rota fake para simular redirecionamento e retorno do PayPal
@@ -88,7 +96,7 @@ RouteFacade::get('/pagamento/paypal', function () {
 	if ($pagamento) {
 		session(['pagamento' => json_decode($pagamento, true)]);
 	}
-	return response()->view('paypal-redirect', [
+	return view('paypal-redirect-layout', [
 		'session_id' => $sessionId
 	]);
 })->name('client.paypal');
@@ -147,12 +155,12 @@ Route::get('/projetos', function () {
     if (request('status')) {
         $query->where('status', request('status'));
     }
-    if (request('business_type')) {
-        $query->whereRaw("briefing::json->>'business_type' = ?", [request('business_type')]);
-    }
-    if (request('target_audience')) {
-        $query->whereRaw("briefing::json->>'target_audience' = ?", [request('target_audience')]);
-    }
+	if (request('business_type')) {
+		$query->where('briefing', 'like', '%' . request('business_type') . '%');
+	}
+	if (request('target_audience')) {
+		$query->where('briefing', 'like', '%' . request('target_audience') . '%');
+	}
     $projects = $query->orderByDesc('created_at')->paginate(12);
     return view('public-projects', compact('projects'));
 })->name('public.projects');
