@@ -1,6 +1,8 @@
 <div class="container mx-auto px-4 py-8 flex flex-col items-center">
-    <h2 class="text-xl font-bold text-cyan-600 mb-4">Defina o valor do serviço</h2>
-    <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-cyan-600 mb-2">Defina o valor do serviço</h2>
+    <p class="text-sm text-gray-600 mb-4">Passo 2 de 3 &middot; Escolha quanto deseja investir neste pedido.</p>
+    <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2 bg-white rounded-lg shadow p-6">
         <form wire:submit.prevent="submitValue">
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Valor do serviço (mínimo 10.000 Kz)</label>
@@ -25,5 +27,18 @@
                 O valor deve ser maior ou igual a 10.000 Kz.
             </div>
         @enderror
+        </div>
+        <div class="bg-white rounded-lg shadow p-4 text-sm">
+            <h3 class="font-semibold text-cyan-700 mb-2">Resumo do pedido</h3>
+            @php($order = session('client_order', []))
+            <p class="mb-1"><span class="font-semibold">Título:</span> {{ $order['title'] ?? '-' }}</p>
+            @php($b = $order['briefing_raw'] ?? [])
+            <p class="mb-1"><span class="font-semibold">Tipo de negócio:</span> {{ $b['business_type'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Necessidade:</span> {{ $b['necessity'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Público-alvo:</span> {{ $b['target_audience'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Estilo:</span> {{ $b['style'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Cores:</span> {{ $b['colors'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Uso:</span> {{ $b['usage'] ?? '-' }}</p>
+        </div>
     </div>
 </div>

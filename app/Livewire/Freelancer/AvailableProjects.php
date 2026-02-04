@@ -23,7 +23,7 @@ class AvailableProjects extends Component
         $service = Service::findOrFail($serviceId);
         $user = auth()->user();
         if (!$user || $user->id === $service->cliente_id) {
-            abort(403, 'Ação não permitida.');
+            throw new \Exception('Ação não permitida. Você não pode aceitar este serviço.');
         }
         $service->status = 'accepted';
         $service->freelancer_id = $user->id;
@@ -37,7 +37,7 @@ class AvailableProjects extends Component
         $service = Service::findOrFail($serviceId);
         $user = auth()->user();
         if (!$user || $user->id === $service->cliente_id) {
-            abort(403, 'Ação não permitida.');
+            throw new \Exception('Ação não permitida. Você não pode recusar este serviço.');
         }
         $service->status = 'published';
         $service->freelancer_id = null;

@@ -21,11 +21,13 @@ use App\Livewire\Client\ReviewPanel;
 use App\Livewire\Client\Profile;
 use App\Livewire\Client\Settings;
 use App\Livewire\Client\ServiceCancel;
+use App\Http\Controllers\PublicProjectsController;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/pedido/{service}/cancelar', ServiceCancel::class)->name('client.service.cancel');
-});
 	Route::get('/cliente/financeiro/export-csv', [\App\Livewire\Client\FinanceHistory::class, 'exportCsv'])->name('client.finance.exportCsv');
+});
 
 Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
@@ -35,11 +37,14 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/perfil', Profile::class)->name('client.profile');
 	Route::get('/cliente/configuracoes', Settings::class)->name('client.settings');
 });
-Route::get('/servico/{service}/chat', ServiceChat::class)->name('service.chat');
-Route::get('/freelancer/carteira', FreelancerWallet::class)->name('freelancer.wallet');
-Route::get('/freelancer/entrega/{service}', ServiceDelivery::class)->name('freelancer.service.delivery');
-Route::get('/freelancer/servico/{service}', ServiceReview::class)->name('freelancer.service.review');
+Route::middleware(['auth'])->group(function () {
+	Route::get('/servico/{service}/chat', ServiceChat::class)->name('service.chat');
+});
+
 Route::middleware(['auth', 'role:freelancer'])->group(function () {
+	Route::get('/freelancer/carteira', FreelancerWallet::class)->name('freelancer.wallet');
+	Route::get('/freelancer/entrega/{service}', ServiceDelivery::class)->name('freelancer.service.delivery');
+	Route::get('/freelancer/servico/{service}', ServiceReview::class)->name('freelancer.service.review');
 	Route::get('/freelancer/dashboard', FreelancerDashboard::class)->name('freelancer.dashboard');
 	Route::get('/freelancer/afiliados', AffiliatePanel::class)->name('freelancer.affiliate');
 	Route::get('/freelancer/patrocinio', SponsorshipPanel::class)->name('freelancer.sponsorship');
@@ -47,9 +52,12 @@ Route::middleware(['auth', 'role:freelancer'])->group(function () {
 	Route::view('/freelancer/configuracoes', 'livewire.freelancer.settings')->name('freelancer.settings');
 });
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+	Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+});
+
 // Removed duplicate middleware for client profile and settings
 
-use App\Livewire\Client\PublishRequest;
 use App\Livewire\Client\Briefing;
 use App\Livewire\Client\ServiceValue;
 use App\Livewire\Client\PaymentEscrow;
@@ -60,9 +68,6 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/pedido', function () {
-		return view('client-publish');
-	})->name('client.publish');
 	Route::get('/briefing', function () {
 		return view('client-briefing');
 	})->name('client.briefing');
@@ -75,10 +80,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/cliente/pedidos', function () {
 		return view('client-orders');
 	})->name('client.orders');
-	Route::get('/cliente/pedido/{service}/cancelar', function ($service) {
-		$service = \App\Models\Service::findOrFail($service);
-		return view('client-service-cancel', compact('service'));
-	})->name('client.service.cancel');
 });
 
 // Rota fake para simular redirecionamento e retorno do PayPal
@@ -136,35 +137,24 @@ RouteFacade::get('/pagamento/paypal/retorno', function () {
 	}
 })->name('client.paypal.return');
 
-use App\Models\Service;
-
-Route::get('/projetos', function () {
-    $query = Service::query();
-    if (request('valor_min')) {
-        $query->where('valor', '>=', request('valor_min'));
-    }
-    if (request('valor_max')) {
-        $query->where('valor', '<=', request('valor_max'));
-    }
-    if (request('data_inicio')) {
-        $query->whereDate('created_at', '>=', request('data_inicio'));
-    }
-    if (request('data_fim')) {
-        $query->whereDate('created_at', '<=', request('data_fim'));
-    }
-    if (request('status')) {
-        $query->where('status', request('status'));
-    }
-	if (request('business_type')) {
-		$query->where('briefing', 'like', '%' . request('business_type') . '%');
-	}
-	if (request('target_audience')) {
-		$query->where('briefing', 'like', '%' . request('target_audience') . '%');
-	}
-    $projects = $query->orderByDesc('created_at')->paginate(12);
-    return view('public-projects', compact('projects'));
-})->name('public.projects');
+Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
 
 use App\Http\Controllers\Client\ServiceTitleController;
 
 Route::middleware(['auth'])->post('/cliente/pedido/{service}/cancelar/edit-title', [ServiceTitleController::class, 'update']);
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+// Rotas de verificação de e-mail Laravel
+Route::get('/email/verify', function () {
+	return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+	$request->fulfill();
+	return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function () {
+	request()->user()->sendEmailVerificationNotification();
+	return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');

@@ -70,8 +70,16 @@
                             </div>
                             <div class="mb-2 text-sm" style="color: #fff;">
                                 @php $briefing = json_decode($project->briefing, true); @endphp
-                                @if(is_array($briefing) && isset($briefing['texto']))
-                                    <span class="font-semibold">Descrição:</span> <span style="color: #fff;">{{ $briefing['texto'] }}</span>
+                                @if(is_array($briefing))
+                                    <div style="color: #fff;">
+                                        @if(isset($briefing['title']))<div><b>Título:</b> {{ $briefing['title'] }}</div>@endif
+                                        @if(isset($briefing['business_type']))<div><b>Tipo de negócio:</b> {{ $briefing['business_type'] }}</div>@endif
+                                        @if(isset($briefing['necessity']))<div><b>Necessidade:</b> {{ $briefing['necessity'] }}</div>@endif
+                                        @if(isset($briefing['target_audience']))<div><b>Público-alvo:</b> {{ $briefing['target_audience'] }}</div>@endif
+                                        @if(isset($briefing['style']))<div><b>Estilo:</b> {{ $briefing['style'] }}</div>@endif
+                                        @if(isset($briefing['colors']))<div><b>Cores:</b> {{ $briefing['colors'] }}</div>@endif
+                                        @if(isset($briefing['usage']))<div><b>Uso:</b> {{ $briefing['usage'] }}</div>@endif
+                                    </div>
                                 @elseif(is_string($project->briefing) && trim($project->briefing) !== '')
                                     <span class="font-semibold">Descrição:</span> <span style="color: #fff;">{{ $project->briefing }}</span>
                                 @else
@@ -82,7 +90,7 @@
                             <div class="mb-2"><span class="font-semibold text-cyan-400">Publicado em:</span> <span class="text-white">{{ $project->created_at->format('d/m/Y') }}</span></div>
                         </div>
                         <div class="mt-4 flex flex-col gap-2">
-                            <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-[#0e4c92] text-white font-bold py-2 px-4 rounded w-full block text-center transition-all hover:bg-[#09386a] mb-2">Ver detalhes</a>
+                            <a href="#" onclick="showLoginMsg{{ $project->id }}('detalhes'); return false;" class="bg-[#0e4c92] text-white font-bold py-2 px-4 rounded w-full block text-center transition-all hover:bg-[#09386a] mb-2">Ver detalhes</a>
                             <button onclick="showLoginMsg{{ $project->id }}('aceitar')" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded w-full block text-center">Aceitar</button>
                             <button onclick="showLoginMsg{{ $project->id }}('recusar')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded w-full block text-center">Recusar</button>
                             <div id="login-msg-{{ $project->id }}" style="display:none;" class="mt-2 p-3 rounded bg-yellow-100 text-yellow-900 text-center font-semibold text-sm border border-yellow-300">

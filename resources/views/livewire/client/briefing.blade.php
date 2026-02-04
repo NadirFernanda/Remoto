@@ -1,6 +1,7 @@
 <div>
     <div class="container mx-auto px-4 py-8 flex flex-col items-center">
-    <h2 class="text-xl font-bold text-cyan-600 mb-4">Briefing do Pedido</h2>
+    <h2 class="text-xl font-bold text-cyan-600 mb-2">O que você precisa?</h2>
+    <p class="text-sm text-gray-600 mb-4">Passo 1 de 3 &middot; Descreva seu pedido para que possamos encontrar o freelancer ideal.</p>
     <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
         <form wire:submit.prevent="submitBriefing">
             <div class="mb-6">

@@ -35,7 +35,6 @@
         <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
         <a href="#depoimentos" class="nav-link">Depoimentos</a>
         <a href="/login" class="nav-link">Login</a>
-        <a href="/register" class="nav-link">Cadastro</a>
-        <a href="/register?freelancer=1" class="nav-link bg-cyan-400 text-[#101c2c] rounded px-3 py-1 font-bold ml-2 hover:bg-cyan-300 transition animate-pulse">Torne-se freelancer</a>
+        <a href="/register" class="nav-link bg-cyan-400 text-[#101c2c] rounded px-3 py-1 font-bold ml-2 hover:bg-cyan-300 transition animate-pulse">Cadastro</a>
     </nav>
 </header>

@@ -15,10 +15,18 @@ Route::post('/login', function (Request $request) {
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
         $user = Auth::user();
+        if (method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Você precisa verificar seu e-mail antes de acessar a plataforma.'
+            ]);
+        }
         if ($user->role === 'cliente') {
             return redirect()->intended('/cliente/dashboard');
         } elseif ($user->role === 'freelancer') {
             return redirect()->intended('/freelancer/dashboard');
+        } elseif ($user->role === 'admin') {
+            return redirect()->intended('/admin/dashboard');
         } else {
             return redirect()->intended('/');
         }
@@ -35,11 +43,8 @@ Route::post('/logout', function (Request $request) {
     $request->session()->regenerateToken();
     return redirect('/login');
 })->name('logout');
-// Rota GET para exibir o formulário de cadastro de freelancer
-Route::get('/register', function (Request $request) {
-    if ($request->query('freelancer') == 1) {
-        return view('auth.register');
-    }
-    // Se quiser, pode adicionar lógica para outros tipos de cadastro
-    return view('auth.register');
-})->name('register');
+// Cadastro freelancer centralizado no RegisterController
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('/register', [RegisterController::class, 'showFreelancerForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);

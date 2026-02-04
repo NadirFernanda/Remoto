@@ -4,12 +4,15 @@ namespace App\Livewire\Client;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\UserSessionTrait;
+use App\Services\FreelancerService;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Notification;
 
 class PaymentEscrow extends Component
 {
+    use UserSessionTrait;
     public float $valor = 10000;
     public float $taxa = 10.0;
     public float $valor_liquido = 0;
@@ -51,7 +54,9 @@ class PaymentEscrow extends Component
     }
 
     public function mount() {
-        $pagamento = session('pagamento', null);
+        $order = session('client_order', []);
+        $pagamento = $order['payment'] ?? session('pagamento', null);
+
         if ($pagamento) {
             $this->valor = (float)($pagamento['valor'] ?? 10000);
             $this->taxa = (float)($pagamento['taxa'] ?? 10.0);
@@ -103,14 +108,15 @@ class PaymentEscrow extends Component
             return; // Simulação: não faz nada
         }
 
-        $user = Auth::user();
+        $user = $this->getCurrentUser();
         if (!$user) {
             session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
-        // Recupera dados do briefing da sessão (ajuste conforme seu fluxo real)
-        $briefing = session('briefing', null);
+        // Recupera dados do briefing da sessão (objeto único de pedido)
+        $order = session('client_order', []);
+        $briefing = $order['briefing_raw'] ?? session('briefing', null);
         if (!$briefing) {
             session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
             return redirect()->route('client.briefing');
@@ -122,7 +128,7 @@ class PaymentEscrow extends Component
         // Processa o briefing antes de salvar
         $briefing_processado = $this->processBriefing($briefing);
         // Recupera o título digitado pelo cliente na sessão e prioriza sempre que possível
-        $titulo_cliente = session('briefing_title');
+        $titulo_cliente = $order['title'] ?? session('briefing_title');
         if ($titulo_cliente && is_string($titulo_cliente) && trim($titulo_cliente) !== '') {
             $titulo = trim($titulo_cliente);
         } elseif (isset($briefing['title']) && is_string($briefing['title']) && trim($briefing['title']) !== '') {
@@ -161,7 +167,7 @@ class PaymentEscrow extends Component
 
         // Notificação interna para freelancers ativos
         if ($service) {
-            $freelancers = User::where('role', 'freelancer')->get();
+            $freelancers = FreelancerService::getAllFreelancers();
             foreach ($freelancers as $freelancer) {
                 Notification::create([
                     'user_id' => $freelancer->id,

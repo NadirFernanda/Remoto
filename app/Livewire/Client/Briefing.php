@@ -81,8 +81,17 @@ class Briefing extends Component
                 $service->save();
             }
         }
-        // Salvar briefing e título na sessão
-        session(['briefing' => $briefingText, 'briefing_title' => $this->title1]);
+        // Salvar briefing e título na sessão (objeto único do pedido)
+        $order = session('client_order', []);
+        $order['briefing_raw'] = $briefingData;
+        $order['briefing_text'] = $briefingText;
+        $order['title'] = $this->title1;
+        session([
+            'client_order' => $order,
+            // Mantém chaves antigas para compatibilidade
+            'briefing' => $briefingData,
+            'briefing_title' => $this->title1,
+        ]);
         return redirect()->route('client.value');
     }
 

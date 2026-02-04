@@ -8,6 +8,11 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-10">
+        @if(session('status'))
+            <div class="mb-4 p-2 bg-cyan-100 text-cyan-700 rounded text-center text-sm">
+                {{ session('status') }}
+            </div>
+        @endif
         <h2 class="text-3xl font-extrabold text-cyan-600 mb-8 text-center tracking-tight">Entrar na Plataforma</h2>
         <form method="POST" action="/login" class="space-y-6" novalidate onsubmit="return validateLoginForm(event)">
             @csrf

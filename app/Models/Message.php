@@ -21,4 +21,9 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getAnexoUrlAttribute()
+    {
+        return $this->anexo ? asset('storage/anexos/' . $this->anexo) : null;
+    }
 }

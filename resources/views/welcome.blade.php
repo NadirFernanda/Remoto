@@ -119,7 +119,7 @@
                         <h1 class="hero-title">Conecte Clientes e Freelancers em 24 Horas</h1>
                         <p class="hero-desc">Plataforma web para contratação de serviços remotos, com segurança, agilidade e facilidade. Encontre o profissional ideal ou o projeto perfeito em poucos cliques.</p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
-                            <a href="/pedido" class="hero-btn">Quero Contratar</a>
+                            <a href="/briefing" class="hero-btn">Quero Contratar</a>
                             <a href="/register" class="hero-btn-outline">Sou Freelancer</a>
                         </div>
                     </div>
@@ -129,7 +129,7 @@
                         <h1 class="hero-title">Publique seu projeto e receba propostas rápidas</h1>
                         <p class="hero-desc">Descreva sua necessidade e receba orçamentos de freelancers qualificados em minutos.</p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4">
-                            <a href="/pedido" class="hero-btn">Publicar Projeto</a>
+                            <a href="/briefing" class="hero-btn">Publicar Projeto</a>
                         </div>
                     </div>
                 </template>

@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('conteudo');
+            $table->string('anexo')->nullable();
             $table->timestamps();
         });
     }

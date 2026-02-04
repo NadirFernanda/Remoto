@@ -5,16 +5,19 @@ namespace App\Livewire\Freelancer;
 use Livewire\Component;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use App\Traits\UserSessionTrait;
 
 class Dashboard extends Component
 {
+    use UserSessionTrait;
+     // Removed extra opening curly brace
     public $services;
     public $saldo_disponivel = 0;
     public $saldo_pendente = 0;
 
     public function mount()
     {
-        $user = Auth::user();
+        $user = $this->getCurrentUser();
         $this->services = Service::where('freelancer_id', $user->id)->orderByDesc('created_at')->get();
         $this->saldo_disponivel = $user->wallet->saldo ?? 0;
         $this->saldo_pendente = $user->wallet->saldo_pendente ?? 0;

@@ -1,4 +1,19 @@
 <div>
+	@if(session('error'))
+		<div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
+			{{ session('error') }}
+		</div>
+	@endif
+	@if(session('success'))
+		<div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
+			{{ session('success') }}
+		</div>
+	@endif
+	@if(session('info'))
+		<div class="mb-4 p-3 bg-blue-100 text-blue-700 rounded shadow text-center font-semibold">
+			{{ session('info') }}
+		</div>
+	@endif
 	<div class="flex min-h-screen bg-gray-50">
 	<!-- Sidebar -->
 	<aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 px-4">
@@ -9,7 +24,7 @@
 		</div>
 		<nav class="flex flex-col gap-2">
 			<a href="{{ route('client.dashboard') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Dashboard</a>
-			<a href="{{ route('client.publish') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#00B6E6] font-bold">+ Novo Pedido</a>
+			<a href="{{ route('client.briefing') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#00B6E6] font-bold">+ Novo Pedido</a>
 			<a href="{{ route('client.profile') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Perfil</a>
 			<a href="{{ route('client.settings') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Configurações</a>
 			<a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
@@ -23,7 +38,7 @@
 	<main class="flex-1 p-8">
 		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
 			<h1 class="font-semibold text-2xl text-[#222]">Dashboard do Cliente</h1>
-			<a href="{{ route('client.publish') }}" class="inline-block bg-[#00B6E6] hover:bg-[#009E4F] text-white font-bold py-2 px-6 rounded transition">+ Novo Pedido</a>
+			<a href="{{ route('client.briefing') }}" class="inline-block bg-[#00B6E6] hover:bg-[#009E4F] text-white font-bold py-2 px-6 rounded transition">+ Novo Pedido</a>
 		</div>
 		<!-- KPIs -->
 		<div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">

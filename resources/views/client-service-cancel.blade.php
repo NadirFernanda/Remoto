@@ -1,5 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.livewire')
 
-@section('content')
+@section('slot')
     @livewire('client.service-cancel', ['service' => $service])
 @endsection

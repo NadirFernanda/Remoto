@@ -1,62 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SITE FREELANCER – One Page Pitch
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+SITE FREELANCER é uma plataforma que torna simples contratar e trabalhar como freelancer:
 
-## About Laravel
+- Clientes preenchem um briefing guiado e em poucos minutos têm um pedido claro, com valor definido e taxas transparentes.
+- Freelancers recebem projetos já estruturados, escolhem quais aceitar e entregam tudo pela própria plataforma.
+- Toda a comunicação, notificações e pagamentos ficam centralizados, reduzindo ruídos e aumentando a segurança para os dois lados.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ideal para agências, pequenos negócios, empreendedores digitais e freelancers que querem profissionalizar a forma como contratam e entregam serviços.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## SITE FREELANCER – One Page Pitch (EN)
 
-## Learning Laravel
+SITE FREELANCER is a platform that makes hiring and working as a freelancer simple and predictable:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Clients go through a guided briefing and, in a few minutes, have a clear project with a fixed price and transparent fees.
+- Freelancers receive structured projects, choose which ones to accept and deliver everything inside the platform.
+- All communication, notifications and payments are centralized, reducing friction and increasing trust on both sides.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Perfect for agencies, small businesses, digital entrepreneurs and freelancers who want a more professional way to manage projects and service delivery.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## SITE FREELANCER
 
-### Premium Partners
+SITE FREELANCER é uma plataforma digital que conecta empresas e empreendedores a freelancers especializados, garantindo pedidos bem estruturados, comunicação centralizada e pagamentos seguros.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- Para **clientes**: menos burocracia, mais resultado. O fluxo guiado de briefing ajuda a descrever exatamente o que precisa, o sistema calcula taxas automaticamente e o projeto é distribuído rapidamente para freelancers qualificados.
+- Para **freelancers**: oportunidades constantes, gestão simples e previsibilidade. Projetos chegam já com escopo, valor fechado e prazos claros, permitindo foco total na entrega.
 
-## Contributing
+Com base em Laravel e Livewire, o SITE FREELANCER foi pensado para ser um produto escalável, com boa experiência de uso tanto para quem contrata quanto para quem executa.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Para quem é
 
-## Code of Conduct
+- **Agências e pequenos negócios** que precisam contratar serviços criativos ou digitais com rapidez, sem perder tempo escrevendo longos briefings do zero.
+- **Empreendedores e infoprodutores** que querem padronizar a contratação de freelancers (design, tráfego, copy, etc.) com mais controle sobre orçamento e entregas.
+- **Freelancers iniciantes** que buscam um fluxo simples para começar a receber projetos com briefing claro e valor definido.
+- **Freelancers experientes** que desejam aumentar a recorrência de pedidos e centralizar comunicação, entregas e pagamentos em um único lugar.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Tecnologias
 
-## Security Vulnerabilities
+- PHP 8+ / Laravel
+- Livewire
+- Vite (frontend, assets)
+- MySQL (ou outro banco compatível com Laravel)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Requisitos
 
-## License
+- PHP 8.1 ou superior com extensões comuns do Laravel habilitadas
+- Composer
+- Node.js (recomendado 18+)
+- Banco de dados MySQL/MariaDB configurado
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalação e Configuração
+
+1. Clonar o repositório e instalar as dependências PHP:
+   - `composer install`
+2. Instalar as dependências do frontend:
+   - `npm install`
+3. Criar o arquivo de ambiente:
+   - `cp .env.example .env` (ou copie manualmente no Windows)
+4. Configurar as variáveis do `.env`:
+   - `APP_URL`
+   - Configurações de banco de dados (`DB_HOST`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)
+   - Configurações de e-mail (para notificações por e-mail, se usadas)
+5. Gerar a chave da aplicação:
+   - `php artisan key:generate`
+6. Rodar as migrações (e seeders, se existirem):
+   - `php artisan migrate` ou `php artisan migrate --seed`
+
+## Como Rodar o Projeto em Desenvolvimento
+
+- Servidor Laravel:
+  - `php artisan serve`
+- Build/watch de assets (CSS/JS):
+  - `npm run dev` (ou `npm run build` para produção)
+
+## Principais Áreas da Aplicação
+
+- Cliente
+  - Publicação de pedidos
+  - Dashboard e histórico de pedidos
+  - Cancelamento de pedidos
+  - Perfil e configurações
+- Freelancer
+  - Dashboard do freelancer
+  - Projetos disponíveis
+  - Carteira (wallet)
+  - Afiliação e patrocínios
+  - Configurações de conta e notificações
+- Notificações
+  - Painel interno de notificações
+  - (opcional) Notificações por e-mail
 
 ## Fluxo de Novo Pedido
 
@@ -127,3 +162,44 @@ Para garantir uma experiência moderna e eficiente ao freelancer, as seguintes m
 - Layout responsivo e acessível.
 
 Essas melhorias tornam a área de configurações mais intuitiva, funcional e alinhada com as melhores práticas de UX.
+
+## Rotas Importantes (Resumo)
+
+Algumas rotas principais (padrão, podem ser ajustadas conforme evolução do projeto):
+
+- `/` – página inicial (landing)
+- `/projetos` – listagem pública de projetos
+- `/pedido`, `/briefing`, `/valor`, `/pagamento` – fluxo de criação de novo pedido (cliente)
+- `/cliente/dashboard` – painel do cliente
+- `/freelancer/dashboard` – painel do freelancer
+- `/freelancer/projetos-disponiveis` – projetos disponíveis para freelancers
+- `/notificacoes` – painel de notificações internas
+
+## Próximos Passos / Ideias de Evolução
+
+- Melhorar testes automatizados para fluxos críticos (novo pedido, pagamento, aceite de projeto, avaliação).
+- Detalhar papéis de usuário (cliente, freelancer, admin) e permissões.
+- Documentar integrações externas (ex: PayPal fake/real, gateways de pagamento).
+- Adicionar exemplos de payloads de API (se for exposto no futuro).
+ Fuxos por implementar
+ Cadastro, pagamento e chat
+ o que me sugeres?
+
+Aqui estão sugestões para melhorar o fluxo de cadastro e a arquitetura do projeto:
+
+Centralize regras de cadastro em um controller dedicado (ex: RegisterController), facilitando manutenção e testes.
+
+
+
+Padronize validações e mensagens de erro em português.
+Considere testes automatizados para o fluxo de cadastro.
+---
+
+Este README é focado no projeto SITE FREELANCER. Para detalhes avançados do framework, consulte a documentação oficial do Laravel.
+
+observações  importantes
+Não, isso não é necessário na maioria dos casos. Remover a pasta vendor e o composer.lock só é recomendado quando há erros graves de dependências ou arquivos corrompidos, como o que você enfrentou.
+rm -r vendor
+del composer.lock
+
+composer install

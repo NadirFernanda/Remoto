@@ -17,8 +17,8 @@ class ServiceCancel extends Component
 
     public function cancelService()
     {
-        if ($this->service->cliente_id !== Auth::id()) {
-            abort(403, 'Ação não permitida. Apenas o cliente pode cancelar este pedido.');
+        if (!Auth::user()->can('cancel', $this->service)) {
+            throw new \Exception('Ação não permitida. Apenas o cliente pode cancelar este pedido.');
         }
         if ($this->service->status === 'published') {
             $this->service->status = 'cancelled';
@@ -34,6 +34,6 @@ class ServiceCancel extends Component
     {
         return view('livewire.client.service-cancel', [
             'service' => $this->service
-        ]);
+        ])->layout('layouts.livewire');
     }
 }

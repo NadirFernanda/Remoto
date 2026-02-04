@@ -18,9 +18,8 @@ class ServiceReview extends Component
     public function acceptService()
     {
         $user = Auth::user();
-        // Só permite se não for o cliente do serviço
-        if (!$user || $user->id === $this->service->cliente_id) {
-            abort(403, 'Ação não permitida.');
+        if (!$user || !$user->can('accept', $this->service)) {
+            throw new \Exception('Ação não permitida. Você não pode aceitar este serviço.');
         }
         $this->service->status = 'accepted';
         $this->service->save();
@@ -31,9 +30,8 @@ class ServiceReview extends Component
     public function refuseService()
     {
         $user = Auth::user();
-        // Só permite se não for o cliente do serviço
-        if (!$user || $user->id === $this->service->cliente_id) {
-            abort(403, 'Ação não permitida.');
+        if (!$user || !$user->can('refuse', $this->service)) {
+            throw new \Exception('Ação não permitida. Você não pode recusar este serviço.');
         }
         $this->service->status = 'published'; // Ou lógica de recusa
         $this->service->freelancer_id = null;

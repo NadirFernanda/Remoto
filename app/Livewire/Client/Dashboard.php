@@ -23,13 +23,13 @@ class Dashboard extends Component
         \Log::debug('DASHBOARD CLIENTE: user', ['user' => $user]);
         if (!$user) {
             \Log::error('DASHBOARD CLIENTE: Usuário não autenticado');
-            throw new \Exception('ERRO: Usuário não autenticado no mount do dashboard do cliente');
+            throw new \Exception('Usuário não autenticado. Faça login para acessar o dashboard do cliente.');
         }
         $services = Service::where('cliente_id', $user->id)->get();
         \Log::debug('DASHBOARD CLIENTE: services', ['services' => $services]);
         if ($services === null) {
             \Log::error('DASHBOARD CLIENTE: Nenhum serviço retornado para o cliente');
-            throw new \Exception('ERRO: Nenhum serviço retornado para o cliente no mount do dashboard');
+            throw new \Exception('Nenhum serviço encontrado para o cliente.');
         }
         $this->orders = $services->sortByDesc('created_at')->take(5);
         \Log::debug('DASHBOARD CLIENTE: orders', ['orders' => $this->orders]);

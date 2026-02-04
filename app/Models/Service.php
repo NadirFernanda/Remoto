@@ -26,4 +26,9 @@ class Service extends Model
     {
         return $this->belongsTo(User::class, 'freelancer_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

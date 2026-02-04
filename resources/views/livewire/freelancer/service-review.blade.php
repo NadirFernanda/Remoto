@@ -1,4 +1,19 @@
 <div class="container mx-auto px-4 py-8 max-w-xl">
+    @if(session('error'))
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if(session('success'))
+        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('info'))
+        <div class="mb-4 p-3 bg-blue-100 text-blue-700 rounded shadow text-center font-semibold">
+            {{ session('info') }}
+        </div>
+    @endif
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Serviço</h2>
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <div class="mb-4 p-2 bg-yellow-100 text-yellow-800 text-xs rounded">
@@ -56,6 +71,7 @@
             </form>
         </div>
         @endif
+        <a href="{{ route('service.chat', $service->id) }}" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-6 rounded mt-4 block text-center">Acessar chat do serviço</a>
         @if(session('success'))
             <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
         @endif
