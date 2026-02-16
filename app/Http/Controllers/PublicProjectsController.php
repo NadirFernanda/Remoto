@@ -43,4 +43,10 @@ class PublicProjectsController extends Controller
         $projects = $query->orderByDesc('created_at')->paginate(12)->appends($request->all());
         return view('public-projects', compact('projects'));
     }
+
+    public function show(Request $request, \App\Models\Service $service)
+    {
+        // Basic public detail view for a service
+        return view('public-project-show', compact('service'));
+    }
 }

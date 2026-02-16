@@ -10,7 +10,15 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-semibold">Ganhos acumulados:</label>
-        <div class="text-lg text-green-700 font-bold mt-1">R$ {{ number_format($earnings, 2, ',', '.') }}</div>
+        <div class="text-lg text-green-700 font-bold mt-1">
+            @if(is_null($earnings))
+                -
+            @elseif($earnings == 0)
+                Gratuito
+            @else
+                {{ money_aoa($earnings) }}
+            @endif
+        </div>
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 font-semibold">Status do afiliado:</label>
@@ -39,8 +47,16 @@
             <tbody>
                 @forelse($history as $item)
                     <tr>
-                        <td class="py-2 px-3">{{ $item['date'] }}</td>
-                        <td class="py-2 px-3">R$ {{ number_format($item['amount'], 2, ',', '.') }}</td>
+                        <td class="py-2 px-3">{{ \Carbon\Carbon::parse($item['created_at'])->format('d/m/Y') }}</td>
+                        <td class="py-2 px-3">
+                            @if(is_null($item['amount']))
+                                -
+                            @elseif($item['amount'] == 0)
+                                Gratuito
+                            @else
+                                {{ money_aoa($item['amount']) }}
+                            @endif
+                        </td>
                         <td class="py-2 px-3">{{ $item['description'] }}</td>
                     </tr>
                 @empty

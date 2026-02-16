@@ -21,11 +21,15 @@ class ServiceChat extends Component
         $this->service = $service;
         $this->chat_bloqueado = $service->status !== 'accepted' && $service->status !== 'in_progress' && $service->status !== 'delivered' && $service->status !== 'completed';
         $this->atualizarMensagens();
+        // Marca como lido ao abrir a conversa
+        if (auth()->check()) {
+            \App\Models\ChatRead::markRead($service->id, auth()->id());
+        }
     }
 
     public function atualizarMensagens()
     {
-        $this->messages = $this->service->messages()->orderBy('created_at')->get();
+        $this->messages = $this->service->messages()->orderBy('created_at')->get()->all();
     }
 
     public function enviarMensagem()
@@ -44,6 +48,8 @@ class ServiceChat extends Component
             'conteudo' => $this->mensagem,
             'anexo' => $anexoPath ? basename($anexoPath) : null,
         ]);
+        // atualiza leitura do remetente
+        \App\Models\ChatRead::markRead($this->service->id, Auth::id());
         $this->mensagem = '';
         $this->anexo = null;
         $this->atualizarMensagens();

@@ -4,7 +4,7 @@
     <title>Recibo de Transação</title>
     <style>
         body { font-family: Arial, sans-serif; font-size: 14px; background: #f5f7fa; }
-        .header {
+        .receipt-header {
             text-align: center;
             margin-bottom: 24px;
             background: #0e4c92;
@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-    <div class="header">
+    <div class="receipt-header">
         <h2 style="margin:0;font-size:1.6rem;">Recibo de Transação</h2>
         <div style="font-size:1rem;">Data: {{ now()->format('d/m/Y H:i') }}</div>
     </div>
@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <th>Valor</th>
-                <td>R$ {{ number_format($service->valor, 2, ',', '.') }}</td>
+                <td>{{ money_aoa($service->valor) }}</td>
             </tr>
             <tr>
                 <th>Status</th>

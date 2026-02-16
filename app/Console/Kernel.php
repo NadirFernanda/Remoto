@@ -10,11 +10,13 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\DeleteAllServices::class,
         \App\Console\Commands\ConvertBriefingsToText::class,
+        \App\Console\Commands\RefreshAoaRate::class,
     ];
 
     protected function schedule(Schedule $schedule)
     {
-        //
+        // Refresh AOA rate hourly
+        $schedule->command('refresh:aoa-rate')->hourly();
     }
 
     protected function commands()

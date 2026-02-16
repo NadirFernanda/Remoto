@@ -1,3 +1,83 @@
+# Fluxo de Cadastro e Verificação de E-mail
+
+1. O usuário preenche o formulário de cadastro e envia os dados.
+2. Após o cadastro, o sistema exibe a mensagem: "Cadastro realizado! Verifique seu e-mail para ativar a conta."
+3. O usuário recebe um e-mail com um link de verificação.
+4. O usuário deve acessar o e-mail e clicar no link de verificação.
+5. Ao clicar no link, se não estiver logado, o sistema redireciona para a tela de login.
+6. O usuário faz login normalmente com e-mail e senha.
+7. Após o login, o sistema verifica o e-mail e libera o acesso à plataforma.
+
+**Observação:**
+- Esse fluxo garante máxima segurança, pois só quem sabe a senha pode ativar a conta, mesmo que o link de verificação seja interceptado.
+- O usuário só precisa verificar o e-mail uma vez após o cadastro.
+
+---
+
+# Fluxo Alternativo: Verificação por Código (OTP)
+
+1. O usuário faz login normalmente com e-mail e senha.
+2. Se o e-mail não estiver verificado, o sistema exibe a tela para digitar o código OTP.
+3. O sistema envia automaticamente um código de 6 dígitos para o e-mail do usuário.
+4. O usuário digita o código recebido na tela.
+5. Se o código estiver correto e válido, o e-mail é marcado como verificado e o acesso é liberado.
+6. Caso o código expire ou seja digitado incorretamente, o usuário pode solicitar o reenvio.
+
+**Vantagens:**
+- Experiência mais fluida: o usuário não precisa sair do fluxo de login.
+- Segurança mantida: só quem tem acesso ao e-mail consegue validar o código.
+- O código expira em 10 minutos e só pode ser usado uma vez.
+
+**Observação:**
+- O fluxo OTP pode ser ativado/desativado conforme a necessidade do projeto.
+
+---
+
+# Fluxo de Pagamento em Custódia (Escrow)
+
+1. O cliente faz o pedido e realiza o pagamento antecipado. O valor fica retido na plataforma (em custódia).
+2. O freelancer executa o serviço normalmente.
+3. Após a entrega do serviço pelo freelancer, o cliente pode revisar o trabalho.
+4. Se estiver satisfeito, o cliente acessa o painel do pedido e clica no botão **"Liberar pagamento"**.
+5. Ao clicar, o status do pedido é atualizado e o admin é notificado para processar o pagamento ao freelancer.
+6. O valor é então liberado para o freelancer (pode ser automático ou após conferência manual do admin).
+7. Todo o processo é registrado para fins de auditoria e segurança.
+
+**Vantagens desse fluxo:**
+- Segurança para ambas as partes: o freelancer só trabalha se o dinheiro estiver retido, e o cliente só libera se estiver satisfeito.
+- Reduz fraudes e inadimplência.
+- Transparência e rastreabilidade para a plataforma.
+
+**Observação:**
+- Em caso de disputa, a plataforma pode intervir antes da liberação do pagamento.
+
+---
+
+# Fluxo de Seleção de Freelancer pelo Cliente
+
+1. Após publicar o pedido e realizar o pagamento, o cliente visualiza no painel uma lista de freelancers candidatos ao projeto (até 6, mas pode ser menos).
+2. Cada candidato aparece com nome, status (pendente, escolhido, rejeitado) e botão de ação.
+3. O cliente pode analisar os perfis e clicar em **"Escolher"** para selecionar o freelancer desejado.
+4. Ao escolher:
+   - O status do candidato selecionado muda para **"Escolhido"**.
+   - Todos os outros candidatos são automaticamente marcados como **"Rejeitados"**.
+   - O campo `freelancer_id` do pedido é atualizado e o status do projeto muda para **"accepted"**.
+   - O freelancer escolhido recebe uma **notificação interna** informando que foi selecionado para o projeto.
+   - Os freelancers rejeitados recebem uma **notificação interna** informando que não foram escolhidos.
+5. O cliente pode acompanhar o andamento do projeto com o freelancer escolhido normalmente.
+
+**Vantagens desse fluxo:**
+- O cliente tem total controle sobre a escolha do profissional.
+- Transparência para todos os candidatos.
+- Notificações automáticas garantem comunicação clara e rápida.
+- O sistema permite a escolha mesmo se houver menos de 6 candidatos.
+
+**Observação:**
+- Todo o processo é registrado para fins de auditoria e segurança.
+- O fluxo é integrado ao painel do cliente, tornando a experiência simples e intuitiva.
+
+---
+
 # SITE FREELANCER – One Page Pitch
 
 SITE FREELANCER é uma plataforma que torna simples contratar e trabalhar como freelancer:
@@ -203,3 +283,137 @@ rm -r vendor
 del composer.lock
 
 composer install
+  Claro que posso — e vou organizar isso de forma **clara, profissional e lógica**, já a pensar em **documentação de sistema / proposta técnica**. Vou descrever o **fluxo completo do módulo de afilhados**, sem linguagem confusa.
+
+---
+
+# 📌 Módulo de Afilhados – Descrição do Fluxo
+
+## 1. Geração do Link de Afilhado
+
+* **Todos os utilizadores da plataforma** (freelancers e clientes) possuem automaticamente um **link único de afilhado**.
+* Esse link identifica quem fez a indicação e é usado para rastrear novas inscrições e ações realizadas na plataforma.
+
+---
+
+## 2. Acesso via Link de Afilhado
+
+* Quando um novo utilizador:
+
+  * acede à plataforma através de um link de afilhado **e**
+  * cria uma conta **e**
+  * publica pelo menos **um serviço**,
+
+➡️ o proprietário do link de afilhado recebe automaticamente uma **recompensa de 300 Kz**.
+
+> ⚠️ Apenas publicar o serviço ativa o benefício. Apenas criar conta **não gera recompensa**.
+
+---
+
+## 3. Registo e Validação da Recompensa
+
+* O sistema valida:
+
+  * origem do acesso (link de afilhado),
+  * criação de conta,
+  * publicação do primeiro serviço.
+* Após a validação:
+
+  * é registada a comissão de **300 Kz**,
+  * o valor é atribuído ao **saldo de afilhado** do utilizador que indicou.
+
+---
+
+## 4. Dashboard do Freelancer (Afilhado Ativo)
+
+O freelancer terá **dois saldos separados**, permitindo total transparência e controlo:
+
+### 🔹 Card 1 – Saldo Normal
+
+* Representa os ganhos provenientes de:
+
+  * serviços prestados,
+  * vendas concluídas,
+  * entregas aceites.
+
+### 🔹 Card 2 – Saldo como Afilhado
+
+* Representa os ganhos provenientes de:
+
+  * indicações feitas através do link de afilhado,
+  * comissões fixas de **300 Kz por serviço publicado**.
+
+📊 O freelancer poderá:
+
+* acompanhar os valores ganhos por cada via,
+* consultar histórico de indicações,
+* perceber claramente:
+
+  * quanto ganha com o seu trabalho (X),
+  * quanto ganha como afilhado (Y).
+
+---
+
+## 5. Dashboard do Cliente
+
+O cliente também terá um **card dedicado ao módulo de afilhados**, permitindo acompanhamento das suas indicações.
+
+### 🔹 Card – Afilhados do Cliente
+
+Este card permitirá visualizar:
+
+* número total de acessos ao link de afilhado,
+* número de contas criadas através do link,
+* número de serviços publicados a partir dessas contas,
+* total de comissões acumuladas (300 Kz por serviço).
+
+📈 Assim, o cliente consegue perceber:
+
+* o impacto do seu link,
+* quantas pessoas trouxe para a plataforma,
+* quanto já ganhou como afilhado.
+
+---
+
+## 6. Controlo e Transparência
+
+* Todos os movimentos ficam registados:
+
+  * data,
+  * utilizador indicado,
+  * ação realizada (publicação de serviço),
+  * valor atribuído.
+* O sistema impede duplicações e fraudes (ex.: mesma pessoa indicar a si própria).
+
+---
+
+## 7. Benefícios do Fluxo
+
+✔ Incentiva o crescimento orgânico da plataforma
+✔ Motiva freelancers e clientes a divulgar o sistema
+✔ Garante transparência financeira
+✔ Separa claramente **ganhos por trabalho** e **ganhos por afiliação**
+
+---
+
+## Segurança no Sistema de Afiliados
+
+O sistema de afiliados possui as seguintes medidas de segurança:
+
+- **Impedir auto-indicação:** O afiliado não pode indicar a si mesmo, evitando fraudes.
+- **Comissão apenas para novos usuários:** A comissão só é creditada se o usuário indicado for realmente novo e não houver indicação anterior.
+- **Registro de IP e user-agent:** Cada indicação salva o IP e o user-agent do usuário cadastrado, permitindo rastreamento e auditoria.
+- **Validação de afiliado ativo:** Apenas afiliados ativos (não bloqueados ou banidos) podem receber comissão.
+- **Prevenção de duplicidade:** Não é possível gerar múltiplas comissões para o mesmo usuário ou e-mail.
+
+Essas medidas garantem mais transparência, rastreabilidade e dificultam fraudes no programa de indicações.
+
+---
+
+Se quiseres, no próximo passo posso:
+
+* transformar isso em **requisitos funcionais**
+* desenhar o **fluxo técnico (backend / base de dados)**
+* ou escrever isso em formato de **proposta comercial** para apresentar ao cliente
+
+Diz-me como vais usar esse texto 👌

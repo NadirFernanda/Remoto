@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -23,10 +24,26 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'email_verified_at',
+        'affiliate_code',
+        'status',
+        'phone',
+        'bio',
+        'profile_photo',
+        'location',
     ];
     public function profile()
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function freelancerProfile()
+    {
+        return $this->hasOne(FreelancerProfile::class);
+    }
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
     }
 
     public function wallet()
@@ -74,5 +91,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
         ];
+    }
+
+    public function avatarUrl()
+    {
+        if ($this->profile_photo) {
+            return Storage::url($this->profile_photo);
+        }
+        // legacy support: Profile.avatar
+        if ($this->profile && isset($this->profile->avatar) && $this->profile->avatar) {
+            return asset('storage/' . $this->profile->avatar);
+        }
+        return asset('build/img/default-avatar.png');
     }
 }

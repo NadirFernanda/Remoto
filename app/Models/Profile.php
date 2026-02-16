@@ -13,10 +13,15 @@ class Profile extends Model
         'patrocinio_expira_em',
         'codigo_afiliado',
         'ganhos_afiliado',
+        'interests',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $casts = [
+        'interests' => 'array',
+    ];
 }

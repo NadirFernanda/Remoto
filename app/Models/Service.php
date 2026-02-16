@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
+    public function candidates()
+    {
+        return $this->hasMany(ServiceCandidate::class);
+    }
     protected $fillable = [
         'cliente_id',
         'freelancer_id',
@@ -15,6 +19,8 @@ class Service extends Model
         'taxa',
         'valor_liquido',
         'status',
+        'is_payment_released',
+        'payment_released_at',
     ];
 
     public function cliente()

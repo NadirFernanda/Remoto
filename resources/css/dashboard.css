@@ -1,0 +1,179 @@
+/* Botões padrão */
+.btn-nowrap {
+    white-space: nowrap;
+    min-width: 130px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    padding: .5rem .75rem;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    /* default neutral style to avoid one item looking different */
+    background: linear-gradient(90deg,#00baff,#06b6d4);
+    color: #021018;
+    border: 0;
+}
+
+.btn-nowrap:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 12px rgba(2,6,23,0.08);
+    opacity: 0.98;
+}
+
+/* Estados */
+
+/* Variant classes keep same shape but allow subtle color tweaks if needed */
+.btn-chat, .btn-pay, .btn-paid, .btn-moderate, .btn-moderating {
+    /* keep inherited background from .btn-nowrap by default */
+    color: inherit;
+}
+
+.btn-chat:hover, .btn-pay:hover, .btn-paid:hover, .btn-moderate:hover, .btn-moderating:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(2,6,23,0.12);
+}
+
+/* Ícones */
+.btn-nowrap {
+    white-space: nowrap;
+    min-width: 130px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    padding: .5rem .75rem;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    background: linear-gradient(90deg,var(--accent-2),var(--accent-v));
+    color: #021018;
+    border: 0;
+}
+.kpi-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; margin-bottom:1.25rem; }
+.kpi-card{ background: var(--card-bg); border-radius:12px; padding:1.25rem 1.1rem; box-shadow: 0 6px 18px rgba(2,6,23,0.06); border:1px solid rgba(15,23,42,0.03); text-align:center; }
+.kpi-card .value{ font-size:1.45rem; font-weight:800; color:var(--accent-v); letter-spacing:0.2px; }
+.kpi-card .label{ color:var(--muted-v); font-size:.95rem; margin-top:.5rem; }
+
+/* Orders table modern style */
+.orders-table{ width:100%; border-collapse:separate; border-spacing:0 10px; }
+.orders-table thead th{ text-align:left; padding:12px 16px; color:#374151; font-weight:700; font-size:.95rem; }
+.orders-table tbody tr{ background: var(--card-bg); border-radius:10px; box-shadow: var(--glass-shadow); border:1px solid var(--glass-border); }
+.orders-table td{ padding:14px 16px; vertical-align:middle; color:var(--text-strong); }
+.orders-table tbody tr td:first-child{ border-top-left-radius:10px; border-bottom-left-radius:10px; }
+.orders-table tbody tr td:last-child{ border-top-right-radius:10px; border-bottom-right-radius:10px; }
+.orders-table tbody tr:hover{ transform:translateY(-3px); box-shadow: 0 12px 36px rgba(2,6,23,0.06); }
+
+/* Dashboard header */
+.dashboard-header{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; }
+.dashboard-title{ font-size:1.35rem; font-weight:800; color:#0f172a; }
+.search-input{ min-width:320px; max-width:480px; width:100%; padding:.6rem .9rem; border-radius:10px; border:1px solid #e6eef6; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+.filters-row{ display:flex; gap:.5rem; align-items:center; }
+
+/* subtle entrance animation */
+.fade-up{ transform: translateY(8px); opacity: 0; animation: fadeUp .48s ease forwards; }
+@keyframes fadeUp{ to{ transform: none; opacity:1; } }
+
+/* Tooltip small helper (title fallback) */
+.sr-only{ position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* Improve placeholder/readability for inputs in dashboard */
+.search-input::placeholder{ color: rgba(15,23,42,0.35); }
+.filter-input::placeholder{ color: rgba(15,23,42,0.45); }
+
+/* Status badge */
+.status-pill{ display:inline-block; padding:.35rem .6rem; border-radius:999px; font-weight:700; font-size:.82rem; color:#021018; }
+.status-published{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); }
+.status-accepted{ background:#10b981; }
+.status-in_progress{ background:#f59e0b; }
+.status-delivered{ background:#06b6d4; }
+.status-completed{ background:#64748b; }
+.status-cancelled{ background:#ef4444; }
+
+/* Ensure action area spacing */
+.table-actions{ display:flex; gap:0.5rem; align-items:center; }
+
+/* Small icon action buttons that respect brand */
+ .action-btn{
+    width:44px;
+    height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    color: var(--accent-v);
+    border:1px solid var(--glass-border);
+    box-shadow: none;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+}
+.action-btn:hover{ transform:translateY(-3px); background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:none; }
+.action-btn:focus{ outline:3px solid rgba(0,186,255,0.12); outline-offset:2px; }
+
+/* labels next to action icons: visible on desktop, hidden on small screens */
+.action-label{ display:none; color:var(--text-strong); font-weight:700; font-size:.95rem; }
+@media (min-width: 900px){
+    .action-label{ display:inline-block; }
+    .action-item{ gap: .5rem; }
+}
+
+@media (max-width: 900px){
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); }
+    .orders-table thead{ display:none; }
+    .orders-table, .orders-table tbody, .orders-table tr, .orders-table td{ display:block; width:100%; }
+    .orders-table tr{ margin-bottom: .8rem; }
+    .orders-table td{ padding:10px; }
+}
+
+/* Make dashboard header/subtitle responsive to avoid overlapping action buttons */
+@media (max-width: 900px){
+    .dashboard-header{ flex-direction: column; align-items: flex-start; gap: .5rem; }
+    .dashboard-title{ font-size: 1.1rem; }
+    .dashboard-header .text-sm{ display:block; margin-top: .15rem; color: var(--muted-v); font-size: .95rem; }
+    .filters-row{ width:100%; display:flex; justify-content:flex-end; gap:.5rem; margin-top:.35rem; }
+    .search-input{ min-width: unset; width:100%; max-width:none; }
+}
+
+/* On very small screens stack filters under header and make CTAs full width */
+@media (max-width: 480px){
+    .filters-row{ flex-direction: column; align-items: stretch; gap: .5rem; }
+    .filters-row .form-group, .search-input{ width:100%; }
+}
+
+/* Safety overrides: remove any decorative pseudo elements that may render a faint background title
+   and ensure the page's main heading is visible and dark.
+*/
+.site-header::before, .site-header::after,
+.header-container::before, .header-container::after,
+main::before, main::after { display: none !important; content: none !important; }
+
+main h1, .dashboard-title, h1.text-2xl.font-bold {
+    color: #0f172a !important;
+    opacity: 1 !important;
+    position: static !important;
+    transform: none !important;
+}
+
+/* Improve contrast for text inside glass cards and table rows
+   Fixes very-light text on light/blurred card backgrounds (see UX screenshot)
+*/
+.orders-table td,
+.action-label,
+.project-title,
+.project-excerpt,
+.project-meta{
+    color: rgba(2,6,23,0.80);
+}
+
+.orders-table thead th{ color: rgba(2,6,23,0.78); }

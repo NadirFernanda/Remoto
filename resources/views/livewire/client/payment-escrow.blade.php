@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="mb-4 p-3 bg-cyan-50 rounded flex items-center">
-            <svg class="w-6 h-6 text-cyan-500 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0-1.104.896-2 2-2s2 .896 2 2-.896 2-2 2-2-.896-2-2zm0 0V7m0 4v4m0 0h4m-4 0H8"/></svg>
+            @include('components.icon', ['name' => 'wallet', 'class' => 'w-6 h-6 text-cyan-500 mr-2'])
             <span class="text-cyan-700">Seu pagamento ficará seguro até a entrega do serviço.</span>
         </div>
         <form wire:submit.prevent="confirmPayment" class="space-y-4">

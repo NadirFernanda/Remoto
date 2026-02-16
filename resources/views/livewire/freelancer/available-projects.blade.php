@@ -28,7 +28,7 @@
                 <a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
                 <form method="POST" action="{{ route('logout') }}" class="mt-4">
                     @csrf
-                    <button type="submit" class="w-full py-2 px-4 rounded bg-red-100 text-red-600 font-bold hover:bg-red-200">Sair</button>
+                    <button type="submit" class="btn-primary w-full" style="margin-top: 0.5rem;">Sair</button>
                 </form>
             </nav>
         </aside>
@@ -136,13 +136,18 @@
 
                         <div class="mt-5 flex flex-col gap-2">
                             <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Ver detalhes completos</a>
-                            <div class="flex gap-2">
-                                <form wire:submit.prevent="acceptService({{ $project->id }})" class="flex-1">
-                                    <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2.5 px-4 rounded-lg text-sm">Aceitar projeto</button>
+                            <div class="action-row mt-3">
+                                <form wire:submit.prevent="acceptService({{ $project->id }})" class="">
+                                    <button type="submit" class="btn-eq btn-primary">
+                                        @include('components.icon', ['name' => 'check', 'class' => 'w-4 h-4'])
+                                        <span>Aceitar</span>
+                                    </button>
                                 </form>
-                                <form wire:submit.prevent="refuseService({{ $project->id }})" class="flex-1">
-                                    <button type="submit" class="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-2.5 px-4 rounded-lg text-sm">Pular agora</button>
-                                </form>
+
+                                <button type="button" wire:click="showProposalModal({{ $project->id }})" class="btn-eq btn-outline">
+                                    @include('components.icon', ['name' => 'dots', 'class' => 'w-4 h-4'])
+                                    <span>Enviar proposta</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -152,6 +157,31 @@
                     </div>
                 @endforelse
             </div>
+
+            {{-- Proposal Modal --}}
+            @if($proposalModal)
+                <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div class="bg-white rounded-lg w-full max-w-2xl p-6 shadow-xl">
+                        <h3 class="text-lg font-bold mb-3">Enviar proposta</h3>
+                        <form wire:submit.prevent="sendProposal">
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700">Mensagem</label>
+                                <textarea wire:model.defer="proposalMessage" class="mt-1 block w-full border rounded p-2" rows="5"></textarea>
+                                @error('proposalMessage') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700">Valor (opcional)</label>
+                                <input type="number" step="0.01" wire:model.defer="proposalValue" class="mt-1 block w-48 border rounded p-2" />
+                                @error('proposalValue') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="flex justify-end gap-2">
+                                <button type="button" wire:click="$set('proposalModal', false)" class="px-4 py-2 rounded bg-gray-200">Cancelar</button>
+                                <button type="submit" class="px-4 py-2 rounded bg-cyan-500 text-white">Enviar proposta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @endif
         </main>
     </div>
 </div>

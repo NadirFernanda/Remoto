@@ -15,7 +15,7 @@
         </div>
     @endif
     <a href="{{ route('client.orders') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-800 font-bold text-sm bg-white border border-cyan-100 rounded-full px-4 py-2 shadow transition mb-4">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-5 h-5'])
         Voltar
     </a>
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Pedido</h2>
@@ -126,8 +126,12 @@
                 </form>
                 <a href="{{ route('client.briefing', ['edit' => $service->id]) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded flex items-center justify-center">Editar pedido</a>
             </div>
-            <div class="flex gap-4 mt-4">
-                <a href="{{ route('service.chat', $service->id) }}" class="bg-white hover:bg-cyan-100 text-cyan-700 font-bold py-2 px-6 rounded w-full text-center border border-cyan-300 transition-all shadow focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2">Acessar chat do serviço</a>
+            <div class="action-row mt-4">
+                    <a href="{{ route('service.chat', $service->id) }}" class="btn-eq btn-outline relative focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2">
+                        @include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
+                        <span>Acessar chat do serviço</span>
+                        @livewire('chat.chat-badge', ['serviceId' => $service->id], key('chat-badge-'.$service->id))
+                    </a>
             </div>
         @else
             <div class="text-gray-500">Este pedido não pode mais ser cancelado.</div>

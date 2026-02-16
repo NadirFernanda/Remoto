@@ -13,20 +13,19 @@ class FinancePanel extends Component
     public function mount()
     {
         $user = Auth::user();
-        // Mock: Substitua por busca real no banco
-        $this->balance = 1500.75;
-        $this->recentPayments = [
-            [
-                'amount' => 500.00,
-                'date' => now()->subDays(2)->format('d/m/Y'),
-                'description' => 'Pagamento recebido de projeto X',
-            ],
-            [
-                'amount' => -200.00,
-                'date' => now()->subDays(5)->format('d/m/Y'),
-                'description' => 'Pagamento realizado para serviço Y',
-            ],
-        ];
+        // Balance e pagamentos reais usando Wallet / WalletLog quando disponível
+        $this->balance = optional($user->wallet)->saldo ?? 0;
+        $logs = \App\Models\WalletLog::where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->take(6)
+            ->get();
+        $this->recentPayments = $logs->map(function($l) {
+            return [
+                'amount' => $l->valor,
+                'created_at' => $l->created_at,
+                'description' => $l->descricao ?? '',
+            ];
+        })->toArray();
     }
 
     public function render()

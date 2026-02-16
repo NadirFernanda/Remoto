@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/auth.php';
+require_once __DIR__.'/admin.php';
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\Role;
@@ -30,7 +31,8 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-	Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
+	// Use a wrapper page that mounts the Livewire component so we can keep layout
+	Route::view('/cliente/dashboard', 'client.dashboard')->name('client.dashboard');
 });
 Route::middleware(['auth'])->group(function () {
 	Route::get('/notificacoes', NotificationPanel::class)->name('notifications');
@@ -50,6 +52,7 @@ Route::middleware(['auth', 'role:freelancer'])->group(function () {
 	Route::get('/freelancer/patrocinio', SponsorshipPanel::class)->name('freelancer.sponsorship');
 	Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
 	Route::view('/freelancer/configuracoes', 'livewire.freelancer.settings')->name('freelancer.settings');
+	Route::get('/freelancer/notificacoes', \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -139,22 +142,57 @@ RouteFacade::get('/pagamento/paypal/retorno', function () {
 
 Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
 
+// Public project detail
+Route::get('/projeto/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
+
+// Public freelancer profile
+use App\Http\Controllers\FreelancerProfileController;
+Route::get('/freelancer/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
+
+// Public freelancers listing
+use App\Http\Controllers\FreelancerListingController;
+Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
+
 use App\Http\Controllers\Client\ServiceTitleController;
 
 Route::middleware(['auth'])->post('/cliente/pedido/{service}/cancelar/edit-title', [ServiceTitleController::class, 'update']);
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
+use App\Http\Controllers\Auth\OtpVerificationController;
 
 // Rotas de verificação de e-mail Laravel
 Route::get('/email/verify', function () {
 	return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
+// Rotas de verificação OTP
+Route::middleware(['auth'])->group(function () {
+	Route::get('/otp/verify', function() {
+		// Envia o código automaticamente ao acessar a tela
+		app(\App\Http\Controllers\Auth\OtpVerificationController::class)->sendOtp(request());
+		return app(\App\Http\Controllers\Auth\OtpVerificationController::class)->showOtpForm();
+	})->name('otp.form');
+	Route::post('/otp/send', [OtpVerificationController::class, 'sendOtp'])->name('otp.send');
+	Route::post('/otp/verify', [OtpVerificationController::class, 'verifyOtp'])->name('otp.verify');
+});
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
 	$request->fulfill();
-	return redirect('/home');
+	return redirect('/login')->with('status', 'E-mail verificado com sucesso! Agora você pode acessar a plataforma.');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function () {
 	request()->user()->sendEmailVerificationNotification();
 	return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+use App\Http\Controllers\ProfileController;
+
+// Profile edit routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+	// Generate affiliate code for users without one
+	Route::post('/affiliate/generate', [ProfileController::class, 'generateAffiliate'])->name('affiliate.generate');
+});

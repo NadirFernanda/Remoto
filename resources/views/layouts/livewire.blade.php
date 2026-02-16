@@ -11,6 +11,7 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
     @include('components.header')
     <main class="flex-1 pt-24">
+        @include('components.flash-messages')
         {{ $slot }}
     </main>
     @include('components.footer')

@@ -21,19 +21,19 @@ class AffiliatePanel extends Component
             $this->affiliateCode = $affiliate->codigo;
             $this->earnings = $affiliate->ganhos;
             $this->status = $affiliate->status;
-            // Exemplo: histórico de ganhos (pode ser ajustado conforme estrutura real)
-            $this->history = [
-                [
-                    'date' => now()->subDays(2)->toDateString(),
-                    'amount' => 50.00,
-                    'description' => 'Indicação de serviço',
-                ],
-                [
-                    'date' => now()->subDays(10)->toDateString(),
-                    'amount' => 100.00,
-                    'description' => 'Indicação de freelancer',
-                ],
-            ];
+            // Histórico real: usar WalletLog com tipo de comissão de afiliado
+            $logs = \App\Models\WalletLog::where('user_id', $user->id)
+                ->where('tipo', 'comissao_afiliado')
+                ->orderByDesc('created_at')
+                ->take(10)
+                ->get();
+            $this->history = $logs->map(function($l) {
+                return [
+                    'created_at' => $l->created_at,
+                    'amount' => $l->valor,
+                    'description' => $l->descricao ?? 'Comissão de afiliado',
+                ];
+            })->toArray();
         }
     }
 

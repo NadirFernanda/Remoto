@@ -23,7 +23,14 @@ class NewProjectNotification extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
+    }
+    public function toDatabase($notifiable)
+    {
+        return [
+            'service_id' => $this->service->id,
+            'message' => 'Novo projeto disponível: ' . $this->service->titulo,
+        ];
     }
 
     public function toMail($notifiable)

@@ -16,6 +16,10 @@ class ServiceDelivery extends Component
 
     public function mount(Service $service)
     {
+        if (!$service || !$service->id) {
+            session()->flash('error', 'Serviço não encontrado ou inválido.');
+            return redirect()->route('freelancer.dashboard');
+        }
         $this->service = $service;
     }
 

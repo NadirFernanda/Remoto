@@ -9,3 +9,397 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* Import dashboard styles */
+@import './dashboard.css';
+
+/* Consolidated header styles (moved from component and welcome) */
+.site-theme{
+    /* Dark theme matching the logo cyan/turquoise */
+    --bg-v: #071422; /* deep navy */
+    --muted-v: #94a3b8;
+    --accent-v: #00baff; /* logo cyan */
+    --accent-2: #06b6d4; /* secondary turquoise */
+    --card-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.04);
+    --glass-shadow: 0 10px 40px rgba(2,6,23,0.6);
+    --text-strong: #e6eef6;
+}
+
+html,body{height:100%;}
+body{
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,var(--bg-v),#021018 70%);
+    color:var(--text-strong);
+}
+
+.site-header{background: rgba(2,6,23,0.6); border-bottom:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(6px); padding-top:1rem; padding-bottom:1rem;}
+.logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
+.logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
+
+/* Image logo used in header */
+.site-logo{ height:88px; max-height:120px; object-fit:contain; display:block; padding:2px; border-radius:6px; filter: brightness(1.08) saturate(1.12); box-shadow: 0 8px 26px rgba(0,186,255,0.16); }
+.header-container{ align-items:center; }
+.site-header .site-logo{ filter: none; }
+
+.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: rgba(2,6,23,0.55); }
+.site-header.site-header-compact .site-logo{ height:48px; max-height:64px; }
+.site-logo-compact{ height:48px; max-height:64px; }
+
+/* Page-specific override: make profile edit page fully white to remove dark site background */
+.profile-page{ background: #ffffff !important; color: #0f172a !important; }
+.profile-page .site-footer{ background: #ffffff !important; color: #6b7280 !important; border-top: 1px solid rgba(15,23,42,0.04) !important; }
+
+/* Section helpers: allow alternating backgrounds per section */
+.section{ padding:3.5rem 0; background:transparent; }
+.section--alt{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); }
+.container--card{ background:var(--card-bg); border-radius:12px; padding:1.5rem; box-shadow:var(--glass-shadow); border:1px solid var(--glass-border); }
+.nav-link{ margin-left:1rem; font-size:1rem; color:var(--text-strong); font-weight:600; transition:color .16s ease; }
+.nav-link:hover{ color:var(--accent-v); }
+
+/* Responsive header layout */
+.header-container{ max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+.mobile-nav{ display:none; }
+@media (max-width: 768px){
+    .nav-desktop{ display:none; }
+    .mobile-nav{ display:block; }
+}
+
+/* Ensure a visible CTA on small screens without opening the mobile menu */
+.mobile-cta{ display:none; }
+@media (max-width: 768px){
+    .mobile-cta{ display:inline-flex; align-items:center; gap:.5rem; margin-left:0.75rem; }
+}
+
+/* Footer */
+.site-footer{ background:transparent; color:var(--muted-v); border-top:1px solid rgba(255,255,255,0.04); }
+
+/* Buttons */
+.btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; padding:.6rem 1rem; border-radius:10px; font-weight:700; box-shadow: 0 10px 30px rgba(0,186,255,0.08); text-decoration:none; opacity:1; }
+.nav-link.btn-primary{ margin-left:0.75rem; }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow: 0 12px 30px rgba(6,182,212,0.16); }
+.btn-ghost{ background:transparent; border:1px solid rgba(0,186,255,0.12); color:var(--accent-v); padding:.5rem .9rem; border-radius:10px; }
+
+/* Button size variants used across dashboards */
+.btn-primary.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
+.btn-primary.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
+.btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,186,255,0.12); padding:.45rem .7rem; border-radius:8px; }
+
+/* Icon + text spacing for dashboard header buttons */
+.btn-primary svg, .btn-outline svg { margin-right: .5rem; flex-shrink: 0; }
+.btn-primary span, .btn-outline span { display: inline-block; vertical-align: middle; }
+
+/* Standard icon utility used across components */
+.icon{ width:18px; height:18px; display:inline-block; vertical-align:middle; flex-shrink:0; }
+.icon-inline{ display:inline-block; vertical-align:middle; }
+
+/* Action row and equal buttons: compact icon+text buttons used across the dashboard */
+.action-row{ display:flex; gap:.75rem; align-items:center; }
+.action-row .btn-eq{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .85rem; border-radius:10px; font-weight:700; text-decoration:none; justify-content:center; }
+.action-row .btn-eq svg{ width:18px; height:18px; flex-shrink:0; }
+.action-row .btn-eq.btn-primary{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border:none; }
+.action-row .btn-eq.btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,186,255,0.12); }
+.action-row .btn-eq:focus{ outline-offset:3px; outline:3px solid rgba(0,186,255,0.12); }
+
+/* Make action-row wrap on very small screens */
+@media (max-width:480px){ .action-row{ flex-wrap:wrap; } }
+
+/* Ensure btns are not affected by nav link color rules */
+.nav-link{ color:var(--text-strong); }
+.nav-link.btn-primary{ color:#021018; }
+
+/* Utility */
+.container { max-width:1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
+
+/* Hero / Modern Glass components */
+.hero-section{ min-height:420px; display:flex; align-items:center; padding:2rem 0; }
+.hero-card{ background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.04); border-radius:14px; box-shadow: 0 12px 40px rgba(2,6,23,0.6); }
+/* Garante que a cor do título hero seja sempre o azul da logo, mesmo dentro de glass-card ou container--card */
+/* Força o azul exato do botão de cadastro nos títulos hero */
+.hero-title, .glass-card .hero-title, .container--card .hero-title {
+    color: #00baff !important; /* azul claro igual ao botão de cadastro */
+    font-size:2.2rem;
+    font-weight:800;
+    margin-bottom:.5rem;
+    line-height:1.05;
+    letter-spacing:0.3px;
+    text-align:center;
+    font-family: 'Poppins', Inter, system-ui, sans-serif;
+}
+@media (min-width:768px){ .hero-title{ font-size:3rem; } }
+.hero-desc{ color:rgba(230,238,246,0.95); font-size:1.05rem; margin-bottom:1.25rem; max-width:720px; margin-left:auto; margin-right:auto; }
+.hero-ctas{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
+.hero-btn{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; font-weight:700; border-radius:10px; padding:.65rem 1.75rem; box-shadow:0 8px 24px rgba(0,186,255,0.12); transition:transform .14s ease, box-shadow .14s ease; text-decoration:none; }
+.hero-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,186,255,0.16); }
+.hero-btn-outline{ background:transparent; color:var(--accent-v); border:1.5px solid rgba(0,186,255,0.18); border-radius:10px; padding:.6rem 1.6rem; text-decoration:none; }
+.hero-indicators{ display:flex; justify-content:center; gap:.5rem; margin-top:.75rem; }
+.hero-indicators button{ width:10px; height:10px; border-radius:999px; transition:all .18s ease; border:none; }
+.hero-indicators button.active{ background:var(--accent-v); box-shadow:0 6px 18px rgba(0,186,255,0.12); }
+
+/* Cards used in benefits/testimonials and project cards */
+.glass-card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:1rem;
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 14px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    overflow: hidden;
+    min-height: 340px;
+}
+.glass-card .icon{ color:var(--accent-v); }
+
+.glass-card::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 14px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(0,186,255,0.06), rgba(6,182,212,0.04));
+    opacity: 0.65;
+    mix-blend-mode: overlay;
+}
+
+.glass-card:hover{ transform: translateY(-6px); box-shadow: 0 18px 46px rgba(2,6,23,0.65); }
+
+/* Project-specific card elements */
+.project-thumbnail{ width:100%; height:150px; border-radius:10px; object-fit:cover; display:block; margin-bottom:.85rem; background: linear-gradient(135deg,var(--accent-2),var(--accent-v)); }
+.project-title{ font-size:1.05rem; font-weight:800; color:var(--text-strong); margin:0 0 .4rem 0; }
+.project-excerpt{ color: rgba(230,238,246,0.82); font-size:.95rem; margin-top:.25rem; line-height:1.35; }
+.project-excerpt div, .project-excerpt p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.project-meta{ display:flex; gap:0.75rem; align-items:center; justify-content:space-between; margin-top:.75rem; flex-wrap:wrap; }
+.project-meta-left{ display:flex; gap:.75rem; align-items:center; }
+.project-price-badge{ background:linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; font-weight:900; padding:.45rem .7rem; border-radius:999px; box-shadow:0 10px 26px rgba(0,186,255,0.10); transform-origin:center; transition: transform .16s ease, box-shadow .16s ease; }
+.project-price-badge:hover{ transform: translateY(-2px) scale(1.02); box-shadow:0 14px 36px rgba(0,186,255,0.12); }
+
+/* Avatar style when no thumbnail */
+.project-avatar{ width:100%; height:150px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:2.4rem; color:#021018; background: linear-gradient(135deg,var(--accent-2),var(--accent-v)); margin-bottom:.85rem; }
+
+/* Keep actions at bottom */
+.card-actions{ margin-top: 1rem; }
+.card-body{ flex: 1 1 auto; }
+
+@media (max-width: 768px){
+    .glass-card{ min-height: auto; }
+    .project-thumbnail, .project-avatar{ height:120px; }
+}
+
+/* Small responsive tweaks */
+@media (max-width:768px){
+    .site-header{ padding-top:.6rem; padding-bottom:.6rem; }
+    .site-logo{ height:64px; max-height:84px; }
+}
+
+/* Projects page improvements */
+.projects-hero{ padding:2.25rem 0; text-align:center; }
+.projects-hero h2{ font-size:2.1rem; color:var(--accent-v); font-weight:800; margin-bottom:.25rem; }
+.projects-hero p{ color:rgba(230,238,246,0.85); margin-bottom:.75rem; }
+
+.filters-row{ display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end; justify-content:center; }
+.filters-row .form-group{ min-width:180px; }
+.filters-row .container--card{ display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+
+/* Filter inputs */
+.filter-label{ display:block; font-size:.78rem; font-weight:700; color:var(--accent-v); margin-bottom:.45rem; }
+.filter-input{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-strong); padding:.55rem .75rem; border-radius:10px; min-width:200px; }
+.filter-input::placeholder{ color:rgba(230,238,246,0.45); }
+.filter-select{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-strong); padding:.55rem .9rem; border-radius:10px; min-width:220px; appearance:none; -webkit-appearance:none; }
+.filter-date{ padding:.45rem .6rem; }
+
+/* Form actions aligned on small screens */
+.form-actions{ display:flex; align-items:center; }
+@media (max-width:900px){
+    .filters-row{ justify-content:stretch; }
+    .filters-row .form-group{ width:100%; min-width:unset; }
+    .filter-input, .filter-select{ width:100%; }
+    .form-actions{ width:100%; justify-content:flex-start; }
+}
+
+/* Subtle hover/focus for inputs */
+.filter-input:focus, .filter-select:focus { box-shadow: 0 8px 20px rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.32); outline: none; }
+
+/* Advanced filters collapse */
+.advanced-filters{ display:block; max-height:0; overflow:hidden; transition:max-height .32s ease, opacity .28s ease; opacity:0; }
+.advanced-filters.open{ max-height:600px; opacity:1; margin-top:1rem; }
+.advanced-filters .form-group{ margin-right:0.5rem; }
+.advanced-filters .filter-input{ min-width:240px; }
+
+/* Toggle button small tweak */
+#toggle-advanced-filters{ cursor:pointer; }
+
+.project-avatar{ width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--accent-2),var(--accent-v)); display:flex; align-items:center; justify-content:center; color:#021018; font-weight:800; font-size:1.25rem; margin-bottom:0.75rem; }
+
+/* Avatar utility classes */
+.avatar-xs{ width:24px; height:24px; border-radius:9999px; object-fit:cover; display:inline-block; }
+.avatar-sm{ width:32px; height:32px; border-radius:9999px; object-fit:cover; display:inline-block; }
+.avatar{ width:40px; height:40px; border-radius:9999px; object-fit:cover; display:inline-block; }
+.avatar-md{ width:56px; height:56px; border-radius:9999px; object-fit:cover; display:inline-block; }
+.avatar-lg{ width:80px; height:80px; border-radius:9999px; object-fit:cover; display:inline-block; }
+
+/* Chat message avatar spacing */
+.chat-msg-avatar{ width:32px; height:32px; border-radius:9999px; overflow:hidden; flex-shrink:0; }
+
+@media (max-width:768px){
+    .avatar, .avatar-sm{ width:36px; height:36px; }
+    .avatar-md{ width:48px; height:48px; }
+}
+
+.status-badge{
+    display:inline-block;
+    padding:.35rem .6rem;
+    border-radius:999px;
+    font-weight:700;
+    font-size:.75rem;
+    background: transparent !important;
+    color: var(--text-strong) !important;
+    border: 1px solid rgba(255,255,255,0.04) !important;
+}
+/* Keep semantic color for text only (no filled background) */
+.status-published{ color: var(--accent-v) !important; border-color: rgba(0,186,255,0.12) !important; }
+.status-accepted{ color:#10b981 !important; }
+.status-in_progress{ color:#f59e0b !important; }
+.status-delivered{ color:#06b6d4 !important; }
+.status-completed{ color:#64748b !important; }
+.status-cancelled{ color:#ef4444 !important; }
+
+.project-card-hover{ transition:transform .18s ease, box-shadow .18s ease; }
+.project-card-hover:hover{ transform:translateY(-6px); box-shadow:0 18px 46px rgba(2,6,23,0.55); }
+
+/* Make the whole card act as a link while keeping interactive children usable */
+.card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    border-radius: 12px;
+    /* visual none, but ensure keyboard focus visible */
+    background: transparent;
+    text-indent: -9999px;
+}
+
+/* Ensure actionable controls sit above the overlay */
+.glass-card .btn, .glass-card a.btn, .glass-card button {
+    position: relative;
+    z-index: 3;
+}
+
+/* Action toolbar: default inline layout to avoid buttons expanding into separate cards */
+.action-row{ display:inline-flex; gap:.5rem; align-items:center; }
+.action-row > *{ flex: 0 0 auto; }
+
+/* When equal distribution is desired, add the 'equal' modifier */
+.action-row.equal{ display:flex; width:100%; }
+.action-row.equal > *{ flex:1 1 0; min-width:0; }
+.action-row a, .action-row button, .action-row form{ display:inline-flex; }
+.action-row .btn-eq{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.45rem .8rem; border-radius:9999px; font-weight:700; transition:transform .12s ease, box-shadow .12s ease; background:transparent; color:var(--accent-v); border:1px solid transparent; box-shadow:none; }
+.action-row .btn-eq.btn-primary{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border: none; }
+.action-row .btn-eq.btn-outline{ background:transparent; border:1px solid rgba(0,186,255,0.12); color:var(--accent-v); box-shadow:none; }
+.action-row .btn-eq svg{ margin-right:.5rem; width:18px; height:18px; flex-shrink:0; }
+.action-row .btn-eq:hover{ transform: translateY(-2px); box-shadow:0 12px 30px rgba(0,186,255,0.10); }
+.action-row .btn-eq:focus{ outline: 3px solid rgba(0,186,255,0.12); outline-offset:3px; }
+
+/* When many buttons exist, limit to 3 equal columns and shrink others visually while keeping one row */
+.action-row.multi-compact > *{ flex: 0 1 auto; min-width:120px; }
+.action-row.multi-compact > *:not(:last-child){ opacity:0.98; }
+
+/* Mobile stacked fallback */
+@media (max-width:640px){
+    .action-row{ flex-direction:column; gap:.5rem; }
+    .action-row > *{ width:100%; flex:unset; }
+}
+
+/* Enforce compact icon/button sizes to avoid oversized graphics */
+.action-row .btn-eq{ padding:.5rem .9rem; font-size:0.95rem; max-width:360px; }
+.action-row .btn-eq svg{ width:18px !important; height:18px !important; }
+.btn-eq.small{ padding:.35rem .75rem; font-size:.92rem; max-width:220px; border-radius:9999px; }
+
+/* Strong overrides: remove card/background/border/shadow applied by other rules inside action rows */
+.action-row, .action-row * { background: transparent !important; border: none !important; box-shadow: none !important; }
+
+/* Force inline appearance and remove any residual card-like styling from compiled CSS */
+.action-row a, .action-row button, .action-row .btn-eq {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: .38rem .7rem !important;
+    margin: 0 !important;
+}
+.action-row .btn-eq { color: var(--accent-v) !important; }
+.glass-card .action-row a, .glass-card .action-row button, .glass-card .action-row .btn-eq {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove card-like background for action cells in orders-table */
+.orders-table td.no-card{
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding-top: .4rem !important;
+    padding-bottom: .4rem !important;
+}
+.orders-table td.no-card .action-row{ margin:0 !important; }
+
+/* Prevent large SVGs or images from overflowing inside cards */
+.glass-card svg, .glass-card img{ max-width:100%; height:auto; display:block; }
+
+/* Ensure large standalone icons used as decoration are constrained */
+.icon-hero, .large-graphic{ max-width:140px; max-height:140px; }
+
+/* Focus styles for accessibility */
+.card-link:focus {
+    outline: 3px solid rgba(0,186,255,0.18);
+    outline-offset: 3px;
+    box-shadow: 0 8px 30px rgba(0,186,255,0.08);
+}
+
+.glass-card:focus-within {
+    box-shadow: 0 6px 28px rgba(56,230,212,0.06), 0 0 0 3px rgba(56,230,212,0.04);
+}
+
+/* Buttons and links focus */
+.btn:focus, a:focus {
+    outline: 3px solid rgba(var(--accent-v-rgb,56,230,212),0.18);
+    outline-offset: 2px;
+}
+.pagination-custom{ display:flex; gap:.5rem; justify-content:center; align-items:center; margin-top:1rem; }
+.pagination-custom a, .pagination-custom span{ padding:.5rem .75rem; border-radius:8px; background:rgba(255,255,255,0.03); color:var(--text-strong); text-decoration:none; }
+.pagination-custom .active{ background:var(--accent-v); color:#021018; font-weight:800; box-shadow:0 8px 22px rgba(0,186,255,0.08); }
+
+/* Global readable text for glass-like cards and panels
+   This ensures light backgrounds/blur don't make body text unreadable.
+   Targets card containers and project/list panels while preserving
+   buttons, badges, and accent-colored elements.
+*/
+.glass-card, .container--card, .project-card, .projects-hero {
+    --card-text: rgba(2,6,23,0.88);
+}
+.glass-card p, .glass-card span, .glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5,
+.container--card p, .container--card span,
+.project-title, .project-excerpt, .project-meta, .action-label {
+    color: var(--card-text);
+}
+
+/* Keep interactive accents intact (buttons, badges, icons) */
+.glass-card .btn, .glass-card .action-btn, .glass-card .project-price-badge, .glass-card .status-badge,
+.container--card .btn, .container--card .action-btn { color: inherit; }
+
+/* Tables with explicit white background should use dark text for readability */
+table.bg-white, table.bg-white td, table.bg-white th, .min-w-full.bg-white, .min-w-full.bg-white td, .min-w-full.bg-white th {
+    color: #0f172a; /* dark slate */
+}
+
+/* Also ensure lists/panels that use white backgrounds (e.g., recent messages list) render dark text */
+.bg-white, .bg-white * {
+    color: #0f172a;
+}
+

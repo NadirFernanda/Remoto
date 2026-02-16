@@ -18,21 +18,21 @@ class SponsorshipPanel extends Component
         $sponsorship = Sponsorship::where('user_id', $user->id)->first();
         if ($sponsorship) {
             $this->status = $sponsorship->status;
-            // Exemplo: histórico de patrocínios (ajustar conforme estrutura real)
-            $this->history = [
-                [
-                    'date' => now()->subDays(3)->toDateString(),
-                    'amount' => 200.00,
-                    'description' => 'Patrocínio aprovado',
-                ],
-                [
-                    'date' => now()->subDays(20)->toDateString(),
-                    'amount' => 0.00,
-                    'description' => 'Solicitação recusada',
-                ],
-            ];
+            // Usar registros reais de Sponsorship para histórico (se houver múltiplos)
+            $records = \App\Models\Sponsorship::where('user_id', $user->id)
+                ->orderByDesc('created_at')
+                ->take(6)
+                ->get();
+            $this->history = $records->map(function($r) {
+                return [
+                    'created_at' => $r->created_at,
+                    'amount' => null,
+                    'description' => 'Plano: ' . ($r->plano ?? '—') . ' — ' . ($r->status ?? ''),
+                ];
+            })->toArray();
         } else {
             $this->status = 'não solicitado';
+            $this->history = [];
         }
     }
 

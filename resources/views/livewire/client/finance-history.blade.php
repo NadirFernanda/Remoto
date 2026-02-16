@@ -42,7 +42,7 @@
                 'date_start' => $filter_date_start,
                 'date_end' => $filter_date_end
             ]) }}"
-               style="background:#0e4c92;color:#fff;" class="font-bold py-2 px-4 rounded transition-all w-full text-center shadow hover:bg-[#09386a]" target="_blank">Exportar CSV</a>
+               class="btn-primary w-full text-center" target="_blank">Exportar CSV</a>
         </div>
     </div>
 
@@ -63,9 +63,9 @@
                     <tr class="{{ $loop->even ? 'bg-gray-50' : 'bg-white' }}">
                         <td class="py-3 px-4">{{ $t->id }}</td>
                         <td class="py-3 px-4">{{ $t->titulo ?? '-' }}</td>
-                        <td class="py-3 px-4">R$ {{ number_format($t->valor, 2, ',', '.') }}</td>
+                        <td class="py-3 px-4">{{ money_aoa($t->valor) }}</td>
                         <td class="py-3 px-4">
-                            <span class="inline-block px-3 py-1 rounded-full text-white font-semibold text-xs" style="background:#0e4c92;">
+                            <span class="status-pill status-published">
                                 @if($t->status === 'concluido' || $t->status === 'completed') Concluído
                                 @elseif($t->status === 'em andamento' || $t->status === 'in_progress') Em andamento
                                 @elseif($t->status === 'publicado' || $t->status === 'published') Publicado
@@ -76,7 +76,7 @@
                         </td>
                         <td class="py-3 px-4">{{ $t->created_at->format('d/m/Y') }}</td>
                         <td class="py-3 px-4">
-                            <a href="{{ route('client.receipt.download', $t->id) }}" style="background:#0e4c92;color:#fff;" class="font-bold py-1 px-3 rounded transition-all hover:bg-[#09386a]" target="_blank">Baixar Recibo</a>
+                            <a href="{{ route('client.receipt.download', $t->id) }}" class="btn-primary xs" target="_blank">Baixar Recibo</a>
                         </td>
                     </tr>
                 @empty

@@ -1,141 +1,136 @@
-<div>
-	@if(session('error'))
-		<div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
-			{{ session('error') }}
-		</div>
-	@endif
-	@if(session('success'))
-		<div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
-			{{ session('success') }}
-		</div>
-	@endif
-	@if(session('info'))
-		<div class="mb-4 p-3 bg-blue-100 text-blue-700 rounded shadow text-center font-semibold">
-			{{ session('info') }}
-		</div>
-	@endif
-	<div class="flex min-h-screen bg-gray-50">
-	<!-- Sidebar -->
-	<aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 px-4">
-		<div class="mb-8">
-			<div class="w-20 h-20 rounded-full bg-[#F5F7FA] mx-auto flex items-center justify-center text-3xl font-bold text-[#00B6E6]">{{ auth()->user()->name[0] ?? 'C' }}</div>
-			<div class="text-center mt-2 font-semibold text-[#222]">{{ auth()->user()->name ?? 'Cliente' }}</div>
-			<div class="text-center text-xs text-[#888]">{{ auth()->user()->email ?? '' }}</div>
-		</div>
-		<nav class="flex flex-col gap-2">
-			<a href="{{ route('client.dashboard') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Dashboard</a>
-			<a href="{{ route('client.briefing') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#00B6E6] font-bold">+ Novo Pedido</a>
-			<a href="{{ route('client.profile') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Perfil</a>
-			<a href="{{ route('client.settings') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Configurações</a>
-			<a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
-			<form method="POST" action="{{ route('logout') }}" class="mt-4">
-				@csrf
-				<button type="submit" class="w-full py-2 px-4 rounded bg-red-100 text-red-600 font-bold hover:bg-red-200">Sair</button>
-			</form>
-		</nav>
-	</aside>
-	<!-- Main Content -->
-	<main class="flex-1 p-8">
-		<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-2">
-			<h1 class="font-semibold text-2xl text-[#222]">Dashboard do Cliente</h1>
-			<a href="{{ route('client.briefing') }}" class="inline-block bg-[#00B6E6] hover:bg-[#009E4F] text-white font-bold py-2 px-6 rounded transition">+ Novo Pedido</a>
-		</div>
-		<!-- KPIs -->
-		<div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-			<div class="bg-[#F5F7FA] p-5 rounded shadow text-center">
-				<div class="text-[#00B6E6] text-lg font-bold">Kz {{ number_format($kpi_total_gasto, 2, ',', '.') }}</div>
-				<div class="text-[#888] text-sm mt-1">Total Gasto</div>
-			</div>
-			<div class="bg-[#F5F7FA] p-5 rounded shadow text-center">
-				<div class="text-[#222] text-lg font-bold">{{ $kpi_projetos_publicados }}</div>
-				<div class="text-[#888] text-sm mt-1">Projetos Publicados</div>
-			</div>
-			<div class="bg-[#F5F7FA] p-5 rounded shadow text-center">
-				<div class="text-[#009E4F] text-lg font-bold">{{ $kpi_freelancers_contratados }}</div>
-				<div class="text-[#888] text-sm mt-1">Freelancers Contratados</div>
-			</div>
-			<div class="bg-[#F5F7FA] p-5 rounded shadow text-center">
-				<div class="text-[#FFB800] text-lg font-bold">{{ $kpi_projetos_andamento }}</div>
-				<div class="text-[#888] text-sm mt-1">Em Andamento</div>
-			</div>
-			<div class="bg-[#F5F7FA] p-5 rounded shadow text-center">
-				<div class="text-[#222] text-lg font-bold">{{ $kpi_projetos_concluidos }}</div>
-				<div class="text-[#888] text-sm mt-1">Concluídos</div>
-			</div>
-		</div>
-		<!-- Últimos Pedidos -->
-		<div class="mb-8">
-			<h2 class="font-semibold text-xl mb-2 text-[#222]">Últimos Pedidos</h2>
-			<div class="overflow-x-auto">
-				<table class="min-w-full bg-white rounded shadow">
-					<thead>
-						<tr class="bg-[#F5F7FA] text-[#222]">
-							<th class="py-2 px-4">Título</th>
-							<th class="py-2 px-4">Status</th>
-							<th class="py-2 px-4">Valor</th>
-							<th class="py-2 px-4">Data</th>
-							<th class="py-2 px-4">Ações</th>
-						</tr>
-					</thead>
-					<tbody>
-						@forelse($orders as $order)
-							<tr class="border-b">
-								<td class="py-2 px-4">{{ $order->titulo ?? '-' }}</td>
-								<td class="py-2 px-4">
-									@php
-										$statusColors = [
-											'published' => '#00B6E6',
-											'accepted' => '#FFB800',
-											'in_progress' => '#009E4F',
-											'delivered' => '#00B6E6',
-											'completed' => '#009E4F',
-											'cancelled' => '#888',
-										];
-									@endphp
-									@php
-									    $statusLabels = [
-									        'published' => 'Publicado',
-									        'accepted' => 'Aceite',
-									        'in_progress' => 'Em andamento',
-									        'delivered' => 'Entregue',
-									        'completed' => 'Concluído',
-									        'cancelled' => 'Cancelado',
-									    ];
-									@endphp
-									<span class="font-bold" style="color: {{ $statusColors[$order->status] ?? '#222' }}">
-									    {{ $statusLabels[$order->status] ?? ucfirst(str_replace('_', ' ', $order->status)) }}
-									</span>
-								</td>
-								<td class="py-2 px-4">Kz {{ number_format($order->valor, 2, ',', '.') }}</td>
-								<td class="py-2 px-4">{{ $order->created_at->format('d/m/Y') }}</td>
-								<td class="py-2 px-4">
-									<a href="{{ route('client.service.cancel', $order->id) }}" class="text-[#00B6E6] hover:underline">Detalhes</a>
-								</td>
-							</tr>
-						@empty
-							<tr><td colspan="5" class="text-center py-4 text-[#888]">Nenhum pedido encontrado.</td></tr>
-						@endforelse
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- Mensagens Recentes -->
+<div class="container mx-auto p-4">
+
+	<div class="dashboard-header">
 		<div>
-			<h2 class="font-semibold text-xl mb-2 text-[#222]">Mensagens Recentes</h2>
-			<ul class="divide-y divide-[#F5F7FA] bg-white rounded shadow">
-				@forelse($recent_messages as $msg)
-					<li class="p-4 flex flex-col md:flex-row md:items-center justify-between">
-						<div>
-							<span class="font-bold text-[#00B6E6]">{{ $msg->user->name ?? 'Usuário' }}</span>
-							<span class="text-[#888] ml-2">{{ $msg->service->titulo ?? '-' }}</span>
-							<div class="text-[#222] mt-1">{{ $msg->conteudo }}</div>
-						</div>
-						<div class="text-[#888] text-sm mt-2 md:mt-0">{{ $msg->created_at->diffForHumans() }}</div>
-					</li>
-				@empty
-					<li class="p-4 text-center text-[#888]">Nenhuma mensagem recente.</li>
-				@endforelse
-			</ul>
+				<div class="text-sm text-gray-500">Visão geral rápida dos seus pedidos e KPIs</div>
+			</div>
+		<div class="filters-row">
+			<input type="search" placeholder="Buscar pedidos, título ou cliente..." class="search-input" aria-label="Buscar pedidos">
+			<select class="filter-input" aria-label="Filtrar por status">
+				<option value="">Todos</option>
+				<option value="published">Publicado</option>
+				<option value="accepted">Aceito</option>
+				<option value="in_progress">Em andamento</option>
+				<option value="delivered">Entregue</option>
+				<option value="completed">Concluído</option>
+				<option value="cancelled">Cancelado</option>
+			</select>
 		</div>
-	</main>
+	</div>
+
+	<!-- KPIs do Cliente -->
+	<div class="kpi-grid fade-up">
+		<div class="kpi-card">
+			<div class="value">{{ money_aoa($kpi_total_gasto ?? 0) }}</div>
+			<div class="label">Total Gasto</div>
+		</div>
+		<div class="kpi-card">
+			<div class="value">{{ $kpi_projetos_publicados ?? 0 }}</div>
+			<div class="label">Projetos Publicados</div>
+		</div>
+		<div class="kpi-card">
+			<div class="value">{{ $kpi_freelancers_contratados ?? 0 }}</div>
+			<div class="label">Freelancers Contratados</div>
+		</div>
+		<div class="kpi-card">
+			<div class="value">{{ $kpi_projetos_andamento ?? 0 }}</div>
+			<div class="label">Em Andamento</div>
+		</div>
+	</div>
+
+	<!-- Últimos Pedidos -->
+	<div class="mb-8">
+		<h2 class="font-semibold text-xl mb-2 text-[#222]">Últimos Pedidos</h2>
+		<div class="overflow-x-auto">
+			<table class="orders-table">
+				<thead>
+					<tr>
+						<th class="py-2 px-4">Título</th>
+						<th class="py-2 px-4">Status</th>
+						<th class="py-2 px-4">Valor</th>
+						<th class="py-2 px-4">Data</th>
+						<th class="py-2 px-4">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					@forelse($orders as $order)
+						<tr class="border-b">
+							<td class="py-2 px-4">{{ $order->titulo }}</td>
+							<td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $order->status ?? 'published')) }}</td>
+							<td class="py-2 px-4">{{ money_aoa($order->valor) }}</td>
+							<td class="py-2 px-4">{{ $order->created_at->format('d/m/Y') }}</td>
+							<td>
+								<div class="table-actions" role="group" aria-label="Ações do pedido">
+									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
+										<a href="{{ route('client.service.cancel', $order->id) }}" class="action-btn" title="Ver detalhes" aria-label="Ver detalhes do pedido {{ $order->id }}">
+											@include('components.icon', ['name' => 'eye', 'class' => 'w-5 h-5'])
+										</a>
+										<span class="action-label">Detalhes</span>
+									</div>
+									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
+										<a href="{{ route('service.chat', ['service' => $order->id]) }}" class="action-btn relative" title="Abrir chat" aria-label="Abrir chat do pedido {{ $order->id }}">
+											@include('components.icon', ['name' => 'chat', 'class' => 'w-5 h-5'])
+											@livewire('chat.chat-badge', ['serviceId' => $order->id], key('chat-badge-'.$order->id))
+										</a>
+										<span class="action-label">Chat</span>
+									</div>
+									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
+										<button wire:click="colocarEmModeracao({{ $order->id }})" class="action-btn" title="Colocar em moderação" aria-label="Colocar pedido {{ $order->id }} em moderação">
+											@include('components.icon', ['name' => 'close', 'class' => 'w-5 h-5'])
+										</button>
+										<span class="action-label">Enviar para Moderação</span>
+									</div>
+								</div>
+							</td>
+						</tr>
+					@empty
+						<tr><td colspan="5" class="text-center py-4 text-[#888]">Nenhum pedido encontrado.</td></tr>
+					@endforelse
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Candidatos dos Pedidos -->
+	<div class="mb-8">
+		<h2 class="font-semibold text-xl mb-2 text-[#222]">Candidatos dos Pedidos</h2>
+		<div class="overflow-x-auto">
+			<table class="orders-table">
+				<thead>
+					<tr>
+						<th class="py-2 px-4">Pedido</th>
+						<th class="py-2 px-4">Freelancer</th>
+						<th class="py-2 px-4">Status</th>
+						<th class="py-2 px-4">Ação</th>
+					</tr>
+				</thead>
+				<tbody>
+					@forelse($candidates as $candidate)
+						<tr class="border-b">
+							<td class="py-2 px-4">{{ $candidate->service->titulo ?? '-' }}</td>
+							<td class="py-2 px-4">{{ optional($candidate->freelancer)->name ?? '—' }}</td>
+							<td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $candidate->status)) }}</td>
+							<td class="py-2 px-4">
+								@if($candidate->status === 'pending' && optional($candidate->service)->status === 'published')
+									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn">Escolher</button>
+								@elseif($candidate->status === 'chosen')
+									<span class="text-green-600 font-semibold">Escolhido</span>
+								@elseif($candidate->status === 'rejected')
+									<span class="text-red-600">Rejeitado</span>
+								@else
+									<span class="text-gray-600">{{ ucfirst($candidate->status) }}</span>
+								@endif
+							</td>
+						</tr>
+					@empty
+						<tr><td colspan="4" class="text-center py-4 text-[#888]">Nenhum candidato encontrado.</td></tr>
+					@endforelse
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Mensagens Recentes -->
+
+
 </div>

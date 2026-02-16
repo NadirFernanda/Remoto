@@ -133,18 +133,13 @@ class PaymentEscrow extends Component
             $titulo = trim($titulo_cliente);
         } elseif (isset($briefing['title']) && is_string($briefing['title']) && trim($briefing['title']) !== '') {
             $titulo = trim($briefing['title']);
-        } elseif (is_array($briefing_processado) && isset($briefing_processado['business_type']) && trim($briefing_processado['business_type']) !== '') {
-            $titulo = $briefing_processado['business_type'];
         } else {
-            $titulo = 'Pedido sem título';
-            if (is_string($briefing_processado['texto'] ?? null)) {
-                if (preg_match('/Tipo de negócio: ([^\.]+)\./', $briefing_processado['texto'], $m)) {
-                    $titulo = trim($m[1]);
-                }
-            }
+            session()->flash('error', 'Título do pedido não encontrado. Volte e preencha o título corretamente.');
+            return redirect()->route('client.briefing');
         }
         if (!$titulo || $titulo === '') {
-            $titulo = 'Pedido sem título';
+            session()->flash('error', 'Título do pedido não encontrado. Volte e preencha o título corretamente.');
+            return redirect()->route('client.briefing');
         }
         // Limpa a sessão do título após uso
         session()->forget('briefing_title');
@@ -162,7 +157,8 @@ class PaymentEscrow extends Component
             'valor' => $this->valor,
             'taxa' => $this->taxa,
             'valor_liquido' => $this->valor_liquido,
-            'status' => 'aguardando',
+            // Use a status accepted by the DB enum (migration defines: published, accepted, in_progress, delivered, completed)
+            'status' => 'published',
         ]);
 
         // Notificação interna para freelancers ativos

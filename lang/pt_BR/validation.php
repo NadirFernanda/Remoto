@@ -11,5 +11,5 @@ return [
     'min' => [
         'string' => 'O campo :attribute deve ter pelo menos :min caracteres.',
     ],
-    'confirmed' => 'A confirmação do campo :attribute não confere.',
+    'confirmed' => 'A senha de confirmação deve ser igual à senha de cadastro.',
 ];

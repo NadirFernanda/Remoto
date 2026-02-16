@@ -16,10 +16,8 @@ Route::post('/login', function (Request $request) {
         $request->session()->regenerate();
         $user = Auth::user();
         if (method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
-            Auth::logout();
-            return back()->withErrors([
-                'email' => 'Você precisa verificar seu e-mail antes de acessar a plataforma.'
-            ]);
+            // Redireciona para tela OTP
+            return redirect()->route('otp.form');
         }
         if ($user->role === 'cliente') {
             return redirect()->intended('/cliente/dashboard');

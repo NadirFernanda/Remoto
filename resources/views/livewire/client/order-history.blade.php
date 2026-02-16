@@ -1,6 +1,6 @@
 <div class="p-6 bg-white rounded shadow max-w-3xl mx-auto mt-8">
     <a href="{{ route('client.dashboard') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-800 font-bold text-sm bg-white border border-cyan-100 rounded-full px-4 py-2 shadow transition mb-4">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-5 h-5'])
         Voltar
     </a>
     <h2 class="text-2xl font-bold mb-4">Histórico de Pedidos</h2>
