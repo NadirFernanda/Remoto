@@ -8,9 +8,10 @@
                     <img class="w-full h-full object-cover" src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
                 </div>
                 <div class="flex-1">
-                    <input type="file" wire:model="profilePhoto" accept="image/*">
+                    <input type="file" id="profilePhotoInput" wire:model="profilePhoto" accept="image/*" onchange="validateProfilePhoto(this)">
+                    <div id="profilePhotoError" class="text-red-600 text-sm mt-1"></div>
                     @error('profilePhoto') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                    <div class="text-xs text-gray-500 mt-1">Recomendado: rosto visível, sem logos; mínimo 200x200; jpg/png/webp; até 2MB.</div>
+                    <div class="text-xs text-gray-500 mt-1">Recomendado: rosto visível, sem logos; mínimo 200x200; jpg/png/webp; até 8MB.</div>
                     <div wire:loading wire:target="profilePhoto">Fazendo upload da foto...</div>
                 </div>
             </div>
@@ -119,10 +120,41 @@
 
         <div class="mt-4">
             <label class="block text-sm font-medium text-gray-700">Adicionar ao portfólio (múltiplo)</label>
-            <input type="file" wire:model="portfolioFiles" multiple class="block w-full">
+            <input type="file" id="portfolioFilesInput" wire:model="portfolioFiles" multiple class="block w-full" onchange="validatePortfolioFiles(this)">
+            <div id="portfolioFilesError" class="text-red-600 text-sm mt-1"></div>
             @error('portfolioFiles.*') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             <div wire:loading wire:target="portfolioFiles">Fazendo upload...</div>
         </div>
+
+        <script>
+            function bytesToMB(bytes) { return bytes / 1024 / 1024; }
+            function validateProfilePhoto(input) {
+                var errEl = document.getElementById('profilePhotoError');
+                errEl.textContent = '';
+                if (!input.files || !input.files[0]) return;
+                var f = input.files[0];
+                if (f.size > 8 * 1024 * 1024) {
+                    errEl.textContent = 'Arquivo muito grande. Máximo permitido: 8MB.';
+                    input.value = '';
+                    return false;
+                }
+                return true;
+            }
+            function validatePortfolioFiles(input) {
+                var errEl = document.getElementById('portfolioFilesError');
+                errEl.textContent = '';
+                if (!input.files || input.files.length === 0) return;
+                for (var i = 0; i < input.files.length; i++) {
+                    var f = input.files[i];
+                    if (f.size > 8 * 1024 * 1024) {
+                        errEl.textContent = 'Um dos arquivos é maior que 8MB. Remova arquivos grandes.';
+                        input.value = '';
+                        return false;
+                    }
+                }
+                return true;
+            }
+        </script>
 
         <div class="mt-6 action-row" role="toolbar" aria-label="Ações do perfil">
             <button type="submit" class="btn-eq btn-primary" aria-label="Salvar perfil">
