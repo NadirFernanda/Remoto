@@ -81,7 +81,7 @@ class ProfileEditor extends Component
             'metrics_completed_projects' => 'nullable|integer|min:0',
             'metrics_rating' => 'nullable|numeric|min:0|max:5',
             'metrics_total_earnings' => 'nullable|numeric|min:0',
-            'portfolioFiles.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4,zip|max:10240',
+            'portfolioFiles.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4,zip|max:8192',
         ];
     }
 
