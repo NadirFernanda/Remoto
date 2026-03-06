@@ -21,7 +21,7 @@
                     @endif
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
-                            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('build/img/default-avatar.png') }}';">
+                            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}';">
                             <span class="hidden md:inline text-sm">{{ auth()->user()->name }}</span>
                         </button>
                         <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">

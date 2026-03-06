@@ -49,7 +49,7 @@
                 <div class="mb-2 flex items-end {{ $msg->user_id === auth()->id() ? 'justify-end' : 'justify-start' }}">
                     @if($msg->user_id !== auth()->id())
                         <div class="w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
-                            <img src="{{ $msg->user ? $msg->user->avatarUrl() : asset('build/img/default-avatar.png') }}" alt="{{ $msg->user->name ?? 'User' }}" class="w-full h-full object-cover">
+                            <img src="{{ $msg->user ? $msg->user->avatarUrl() : asset('img/default-avatar.svg') }}" alt="{{ $msg->user->name ?? 'User' }}" class="w-full h-full object-cover">
                         </div>
                     @endif
                     <div class="px-4 py-2 rounded-lg
@@ -78,7 +78,7 @@
                     </div>
                     @if($msg->user_id === auth()->id())
                         <div class="w-8 h-8 rounded-full overflow-hidden ml-2 flex-shrink-0">
-                            <img src="{{ $msg->user ? $msg->user->avatarUrl() : asset('build/img/default-avatar.png') }}" alt="{{ $msg->user->name ?? 'You' }}" class="w-full h-full object-cover">
+                            <img src="{{ $msg->user ? $msg->user->avatarUrl() : asset('img/default-avatar.svg') }}" alt="{{ $msg->user->name ?? 'You' }}" class="w-full h-full object-cover">
                         </div>
                     @endif
                 </div>

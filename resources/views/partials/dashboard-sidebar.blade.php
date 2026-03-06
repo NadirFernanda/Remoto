@@ -1,7 +1,7 @@
 <div class="mb-6 px-2">
     @if(auth()->check())
         <div class="flex items-center gap-3 p-2 rounded bg-gray-50">
-            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="w-12 h-12 rounded-full object-cover" onerror="this.onerror=null;this.src='{{ asset('build/img/default-avatar.png') }}'">
+            <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="w-12 h-12 rounded-full object-cover" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
             <div>
                 <div class="font-semibold">{{ auth()->user()->name }}</div>
                 <div class="text-xs text-gray-500">{{ auth()->user()->email }}</div>

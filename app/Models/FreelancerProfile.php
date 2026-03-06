@@ -27,6 +27,6 @@ class FreelancerProfile extends Model
         if ($this->user && $this->user->profile_photo) {
             return \Illuminate\Support\Facades\Storage::url($this->user->profile_photo);
         }
-        return asset('build/img/default-avatar.png');
+        return asset('img/default-avatar.svg');
     }
 }

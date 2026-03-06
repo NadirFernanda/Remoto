@@ -1,11 +1,11 @@
-<div>
+  <div>
     <form wire:submit.prevent="saveProfile">
         {{-- User personal fields --}}
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Foto de perfil</label>
             <div class="flex items-center gap-4">
                 <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-100">
-                    <img class="w-full h-full object-cover" src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('build/img/default-avatar.png') }}" alt="Avatar">
+                    <img class="w-full h-full object-cover" src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
                 </div>
                 <div class="flex-1">
                     <input type="file" wire:model="profilePhoto" accept="image/*">
