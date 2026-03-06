@@ -65,7 +65,7 @@ class ProfileEditor extends Component
     protected function rules()
     {
         return [
-            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=200,min_height=200|max:2048',
+            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=200,min_height=200|max:8192',
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
