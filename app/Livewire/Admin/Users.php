@@ -5,7 +5,10 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
+use App\Models\KycSubmission;
 use App\Services\AuditLogger;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Users extends Component
 {
@@ -14,6 +17,10 @@ class Users extends Component
     public string $search      = '';
     public string $roleFilter  = '';
     public string $kycFilter   = '';
+
+    // KYC review modal
+    public ?int $reviewingSubmissionId = null;
+    public string $adminNotes = '';
 
     public function updatingSearch(): void    { $this->resetPage(); }
     public function updatingRoleFilter(): void { $this->resetPage(); }
@@ -44,6 +51,9 @@ class Users extends Component
         $user   = User::findOrFail($id);
         $before = ['kyc_status' => $user->kyc_status];
         $user->update(['kyc_status' => 'verified']);
+        // Also approve pending submission if exists
+        KycSubmission::where('user_id', $id)->where('status', 'pending')
+            ->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_verified', "KYC verificado para {$user->name} ({$user->email})", 'User', $id, $before, ['kyc_status' => 'verified']);
         session()->flash('success', 'KYC verificado.');
     }
@@ -53,13 +63,63 @@ class Users extends Component
         $user   = User::findOrFail($id);
         $before = ['kyc_status' => $user->kyc_status];
         $user->update(['kyc_status' => 'rejected']);
+        KycSubmission::where('user_id', $id)->where('status', 'pending')
+            ->update(['status' => 'rejected', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_rejected', "KYC rejeitado para {$user->name} ({$user->email})", 'User', $id, $before, ['kyc_status' => 'rejected']);
         session()->flash('success', 'KYC rejeitado.');
+    }
+
+    public function openKycReview(int $submissionId): void
+    {
+        $this->reviewingSubmissionId = $submissionId;
+        $this->adminNotes = '';
+    }
+
+    public function closeKycReview(): void
+    {
+        $this->reviewingSubmissionId = null;
+        $this->adminNotes = '';
+    }
+
+    public function approveKycSubmission(): void
+    {
+        $submission = KycSubmission::findOrFail($this->reviewingSubmissionId);
+        $submission->update([
+            'status'      => 'approved',
+            'admin_notes' => $this->adminNotes ?: null,
+            'reviewed_by' => Auth::id(),
+            'reviewed_at' => now(),
+        ]);
+        $submission->user->update(['kyc_status' => 'verified']);
+        AuditLogger::log('kyc_verified', "KYC aprovado para {$submission->user->name}", 'User', $submission->user_id);
+        $this->closeKycReview();
+        session()->flash('success', 'KYC aprovado com sucesso.');
+    }
+
+    public function rejectKycSubmission(): void
+    {
+        $submission = KycSubmission::findOrFail($this->reviewingSubmissionId);
+        $submission->update([
+            'status'      => 'rejected',
+            'admin_notes' => $this->adminNotes ?: null,
+            'reviewed_by' => Auth::id(),
+            'reviewed_at' => now(),
+        ]);
+        $submission->user->update(['kyc_status' => 'rejected']);
+        AuditLogger::log('kyc_rejected', "KYC rejeitado para {$submission->user->name}", 'User', $submission->user_id);
+        $this->closeKycReview();
+        session()->flash('success', 'KYC rejeitado.');
+    }
+
+    public function kycDocumentUrl(string $path): string
+    {
+        return Storage::disk('private')->url($path);
     }
 
     public function bulkVerifyKyc(): void
     {
         $count = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->update(['kyc_status' => 'verified']);
+        KycSubmission::where('status', 'pending')->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_bulk_verified', "KYC em lote: {$count} utilizadores verificados", 'User', null);
         session()->flash('success', "{$count} utilizadores verificados em lote.");
     }
@@ -77,8 +137,12 @@ class Users extends Component
             ->paginate(20);
 
         $pendingKyc = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count();
+        $pendingSubmissions = KycSubmission::with('user')->where('status', 'pending')->latest()->get();
+        $reviewingSubmission = $this->reviewingSubmissionId
+            ? KycSubmission::with('user')->find($this->reviewingSubmissionId)
+            : null;
 
-        return view('livewire.admin.users', compact('users', 'pendingKyc'))
+        return view('livewire.admin.users', compact('users', 'pendingKyc', 'pendingSubmissions', 'reviewingSubmission'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Utilizadores']);
     }
 }

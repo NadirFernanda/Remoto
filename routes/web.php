@@ -98,6 +98,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/freelancer/perfil/editar', \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
     Route::get('/freelancer/portfolio', \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
     Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
+    Route::get('/kyc', \App\Livewire\KycForm::class)->name('kyc.submit');
 
     // --- Client routes ---
     Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');

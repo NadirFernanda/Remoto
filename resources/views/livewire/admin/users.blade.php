@@ -13,12 +13,114 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
             </svg>
             <span class="text-yellow-800 font-medium">{{ $pendingKyc }} utilizador(es) com KYC pendente</span>
-            <button wire:click="bulkVerifyKyc"
-                wire:confirm="Verificar todos os {{ $pendingKyc }} utilizadores com KYC pendente?"
-                class="ml-auto btn-primary text-xs">
-                Verificar todos em lote
-            </button>
-            <button wire:click="$set('kycFilter', 'pending')" class="btn-outline text-xs">Ver pendentes</button>
+            <button wire:click="$set('kycFilter', 'pending')" class="ml-auto btn-outline text-xs">Ver pendentes</button>
+        </div>
+    @endif
+
+    {{-- Pending KYC Submissions --}}
+    @if($pendingSubmissions->count() > 0)
+        <div class="mb-6">
+            <h2 class="text-base font-semibold text-gray-700 mb-3">📋 Documentos KYC aguardando revisão ({{ $pendingSubmissions->count() }})</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Utilizador</th>
+                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Tipo</th>
+                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Submetido</th>
+                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pendingSubmissions as $sub)
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-2 px-4 font-medium">{{ $sub->user->name }}<br><span class="text-xs text-gray-400">{{ $sub->user->email }}</span></td>
+                                <td class="py-2 px-4">{{ match($sub->document_type) { 'bi' => 'Bilhete de Identidade', 'passport' => 'Passaporte', 'driving_license' => 'Carta de condução', default => $sub->document_type } }}</td>
+                                <td class="py-2 px-4 text-gray-500">{{ $sub->created_at->format('d/m/Y H:i') }}</td>
+                                <td class="py-2 px-4">
+                                    <button wire:click="openKycReview({{ $sub->id }})"
+                                        class="px-3 py-1 text-xs bg-[#00baff] text-white rounded-lg hover:bg-[#009ad6] transition font-semibold">
+                                        Rever documentos
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    {{-- KYC Review Modal --}}
+    @if($reviewingSubmission)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between p-5 border-b">
+                    <h3 class="text-lg font-bold">Revisão KYC — {{ $reviewingSubmission->user->name }}</h3>
+                    <button wire:click="closeKycReview" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+                </div>
+                <div class="p-5 space-y-4">
+                    <p class="text-sm text-gray-500">Tipo: <strong>{{ match($reviewingSubmission->document_type) { 'bi' => 'Bilhete de Identidade', 'passport' => 'Passaporte', 'driving_license' => 'Carta de condução', default => $reviewingSubmission->document_type } }}</strong></p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 mb-1 uppercase">Frente do documento</p>
+                            <a href="{{ $this->kycDocumentUrl($reviewingSubmission->document_front_path) }}" target="_blank"
+                                class="block border rounded-lg overflow-hidden hover:opacity-80 transition">
+                                @if(str_ends_with(strtolower($reviewingSubmission->document_front_path), '.pdf'))
+                                    <div class="p-4 bg-gray-50 text-center text-sm text-gray-600">📄 PDF — Clique para abrir</div>
+                                @else
+                                    <img src="{{ $this->kycDocumentUrl($reviewingSubmission->document_front_path) }}" class="w-full object-cover max-h-48" alt="Frente">
+                                @endif
+                            </a>
+                        </div>
+                        @if($reviewingSubmission->document_back_path)
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 mb-1 uppercase">Verso do documento</p>
+                                <a href="{{ $this->kycDocumentUrl($reviewingSubmission->document_back_path) }}" target="_blank"
+                                    class="block border rounded-lg overflow-hidden hover:opacity-80 transition">
+                                    @if(str_ends_with(strtolower($reviewingSubmission->document_back_path), '.pdf'))
+                                        <div class="p-4 bg-gray-50 text-center text-sm text-gray-600">📄 PDF — Clique para abrir</div>
+                                    @else
+                                        <img src="{{ $this->kycDocumentUrl($reviewingSubmission->document_back_path) }}" class="w-full object-cover max-h-48" alt="Verso">
+                                    @endif
+                                </a>
+                            </div>
+                        @endif
+                        @if($reviewingSubmission->selfie_path)
+                            <div class="md:col-span-2">
+                                <p class="text-xs font-semibold text-gray-500 mb-1 uppercase">Selfie com documento</p>
+                                <a href="{{ $this->kycDocumentUrl($reviewingSubmission->selfie_path) }}" target="_blank"
+                                    class="block border rounded-lg overflow-hidden hover:opacity-80 transition">
+                                    <img src="{{ $this->kycDocumentUrl($reviewingSubmission->selfie_path) }}" class="w-full object-cover max-h-48" alt="Selfie">
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Notas / motivo (opcional)</label>
+                        <textarea wire:model="adminNotes" rows="2" placeholder="Ex: documento ilegível, expirado, etc."
+                            class="block w-full rounded-lg border border-gray-200 py-2 px-3 text-sm"></textarea>
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button wire:click="approveKycSubmission"
+                            wire:confirm="Aprovar o KYC de {{ $reviewingSubmission->user->name }}?"
+                            class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition text-sm">
+                            ✓ Aprovar
+                        </button>
+                        <button wire:click="rejectKycSubmission"
+                            wire:confirm="Rejeitar o KYC de {{ $reviewingSubmission->user->name }}?"
+                            class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded-lg transition text-sm">
+                            ✗ Rejeitar
+                        </button>
+                        <button wire:click="closeKycReview" class="px-4 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     @endif
 

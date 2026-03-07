@@ -32,6 +32,14 @@ class Onboarding extends Component
                 'link'  => route('freelancer.profile.edit'),
             ],
             [
+                'key'   => 'kyc',
+                'icon'  => 'shield',
+                'label' => 'Verificar identidade (KYC)',
+                'descr' => 'Envie o seu documento de identificação para desbloquear serviços',
+                'done'  => $user->kyc_status === 'verified',
+                'link'  => route('kyc.submit'),
+            ],
+            [
                 'key'   => 'financeiro',
                 'icon'  => 'wallet',
                 'label' => 'Conferir painel financeiro',
