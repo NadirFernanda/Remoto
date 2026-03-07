@@ -70,6 +70,6 @@ class FreelancerMatching extends Component
         return view('livewire.client.freelancer-matching', [
             'suggestions' => $suggestions,
             'hasMore'     => $hasMore,
-        ])->layout('layouts.main');
+        ])->layout('layouts.livewire');
     }
 }
