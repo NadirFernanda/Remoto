@@ -10,7 +10,7 @@
             </div>
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Tipo de serviço</label>
-                <select wire:model.defer="business_type1" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
+                <select wire:model="business_type1" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
                     <option value="">Selecione o tipo de serviço</option>
                     <option value="Desenvolvimento de sites e sistemas web">Desenvolvimento de sites e sistemas web</option>
                     <option value="Criação de lojas virtuais (e-commerce)">Criação de lojas virtuais (e-commerce)</option>
