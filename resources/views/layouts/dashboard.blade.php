@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex min-h-screen bg-gray-50">
-    <aside class="w-80 bg-white border-r border-gray-200 flex flex-col py-8 px-6">
+    <aside class="w-64 bg-white border-r border-gray-100 flex flex-col shadow-sm" style="min-height:100vh">
         @include('partials.dashboard-sidebar')
     </aside>
 
