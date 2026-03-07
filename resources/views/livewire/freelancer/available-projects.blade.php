@@ -14,26 +14,8 @@
             {{ session('info') }}
         </div>
     @endif
-    <div class="flex min-h-screen bg-gray-50">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r border-gray-200 flex flex-col py-8 px-4">
-            <div class="mb-8">
-                <div class="w-20 h-20 rounded-full bg-[#F5F7FA] mx-auto flex items-center justify-center text-3xl font-bold text-[#00B6E6]">{{ strtoupper(optional(auth()->user())->name[0] ?? 'F') }}</div>
-                <div class="text-center mt-2 font-semibold text-[#222]">{{ optional(auth()->user())->name ?? 'Freelancer' }}</div>
-                <div class="text-center text-xs text-[#888]">{{ optional(auth()->user())->email ?? '' }}</div>
-            </div>
-            <nav class="flex flex-col gap-2">
-                <a href="{{ route('freelancer.dashboard') }}" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Dashboard</a>
-                <a href="{{ route('freelancer.available-projects') }}" class="py-2 px-4 rounded bg-cyan-100 text-cyan-700 font-bold">Projetos Disponíveis</a>
-                <a href="#" class="py-2 px-4 rounded hover:bg-[#F5F7FA] text-[#222] font-medium">Histórico</a>
-                <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                    @csrf
-                    <button type="submit" class="btn-primary w-full" style="margin-top: 0.5rem;">Sair</button>
-                </form>
-            </nav>
-        </aside>
-        <!-- Main Content -->
-        <main class="flex-1 p-8">
+    <div class="min-h-screen bg-gray-50">
+        <main class="max-w-6xl mx-auto p-8">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-cyan-600">Projetos Disponíveis</h2>
