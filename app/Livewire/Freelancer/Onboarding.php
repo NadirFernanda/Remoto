@@ -32,14 +32,6 @@ class Onboarding extends Component
                 'link'  => route('freelancer.profile.edit'),
             ],
             [
-                'key'   => 'portfolio',
-                'icon'  => 'image',
-                'label' => 'Adicionar portfólio',
-                'descr' => 'Mostre seus trabalhos anteriores',
-                'done'  => $user->portfolios()->count() > 0,
-                'link'  => route('freelancer.portfolio'),
-            ],
-            [
                 'key'   => 'kyc',
                 'icon'  => 'shield',
                 'label' => 'Verificar identidade (KYC)',
@@ -47,7 +39,6 @@ class Onboarding extends Component
                 'done'  => $profile && $profile->kyc_status === 'verified',
                 'link'  => route('freelancer.settings'),
             ],
-
             [
                 'key'   => 'financeiro',
                 'icon'  => 'wallet',

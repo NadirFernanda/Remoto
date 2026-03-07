@@ -54,12 +54,6 @@
             </div>
         </div>
 
-        <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700">Sobre / Bio</label>
-            <textarea wire:model.defer="bio" rows="3" class="block w-full rounded-lg border border-gray-200 py-2 px-3"></textarea>
-            @error('bio') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-        </div>
-
         {{-- Professional fields --}}
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

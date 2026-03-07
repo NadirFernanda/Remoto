@@ -33,7 +33,6 @@ class ProfileEditor extends Component
     public $email;
     public $phone;
     public $location;
-    public $bio;
     // metrics
     public $metrics_completed_projects;
     public $metrics_rating;
@@ -48,7 +47,6 @@ class ProfileEditor extends Component
         $this->email = $user->email;
         $this->phone = $user->phone;
         $this->location = $user->location;
-        $this->bio = $user->bio;
         $profile = $user->freelancerProfile;
         if ($profile) {
             $this->headline = $profile->headline;
@@ -74,7 +72,6 @@ class ProfileEditor extends Component
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
-            'bio' => 'nullable|string|max:5000',
             'headline' => 'nullable|string|max:120',
             'summary' => 'nullable|string|max:5000',
             'hourly_rate' => 'nullable|numeric|min:0',
@@ -99,7 +96,6 @@ class ProfileEditor extends Component
             'email' => $this->email,
             'phone' => $this->phone,
             'location' => $this->location,
-            'bio' => $this->bio,
         ]);
 
         // handle profile photo upload
