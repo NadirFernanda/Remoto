@@ -102,7 +102,7 @@
                         $thumb = is_array($briefing) ? ($briefing['thumbnail'] ?? null) : null;
                         $statusClass = $statusColors[$project->status] ?? 'bg-gray-100 text-gray-600';
                     @endphp
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group relative">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group relative flex flex-col">
                         @if($thumb && file_exists(public_path('img/' . $thumb)))
                             <a href="{{ route('public.project.show', $project->id) }}" class="block">
                                 <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" class="w-full h-40 object-cover">
@@ -113,7 +113,7 @@
                             </div>
                         @endif
 
-                        <div class="p-5">
+                        <div class="p-5 flex flex-col flex-1">
                             <a href="{{ route('public.project.show', $project->id) }}" class="block">
                                 <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-[#00baff] transition">{{ $project->titulo }}</h3>
                             </a>
@@ -134,13 +134,12 @@
                                 @endif
                             </div>
 
-                            <div class="flex items-center justify-between pt-3 border-t border-gray-50">
-                                <span class="text-lg font-extrabold text-[#00baff]">Kz {{ number_format($project->valor, 2, ',', '.') }}</span>
-                                <span class="text-xs text-gray-400">{{ $project->created_at->format('d/m/Y') }}</span>
-                            </div>
-
-                            <div class="mt-4 flex gap-2">
-                                <a href="{{ route('public.project.show', $project->id) }}" class="flex-1 text-center bg-[#00baff] text-white font-bold py-2 rounded-lg hover:bg-[#009ad6] transition text-sm">Ver detalhes</a>
+                            <div class="mt-auto">
+                                <div class="flex items-center justify-between pt-3 border-t border-gray-100 mb-4">
+                                    <span class="text-lg font-extrabold text-[#00baff]">Kz {{ number_format($project->valor, 2, ',', '.') }}</span>
+                                    <span class="text-xs text-gray-400">{{ $project->created_at->format('d/m/Y') }}</span>
+                                </div>
+                                <a href="{{ route('public.project.show', $project->id) }}" class="block w-full text-center bg-[#00baff] text-white font-bold py-2.5 rounded-lg hover:bg-[#009ad6] transition text-sm">Ver detalhes</a>
                             </div>
                         </div>
                     </div>
