@@ -85,10 +85,6 @@
                     @if(isset($briefingArray['title']))<div><b>Título:</b> {{ $briefingArray['title'] }}</div>@endif
                     @if(isset($briefingArray['business_type']))<div><b>Tipo de negócio:</b> {{ $briefingArray['business_type'] }}</div>@endif
                     @if(isset($briefingArray['necessity']))<div><b>Necessidade:</b> {{ $briefingArray['necessity'] }}</div>@endif
-                    @if(isset($briefingArray['target_audience']))<div><b>Público-alvo:</b> {{ $briefingArray['target_audience'] }}</div>@endif
-                    @if(isset($briefingArray['style']))<div><b>Estilo:</b> {{ $briefingArray['style'] }}</div>@endif
-                    @if(isset($briefingArray['colors']))<div><b>Cores:</b> {{ $briefingArray['colors'] }}</div>@endif
-                    @if(isset($briefingArray['usage']))<div><b>Uso:</b> {{ $briefingArray['usage'] }}</div>@endif
                 @else
                     {{ $briefing }}
                 @endif

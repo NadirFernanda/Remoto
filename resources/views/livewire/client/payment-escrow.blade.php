@@ -81,10 +81,6 @@
             @php($b = $order['briefing_raw'] ?? [])
             <p class="mb-1"><span class="font-semibold">Tipo de negócio:</span> {{ $b['business_type'] ?? '-' }}</p>
             <p class="mb-1"><span class="font-semibold">Necessidade:</span> {{ $b['necessity'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Público-alvo:</span> {{ $b['target_audience'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Estilo:</span> {{ $b['style'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Cores:</span> {{ $b['colors'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Uso:</span> {{ $b['usage'] ?? '-' }}</p>
         </div>
     </div>
 </div>

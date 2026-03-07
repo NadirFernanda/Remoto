@@ -29,10 +29,6 @@
                     'title' => 'Título',
                     'business_type' => 'Tipo de negócio',
                     'necessity' => 'Necessidade',
-                    'target_audience' => 'Público-alvo',
-                    'style' => 'Estilo',
-                    'colors' => 'Cores',
-                    'usage' => 'Uso',
                 ];
             @endphp
             <ul class="list-disc ml-6 text-gray-700 mt-2">

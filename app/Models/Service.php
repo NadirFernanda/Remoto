@@ -13,13 +13,9 @@ class Service extends Model
     protected $fillable = [
         'cliente_id',
         'freelancer_id',
-        'titulo',
-        'briefing',
-        'valor',
-        'taxa',
-        'valor_liquido',
-        'status',
-        'is_payment_released',
+        'title',
+        'business_type',
+        'necessity',
         'payment_released_at',
     ];
 

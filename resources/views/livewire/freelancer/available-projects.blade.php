@@ -126,12 +126,7 @@
                                 <p class="line-clamp-3 leading-relaxed">{{ $briefingTexto }}</p>
                             </div>
 
-                            @if($publicoAlvo)
-                                <div class="mt-2 text-[11px] text-gray-500">
-                                    <span class="font-semibold text-gray-700">Público-alvo:</span>
-                                    <span>{{ $publicoAlvo }}</span>
-                                </div>
-                            @endif
+                            {{-- Público-alvo removido --}}
                         </div>
 
                         <div class="mt-5 flex flex-col gap-2">

@@ -48,22 +48,6 @@
                 <input type="text" wire:model.defer="necessity1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Necessidade específica">
             </div>
             <div class="mb-4">
-                <label class="block font-semibold mb-2">Público-alvo</label>
-                <input type="text" wire:model.defer="target_audience1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Público-alvo único">
-            </div>
-            <div class="mb-4">
-                <label class="block font-semibold mb-2">Estilo desejado</label>
-                <input type="text" wire:model.defer="style1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Estilo único desejado">
-            </div>
-            <div class="mb-4">
-                <label class="block font-semibold mb-2">Cores preferidas</label>
-                <input type="text" wire:model.defer="colors1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Cores preferidas únicas">
-            </div>
-            <div class="mb-4">
-                <label class="block font-semibold mb-2">Onde será utilizado?</label>
-                <input type="text" wire:model.defer="usage" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Ex: Website, redes sociais, etc.">
-            </div>
-            <div class="mb-4">
                 <button type="button" wire:click="generateDescription" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full mb-2">Gerar descrição inteligente</button>
             </div>
             @if($generated_description)

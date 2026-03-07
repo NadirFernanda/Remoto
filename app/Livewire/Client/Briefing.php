@@ -12,10 +12,6 @@ class Briefing extends Component
     public $business_type1 = null;
     public $business_type1_outro = null;
     public $necessity1 = null;
-    public $target_audience1 = null;
-    public $style1 = null;
-    public $colors1 = null;
-    public $usage = null;
     public int $step = 1;
     public $edit = null;
     public $generated_description = '';
@@ -25,10 +21,6 @@ class Briefing extends Component
             'title' => $this->title1,
             'business_type' => $this->business_type1 === 'Outro' ? $this->business_type1_outro : $this->business_type1,
             'necessity' => $this->necessity1,
-            'target_audience' => $this->target_audience1,
-            'style' => $this->style1,
-            'colors' => $this->colors1,
-            'usage' => $this->usage,
         ];
         $this->generated_description = BriefingTextGenerator::generate($briefingData);
     }
@@ -40,10 +32,6 @@ class Briefing extends Component
         $this->business_type1 = (string) $this->business_type1;
         $this->business_type1_outro = (string) $this->business_type1_outro;
         $this->necessity1 = (string) $this->necessity1;
-        $this->target_audience1 = (string) $this->target_audience1;
-        $this->style1 = (string) $this->style1;
-        $this->colors1 = (string) $this->colors1;
-        $this->usage = (string) $this->usage;
         $this->step++;
     }
 
@@ -58,10 +46,6 @@ class Briefing extends Component
             'title1' => 'required|max:100',
             'business_type1' => 'required|max:100',
             'necessity1' => 'required|max:100',
-            'target_audience1' => 'required|max:100',
-            'style1' => 'required|max:100',
-            'colors1' => 'required|max:100',
-            'usage' => 'required|max:100',
         ];
         if ($this->business_type1 === 'Outro') {
             $rules['business_type1_outro'] = 'required|max:100';
