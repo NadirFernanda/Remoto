@@ -21,9 +21,9 @@
                     <input type="text" wire:model.defer="title1" maxlength="100" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('title1') border-red-500 @enderror" placeholder="Título único do pedido">
                     @error('title1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
-                <div class="mb-4">
+                <div class="mb-4" x-data="{ isOutro: {{ $business_type1 === 'Outro' ? 'true' : 'false' }} }">
                     <label class="block font-semibold mb-2">Tipo de serviço</label>
-                    <select wire:model="business_type1" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
+                    <select wire:model="business_type1" @change="isOutro = $event.target.value === 'Outro'" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
                         <option value="">Selecione o tipo de serviço</option>
                         <option value="Desenvolvimento de sites e sistemas web">Desenvolvimento de sites e sistemas web</option>
                         <option value="Criação de lojas virtuais (e-commerce)">Criação de lojas virtuais (e-commerce)</option>
@@ -52,13 +52,11 @@
                         <option value="Criação de campanhas de e-mail marketing">Criação de campanhas de e-mail marketing</option>
                         <option value="Outro">Outro</option>
                     </select>
-                    @if($business_type1 === 'Outro')
-                        <div class="mt-4" wire:key="outro-field">
-                            <label class="block font-semibold mb-2">Descreva o tipo de serviço</label>
-                            <input type="text" wire:model="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('business_type1_outro') border-red-500 @enderror" placeholder="Descreva o tipo de serviço">
-                            @error('business_type1_outro')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                        </div>
-                    @endif
+                    <div x-show="isOutro" x-transition class="mt-3">
+                        <label class="block font-semibold mb-2">Descreva o tipo de serviço</label>
+                        <input type="text" wire:model="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('business_type1_outro') border-red-500 @enderror" placeholder="Descreva o tipo de serviço">
+                        @error('business_type1_outro')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                    </div>
                 </div>
                 <div class="mb-4">
                     <label class="block font-semibold mb-2">Qual é a sua necessidade? <span class="text-red-500">*</span></label>
