@@ -12,7 +12,7 @@ class ServicePolicy
      */
     public function cancel(User $user, Service $service)
     {
-        return $user->id === $service->cliente_id && $user->role === 'client';
+        return $user->id === $service->cliente_id && in_array($user->activeRole(), ['client', 'cliente']);
     }
 
     /**
@@ -20,11 +20,11 @@ class ServicePolicy
      */
     public function accept(User $user, Service $service)
     {
-        return $user->role === 'freelancer' && $user->id !== $service->cliente_id;
+        return $user->activeRole() === 'freelancer' && $user->id !== $service->cliente_id;
     }
 
     public function refuse(User $user, Service $service)
     {
-        return $user->role === 'freelancer' && $user->id !== $service->cliente_id;
+        return $user->activeRole() === 'freelancer' && $user->id !== $service->cliente_id;
     }
 }

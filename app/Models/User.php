@@ -93,6 +93,35 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    /**
+     * Get the active role (session-based switch or DB role).
+     * Allows toggling between 'cliente' and 'freelancer' without changing DB.
+     */
+    public function activeRole(): string
+    {
+        $sessionRole = session('active_role');
+        if ($sessionRole && in_array($sessionRole, ['cliente', 'freelancer'])) {
+            return $sessionRole;
+        }
+        return $this->role;
+    }
+
+    /**
+     * Check if the user can switch roles (not admin).
+     */
+    public function canSwitchRole(): bool
+    {
+        return in_array($this->role, ['cliente', 'freelancer']);
+    }
+
+    /**
+     * Get the opposite role for switching.
+     */
+    public function switchableRole(): string
+    {
+        return $this->activeRole() === 'freelancer' ? 'cliente' : 'freelancer';
+    }
+
     public function avatarUrl()
     {
         if ($this->profile_photo) {

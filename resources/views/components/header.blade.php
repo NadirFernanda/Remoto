@@ -16,8 +16,17 @@
                 <a href="/register" class="nav-link btn-primary ml-3">Cadastro</a>
             @else
                 <div class="flex items-center gap-3 ml-6">
-                    @if(auth()->user()->role !== 'freelancer')
+                    @if(auth()->user()->activeRole() !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
+                    @endif
+                    @if(auth()->user()->canSwitchRole())
+                        <form method="POST" action="{{ route('switch.role') }}" class="inline">
+                            @csrf
+                            <button type="submit" class="nav-link flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition" title="Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                                <span class="text-xs font-semibold">{{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}</span>
+                            </button>
+                        </form>
                     @endif
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
@@ -25,12 +34,12 @@
                             <span class="hidden md:inline text-sm">{{ auth()->user()->name }}</span>
                         </button>
                         <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
-                            @if(in_array(auth()->user()->role, ['cliente','client']))
+                            @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
                                 <a href="{{ route('client.profile') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Meu perfil</a>
                             @else
                                 <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Meu perfil</a>
                             @endif
-                            @if(auth()->user()->role === 'freelancer')
+                            @if(auth()->user()->activeRole() === 'freelancer')
                                 <a href="{{ route('freelancer.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
                             @endif
                             <a href="{{ route('freelancer.notifications') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Notificações</a>
@@ -71,8 +80,16 @@
                     </div>
                 </div>
                 <a href="{{ route('profile.edit') }}" class="nav-link">Meu perfil</a>
-                @if(auth()->user()->role === 'freelancer')
+                @if(auth()->user()->activeRole() === 'freelancer')
                     <a href="{{ route('freelancer.dashboard') }}" class="nav-link">Dashboard</a>
+                @endif
+                @if(auth()->user()->canSwitchRole())
+                    <form method="POST" action="{{ route('switch.role') }}">
+                        @csrf
+                        <button type="submit" class="nav-link text-left text-cyan-400">
+                            Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}
+                        </button>
+                    </form>
                 @endif
                 <a href="{{ route('freelancer.notifications') }}" class="nav-link">Notificações</a>
                 <form method="POST" action="{{ route('logout') }}">

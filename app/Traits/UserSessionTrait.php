@@ -14,18 +14,18 @@ trait UserSessionTrait
     public function isFreelancer()
     {
         $user = $this->getCurrentUser();
-        return $user && $user->role === 'freelancer';
+        return $user && $user->activeRole() === 'freelancer';
     }
 
     public function isCliente()
     {
         $user = $this->getCurrentUser();
-        return $user && $user->role === 'cliente';
+        return $user && $user->activeRole() === 'cliente';
     }
 
     public function isAdmin()
     {
         $user = $this->getCurrentUser();
-        return $user && $user->role === 'admin';
+        return $user && $user->activeRole() === 'admin';
     }
 }

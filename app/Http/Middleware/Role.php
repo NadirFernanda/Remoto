@@ -10,7 +10,7 @@ class Role
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        if (!Auth::check() || Auth::user()->role !== $role) {
+        if (!Auth::check() || Auth::user()->activeRole() !== $role) {
             abort(403, 'Acesso não autorizado.');
         }
         return $next($request);

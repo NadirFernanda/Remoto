@@ -17,7 +17,7 @@ Route::get('/', function () {
 // Dashboard redirect based on role
 Route::get('/dashboard', function () {
     $user = auth()->user();
-    return match ($user->role) {
+    return match ($user->activeRole()) {
         'freelancer' => redirect()->route('freelancer.dashboard'),
         'admin' => redirect()->route('admin.dashboard'),
         default => redirect()->route('client.dashboard'),
@@ -45,6 +45,18 @@ Route::post('/email/verification-notification', function () {
 
 // --- Authenticated routes ---
 Route::middleware('auth')->group(function () {
+
+    // Role switching (cliente <-> freelancer)
+    Route::post('/switch-role', function () {
+        $user = auth()->user();
+        if (!$user->canSwitchRole()) {
+            abort(403);
+        }
+        $newRole = $user->switchableRole();
+        session(['active_role' => $newRole]);
+        $dashboard = $newRole === 'freelancer' ? '/freelancer/dashboard' : '/cliente/dashboard';
+        return redirect($dashboard);
+    })->name('switch.role');
 
     // Profile
     Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
