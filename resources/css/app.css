@@ -33,7 +33,7 @@ body{
     color:var(--text-strong);
 }
 
-.site-header{background: rgba(2,6,23,0.6); border-bottom:1px solid rgba(255,255,255,0.04); backdrop-filter: blur(6px); padding-top:1rem; padding-bottom:1rem;}
+.site-header{background: transparent; border-bottom:none; backdrop-filter: none; padding-top:1rem; padding-bottom:1rem;}
 .logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
 
@@ -42,7 +42,7 @@ body{
 .header-container{ align-items:center; }
 .site-header .site-logo{ filter: none; }
 
-.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: rgba(2,6,23,0.55); }
+.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: transparent; }
 .site-header.site-header-compact .site-logo{ height:48px; max-height:64px; }
 .site-logo-compact{ height:48px; max-height:64px; }
 
