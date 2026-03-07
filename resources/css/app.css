@@ -1,3 +1,20 @@
+/* Botões de ação quadrados e centralizados */
+.action-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+}
+/* Remove texto dos botões de ação quadrados */
+.action-icon span, .action-icon .action-label { display: none !important; }
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';

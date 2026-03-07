@@ -29,8 +29,12 @@
             </div>
             <div class="text-right flex flex-col items-end gap-2">
                 <div class="flex items-center gap-2">
-                    <a href="#report" class="btn-outline">Reportar</a>
-                    <button onclick="Livewire.emit('openProposal', {{ $user->id }})" class="px-3 py-1.5 text-sm rounded-full bg-blue-600 text-white hover:bg-blue-700">Enviar proposta</button>
+                    <a href="#report" class="btn-outline action-icon" title="Reportar" aria-label="Reportar">
+                        @include('components.icon', ['name' => 'flag', 'class' => 'w-5 h-5'])
+                    </a>
+                    <button onclick="Livewire.emit('openProposal', {{ $user->id }})" class="btn-primary action-icon" title="Enviar proposta" aria-label="Enviar proposta">
+                        @include('components.icon', ['name' => 'send', 'class' => 'w-5 h-5'])
+                    </button>
                 </div>
                 @livewire('client.send-proposal')
             </div>

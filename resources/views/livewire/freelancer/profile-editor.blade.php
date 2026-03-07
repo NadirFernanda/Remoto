@@ -158,15 +158,12 @@
             }
         </script>
 
-        <div class="mt-6 action-row" role="toolbar" aria-label="Ações do perfil">
-            <button type="submit" class="btn-eq btn-primary" aria-label="Salvar perfil">
-                    @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
-                <span>Salvar perfil</span>
+        <div class="mt-6 action-row" role="toolbar" aria-label="Ações do perfil" style="gap: 0.5rem;">
+            <button type="submit" class="btn-eq btn-primary action-icon" aria-label="Salvar perfil">
+                @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
             </button>
-
-            <button type="button" class="btn-eq btn-outline" wire:click.prevent="$emit('refresh')" aria-label="Cancelar edição">
-                    @include('components.icon', ['name' => 'close', 'class' => 'h-4 w-4'])
-                <span>Cancelar</span>
+            <button type="button" class="btn-eq btn-outline action-icon" wire:click.prevent="$emit('refresh')" aria-label="Cancelar edição">
+                @include('components.icon', ['name' => 'close', 'class' => 'h-4 w-4'])
             </button>
         </div>
     </form>

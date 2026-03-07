@@ -60,26 +60,17 @@
 							<td class="py-2 px-4">{{ money_aoa($order->valor) }}</td>
 							<td class="py-2 px-4">{{ $order->created_at->format('d/m/Y') }}</td>
 							<td>
-								<div class="table-actions" role="group" aria-label="Ações do pedido">
-									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-										<a href="{{ route('client.service.cancel', $order->id) }}" class="action-btn" title="Ver detalhes" aria-label="Ver detalhes do pedido {{ $order->id }}">
-											@include('components.icon', ['name' => 'eye', 'class' => 'w-5 h-5'])
-										</a>
-										<span class="action-label">Detalhes</span>
-									</div>
-									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-										<a href="{{ route('service.chat', ['service' => $order->id]) }}" class="action-btn relative" title="Abrir chat" aria-label="Abrir chat do pedido {{ $order->id }}">
-											@include('components.icon', ['name' => 'chat', 'class' => 'w-5 h-5'])
-											@livewire('chat.chat-badge', ['serviceId' => $order->id], key('chat-badge-'.$order->id))
-										</a>
-										<span class="action-label">Chat</span>
-									</div>
-									<div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-										<button wire:click="colocarEmModeracao({{ $order->id }})" class="action-btn" title="Colocar em moderação" aria-label="Colocar pedido {{ $order->id }} em moderação">
-											@include('components.icon', ['name' => 'close', 'class' => 'w-5 h-5'])
-										</button>
-										<span class="action-label">Enviar para Moderação</span>
-									</div>
+								<div class="table-actions" role="group" aria-label="Ações do pedido" style="display: flex; gap: 0.5rem;">
+									<a href="{{ route('client.service.cancel', $order->id) }}" class="action-btn action-icon" title="Ver detalhes" aria-label="Ver detalhes do pedido {{ $order->id }}">
+										@include('components.icon', ['name' => 'eye', 'class' => 'w-5 h-5'])
+									</a>
+									<a href="{{ route('service.chat', ['service' => $order->id]) }}" class="action-btn action-icon relative" title="Abrir chat" aria-label="Abrir chat do pedido {{ $order->id }}">
+										@include('components.icon', ['name' => 'chat', 'class' => 'w-5 h-5'])
+										@livewire('chat.chat-badge', ['serviceId' => $order->id], key('chat-badge-'.$order->id))
+									</a>
+									<button wire:click="colocarEmModeracao({{ $order->id }})" class="action-btn action-icon" title="Colocar em moderação" aria-label="Colocar pedido {{ $order->id }} em moderação">
+										@include('components.icon', ['name' => 'close', 'class' => 'w-5 h-5'])
+									</button>
 								</div>
 							</td>
 						</tr>
@@ -112,7 +103,9 @@
 							<td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $candidate->status)) }}</td>
 							<td class="py-2 px-4">
 								@if($candidate->status === 'pending' && optional($candidate->service)->status === 'published')
-									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn">Escolher</button>
+									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn action-icon" title="Escolher freelancer" aria-label="Escolher freelancer">
+										@include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
+									</button>
 								@elseif($candidate->status === 'chosen')
 									<span class="text-green-600 font-semibold">Escolhido</span>
 								@elseif($candidate->status === 'rejected')
