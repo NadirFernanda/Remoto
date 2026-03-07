@@ -22,7 +22,8 @@ class ServiceReview extends Component
     {
         $user = Auth::user();
         if (!$user || !$user->can('accept', $this->service)) {
-            throw new \Exception('Ação não permitida. Você não pode aceitar este serviço.');
+            session()->flash('error', 'Você não tem permissão para aceitar este serviço.');
+            return;
         }
         // Não altera status do serviço, apenas cadastra candidatura
         \Log::debug('CANDIDATURA SERVIÇO: freelancer_id', [
@@ -48,7 +49,8 @@ class ServiceReview extends Component
     {
         $user = Auth::user();
         if (!$user || !$user->can('refuse', $this->service)) {
-            throw new \Exception('Ação não permitida. Você não pode recusar este serviço.');
+            session()->flash('error', 'Você não tem permissão para recusar este serviço.');
+            return;
         }
         $this->service->status = 'published'; // Ou lógica de recusa
         $this->service->freelancer_id = null;

@@ -15,9 +15,11 @@ class AvailableProjects extends Component
 
     public function mount()
     {
-        // Exibe apenas projetos publicados e ainda não aceitos por nenhum freelancer
+        $userId = auth()->id();
+        // Exibe apenas projetos publicados, sem freelancer, que o próprio usuário NÃO criou
         $this->projects = Service::where('status', 'published')
             ->whereNull('freelancer_id')
+            ->where('cliente_id', '!=', $userId)
             ->orderByDesc('created_at')
             ->get();
     }
@@ -27,7 +29,8 @@ class AvailableProjects extends Component
         $service = Service::findOrFail($serviceId);
         $user = auth()->user();
         if (!$user || $user->id === $service->cliente_id) {
-            throw new \Exception('Ação não permitida. Você não pode aceitar este serviço.');
+            session()->flash('error', 'Você não pode aceitar um projeto que você mesmo criou.');
+            return;
         }
         // Não altera status do serviço, apenas cadastra candidatura
         $service->save();
@@ -50,7 +53,8 @@ class AvailableProjects extends Component
         $service = Service::findOrFail($serviceId);
         $user = auth()->user();
         if (!$user || $user->id === $service->cliente_id) {
-            throw new \Exception('Ação não permitida. Você não pode recusar este serviço.');
+            session()->flash('error', 'Ação não permitida.');
+            return;
         }
         $service->status = 'published';
         $service->freelancer_id = null;

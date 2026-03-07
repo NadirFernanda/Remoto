@@ -112,17 +112,8 @@
                         </div>
 
                         <div class="mt-5 flex flex-col gap-2">
-                            <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Ver detalhes completos</a>
-                            <div class="action-row mt-3" style="gap: 0.5rem;">
-                                <form wire:submit.prevent="acceptService({{ $project->id }})" class="d-inline">
-                                    <button type="submit" class="btn-eq btn-primary action-icon" title="Aceitar projeto" aria-label="Aceitar projeto">
-                                        @include('components.icon', ['name' => 'check', 'class' => 'w-4 h-4'])
-                                    </button>
-                                </form>
-                                <button type="button" wire:click="showProposalModal({{ $project->id }})" class="btn-eq btn-outline action-icon" title="Enviar proposta" aria-label="Enviar proposta">
-                                    @include('components.icon', ['name' => 'dots', 'class' => 'w-4 h-4'])
-                                </button>
-                            </div>
+                            <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Ver detalhes e candidatar-se</a>
+                            <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
                         </div>
                     </div>
                 @empty
