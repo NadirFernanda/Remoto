@@ -40,7 +40,10 @@
                         <option value="Outro">Outro</option>
                     </select>
                     @if($business_type1 === 'Outro')
-                        <input type="text" wire:model.defer="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 mt-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Descreva o tipo de serviço">
+                        <div class="mt-4">
+                            <label class="block font-semibold mb-2">Descreva o tipo de serviço</label>
+                            <input type="text" wire:model.defer="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Descreva o tipo de serviço">
+                        </div>
                     @endif
                 </div>
                 <div class="mb-4">
@@ -61,4 +64,3 @@
         </div>
     </div>
 </div>
-...existing code...
