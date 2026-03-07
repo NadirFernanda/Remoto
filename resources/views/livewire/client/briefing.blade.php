@@ -40,7 +40,7 @@
                         <option value="Outro">Outro</option>
                     </select>
                     @if($business_type1 === 'Outro')
-                        <div class="mt-4">
+                        <div class="mt-4" wire:key="outro-field">
                             <label class="block font-semibold mb-2">Descreva o tipo de serviço</label>
                             <input type="text" wire:model="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Descreva o tipo de serviço">
                         </div>
