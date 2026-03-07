@@ -143,14 +143,15 @@ body{
 /* Força o azul exato do botão de cadastro nos títulos hero */
 .hero-title, .glass-card .hero-title, .container--card .hero-title {
     color: #00baff !important; /* azul claro igual ao botão de cadastro */
-    font-size:2.2rem;
+    font-size:1.6rem;
     font-weight:800;
     margin-bottom:.5rem;
-    line-height:1.05;
+    line-height:1.15;
     letter-spacing:0.3px;
     text-align:center;
     font-family: 'Poppins', Inter, system-ui, sans-serif;
 }
+@media (min-width:480px){ .hero-title{ font-size:2.2rem; line-height:1.05; } }
 @media (min-width:768px){ .hero-title{ font-size:3rem; } }
 .hero-desc{ color:rgba(230,238,246,0.95); font-size:1.05rem; margin-bottom:1.25rem; max-width:720px; margin-left:auto; margin-right:auto; }
 .hero-ctas{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
