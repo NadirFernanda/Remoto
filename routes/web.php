@@ -11,7 +11,7 @@ use App\Http\Controllers\Client\ServiceTitleController;
 
 // Homepage
 Route::get('/', function () {
-    return auth()->check() ? redirect('/dashboard') : view('welcome');
+    return view('welcome');
 });
 
 // Dashboard redirect based on role
