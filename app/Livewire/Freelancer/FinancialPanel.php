@@ -52,6 +52,6 @@ class FinancialPanel extends Component
             'saques'          => $saques,
             'reembolsos'      => $reembolsos,
             'pendingServices' => $pendingServices,
-        ])->layout('layouts.main');
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Painel Financeiro']);
     }
 }

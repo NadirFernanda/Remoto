@@ -1,6 +1,3 @@
-@extends('layouts.main')
-
-@section('content')
 <div class="light-page min-h-screen pt-8 pb-12">
 <div class="max-w-5xl mx-auto px-4">
 
@@ -186,4 +183,3 @@
 
 </div>
 </div>
-@endsection
