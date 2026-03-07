@@ -201,7 +201,6 @@
             </a>
         @endforeach
     </div>
-</div>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-white shadow rounded p-4">
