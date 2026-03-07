@@ -10,7 +10,7 @@
                 type="text"
                 wire:model.debounce.400ms="search"
                 placeholder="Buscar por nome, especialidade ou descrição…"
-                class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
+                class="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
             >
         </div>
         <div class="relative sm:w-52">
@@ -21,12 +21,12 @@
                 type="text"
                 wire:model.debounce.400ms="skill"
                 placeholder="Filtrar por skill"
-                class="w-full pl-10 pr-4 py-2.5 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
+                class="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
             >
         </div>
         <button
             wire:click="$refresh"
-            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#00baff] text-white text-sm font-medium hover:bg-[#0099d6] active:scale-95 transition"
+            class="btn-primary"
         >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 01.707 1.707L13 12.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-8.586L3.293 4.707A1 1 0 013 4z"/>
@@ -133,7 +133,7 @@
                         <div class="flex items-center gap-2">
                             <a
                                 href="{{ route('freelancer.show', $freelancer->id) }}"
-                                class="text-xs px-3.5 py-1.5 rounded-full border border-[#00baff] text-[#00baff] hover:bg-[#00baff]/5 font-medium transition"
+                                class="btn-outline text-xs"
                             >
                                 Ver perfil
                             </a>
@@ -141,14 +141,14 @@
                                 <button
                                     type="button"
                                     wire:click="openProposal({{ $freelancer->id }})"
-                                    class="text-xs px-3.5 py-1.5 rounded-full bg-[#00baff] text-white hover:bg-[#0099d6] font-medium transition active:scale-95"
+                                    class="btn-primary text-xs"
                                 >
                                     Enviar proposta
                                 </button>
                             @else
                                 <a
                                     href="{{ route('login') }}"
-                                    class="text-xs px-3.5 py-1.5 rounded-full bg-[#00baff] text-white hover:bg-[#0099d6] font-medium transition"
+                                    class="btn-primary text-xs"
                                 >
                                     Enviar proposta
                                 </a>
