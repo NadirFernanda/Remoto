@@ -120,6 +120,7 @@ Route::middleware('auth')->group(function () {
 
     // --- Reviews ---
     Route::get('/servico/{service}/avaliar', \App\Livewire\LeaveReview::class)->name('service.review.leave');
+    Route::get('/avaliacoes', \App\Livewire\Client\ReviewPanel::class)->name('reviews.panel');
 
     // --- Disputes ---
     Route::get('/servico/{service}/disputa', \App\Livewire\DisputeCenter::class)->name('service.dispute');

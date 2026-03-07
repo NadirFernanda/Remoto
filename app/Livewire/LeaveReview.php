@@ -52,7 +52,7 @@ class LeaveReview extends Component
             return;
         }
 
-        if ($this->service->status !== 'concluido') {
+        if ($this->service->status !== 'completed') {
             session()->flash('error', 'Só é possível avaliar projetos concluídos.');
             return;
         }
@@ -72,6 +72,7 @@ class LeaveReview extends Component
 
     public function render()
     {
-        return view('livewire.leave-review');
+        return view('livewire.leave-review')
+            ->layout('layouts.main');
     }
 }

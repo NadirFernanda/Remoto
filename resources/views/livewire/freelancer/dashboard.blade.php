@@ -82,6 +82,22 @@
                                         </button>
                                         <span class="action-label">Enviar para Moderação</span>
                                     </div>
+                                    @if($project->status === 'completed')
+                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
+                                        <a href="{{ route('service.review.leave', ['service' => $project->id]) }}" class="action-btn" title="Avaliar" aria-label="Avaliar projeto {{ $project->id }}">
+                                            @include('components.icon', ['name' => 'star', 'class' => 'w-5 h-5'])
+                                        </a>
+                                        <span class="action-label">Avaliar</span>
+                                    </div>
+                                    @endif
+                                    @if(in_array($project->status, ['in_progress','delivered','completed']))
+                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
+                                        <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="action-btn" title="Disputar" aria-label="Abrir disputa do projeto {{ $project->id }}">
+                                            @include('components.icon', ['name' => 'flag', 'class' => 'w-5 h-5'])
+                                        </a>
+                                        <span class="action-label">Disputar</span>
+                                    </div>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

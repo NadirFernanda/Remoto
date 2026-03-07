@@ -18,7 +18,7 @@
                 <p class="text-gray-700 font-semibold text-lg">Avaliação já enviada!</p>
                 <p class="text-gray-400 text-sm mt-1">Obrigado pelo seu feedback.</p>
             </div>
-        @elseif($service->status !== 'concluido')
+        @elseif($service->status !== 'completed')
             <div class="bg-white border border-yellow-100 rounded-2xl p-8 text-center shadow-sm">
                 <p class="text-yellow-700 font-semibold">Só é possível avaliar projetos concluídos.</p>
             </div>

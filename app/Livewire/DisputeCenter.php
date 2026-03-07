@@ -97,6 +97,7 @@ class DisputeCenter extends Component
             ? $this->dispute->messages()->with('user')->orderBy('created_at')->get()
             : collect();
 
-        return view('livewire.dispute-center', compact('messages'));
+        return view('livewire.dispute-center', compact('messages'))
+            ->layout('layouts.main');
     }
 }

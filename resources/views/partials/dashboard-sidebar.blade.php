@@ -34,6 +34,7 @@
         <a href="{{ route('freelancer.dashboard') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Dashboard</a>
         <a href="{{ route('freelancer.available-projects') }}" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Projetos Disponíveis</a>
         <a href="#" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Histórico</a>
+        <a href="{{ route('reviews.panel') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Avaliações</a>
         <a href="{{ route('profile.edit') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Editar Perfil</a>
         <a href="{{ route('freelancer.settings') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Configurações</a>
     @elseif($role === 'admin')
@@ -47,6 +48,7 @@
         <a href="{{ route('client.orders') }}" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Meus Pedidos</a>
         <a href="{{ route('client.briefing') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Novo Pedido</a>
         <a href="#" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Histórico</a>
+        <a href="{{ route('reviews.panel') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Avaliações</a>
         <a href="{{ route('profile.edit') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Editar Perfil</a>
         <a href="#" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Configurações</a>
     @endif

@@ -17,18 +17,21 @@ class ReviewPanel extends Component
     public function mount()
     {
         $user = $this->getCurrentUser();
-        // Avaliações feitas pelo cliente
+        // Avaliações feitas pelo utilizador (com eager loading)
         $this->reviewsGiven = Review::where('author_id', $user->id)
+            ->with(['target', 'service'])
             ->orderByDesc('created_at')
             ->get();
-        // Avaliações recebidas pelo cliente
+        // Avaliações recebidas pelo utilizador
         $this->reviewsReceived = Review::where('target_id', $user->id)
+            ->with(['author', 'service'])
             ->orderByDesc('created_at')
             ->get();
     }
 
     public function render()
     {
-        return view('livewire.client.review-panel');
+        return view('livewire.client.review-panel')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Avaliações']);
     }
 }

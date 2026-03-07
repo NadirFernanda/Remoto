@@ -85,6 +85,7 @@
                     <select wire:model="sort"
                         class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none">
                         <option value="relevancia">Relevância</option>
+                        <option value="popularidade">Melhor avaliados</option>
                         <option value="preco_asc">Menor preço</option>
                         <option value="preco_desc">Maior preço</option>
                     </select>

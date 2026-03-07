@@ -30,7 +30,6 @@ class FreelancerSearch extends Component
         'maxRate'     => ['except' => 999999],
         'minRating'   => ['except' => 0],
     ];
-
     public function updatingQuery()     { $this->resetPage(); }
     public function updatingSkill()     { $this->resetPage(); }
     public function updatingLanguage()  { $this->resetPage(); }
@@ -95,6 +94,10 @@ class FreelancerSearch extends Component
             $freelancers->join('freelancer_profiles', 'users.id', '=', 'freelancer_profiles.user_id')
                         ->orderBy('freelancer_profiles.hourly_rate', 'desc')
                         ->select('users.*');
+        } elseif ($this->sort === 'popularidade') {
+            $freelancers->orderByRaw(
+                '(SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE target_id = users.id) DESC'
+            );
         } else {
             $freelancers->latest();
         }
