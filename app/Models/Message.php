@@ -10,6 +10,7 @@ class Message extends Model
         'service_id',
         'user_id',
         'conteudo',
+        'anexo',
     ];
 
     public function service()
