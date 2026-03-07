@@ -15,9 +15,10 @@ Route::post('/login', function (Request $request) {
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
         $user = Auth::user();
-        if (method_exists($user, 'hasVerifiedEmail') && !$user->hasVerifiedEmail()) {
-            // Redireciona para tela OTP
-            return redirect()->route('otp.form');
+        // Marca o e-mail como verificado ao fazer login com senha correta
+        if (!$user->hasVerifiedEmail()) {
+            $user->email_verified_at = now();
+            $user->save();
         }
         if ($user->role === 'cliente') {
             return redirect()->intended('/cliente/dashboard');
