@@ -15,7 +15,7 @@
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link btn-primary ml-3">Cadastro</a>
             @else
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 ml-6">
                     @if(auth()->user()->role !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
                     @endif
