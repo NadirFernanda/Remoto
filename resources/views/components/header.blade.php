@@ -15,7 +15,7 @@
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link btn-primary ml-3">Cadastro</a>
             @else
-                <div class="flex items-center gap-3 ml-6">
+                <div class="flex items-center">
                     @if(auth()->user()->activeRole() !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
                     @endif
@@ -24,14 +24,14 @@
                             @csrf
                             <button type="submit" class="nav-link flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition" title="Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                                <span class="text-xs font-semibold">{{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}</span>
+                                <span class="font-semibold">{{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}</span>
                             </button>
                         </form>
                     @endif
-                    <div x-data="{open:false}" class="relative">
+                    <div x-data="{open:false}" class="relative ml-4">
                         <button @click="open = !open" class="flex items-center gap-2 focus:outline-none">
                             <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}';">
-                            <span class="hidden md:inline text-sm">{{ auth()->user()->name }}</span>
+                            <span class="hidden md:inline">{{ auth()->user()->name }}</span>
                         </button>
                         <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
                             @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
