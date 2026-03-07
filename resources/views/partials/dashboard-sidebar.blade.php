@@ -49,15 +49,7 @@
         <a href="#" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Configurações</a>
     @endif
 
-    @if(auth()->check() && auth()->user()->canSwitchRole())
-        <form method="POST" action="{{ route('switch.role') }}" class="mt-4">
-            @csrf
-            <button type="submit" class="w-full py-2 px-4 rounded bg-cyan-50 hover:bg-cyan-100 text-cyan-700 font-semibold text-sm flex items-center justify-center gap-2 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}
-            </button>
-        </form>
-    @endif
+    {{-- Botão de troca de estado removido conforme solicitado --}}
 
     <form method="POST" action="{{ route('logout') }}" class="mt-auto pt-8">
         @csrf
