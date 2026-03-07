@@ -27,7 +27,7 @@
     @endif
 </div>
 
-<nav class="flex flex-col gap-2">
+<nav class="flex flex-col gap-2 flex-1">
     @php $role = optional(auth()->user())->role ?? 'client'; @endphp
 
     @if($role === 'freelancer')
@@ -49,8 +49,8 @@
         <a href="#" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Configurações</a>
     @endif
 
-    <form method="POST" action="{{ route('logout') }}" class="mt-4">
+    <form method="POST" action="{{ route('logout') }}" class="mt-auto pt-8">
         @csrf
-        <button type="submit" class="btn-primary w-full" style="margin-top: 0.5rem;">Sair</button>
+        <button type="submit" class="btn-primary w-full">Sair</button>
     </form>
 </nav>
