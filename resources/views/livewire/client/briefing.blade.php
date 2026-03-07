@@ -4,9 +4,9 @@
             <h2 class="text-xl font-bold text-cyan-600 mb-2">O que você precisa?</h2>
             <p class="text-sm text-gray-600 mb-4">Descreva seu pedido para que possamos encontrar o freelancer ideal.</p>
             <form wire:submit.prevent="submitBriefing">
-                <div class="mb-6">
-                    <label class="block font-bold text-lg mb-2 text-cyan-700">Título do pedido <span class="text-red-500">*</span></label>
-                    <input type="text" wire:model.defer="title1" maxlength="100" required autocomplete="off" class="w-full border-2 border-cyan-500 rounded-lg px-4 py-3 text-lg font-semibold focus:ring-2 focus:ring-cyan-500 focus:outline-none bg-cyan-50" placeholder="Título único do pedido">
+                <div class="mb-4">
+                    <label class="block font-semibold mb-2">Título do pedido <span class="text-red-500">*</span></label>
+                    <input type="text" wire:model.defer="title1" maxlength="100" required autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Título único do pedido">
                 </div>
                 <div class="mb-4">
                     <label class="block font-semibold mb-2">Tipo de serviço</label>
