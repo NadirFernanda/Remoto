@@ -35,12 +35,11 @@
                         </button>
                         <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
                             @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
-                                <a href="{{ route('client.profile') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Meu perfil</a>
-                            @else
-                                <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Meu perfil</a>
-                            @endif
-                            @if(auth()->user()->activeRole() === 'freelancer')
+                                <a href="{{ route('client.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
+                            @elseif(auth()->user()->activeRole() === 'freelancer')
                                 <a href="{{ route('freelancer.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
+                            @else
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
                             @endif
                             <a href="{{ route('freelancer.notifications') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Notificações</a>
                             <form method="POST" action="{{ route('logout') }}">
@@ -83,9 +82,12 @@
                         <div class="text-xs text-gray-400">{{ auth()->user()->email }}</div>
                     </div>
                 </div>
-                <a href="{{ route('profile.edit') }}" class="nav-link">Meu perfil</a>
-                @if(auth()->user()->activeRole() === 'freelancer')
+                @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
+                    <a href="{{ route('client.dashboard') }}" class="nav-link">Dashboard</a>
+                @elseif(auth()->user()->activeRole() === 'freelancer')
                     <a href="{{ route('freelancer.dashboard') }}" class="nav-link">Dashboard</a>
+                @else
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
                 @endif
                 @if(auth()->user()->canSwitchRole())
                     <form method="POST" action="{{ route('switch.role') }}">

@@ -15,6 +15,7 @@ class Service extends Model
         'freelancer_id',
         'titulo',
         'briefing',
+        'service_type',
         'valor',
         'taxa',
         'valor_liquido',
@@ -36,5 +37,15 @@ class Service extends Model
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(ServiceAttachment::class)->orderByDesc('created_at');
     }
 }
