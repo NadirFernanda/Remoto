@@ -1,3 +1,5 @@
+// Liberação de pagamento (escrow)
+Route::post('/cliente/servico/{service}/liberar-pagamento', [\App\Http\Controllers\ServiceEscrowController::class, 'releasePayment'])->name('client.service.release_payment');
 <?php
 
 use Illuminate\Support\Facades\Route;

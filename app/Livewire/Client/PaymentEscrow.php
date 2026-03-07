@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\UserSessionTrait;
 use App\Services\FreelancerService;
+use App\Services\PaymentGateway;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Notification;
@@ -70,6 +71,7 @@ class PaymentEscrow extends Component
 
     public function confirmPayment()
     {
+
         // Validação dinâmica conforme método de pagamento
         if ($this->payment_method === 'card') {
             $this->validate([
@@ -86,6 +88,20 @@ class PaymentEscrow extends Component
                 'card_expiry.regex' => 'Validade deve ser no formato MM/AA.',
                 'card_cvv.digits_between' => 'CVV inválido.',
             ]);
+            // Integração com gateway de pagamento
+            $paymentResult = PaymentGateway::charge([
+                'amount' => $this->valor,
+                'card_name' => $this->card_name,
+                'card_number' => $this->card_number,
+                'card_expiry' => $this->card_expiry,
+                'card_cvv' => $this->card_cvv,
+                'description' => 'Pagamento de serviço',
+            ]);
+            if (empty($paymentResult['success'])) {
+                session()->flash('error', $paymentResult['message'] ?? 'Falha no pagamento.');
+                return;
+            }
+            $transactionId = $paymentResult['transaction_id'] ?? null;
         } elseif ($this->payment_method === 'paypal') {
             // Simulação: redireciona para rota fake de PayPal, passando briefing e pagamento na query string
             $briefing = session('briefing', []);
@@ -100,12 +116,10 @@ class PaymentEscrow extends Component
             ]);
         } elseif ($this->payment_method === 'express') {
             // Simulação: lógica para Express
-            // return redirect()->route('client.express');
-            return; // Simulação: não faz nada
+            return;
         } elseif ($this->payment_method === 'bank') {
             // Simulação: lógica para transferência bancária
-            // return redirect()->route('client.bank');
-            return; // Simulação: não faz nada
+            return;
         }
 
         $user = $this->getCurrentUser();

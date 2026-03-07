@@ -71,6 +71,14 @@
 									<button wire:click="colocarEmModeracao({{ $order->id }})" class="action-btn action-icon" title="Colocar em moderação" aria-label="Colocar pedido {{ $order->id }} em moderação">
 										@include('components.icon', ['name' => 'close', 'class' => 'w-5 h-5'])
 									</button>
+									@if($order->status === 'delivered' && !$order->is_payment_released)
+										<form method="POST" action="{{ route('client.service.release_payment', $order->id) }}" style="display:inline;">
+											@csrf
+											<button type="submit" class="action-btn action-icon" title="Confirmar entrega e liberar pagamento" aria-label="Confirmar entrega e liberar pagamento">
+												@include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
+											</button>
+										</form>
+									@endif
 								</div>
 							</td>
 						</tr>
