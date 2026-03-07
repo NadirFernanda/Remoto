@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold mb-2">Qual é a sua necessidade? <span class="text-red-500">*</span></label>
+                    <label class="block font-semibold mb-2">Descrição do serviço <span class="text-red-500">*</span></label>
                     <input type="text" wire:model.defer="necessity1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('necessity1') border-red-500 @enderror" placeholder="Necessidade específica">
                     @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
