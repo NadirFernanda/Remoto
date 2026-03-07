@@ -16,6 +16,8 @@ class ProfileEditor extends Component
 {
     use WithFileUploads;
 
+    public string $successMessage = '';
+
     public $headline;
     public $profilePhoto;
     public $currentProfilePhoto;
@@ -152,12 +154,12 @@ class ProfileEditor extends Component
             $this->portfolioFiles = [];
         }
 
-        session()->flash('success', 'Perfil salvo com sucesso.');
-        $this->dispatch('profileSaved');
+        $this->successMessage = 'Perfil salvo com sucesso!';
     }
 
     public function render()
     {
-        return view('livewire.freelancer.profile-editor');
+        return view('livewire.freelancer.profile-editor')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Editar Perfil']);
     }
 }

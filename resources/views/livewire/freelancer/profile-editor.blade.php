@@ -1,4 +1,20 @@
   <div>
+    @if($successMessage)
+        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">
+            {{ $successMessage }}
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+            <ul class="list-disc list-inside space-y-1">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form wire:submit.prevent="saveProfile">
         {{-- User personal fields --}}
         <div class="mb-4">
@@ -156,13 +172,14 @@
             }
         </script>
 
-        <div class="mt-6 action-row" role="toolbar" aria-label="Ações do perfil" style="gap: 0.5rem;">
-            <button type="submit" class="btn-eq btn-primary action-icon" aria-label="Salvar perfil">
+        <div class="mt-6 flex gap-3">
+            <button type="submit" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Salvar perfil">
                 @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
+                Salvar perfil
             </button>
-            <button type="button" class="btn-eq btn-outline action-icon" wire:click.prevent="$emit('refresh')" aria-label="Cancelar edição">
-                @include('components.icon', ['name' => 'close', 'class' => 'h-4 w-4'])
-            </button>
+            <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center gap-2 border border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold px-5 py-2 rounded-lg transition">
+                Cancelar
+            </a>
         </div>
     </form>
 </div>
