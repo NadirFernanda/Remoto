@@ -6,6 +6,12 @@ use Illuminate\Support\Facades\Auth;
 
 // Rota GET para exibir o formulário de login
 Route::get('/login', function () {
+    if (Auth::check()) {
+        $role = Auth::user()->role;
+        if ($role === 'freelancer') return redirect('/freelancer/dashboard');
+        if ($role === 'admin')      return redirect('/admin/dashboard');
+        return redirect('/cliente/dashboard');
+    }
     return view('auth.login');
 })->name('login');
 
@@ -45,5 +51,13 @@ Route::post('/logout', function (Request $request) {
 // Cadastro freelancer centralizado no RegisterController
 use App\Http\Controllers\Auth\RegisterController;
 
-Route::get('/register', [RegisterController::class, 'showFreelancerForm'])->name('register');
+Route::get('/register', function () {
+    if (Auth::check()) {
+        $role = Auth::user()->role;
+        if ($role === 'freelancer') return redirect('/freelancer/dashboard');
+        if ($role === 'admin')      return redirect('/admin/dashboard');
+        return redirect('/cliente/dashboard');
+    }
+    return app(\App\Http\Controllers\Auth\RegisterController::class)->showFreelancerForm();
+})->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
