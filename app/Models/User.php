@@ -26,6 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'affiliate_code',
         'status',
+        'kyc_status',
+        'is_suspended',
         'phone',
         'bio',
         'profile_photo',

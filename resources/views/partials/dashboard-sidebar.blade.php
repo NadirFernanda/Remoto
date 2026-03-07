@@ -38,8 +38,10 @@
         <a href="{{ route('freelancer.settings') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Configurações</a>
     @elseif($role === 'admin')
         <a href="{{ route('admin.dashboard') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Dashboard</a>
-        <a href="/admin/users" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Usuários</a>
-        <a href="/admin/services" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Serviços</a>
+        <a href="{{ route('admin.users') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Utilizadores</a>
+        <a href="{{ route('admin.services') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Serviços</a>
+        <a href="{{ route('admin.disputes') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Disputas</a>
+        <a href="{{ route('admin.audit') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Logs & Auditoria</a>
     @else
         <a href="{{ route('client.dashboard') }}" class="py-2 px-4 rounded hover:bg-gray-100 text-[#222] font-medium">Dashboard</a>
         <a href="{{ route('client.orders') }}" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Meus Pedidos</a>

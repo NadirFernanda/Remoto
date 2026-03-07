@@ -132,6 +132,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users');
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
+    Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
     // Histórico de transações
    Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
    // Reembolso de serviço
