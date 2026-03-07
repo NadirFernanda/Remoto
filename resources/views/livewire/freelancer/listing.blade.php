@@ -62,6 +62,8 @@
                             <img
                                 src="{{ $freelancer->avatarUrl() }}"
                                 alt="{{ $freelancer->name }}"
+                                width="56" height="56"
+                                loading="lazy" decoding="async"
                                 class="w-14 h-14 rounded-full object-cover ring-2 ring-[#00baff]/20"
                             >
                             {{-- Online dot based on availability --}}

@@ -6,6 +6,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Traits\UserSessionTrait;
 
 class Profile extends Component
@@ -42,7 +45,13 @@ class Profile extends Component
             Storage::disk('public')->delete($user->profile_photo);
         }
 
-        $path = $this->profilePhoto->store('avatars', 'public');
+        // resize to 400x400 and convert to JPEG 80% before storing
+        $manager = new ImageManager(new Driver());
+        $jpeg = $manager->read($this->profilePhoto->getRealPath())
+            ->cover(400, 400)
+            ->toJpeg(quality: 80);
+        $path = 'avatars/' . Str::uuid() . '.jpg';
+        Storage::disk('public')->put($path, $jpeg);
         $user->profile_photo = $path;
         $user->save();
 
