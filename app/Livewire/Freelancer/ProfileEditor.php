@@ -145,7 +145,7 @@ class ProfileEditor extends Component
         }
 
         session()->flash('success', 'Perfil salvo com sucesso.');
-        $this->emit('profileSaved');
+        $this->dispatch('profileSaved');
     }
 
     public function render()

@@ -80,7 +80,7 @@ class SendProposal extends Component
 
         session()->flash('success', 'Proposta enviada com sucesso.');
         $this->close();
-        $this->emit('proposalSent');
+        $this->dispatch('proposalSent');
     }
 
     public function render()
