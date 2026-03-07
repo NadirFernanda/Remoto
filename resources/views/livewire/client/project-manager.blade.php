@@ -80,7 +80,7 @@
                 <button
                     wire:click="selectService({{ $project->id }})"
                     class="w-full text-left bg-white rounded-2xl border p-4 transition
-                        {{ $isSelected ? 'border-[#00baff] ring-1 ring-[#00baff]/30 shadow-sm' : 'border-gray-100 hover:border-[#00baff]/40 hover:shadow-sm' }}"
+                        {{ $isSelected ? 'border-[#00baff] ring-1 ring-[#00baff]/30 shadow-sm' : 'border-gray-200 hover:border-[#00baff]/40 hover:shadow-sm' }}"
                 >
                     <div class="flex items-start justify-between gap-2">
                         <p class="text-sm font-semibold text-gray-800 line-clamp-1 flex-1">{{ $project->titulo }}</p>
@@ -105,7 +105,7 @@
                     <p class="text-xs text-gray-400 mt-2">{{ $project->updated_at->diffForHumans() }}</p>
                 </button>
             @empty
-                <div class="bg-white rounded-2xl border border-gray-100 p-8 text-center">
+                <div class="bg-white rounded-2xl border border-gray-200 p-8 text-center">
                     <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/>
                     </svg>
@@ -135,7 +135,7 @@
                 </button>
 
                 {{-- Header card --}}
-                <div class="bg-white rounded-2xl border border-gray-100 p-5 space-y-4">
+                <div class="bg-white rounded-2xl border border-gray-200 p-5 space-y-4">
                     <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                         <div>
                             <h2 class="text-lg font-bold text-gray-900">{{ $selected->titulo }}</h2>
@@ -228,7 +228,7 @@
                 </div>
 
                 {{-- Tab navigation --}}
-                <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
                     <div class="flex border-b border-gray-100">
                         <button @click="tab = 'milestones'"
                             :class="tab === 'milestones' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"

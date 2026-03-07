@@ -14,9 +14,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
-<body class="site-theme min-h-screen {{ $routeName === 'profile.edit' ? 'profile-page' : '' }}">
+<body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }}">
     @include('components.header')
-    <main class="pt-24">
+    <main class="pt-24 flex-1">
         @include('components.flash-messages')
         @yield('content')
     </main>
