@@ -14,6 +14,27 @@ class OtpVerificationController extends Controller
 {
     public function showOtpForm()
     {
+        $user = Auth::user();
+
+        // Se já está verificado, redireciona direto para o dashboard
+        if ($user && $user->hasVerifiedEmail()) {
+            return match($user->role) {
+                'freelancer' => redirect('/freelancer/dashboard'),
+                'admin'      => redirect('/admin/dashboard'),
+                default      => redirect('/cliente/dashboard'),
+            };
+        }
+
+        // Envia o OTP automaticamente ao exibir o formulário
+        if ($user) {
+            $otp = rand(100000, 999999);
+            Cache::put('otp_' . $user->id, $otp, now()->addMinutes(10));
+            Mail::raw("Seu código de verificação é: $otp", function ($message) use ($user) {
+                $message->to($user->email)
+                    ->subject('Código de verificação de acesso');
+            });
+        }
+
         return view('auth.otp-verify');
     }
 
@@ -44,15 +65,11 @@ class OtpVerificationController extends Controller
             $user->email_verified_at = now();
             $user->save();
             // Redireciona para o dashboard correto
-            if ($user->role === 'cliente') {
-                return redirect('/cliente/dashboard')->with('status', 'E-mail verificado com sucesso!');
-            } elseif ($user->role === 'freelancer') {
-                return redirect('/freelancer/dashboard')->with('status', 'E-mail verificado com sucesso!');
-            } elseif ($user->role === 'admin') {
-                return redirect('/admin/dashboard')->with('status', 'E-mail verificado com sucesso!');
-            } else {
-                return redirect('/')->with('status', 'E-mail verificado com sucesso!');
-            }
+            return match($user->role) {
+                'freelancer' => redirect('/freelancer/dashboard')->with('status', 'E-mail verificado com sucesso!'),
+                'admin'      => redirect('/admin/dashboard')->with('status', 'E-mail verificado com sucesso!'),
+                default      => redirect('/cliente/dashboard')->with('status', 'E-mail verificado com sucesso!'),
+            };
         }
         return back()->withErrors(['otp' => 'Código inválido ou expirado.']);
     }
