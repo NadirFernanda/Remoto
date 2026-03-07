@@ -46,10 +46,12 @@ class ServiceChat extends Component
         if ($this->anexo) {
             $anexoPath = $this->anexo->store('anexos', 'public');
         }
+        $nomeOriginal = $this->anexo ? $this->anexo->getClientOriginalName() : null;
         $this->service->messages()->create([
             'user_id' => Auth::id(),
             'conteudo' => $this->mensagem ?? '',
             'anexo' => $anexoPath ? basename($anexoPath) : null,
+            'nome_original_anexo' => $nomeOriginal,
         ]);
         // atualiza leitura do remetente
         \App\Models\ChatRead::markRead($this->service->id, Auth::id());

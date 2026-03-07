@@ -11,6 +11,7 @@ class Message extends Model
         'user_id',
         'conteudo',
         'anexo',
+        'nome_original_anexo',
     ];
 
     public function service()
