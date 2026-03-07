@@ -79,6 +79,14 @@
 											</button>
 										</form>
 									@endif
+									@if(!$order->is_payment_released && !in_array($order->status, ['cancelled', 'completed']))
+										<form method="POST" action="{{ route('client.service.refund', $order->id) }}" style="display:inline;">
+											@csrf
+											<button type="submit" class="action-btn action-icon" title="Solicitar reembolso" aria-label="Solicitar reembolso">
+												@include('components.icon', ['name' => 'arrow-uturn-left', 'class' => 'w-5 h-5'])
+											</button>
+										</form>
+									@endif
 								</div>
 							</td>
 						</tr>

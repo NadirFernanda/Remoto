@@ -1,3 +1,5 @@
+// Reembolso de serviço
+Route::post('/cliente/servico/{service}/reembolso', [\App\Http\Controllers\ServiceRefundController::class, 'requestRefund'])->name('client.service.refund');
 // Liberação de pagamento (escrow)
 Route::post('/cliente/servico/{service}/liberar-pagamento', [\App\Http\Controllers\ServiceEscrowController::class, 'releasePayment'])->name('client.service.release_payment');
 <?php

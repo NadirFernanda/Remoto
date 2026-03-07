@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Services\InvoiceService;
 
 class ServiceEscrowController extends Controller
 {
@@ -25,13 +26,16 @@ class ServiceEscrowController extends Controller
         if (!in_array($service->status, ['delivered', 'completed'])) {
             return redirect()->back()->with('error', 'O serviço ainda não foi entregue.');
         }
-        DB::transaction(function () use ($service) {
+        $invoicePath = null;
+        DB::transaction(function () use ($service, &$invoicePath) {
             $service->is_payment_released = true;
             $service->payment_released_at = Carbon::now();
             $service->status = 'completed';
             $service->save();
             // Aqui pode-se adicionar lógica para transferir saldo para o freelancer
+            // Gerar fatura/recibo
+            $invoicePath = InvoiceService::generate($service);
         });
-        return redirect()->back()->with('success', 'Pagamento liberado para o freelancer com sucesso!');
+        return redirect()->back()->with('success', 'Pagamento liberado para o freelancer com sucesso! Fatura/recibo gerado: <a href="/' . $invoicePath . '" target="_blank">Baixar Recibo</a>');
     }
 }
