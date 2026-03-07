@@ -31,11 +31,16 @@
                     'necessity' => 'Descrição do serviço',
                 ];
             @endphp
-            <ul class="list-disc ml-6 text-gray-700 mt-2">
-                @foreach(json_decode($service->briefing, true) as $key => $value)
-                    <li><span class="capitalize font-semibold">{{ $labels[$key] ?? str_replace('_', ' ', $key) }}:</span> {{ $value }}</li>
-                @endforeach
-            </ul>
+            @php $briefingDecoded = json_decode($service->briefing, true); @endphp
+            @if(is_array($briefingDecoded))
+                <ul class="list-disc ml-6 text-gray-700 mt-2">
+                    @foreach($briefingDecoded as $key => $value)
+                        <li><span class="capitalize font-semibold">{{ $labels[$key] ?? str_replace('_', ' ', $key) }}:</span> {{ $value }}</li>
+                    @endforeach
+                </ul>
+            @else
+                <p class="text-gray-700 mt-2">{{ $service->briefing }}</p>
+            @endif
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             @if(auth()->user() && $service->cliente_id === auth()->id())
