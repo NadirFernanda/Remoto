@@ -7,21 +7,12 @@
     }
 @endphp
 
-{{-- ─── Brand / Logo bar ───────────────────────────────────── --}}
-<div class="px-5 py-5 border-b border-gray-100 flex items-center gap-3">
-    <div class="w-8 h-8 rounded-lg bg-[#00baff] flex items-center justify-center flex-shrink-0">
-        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/>
-            <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </div>
-    <span class="text-sm font-semibold text-gray-800 tracking-tight">24Horas</span>
-</div>
+{{-- ...removed logo/brand bar for cleaner sidebar... --}}
 
 {{-- ─── User profile card ───────────────────────────────────── --}}
 @if(auth()->check())
 @php $u = auth()->user(); @endphp
-<div class="px-4 py-4 border-b border-gray-100">
+<div class="px-4 pt-6 pb-4 border-b border-gray-100">
     <div class="flex items-center gap-3">
         <img src="{{ $u->avatarUrl() }}" alt="{{ $u->name }}"
             class="w-10 h-10 rounded-full object-cover ring-2 ring-[#00baff]/20 flex-shrink-0"
