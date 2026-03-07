@@ -2,59 +2,64 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="min-h-screen pt-24 pb-12 section section--alt">
-        <div class="container mx-auto px-4 py-8">
-            <div class="projects-hero">
-                <h2>Projetos Disponíveis</h2>
-                <p>Encontre trabalhos publicados por clientes com briefing completo — filtre por valor, data e tipo.</p>
+    <div class="light-page min-h-screen pt-8 pb-12">
+        <div class="container mx-auto px-4 py-8 max-w-6xl">
+            <!-- Hero -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-extrabold text-gray-800 mb-2">Projetos Disponíveis</h2>
+                <p class="text-gray-500">Encontre trabalhos publicados por clientes com briefing completo — filtre por valor, data e tipo.</p>
             </div>
+
+            <!-- Filtros -->
             @php $advancedOpen = (request('business_type') || request('target_audience')) ? 'open' : ''; @endphp
-            <form method="GET" class="mb-8 container--card filters-row" role="search" aria-label="Filtrar projetos">
-                <div class="form-group">
-                    <label class="filter-label" for="valor_min">Valor mínimo</label>
-                    <input type="number" step="0.01" name="valor_min" id="valor_min" class="filter-input" placeholder="Kz 0,00" value="{{ request('valor_min') }}" aria-label="Valor mínimo">
-                </div>
-                <div class="form-group">
-                    <label class="filter-label" for="valor_max">Valor máximo</label>
-                    <input type="number" step="0.01" name="valor_max" id="valor_max" class="filter-input" placeholder="Kz 0,00" value="{{ request('valor_max') }}" aria-label="Valor máximo">
-                </div>
-                <div class="form-group">
-                    <label class="filter-label" for="data_inicio">Data inicial</label>
-                    <input type="date" name="data_inicio" id="data_inicio" class="filter-input filter-date" value="{{ request('data_inicio') }}" aria-label="Data inicial">
-                </div>
-                <div class="form-group">
-                    <label class="filter-label" for="data_fim">Data final</label>
-                    <input type="date" name="data_fim" id="data_fim" class="filter-input filter-date" value="{{ request('data_fim') }}" aria-label="Data final">
-                </div>
-                <div class="form-group">
-                    <label class="filter-label" for="status">Status</label>
-                    <select name="status" id="status" class="filter-select" aria-label="Status do projeto">
-                        <option value="">Todos</option>
-                        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publicado</option>
-                        <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Aceito</option>
-                        <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Em andamento</option>
-                        <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>Entregue</option>
-                        <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Concluído</option>
-                        <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
-                    </select>
-                </div>
-                <div class="form-actions" style="display:flex; gap:0.75rem; align-items:center;">
-                    <button type="submit" class="hero-btn">Filtrar</button>
-                    <a href="{{ route('public.projects') }}" class="hero-btn-outline">Limpar filtros</a>
-                    <button type="button" id="toggle-advanced-filters" class="hero-btn-outline" aria-expanded="{{ $advancedOpen ? 'true' : 'false' }}" aria-controls="advanced-filters">Mais filtros ▾</button>
-                </div>
-
-                <div id="advanced-filters" class="advanced-filters {{ $advancedOpen }}" aria-hidden="{{ $advancedOpen ? 'false' : 'true' }}">
-                    <div class="form-group">
-                        <label class="filter-label" for="business_type">Tipo de negócio</label>
-                        <input type="text" name="business_type" id="business_type" class="filter-input" placeholder="Ex: e-commerce, SaaS" value="{{ request('business_type') }}" aria-label="Tipo de negócio">
+            <form method="GET" class="mb-8 bg-white rounded-xl shadow-sm border border-gray-100 p-6" role="search" aria-label="Filtrar projetos">
+                <div class="flex flex-wrap gap-4 items-end">
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1" for="valor_min">Valor mínimo</label>
+                        <input type="number" step="0.01" name="valor_min" id="valor_min" class="light-input" placeholder="Kz 0,00" value="{{ request('valor_min') }}">
                     </div>
-                    <div class="form-group">
-                        <label class="filter-label" for="target_audience">Público-alvo</label>
-                        <input type="text" name="target_audience" id="target_audience" class="filter-input" placeholder="Ex: jovens, empresas" value="{{ request('target_audience') }}" aria-label="Público-alvo">
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1" for="valor_max">Valor máximo</label>
+                        <input type="number" step="0.01" name="valor_max" id="valor_max" class="light-input" placeholder="Kz 0,00" value="{{ request('valor_max') }}">
+                    </div>
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1" for="data_inicio">Data inicial</label>
+                        <input type="date" name="data_inicio" id="data_inicio" class="light-input" value="{{ request('data_inicio') }}">
+                    </div>
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1" for="data_fim">Data final</label>
+                        <input type="date" name="data_fim" id="data_fim" class="light-input" value="{{ request('data_fim') }}">
+                    </div>
+                    <div class="flex-1 min-w-[160px]">
+                        <label class="block text-xs font-semibold text-gray-500 mb-1" for="status">Status</label>
+                        <select name="status" id="status" class="light-input">
+                            <option value="">Todos</option>
+                            <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publicado</option>
+                            <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Aceito</option>
+                            <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Em andamento</option>
+                            <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>Entregue</option>
+                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Concluído</option>
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Cancelado</option>
+                        </select>
                     </div>
                 </div>
-
+                <div class="flex items-center gap-3 mt-4">
+                    <button type="submit" class="bg-[#00baff] text-white font-bold px-5 py-2 rounded-lg hover:bg-[#009ad6] transition">Filtrar</button>
+                    <a href="{{ route('public.projects') }}" class="border border-gray-300 text-gray-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-50 transition">Limpar</a>
+                    <button type="button" id="toggle-advanced-filters" class="border border-gray-300 text-gray-600 font-semibold px-5 py-2 rounded-lg hover:bg-gray-50 transition" aria-expanded="{{ $advancedOpen ? 'true' : 'false' }}" aria-controls="advanced-filters">Mais filtros ▾</button>
+                </div>
+                <div id="advanced-filters" class="advanced-filters {{ $advancedOpen }}">
+                    <div class="flex flex-wrap gap-4 mt-3">
+                        <div class="flex-1 min-w-[200px]">
+                            <label class="block text-xs font-semibold text-gray-500 mb-1" for="business_type">Tipo de negócio</label>
+                            <input type="text" name="business_type" id="business_type" class="light-input" placeholder="Ex: e-commerce, SaaS" value="{{ request('business_type') }}">
+                        </div>
+                        <div class="flex-1 min-w-[200px]">
+                            <label class="block text-xs font-semibold text-gray-500 mb-1" for="target_audience">Público-alvo</label>
+                            <input type="text" name="target_audience" id="target_audience" class="light-input" placeholder="Ex: jovens, empresas" value="{{ request('target_audience') }}">
+                        </div>
+                    </div>
+                </div>
                 <script>
                     (function(){
                         var btn = document.getElementById('toggle-advanced-filters');
@@ -69,6 +74,7 @@
                     })();
                 </script>
             </form>
+
             @php
                 $statusMap = [
                     'published' => 'Publicado',
@@ -78,106 +84,77 @@
                     'completed' => 'Concluído',
                     'cancelled' => 'Cancelado',
                 ];
+                $statusColors = [
+                    'published' => 'bg-blue-100 text-blue-700',
+                    'accepted' => 'bg-green-100 text-green-700',
+                    'in_progress' => 'bg-yellow-100 text-yellow-700',
+                    'delivered' => 'bg-cyan-100 text-cyan-700',
+                    'completed' => 'bg-gray-100 text-gray-600',
+                    'cancelled' => 'bg-red-100 text-red-600',
+                ];
             @endphp
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($projects as $project)
-                    @php $briefing = json_decode($project->briefing, true); $thumb = is_array($briefing) ? ($briefing['thumbnail'] ?? null) : null; $statusClass = 'status-' . ($project->status ?? 'published'); @endphp
-                    <div class="glass-card project-card-hover" role="article" aria-labelledby="project-title-{{ $project->id }}">
-                        <a href="{{ route('public.project.show', $project->id) }}" class="card-link" aria-label="Abrir projeto {{ $project->titulo }}" tabindex="0">Abrir projeto</a>
+                    @php
+                        $briefing = json_decode($project->briefing, true);
+                        $thumb = is_array($briefing) ? ($briefing['thumbnail'] ?? null) : null;
+                        $statusClass = $statusColors[$project->status] ?? 'bg-gray-100 text-gray-600';
+                    @endphp
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition group relative">
+                        @if($thumb && file_exists(public_path('img/' . $thumb)))
+                            <a href="{{ route('public.project.show', $project->id) }}" class="block">
+                                <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" class="w-full h-40 object-cover">
+                            </a>
+                        @else
+                            <div class="w-full h-24 bg-gradient-to-r from-[#00baff]/10 to-cyan-100 flex items-center justify-center">
+                                <span class="text-3xl font-extrabold text-[#00baff]/40">{{ strtoupper(substr($project->titulo, 0, 1)) }}</span>
+                            </div>
+                        @endif
 
-                        <div class="card-body">
-                            @if($thumb && file_exists(public_path('img/' . $thumb)))
-                                <a href="{{ route('public.project.show', $project->id) }}" class="block hover:opacity-95">
-                                    <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" class="project-thumbnail">
-                                </a>
-                            @else
-                                <div class="project-avatar">{{ strtoupper(substr($project->titulo, 0, 1)) }}</div>
-                            @endif
-
-                            <a href="{{ route('public.project.show', $project->id) }}" class="block" id="project-title-{{ $project->id }}">
-                                <h2 class="project-title">{{ $project->titulo }}</h2>
+                        <div class="p-5">
+                            <a href="{{ route('public.project.show', $project->id) }}" class="block">
+                                <h3 class="text-lg font-bold text-gray-800 mb-2 group-hover:text-[#00baff] transition">{{ $project->titulo }}</h3>
                             </a>
 
-                            <div class="mb-2">
-                                <span class="font-semibold text-cyan-400">Status:</span>
-                                <span class="status-badge {{ $statusClass }}">{{ $statusMap[$project->status] ?? ucfirst($project->status) }}</span>
-                            </div>
+                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold {{ $statusClass }} mb-3">
+                                {{ $statusMap[$project->status] ?? ucfirst($project->status) }}
+                            </span>
 
-                            <div class="project-excerpt">
-                                @php $briefing = json_decode($project->briefing, true); @endphp
+                            <div class="text-sm text-gray-500 mb-3 line-clamp-3">
                                 @if(is_array($briefing))
-                                    <div>
-                                        @if(isset($briefing['title']))<div><b>Título:</b> {{ $briefing['title'] }}</div>@endif
-                                        @if(isset($briefing['business_type']))<div><b>Tipo de negócio:</b> {{ $briefing['business_type'] }}</div>@endif
-                                        @if(isset($briefing['necessity']))<div><b>Necessidade:</b> {{ $briefing['necessity'] }}</div>@endif
-                                        @if(isset($briefing['target_audience']))<div><b>Público-alvo:</b> {{ $briefing['target_audience'] }}</div>@endif
-                                        @if(isset($briefing['style']))<div><b>Estilo:</b> {{ $briefing['style'] }}</div>@endif
-                                        @if(isset($briefing['colors']))<div><b>Cores:</b> {{ $briefing['colors'] }}</div>@endif
-                                        @if(isset($briefing['usage']))<div><b>Uso:</b> {{ $briefing['usage'] }}</div>@endif
-                                    </div>
+                                    @if(isset($briefing['business_type']))<span class="font-medium text-gray-600">{{ $briefing['business_type'] }}</span> · @endif
+                                    @if(isset($briefing['necessity'])){{ $briefing['necessity'] }}@endif
+                                    @if(isset($briefing['target_audience'])) · {{ $briefing['target_audience'] }}@endif
                                 @elseif(is_string($project->briefing) && trim($project->briefing) !== '')
-                                    <div>{{ $project->briefing }}</div>
+                                    {{ Str::limit($project->briefing, 120) }}
                                 @else
-                                    <span class="text-gray-500">Sem descrição disponível.</span>
+                                    <span class="text-gray-400">Sem descrição disponível.</span>
                                 @endif
                             </div>
 
-                            <div class="project-meta">
-                                <div class="project-meta-left">
-                                    <div class=""><span class="font-semibold text-cyan-400">Valor:</span> <span class="project-price-badge">Kz {{ number_format($project->valor, 2, ',', '.') }}</span></div>
-                                </div>
-                                <div class="text-sm"><span class="font-semibold text-cyan-400">Publicado em:</span> <span class="text-white">{{ $project->created_at->format('d/m/Y') }}</span></div>
+                            <div class="flex items-center justify-between pt-3 border-t border-gray-50">
+                                <span class="text-lg font-extrabold text-[#00baff]">Kz {{ number_format($project->valor, 2, ',', '.') }}</span>
+                                <span class="text-xs text-gray-400">{{ $project->created_at->format('d/m/Y') }}</span>
                             </div>
-                        </div>
 
-                        <div class="card-actions mt-4 flex flex-col gap-2">
-                            <a href="#" onclick="showLoginMsg{{ $project->id }}('detalhes'); return false;" class="hero-btn-outline mb-2" role="button" aria-controls="login-msg-{{ $project->id }}" aria-label="Ver detalhes do projeto">Ver detalhes</a>
-                            <div style="display:flex; gap:.5rem; align-items:center;">
-                                <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                    <a href="#" onclick="showLoginMsg{{ $project->id }}('detalhes'); return false;" class="action-btn" role="button" aria-controls="login-msg-{{ $project->id }}" aria-label="Ver detalhes do projeto {{ $project->id }}" title="Ver detalhes do projeto">
-                                        @include('components.icon', ['name' => 'eye', 'class' => 'w-5 h-5'])
-                                    </a>
-                                    <span class="action-label">Detalhes</span>
-                                </div>
-
-                                <div style="flex:1"></div>
-
-                                <button onclick="showLoginMsg{{ $project->id }}('aceitar')" class="btn-eq btn-primary small flex items-center gap-2" aria-label="Aceitar projeto">
-                                    @include('components.icon', ['name' => 'dots', 'class' => 'w-4 h-4 text-cyan-700'])
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                    </svg>
-                                    <span>Aceitar</span>
-                                </button>
-
-                                <div class="action-row">
-                                    <button onclick="showLoginMsg{{ $project->id }}('enviar_proposta')" class="btn-eq btn-outline small" aria-label="Enviar proposta" title="Enviar proposta">
-                                        @include('components.icon', ['name' => 'dots', 'class' => 'w-4 h-4 text-cyan-700'])
-                                        <span>Enviar proposta</span>
-                                    </button>
-                                </div>
+                            <div class="mt-4 flex gap-2">
+                                <a href="{{ route('public.project.show', $project->id) }}" class="flex-1 text-center bg-[#00baff] text-white font-bold py-2 rounded-lg hover:bg-[#009ad6] transition text-sm">Ver detalhes</a>
                             </div>
-                            <div id="login-msg-{{ $project->id }}" style="display:none;" class="mt-2 p-3 rounded bg-yellow-100 text-yellow-900 text-center font-semibold text-sm border border-yellow-300">
-                                <span>Você precisa entrar no sistema como freelancer. Caso ainda não tenha uma conta:</span><br>
-                                <a href="/register?freelancer=1" class="inline-block mt-2 bg-cyan-400 text-[#101c2c] rounded px-3 py-1 font-bold hover:bg-cyan-300 transition animate-pulse">Torne-se freelancer</a>
-                            </div>
-                            <script>
-                                function showLoginMsg{{ $project->id }}(acao) {
-                                    var el = document.getElementById('login-msg-{{ $project->id }}');
-                                    el.style.display = 'block';
-                                    setTimeout(function() { el.style.display = 'none'; }, 6000);
-                                }
-                            </script>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-3 text-gray-300 text-center">Nenhum projeto disponível no momento.</div>
+                    <div class="col-span-3 text-center py-16">
+                        <div class="text-gray-400 text-lg font-semibold">Nenhum projeto disponível no momento.</div>
+                        <p class="text-gray-300 mt-1">Volte em breve para ver novos projetos.</p>
+                    </div>
                 @endforelse
             </div>
+
             <div class="mt-10">
-                <div class="pagination-custom">{{ $projects->links() }}</div>
+                {{ $projects->links() }}
             </div>
         </div>
     </div>
-    {{-- Rodapé já incluso pelo layout --}}
 @endsection

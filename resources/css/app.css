@@ -50,6 +50,13 @@ body{
 .profile-page{ background: #ffffff !important; color: #0f172a !important; }
 .profile-page .site-footer{ background: #ffffff !important; color: #6b7280 !important; border-top: 1px solid rgba(15,23,42,0.04) !important; }
 
+/* Light page: white background for public content pages (projetos, freelancers, etc.) */
+.light-page{ background: #f8fafc !important; color: #1e293b !important; }
+.light-page .site-footer{ background: #f8fafc !important; color: #6b7280 !important; border-top: 1px solid #e2e8f0 !important; }
+.light-input{ width:100%; background:#fff; border:1px solid #e2e8f0; color:#1e293b; padding:.55rem .75rem; border-radius:10px; font-size:.9rem; transition: border-color .2s, box-shadow .2s; }
+.light-input:focus{ border-color:#00baff; box-shadow:0 0 0 3px rgba(0,186,255,0.1); outline:none; }
+.light-input::placeholder{ color:#94a3b8; }
+
 /* Section helpers: allow alternating backgrounds per section */
 .section{ padding:3.5rem 0; background:transparent; }
 .section--alt{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); }

@@ -2,7 +2,12 @@
 
 @section('content')
 @php use Illuminate\Support\Str; @endphp
-<div class="max-w-4xl mx-auto py-8">
+<div class="light-page min-h-screen pt-8 pb-12">
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <a href="{{ route('freelancers.index') }}" class="inline-flex items-center gap-1 text-[#00baff] font-semibold mb-6 hover:underline">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Voltar aos freelancers
+    </a>
     <div class="bg-white p-6 rounded-2xl shadow">
         <div class="flex items-start gap-6">
             <div class="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden">
@@ -85,5 +90,6 @@
         </div>
         @endif
     </div>
+</div>
 </div>
 @endsection
