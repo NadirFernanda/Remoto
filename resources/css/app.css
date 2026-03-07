@@ -122,6 +122,7 @@ body{
 .btn-primary.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
 .btn-primary.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
 .btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,186,255,0.12); padding:.45rem .7rem; border-radius:8px; }
+.btn-outline:hover{ background:rgba(0,186,255,0.07); border-color:rgba(0,186,255,0.35); transform:translateY(-1px); }
 
 /* Icon + text spacing for dashboard header buttons */
 .btn-primary svg, .btn-outline svg { margin-right: .5rem; flex-shrink: 0; }
