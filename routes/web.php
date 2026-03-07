@@ -107,6 +107,8 @@ Route::middleware('auth')->group(function () {
 
     // --- Client routes ---
     Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
+    Route::get('/cliente/projetos', \App\Livewire\Client\ProjectManager::class)->name('client.projects');
+    Route::get('/cliente/projetos/matching/{service}', \App\Livewire\Client\FreelancerMatching::class)->name('client.matching');
     Route::get('/cliente/perfil', \App\Livewire\Client\Profile::class)->name('client.profile');
     Route::get('/cliente/briefing', \App\Livewire\Client\Briefing::class)->name('client.briefing');
     Route::get('/cliente/pedidos', \App\Livewire\Client\OrderHistory::class)->name('client.orders');
