@@ -83,6 +83,20 @@
                 <span>Chat</span>
                 @livewire('chat.chat-badge', ['serviceId' => $service->id], key('chat-badge-'.$service->id))
             </a>
+
+            @if($service->status === 'completed')
+                <a href="{{ route('service.review.leave', $service->id) }}" class="btn-eq btn-primary">
+                    @include('components.icon', ['name' => 'star', 'class' => 'w-4 h-4'])
+                    <span>Avaliar serviço</span>
+                </a>
+            @endif
+
+            @if(!in_array($service->status, ['cancelled', 'published']))
+                <a href="{{ route('service.dispute', $service->id) }}" class="btn-eq btn-outline text-red-600 border-red-400 hover:bg-red-50">
+                    @include('components.icon', ['name' => 'flag', 'class' => 'w-4 h-4'])
+                    <span>Abrir disputa</span>
+                </a>
+            @endif
         </x-action-toolbar>
 
         @if($proposalModal)

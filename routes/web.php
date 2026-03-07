@@ -27,6 +27,7 @@ Route::get('/dashboard', function () {
 
 // --- Public routes ---
 Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
+Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('freelancers.search');
 Route::get('/freelancers/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
 Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
 Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
@@ -98,11 +99,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/cliente/financeiro/export', [FinanceHistoryExportController::class, 'exportCsv'])->name('client.finance.exportCsv');
     Route::put('/cliente/servico/{service}/titulo', [ServiceTitleController::class, 'update'])->name('client.service.title.update');
 
+    // --- Reviews ---
+    Route::get('/servico/{service}/avaliar', \App\Livewire\LeaveReview::class)->name('service.review.leave');
+
+    // --- Disputes ---
+    Route::get('/servico/{service}/disputa', \App\Livewire\DisputeCenter::class)->name('service.dispute');
+
     // --- Chat ---
     Route::get('/chat/servico/{service}', \App\Livewire\Chat\ServiceChat::class)->name('service.chat');
 
     // --- Admin ---
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+    Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     // Histórico de transações
    Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
    // Reembolso de serviço
