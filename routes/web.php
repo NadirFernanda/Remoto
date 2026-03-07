@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FreelancerListingController;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\PublicProjectsController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Client\FinanceHistoryExportController;
 use App\Http\Controllers\Client\ServiceTitleController;
@@ -73,11 +72,6 @@ Route::middleware('auth')->group(function () {
         $dashboard = $newRole === 'freelancer' ? '/freelancer/dashboard' : '/cliente/dashboard';
         return redirect($dashboard);
     })->name('switch.role');
-
-    // Profile
-    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/perfil', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/perfil/password', [ProfileController::class, 'update'])->name('profile.password');
 
     // Affiliate
     Route::post('/affiliate/generate', function () {

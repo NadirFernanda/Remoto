@@ -149,8 +149,9 @@
 							</td>
 							<td class="py-2 px-4">
 								@if(in_array($candidate->status, ['pending', 'proposal_sent', 'invited']) && optional($candidate->service)->status === 'published')
-									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn action-icon" title="Escolher freelancer" aria-label="Escolher freelancer">
-										@include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
+								<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="inline-flex items-center gap-1 bg-[#00baff] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#009ad6] transition" title="Escolher freelancer" aria-label="Escolher freelancer">
+									@include('components.icon', ['name' => 'check', 'class' => 'w-4 h-4'])
+									Escolher
 									</button>
 								@elseif($candidate->status === 'chosen')
 									<a href="{{ route('service.chat', $candidate->service_id) }}" class="inline-flex items-center gap-1 bg-[#00baff] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#009ad6] transition">
