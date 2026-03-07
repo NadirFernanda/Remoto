@@ -133,8 +133,9 @@
                 errEl.textContent = '';
                 if (!input.files || !input.files[0]) return;
                 var f = input.files[0];
-                if (f.size > 8 * 1024 * 1024) {
-                    errEl.textContent = 'Arquivo muito grande. Máximo permitido: 8MB.';
+                var maxBytes = 50 * 1024 * 1024; // 50MB
+                if (f.size > maxBytes) {
+                    errEl.textContent = 'Arquivo muito grande. Máximo permitido: 50MB.';
                     input.value = '';
                     return false;
                 }
@@ -144,10 +145,11 @@
                 var errEl = document.getElementById('portfolioFilesError');
                 errEl.textContent = '';
                 if (!input.files || input.files.length === 0) return;
+                var maxBytes = 50 * 1024 * 1024; // 50MB per file
                 for (var i = 0; i < input.files.length; i++) {
                     var f = input.files[i];
-                    if (f.size > 8 * 1024 * 1024) {
-                        errEl.textContent = 'Um dos arquivos é maior que 8MB. Remova arquivos grandes.';
+                    if (f.size > maxBytes) {
+                        errEl.textContent = 'Um dos arquivos é maior que 50MB. Remova arquivos grandes.';
                         input.value = '';
                         return false;
                     }

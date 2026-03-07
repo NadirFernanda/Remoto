@@ -26,7 +26,7 @@ class ServiceDelivery extends Component
     public function entregarServico()
     {
         $this->validate([
-            'entrega_arquivo' => 'required|file|max:8192', // 8MB
+            'entrega_arquivo' => 'required|file|max:51200', // 50MB
             'entrega_mensagem' => 'nullable|string|max:255',
         ]);
         // Aqui seria feita a lógica de upload e marcação como entregue

@@ -65,7 +65,7 @@ class ProfileEditor extends Component
     protected function rules()
     {
         return [
-            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=200,min_height=200|max:8192',
+            'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|dimensions:min_width=200,min_height=200|max:51200',
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
@@ -81,7 +81,7 @@ class ProfileEditor extends Component
             'metrics_completed_projects' => 'nullable|integer|min:0',
             'metrics_rating' => 'nullable|numeric|min:0|max:5',
             'metrics_total_earnings' => 'nullable|numeric|min:0',
-            'portfolioFiles.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4,zip|max:8192',
+            'portfolioFiles.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4,zip|max:51200',
         ];
     }
 
