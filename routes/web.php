@@ -1,9 +1,4 @@
-// Histórico de transações
-Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
-// Reembolso de serviço
-Route::post('/cliente/servico/{service}/reembolso', [\App\Http\Controllers\ServiceRefundController::class, 'requestRefund'])->name('client.service.refund');
-// Liberação de pagamento (escrow)
-Route::post('/cliente/servico/{service}/liberar-pagamento', [\App\Http\Controllers\ServiceEscrowController::class, 'releasePayment'])->name('client.service.release_payment');
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -108,4 +103,10 @@ Route::middleware('auth')->group(function () {
 
     // --- Admin ---
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+    // Histórico de transações
+   Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
+   // Reembolso de serviço
+  Route::post('/cliente/servico/{service}/reembolso', [\App\Http\Controllers\ServiceRefundController::class, 'requestRefund'])->name('client.service.refund');
+  // Liberação de pagamento (escrow)
+  Route::post('/cliente/servico/{service}/liberar-pagamento', [\App\Http\Controllers\ServiceEscrowController::class, 'releasePayment'])->name('client.service.release_payment');
 });
