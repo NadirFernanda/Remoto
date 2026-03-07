@@ -12,6 +12,10 @@ class Briefing extends Component
     public $business_type1 = null;
     public $business_type1_outro = null;
     public $necessity1 = null;
+    public $target_audience1 = null;
+    public $style1 = null;
+    public $colors1 = null;
+    public $usage = null;
     public int $step = 1;
     public $edit = null;
     public $generated_description = '';
