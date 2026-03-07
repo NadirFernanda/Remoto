@@ -165,6 +165,8 @@ class Dashboard extends Component
             'kpi_projetos_andamento' => $this->kpi_projetos_andamento,
             'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
             'affiliate_link' => $affiliate_link,
+        ])->layout('layouts.dashboard', [
+            'dashboardTitle' => 'Dashboard do Cliente',
         ]);
     }
 }
