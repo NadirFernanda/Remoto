@@ -87,6 +87,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
     Route::get('/freelancer/servico/{service}/entrega', \App\Livewire\Freelancer\ServiceDelivery::class)->name('freelancer.service.delivery');
     Route::get('/freelancer/configuracoes', \App\Livewire\Client\Settings::class)->name('freelancer.settings');
+    Route::get('/freelancer/perfil/editar', \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
+    Route::get('/freelancer/portfolio', \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
+    Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
 
     // --- Client routes ---
     Route::get('/cliente/dashboard', \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
