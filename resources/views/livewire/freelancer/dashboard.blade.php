@@ -1,6 +1,4 @@
 <div class="container mx-auto p-4">
-    @livewire('freelancer.notifications-panel')
-
     {{-- Onboarding checklist --}}
     @livewire('freelancer.onboarding')
 

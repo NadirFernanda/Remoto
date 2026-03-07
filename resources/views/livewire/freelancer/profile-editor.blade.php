@@ -84,8 +84,17 @@
                 @error('availability_status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Status KYC</label>
-                <input type="text" wire:model.defer="kyc_status" readonly class="block w-full rounded-lg border border-gray-200 py-2 px-3 bg-gray-50">
+                <label class="block text-sm font-medium text-gray-700">Verificação de identidade (KYC)</label>
+                @php
+                    $kycLabels = ['pending' => ['Pendente', 'bg-yellow-100 text-yellow-700'], 'verified' => ['Verificado', 'bg-green-100 text-green-700'], 'rejected' => ['Rejeitado', 'bg-red-100 text-red-600']];
+                    [$kycLabel, $kycClass] = $kycLabels[$kyc_status ?? 'pending'] ?? ['Pendente', 'bg-yellow-100 text-yellow-700'];
+                @endphp
+                <div class="flex items-center gap-3 mt-1">
+                    <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $kycClass }}">{{ $kycLabel }}</span>
+                    @if(($kyc_status ?? 'pending') !== 'verified')
+                        <a href="{{ route('kyc.submit') }}" class="text-sm text-[#00baff] hover:underline">Verificar identidade →</a>
+                    @endif
+                </div>
             </div>
         </div>
 
