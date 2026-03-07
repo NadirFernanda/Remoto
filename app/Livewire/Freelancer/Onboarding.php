@@ -47,14 +47,7 @@ class Onboarding extends Component
                 'done'  => $profile && $profile->kyc_status === 'verified',
                 'link'  => route('freelancer.settings'),
             ],
-            [
-                'key'   => 'disponibilidade',
-                'icon'  => 'clock',
-                'label' => 'Configurar disponibilidade',
-                'descr' => 'Defina sua taxa horária e disponibilidade',
-                'done'  => $profile && $profile->availability_status && $profile->hourly_rate,
-                'link'  => route('freelancer.profile.edit'),
-            ],
+
             [
                 'key'   => 'financeiro',
                 'icon'  => 'wallet',
