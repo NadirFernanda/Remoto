@@ -279,7 +279,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($users as $user)
+                @foreach($recentUsers as $user)
                 <tr class="border-b">
                     <td class="py-2 px-4">{{ $user->name }}</td>
                     <td class="py-2 px-4">{{ $user->email }}</td>
@@ -289,7 +289,7 @@
                 @endforeach
             </tbody>
         </table>
-        @if($users->isEmpty())
+        @if($recentUsers->isEmpty())
             <div class="text-center text-gray-500 py-4">Nenhum usuário cadastrado.</div>
         @endif
     </div>

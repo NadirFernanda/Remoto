@@ -14,6 +14,7 @@ class Dashboard extends Component
     public array $funnel = [];
     public array $revenueByDay = [];
     public $recentLogs;
+    public $recentUsers;
     public int $period = 30;
 
     public function mount(): void
@@ -88,6 +89,10 @@ class Dashboard extends Component
         $this->recentLogs = AuditLog::with('user')
             ->orderByDesc('created_at')
             ->take(8)
+            ->get();
+
+        $this->recentUsers = User::orderByDesc('created_at')
+            ->take(10)
             ->get();
     }
 
