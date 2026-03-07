@@ -18,7 +18,8 @@
             <form wire:submit.prevent="submitBriefing">
                 <div class="mb-4">
                     <label class="block font-semibold mb-2">Título do pedido <span class="text-red-500">*</span></label>
-                    <input type="text" wire:model.defer="title1" maxlength="100" required autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Título único do pedido">
+                    <input type="text" wire:model.defer="title1" maxlength="100" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('title1') border-red-500 @enderror" placeholder="Título único do pedido">
+                    @error('title1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div class="mb-4">
                     <label class="block font-semibold mb-2">Tipo de serviço</label>
@@ -54,13 +55,15 @@
                     @if($business_type1 === 'Outro')
                         <div class="mt-4" wire:key="outro-field">
                             <label class="block font-semibold mb-2">Descreva o tipo de serviço</label>
-                            <input type="text" wire:model="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Descreva o tipo de serviço">
+                            <input type="text" wire:model="business_type1_outro" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('business_type1_outro') border-red-500 @enderror" placeholder="Descreva o tipo de serviço">
+                            @error('business_type1_outro')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         </div>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <label class="block font-semibold mb-2">Qual é a sua necessidade?</label>
-                    <input type="text" wire:model.defer="necessity1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" placeholder="Necessidade específica">
+                    <label class="block font-semibold mb-2">Qual é a sua necessidade? <span class="text-red-500">*</span></label>
+                    <input type="text" wire:model.defer="necessity1" autocomplete="off" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none @error('necessity1') border-red-500 @enderror" placeholder="Necessidade específica">
+                    @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 {{-- Botão 'Gerar descrição inteligente' removido --}}
                 @if($generated_description)

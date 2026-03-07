@@ -55,7 +55,7 @@ class ServiceValue extends Component
             // Mantém estrutura antiga para compatibilidade
             'pagamento' => $order['payment'],
         ]);
-        return redirect()->route('client.payment', ['valor' => $this->valor]);
+        return redirect()->route('client.payment', ['service' => session('client_order.service_id', 0), 'valor' => $this->valor]);
     }
 
     public function render()

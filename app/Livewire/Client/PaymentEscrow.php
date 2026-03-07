@@ -128,52 +128,50 @@ class PaymentEscrow extends Component
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
-        // Recupera dados do briefing da sessão (objeto único de pedido)
+        // Recupera dados da sessão
         $order = session('client_order', []);
-        $briefing = $order['briefing_raw'] ?? session('briefing', null);
-        if (!$briefing) {
-            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
-            return redirect()->route('client.briefing');
+
+        // Tenta encontrar o Service já criado na etapa do briefing
+        $serviceId = $order['service_id'] ?? null;
+        $service = $serviceId ? Service::where('id', $serviceId)->where('cliente_id', $user->id)->first() : null;
+
+        if ($service) {
+            // Atualiza o service existente com o valor e valor líquido
+            $service->valor         = $this->valor;
+            $service->taxa          = $this->taxa;
+            $service->valor_liquido = $this->valor_liquido;
+            $service->status        = 'published';
+            $service->save();
+        } else {
+            // Fallback: cria service a partir da sessão (fluxo legado)
+            $briefing = $order['briefing_raw'] ?? session('briefing', null);
+            if (!$briefing) {
+                session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
+                return redirect()->route('client.briefing');
+            }
+            $briefing_processado = $this->processBriefing($briefing);
+            $titulo_cliente = $order['title'] ?? session('briefing_title');
+            $titulo = is_string($titulo_cliente) && trim($titulo_cliente) !== '' ? trim($titulo_cliente) : ($briefing['title'] ?? null);
+            if (!$titulo) {
+                session()->flash('error', 'Título do pedido não encontrado. Volte e preencha o título corretamente.');
+                return redirect()->route('client.briefing');
+            }
+            $briefing_final = is_array($briefing_processado)
+                ? (isset($briefing_processado['texto']) ? $briefing_processado['texto'] : json_encode($briefing_processado))
+                : (string) $briefing_processado;
+
+            $service = Service::create([
+                'cliente_id'    => $user->id,
+                'titulo'        => $titulo,
+                'briefing'      => $briefing_final,
+                'valor'         => $this->valor,
+                'taxa'          => $this->taxa,
+                'valor_liquido' => $this->valor_liquido,
+                'status'        => 'published',
+            ]);
         }
 
-        // Aqui seria feita a integração real com gateway de pagamento
-        // Simulação de sucesso
-
-        // Processa o briefing antes de salvar
-        $briefing_processado = $this->processBriefing($briefing);
-        // Recupera o título digitado pelo cliente na sessão e prioriza sempre que possível
-        $titulo_cliente = $order['title'] ?? session('briefing_title');
-        if ($titulo_cliente && is_string($titulo_cliente) && trim($titulo_cliente) !== '') {
-            $titulo = trim($titulo_cliente);
-        } elseif (isset($briefing['title']) && is_string($briefing['title']) && trim($briefing['title']) !== '') {
-            $titulo = trim($briefing['title']);
-        } else {
-            session()->flash('error', 'Título do pedido não encontrado. Volte e preencha o título corretamente.');
-            return redirect()->route('client.briefing');
-        }
-        if (!$titulo || $titulo === '') {
-            session()->flash('error', 'Título do pedido não encontrado. Volte e preencha o título corretamente.');
-            return redirect()->route('client.briefing');
-        }
-        // Limpa a sessão do título após uso
-        session()->forget('briefing_title');
-        \Log::debug('TÍTULO DO PROJETO DEFINIDO:', ['titulo' => $titulo]);
-        // Briefing final
-        if (is_array($briefing_processado)) {
-            $briefing_final = isset($briefing_processado['texto']) ? $briefing_processado['texto'] : json_encode($briefing_processado);
-        } else {
-            $briefing_final = (string)$briefing_processado;
-        }
-        $service = Service::create([
-            'cliente_id' => $user->id,
-            'titulo' => $titulo ?: 'Pedido sem título',
-            'briefing' => $briefing_final,
-            'valor' => $this->valor,
-            'taxa' => $this->taxa,
-            'valor_liquido' => $this->valor_liquido,
-            // Use a status accepted by the DB enum (migration defines: published, accepted, in_progress, delivered, completed)
-            'status' => 'published',
-        ]);
+        session()->forget(['client_order', 'briefing', 'briefing_title']);
 
         // Notificação interna para freelancers ativos
         if ($service) {

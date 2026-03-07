@@ -47,8 +47,8 @@ class Briefing extends Component
     public function submitBriefing()
     {
         $rules = [
-            'title1' => 'required|max:100',
-            'business_type1' => 'required|max:100',
+            'title1'    => 'required|max:100',
+            'business_type1' => 'nullable|max:100',
             'necessity1' => 'required|max:100',
         ];
         if ($this->business_type1 === 'Outro') {
@@ -76,25 +76,36 @@ class Briefing extends Component
                 $service->save();
                 $serviceId = $service->id;
             }
+        } else {
+            // Novo pedido: cria Service imediatamente com valor a ser definido depois
+            $service = Service::create([
+                'cliente_id'    => auth()->id(),
+                'titulo'        => $this->title1,
+                'briefing'      => $briefingText,
+                'taxa'          => 10.00,
+                'status'        => 'published',
+            ]);
+            $serviceId = $service->id;
         }
-        // Salvar briefing e título na sessão (objeto único do pedido)
+
+        // Salvar briefing e título na sessão para uso posterior (valor/pagamento)
         $order = session('client_order', []);
-        $order['briefing_raw'] = $briefingData;
+        $order['briefing_raw']  = $briefingData;
         $order['briefing_text'] = $briefingText;
-        $order['title'] = $this->title1;
+        $order['title']         = $this->title1;
+        $order['service_id']    = $serviceId;
         session([
-            'client_order' => $order,
-            // Mantém chaves antigas para compatibilidade
-            'briefing' => $briefingData,
+            'client_order'   => $order,
+            'briefing'       => $briefingData,
             'briefing_title' => $this->title1,
         ]);
-        if ($serviceId) {
-            $this->dispatch('showSuccess', 'Pedido atualizado com sucesso!');
-            return redirect()->route('client.value', ['service' => $serviceId]);
+
+        if ($this->edit) {
+            session()->flash('success', 'Pedido atualizado com sucesso!');
         } else {
-            $this->dispatch('showSuccess', 'Pedido criado com sucesso!');
-            return redirect()->route('client.dashboard');
+            session()->flash('success', 'Pedido criado com sucesso! Defina o orçamento para publicar.');
         }
+        return redirect()->route('client.value', ['service' => $serviceId]);
     }
 
     public function mount()
