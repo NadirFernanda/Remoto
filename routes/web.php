@@ -3,13 +3,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
-
-// Login routes
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Redirecionar / para login ou dashboard
 // Corrige erro 500: rota clientes.index não definida
