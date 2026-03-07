@@ -102,8 +102,8 @@
                                     @endif
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-[11px] uppercase tracking-wide text-gray-400">Valor proposto</div>
-                                    <div class="text-lg font-bold text-emerald-600">Kz {{ number_format($project->valor, 0, ',', '.') }}</div>
+                                    <div class="text-[11px] uppercase tracking-wide text-gray-400">Valor líquido</div>
+                                    <div class="text-lg font-bold text-emerald-600">Kz {{ number_format($project->valor_liquido, 0, ',', '.') }}</div>
                                 </div>
                             </div>
 

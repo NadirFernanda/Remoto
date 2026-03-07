@@ -115,8 +115,8 @@
         @if($orders->count() > 0)
         <div class="mt-6 text-center">
             <a href="{{ route('client.briefing') }}"
-               class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90"
-               style="background: #00baff;">
+               class="btn-eq btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold transition-all"
+               style="min-width: 180px;">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
