@@ -41,9 +41,12 @@
                             @else
                                 @php $role = auth()->user()->activeRole(); @endphp
                                 @if($role === 'freelancer')
-                                    {{-- Freelancer logado: aceitar ou proposta --}}
+                                    {{-- Freelancer logado: aceitar directamente --}}
                                     @if($service->status === 'published')
-                                        <a href="{{ route('freelancer.service.review', $service->id) }}" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Ver e aceitar projeto</a>
+                                        <form method="POST" action="{{ route('service.candidatar', $service->id) }}" class="inline">
+                                            @csrf
+                                            <button type="submit" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Candidatar-me a este projeto</button>
+                                        </form>
                                     @else
                                         <span class="bg-gray-100 text-gray-500 font-semibold px-6 py-2.5 rounded-lg">Projeto não disponível</span>
                                     @endif

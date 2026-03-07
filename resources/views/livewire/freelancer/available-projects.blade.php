@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="mt-5 flex flex-col gap-2">
-                            <a href="{{ route('freelancer.service.review', $project->id) }}" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Ver detalhes e candidatar-se</a>
+                            <button type="button" wire:click="acceptService({{ $project->id }})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Aceitar projeto</button>
                             <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
                         </div>
                     </div>

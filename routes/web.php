@@ -31,6 +31,20 @@ Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('
 Route::get('/freelancers/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
 Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
 Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
+Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $service) {
+    $user = auth()->user();
+    if (!$user || $user->id === $service->cliente_id) {
+        return back()->with('error', 'Você não pode aceitar este projeto.');
+    }
+    $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
+    if (!$candidate) {
+        $service->candidates()->create([
+            'freelancer_id' => $user->id,
+            'status' => 'pending',
+        ]);
+    }
+    return redirect()->route('freelancer.dashboard')->with('success', 'Candidatura registrada! Aguarde o cliente responder.');
+})->middleware('auth')->name('service.candidatar');
 
 // --- OTP verification ---
 Route::middleware('auth')->group(function () {
