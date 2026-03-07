@@ -48,7 +48,7 @@ class ServiceChat extends Component
         }
         $this->service->messages()->create([
             'user_id' => Auth::id(),
-            'conteudo' => $this->mensagem ?: null,
+            'conteudo' => $this->mensagem ?? '',
             'anexo' => $anexoPath ? basename($anexoPath) : null,
         ]);
         // atualiza leitura do remetente

@@ -83,7 +83,9 @@
                                 @endif
                             </div>
                         @endif
-                        <span>{{ $msg->conteudo }}</span>
+                        @if($msg->conteudo)
+                            <span>{{ $msg->conteudo }}</span>
+                        @endif
                         <span class="block text-xs text-gray-400 mt-1">{{ $msg->created_at->format('H:i') }}</span>
                     </div>
                     @if($msg->user_id === auth()->id())
