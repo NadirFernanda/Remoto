@@ -57,18 +57,12 @@
                     <textarea wire:model.defer="message" rows="4" class="block w-full rounded-lg border border-gray-200 py-2 px-3"></textarea>
                 </div>
                 <div class="mt-4">
-                    <label class="block text-sm font-medium text-gray-700">Anexos (opcional)</label>
-                    <input type="file" wire:model="attachments" multiple class="block w-full mt-1" />
-                    <div class="mt-2 text-sm text-gray-600">
-                        <span>Tipos permitidos: pdf, doc, docx, xlsx, png, jpg, jpeg, zip. Máx 5 arquivos, 5MB cada.</span>
-                    </div>
-                    @error('attachments') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                    @error('attachments.*') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                    <div class="mt-2">
-                        <template x-for="file in $wire.entangle('attachments')" :key="file">
-                            <div class="text-sm text-gray-700">Arquivo: <span x-text="file.name || file"></span></div>
-                        </template>
-                    </div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Anexos (opcional)</label>
+                    <x-file-input wire:model="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,image/*,.zip" multiple label="📎 Adicionar anexos" loading-target="attachments">
+                        @error('attachments') <div class="text-red-600 text-xs">{{ $message }}</div> @enderror
+                        @error('attachments.*') <div class="text-red-600 text-xs">{{ $message }}</div> @enderror
+                        <p class="text-xs text-gray-500">pdf, doc, xlsx, png, jpg, zip · máx. 5 ficheiros · 5 MB cada</p>
+                    </x-file-input>
                 </div>
                 <div class="mt-4 flex items-center justify-end gap-3">
                     <button type="button" class="btn-outline" wire:click.prevent="close">Cancelar</button>

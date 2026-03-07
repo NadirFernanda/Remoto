@@ -70,14 +70,14 @@ $categoryIcons = [
                     Arquivo {{ $tab === 'imagem' ? '(JPG, PNG, GIF — máx. 8MB)' : '(PDF, DOCX, etc. — máx. 20MB)' }}
                     {{ $editingId ? '(deixe em branco para manter o atual)' : '*' }}
                 </label>
-                <input wire:model="file" type="file"
-                       accept="{{ $tab === 'imagem' ? 'image/*' : '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx' }}"
-                       class="block w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-[#00baff]/10 file:text-[#00baff] hover:file:bg-[#00baff]/20">
-                @if($file)
-                    <p class="text-xs text-cyan-600 mt-1">&#x2705; {{ $file->getClientOriginalName() }}</p>
-                @endif
-                @error('file') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                <div wire:loading wire:target="file" class="text-xs text-gray-400 mt-1">A enviar...</div>
+                <x-file-input
+                    wire:model="file"
+                    accept="{{ $tab === 'imagem' ? 'image/*' : '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx' }}"
+                    label="{{ $tab === 'imagem' ? '🖼 Escolher imagem' : '📄 Escolher documento' }}"
+                    loading-target="file"
+                >
+                    @error('file') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
+                </x-file-input>
             </div>
             @endif
 

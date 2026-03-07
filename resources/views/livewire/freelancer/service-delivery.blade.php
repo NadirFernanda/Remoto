@@ -27,18 +27,9 @@
         <form wire:submit.prevent="entregarServico" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Arquivo de entrega</label>
-                <label class="flex flex-col gap-1 cursor-pointer">
-                    <span class="inline-flex items-center gap-2 border border-cyan-500 rounded px-3 py-2 bg-white hover:bg-cyan-50 transition text-sm">
-                        @if($entrega_arquivo)
-                            📎 {{ $entrega_arquivo->getClientOriginalName() }}
-                        @else
-                            📎 Selecionar ficheiro de entrega
-                        @endif
-                    </span>
-                    <input type="file" wire:model="entrega_arquivo" class="sr-only">
-                    <div wire:loading wire:target="entrega_arquivo" class="text-cyan-500 text-xs">A enviar ficheiro...</div>
-                </label>
-                @error('entrega_arquivo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                <x-file-input wire:model="entrega_arquivo" label="📎 Selecionar ficheiro de entrega" loading-target="entrega_arquivo">
+                    @error('entrega_arquivo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </x-file-input>
             </div>
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Mensagem (opcional)</label>

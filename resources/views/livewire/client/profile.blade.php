@@ -20,17 +20,10 @@
                 @endif
             </div>
             <div class="flex-1">
-                <label class="flex flex-col gap-1 cursor-pointer">
-                    <span class="inline-flex items-center gap-2 border border-gray-300 rounded px-3 py-2 bg-white hover:bg-gray-50 transition text-sm">
-                        @if($profilePhoto)
-                            ✅ {{ $profilePhoto->getClientOriginalName() }}
-                        @else
-                            📷 Escolher nova foto
-                        @endif
-                    </span>
-                    <input type="file" wire:model="profilePhoto" accept="image/*" class="sr-only">
-                    <div wire:loading wire:target="profilePhoto" class="text-cyan-600 text-xs">A carregar foto...</div>
-                </label>
+                <x-file-input wire:model="profilePhoto" accept="image/*" label="📷 Escolher nova foto" loading-target="profilePhoto">
+                    @error('profilePhoto') <span class="text-red-600 text-sm block mt-1">{{ $message }}</span> @enderror
+                    <p class="text-xs text-gray-500">Máx. 8 MB · jpg, png ou webp</p>
+                </x-file-input>
                 @error('profilePhoto') <span class="text-red-600 text-sm block mt-1">{{ $message }}</span> @enderror
                 <p class="text-xs text-gray-500 mt-1">A foto é atualizada automaticamente ao selecionar o ficheiro. Máx. 8 MB — jpg, png ou webp.</p>
             </div>

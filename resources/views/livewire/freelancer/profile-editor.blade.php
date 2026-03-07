@@ -8,20 +8,10 @@
                     <img class="w-full h-full object-cover" src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
                 </div>
                 <div class="flex-1">
-                    <label class="flex flex-col gap-1 cursor-pointer">
-                        <span class="inline-flex items-center gap-2 border border-gray-300 rounded px-3 py-2 bg-white hover:bg-gray-50 transition text-sm">
-                            @if($profilePhoto)
-                                ✅ {{ $profilePhoto->getClientOriginalName() }}
-                            @else
-                                📷 Escolher nova foto
-                            @endif
-                        </span>
-                        <input type="file" id="profilePhotoInput" wire:model="profilePhoto" accept="image/*" class="sr-only" onchange="validateProfilePhoto(this)">
-                        <div wire:loading wire:target="profilePhoto" class="text-cyan-600 text-xs">A enviar foto...</div>
-                    </label>
-                    <div id="profilePhotoError" class="text-red-600 text-sm mt-1"></div>
-                    @error('profilePhoto') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-                    <div class="text-xs text-gray-500 mt-1">Recomendado: rosto visível, sem logos; mínimo 200x200; jpg/png/webp; até 8MB.</div>
+                    <x-file-input wire:model="profilePhoto" accept="image/*" label="📷 Escolher nova foto" loading-target="profilePhoto">
+                        @error('profilePhoto') <span class="text-red-600 text-sm block">{{ $message }}</span> @enderror
+                        <p class="text-xs text-gray-500">Rosto visível, sem logos · mínimo 200×200 · jpg/png/webp · máx. 8 MB</p>
+                    </x-file-input>
                 </div>
             </div>
         </div>
@@ -128,11 +118,10 @@
         </div>
 
         <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700">Adicionar ao portfólio (múltiplo)</label>
-            <input type="file" id="portfolioFilesInput" wire:model="portfolioFiles" multiple class="block w-full" onchange="validatePortfolioFiles(this)">
-            <div id="portfolioFilesError" class="text-red-600 text-sm mt-1"></div>
-            @error('portfolioFiles.*') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
-            <div wire:loading wire:target="portfolioFiles">Fazendo upload...</div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Adicionar ao portfólio (múltiplo)</label>
+            <x-file-input wire:model="portfolioFiles" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" multiple label="Carregar ficheiros" loading-target="portfolioFiles">
+                @error('portfolioFiles.*') <span class="text-red-600 text-sm block">{{ $message }}</span> @enderror
+            </x-file-input>
         </div>
 
         <script>
