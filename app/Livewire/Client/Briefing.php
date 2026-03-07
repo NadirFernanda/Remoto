@@ -67,12 +67,14 @@ class Briefing extends Component
         // Gerar texto profissional do briefing
         $briefingText = BriefingTextGenerator::generate($briefingData);
         // Se estiver editando, salva direto no serviço
+        $serviceId = null;
         if ($this->edit) {
             $service = Service::find($this->edit);
             if ($service && $service->cliente_id === auth()->id()) {
                 $service->titulo = $this->title1;
                 $service->briefing = $briefingText;
                 $service->save();
+                $serviceId = $service->id;
             }
         }
         // Salvar briefing e título na sessão (objeto único do pedido)
@@ -86,7 +88,12 @@ class Briefing extends Component
             'briefing' => $briefingData,
             'briefing_title' => $this->title1,
         ]);
-        return redirect()->route('client.value');
+        if ($serviceId) {
+            return redirect()->route('client.value', ['service' => $serviceId]);
+        } else {
+            // Se não houver serviço, redireciona para dashboard ou outra rota segura
+            return redirect()->route('client.dashboard');
+        }
     }
 
     public function mount()
