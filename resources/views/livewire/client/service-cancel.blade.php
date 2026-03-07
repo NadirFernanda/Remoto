@@ -84,7 +84,7 @@
                 @if(is_array($briefingArray))
                     @if(isset($briefingArray['title']))<div><b>Título:</b> {{ $briefingArray['title'] }}</div>@endif
                     @if(isset($briefingArray['business_type']))<div><b>Tipo de negócio:</b> {{ $briefingArray['business_type'] }}</div>@endif
-                    @if(isset($briefingArray['necessity']))<div><b>Necessidade:</b> {{ $briefingArray['necessity'] }}</div>@endif
+                    @if(isset($briefingArray['necessity']))<div><b>Descrição do serviço:</b> {{ $briefingArray['necessity'] }}</div>@endif
                 @else
                     {{ $briefing }}
                 @endif

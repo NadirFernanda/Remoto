@@ -80,7 +80,7 @@
             <p class="mb-1"><span class="font-semibold">Título:</span> {{ $order['title'] ?? '-' }}</p>
             @php($b = $order['briefing_raw'] ?? [])
             <p class="mb-1"><span class="font-semibold">Tipo de negócio:</span> {{ $b['business_type'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Necessidade:</span> {{ $b['necessity'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Descrição do serviço:</span> {{ $b['necessity'] ?? '-' }}</p>
         </div>
     </div>
 </div>

@@ -28,7 +28,7 @@
                 $labels = [
                     'title' => 'Título',
                     'business_type' => 'Tipo de negócio',
-                    'necessity' => 'Necessidade',
+                    'necessity' => 'Descrição do serviço',
                 ];
             @endphp
             <ul class="list-disc ml-6 text-gray-700 mt-2">
