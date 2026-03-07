@@ -9,32 +9,28 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Mais Recentes</h2>
             <div class="space-y-3">
                 @forelse($recent as $notification)
-                    <div class="bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm">
+                    <a href="{{ $notification->service_id ? route('freelancer.service.review', $notification->service_id) : '#' }}"
+                       class="block bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm transition hover:bg-cyan-50 focus:bg-cyan-50 outline-none"
+                       tabindex="0">
                         <div class="flex-1 min-w-0">
                             <div class="text-gray-800 font-medium truncate">
-                                @if($notification->service_id)
-                                    <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="text-[#00baff] hover:underline">
-                                        {{ $notification->message }}
-                                    </a>
-                                @else
-                                    {{ $notification->message }}
-                                @endif
+                                {{ $notification->message }}
                             </div>
                             <div class="text-xs text-gray-400 mt-1">{{ $notification->created_at->format('d/m/Y H:i') }}</div>
                         </div>
                         @if($notification->service_id)
                             <div class="flex gap-2">
-                                <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="btn-eq small" title="Ver projeto">Ver</a>
-                                <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="btn-eq btn-outline small" title="Enviar proposta">Enviar proposta</a>
+                                <span class="btn-eq small cursor-pointer" title="Ver projeto">Ver</span>
+                                <span class="btn-eq btn-outline small cursor-pointer" title="Enviar proposta">Enviar proposta</span>
                                 @php $unread = auth()->check() ? \App\Models\ChatRead::unreadCount($notification->service_id, auth()->id()) : 0; @endphp
-                                <a href="{{ route('service.chat', $notification->service_id) }}" class="btn-eq btn-outline small relative" title="Ir para o chat">Chat
+                                <span class="btn-eq btn-outline small relative cursor-pointer" title="Ir para o chat">Chat
                                     @if($unread > 0)
                                         <span class="absolute -top-1 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">{{ $unread > 9 ? '9+' : $unread }}</span>
                                     @endif
-                                </a>
+                                </span>
                             </div>
                         @endif
-                    </div>
+                    </a>
                 @empty
                     <div class="bg-gray-50 border border-gray-100 rounded-xl px-5 py-8 text-center text-gray-400">Nenhuma notificação recente.</div>
                 @endforelse
@@ -47,32 +43,28 @@
                 @php $recentIds = $recent->pluck('id')->all(); @endphp
                 @forelse($notifications as $notification)
                     @if(!in_array($notification->id, $recentIds))
-                        <div class="bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm">
+                        <a href="{{ $notification->service_id ? route('freelancer.service.review', $notification->service_id) : '#' }}"
+                           class="block bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm transition hover:bg-cyan-50 focus:bg-cyan-50 outline-none"
+                           tabindex="0">
                             <div class="flex-1 min-w-0">
                                 <div class="text-gray-700 truncate">
-                                    @if($notification->service_id)
-                                        <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="text-[#00baff] hover:underline">
-                                            {{ $notification->message }}
-                                        </a>
-                                    @else
-                                        {{ $notification->message }}
-                                    @endif
+                                    {{ $notification->message }}
                                 </div>
                                 <div class="text-xs text-gray-400 mt-1">{{ $notification->created_at->format('d/m/Y H:i') }}</div>
                             </div>
                             @if($notification->service_id)
                                 <div class="flex gap-2">
-                                    <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="btn-eq small" title="Ver projeto">Ver</a>
-                                    <a href="{{ route('freelancer.service.review', $notification->service_id) }}" class="btn-eq btn-outline small" title="Enviar proposta">Enviar proposta</a>
+                                    <span class="btn-eq small cursor-pointer" title="Ver projeto">Ver</span>
+                                    <span class="btn-eq btn-outline small cursor-pointer" title="Enviar proposta">Enviar proposta</span>
                                     @php $unread = auth()->check() ? \App\Models\ChatRead::unreadCount($notification->service_id, auth()->id()) : 0; @endphp
-                                    <a href="{{ route('service.chat', $notification->service_id) }}" class="btn-eq btn-outline small relative" title="Ir para o chat">Chat
+                                    <span class="btn-eq btn-outline small relative cursor-pointer" title="Ir para o chat">Chat
                                         @if($unread > 0)
                                             <span class="absolute -top-1 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">{{ $unread > 9 ? '9+' : $unread }}</span>
                                         @endif
-                                    </a>
+                                    </span>
                                 </div>
                             @endif
-                        </div>
+                        </a>
                     @endif
                 @empty
                     <div class="bg-white border border-gray-100 rounded-xl px-5 py-8 text-center text-gray-400">Nenhuma notificação encontrada.</div>
