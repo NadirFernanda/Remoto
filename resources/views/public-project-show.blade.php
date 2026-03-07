@@ -34,7 +34,36 @@
                             @endif
                         </div>
                         <div class="flex gap-3 mt-6">
-                            <a href="/register" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Entrar para aceitar</a>
+                            @guest
+                                {{-- Não logado: convidar a registar como freelancer --}}
+                                <a href="{{ route('register') }}" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Criar conta para aceitar</a>
+                                <a href="{{ route('login') }}" class="border border-gray-300 text-gray-600 font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-50 transition">Já tenho conta</a>
+                            @else
+                                @php $role = auth()->user()->activeRole(); @endphp
+                                @if($role === 'freelancer')
+                                    {{-- Freelancer logado: aceitar ou proposta --}}
+                                    @if($service->status === 'published')
+                                        <a href="{{ route('freelancer.service.review', $service->id) }}" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Ver e aceitar projeto</a>
+                                    @else
+                                        <span class="bg-gray-100 text-gray-500 font-semibold px-6 py-2.5 rounded-lg">Projeto não disponível</span>
+                                    @endif
+                                @elseif(in_array($role, ['cliente', 'client']))
+                                    {{-- Cliente logado: sugerir mudar para freelancer --}}
+                                    @if(auth()->user()->canSwitchRole())
+                                        <form method="POST" action="{{ route('switch.role') }}" class="inline">
+                                            @csrf
+                                            <button type="submit" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">
+                                                Mudar para Freelancer e aceitar
+                                            </button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('register') }}" class="bg-[#00baff] text-white font-bold px-6 py-2.5 rounded-lg hover:bg-[#009ad6] transition">Criar perfil Freelancer</a>
+                                    @endif
+                                @elseif($role === 'admin')
+                                    {{-- Admin: apenas visualização --}}
+                                    <span class="bg-gray-100 text-gray-500 font-semibold px-6 py-2.5 rounded-lg">Visualização administrativa</span>
+                                @endif
+                            @endguest
                             <a href="{{ route('public.projects') }}" class="border border-gray-300 text-gray-600 font-semibold px-6 py-2.5 rounded-lg hover:bg-gray-50 transition">Voltar</a>
                         </div>
                     </div>
