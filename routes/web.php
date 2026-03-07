@@ -113,6 +113,8 @@ Route::middleware('auth')->group(function () {
 
     // --- Admin ---
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+    Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users');
+    Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     // Histórico de transações
    Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
