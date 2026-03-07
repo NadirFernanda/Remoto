@@ -116,7 +116,16 @@
 						<tr class="border-b">
 							<td class="py-2 px-4">{{ $candidate->service->titulo ?? '-' }}</td>
 							<td class="py-2 px-4">{{ optional($candidate->freelancer)->name ?? '—' }}</td>
-							<td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $candidate->status)) }}</td>
+						<td class="py-2 px-4">
+							@php
+								$statusLabels = [
+									'pending'  => 'Pendente',
+									'chosen'   => 'Escolhido',
+									'rejected' => 'Rejeitado',
+								];
+							@endphp
+							{{ $statusLabels[$candidate->status] ?? ucfirst(str_replace('_', ' ', $candidate->status)) }}
+						</td>
 							<td class="py-2 px-4">
 								@if($candidate->status === 'pending' && optional($candidate->service)->status === 'published')
 									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn action-icon" title="Escolher freelancer" aria-label="Escolher freelancer">
