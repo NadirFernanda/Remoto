@@ -16,7 +16,7 @@
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     /* default neutral style to avoid one item looking different */
-    background: linear-gradient(90deg,#00baff,#06b6d4);
+    background: #00baff;
     color: #021018;
     border: 0;
 }
@@ -57,7 +57,7 @@
     padding: .5rem .75rem;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
-    background: linear-gradient(90deg,var(--accent-2),var(--accent-v));
+    background: #00baff;
     color: #021018;
     border: 0;
 }
@@ -118,7 +118,7 @@
     box-shadow: none;
     transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
 }
-.action-btn:hover{ transform:translateY(-3px); background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:none; }
+.action-btn:hover{ transform:translateY(-3px); background: #00baff; color:#021018; box-shadow:none; }
 .action-btn:focus{ outline:3px solid rgba(0,186,255,0.12); outline-offset:2px; }
 
 /* labels next to action icons: visible on desktop, hidden on small screens */

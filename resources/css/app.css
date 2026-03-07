@@ -113,7 +113,7 @@ body{
 .site-footer{ background:transparent; color:var(--muted-v); border-top:1px solid rgba(255,255,255,0.04); }
 
 /* Buttons */
-.btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; padding:.6rem 1rem; border-radius:10px; font-weight:700; box-shadow: 0 10px 30px rgba(0,186,255,0.08); text-decoration:none; opacity:1; }
+.btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: #00baff; color:#021018; padding:.6rem 1rem; border-radius:10px; font-weight:700; box-shadow: 0 10px 30px rgba(0,186,255,0.08); text-decoration:none; opacity:1; }
 .nav-link.btn-primary{ margin-left:0.75rem; }
 .btn-primary:hover{ transform:translateY(-2px); box-shadow: 0 12px 30px rgba(6,182,212,0.16); }
 .btn-ghost{ background:transparent; border:1px solid rgba(0,186,255,0.12); color:var(--accent-v); padding:.5rem .9rem; border-radius:10px; }
@@ -135,7 +135,7 @@ body{
 .action-row{ display:flex; gap:.75rem; align-items:center; }
 .action-row .btn-eq{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .85rem; border-radius:10px; font-weight:700; text-decoration:none; justify-content:center; }
 .action-row .btn-eq svg{ width:18px; height:18px; flex-shrink:0; }
-.action-row .btn-eq.btn-primary{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border:none; }
+.action-row .btn-eq.btn-primary{ background: #00baff; color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border:none; }
 .action-row .btn-eq.btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,186,255,0.12); }
 .action-row .btn-eq:focus{ outline-offset:3px; outline:3px solid rgba(0,186,255,0.12); }
 
@@ -168,7 +168,7 @@ body{
 @media (min-width:768px){ .hero-title{ font-size:3rem; } }
 .hero-desc{ color:rgba(230,238,246,0.95); font-size:1.05rem; margin-bottom:1.25rem; max-width:720px; margin-left:auto; margin-right:auto; }
 .hero-ctas{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
-.hero-btn{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; font-weight:700; border-radius:10px; padding:.65rem 1.75rem; box-shadow:0 8px 24px rgba(0,186,255,0.12); transition:transform .14s ease, box-shadow .14s ease; text-decoration:none; }
+.hero-btn{ background: #00baff; color:#021018; font-weight:700; border-radius:10px; padding:.65rem 1.75rem; box-shadow:0 8px 24px rgba(0,186,255,0.12); transition:transform .14s ease, box-shadow .14s ease; text-decoration:none; }
 .hero-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,186,255,0.16); }
 .hero-btn-outline{ background:transparent; color:var(--accent-v); border:1.5px solid rgba(0,186,255,0.18); border-radius:10px; padding:.6rem 1.6rem; text-decoration:none; }
 .hero-indicators{ display:flex; justify-content:center; gap:.5rem; margin-top:.75rem; }
@@ -336,7 +336,7 @@ body{
 .action-row.equal > *{ flex:1 1 0; min-width:0; }
 .action-row a, .action-row button, .action-row form{ display:inline-flex; }
 .action-row .btn-eq{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.45rem .8rem; border-radius:9999px; font-weight:700; transition:transform .12s ease, box-shadow .12s ease; background:transparent; color:var(--accent-v); border:1px solid transparent; box-shadow:none; }
-.action-row .btn-eq.btn-primary{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border: none; }
+.action-row .btn-eq.btn-primary{ background: #00baff; color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border: none; }
 .action-row .btn-eq.btn-outline{ background:transparent; border:1px solid rgba(0,186,255,0.12); color:var(--accent-v); box-shadow:none; }
 .action-row .btn-eq svg{ margin-right:.5rem; width:18px; height:18px; flex-shrink:0; }
 .action-row .btn-eq:hover{ transform: translateY(-2px); box-shadow:0 12px 30px rgba(0,186,255,0.10); }
