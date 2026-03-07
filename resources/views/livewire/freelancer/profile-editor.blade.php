@@ -8,11 +8,20 @@
                     <img class="w-full h-full object-cover" src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
                 </div>
                 <div class="flex-1">
-                    <input type="file" id="profilePhotoInput" wire:model="profilePhoto" accept="image/*" onchange="validateProfilePhoto(this)">
+                    <label class="flex flex-col gap-1 cursor-pointer">
+                        <span class="inline-flex items-center gap-2 border border-gray-300 rounded px-3 py-2 bg-white hover:bg-gray-50 transition text-sm">
+                            @if($profilePhoto)
+                                ✅ {{ $profilePhoto->getClientOriginalName() }}
+                            @else
+                                📷 Escolher nova foto
+                            @endif
+                        </span>
+                        <input type="file" id="profilePhotoInput" wire:model="profilePhoto" accept="image/*" class="sr-only" onchange="validateProfilePhoto(this)">
+                        <div wire:loading wire:target="profilePhoto" class="text-cyan-600 text-xs">A enviar foto...</div>
+                    </label>
                     <div id="profilePhotoError" class="text-red-600 text-sm mt-1"></div>
                     @error('profilePhoto') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
                     <div class="text-xs text-gray-500 mt-1">Recomendado: rosto visível, sem logos; mínimo 200x200; jpg/png/webp; até 8MB.</div>
-                    <div wire:loading wire:target="profilePhoto">Fazendo upload da foto...</div>
                 </div>
             </div>
         </div>
