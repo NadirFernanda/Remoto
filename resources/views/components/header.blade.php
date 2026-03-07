@@ -1,4 +1,4 @@
-<header x-data="{open:false, scrolled:false}" x-init="window.addEventListener('scroll', ()=>{ scrolled = window.scrollY > 30 })" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full py-3">
+<header x-data="{open:false, scrolled:false}" x-init="scrolled = window.location.pathname !== '/'; window.addEventListener('scroll', ()=>{ scrolled = window.location.pathname !== '/' || window.scrollY > 30 })" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full py-3">
     <div class="header-container px-4">
         <div class="flex items-center gap-3">
             <a href="/" class="flex items-center" aria-label="24 Horas">
