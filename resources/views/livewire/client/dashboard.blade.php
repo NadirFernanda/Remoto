@@ -150,3 +150,14 @@
 										Ir para o chat
 									</a>
 								@endif
+							</td>
+						</tr>
+					@empty
+						<tr><td colspan="4" class="text-center py-4 text-[#888]">Nenhum candidato encontrado.</td></tr>
+					@endforelse
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
