@@ -1,3 +1,4 @@
+<div>
     <p class="mb-6">Bem-vindo ao painel administrativo do SITE FREELANCER.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -103,3 +104,4 @@
                 .finally(()=>{ btn.disabled = false; btn.innerText = 'Atualizar taxa'; });
         });
     </script>
+</div>
