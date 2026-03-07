@@ -4,8 +4,10 @@ namespace App\Livewire\Client;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
+use App\Models\User;
 
 class Dashboard extends Component
 {
@@ -129,22 +131,38 @@ class Dashboard extends Component
         $service->save();
 
         // Notificar freelancer escolhido
+        $mensagemEscolhido = 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '". Acesse o painel para começar.';
         \App\Models\Notification::create([
-            'user_id' => $freelancerId,
+            'user_id'    => $freelancerId,
             'service_id' => $service->id,
-            'type' => 'service_chosen',
-            'message' => 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '".'
+            'type'       => 'service_chosen',
+            'message'    => $mensagemEscolhido,
         ]);
+        $freelancerEscolhido = User::find($freelancerId);
+        if ($freelancerEscolhido) {
+            Mail::raw($mensagemEscolhido, function ($mail) use ($freelancerEscolhido, $service) {
+                $mail->to($freelancerEscolhido->email)
+                     ->subject('Você foi escolhido para o projeto "' . $service->titulo . '"');
+            });
+        }
 
         // Notificar freelancers rejeitados
         $rejeitados = $service->candidates()->where('status', 'rejected')->get();
         foreach ($rejeitados as $rej) {
+            $mensagemRejeitado = 'Infelizmente você não foi selecionado para o projeto "' . $service->titulo . '". Não desanime, há outros projetos disponíveis!';
             \App\Models\Notification::create([
-                'user_id' => $rej->freelancer_id,
+                'user_id'    => $rej->freelancer_id,
                 'service_id' => $service->id,
-                'type' => 'service_rejected',
-                'conteudo' => 'Infelizmente você não foi escolhido para o projeto "' . $service->titulo . '".'
+                'type'       => 'service_rejected',
+                'message'    => $mensagemRejeitado,
             ]);
+            $freelancerRejeitado = User::find($rej->freelancer_id);
+            if ($freelancerRejeitado) {
+                Mail::raw($mensagemRejeitado, function ($mail) use ($freelancerRejeitado, $service) {
+                    $mail->to($freelancerRejeitado->email)
+                         ->subject('Atualização sobre o projeto "' . $service->titulo . '"');
+                });
+            }
         }
 
         session()->flash('success', 'Freelancer escolhido com sucesso! O projeto foi atualizado e todos os candidatos foram notificados.');
