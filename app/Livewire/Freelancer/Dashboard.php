@@ -57,7 +57,6 @@ class Dashboard extends Component
             'referrals' => $referrals,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Freelancer',
-            'dashboardActions' => '<a href="'.route('freelancer.available-projects').'" class="py-2 px-4 rounded hover:bg-cyan-100 text-cyan-700 font-bold">Projetos Disponíveis</a>'
         ]);
     }
 
