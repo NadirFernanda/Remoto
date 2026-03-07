@@ -1,33 +1,7 @@
 <div>
     <p class="mb-6">Bem-vindo ao painel administrativo do SITE FREELANCER.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white shadow rounded p-6 mt-8">
-            <h2 class="text-lg font-bold mb-4">Últimos Usuários Cadastrados</h2>
-            <table class="min-w-full text-sm">
-                <thead>
-                    <tr class="bg-gray-100">
-                        <th class="py-2 px-4 text-left">Nome</th>
-                        <th class="py-2 px-4 text-left">E-mail</th>
-                        <th class="py-2 px-4 text-left">Tipo</th>
-                        <th class="py-2 px-4 text-left">Cadastro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($users as $user)
-                    <tr class="border-b">
-                        <td class="py-2 px-4">{{ $user->name }}</td>
-                        <td class="py-2 px-4">{{ $user->email }}</td>
-                        <td class="py-2 px-4">{{ ucfirst($user->role) }}</td>
-                        <td class="py-2 px-4">{{ $user->created_at->format('d/m/Y H:i') }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @if($users->isEmpty())
-                <div class="text-center text-gray-500 py-4">Nenhum usuário cadastrado.</div>
-            @endif
-        </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div class="bg-white shadow rounded p-4">
             <h2 class="text-sm font-semibold text-gray-500">Usuários Totais</h2>
             <p class="text-2xl font-bold">{{ $stats['users_total'] ?? 0 }}</p>
@@ -91,6 +65,33 @@
             <div id="aoa-rate-msg" class="text-sm text-gray-500 mt-2"></div>
         </div>
     </div>
+    <div class="bg-white shadow rounded p-6 mt-8">
+        <h2 class="text-lg font-bold mb-4">Últimos Usuários Cadastrados</h2>
+        <table class="min-w-full text-sm">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="py-2 px-4 text-left">Nome</th>
+                    <th class="py-2 px-4 text-left">E-mail</th>
+                    <th class="py-2 px-4 text-left">Tipo</th>
+                    <th class="py-2 px-4 text-left">Cadastro</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($users as $user)
+                <tr class="border-b">
+                    <td class="py-2 px-4">{{ $user->name }}</td>
+                    <td class="py-2 px-4">{{ $user->email }}</td>
+                    <td class="py-2 px-4">{{ ucfirst($user->role) }}</td>
+                    <td class="py-2 px-4">{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @if($users->isEmpty())
+            <div class="text-center text-gray-500 py-4">Nenhum usuário cadastrado.</div>
+        @endif
+    </div>
+
     <script>
         document.getElementById('refresh-aoa-btn').addEventListener('click', function(){
             var btn = this; btn.disabled = true; btn.innerText = 'Atualizando...';
