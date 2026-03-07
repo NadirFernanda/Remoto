@@ -33,16 +33,17 @@ body{
     color:var(--text-strong);
 }
 
-.site-header{background: var(--bg-v); border-bottom:none; padding-top:1rem; padding-bottom:1rem;}
+.site-header{background: transparent; border-bottom:none; padding-top:1rem; padding-bottom:1rem; transition: background .3s ease, backdrop-filter .3s ease;}
+.site-header.scrolled{background: var(--bg-v); backdrop-filter: blur(12px);}
 .logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
 
 /* Image logo used in header */
-.site-logo{ height:88px; max-height:120px; object-fit:contain; display:block; }
+.site-logo{ height:88px; max-height:120px; object-fit:contain; display:block; filter: drop-shadow(0 0 18px rgba(0,186,255,0.45)) drop-shadow(0 0 40px rgba(0,186,255,0.2)); }
 .header-container{ align-items:center; }
-.site-header .site-logo{ filter: none; }
 
-.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: var(--bg-v); }
+.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: transparent; transition: background .3s ease; }
+.site-header.site-header-compact.scrolled{ background: var(--bg-v); backdrop-filter: blur(12px); }
 .site-header.site-header-compact .site-logo{ height:48px; max-height:64px; }
 .site-logo-compact{ height:48px; max-height:64px; }
 
