@@ -35,13 +35,17 @@ class AvailableProjects extends Component
         // Não altera status do serviço, apenas cadastra candidatura
         $service->save();
 
-        // Cria ServiceCandidate se não existir
+        // Cria ou atualiza ServiceCandidate
         $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
         if (!$candidate) {
             $service->candidates()->create([
                 'freelancer_id' => $user->id,
                 'status' => 'pending',
             ]);
+        } elseif ($candidate->status === 'invited') {
+            // Freelancer está aceitando um convite do cliente
+            $candidate->status = 'pending';
+            $candidate->save();
         }
 
         session()->flash('success', 'Candidatura registrada com sucesso!');

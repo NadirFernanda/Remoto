@@ -159,7 +159,7 @@ class Dashboard extends Component
             return;
         }
         $candidate = $service->candidates()->where('freelancer_id', $freelancerId)->first();
-        if (!$candidate || $candidate->status !== 'pending') {
+        if (!$candidate || !in_array($candidate->status, ['pending', 'proposal_sent', 'invited'])) {
             session()->flash('error', 'Candidato inválido ou já processado.');
             return;
         }

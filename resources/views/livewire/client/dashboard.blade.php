@@ -138,15 +138,17 @@
 							<td class="py-2 px-4">
 								@php
 									$statusLabels = [
-										'pending'  => 'Pendente',
-										'chosen'   => 'Escolhido',
-										'rejected' => 'Rejeitado',
+										'pending'       => 'Pendente',
+										'proposal_sent' => 'Proposta enviada',
+										'invited'       => 'Convidado',
+										'chosen'        => 'Escolhido',
+										'rejected'      => 'Rejeitado',
 									];
 								@endphp
 								{{ $statusLabels[$candidate->status] ?? ucfirst(str_replace('_', ' ', $candidate->status)) }}
 							</td>
 							<td class="py-2 px-4">
-								@if($candidate->status === 'pending' && optional($candidate->service)->status === 'published')
+								@if(in_array($candidate->status, ['pending', 'proposal_sent', 'invited']) && optional($candidate->service)->status === 'published')
 									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn action-icon" title="Escolher freelancer" aria-label="Escolher freelancer">
 										@include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
 									</button>
