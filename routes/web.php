@@ -31,9 +31,11 @@ Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('publi
 Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
 
 // --- OTP verification ---
-Route::get('/otp', [OtpVerificationController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/otp/send', [OtpVerificationController::class, 'sendOtp'])->name('otp.send');
-Route::post('/otp/verify', [OtpVerificationController::class, 'verifyOtp'])->name('otp.verify');
+Route::middleware('auth')->group(function () {
+    Route::get('/otp', [OtpVerificationController::class, 'showOtpForm'])->name('otp.form');
+    Route::post('/otp/send', [OtpVerificationController::class, 'sendOtp'])->name('otp.send');
+    Route::post('/otp/verify', [OtpVerificationController::class, 'verifyOtp'])->name('otp.verify');
+});
 
 // --- Email verification ---
 Route::post('/email/verification-notification', function () {
