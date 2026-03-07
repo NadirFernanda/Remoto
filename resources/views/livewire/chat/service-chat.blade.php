@@ -50,11 +50,12 @@
         @error('anexo') <div class="mt-1 text-xs text-red-500">{{ $message }}</div> @enderror
         @error('mensagem') <div class="mt-1 text-xs text-red-500">{{ $message }}</div> @enderror
         <!-- Exibir anexos nas mensagens -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto mb-4" x-data x-init="$nextTick(() => $el.scrollTop = $el.scrollHeight)" wire:poll.3s="atualizarMensagens">
+        <div id="chat-messages" class="flex-1 overflow-y-auto mb-4" x-data x-init="$nextTick(() => $el.scrollTop = $el.scrollHeight)" wire:poll.8s="atualizarMensagens">
             @forelse($messages as $msg)
                 @php
                     $isClient = $msg->user_id === $service->cliente_id;
                 @endphp
+                @if($msg->conteudo || $msg->anexo)
                 <div class="mb-2 flex items-end {{ $msg->user_id === auth()->id() ? 'justify-end' : 'justify-start' }}">
                     @if($msg->user_id !== auth()->id())
                         <div class="w-8 h-8 rounded-full overflow-hidden mr-2 flex-shrink-0">
@@ -78,7 +79,7 @@
                                         Seu navegador não suporta áudio.
                                     </audio>
                                 @else
-                                    <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank" class="underline text-cyan-200">📎 Baixar anexo</a>
+                                    <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank" class="inline-flex items-center gap-1 underline font-semibold text-white hover:text-gray-100">📎 {{ $msg->anexo }}</a>
                                 @endif
                             </div>
                         @endif
@@ -91,6 +92,7 @@
                         </div>
                     @endif
                 </div>
+                @endif
             @empty
                 <div class="text-gray-400 text-center">Nenhuma mensagem ainda.</div>
             @endforelse

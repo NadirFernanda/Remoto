@@ -37,15 +37,18 @@ class ServiceChat extends Component
         if ($this->chat_bloqueado) return;
         $this->validate([
             'mensagem' => 'nullable|string|max:500',
-            'anexo' => 'nullable|file|max:5120', // 5MB
+            'anexo' => 'nullable|file|max:10240', // 10MB
         ]);
+        if (empty(trim($this->mensagem ?? '')) && !$this->anexo) {
+            return;
+        }
         $anexoPath = null;
         if ($this->anexo) {
             $anexoPath = $this->anexo->store('anexos', 'public');
         }
         $this->service->messages()->create([
             'user_id' => Auth::id(),
-            'conteudo' => $this->mensagem,
+            'conteudo' => $this->mensagem ?: null,
             'anexo' => $anexoPath ? basename($anexoPath) : null,
         ]);
         // atualiza leitura do remetente
