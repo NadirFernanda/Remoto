@@ -153,6 +153,7 @@
                 <tr>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Utilizador</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
+                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Nível Admin</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">KYC</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Estado</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Cadastro</th>
@@ -177,6 +178,19 @@
                                ($user->role === 'freelancer' ? 'bg-[#00baff]/10 text-[#00baff]' : 'bg-green-100 text-green-700') }}">
                             {{ ucfirst($user->role) }}
                         </span>
+                    </td>
+                    <td class="py-3 px-4">
+                        @if($user->role === 'admin')
+                            <select wire:change="setAdminRole({{ $user->id }}, $event.target.value)"
+                                class="border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#00baff]/30">
+                                <option value="" {{ is_null($user->admin_role) ? 'selected' : '' }}>Master (padrão)</option>
+                                <option value="master"     {{ $user->admin_role === 'master'     ? 'selected' : '' }}>Master</option>
+                                <option value="gestor"     {{ $user->admin_role === 'gestor'     ? 'selected' : '' }}>Gestor</option>
+                                <option value="financeiro" {{ $user->admin_role === 'financeiro' ? 'selected' : '' }}>Financeiro</option>
+                            </select>
+                        @else
+                            <span class="text-gray-300 text-xs">—</span>
+                        @endif
                     </td>
                     <td class="py-3 px-4">
                         @php $kyc = $user->kyc_status ?? 'pending'; @endphp
@@ -229,7 +243,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="py-10 text-center text-gray-400 text-sm">Nenhum utilizador encontrado.</td>
+                    <td colspan="7" class="py-10 text-center text-gray-400 text-sm">Nenhum utilizador encontrado.</td>
                 </tr>
                 @endforelse
             </tbody>

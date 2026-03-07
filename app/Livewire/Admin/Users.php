@@ -116,6 +116,21 @@ class Users extends Component
         return Storage::disk('private')->url($path);
     }
 
+    public function setAdminRole(int $userId, string $role): void
+    {
+        $allowed = ['master', 'gestor', 'financeiro', ''];
+        if (! in_array($role, $allowed, true)) {
+            return;
+        }
+        $user = User::findOrFail($userId);
+        if ($user->role !== 'admin') {
+            return;
+        }
+        $user->update(['admin_role' => $role ?: null]);
+        AuditLogger::log('admin_role_changed', "Nível de acesso de {$user->name} alterado para: " . ($role ?: 'master (padrão)'), 'User', $userId);
+        session()->flash('success', 'Nível de acesso actualizado.');
+    }
+
     public function bulkVerifyKyc(): void
     {
         $count = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->update(['kyc_status' => 'verified']);

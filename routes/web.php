@@ -129,6 +129,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
+
+    // Admin — Gestão Financeira
+    Route::get('/admin/financeiro', \App\Livewire\Admin\Financial::class)->name('admin.financial')->middleware('admin.module:financeiro');
+    Route::get('/admin/comissoes', \App\Livewire\Admin\Commissions::class)->name('admin.commissions')->middleware('admin.module:financeiro');
+    Route::get('/admin/saques', \App\Livewire\Admin\Payouts::class)->name('admin.payouts')->middleware('admin.module:financeiro');
+
+    // Admin — Suporte
+    Route::get('/admin/notificacoes-massa', \App\Livewire\Admin\MassNotifications::class)->name('admin.notifications.mass')->middleware('admin.module:suporte');
+
+    // Admin — Configurações (master only)
+    Route::get('/admin/configuracoes', \App\Livewire\Admin\Settings::class)->name('admin.settings')->middleware('admin.module:settings');
+    Route::get('/admin/categorias', \App\Livewire\Admin\Categories::class)->name('admin.categories')->middleware('admin.module:settings');
+    Route::get('/admin/taxas', \App\Livewire\Admin\Fees::class)->name('admin.fees')->middleware('admin.module:settings');
+
     // Histórico de transações
    Route::get('/transacoes', [\App\Http\Controllers\TransactionHistoryController::class, 'index'])->name('transactions.history')->middleware('auth');
    // Reembolso de serviço
