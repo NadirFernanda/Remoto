@@ -103,22 +103,13 @@ class PaymentEscrow extends Component
             }
             $transactionId = $paymentResult['transaction_id'] ?? null;
         } elseif ($this->payment_method === 'paypal') {
-            // Simulação: redireciona para rota fake de PayPal, passando briefing e pagamento na query string
-            $briefing = session('briefing', []);
-            $pagamento = [
-                'valor' => $this->valor,
-                'taxa' => $this->taxa,
-                'valor_liquido' => $this->valor_liquido,
-            ];
-            return redirect()->route('client.paypal', [
-                'briefing' => json_encode($briefing),
-                'pagamento' => json_encode($pagamento)
-            ]);
+            session()->flash('error', 'Pagamento via PayPal ainda não está disponível. Por favor, escolha outro método.');
+            return;
         } elseif ($this->payment_method === 'express') {
-            // Simulação: lógica para Express
+            session()->flash('error', 'Pagamento Express ainda não está disponível. Por favor, escolha outro método.');
             return;
         } elseif ($this->payment_method === 'bank') {
-            // Simulação: lógica para transferência bancária
+            session()->flash('error', 'Pagamento por transferência bancária ainda não está disponível. Por favor, escolha outro método.');
             return;
         }
 
