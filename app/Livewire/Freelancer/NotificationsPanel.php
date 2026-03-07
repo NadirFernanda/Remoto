@@ -13,7 +13,8 @@ class NotificationsPanel extends Component
         $user = Auth::user();
         $notifications = Notification::where('user_id', $user->id)
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->limit(3)
+            ->get();
         return view('livewire.freelancer.notifications-panel', [
             'notifications' => $notifications
         ]);

@@ -9,7 +9,13 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Mais Recentes</h2>
             <div class="space-y-3">
                 @forelse($recent as $notification)
-                    <a href="{{ $notification->service_id ? route('freelancer.service.review', $notification->service_id) : '#' }}"
+                    <a href="@php
+                        if ($notification->service_id) {
+                            echo in_array($notification->type, ['service_chosen', 'delivery_approved', 'revision_requested'])
+                                ? route('freelancer.service.delivery', $notification->service_id)
+                                : route('freelancer.service.review', $notification->service_id);
+                        } else { echo '#'; }
+                    @endphp"
                        class="block bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm transition hover:bg-cyan-50 focus:bg-cyan-50 outline-none"
                        tabindex="0">
                         <div class="flex-1 min-w-0">
@@ -43,7 +49,13 @@
                 @php $recentIds = $recent->pluck('id')->all(); @endphp
                 @forelse($notifications as $notification)
                     @if(!in_array($notification->id, $recentIds))
-                        <a href="{{ $notification->service_id ? route('freelancer.service.review', $notification->service_id) : '#' }}"
+                        <a href="@php
+                            if ($notification->service_id) {
+                                echo in_array($notification->type, ['service_chosen', 'delivery_approved', 'revision_requested'])
+                                    ? route('freelancer.service.delivery', $notification->service_id)
+                                    : route('freelancer.service.review', $notification->service_id);
+                            } else { echo '#'; }
+                        @endphp"
                            class="block bg-white border border-gray-100 rounded-xl px-5 py-4 flex items-center gap-4 shadow-sm transition hover:bg-cyan-50 focus:bg-cyan-50 outline-none"
                            tabindex="0">
                             <div class="flex-1 min-w-0">
