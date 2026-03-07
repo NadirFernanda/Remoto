@@ -150,6 +150,10 @@
                     <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-yellow-500 rounded-full"></span><span class="text-gray-500">Em mediação</span></span>
                     <span class="font-bold text-yellow-600">{{ $stats['disputes_mediation'] }}</span>
                 </div>
+                <div class="flex justify-between text-sm">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 bg-orange-500 rounded-full"></span><span class="text-gray-500">Em moderação</span></span>
+                    <span class="font-bold text-orange-600">{{ $stats['moderacao_pendente'] }}</span>
+                </div>
             </div>
             <div class="mt-4 pt-3 border-t border-gray-100">
                 <a href="{{ route('admin.disputes') }}" class="text-xs text-[#00baff] hover:underline">Ver todas as disputas →</a>

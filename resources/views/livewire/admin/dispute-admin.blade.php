@@ -3,6 +3,24 @@
         <div class="mb-4 p-3 bg-green-50 text-green-800 rounded-[10px] border border-green-200 text-sm">{{ session('success') }}</div>
     @endif
 
+    {{-- Projetos em moderação sem disputa formal --}}
+    @if($orphanModerations->count() > 0)
+        <div class="mb-5 bg-orange-50 border border-orange-200 rounded-2xl p-4">
+            <h3 class="text-sm font-bold text-orange-800 mb-3">⚠ Projetos em moderação sem disputa formal ({{ $orphanModerations->count() }})</h3>
+            <div class="space-y-2">
+                @foreach($orphanModerations as $svc)
+                    <div class="flex items-center justify-between bg-white border border-orange-100 rounded-xl px-4 py-2 text-sm">
+                        <div>
+                            <span class="font-medium text-gray-800">{{ $svc->titulo }}</span>
+                            <span class="text-xs text-gray-500 ml-2">Cliente: {{ $svc->cliente->name ?? '—' }} · Freelancer: {{ $svc->freelancer->name ?? '—' }}</span>
+                        </div>
+                        <a href="{{ route('service.dispute', $svc->id) }}" class="text-xs text-orange-700 hover:underline font-semibold">Ver</a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
     {{-- Status filter tabs --}}
     <div class="flex gap-2 flex-wrap mb-5">
         @foreach(['' => 'Todas', 'aberta' => 'Abertas', 'em_mediacao' => 'Em Mediação', 'resolvida' => 'Resolvidas', 'encerrada' => 'Encerradas'] as $val => $label)

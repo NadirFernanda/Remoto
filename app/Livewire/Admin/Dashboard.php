@@ -82,8 +82,9 @@ class Dashboard extends Component
             'kyc_pending'       => User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count(),
             'users_suspended'   => User::where('is_suspended', true)->count(),
             // Disputes
-            'disputes_open'      => Dispute::where('status', 'aberta')->count(),
-            'disputes_mediation' => Dispute::where('status', 'em_mediacao')->count(),
+            'disputes_open'        => Dispute::where('status', 'aberta')->count(),
+            'disputes_mediation'   => Dispute::where('status', 'em_mediacao')->count(),
+            'moderacao_pendente'   => Service::where('status', 'em_moderacao')->count(),
         ];
 
         $this->recentLogs = AuditLog::with('user')

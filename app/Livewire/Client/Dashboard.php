@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
 use App\Models\User;
+use App\Models\Dispute;
+use App\Models\Notification;
 
 class Dashboard extends Component
 {
@@ -48,11 +50,52 @@ class Dashboard extends Component
             session()->flash('info', 'O pedido já está em moderação.');
             return;
         }
+
         $service->status = 'em_moderacao';
         $service->save();
-        // TODO: Notificar admin e freelancer
-        session()->flash('success', 'Pedido colocado em moderação com sucesso! O admin será notificado.');
-        $this->mount(); // Atualiza a lista
+
+        // Criar disputa automática se ainda não existir
+        $dispute = Dispute::firstOrCreate(
+            ['service_id' => $service->id],
+            [
+                'opened_by'   => $user->id,
+                'reason'      => 'outro',
+                'description' => 'Projeto colocado em moderação pelo cliente.',
+                'status'      => 'aberta',
+            ]
+        );
+        if ($dispute->wasRecentlyCreated) {
+            $dispute->messages()->create([
+                'user_id' => $user->id,
+                'message' => 'O cliente colocou este projeto em moderação.',
+            ]);
+        }
+
+        // Notificar todos os admins
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id'    => $admin->id,
+                'service_id' => $service->id,
+                'type'       => 'moderation_requested',
+                'title'      => 'Projeto em moderação',
+                'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação.',
+            ]);
+        }
+
+        // Notificar o freelancer (se houver)
+        if ($service->freelancer_id) {
+            Notification::create([
+                'user_id'    => $service->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'moderation_requested',
+                'title'      => 'Projeto em moderação',
+                'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
+            ]);
+        }
+
+        session()->flash('success', 'Pedido colocado em moderação. A equipa de suporte foi notificada.');
+        $this->mount();
     }
     public $orders = [];
     public $recent_messages = [];

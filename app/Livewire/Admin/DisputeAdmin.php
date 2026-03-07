@@ -129,7 +129,13 @@ class DisputeAdmin extends Component
             ? Dispute::with(['service.cliente', 'service.freelancer', 'opener', 'messages.user'])->find($this->selectedId)
             : null;
 
-        return view('livewire.admin.dispute-admin', compact('disputes', 'selected'))
+        // Services em_moderacao sem disputa associada (legado ou edge-case)
+        $orphanModerations = Service::where('status', 'em_moderacao')
+            ->whereNotIn('id', Dispute::pluck('service_id'))
+            ->with(['cliente', 'freelancer'])
+            ->get();
+
+        return view('livewire.admin.dispute-admin', compact('disputes', 'selected', 'orphanModerations'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Disputas']);
     }
 }

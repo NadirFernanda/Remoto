@@ -6,6 +6,9 @@ use Livewire\Component;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\UserSessionTrait;
+use App\Models\Dispute;
+use App\Models\Notification;
+use App\Models\User;
 
 class Dashboard extends Component
 {
@@ -70,9 +73,46 @@ class Dashboard extends Component
         $service->status = 'em_moderacao';
         $service->save();
 
-        session()->flash('success', 'Serviço enviado para moderação.');
+        // Criar disputa automática se ainda não existir
+        $dispute = Dispute::firstOrCreate(
+            ['service_id' => $service->id],
+            [
+                'opened_by'   => $user->id,
+                'reason'      => 'outro',
+                'description' => 'Projeto colocado em moderação pelo freelancer.',
+                'status'      => 'aberta',
+            ]
+        );
+        if ($dispute->wasRecentlyCreated) {
+            $dispute->messages()->create([
+                'user_id' => $user->id,
+                'message' => 'O freelancer colocou este projeto em moderação.',
+            ]);
+        }
 
-        // Refresh local services collection
+        // Notificar todos os admins
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            Notification::create([
+                'user_id'    => $admin->id,
+                'service_id' => $service->id,
+                'type'       => 'moderation_requested',
+                'title'      => 'Projeto em moderação',
+                'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação.',
+            ]);
+        }
+
+        // Notificar o cliente
+        Notification::create([
+            'user_id'    => $service->cliente_id,
+            'service_id' => $service->id,
+            'type'       => 'moderation_requested',
+            'title'      => 'Projeto em moderação',
+            'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
+        ]);
+
+        session()->flash('success', 'Serviço enviado para moderação. A equipa de suporte foi notificada.');
+
         $this->services = Service::where('freelancer_id', $user->id)
             ->whereIn('status', ['accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
             ->orderByDesc('created_at')
