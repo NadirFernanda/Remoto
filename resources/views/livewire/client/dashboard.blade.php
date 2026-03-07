@@ -56,7 +56,20 @@
 					@forelse($orders as $order)
 						<tr class="border-b">
 							<td class="py-2 px-4">{{ $order->titulo }}</td>
-							<td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $order->status ?? 'published')) }}</td>
+							<td class="py-2 px-4">
+							@php
+								$orderStatusLabels = [
+									'published'   => 'Publicado',
+									'accepted'    => 'Aceite',
+									'in_progress' => 'Em andamento',
+									'delivered'   => 'Entregue',
+									'completed'   => 'Concluído',
+									'cancelled'   => 'Cancelado',
+									'em_moderacao'=> 'Em moderação',
+								];
+							@endphp
+							{{ $orderStatusLabels[$order->status] ?? ucfirst(str_replace('_', ' ', $order->status ?? 'published')) }}
+						</td>
 							<td class="py-2 px-4">{{ money_aoa($order->valor) }}</td>
 							<td class="py-2 px-4">{{ $order->created_at->format('d/m/Y') }}</td>
 							<td>
@@ -112,43 +125,28 @@
 					</tr>
 				</thead>
 				<tbody>
-					@forelse($candidates as $candidate)
+					@forelse($candidates->whereNotIn('status', ['rejected']) as $candidate)
 						<tr class="border-b">
 							<td class="py-2 px-4">{{ $candidate->service->titulo ?? '-' }}</td>
 							<td class="py-2 px-4">{{ optional($candidate->freelancer)->name ?? '—' }}</td>
-						<td class="py-2 px-4">
-							@php
-								$statusLabels = [
-									'pending'  => 'Pendente',
-									'chosen'   => 'Escolhido',
-									'rejected' => 'Rejeitado',
-								];
-							@endphp
-							{{ $statusLabels[$candidate->status] ?? ucfirst(str_replace('_', ' ', $candidate->status)) }}
-						</td>
+							<td class="py-2 px-4">
+								@php
+									$statusLabels = [
+										'pending'  => 'Pendente',
+										'chosen'   => 'Escolhido',
+										'rejected' => 'Rejeitado',
+									];
+								@endphp
+								{{ $statusLabels[$candidate->status] ?? ucfirst(str_replace('_', ' ', $candidate->status)) }}
+							</td>
 							<td class="py-2 px-4">
 								@if($candidate->status === 'pending' && optional($candidate->service)->status === 'published')
 									<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="action-btn action-icon" title="Escolher freelancer" aria-label="Escolher freelancer">
 										@include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
 									</button>
 								@elseif($candidate->status === 'chosen')
-									<span class="text-green-600 font-semibold">Escolhido</span>
-								@elseif($candidate->status === 'rejected')
-									<span class="text-red-600">Rejeitado</span>
-								@else
-									<span class="text-gray-600">{{ ucfirst($candidate->status) }}</span>
-								@endif
-							</td>
-						</tr>
-					@empty
-						<tr><td colspan="4" class="text-center py-4 text-[#888]">Nenhum candidato encontrado.</td></tr>
-					@endforelse
-				</tbody>
-			</table>
-		</div>
-	</div>
-
-	<!-- Mensagens Recentes -->
-
-
+									<a href="{{ route('service.chat', $candidate->service_id) }}" class="inline-flex items-center gap-1 bg-[#00baff] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#009ad6] transition">
+										@include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
+										Ir para o chat
+									</a>
 </div>
