@@ -96,6 +96,19 @@ body{
     .mobile-cta{ display:inline-flex; align-items:center; gap:.5rem; margin-left:0.75rem; }
 }
 
+/* Mobile dropdown nav links — guaranteed white text on dark bg */
+@media (max-width: 768px){
+    .mobile-menu-dropdown .nav-link{
+        color: #e6eef6 !important;
+        margin-left: 0;
+        padding: .55rem .75rem;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    .mobile-menu-dropdown .nav-link:hover{ background: rgba(0,186,255,0.08); color: var(--accent-v) !important; }
+    .mobile-menu-dropdown .nav-link.btn-primary{ color: #021018 !important; margin-left: 0; }
+}
+
 /* Footer */
 .site-footer{ background:transparent; color:var(--muted-v); border-top:1px solid rgba(255,255,255,0.04); }
 

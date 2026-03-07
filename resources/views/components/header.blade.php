@@ -55,15 +55,19 @@
 
         <div class="mobile-nav flex items-center gap-3">
             <a href="/register" class="mobile-cta btn-primary">Cadastro</a>
-            <button @click="open = !open" class="p-2 rounded-md text-white/90 bg-white/5">
-                @include('components.icon', ['name' => 'menu', 'class' => 'h-6 w-6', ''])
-                @include('components.icon', ['name' => 'close', 'class' => 'h-6 w-6', ''])
+            <button @click="open = !open" class="p-2 rounded-md text-white bg-[#00baff]/20 border border-white/20 hover:bg-[#00baff]/30 transition">
+                <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
             </button>
         </div>
     </div>
 
     <div x-show="open" x-transition class="px-4 pb-4 md:hidden">
-        <div class="flex flex-col gap-2">
+        <div class="mobile-menu-dropdown flex flex-col gap-1 bg-[#071422] border border-white/10 rounded-xl p-3 mt-2 shadow-xl">
             <a href="#categorias" class="nav-link">Categorias</a>
             <a href="{{ route('freelancers.index') }}" class="nav-link">Freelancers</a>
             <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
