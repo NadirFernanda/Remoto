@@ -89,9 +89,10 @@ class Briefing extends Component
             'briefing_title' => $this->title1,
         ]);
         if ($serviceId) {
+            $this->dispatch('showSuccess', 'Pedido atualizado com sucesso!');
             return redirect()->route('client.value', ['service' => $serviceId]);
         } else {
-            // Se não houver serviço, redireciona para dashboard ou outra rota segura
+            $this->dispatch('showSuccess', 'Pedido criado com sucesso!');
             return redirect()->route('client.dashboard');
         }
     }

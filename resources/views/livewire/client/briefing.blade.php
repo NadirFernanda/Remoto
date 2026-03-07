@@ -3,6 +3,18 @@
         <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
             <h2 class="text-xl font-bold text-cyan-600 mb-2">O que você precisa?</h2>
             <p class="text-sm text-gray-600 mb-4">Descreva seu pedido para que possamos encontrar o freelancer ideal.</p>
+            @if (session()->has('success_message'))
+                <div class="mb-4 p-2 bg-green-100 text-green-700 rounded text-center text-sm">
+                    {{ session('success_message') }}
+                </div>
+            @endif
+            <div x-data="{ show: false, message: '' }"
+                 x-on:show-success.window="show = true; message = $event.detail; setTimeout(() => show = false, 4000)"
+                 x-show="show"
+                 x-transition
+                 class="mb-4 p-2 bg-green-100 text-green-700 rounded text-center text-sm">
+                <span x-text="message"></span>
+            </div>
             <form wire:submit.prevent="submitBriefing">
                 <div class="mb-4">
                     <label class="block font-semibold mb-2">Título do pedido <span class="text-red-500">*</span></label>
