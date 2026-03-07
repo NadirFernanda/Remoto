@@ -149,4 +149,4 @@
 										@include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
 										Ir para o chat
 									</a>
-</div>
+								@endif
