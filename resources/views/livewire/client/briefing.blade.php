@@ -1,6 +1,3 @@
-@extends('layouts.main')
-
-@section('content')
 <div class="light-page min-h-screen pt-8 pb-12">
     <div class="container mx-auto px-4 py-8 flex flex-col items-center">
         <div class="w-full max-w-md bg-white rounded-lg shadow p-6">
@@ -64,4 +61,4 @@
         </div>
     </div>
 </div>
-@endsection
+...existing code...
