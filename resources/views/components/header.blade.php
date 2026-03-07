@@ -2,7 +2,7 @@
     <div class="header-container px-4">
         <div class="flex items-center gap-3">
             <a href="/" class="flex items-center" aria-label="24 Horas">
-                <img src="{{ asset('img/logo-24horas-remoto.jpeg') }}" alt="24 Horas" class="site-logo">
+                <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="site-logo">
             </a>
         </div>
 

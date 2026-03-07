@@ -1,6 +1,6 @@
 <x-mail::message>
 <div style="text-align:center; margin-bottom: 24px;">
-    <img src="{{ asset('img/logo-24horas-remoto.jpeg') }}" alt="Logo 24h Remoto" style="max-width:180px; height:auto; margin:auto;">
+    <img src="{{ asset('img/logo.png') }}" alt="Logo 24h" style="max-width:180px; height:auto; margin:auto;">
 </div>
 {{-- Greeting --}}
 

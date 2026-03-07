@@ -1,198 +1,211 @@
 <?php
-require_once __DIR__.'/auth.php';
-require_once __DIR__.'/admin.php';
+
+
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\Role;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\PasswordController;
 
-Route::aliasMiddleware('role', Role::class);
+// Login routes
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-use App\Livewire\NotificationPanel;
-use App\Livewire\Chat\ServiceChat;
-use App\Livewire\Freelancer\Wallet as FreelancerWallet;
-use App\Livewire\Freelancer\ServiceDelivery;
-use App\Livewire\Freelancer\ServiceReview;
-use App\Livewire\Freelancer\Dashboard as FreelancerDashboard;
-use App\Livewire\Freelancer\AffiliatePanel;
-use App\Livewire\Client\Dashboard;
-use App\Livewire\Freelancer\SponsorshipPanel;
+// Redirecionar / para login ou dashboard
+// Corrige erro 500: rota clientes.index não definida
+use App\Http\Controllers\ClienteController;
 
-use App\Livewire\Client\OrderHistory;
-use App\Livewire\Client\ReviewPanel;
-use App\Livewire\Client\Profile;
-use App\Livewire\Client\Settings;
-use App\Livewire\Client\ServiceCancel;
-use App\Http\Controllers\PublicProjectsController;
-use App\Livewire\Admin\Dashboard as AdminDashboard;
-
-Route::middleware(['auth'])->group(function () {
-	Route::get('/cliente/pedido/{service}/cancelar', ServiceCancel::class)->name('client.service.cancel');
-	Route::get('/cliente/financeiro/export-csv', [\App\Livewire\Client\FinanceHistory::class, 'exportCsv'])->name('client.finance.exportCsv');
-});
-
-Route::middleware(['auth'])->group(function () {
-	// Use a wrapper page that mounts the Livewire component so we can keep layout
-	Route::view('/cliente/dashboard', 'client.dashboard')->name('client.dashboard');
-});
-Route::middleware(['auth'])->group(function () {
-	Route::get('/notificacoes', NotificationPanel::class)->name('notifications');
-	Route::get('/cliente/perfil', Profile::class)->name('client.profile');
-	Route::get('/cliente/configuracoes', Settings::class)->name('client.settings');
-});
-Route::middleware(['auth'])->group(function () {
-	Route::get('/servico/{service}/chat', ServiceChat::class)->name('service.chat');
-});
-
-Route::middleware(['auth', 'role:freelancer'])->group(function () {
-	Route::get('/freelancer/carteira', FreelancerWallet::class)->name('freelancer.wallet');
-	Route::get('/freelancer/entrega/{service}', ServiceDelivery::class)->name('freelancer.service.delivery');
-	Route::get('/freelancer/servico/{service}', ServiceReview::class)->name('freelancer.service.review');
-	Route::get('/freelancer/dashboard', FreelancerDashboard::class)->name('freelancer.dashboard');
-	Route::get('/freelancer/afiliados', AffiliatePanel::class)->name('freelancer.affiliate');
-	Route::get('/freelancer/patrocinio', SponsorshipPanel::class)->name('freelancer.sponsorship');
-	Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
-	Route::view('/freelancer/configuracoes', 'livewire.freelancer.settings')->name('freelancer.settings');
-	Route::get('/freelancer/notificacoes', \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
-});
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
-	Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
-});
-
-// Removed duplicate middleware for client profile and settings
-
-use App\Livewire\Client\Briefing;
-use App\Livewire\Client\ServiceValue;
-use App\Livewire\Client\PaymentEscrow;
-
+Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
 Route::get('/', function () {
-	return view('welcome');
-})->name('home');
-
-
-Route::middleware(['auth'])->group(function () {
-	Route::get('/briefing', function () {
-		return view('client-briefing');
-	})->name('client.briefing');
-	Route::get('/valor', function () {
-		return view('client-value');
-	})->name('client.value');
-	Route::get('/pagamento', function () {
-		return view('client-payment');
-	})->name('client.payment');
-	Route::get('/cliente/pedidos', function () {
-		return view('client-orders');
-	})->name('client.orders');
+    return auth()->check() ? redirect('/dashboard') : redirect('/login');
 });
 
-// Rota fake para simular redirecionamento e retorno do PayPal
-use Illuminate\Support\Facades\Route as RouteFacade;
+// Rotas protegidas por auth
 
-RouteFacade::get('/pagamento/paypal', function () {
-	// Exibe tela de redirecionamento fake
-	$sessionId = session()->getId();
-	// Recupera briefing e pagamento da query string e salva na sessão para o retorno
-	$briefing = request()->query('briefing');
-	$pagamento = request()->query('pagamento');
-	if ($briefing) {
-		session(['briefing' => json_decode($briefing, true)]);
-	}
-	if ($pagamento) {
-		session(['pagamento' => json_decode($pagamento, true)]);
-	}
-	return view('paypal-redirect-layout', [
-		'session_id' => $sessionId
-	]);
-})->name('client.paypal');
+// Temporary hotfix: ensure a named route 'planos' exists so cached views
+// calling route('planos') do not throw a RouteNotFoundException.
+// This will be a no-op when the named route is already registered.
+if (! app()->router->has('planos')) {
+    Route::get('/planos', [\App\Http\Controllers\PlanoController::class, 'webIndex'])->name('planos');
+}
 
-// Rota que simula o retorno do PayPal e cria o pedido
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/clientes', [\App\Http\Controllers\ClienteController::class, 'index'])->name('clientes');
+    Route::get('/clientes/create', [\App\Http\Controllers\ClienteController::class, 'create'])
+        ->name('clientes.create')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':clientes.create');
+    Route::post('/clientes', [\App\Http\Controllers\ClienteController::class, 'store'])->name('clientes.store')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':clientes.create');
+    Route::get('/clientes/{cliente}', [\App\Http\Controllers\ClienteController::class, 'show'])->name('clientes.show')->whereNumber('cliente');
+    Route::get('/clientes/{cliente}/edit', [\App\Http\Controllers\ClienteController::class, 'edit'])
+        ->name('clientes.edit')
+        ->whereNumber('cliente')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':clientes.edit');
+    Route::get('/clientes/{cliente}/ficha', [\App\Http\Controllers\ClienteController::class, 'ficha'])->name('clientes.ficha');
+    // Corrige erro 500: rota para compensar dias (handler moved to dedicated controller)
+    Route::post('/clientes/{cliente}/compensar-dias', [\App\Http\Controllers\ClienteCompensacaoController::class, 'store'])->name('clientes.compensar_dias');
+    // Adicionar janela automática: extende a próxima renovação pelo ciclo do plano
+    Route::post('/clientes/{cliente}/adicionar-janela', [\App\Http\Controllers\ClienteController::class, 'adicionarJanela'])->name('clientes.adicionar_janela');
+    // Histórico de compensações de dias (por cliente)
+    Route::get('/clientes/{cliente}/compensacoes', [\App\Http\Controllers\ClienteCompensacaoController::class, 'index'])->name('clientes.compensacoes');
+    // Exportar histórico de compensações (Excel)
+    Route::get('/clientes/{cliente}/compensacoes/export', [\App\Http\Controllers\ClienteController::class, 'exportCompensacoes'])->name('clientes.compensacoes.export')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.export');
+    Route::get('/clientes/{cliente}/ficha/pdf', [\App\Http\Controllers\ClienteController::class, 'fichaPdf'])->name('clientes.ficha.pdf');
+    Route::get('/clientes/{cliente}/ficha/download-send', [\App\Http\Controllers\ClienteController::class, 'fichaPdfAndSend'])->name('clientes.ficha.download_send');
+    Route::post('/clientes/{cliente}/ficha/send', [\App\Http\Controllers\ClienteController::class, 'sendFichaEmail'])->name('clientes.ficha.send');
+    // Ação combinada: envia a ficha por e-mail e retorna o PDF para download em um único clique
+    Route::get('/clientes/{cliente}/ficha/download-send', [\App\Http\Controllers\ClienteController::class, 'fichaPdfAndSend'])->name('clientes.ficha.download_send');
+    // Gera uma URL assinada temporária para download sem sessão
+    Route::get('/clientes/{cliente}/ficha/signed-url', [\App\Http\Controllers\ClienteController::class, 'createSignedUrl'])->name('clientes.ficha.signed.url');
+    
+    // Página geral de relatórios multi-aba
+    Route::get('/relatorios-gerais', [\App\Http\Controllers\RelatorioController::class, 'geral'])
+        ->name('relatorios.gerais');
+    // Download dos relatórios automáticos (aceita nome de ficheiro opcional para histórico)
+    Route::get('/relatorios-gerais/download/{period}/{file?}', [\App\Http\Controllers\RelatorioController::class, 'download'])
+        ->name('relatorios.gerais.download');
+    // Geração manual via UI
+    Route::post('/relatorios-gerais/gerar', [\App\Http\Controllers\RelatorioController::class, 'gerarAgora'])
+        ->name('relatorios.gerais.gerar');
+    Route::put('/clientes/{cliente}', [\App\Http\Controllers\ClienteController::class, 'update'])->name('clientes.update')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':clientes.edit');
+    Route::delete('/clientes/{cliente}', [\App\Http\Controllers\ClienteController::class, 'destroy'])->name('clientes.destroy')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':clientes.delete');
+    Route::get('/planos', [\App\Http\Controllers\PlanoController::class, 'webIndex'])->name('planos');
+    // Backwards-compatible alias: some views/compiled templates reference "planos.index"
+    Route::get('/planos', [\App\Http\Controllers\PlanoController::class, 'webIndex'])->name('planos.index');
+    // Only users with the 'Administrador' role can access the planos create/store web routes
+    Route::post('/planos', [\App\Http\Controllers\PlanoController::class, 'storeWeb'])
+        ->name('planos.store')
+        ->middleware(\Spatie\Permission\Middleware\RoleMiddleware::class . ':Administrador');
+    // Show the create form for planos on a separate page
+    Route::get('/planos/create', [\App\Http\Controllers\PlanoController::class, 'createWeb'])->name('planos.create')->middleware(\Spatie\Permission\Middleware\RoleMiddleware::class . ':Administrador');
+    // Web routes for individual planos (prevent 404s from card actions)
+    Route::get('/planos/{plano}', [\App\Http\Controllers\PlanoController::class, 'webShow'])->name('planos.show')->whereNumber('plano');
+    Route::get('/planos/{plano}/edit', [\App\Http\Controllers\PlanoController::class, 'editWeb'])->name('planos.edit')->whereNumber('plano');
+    Route::put('/planos/{plano}', [\App\Http\Controllers\PlanoController::class, 'update'])->name('planos.update')->whereNumber('plano')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':planos.edit');
+    Route::delete('/planos/{plano}', [\App\Http\Controllers\PlanoController::class, 'destroyWeb'])->name('planos.destroy')->whereNumber('plano')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':planos.delete');
+    Route::get('/alertas', fn () => view('alertas'))->name('alertas');
 
-RouteFacade::get('/pagamento/paypal/retorno', function () {
-	$sessionId = session()->getId();
-	$user = auth()->user();
-	$briefing = session('briefing', null);
-	$pagamento = session('pagamento', null);
-	if (!$user || !$briefing || !$pagamento) {
-		$debug = [];
-		if (!$user) $debug[] = 'Usuário não autenticado';
-		if (!$briefing) $debug[] = 'Briefing ausente na sessão';
-		if (!$pagamento) $debug[] = 'Dados de pagamento ausentes na sessão';
-		$debug[] = 'Session ID: ' . $sessionId;
-		return response()->view('paypal-redirect', [
-			'debug' => $debug,
-			'session_id' => $sessionId
-		]);
-	}
-	$briefing_processado = (new App\Livewire\Client\PaymentEscrow)->processBriefing($briefing);
-	$service = App\Models\Service::create([
-		'cliente_id' => $user->id,
-		'titulo' => $briefing_processado['business_type'] ?? 'Pedido sem título',
-		'briefing' => json_encode($briefing_processado),
-		'valor' => $pagamento['valor'],
-		'taxa' => $pagamento['taxa'],
-		'valor_liquido' => $pagamento['valor_liquido'],
-		'status' => 'published',
-	]);
-	if ($service) {
-		return redirect()->route('client.orders')->with('success', 'Pagamento via PayPal realizado e pedido publicado com sucesso!');
-	} else {
-		return redirect()->route('client.payment')->with('error', 'Erro ao criar o pedido. Tente novamente.');
-	}
-})->name('client.paypal.return');
+    // Relatório e cadastro de cobranças
+    Route::get('/cobrancas', [\App\Http\Controllers\CobrancaController::class, 'index'])->name('cobrancas.index');
+    Route::get('/cobrancas/export', [\App\Http\Controllers\CobrancaController::class, 'exportExcel'])->name('cobrancas.export')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.export');
+    Route::get('/cobrancas/create', [\App\Http\Controllers\CobrancaController::class, 'create'])->name('cobrancas.create')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.create');
+    Route::post('/cobrancas', [\App\Http\Controllers\CobrancaController::class, 'store'])->name('cobrancas.store')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.create');
+    Route::get('/cobrancas/{id}', [\App\Http\Controllers\CobrancaController::class, 'show'])->name('cobrancas.show');
+    Route::get('/cobrancas/{id}/comprovante', [\App\Http\Controllers\CobrancaController::class, 'comprovante'])->name('cobrancas.comprovante');
+    Route::get('/cobrancas/{id}/edit', [\App\Http\Controllers\CobrancaController::class, 'edit'])->name('cobrancas.edit')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.edit');
+    Route::put('/cobrancas/{id}', [\App\Http\Controllers\CobrancaController::class, 'update'])->name('cobrancas.update')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.edit');
+    Route::delete('/cobrancas/{id}', [\App\Http\Controllers\CobrancaController::class, 'destroy'])->name('cobrancas.destroy')->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':cobrancas.delete');
 
-Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
 
-// Public project detail
-Route::get('/projeto/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
+    // Rotas de equipamentos
+    // Allow any authenticated user to view the create form and submit equipamentos
+    Route::get('/clientes/{cliente}/equipamentos/create', [\App\Http\Controllers\EquipamentoController::class, 'create'])
+        ->name('equipamentos.create');
+    Route::post('/clientes/{cliente}/equipamentos', [\App\Http\Controllers\EquipamentoController::class, 'store'])
+        ->name('equipamentos.store');
+    
+    // Self-service password change
+    Route::get('password/change', [PasswordController::class, 'edit'])->name('password.change');
+    Route::post('password/change', [PasswordController::class, 'update'])->name('password.update');
 
-// Public freelancer profile
-use App\Http\Controllers\FreelancerProfileController;
-Route::get('/freelancer/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
+    // User management (admin)
+    Route::get('/admin/users/create', [\App\Http\Controllers\UserController::class, 'create'])
+        ->name('admin.users.create')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.create');
+    Route::post('/admin/users', [\App\Http\Controllers\UserController::class, 'store'])
+        ->name('admin.users.store')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.create');
+    // Admin users index, edit, update and destroy
+    Route::get('/admin/users', [\App\Http\Controllers\UserController::class, 'index'])
+        ->name('admin.users.index')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.view');
+    Route::get('/admin/users/{user}/edit', [\App\Http\Controllers\UserController::class, 'edit'])
+        ->name('admin.users.edit')
+        ->whereNumber('user')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.edit');
+    Route::put('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'update'])
+        ->name('admin.users.update')
+        ->whereNumber('user')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.edit');
+    Route::delete('/admin/users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])
+        ->name('admin.users.destroy')
+        ->whereNumber('user')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':users.delete');
+    
+    // Audit logs removed (legacy) — routes cleaned
+    // New audit UI (minimal) - access controlled by permission 'audits.view' if present
+    Route::get('/admin/audit-logs', [\App\Http\Controllers\AuditController::class, 'index'])
+        ->name('admin.audit.index')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':audits.view');
 
-// Public freelancers listing
-use App\Http\Controllers\FreelancerListingController;
-Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
+    // JSON endpoints for dynamic filter lists
+    Route::get('/admin/audit-logs/modules', [\App\Http\Controllers\AuditController::class, 'modules'])
+        ->name('admin.audit.modules')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':audits.view');
+    Route::get('/admin/audit-logs/actions', [\App\Http\Controllers\AuditController::class, 'actions'])
+        ->name('admin.audit.actions')
+        ->middleware(\Spatie\Permission\Middleware\PermissionMiddleware::class . ':audits.view');
 
-use App\Http\Controllers\Client\ServiceTitleController;
 
-Route::middleware(['auth'])->post('/cliente/pedido/{service}/cancelar/edit-title', [ServiceTitleController::class, 'update']);
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+    
+    // Plan templates (catalog of reusable plans)
+    Route::get('/plan-templates', [\App\Http\Controllers\PlanTemplateController::class, 'index'])->name('plan-templates.index');
+    Route::get('/plan-templates/create', [\App\Http\Controllers\PlanTemplateController::class, 'create'])->name('plan-templates.create');
+    Route::post('/plan-templates', [\App\Http\Controllers\PlanTemplateController::class, 'store'])->name('plan-templates.store');
+    Route::get('/plan-templates/{plan_template}/edit', [\App\Http\Controllers\PlanTemplateController::class, 'edit'])->name('plan-templates.edit');
+    Route::put('/plan-templates/{plan_template}', [\App\Http\Controllers\PlanTemplateController::class, 'update'])->name('plan-templates.update');
+    Route::delete('/plan-templates/{plan_template}', [\App\Http\Controllers\PlanTemplateController::class, 'destroy'])->name('plan-templates.destroy');
+    // JSON endpoint
+    Route::get('/plan-templates/{plan_template}/json', [\App\Http\Controllers\PlanTemplateController::class, 'json'])->name('plan-templates.json');
+    // Backwards-compatible endpoints: some older assets request these paths
+    Route::get('/plan-templates/list.json', [\App\Http\Controllers\PlanTemplateController::class, 'listJson']);
+    Route::get('/plan-templates-list-json', [\App\Http\Controllers\PlanTemplateController::class, 'listJson'])->name('plan-templates.list.json');
 
-use App\Http\Controllers\Auth\OtpVerificationController;
+    // Debug route: show total and active plano counts per template (only when APP_DEBUG=true)
+    Route::get('/debug/plan-template-counts', [\App\Http\Controllers\PlanTemplateController::class, 'debugCounts'])->name('debug.plan-template-counts');
 
-// Rotas de verificação de e-mail Laravel
-Route::get('/email/verify', function () {
-	return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
+    
+    // Export routes removed per request
+});
+// Rotas de Estoque de Equipamentos
+Route::middleware('auth')->group(function () {
+    Route::get('/estoque-equipamentos', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'index'])->name('estoque_equipamentos.index');
+    Route::get('/estoque-equipamentos/create', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'create'])->name('estoque_equipamentos.create');
+    Route::post('/estoque-equipamentos', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'store'])->name('estoque_equipamentos.store');
 
-// Rotas de verificação OTP
-Route::middleware(['auth'])->group(function () {
-	Route::get('/otp/verify', function() {
-		// Envia o código automaticamente ao acessar a tela
-		app(\App\Http\Controllers\Auth\OtpVerificationController::class)->sendOtp(request());
-		return app(\App\Http\Controllers\Auth\OtpVerificationController::class)->showOtpForm();
-	})->name('otp.form');
-	Route::post('/otp/send', [OtpVerificationController::class, 'sendOtp'])->name('otp.send');
-	Route::post('/otp/verify', [OtpVerificationController::class, 'verifyOtp'])->name('otp.verify');
+    Route::get('/estoque-equipamentos/{equipamento}/edit', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'edit'])->name('estoque_equipamentos.edit');
+    Route::put('/estoque-equipamentos/{equipamento}', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'update'])->name('estoque_equipamentos.update');
+    Route::delete('/estoque-equipamentos/{equipamento}', [\App\Http\Controllers\EstoqueEquipamentoController::class, 'destroy'])->name('estoque_equipamentos.destroy');
+    // Exportação específica do estoque de equipamentos
+    Route::get('/estoque-equipamentos/export', function() {
+        $equipamentos = \App\Models\EstoqueEquipamento::orderBy('nome')->get();
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\EstoqueEquipamentosExport($equipamentos), 'estoque_equipamentos.xlsx');
+    })->name('estoque_equipamentos.export');
+
+    // Vincular equipamentos do estoque a clientes
+    Route::get('/clientes/{cliente}/vincular-equipamento', [\App\Http\Controllers\ClienteEquipamentoController::class, 'create'])->name('cliente_equipamento.create');
+    Route::post('/clientes/{cliente}/vincular-equipamento', [\App\Http\Controllers\ClienteEquipamentoController::class, 'store'])->name('cliente_equipamento.store');
+    Route::get('/clientes/{cliente}/vincular-equipamento/{vinculo}/editar', [\App\Http\Controllers\ClienteEquipamentoController::class, 'edit'])->name('cliente_equipamento.edit');
+    Route::put('/clientes/{cliente}/vincular-equipamento/{vinculo}', [\App\Http\Controllers\ClienteEquipamentoController::class, 'update'])->name('cliente_equipamento.update');
+    Route::delete('/clientes/{cliente}/vincular-equipamento/{vinculo}', [\App\Http\Controllers\ClienteEquipamentoController::class, 'destroy'])->name('cliente_equipamento.destroy');
 });
 
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-	$request->fulfill();
-	return redirect('/login')->with('status', 'E-mail verificado com sucesso! Agora você pode acessar a plataforma.');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+// Dev helper routes removed. For local testing use the `diagnose:stock` command and feature branches.
 
-Route::post('/email/verification-notification', function () {
-	request()->user()->sendEmailVerificationNotification();
-	return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-use App\Http\Controllers\ProfileController;
-
-// Profile edit routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
-	Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-	// Generate affiliate code for users without one
-	Route::post('/affiliate/generate', [ProfileController::class, 'generateAffiliate'])->name('affiliate.generate');
+// Temporary probe route - remove after testing
+Route::get('/_probe/hasroles', function () {
+    return response()->json([
+        'trait_exists' => trait_exists(\Spatie\Permission\Traits\HasRoles::class),
+        'php_sapi' => php_sapi_name(),
+        'app_env' => env('APP_ENV'),
+    ]);
 });
+
+// Rota pública apenas via URL assinada para permitir download temporário sem sessão
+Route::get('/clientes/{cliente}/ficha/signed/download', [\App\Http\Controllers\ClienteController::class, 'fichaPdfSigned'])
+    ->name('clientes.ficha.signed')
+    ->middleware('signed');
+
+// TEMPORARY public download for testing (no auth, remove after testing)
+Route::get('/clientes/{cliente}/ficha/public-download', [\App\Http\Controllers\ClienteController::class, 'fichaPdfPublic'])
+    ->name('clientes.ficha.public');
