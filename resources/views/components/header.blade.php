@@ -6,16 +6,49 @@
             </a>
         </div>
 
-        <nav class="nav-desktop flex items-center">
-            <a href="#categorias" class="nav-link">Categorias</a>
-            <a href="{{ route('freelancers.index') }}" class="nav-link">Freelancers</a>
-            <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
-            <a href="#depoimentos" class="nav-link">Depoimentos</a>
+        <nav class="nav-desktop flex-1 flex items-center justify-center gap-6">
+            <div x-data="{open:false}" class="relative">
+                <button @click="open = !open" class="nav-link flex items-center gap-1">
+                    Contratar
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por habilidade</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por localização</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por categoria</a>
+                </div>
+            </div>
+            <div x-data="{open:false}" class="relative">
+                <button @click="open = !open" class="nav-link flex items-center gap-1">
+                    Encontrar trabalho
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                    <a href="{{ route('public.projects') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Projetos</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Concursos</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Vagas</a>
+                </div>
+            </div>
+            <div x-data="{open:false}" class="relative">
+                <button @click="open = !open" class="nav-link flex items-center gap-1">
+                    Soluções
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Empresas</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Parceiros</a>
+                    <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Ajuda</a>
+                </div>
+            </div>
+        </nav>
+        <div class="flex items-center gap-2">
             @guest
                 <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="nav-link btn-primary ml-3">Cadastro</a>
+                <a href="/register" class="nav-link">Cadastro</a>
+                <a href="{{ route('client.projects.create') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
             @else
-                <div class="flex items-center">
+                <a href="{{ route('client.projects.create') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
+                <div class="flex items-center ml-4">
                     @if(auth()->user()->activeRole() !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
                     @endif
@@ -50,7 +83,7 @@
                     </div>
                 </div>
             @endguest
-        </nav>
+        </div>
 
         <div class="mobile-nav flex items-center gap-3">
             <a href="/register" class="mobile-cta btn-primary">Cadastro</a>
