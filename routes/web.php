@@ -1,3 +1,4 @@
+    Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
 
 <?php
 
