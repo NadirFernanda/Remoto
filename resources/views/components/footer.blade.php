@@ -50,6 +50,24 @@
                 <li><a href="#">Suporte</a></li>
             </ul>
         </div>
+
+        {{-- Sobre --}}
+        <div class="hp-footer-col">
+            <h4>Sobre</h4>
+            <ul>
+                <li><a href="#">Sobre nós</a></li>
+                <li><a href="#">Como funciona</a></li>
+                <li><a href="#">Segurança</a></li>
+                <li><a href="#">Investidores</a></li>
+                <li><a href="#">Mapa do site</a></li>
+                <li><a href="#">Histórias</a></li>
+                <li><a href="#">Notícias</a></li>
+                <li><a href="#">Equipe</a></li>
+                <li><a href="#">Prêmios</a></li>
+                <li><a href="#">Comunicados de imprensa</a></li>
+                <li><a href="#">Carreiras</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="hp-footer-bar">
