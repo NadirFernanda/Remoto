@@ -12,7 +12,7 @@
                     Contratar
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg py-2 z-50">
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por habilidade</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por localização</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por categoria</a>
@@ -23,7 +23,7 @@
                     Encontrar trabalho
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg py-2 z-50">
                     <a href="{{ route('public.projects') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Projetos</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Concursos</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Vagas</a>
@@ -34,7 +34,7 @@
                     Soluções
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg py-2 z-50">
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Empresas</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Parceiros</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Ajuda</a>
@@ -66,7 +66,7 @@
                             <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}';">
                             <span class="hidden md:inline">{{ auth()->user()->name }}</span>
                         </button>
-                        <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2">
+                        <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg py-2">
                             @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
                                 <a href="{{ route('client.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
                             @elseif(auth()->user()->activeRole() === 'freelancer')
