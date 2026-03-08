@@ -1,3 +1,7 @@
+// Placeholder para rota de pagamentos do cliente
+Route::get('/cliente/pagamentos', function () {
+    return 'Em breve: painel de pagamentos do cliente.';
+})->name('client.payments');
 <?php
 
 use Illuminate\Support\Facades\Route;

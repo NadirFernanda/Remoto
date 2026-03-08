@@ -116,6 +116,11 @@ class Dashboard extends Component
             \Log::error('DASHBOARD CLIENTE: Usuário não autenticado');
             throw new \Exception('Usuário não autenticado. Faça login para acessar o dashboard do cliente.');
         }
+        // Proteção: só permite acesso se for cliente
+        if (method_exists($user, 'activeRole') && $user->activeRole() !== 'cliente') {
+            \Log::error('DASHBOARD CLIENTE: Usuário não é cliente');
+            abort(403, 'Acesso não autorizado ao dashboard do cliente.');
+        }
         $services = Service::where('cliente_id', $user->id)->get();
         \Log::debug('DASHBOARD CLIENTE: services', ['services' => $services]);
         if ($services === null) {
