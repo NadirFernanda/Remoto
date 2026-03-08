@@ -62,56 +62,5 @@
 	</div>
 
 
-	<!-- Candidatos dos Pedidos -->
-	<div class="mb-8">
-		<h2 class="font-semibold text-xl mb-2 text-[#222]">Candidatos dos Pedidos</h2>
-		<div class="overflow-x-auto">
-			<table class="orders-table">
-				<thead>
-					<tr>
-						<th class="py-2 px-4">Pedido</th>
-						<th class="py-2 px-4">Freelancer</th>
-						<th class="py-2 px-4">Status</th>
-						<th class="py-2 px-4">Ação</th>
-					</tr>
-				</thead>
-				<tbody>
-					@forelse($candidates->whereNotIn('status', ['rejected']) as $candidate)
-						<tr class="border-b">
-							<td class="py-2 px-4">{{ $candidate->service->titulo ?? '-' }}</td>
-							<td class="py-2 px-4">{{ optional($candidate->freelancer)->name ?? '—' }}</td>
-							<td class="py-2 px-4">
-								@php
-									$statusLabels = [
-										'pending'       => 'Pendente',
-										'proposal_sent' => 'Proposta enviada',
-										'invited'       => 'Convidado',
-										'chosen'        => 'Escolhido',
-										'rejected'      => 'Rejeitado',
-									];
-								@endphp
-								{{ $statusLabels[$candidate->status] ?? ucfirst(str_replace('_', ' ', $candidate->status)) }}
-							</td>
-							<td class="py-2 px-4">
-								@if(in_array($candidate->status, ['pending', 'proposal_sent', 'invited']) && optional($candidate->service)->status === 'published')
-								<button wire:click="escolherFreelancer({{ $candidate->service_id }}, {{ $candidate->freelancer_id }})" class="inline-flex items-center gap-1 bg-[#00baff] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#009ad6] transition" title="Escolher freelancer" aria-label="Escolher freelancer">
-									@include('components.icon', ['name' => 'check', 'class' => 'w-4 h-4'])
-									Escolher
-									</button>
-								@elseif($candidate->status === 'chosen')
-									<a href="{{ route('service.chat', $candidate->service_id) }}" class="inline-flex items-center gap-1 bg-[#00baff] text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-[#009ad6] transition">
-										@include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
-										Ir para o chat
-									</a>
-								@endif
-							</td>
-						</tr>
-					@empty
-						<tr><td colspan="4" class="text-center py-4 text-[#888]">Nenhum candidato encontrado.</td></tr>
-					@endforelse
-				</tbody>
-			</table>
-		</div>
-	</div>
 
 </div>
