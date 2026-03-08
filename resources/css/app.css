@@ -530,18 +530,36 @@ body.homepage .site-footer {
 .hp-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 /* hero carousel */
-.hp-hero { position: relative; background: url('/img/heru1.jpg') center/cover no-repeat; }
-.hp-hero::before { content: ''; position: absolute; inset: 0; background: rgba(7,20,34,.72); }
-.hp-hero-slide { position: relative; z-index: 1; padding: 5.5rem 1.5rem 4.5rem; min-height: 500px; display: flex; align-items: center; }
+/* Hero — imagens de fundo em crossfade + overlay azul da marca */
+.hp-hero { position: relative; overflow: hidden; }
+
+/* Camadas de imagem que fazem crossfade */
+.hp-hero-bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    will-change: opacity;
+}
+.hp-hero-bg.hp-bg-active { opacity: 1; }
+
+/* Overlay azul gradiente (mantém o visual bonito da marca) */
+.hp-hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(135deg, rgba(0,142,210,0.91) 0%, rgba(0,80,160,0.93) 100%);
+}
+
+.hp-hero-slide { position: relative; z-index: 2; padding: 5.5rem 1.5rem 4.5rem; min-height: 500px; display: flex; align-items: center; }
 .hp-hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
 .hp-hero-title { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 1.5rem; max-width: 700px; }
-.hp-hero-accent { color: #00baff; }
+.hp-hero-accent { color: #fff176; }
 .hp-hero-bullets { list-style: none; margin: 0 0 2.25rem; padding: 0; }
-.hp-hero-bullets li { color: rgba(255,255,255,.88); font-size: 1.05rem; padding: .3rem 0; display: flex; align-items: center; gap: .6rem; }
-.hp-hero-bullets li::before { content: '\2022'; color: #00baff; font-size: 1.3rem; line-height: 1; }
-.hp-hero-dots { display: flex; justify-content: center; gap: .5rem; padding-bottom: 1.5rem; position: relative; z-index: 1; }
-.hp-hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.3); border: none; cursor: pointer; transition: background .2s; padding: 0; }
-.hp-hero-dot.hp-dot-active { background: #00baff; }
+.hp-hero-bullets li { color: rgba(255,255,255,.92); font-size: 1.05rem; padding: .3rem 0; display: flex; align-items: center; gap: .6rem; }
+.hp-hero-bullets li::before { content: '\2022'; color: #fff176; font-size: 1.3rem; line-height: 1; }
+.hp-hero-dots { display: flex; justify-content: center; gap: .5rem; padding-bottom: 1.5rem; position: relative; z-index: 2; }
+.hp-hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.35); border: none; cursor: pointer; transition: background .2s, transform .2s; padding: 0; }
+.hp-hero-dot:hover { transform: scale(1.3); }
+.hp-hero-dot.hp-dot-active { background: #fff; transform: scale(1.15); }
 
 /* steps (como funciona) */
 .hp-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 2rem; }
