@@ -1,7 +1,6 @@
 
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FreelancerListingController;
 use App\Http\Controllers\FreelancerProfileController;
 use App\Http\Controllers\PublicProjectsController;
