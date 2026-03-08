@@ -1,10 +1,3 @@
-Route::middleware('auth')->group(function () {
-    Route::get('/cliente/reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('client.refunds');
-});
-// --- Refunds ---
-Route::middleware('auth')->group(function () {
-    Route::get('/cliente/reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
-});
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -135,6 +128,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
+    
+        // Painel admin de reembolsos
+        Route::middleware(['auth', 'can:admin'])->group(function () {
+            Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds');
+        });
 
     // Admin — Gestão Financeira
     Route::get('/admin/financeiro', \App\Livewire\Admin\Financial::class)->name('admin.financial')->middleware('admin.module:financeiro');
@@ -159,3 +157,10 @@ Route::middleware('auth')->group(function () {
 
 // Página de projetos do freelancer
 Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
+Route::middleware('auth')->group(function () {
+    Route::get('/cliente/reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('client.refunds');
+});
+// --- Refunds ---
+Route::middleware('auth')->group(function () {
+    Route::get('/cliente/reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
+});
