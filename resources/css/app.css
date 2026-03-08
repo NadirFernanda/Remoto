@@ -476,6 +476,17 @@ table.bg-white, table.bg-white td, table.bg-white th, .min-w-full.bg-white, .min
     color: #0f172a;
 }
 
+/* Homepage: fundo branco, texto escuro */
+body.homepage {
+    background: #f5f7fa !important;
+    color: #0f172a !important;
+}
+body.homepage .site-footer {
+    background: #1e293b !important;
+    color: #94a3b8 !important;
+    border-top: none !important;
+}
+
 /* Remove all box-shadow and backdrop-filter from header */
 .site-header, .site-header.scrolled, .site-header.site-header-compact, .site-header.site-header-compact.scrolled {
     box-shadow: none !important;

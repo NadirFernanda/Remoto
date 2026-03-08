@@ -16,7 +16,7 @@ Route::get('/cliente/pagamentos', function () {
 // Homepage
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 // Dashboard redirect based on role
 Route::get('/dashboard', function () {
