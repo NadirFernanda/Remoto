@@ -3,81 +3,109 @@
 @section('content')
 
 {{-- ============================
-     HERO SECTION
+     HERO — CARROSSEL
 ============================== --}}
-<section style="background: linear-gradient(135deg, #00baff 0%, #0077cc 100%); padding: 5rem 1.5rem 4rem;">
-    <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:3rem; flex-wrap:wrap;">
-        <!-- Texto -->
-        <div style="flex:1; min-width:280px;">
-            <h1 style="font-size:clamp(2rem,4vw,3.2rem); font-weight:900; color:#fff; line-height:1.15; margin-bottom:1.25rem; font-family:'Poppins',sans-serif;">
-                Contrate freelancers<br>especializados em<br><span style="color:#fff176;">24 horas</span>
-            </h1>
-            <p style="font-size:1.15rem; color:rgba(255,255,255,0.9); margin-bottom:2rem; max-width:480px; line-height:1.6;">
-                A plataforma mais rÃ¡pida para conectar clientes e profissionais. Poste um projeto gratuito e receba propostas em minutos.
-            </p>
-            <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-                <a href="/register" style="background:#fff; color:#00baff; font-weight:800; padding:.85rem 2rem; border-radius:10px; text-decoration:none; font-size:1rem; box-shadow: 0 6px 24px rgba(0,0,0,0.12);">
-                    Publicar projeto grÃ¡tis
-                </a>
-                <a href="{{ route('freelancers.index') }}" style="background:transparent; color:#fff; font-weight:700; padding:.85rem 2rem; border-radius:10px; text-decoration:none; font-size:1rem; border:2px solid rgba(255,255,255,0.7);">
-                    Ver freelancers
-                </a>
-            </div>
-            <!-- EstatÃ­sticas -->
-            <div style="display:flex; gap:2.5rem; margin-top:2.5rem; flex-wrap:wrap;">
-                <div>
-                    <div style="font-size:1.6rem; font-weight:900; color:#fff;">+5.000</div>
-                    <div style="font-size:.85rem; color:rgba(255,255,255,0.8);">Freelancers ativos</div>
-                </div>
-                <div>
-                    <div style="font-size:1.6rem; font-weight:900; color:#fff;">+12.000</div>
-                    <div style="font-size:.85rem; color:rgba(255,255,255,0.8);">Projetos concluÃ­dos</div>
-                </div>
-                <div>
-                    <div style="font-size:1.6rem; font-weight:900; color:#fff;">98%</div>
-                    <div style="font-size:.85rem; color:rgba(255,255,255,0.8);">Clientes satisfeitos</div>
-                </div>
+<section class="hp-hero"
+    x-data="{
+        slide: 0,
+        total: 3,
+        timer: null,
+        start(){ this.timer = setInterval(() => { this.slide = (this.slide + 1) % this.total }, 5000) },
+        stop(){ clearInterval(this.timer) },
+        go(n){ this.slide = n; this.stop(); this.start() }
+    }"
+    x-init="start()"
+    @mouseenter="stop()"
+    @mouseleave="start()">
+
+    {{-- Slide 1 --}}
+    <div class="hp-hero-slide" x-show="slide===0" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+        <div class="hp-hero-inner">
+            <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
+            <ul class="hp-hero-bullets">
+                <li>Maior marketplace freelance do Brasil</li>
+                <li>Qualquer serviço que você precisar</li>
+                <li>Receba propostas em minutos, grátis</li>
+                <li>Pague só quando estiver 100% satisfeito</li>
+            </ul>
+            <div class="hp-ctas">
+                <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
+                <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro Freelancing</a>
             </div>
         </div>
-        <!-- Card visual -->
-        <div style="flex:0 0 auto; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border-radius:20px; padding:2rem; min-width:260px; max-width:320px; border:1px solid rgba(255,255,255,0.25);">
-            <div style="display:flex; align-items:center; gap:.75rem; margin-bottom:1.25rem;">
-                <div style="width:48px; height:48px; border-radius:50%; background:#fff176; display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900; color:#0077cc;">A</div>
-                <div>
-                    <div style="color:#fff; font-weight:700; font-size:.95rem;">Ana Souza</div>
-                    <div style="color:rgba(255,255,255,0.75); font-size:.8rem;">Designer UI/UX Â· â­ 4.9</div>
-                </div>
-            </div>
-            <div style="color:rgba(255,255,255,0.9); font-size:.88rem; margin-bottom:1.25rem; line-height:1.5;">"Projeto entregue antes do prazo, comunicaÃ§Ã£o excelente e resultado profissional."</div>
-            <div style="background:rgba(255,255,255,0.15); border-radius:8px; padding:.6rem 1rem; display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#fff; font-size:.85rem;">Design de App</span>
-                <span style="color:#fff176; font-weight:800; font-size:.95rem;">R$ 850</span>
+    </div>
+
+    {{-- Slide 2 --}}
+    <div class="hp-hero-slide" x-show="slide===1" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
+        <div class="hp-hero-inner">
+            <h1 class="hp-hero-title">Ganhe dinheiro fazendo<br>o que você <span class="hp-hero-accent">ama</span></h1>
+            <ul class="hp-hero-bullets">
+                <li>Crie seu perfil gratuito em minutos</li>
+                <li>Acesse milhares de projetos todo dia</li>
+                <li>Defina seu preço e horários</li>
+                <li>Receba pagamentos seguros e rápidos</li>
+            </ul>
+            <div class="hp-ctas">
+                <a href="/register" class="hp-btn hp-btn-white">Começar como Freelancer</a>
+                <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
             </div>
         </div>
+    </div>
+
+    {{-- Slide 3 --}}
+    <div class="hp-hero-slide" x-show="slide===2" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
+        <div class="hp-hero-inner">
+            <h1 class="hp-hero-title">Tudo que seu negócio<br>precisa, em um <span class="hp-hero-accent">só lugar</span></h1>
+            <ul class="hp-hero-bullets">
+                <li>Design, Dev, Marketing, Redação e muito mais</li>
+                <li>+5.000 profissionais verificados ativos</li>
+                <li>Sistema de custódia: pague com segurança</li>
+                <li>Suporte dedicado 24 horas por dia</li>
+            </ul>
+            <div class="hp-ctas">
+                <a href="/register" class="hp-btn hp-btn-white">Publicar projeto grátis</a>
+                <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-outline-white">Explorar freelancers</a>
+            </div>
+        </div>
+    </div>
+
+    {{-- Dots --}}
+    <div class="hp-hero-dots">
+        <button @click="go(0)" :class="slide===0 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 1"></button>
+        <button @click="go(1)" :class="slide===1 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 2"></button>
+        <button @click="go(2)" :class="slide===2 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 3"></button>
     </div>
 </section>
 
 {{-- ============================
      COMO FUNCIONA
 ============================== --}}
-<section style="background:#ffffff; padding:4.5rem 1.5rem;">
-    <div style="max-width:1100px; margin:0 auto; text-align:center;">
-        <p style="color:#00baff; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem;">Simples e rÃ¡pido</p>
-        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; color:#0f172a; margin-bottom:.75rem; font-family:'Poppins',sans-serif;">Como funciona</h2>
-        <p style="color:#64748b; font-size:1.05rem; max-width:560px; margin:0 auto 3rem;">Em poucos passos, vocÃª conecta clientes e freelancers de forma segura.</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem;">
-            @foreach([
-                ['icon'=>'1', 'title'=>'Publique seu projeto', 'desc'=>'Descreva o que precisa e defina seu orÃ§amento. Ã‰ gratuito e leva menos de 2 minutos.'],
-                ['icon'=>'2', 'title'=>'Receba propostas', 'desc'=>'Freelancers qualificados enviam propostas personalizadas rapidamente.'],
-                ['icon'=>'3', 'title'=>'Escolha e contrate', 'desc'=>'Analise perfis, portfÃ³lios e avaliaÃ§Ãµes. Escolha o profissional ideal.'],
-                ['icon'=>'4', 'title'=>'Pague com seguranÃ§a', 'desc'=>'Pagamento em custÃ³dia: o freelancer sÃ³ recebe apÃ³s sua aprovaÃ§Ã£o.'],
-            ] as $step)
-            <div style="background:#f8fafc; border-radius:16px; padding:2rem 1.5rem; text-align:center; border:1px solid #e2e8f0;">
-                <div style="width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,#00baff,#0077cc); color:#fff; font-size:1.3rem; font-weight:900; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">{{ $step['icon'] }}</div>
-                <h3 style="font-size:1.05rem; font-weight:800; color:#0f172a; margin-bottom:.5rem;">{{ $step['title'] }}</h3>
-                <p style="color:#64748b; font-size:.9rem; line-height:1.55;">{{ $step['desc'] }}</p>
+<section class="hp-section hp-section--white">
+    <div class="hp-container" style="text-align:center;">
+        <p class="hp-label">Simples e rápido</p>
+        <h2 class="hp-title">Como funciona</h2>
+        <p class="hp-subtitle">Em poucos passos, você conecta clientes e freelancers de forma segura.</p>
+        <div class="hp-steps">
+            <div class="hp-step">
+                <div class="hp-step-icon">1</div>
+                <h3>Publique seu projeto</h3>
+                <p>Descreva o que precisa e defina seu orçamento. É gratuito e leva menos de 2 minutos.</p>
             </div>
-            @endforeach
+            <div class="hp-step">
+                <div class="hp-step-icon">2</div>
+                <h3>Receba propostas</h3>
+                <p>Freelancers qualificados enviam propostas personalizadas rapidamente.</p>
+            </div>
+            <div class="hp-step">
+                <div class="hp-step-icon">3</div>
+                <h3>Escolha e contrate</h3>
+                <p>Analise perfis, portfólios e avaliações. Escolha o profissional ideal.</p>
+            </div>
+            <div class="hp-step">
+                <div class="hp-step-icon">4</div>
+                <h3>Pague com segurança</h3>
+                <p>Pagamento em custódia: o freelancer só recebe após sua aprovação.</p>
+            </div>
         </div>
     </div>
 </section>
@@ -85,64 +113,57 @@
 {{-- ============================
      CATEGORIAS POPULARES
 ============================== --}}
-<section style="background:#f5f7fa; padding:4.5rem 1.5rem;">
-    <div style="max-width:1100px; margin:0 auto; text-align:center;">
-        <p style="color:#00baff; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem;">Explore</p>
-        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; color:#0f172a; margin-bottom:.75rem; font-family:'Poppins',sans-serif;">Categorias populares</h2>
-        <p style="color:#64748b; font-size:1.05rem; max-width:560px; margin:0 auto 3rem;">Encontre o profissional certo para cada tipo de projeto.</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:1.25rem;">
-            @foreach([
-                ['emoji'=>'ðŸŽ¨', 'label'=>'Design & Arte'],
-                ['emoji'=>'ðŸ’»', 'label'=>'Desenvolvimento Web'],
-                ['emoji'=>'ðŸ“±', 'label'=>'Apps Mobile'],
-                ['emoji'=>'âœï¸', 'label'=>'RedaÃ§Ã£o & ConteÃºdo'],
-                ['emoji'=>'ðŸ“Š', 'label'=>'Marketing Digital'],
-                ['emoji'=>'ðŸŽ¬', 'label'=>'VÃ­deo & Ãudio'],
-                ['emoji'=>'ðŸ”', 'label'=>'SEO & Analytics'],
-                ['emoji'=>'ðŸ¤', 'label'=>'Suporte & Admin'],
-            ] as $cat)
-            <a href="{{ route('freelancers.index') }}" style="background:#fff; border-radius:14px; padding:1.5rem 1rem; text-align:center; border:1px solid #e2e8f0; text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:.6rem;">
-                <span style="font-size:2rem;">{{ $cat['emoji'] }}</span>
-                <span style="font-size:.85rem; font-weight:700; color:#1e293b;">{{ $cat['label'] }}</span>
-            </a>
-            @endforeach
+<section class="hp-section hp-section--gray">
+    <div class="hp-container" style="text-align:center;">
+        <p class="hp-label">Explore</p>
+        <h2 class="hp-title">Categorias populares</h2>
+        <p class="hp-subtitle">Encontre o profissional certo para cada tipo de projeto.</p>
+        <div class="hp-categories">
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🎨</span><span class="hp-cat-label">Design & Arte</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">💻</span><span class="hp-cat-label">Desenvolvimento Web</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">📱</span><span class="hp-cat-label">Apps Mobile</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">✍️</span><span class="hp-cat-label">Redação & Conteúdo</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">📊</span><span class="hp-cat-label">Marketing Digital</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🎬</span><span class="hp-cat-label">Vídeo & Áudio</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🔍</span><span class="hp-cat-label">SEO & Analytics</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🤝</span><span class="hp-cat-label">Suporte & Admin</span></a>
         </div>
         <div style="margin-top:2.5rem;">
-            <a href="{{ route('freelancers.index') }}" style="background:#00baff; color:#fff; font-weight:800; padding:.85rem 2.5rem; border-radius:10px; text-decoration:none; font-size:1rem; display:inline-block;">
-                Ver todas as categorias â†’
-            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary">Ver todas as categorias →</a>
         </div>
     </div>
 </section>
 
 {{-- ============================
-     POR QUÃŠ ESCOLHER A PLATAFORMA
+     POR QUÊ ESCOLHER
 ============================== --}}
-<section style="background:#ffffff; padding:4.5rem 1.5rem;">
-    <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2.5rem; align-items:center;">
-        <div>
-            <p style="color:#00baff; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem;">Por que nÃ³s</p>
-            <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; color:#0f172a; margin-bottom:1.25rem; font-family:'Poppins',sans-serif;">Trabalhe com<br>seguranÃ§a e confianÃ§a</h2>
-            <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Nossa plataforma protege clientes e freelancers com sistema de custÃ³dia, verificaÃ§Ã£o de identidade e suporte dedicado.</p>
-            <a href="/register" style="background:#00baff; color:#fff; font-weight:800; padding:.85rem 2rem; border-radius:10px; text-decoration:none; font-size:1rem; display:inline-block;">
-                Criar conta gratuita
-            </a>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:1.25rem;">
-            @foreach([
-                ['icon'=>'ðŸ”’', 'title'=>'Pagamento seguro', 'desc'=>'Dinheiro fica em custÃ³dia e sÃ³ Ã© liberado quando vocÃª aprovar o trabalho.'],
-                ['icon'=>'âœ…', 'title'=>'Freelancers verificados', 'desc'=>'Perfis validados, portfÃ³lios reais e avaliaÃ§Ãµes de clientes anteriores.'],
-                ['icon'=>'ðŸ’¬', 'title'=>'Suporte 24h', 'desc'=>'Nossa equipe estÃ¡ disponÃ­vel para ajudar clientes e freelancers a qualquer momento.'],
-                ['icon'=>'âš¡', 'title'=>'Resultados rÃ¡pidos', 'desc'=>'Receba propostas em minutos e inicie seu projeto em menos de 24 horas.'],
-            ] as $item)
-            <div style="display:flex; gap:1rem; align-items:flex-start; background:#f8fafc; border-radius:12px; padding:1.25rem; border:1px solid #e2e8f0;">
-                <div style="font-size:1.6rem; flex-shrink:0;">{{ $item['icon'] }}</div>
-                <div>
-                    <div style="font-weight:800; color:#0f172a; font-size:.95rem; margin-bottom:.25rem;">{{ $item['title'] }}</div>
-                    <div style="color:#64748b; font-size:.88rem; line-height:1.5;">{{ $item['desc'] }}</div>
+<section class="hp-section hp-section--white">
+    <div class="hp-container">
+        <div class="hp-benefits-grid">
+            <div class="hp-benefits-text">
+                <p class="hp-label">Por que nós</p>
+                <h2 class="hp-title">Trabalhe com<br>segurança e confiança</h2>
+                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
+                <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
+            </div>
+            <div class="hp-benefit-list">
+                <div class="hp-benefit-item">
+                    <div class="hp-benefit-icon">🔒</div>
+                    <div><h4>Pagamento seguro</h4><p>Dinheiro fica em custódia e só é liberado quando você aprovar o trabalho.</p></div>
+                </div>
+                <div class="hp-benefit-item">
+                    <div class="hp-benefit-icon">✅</div>
+                    <div><h4>Freelancers verificados</h4><p>Perfis validados, portfólios reais e avaliações de clientes anteriores.</p></div>
+                </div>
+                <div class="hp-benefit-item">
+                    <div class="hp-benefit-icon">💬</div>
+                    <div><h4>Suporte 24h</h4><p>Nossa equipe está disponível para ajudar clientes e freelancers a qualquer momento.</p></div>
+                </div>
+                <div class="hp-benefit-item">
+                    <div class="hp-benefit-icon">⚡</div>
+                    <div><h4>Resultados rápidos</h4><p>Receba propostas em minutos e inicie seu projeto em menos de 24 horas.</p></div>
                 </div>
             </div>
-            @endforeach
         </div>
     </div>
 </section>
@@ -150,31 +171,36 @@
 {{-- ============================
      DEPOIMENTOS
 ============================== --}}
-<section style="background:#f5f7fa; padding:4.5rem 1.5rem;">
-    <div style="max-width:1100px; margin:0 auto; text-align:center;">
-        <p style="color:#00baff; font-weight:700; font-size:.9rem; letter-spacing:.08em; text-transform:uppercase; margin-bottom:.5rem;">Depoimentos</p>
-        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; color:#0f172a; margin-bottom:.75rem; font-family:'Poppins',sans-serif;">O que dizem nossos usuÃ¡rios</h2>
-        <p style="color:#64748b; font-size:1.05rem; max-width:560px; margin:0 auto 3rem;">HistÃ³rias reais de clientes e freelancers que transformaram seus negÃ³cios.</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1.75rem;">
-            @foreach([
-                ['initial'=>'C','name'=>'Carlos Mendes','role'=>'Cliente Â· SÃ£o Paulo','text'=>'"Publicou o projeto e jÃ¡ tinha 8 propostas em menos de 2 horas. Contratei uma designer incrÃ­vel e o logo ficou perfeito!"','stars'=>5],
-                ['initial'=>'J','name'=>'Juliana Lima','role'=>'Freelancer Â· Designer UI/UX','text'=>'"JÃ¡ consegui 15 clientes pela plataforma. O sistema de pagamento Ã© seguro e o suporte responde rapidinho."','stars'=>5],
-                ['initial'=>'R','name'=>'Rafael Costa','role'=>'Cliente Â· Rio de Janeiro','text'=>'"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicaÃ§Ã£o excelente e dentro do orÃ§amento!"','stars'=>5],
-            ] as $dep)
-            <div style="background:#fff; border-radius:16px; padding:2rem; text-align:left; border:1px solid #e2e8f0; box-shadow:0 2px 12px rgba(0,0,0,0.04);">
-                <div style="color:#f59e0b; font-size:1rem; margin-bottom:1rem; letter-spacing:.1em;">
-                    {{ str_repeat('â˜…', $dep['stars']) }}
-                </div>
-                <p style="color:#334155; font-size:.95rem; line-height:1.65; margin-bottom:1.5rem; font-style:italic;">{{ $dep['text'] }}</p>
-                <div style="display:flex; align-items:center; gap:.75rem;">
-                    <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,#00baff,#0077cc); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:1rem; flex-shrink:0;">{{ $dep['initial'] }}</div>
-                    <div>
-                        <div style="font-weight:800; color:#0f172a; font-size:.9rem;">{{ $dep['name'] }}</div>
-                        <div style="color:#94a3b8; font-size:.78rem;">{{ $dep['role'] }}</div>
-                    </div>
+<section class="hp-section hp-section--gray">
+    <div class="hp-container" style="text-align:center;">
+        <p class="hp-label">Depoimentos</p>
+        <h2 class="hp-title">O que dizem nossos usuários</h2>
+        <p class="hp-subtitle">Histórias reais de clientes e freelancers que transformaram seus negócios.</p>
+        <div class="hp-testimonials">
+            <div class="hp-testimonial">
+                <div class="hp-testimonial-stars">★★★★★</div>
+                <p class="hp-testimonial-text">"Publiquei o projeto e já tinha 8 propostas em menos de 2 horas. Contratei uma designer incrível e o logo ficou perfeito!"</p>
+                <div class="hp-testimonial-author">
+                    <div class="hp-testimonial-avatar">C</div>
+                    <div><div class="hp-testimonial-name">Carlos Mendes</div><div class="hp-testimonial-role">Cliente · São Paulo</div></div>
                 </div>
             </div>
-            @endforeach
+            <div class="hp-testimonial">
+                <div class="hp-testimonial-stars">★★★★★</div>
+                <p class="hp-testimonial-text">"Já consegui 15 clientes pela plataforma. O sistema de pagamento é seguro e o suporte responde rapidinho."</p>
+                <div class="hp-testimonial-author">
+                    <div class="hp-testimonial-avatar">J</div>
+                    <div><div class="hp-testimonial-name">Juliana Lima</div><div class="hp-testimonial-role">Freelancer · Designer UI/UX</div></div>
+                </div>
+            </div>
+            <div class="hp-testimonial">
+                <div class="hp-testimonial-stars">★★★★★</div>
+                <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicação excelente e dentro do orçamento!"</p>
+                <div class="hp-testimonial-author">
+                    <div class="hp-testimonial-avatar">R</div>
+                    <div><div class="hp-testimonial-name">Rafael Costa</div><div class="hp-testimonial-role">Cliente · Rio de Janeiro</div></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -182,17 +208,13 @@
 {{-- ============================
      CTA FINAL
 ============================== --}}
-<section style="background:linear-gradient(135deg,#00baff 0%,#0077cc 100%); padding:5rem 1.5rem; text-align:center;">
-    <div style="max-width:700px; margin:0 auto;">
-        <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem); font-weight:900; color:#fff; margin-bottom:1rem; font-family:'Poppins',sans-serif;">Pronto para comeÃ§ar?</h2>
-        <p style="color:rgba(255,255,255,0.9); font-size:1.1rem; margin-bottom:2.5rem; line-height:1.6;">Junte-se a milhares de clientes e freelancers que jÃ¡ confiam na 24 Horas. Cadastro 100% gratuito.</p>
-        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
-            <a href="/register" style="background:#fff; color:#00baff; font-weight:900; padding:1rem 2.5rem; border-radius:12px; text-decoration:none; font-size:1.05rem; box-shadow:0 8px 24px rgba(0,0,0,0.15);">
-                Criar conta grÃ¡tis
-            </a>
-            <a href="{{ route('public.projects') }}" style="background:transparent; color:#fff; font-weight:700; padding:1rem 2.5rem; border-radius:12px; text-decoration:none; font-size:1.05rem; border:2px solid rgba(255,255,255,0.7);">
-                Ver projetos disponÃ­veis
-            </a>
+<section class="hp-section hp-section--blue">
+    <div class="hp-container--narrow hp-cta-text" style="text-align:center;">
+        <h2 class="hp-title hp-title--white">Pronto para começar?</h2>
+        <p class="hp-subtitle hp-subtitle--white" style="max-width:600px; margin:0 auto 2.5rem;">Junte-se a milhares de clientes e freelancers que já confiam na 24 Horas. Cadastro 100% gratuito.</p>
+        <div class="hp-ctas" style="justify-content:center;">
+            <a href="/register" class="hp-btn hp-btn-white">Criar conta grátis</a>
+            <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
         </div>
     </div>
 </section>
