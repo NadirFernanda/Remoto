@@ -173,3 +173,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/cliente/perfil/editar', function () {
     return 'Em breve: edição de perfil do cliente.';
 })->name('client.profile.edit');
+
+// Placeholder para relatórios do cliente
+Route::get('/cliente/relatorios', function () {
+    return view('livewire.client.reports-placeholder');
+})->name('client.reports');
