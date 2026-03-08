@@ -1,12 +1,14 @@
 <header x-data="{open:false, scrolled:false}" x-init="scrolled = window.location.pathname !== '/'; window.addEventListener('scroll', ()=>{ scrolled = window.location.pathname !== '/' || window.scrollY > 30 })" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full py-3">
     <div class="header-container px-4">
-        <div class="flex items-center gap-3">
+        <!-- Logo -->
+        <div class="logo flex items-center gap-3">
             <a href="/" class="flex items-center" aria-label="24 Horas">
                 <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="site-logo">
             </a>
         </div>
 
-        <nav class="nav-desktop flex-1 flex items-center justify-center gap-6">
+        <!-- Menu de navegação -->
+        <nav class="nav-desktop">
             <div x-data="{open:false}" class="relative">
                 <button @click="open = !open" class="nav-link flex items-center gap-1">
                     Contratar
@@ -41,7 +43,9 @@
                 </div>
             </div>
         </nav>
-        <div class="flex items-center gap-2">
+
+        <!-- Botões -->
+        <div class="header-actions">
             @guest
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link">Cadastro</a>
