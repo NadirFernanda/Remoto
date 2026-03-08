@@ -1,10 +1,26 @@
 /* Header navigation alignment */
-.nav-desktop {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-    margin-left: 2rem;
-}
+    .nav-desktop {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        margin-left: 2rem;
+    }
+
+    /* Alinha os textos dos dropdowns do header à esquerda */
+    .nav-desktop .nav-link,
+    .nav-desktop button.nav-link {
+        text-align: left !important;
+        justify-content: flex-start !important;
+    }
+
+    /* Alinha o conteúdo dos dropdowns (menus abertos) à esquerda */
+    .nav-desktop .relative .absolute,
+    .nav-desktop .relative .absolute > a,
+    .nav-desktop .relative .absolute > div {
+        text-align: left !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+    }
 
 .header-actions {
     display: flex;
