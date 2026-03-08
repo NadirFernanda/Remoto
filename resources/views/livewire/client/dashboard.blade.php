@@ -38,11 +38,19 @@
 	</div>
 
 	{{-- Atalhos rápidos --}}
-	   <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+	   <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
 		   <a href="{{ route('client.projects') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#00baff]/50 transition group">
 			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
 			   <span class="text-xs font-medium text-gray-700">Gerir Projetos</span>
 			   <span class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e6fafd] text-gray-700 font-medium mt-2">Ver todos</span>
+		   </a>
+		   <a href="{{ route('client.payments') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#00baff]/50 transition group">
+			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
+			   <span class="text-xs font-medium text-gray-700">Solicitar reembolso</span>
+			   <div class="flex flex-col gap-2 w-full items-center mt-2">
+				   <a href="{{ route('client.refund.request') }}" class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e6fafd] text-gray-700 font-medium">Solicitar</a>
+				   <a href="{{ route('client.refunds') }}" class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e6fafd] text-gray-700 font-medium">Meus pedidos</a>
+			   </div>
 		   </a>
 		   <a href="{{ route('client.profile.edit') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#00baff]/50 transition group">
 			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
