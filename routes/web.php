@@ -1,3 +1,10 @@
+Route::middleware('auth')->group(function () {
+    Route::get('/cliente/reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('client.refunds');
+});
+// --- Refunds ---
+Route::middleware('auth')->group(function () {
+    Route::get('/cliente/reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
+});
 <?php
 
 use Illuminate\Support\Facades\Route;

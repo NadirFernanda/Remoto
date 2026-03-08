@@ -44,8 +44,12 @@
 			<span class="text-xs font-medium text-gray-700">Gerir Projetos</span>
 		</a>
 		<a href="{{ route('client.payments') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
-			<svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
-			<span class="text-xs font-medium text-gray-700">Pagamentos</span>
+			<svg class="w-6 h-6 mx-auto mb-2 text-red-400 group-hover:text-red-600 transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7v4a2 2 0 01-2 2H7a2 2 0 01-2-2V7m5 4V7m0 0V5a2 2 0 012-2h2a2 2 0 012 2v2m-6 0h6"/></svg>
+			<span class="text-xs font-medium text-red-600">Reembolso</span>
+			<div class="mt-2 flex flex-col gap-1 items-center">
+				<a href="{{ route('client.refund.request') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-red-50 text-red-600 font-semibold hover:bg-red-100 transition">Solicitar</a>
+				<a href="{{ route('client.refunds') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition">Meus pedidos</a>
+			</div>
 		</a>
 		<a href="{{ route('client.profile.edit') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
 			<svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
