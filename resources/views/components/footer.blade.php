@@ -3,7 +3,9 @@
 
         {{-- Marca --}}
         <div class="hp-footer-brand">
-            <div class="hp-footer-brand-logo">24 HORAS</div>
+            <a href="/" class="hp-footer-brand-logo" aria-label="24 Horas">
+                <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="hp-footer-logo">
+            </a>
             <p>A plataforma mais rápida para conectar clientes e freelancers. Segurança, agilidade e qualidade em cada projeto.</p>
             <div class="hp-footer-social">
                 <a href="#" aria-label="Instagram" title="Instagram">in</a>

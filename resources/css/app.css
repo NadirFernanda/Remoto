@@ -630,7 +630,8 @@ body.homepage .site-footer {
 @media (max-width: 700px) { .hp-footer-top { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 400px) { .hp-footer-top { grid-template-columns: 1fr; } }
 
-.hp-footer-brand-logo { font-size: 1.5rem; font-weight: 900; color: #00baff; letter-spacing: .03em; }
+.hp-footer-brand-logo { display: inline-block; }
+.hp-footer-logo { height: 64px; max-width: 180px; object-fit: contain; filter: drop-shadow(0 0 12px rgba(0,186,255,0.4)); }
 .hp-footer-brand p    { color: #94a3b8; font-size: .9rem; line-height: 1.7; margin: 1rem 0 1.5rem; max-width: 290px; }
 .hp-footer-social     { display: flex; gap: .75rem; }
 .hp-footer-social a   { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.07); display: flex; align-items: center; justify-content: center; color: #94a3b8; text-decoration: none; font-size: .9rem; font-weight: 700; transition: background .2s, color .2s; }
