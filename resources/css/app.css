@@ -640,6 +640,100 @@ body.homepage .site-footer {
 .hp-stat-label { font-size: .85rem; color: rgba(255,255,255,.78); }
 
 /* =====================================================
+   PÁGINAS PÚBLICAS — sistema partilhado (projetos, freelancers, auth)
+   Mesmo visual da homepage: fundo #f5f7fa, Inter, #00baff accent
+   ===================================================== */
+
+/* wrapper de página */
+.pub-page { background: #f5f7fa; min-height: 100vh; padding: 2.5rem 0 4rem; font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+
+/* container centralizado */
+.pub-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.pub-container--md  { max-width: 800px;  margin: 0 auto; padding: 0 1.5rem; }
+.pub-container--sm  { max-width: 480px;  margin: 0 auto; padding: 0 1.5rem; }
+
+/* página hero (topo da listagem) */
+.pub-hero { text-align: center; margin-bottom: 2.5rem; }
+.pub-hero-label { color: #00baff; font-weight: 700; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .35rem; }
+.pub-hero-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: #0f172a; line-height: 1.2; margin-bottom: .5rem; }
+.pub-hero-sub   { color: #64748b; font-size: 1rem; }
+
+/* card base — páginas públicas (branco com raia, não glass-dark) */
+.pub-card { background: #fff; border-radius: 18px; border: 1px solid #e8edf3; box-shadow: 0 1px 6px rgba(0,0,0,.06); transition: box-shadow .18s, transform .18s; }
+.pub-card:hover { box-shadow: 0 8px 28px rgba(0,186,255,.1); transform: translateY(-2px); }
+
+/* pills / tags */
+.pub-tag { display: inline-block; background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; border-radius: 999px; padding: .2rem .65rem; font-size: .75rem; font-weight: 600; }
+.pub-status-published  { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+.pub-status-accepted   { background:#f0fdf4; color:#16a34a; border-color:#86efac; }
+.pub-status-in_progress{ background:#fffbeb; color:#b45309; border-color:#fcd34d; }
+.pub-status-delivered  { background:#ecfeff; color:#0e7490; border-color:#a5f3fc; }
+.pub-status-completed  { background:#f8fafc; color:#64748b; border-color:#e2e8f0; }
+.pub-status-cancelled  { background:#fef2f2; color:#dc2626; border-color:#fecaca; }
+
+/* back link */
+.pub-back { display: inline-flex; align-items: center; gap: .4rem; color: #00baff; font-weight: 600; font-size: .9rem; text-decoration: none; margin-bottom: 1.5rem; }
+.pub-back:hover { color: #0099dd; }
+
+/* filtros */
+.pub-filters { background: #fff; border-radius: 14px; border: 1px solid #e8edf3; padding: 1.5rem; margin-bottom: 2rem; }
+.pub-filter-label { display: block; font-size: .72rem; font-weight: 700; color: #64748b; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .4rem; }
+.pub-input { width: 100%; background: #f8fafc; border: 1.5px solid #e2e8f0; color: #0f172a; padding: .55rem .8rem; border-radius: 10px; font-size: .9rem; font-family: 'Inter', system-ui, sans-serif; transition: border-color .18s, box-shadow .18s; }
+.pub-input:focus { border-color: #00baff; box-shadow: 0 0 0 3px rgba(0,186,255,.1); outline: none; }
+.pub-input::placeholder { color: #94a3b8; }
+.pub-select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .75rem center; padding-right: 2.5rem; }
+.pub-filter-grid { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
+.pub-filter-group { flex: 1; min-width: 150px; }
+.pub-filter-actions { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid #f1f5f9; margin-top: 1rem; }
+
+/* botão primário branco/ciano */
+.pub-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; background: #00baff; color: #fff; font-weight: 700; font-size: .9rem; padding: .55rem 1.25rem; border-radius: 10px; border: none; cursor: pointer; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; transition: background .15s, transform .15s; }
+.pub-btn-primary:hover { background: #0099dd; transform: translateY(-1px); }
+.pub-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; background: transparent; color: #64748b; font-weight: 600; font-size: .9rem; padding: .55rem 1.25rem; border-radius: 10px; border: 1.5px solid #e2e8f0; cursor: pointer; text-decoration: none; font-family: 'Inter', system-ui, sans-serif; transition: border-color .15s, color .15s; }
+.pub-btn-secondary:hover { border-color: #00baff; color: #00baff; }
+
+/* auth form card */
+.pub-auth-card { background: #fff; border-radius: 20px; border: 1px solid #e8edf3; box-shadow: 0 4px 24px rgba(0,0,0,.07); padding: 2.5rem; }
+.pub-auth-title { font-size: 1.6rem; font-weight: 900; color: #0f172a; margin-bottom: .35rem; letter-spacing: -.02em; }
+.pub-auth-sub { color: #64748b; font-size: .9rem; margin-bottom: 2rem; }
+.pub-field { margin-bottom: 1.25rem; }
+.pub-field label { display: block; font-size: .8rem; font-weight: 700; color: #374151; margin-bottom: .4rem; letter-spacing: .01em; }
+.pub-field-error { color: #dc2626; font-size: .78rem; margin-top: .3rem; }
+
+/* sidebar filtros (listagem de freelancers) */
+.pub-sidebar { display: flex; flex-direction: column; gap: 1rem; width: 100%; }
+@media (min-width: 1024px) { .pub-sidebar { width: 250px; flex-shrink: 0; } }
+.pub-sidebar-block { background: #fff; border-radius: 14px; border: 1px solid #e8edf3; padding: 1.1rem 1.25rem; }
+.pub-sidebar-block label { display: block; font-size: .7rem; font-weight: 700; color: #94a3b8; letter-spacing: .09em; text-transform: uppercase; margin-bottom: .6rem; }
+
+/* grid de resultados */
+.pub-results-grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+
+/* freelancer card */
+.pub-freelancer-card { display: block; background: #fff; border-radius: 18px; border: 1px solid #e8edf3; padding: 1.25rem; text-decoration: none; transition: box-shadow .18s, transform .18s, border-color .18s; }
+.pub-freelancer-card:hover { box-shadow: 0 8px 28px rgba(0,186,255,.1); transform: translateY(-2px); border-color: #bae6fd; }
+
+/* empty state */
+.pub-empty { grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: #94a3b8; }
+.pub-empty strong { display: block; font-size: 1.05rem; font-weight: 700; color: #64748b; margin-bottom: .4rem; }
+
+/* skills badge */
+.pub-skill { display: inline-block; background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; border-radius: 999px; padding: .15rem .6rem; font-size: .72rem; font-weight: 600; }
+
+/* portfolio grid */
+.pub-portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.pub-portfolio-item { border-radius: 12px; overflow: hidden; border: 1px solid #e8edf3; }
+
+/* review card */
+.pub-review { background: #f8fafc; border-radius: 12px; border: 1px solid #e8edf3; padding: 1.1rem; }
+
+/* section divider heading */
+.pub-section-title { font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; padding-bottom: .6rem; border-bottom: 2px solid #f1f5f9; }
+
+/* price badge */
+.pub-price { font-size: 1.2rem; font-weight: 900; color: #00baff; }
+
+/* =====================================================
    FOOTER PROFISSIONAL
    ===================================================== */
 .hp-footer { background: #0f172a; color: #cbd5e1; font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
