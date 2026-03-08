@@ -86,7 +86,7 @@
 
     <div class="hp-footer-bar">
         <div class="hp-footer-bar-inner">
-            <span class="hp-footer-bar-copy">&copy; {{ date('Y') }} 24Horas. Todos os direitos reservados.</span>
+            <span class="hp-footer-bar-copy">&copy; {{ date('Y') }} 24Horas. Todos os direitos reservados. &middot; Desenvolvido por <strong>Fernanda Gonçalves</strong></span>
             <div class="hp-footer-bar-links">
                 <a href="#">Termos</a>
                 <a href="#">Privacidade</a>

@@ -21,12 +21,13 @@
                          class="absolute left-0 mt-2 rounded-2xl z-50"
                          style="width:800px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
                         <div style="display:flex;">
-                            <!-- Coluna esquerda: opções de navegação -->
+                            <!-- Coluna esquerda: tabs de navegação -->
                             <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid rgba(255,255,255,.07);flex-shrink:0;">
                                 <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Encontrar profissionais</p>
-                                <a href="{{ route('freelancers.search') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                <!-- Tab: Por habilidade -->
+                                <div @mouseenter="tab='habilidade'" @click="tab='habilidade'"
+                                     :style="tab==='habilidade' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;margin-bottom:.25rem;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                                     </span>
@@ -35,10 +36,11 @@
                                         <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Procura um profissional com uma habilidade específica?</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                                <a href="{{ route('freelancers.search') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                </div>
+                                <!-- Tab: Por localização -->
+                                <div @mouseenter="tab='localizacao'" @click="tab='localizacao'"
+                                     :style="tab==='localizacao' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;margin-bottom:.25rem;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                     </span>
@@ -47,84 +49,118 @@
                                         <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Pesquise com base na localização e fuso horário.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                                <a href="{{ route('freelancers.index') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                </div>
+                                <!-- Tab: Por categoria -->
+                                <div @mouseenter="tab='categoria'" @click="tab='categoria'"
+                                     :style="tab==='categoria' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     </span>
                                     <span style="flex:1;">
                                         <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Por categoria</span>
-                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Encontre profissionais para determinada categoria de projeto.</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Encontre profissionais para determinada categoria de projecto.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
+                                </div>
                             </div>
-                            <!-- Coluna direita: cards de categorias com imagens -->
+                            <!-- Coluna direita: painéis de cards por tab -->
                             <div style="flex:1;padding:1.5rem 1.125rem;">
-                                <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Categorias populares</p>
-                                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
-                                    <a href="{{ route('freelancers.search', ['skill' => 'design']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Designers Gráficos</div>
-                                    </a>
-                                    <a href="{{ route('freelancers.search', ['skill' => 'web']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=240&h=90&fit=crop&auto=format" alt="Web" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Dev. de Websites</div>
-                                    </a>
-                                    <a href="{{ route('freelancers.search', ['skill' => 'mobile']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=240&h=90&fit=crop&auto=format" alt="Mobile" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Apps Mobile</div>
-                                    </a>
-                                    <a href="{{ route('freelancers.search', ['skill' => 'video']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=240&h=90&fit=crop&auto=format" alt="Video" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Edição de Vídeo</div>
-                                    </a>
-                                    <a href="{{ route('freelancers.search', ['skill' => 'marketing']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=240&h=90&fit=crop&auto=format" alt="Marketing" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Marketing Digital</div>
-                                    </a>
-                                    <a href="{{ route('freelancers.search', ['skill' => 'redacao']) }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=240&h=90&fit=crop&auto=format" alt="Redacao" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Redação & Conteúdo</div>
-                                    </a>
+                                <!-- Painel: habilidade -->
+                                <div x-show="tab==='habilidade'">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Profissionais por habilidade</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
+                                        <a href="{{ route('freelancers.search', ['skill' => 'design']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Designers Gráficos</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['skill' => 'web']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=240&h=90&fit=crop&auto=format" alt="Web" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Dev. de Websites</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['skill' => 'mobile']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=240&h=90&fit=crop&auto=format" alt="Mobile" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Apps Mobile</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['skill' => 'video']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=240&h=90&fit=crop&auto=format" alt="Video" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Edição de Vídeo</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['skill' => 'marketing']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=240&h=90&fit=crop&auto=format" alt="Marketing" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Marketing Digital</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['skill' => 'redacao']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=240&h=90&fit=crop&auto=format" alt="Redacao" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Redação & Conteúdo</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Painel: localização -->
+                                <div x-show="tab==='localizacao'" style="display:none;">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Freelancers por localização</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
+                                        <a href="{{ route('freelancers.search', ['location' => 'luanda']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=240&h=90&fit=crop&auto=format" alt="Luanda" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Luanda</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['location' => 'benguela']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=240&h=90&fit=crop&auto=format" alt="Benguela" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Benguela</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=240&h=90&fit=crop&auto=format" alt="Huambo" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Huambo</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['location' => 'lobito']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=240&h=90&fit=crop&auto=format" alt="Lobito" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Lobito</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search', ['location' => 'cabinda']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=240&h=90&fit=crop&auto=format" alt="Cabinda" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Cabinda</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.search') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;background:#1e293b;display:flex;align-items:center;justify-content:center;"><svg width="28" height="28" fill="none" stroke="#0099d6" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#0099d6;">Ver todas →</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Painel: categoria -->
+                                <div x-show="tab==='categoria'" style="display:none;">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Categorias de projectos</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=240&h=90&fit=crop&auto=format" alt="Tech" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Tecnologia</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?w=240&h=90&fit=crop&auto=format" alt="Criativo" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Criativo</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=240&h=90&fit=crop&auto=format" alt="Negocios" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Negócios</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=240&h=90&fit=crop&auto=format" alt="Educacao" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Educação</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=240&h=90&fit=crop&auto=format" alt="Juridico" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Jurídico</div>
+                                        </a>
+                                        <a href="{{ route('freelancers.index') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=240&h=90&fit=crop&auto=format" alt="Engenharia" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Engenharia</div>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div x-data="{open:false}" class="relative">
+                <div x-data="{open:false, tab:'habilidade'}" class="relative">
                     <button @click="open = !open" class="nav-link" style="display:flex;align-items:center;gap:0.35rem;white-space:nowrap;">
                         Encontrar trabalho
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
@@ -133,12 +169,13 @@
                          class="absolute left-0 mt-2 rounded-2xl z-50"
                          style="width:760px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
                         <div style="display:flex;">
-                            <!-- Coluna esquerda -->
+                            <!-- Coluna esquerda: tabs -->
                             <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid rgba(255,255,255,.07);flex-shrink:0;">
                                 <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Encontrar trabalho</p>
-                                <a href="{{ route('public.projects') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                <!-- Tab: Por habilidade -->
+                                <div @mouseenter="tab='habilidade'" @click="tab='habilidade'"
+                                     :style="tab==='habilidade' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;margin-bottom:.25rem;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                                     </span>
@@ -147,34 +184,37 @@
                                         <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Pesquise trabalhos que exigem uma habilidade específica.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                                <a href="{{ route('public.projects') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                </div>
+                                <!-- Tab: Por idioma -->
+                                <div @mouseenter="tab='idioma'" @click="tab='idioma'"
+                                     :style="tab==='idioma' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;margin-bottom:.25rem;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
                                     </span>
                                     <span style="flex:1;">
                                         <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Por idioma</span>
-                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Encontre projetos no seu idioma preferido.</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Encontre projectos no seu idioma preferido.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                                <a href="{{ route('freelancer.available-projects') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                </div>
+                                <!-- Tab: Trabalhos em destaque -->
+                                <div @mouseenter="tab='destaque'" @click="tab='destaque'"
+                                     :style="tab==='destaque' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;margin-bottom:.25rem;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
                                     </span>
                                     <span style="flex:1;">
                                         <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Trabalhos em destaque</span>
-                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Explore os melhores projetos disponíveis agora.</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Explore os melhores projectos disponíveis agora.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                                <a href="{{ route('public.projects') }}"
-                                   style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;"
-                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                </div>
+                                <!-- Tab: Encontrar concursos -->
+                                <div @mouseenter="tab='concursos'" @click="tab='concursos'"
+                                     :style="tab==='concursos' ? 'background:rgba(0,153,214,.15);border-radius:.875rem;' : ''"
+                                     style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;cursor:pointer;transition:background .15s;">
                                     <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                                     </span>
@@ -183,67 +223,83 @@
                                         <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Participe em concursos e ganhe projectos.</span>
                                     </span>
                                     <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
-                                </a>
-                            </div>
-                            <!-- Coluna direita: cards de trabalhos com fotos -->
-                            <div style="flex:1;padding:1.5rem 1.125rem;">
-                                <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Trabalhos populares</p>
-                                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=240&h=90&fit=crop&auto=format" alt="Web" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Websites</div>
-                                    </a>
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Design Gráfico</div>
-                                    </a>
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=240&h=90&fit=crop&auto=format" alt="Data" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Entrada de Dados</div>
-                                    </a>
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=240&h=90&fit=crop&auto=format" alt="Mobile" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Desenvolvimento de Apps</div>
-                                    </a>
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=240&h=90&fit=crop&auto=format" alt="Marketing" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Marketing Digital</div>
-                                    </a>
-                                    <a href="{{ route('public.projects') }}"
-                                       style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
-                                       onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                        <div style="height:82px;overflow:hidden;position:relative;">
-                                            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=240&h=90&fit=crop&auto=format" alt="Local" style="width:100%;height:100%;object-fit:cover;display:block;">
-                                            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div>
-                                        </div>
-                                        <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Trabalhos Locais</div>
-                                    </a>
                                 </div>
+                            </div>
+                            <!-- Coluna direita: painéis por tab -->
+                            <div style="flex:1;padding:1.5rem 1.125rem;">
+                                <!-- Painel: habilidade -->
+                                <div x-show="tab==='habilidade'">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Trabalhos por habilidade</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=240&h=90&fit=crop&auto=format" alt="Web" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Websites</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Design Gráfico</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=240&h=90&fit=crop&auto=format" alt="Marketing" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Marketing Digital</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Painel: idioma -->
+                                <div x-show="tab==='idioma'" style="display:none;">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Trabalhos por idioma</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇦🇴</div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Português</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇬🇧</div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Inglês</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇫🇷</div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Francês</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Painel: destaque -->
+                                <div x-show="tab==='destaque'" style="display:none;">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Projectos em destaque</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
+                                        <a href="{{ route('freelancer.available-projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=240&h=90&fit=crop&auto=format" alt="Apps" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Dev. de Apps</div>
+                                        </a>
+                                        <a href="{{ route('freelancer.available-projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=240&h=90&fit=crop&auto=format" alt="Data" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Entrada de Dados</div>
+                                        </a>
+                                        <a href="{{ route('freelancer.available-projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=240&h=90&fit=crop&auto=format" alt="Local" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Trabalhos Locais</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Painel: concursos -->
+                                <div x-show="tab==='concursos'" style="display:none;">
+                                    <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Concursos activos</p>
+                                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=240&h=90&fit=crop&auto=format" alt="Video" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Edição de Vídeo</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=240&h=90&fit=crop&auto=format" alt="Escrita" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Escrita & Conteúdo</div>
+                                        </a>
+                                        <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=240&h=90&fit=crop&auto=format" alt="Tech" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%);"></div></div>
+                                            <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Tecnologia</div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Footer links comuns -->
                                 <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:.75rem;display:flex;align-items:center;justify-content:space-between;">
                                     <span style="font-size:.75rem;font-weight:600;color:#94a3b8;">Outros trabalhos populares</span>
                                     <a href="{{ route('public.projects') }}" style="font-size:.75rem;font-weight:700;color:#0099d6;text-decoration:none;display:flex;align-items:center;gap:.25rem;">Ver mais <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>

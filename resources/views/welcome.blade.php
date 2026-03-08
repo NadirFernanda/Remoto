@@ -30,7 +30,7 @@
             <div class="hp-hero-text">
                 <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
                 <ul class="hp-hero-bullets">
-                    <li>Maior marketplace freelance do Brasil</li>
+                    <li>N.º 1 marketplace freelance de Angola</li>
                     <li>Qualquer serviço que você precisar</li>
                     <li>Receba propostas em minutos, grátis</li>
                     <li>Pague só quando estiver 100% satisfeito</li>
