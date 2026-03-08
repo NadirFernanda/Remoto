@@ -27,16 +27,33 @@
     {{-- Slide 1 --}}
     <div class="hp-hero-slide" x-show="slide===0" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <div class="hp-hero-inner">
-            <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
-            <ul class="hp-hero-bullets">
-                <li>Maior marketplace freelance do Brasil</li>
-                <li>Qualquer serviço que você precisar</li>
-                <li>Receba propostas em minutos, grátis</li>
-                <li>Pague só quando estiver 100% satisfeito</li>
-            </ul>
-            <div class="hp-ctas">
-                <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
-                <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro Freelancing</a>
+            <div class="hp-hero-text">
+                <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
+                <ul class="hp-hero-bullets">
+                    <li>Maior marketplace freelance do Brasil</li>
+                    <li>Qualquer serviço que você precisar</li>
+                    <li>Receba propostas em minutos, grátis</li>
+                    <li>Pague só quando estiver 100% satisfeito</li>
+                </ul>
+                <div class="hp-ctas">
+                    <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
+                    <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro Freelancing</a>
+                </div>
+            </div>
+            <div class="hp-hero-card">
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+                    <div class="hp-hero-card-avatar">A</div>
+                    <div>
+                        <div class="hp-hero-card-stars">★★★★★</div>
+                        <div class="hp-hero-card-name">Ana Souza</div>
+                        <div class="hp-hero-card-role">Designer UI/UX</div>
+                    </div>
+                </div>
+                <p class="hp-hero-card-quote">"Projeto entregue antes do prazo, comunicação excelente e resultado profissional."</p>
+                <div class="hp-hero-card-tag">
+                    <span class="hp-hero-card-tag-label">Design de App</span>
+                    <span class="hp-hero-card-tag-price">R$ 850</span>
+                </div>
             </div>
         </div>
     </div>
@@ -44,16 +61,33 @@
     {{-- Slide 2 --}}
     <div class="hp-hero-slide" x-show="slide===1" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
         <div class="hp-hero-inner">
-            <h1 class="hp-hero-title">Ganhe dinheiro fazendo<br>o que você <span class="hp-hero-accent">ama</span></h1>
-            <ul class="hp-hero-bullets">
-                <li>Crie seu perfil gratuito em minutos</li>
-                <li>Acesse milhares de projetos todo dia</li>
-                <li>Defina seu preço e horários</li>
-                <li>Receba pagamentos seguros e rápidos</li>
-            </ul>
-            <div class="hp-ctas">
-                <a href="/register" class="hp-btn hp-btn-white">Começar como Freelancer</a>
-                <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
+            <div class="hp-hero-text">
+                <h1 class="hp-hero-title">Ganhe dinheiro fazendo<br>o que você <span class="hp-hero-accent">ama</span></h1>
+                <ul class="hp-hero-bullets">
+                    <li>Crie seu perfil gratuito em minutos</li>
+                    <li>Acesse milhares de projetos todo dia</li>
+                    <li>Defina seu preço e horários</li>
+                    <li>Receba pagamentos seguros e rápidos</li>
+                </ul>
+                <div class="hp-ctas">
+                    <a href="/register" class="hp-btn hp-btn-white">Começar como Freelancer</a>
+                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
+                </div>
+            </div>
+            <div class="hp-hero-card">
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+                    <div class="hp-hero-card-avatar" style="background:#c7f7e0;color:#059669;">M</div>
+                    <div>
+                        <div class="hp-hero-card-stars">★★★★★</div>
+                        <div class="hp-hero-card-name">Marcos Oliveira</div>
+                        <div class="hp-hero-card-role">Dev Full Stack</div>
+                    </div>
+                </div>
+                <p class="hp-hero-card-quote">"Encontrei projetos incríveis logo na primeira semana. A plataforma é simples e o pagamento é seguro."</p>
+                <div class="hp-hero-card-tag">
+                    <span class="hp-hero-card-tag-label">Sistema Web</span>
+                    <span class="hp-hero-card-tag-price">R$ 2.400</span>
+                </div>
             </div>
         </div>
     </div>
@@ -61,16 +95,33 @@
     {{-- Slide 3 --}}
     <div class="hp-hero-slide" x-show="slide===2" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
         <div class="hp-hero-inner">
-            <h1 class="hp-hero-title">Tudo que seu negócio<br>precisa, em um <span class="hp-hero-accent">só lugar</span></h1>
-            <ul class="hp-hero-bullets">
-                <li>Design, Dev, Marketing, Redação e muito mais</li>
-                <li>+5.000 profissionais verificados ativos</li>
-                <li>Sistema de custódia: pague com segurança</li>
-                <li>Suporte dedicado 24 horas por dia</li>
-            </ul>
-            <div class="hp-ctas">
-                <a href="/register" class="hp-btn hp-btn-white">Publicar projeto grátis</a>
-                <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-outline-white">Explorar freelancers</a>
+            <div class="hp-hero-text">
+                <h1 class="hp-hero-title">Tudo que seu negócio<br>precisa, em um <span class="hp-hero-accent">só lugar</span></h1>
+                <ul class="hp-hero-bullets">
+                    <li>Design, Dev, Marketing, Redação e muito mais</li>
+                    <li>+5.000 profissionais verificados ativos</li>
+                    <li>Sistema de custódia: pague com segurança</li>
+                    <li>Suporte dedicado 24 horas por dia</li>
+                </ul>
+                <div class="hp-ctas">
+                    <a href="/register" class="hp-btn hp-btn-white">Publicar projeto grátis</a>
+                    <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-outline-white">Explorar freelancers</a>
+                </div>
+            </div>
+            <div class="hp-hero-card">
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+                    <div class="hp-hero-card-avatar" style="background:#fde8ff;color:#9333ea;">C</div>
+                    <div>
+                        <div class="hp-hero-card-stars">★★★★★</div>
+                        <div class="hp-hero-card-name">Carla Ferreira</div>
+                        <div class="hp-hero-card-role">Marketing Digital</div>
+                    </div>
+                </div>
+                <p class="hp-hero-card-quote">"Minha campanha teve 3× mais resultados. Profissional incrível, contratada em menos de 2 horas!"</p>
+                <div class="hp-hero-card-tag">
+                    <span class="hp-hero-card-tag-label">Campanha Ads</span>
+                    <span class="hp-hero-card-tag-price">R$ 1.200</span>
+                </div>
             </div>
         </div>
     </div>

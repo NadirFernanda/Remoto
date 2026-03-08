@@ -556,6 +556,37 @@ body.homepage .site-footer {
 .hp-hero-bullets { list-style: none; margin: 0 0 2.25rem; padding: 0; }
 .hp-hero-bullets li { color: rgba(255,255,255,.92); font-size: 1.05rem; padding: .3rem 0; display: flex; align-items: center; gap: .6rem; }
 .hp-hero-bullets li::before { content: '\2022'; color: #fff176; font-size: 1.3rem; line-height: 1; }
+/* Hero — layout 2 colunas (texto + card) */
+.hp-hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
+.hp-hero-text { flex: 1; min-width: 280px; }
+.hp-hero-card {
+    flex: 0 0 auto;
+    min-width: 260px;
+    max-width: 310px;
+    background: rgba(255,255,255,0.13);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 20px;
+    padding: 1.75rem;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+}
+.hp-hero-card-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: #fff176;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 900; color: #0077cc;
+    flex-shrink: 0;
+}
+.hp-hero-card-name  { color: #fff; font-weight: 700; font-size: .95rem; }
+.hp-hero-card-role  { color: rgba(255,255,255,.7); font-size: .78rem; margin-top: .1rem; }
+.hp-hero-card-quote { color: rgba(255,255,255,.88); font-size: .88rem; line-height: 1.55; margin: 1rem 0; font-style: italic; }
+.hp-hero-card-tag   { background: rgba(255,255,255,.15); border-radius: 8px; padding: .55rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+.hp-hero-card-tag-label { color: #fff; font-size: .85rem; }
+.hp-hero-card-tag-price { color: #fff176; font-weight: 900; font-size: .95rem; }
+.hp-hero-card-stars { color: #fff176; font-size: .9rem; margin-bottom: .15rem; letter-spacing: .04em; }
+@media (max-width: 860px) { .hp-hero-card { display: none; } }
+
 .hp-hero-dots { display: flex; justify-content: center; gap: .5rem; padding-bottom: 1.5rem; position: relative; z-index: 2; }
 .hp-hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.35); border: none; cursor: pointer; transition: background .2s, transform .2s; padding: 0; }
 .hp-hero-dot:hover { transform: scale(1.3); }
