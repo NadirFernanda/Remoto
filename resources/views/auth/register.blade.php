@@ -29,18 +29,18 @@
                 </div>
             @endif
 
-            <form method="POST" action="/register" lang="pt">
+            <form method="POST" action="/register" novalidate onsubmit="return validateRegisterForm(event)">
                 @csrf
                 {{-- Role selector --}}
                 <div class="pub-field">
                     <label>Quero me cadastrar como:</label>
                     <div style="display:flex;gap:1rem;margin-top:.4rem;">
                         <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#0f172a;cursor:pointer;">
-                            <input type="radio" name="role" value="freelancer" {{ old('role', 'freelancer') == 'freelancer' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
+                            <input type="radio" name="role" value="freelancer" id="role-freelancer" {{ old('role', 'freelancer') == 'freelancer' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
                             Freelancer
                         </label>
                         <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#0f172a;cursor:pointer;">
-                            <input type="radio" name="role" value="cliente" {{ old('role') == 'cliente' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
+                            <input type="radio" name="role" value="cliente" id="role-cliente" {{ old('role') == 'cliente' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
                             Cliente
                         </label>
                     </div>
@@ -48,25 +48,29 @@
 
                 <div class="pub-field">
                     <label for="name">Nome completo</label>
-                    <input class="pub-input" type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Seu nome" required>
+                    <input class="pub-input" type="text" name="name" id="reg-name" value="{{ old('name') }}" placeholder="Seu nome">
+                    <div id="name-error" class="pub-field-error" style="display:none;"></div>
                     @error('name')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="pub-field">
                     <label for="email">E-mail</label>
-                    <input class="pub-input" type="email" name="email" id="email" value="{{ old('email') }}" placeholder="seu@email.com" required>
+                    <input class="pub-input" type="email" name="email" id="reg-email" value="{{ old('email') }}" placeholder="seu@email.com">
+                    <div id="reg-email-error" class="pub-field-error" style="display:none;"></div>
                     @error('email')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="pub-field">
                     <label for="password">Senha</label>
-                    <input class="pub-input" type="password" name="password" id="password" placeholder="••••••••" required>
+                    <input class="pub-input" type="password" name="password" id="reg-password" placeholder="••••••••">
+                    <div id="reg-password-error" class="pub-field-error" style="display:none;"></div>
                     @error('password')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="pub-field">
                     <label for="password_confirmation">Confirmar senha</label>
-                    <input class="pub-input" type="password" name="password_confirmation" id="password_confirmation" placeholder="••••••••" required>
+                    <input class="pub-input" type="password" name="password_confirmation" id="reg-password-confirm" placeholder="••••••••">
+                    <div id="reg-confirm-error" class="pub-field-error" style="display:none;"></div>
                     @error('password_confirmation')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
@@ -82,9 +86,65 @@
 </div>
 
 <script>
+function validateRegisterForm(event) {
+    let valid = true;
+    const fields = [
+        { id: 'reg-name',            errId: 'name-error',         empty: 'Preencha o seu nome completo.' },
+        { id: 'reg-email',           errId: 'reg-email-error',    empty: 'Preencha o e-mail.' },
+        { id: 'reg-password',        errId: 'reg-password-error', empty: 'Preencha a senha.' },
+        { id: 'reg-password-confirm',errId: 'reg-confirm-error',  empty: 'Confirme a sua senha.' },
+    ];
+    fields.forEach(f => {
+        const el  = document.getElementById(f.id);
+        const err = document.getElementById(f.errId);
+        err.style.display = 'none';
+        el.style.borderColor = '';
+    });
+    fields.forEach(f => {
+        const el  = document.getElementById(f.id);
+        const err = document.getElementById(f.errId);
+        if (!el.value.trim()) {
+            err.textContent = f.empty;
+            err.style.display = 'block';
+            el.style.borderColor = '#dc2626';
+            if (valid) el.focus();
+            valid = false;
+        }
+    });
+    const emailEl = document.getElementById('reg-email');
+    const emailErr = document.getElementById('reg-email-error');
+    if (emailEl.value.trim() && !/^\S+@\S+\.\S+$/.test(emailEl.value)) {
+        emailErr.textContent = 'Digite um e-mail válido.';
+        emailErr.style.display = 'block';
+        emailEl.style.borderColor = '#dc2626';
+        if (valid) emailEl.focus();
+        valid = false;
+    }
+    const pw  = document.getElementById('reg-password');
+    const pwc = document.getElementById('reg-password-confirm');
+    const pwErr  = document.getElementById('reg-password-error');
+    const pwcErr = document.getElementById('reg-confirm-error');
+    if (pw.value && pw.value.length < 8) {
+        pwErr.textContent = 'A senha deve ter no mínimo 8 caracteres.';
+        pwErr.style.display = 'block';
+        pw.style.borderColor = '#dc2626';
+        if (valid) pw.focus();
+        valid = false;
+    }
+    if (pw.value && pwc.value && pw.value !== pwc.value) {
+        pwcErr.textContent = 'As senhas não coincidem.';
+        pwcErr.style.display = 'block';
+        pwc.style.borderColor = '#dc2626';
+        if (valid) pwc.focus();
+        valid = false;
+    }
+    if (!valid) event.preventDefault();
+    return valid;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    const freelancerRadio = document.querySelector('input[type="radio"][value="freelancer"]');
-    const clientRadio = document.querySelector('input[type="radio"][value="cliente"]');
+    const freelancerRadio = document.getElementById('role-freelancer');
+    const clientRadio = document.getElementById('role-cliente');
     const submitButton = document.getElementById('botao-cadastro');
     const tituloCadastro = document.getElementById('titulo-cadastro');
     function updateCadastroUI() {
