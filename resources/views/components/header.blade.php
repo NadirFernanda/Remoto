@@ -45,9 +45,9 @@
             @guest
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link">Cadastro</a>
-                <a href="{{ route('client.projects.create') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
+                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
             @else
-                <a href="{{ route('client.projects.create') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
+                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
                 <div class="flex items-center ml-4">
                     @if(auth()->user()->activeRole() !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
