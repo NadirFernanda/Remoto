@@ -26,7 +26,7 @@
 			<p class="text-xs text-gray-400 mt-1">Pedidos criados</p>
 		</div>
 		<div class="bg-white rounded-2xl border border-gray-200 p-5">
-			<p class="text-xs text-gray-500 mb-1">Freelancers Contratados</p>
+			   <p class="text-xs text-gray-500 mb-1">Relatórios</p>
 			<p class="text-2xl font-bold text-indigo-600">{{ $kpi_freelancers_contratados ?? 0 }}</p>
 			<p class="text-xs text-gray-400 mt-1">Contratações</p>
 		</div>
