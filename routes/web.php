@@ -1,8 +1,3 @@
-// Placeholder para edição de perfil do cliente
-Route::get('/cliente/perfil/editar', function () {
-    return 'Em breve: edição de perfil do cliente.';
-})->name('client.profile.edit');
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -174,3 +169,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/cliente/reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
 });
+// Placeholder para edição de perfil do cliente
+Route::get('/cliente/perfil/editar', function () {
+    return 'Em breve: edição de perfil do cliente.';
+})->name('client.profile.edit');
