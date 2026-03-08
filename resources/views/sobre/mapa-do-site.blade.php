@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Navegação</div>
             <h1 class="pub-hero-title">Mapa do site</h1>
-            <p class="pub-hero-sub">Encontre rapidamente qualquer página e funcionalidade da plataforma Remoto.</p>
+            <p class="pub-hero-sub">Encontre rapidamente qualquer página e funcionalidade da plataforma 24 Horas Remoto.</p>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;">

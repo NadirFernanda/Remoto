@@ -7,8 +7,6 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\FreelancerProfile;
 use App\Models\Portfolio;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 use Auth;
 use Storage;
 
@@ -104,13 +102,8 @@ class ProfileEditor extends Component
             if ($user->profile_photo) {
                 Storage::disk('public')->delete($user->profile_photo);
             }
-            // resize to 400x400 and convert to JPEG 80% before storing
-            $manager = new ImageManager(new Driver());
-            $jpeg = $manager->read($this->profilePhoto->getRealPath())
-                ->cover(400, 400)
-                ->toJpeg(quality: 80);
-            $path = 'avatars/' . Str::uuid() . '.jpg';
-            Storage::disk('public')->put($path, $jpeg);
+            $ext = $this->profilePhoto->getClientOriginalExtension();
+            $path = $this->profilePhoto->storeAs('avatars', Str::uuid() . '.' . $ext, 'public');
             $user->profile_photo = $path;
             $user->save();
             $this->currentProfilePhoto = $path;

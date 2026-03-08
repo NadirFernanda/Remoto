@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Reconhecimento</div>
             <h1 class="pub-hero-title">Prêmios e distinções</h1>
-            <p class="pub-hero-sub">O reconhecimento externo que valida o impacto da Remoto no ecossistema digital de Angola.</p>
+            <p class="pub-hero-sub">O reconhecimento externo que valida o impacto da 24 Horas Remoto no ecossistema digital de Angola.</p>
         </div>
 
         <div class="pub-card" style="margin-bottom:1.25rem;">
@@ -45,7 +45,7 @@
 
         <div class="pub-card" style="background:#f0f9ff;border-color:#bae6fd;">
             <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:.5rem;">Nominações em aberto</h3>
-            <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0;">Se a sua organização pretende nomear a Remoto para uma distinção, contacte-nos em <strong>comunicacao@remoto.ao</strong>.</p>
+            <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0;">Se a sua organização pretende nomear a 24 Horas Remoto para uma distinção, contacte-nos em <strong>comunicacao@remoto.ao</strong>.</p>
         </div>
 
     </div>

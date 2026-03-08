@@ -6,12 +6,12 @@
 
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Trabalhe connosco</div>
-            <h1 class="pub-hero-title">Carreiras na Remoto</h1>
+            <h1 class="pub-hero-title">Carreiras na 24 Horas Remoto</h1>
             <p class="pub-hero-sub">Junte-se a uma equipe que está a redefinir o futuro do trabalho em Angola. Construímos uma cultura de impacto, autonomia e crescimento contínuo.</p>
         </div>
 
         <div class="pub-card" style="margin-bottom:1.5rem;">
-            <h2 style="font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:.75rem;">Por que trabalhar na Remoto?</h2>
+            <h2 style="font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:.75rem;">Por que trabalhar na 24 Horas Remoto?</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
                 <div style="background:#f8fafc;border-radius:12px;padding:1.25rem;border:1px solid #e2e8f0;">
                     <div style="color:#00baff;font-weight:800;margin-bottom:.35rem;">🚀 Missão com impacto</div>

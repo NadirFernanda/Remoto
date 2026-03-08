@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Guia</div>
             <h1 class="pub-hero-title">Como funciona</h1>
-            <p class="pub-hero-sub">Da publicação do projeto à entrega final — veja como a Remoto facilita cada passo da sua contratação.</p>
+            <p class="pub-hero-sub">Da publicação do projeto à entrega final — veja como a 24 Horas Remoto facilita cada passo da sua contratação.</p>
         </div>
 
         <div class="pub-card" style="margin-bottom:1.5rem;">

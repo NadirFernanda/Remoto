@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Comunidade</div>
             <h1 class="pub-hero-title">Histórias de sucesso</h1>
-            <p class="pub-hero-sub">Conheça clientes e freelancers que transformaram as suas vidas e negócios usando a Remoto.</p>
+            <p class="pub-hero-sub">Conheça clientes e freelancers que transformaram as suas vidas e negócios usando a 24 Horas Remoto.</p>
         </div>
 
         <div class="pub-card" style="margin-bottom:1.5rem;">
@@ -16,7 +16,7 @@
                 <div style="flex:1;min-width:200px;">
                     <div style="font-weight:800;color:#0f172a;margin-bottom:.15rem;">Ana Fernandes — Desenvolvedora Web, Luanda</div>
                     <div style="color:#94a3b8;font-size:.82rem;margin-bottom:.75rem;">Freelancer verificada · 48 projectos concluídos</div>
-                    <p style="color:#475569;line-height:1.7;margin:0;">"Antes da Remoto, eu dependia de indicações e passava meses sem trabalho. Hoje tenho uma carteira de clientes estável, recebo em kwanzas de forma segura e consigo prever a minha receita mensal. A plataforma mudou completamente a forma como trabalho."</p>
+                    <p style="color:#475569;line-height:1.7;margin:0;">"Antes da 24 Horas Remoto, eu dependia de indicações e passava meses sem trabalho. Hoje tenho uma carteira de clientes estável, recebo em kwanzas de forma segura e consigo prever a minha receita mensal. A plataforma mudou completamente a forma como trabalho."</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div style="flex:1;min-width:200px;">
                     <div style="font-weight:800;color:#0f172a;margin-bottom:.15rem;">Sofia Mbala — Designer Gráfico, Huambo</div>
                     <div style="color:#94a3b8;font-size:.82rem;margin-bottom:.75rem;">Freelancer verificada · 31 projectos concluídos</div>
-                    <p style="color:#475569;line-height:1.7;margin:0;">"Sou de Huambo e nunca imaginei conseguir clientes de Luanda ou do exterior trabalhando remotamente. A Remoto abriu esse caminho para mim. Hoje o meu rendimento como designer ultrapassou o meu antigo salário de empregada."</p>
+                    <p style="color:#475569;line-height:1.7;margin:0;">"Sou de Huambo e nunca imaginei conseguir clientes de Luanda ou do exterior trabalhando remotamente. A 24 Horas Remoto abriu esse caminho para mim. Hoje o meu rendimento como designer ultrapassou o meu antigo salário de empregada."</p>
                 </div>
             </div>
         </div>

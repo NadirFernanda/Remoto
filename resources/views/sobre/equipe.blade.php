@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Pessoas</div>
             <h1 class="pub-hero-title">Nossa equipe</h1>
-            <p class="pub-hero-sub">Conheça as pessoas apaixonadas que constroem e evoluem a Remoto todos os dias.</p>
+            <p class="pub-hero-sub">Conheça as pessoas apaixonadas que constroem e evoluem a 24 Horas Remoto todos os dias.</p>
         </div>
 
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:1.5rem;">
@@ -16,7 +16,7 @@
                 <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#00baff,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;margin:0 auto 1rem;">N</div>
                 <div style="font-weight:800;color:#0f172a;font-size:1rem;">Nadir Fernanda</div>
                 <div style="color:#00baff;font-size:.82rem;font-weight:700;margin:.2rem 0 .6rem;">CEO &amp; Co-fundadora</div>
-                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Visionária por trás da Remoto, com experiência em empreendedorismo digital e desenvolvimento de produto na África Subsaariana.</p>
+                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Visionária por trás da 24 Horas Remoto, com experiência em empreendedorismo digital e desenvolvimento de produto na África Subsaariana.</p>
             </div>
 
             <div class="pub-card" style="text-align:center;">

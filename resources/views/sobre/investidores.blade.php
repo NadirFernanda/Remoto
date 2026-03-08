@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Investidores</div>
             <h1 class="pub-hero-title">Invista no futuro do trabalho em Angola</h1>
-            <p class="pub-hero-sub">A Remoto está a transformar o mercado de serviços digitais no país. Conheça as nossas métricas, visão e oportunidades de parceria.</p>
+            <p class="pub-hero-sub">A 24 Horas Remoto está a transformar o mercado de serviços digitais no país. Conheça as nossas métricas, visão e oportunidades de parceria.</p>
         </div>
 
         <div class="pub-card" style="margin-bottom:1.5rem;">
@@ -35,7 +35,7 @@
 
         <div class="pub-card" style="margin-bottom:1.5rem;">
             <h2 style="font-size:1.2rem;font-weight:800;color:#0f172a;margin-bottom:.75rem;">Modelo de negócio</h2>
-            <p style="color:#475569;line-height:1.7;">A Remoto opera com um modelo de comissão sobre transações, publicidade premium e planos de assinatura para empresas. As fontes de receita são diversificadas e escaláveis sem custos marginais proporcionais.</p>
+            <p style="color:#475569;line-height:1.7;">A 24 Horas Remoto opera com um modelo de comissão sobre transações, publicidade premium e planos de assinatura para empresas. As fontes de receita são diversificadas e escaláveis sem custos marginais proporcionais.</p>
         </div>
 
         <div class="pub-card">
