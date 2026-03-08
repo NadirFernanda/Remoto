@@ -25,7 +25,7 @@
     <div class="hp-hero-overlay"></div>
 
     {{-- Slide 1 --}}
-    <div class="hp-hero-slide" x-show="slide===0" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
+    <div class="hp-hero-slide" x-show="slide===0">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
                 <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
@@ -59,7 +59,7 @@
     </div>
 
     {{-- Slide 2 --}}
-    <div class="hp-hero-slide" x-show="slide===1" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
+    <div class="hp-hero-slide" x-show="slide===1" style="display:none;">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
                 <h1 class="hp-hero-title">Ganhe dinheiro fazendo<br>o que você <span class="hp-hero-accent">ama</span></h1>
@@ -93,7 +93,7 @@
     </div>
 
     {{-- Slide 3 --}}
-    <div class="hp-hero-slide" x-show="slide===2" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" style="display:none;">
+    <div class="hp-hero-slide" x-show="slide===2" style="display:none;">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
                 <h1 class="hp-hero-title">Tudo que seu negócio<br>precisa, em um <span class="hp-hero-accent">só lugar</span></h1>

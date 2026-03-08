@@ -110,7 +110,7 @@ body{
 
 /* Section helpers: allow alternating backgrounds per section */
 .section{ padding:3.5rem 0; background:transparent; }
-.section--alt{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02)); }
+
 .container--card{ background:var(--card-bg); border-radius:12px; padding:1.5rem; box-shadow:var(--glass-shadow); border:1px solid var(--glass-border); }
 .nav-link{ margin-left:1rem; font-size:1rem; color:var(--text-strong); font-weight:600; transition:color .16s ease; }
 .nav-link:hover{ color:var(--accent-v); }
@@ -183,31 +183,7 @@ body{
 /* Utility */
 .container { max-width:1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
 
-/* Hero / Modern Glass components */
-.hero-section{ min-height:420px; display:flex; align-items:center; padding:2rem 0; }
-.hero-card{ background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,0.04); border-radius:14px; box-shadow: 0 12px 40px rgba(2,6,23,0.6); }
-/* Garante que a cor do título hero seja sempre o azul da logo, mesmo dentro de glass-card ou container--card */
-/* Força o azul exato do botão de cadastro nos títulos hero */
-.hero-title, .glass-card .hero-title, .container--card .hero-title {
-    color: #00baff !important; /* azul claro igual ao botão de cadastro */
-    font-size:1.6rem;
-    font-weight:800;
-    margin-bottom:.5rem;
-    line-height:1.15;
-    letter-spacing:0.3px;
-    text-align:center;
-    font-family: 'Poppins', Inter, system-ui, sans-serif;
-}
-@media (min-width:480px){ .hero-title{ font-size:2.2rem; line-height:1.05; } }
-@media (min-width:768px){ .hero-title{ font-size:3rem; } }
-.hero-desc{ color:rgba(230,238,246,0.95); font-size:1.05rem; margin-bottom:1.25rem; max-width:720px; margin-left:auto; margin-right:auto; }
-.hero-ctas{ display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
-.hero-btn{ background: #00baff; color:#021018; font-weight:700; border-radius:10px; padding:.65rem 1.75rem; box-shadow:0 8px 24px rgba(0,186,255,0.12); transition:transform .14s ease, box-shadow .14s ease; text-decoration:none; }
-.hero-btn:hover{ transform:translateY(-3px); box-shadow:0 14px 36px rgba(0,186,255,0.16); }
-.hero-btn-outline{ background:transparent; color:var(--accent-v); border:1.5px solid rgba(0,186,255,0.18); border-radius:10px; padding:.6rem 1.6rem; text-decoration:none; }
-.hero-indicators{ display:flex; justify-content:center; gap:.5rem; margin-top:.75rem; }
-.hero-indicators button{ width:10px; height:10px; border-radius:999px; transition:all .18s ease; border:none; }
-.hero-indicators button.active{ background:var(--accent-v); box-shadow:0 6px 18px rgba(0,186,255,0.12); }
+
 
 /* Cards used in benefits/testimonials and project cards */
 .glass-card{
@@ -425,8 +401,7 @@ body{
 /* Prevent large SVGs or images from overflowing inside cards */
 .glass-card svg, .glass-card img{ max-width:100%; height:auto; display:block; }
 
-/* Ensure large standalone icons used as decoration are constrained */
-.icon-hero, .large-graphic{ max-width:140px; max-height:140px; }
+
 
 /* Focus styles for accessibility */
 .card-link:focus {
@@ -500,6 +475,16 @@ body.homepage .site-footer {
    HOMEPAGE — classes usadas em welcome.blade.php
    ===================================================== */
 
+/* Carousel: hero text slides in from left, card from right */
+@keyframes hp-text-in {
+    from { opacity: 0; transform: translateX(-32px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes hp-card-in {
+    from { opacity: 0; transform: translateX(32px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
 /* containers */
 .hp-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 .hp-container--narrow { max-width: 720px; margin: 0 auto; padding: 0 1.5rem; }
@@ -558,7 +543,7 @@ body.homepage .site-footer {
 .hp-hero-bullets li::before { content: '\2022'; color: #fff176; font-size: 1.3rem; line-height: 1; }
 /* Hero — layout 2 colunas (texto + card) */
 .hp-hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 3rem; flex-wrap: wrap; }
-.hp-hero-text { flex: 1; min-width: 280px; }
+.hp-hero-text { flex: 1; min-width: 280px; animation: hp-text-in 0.55s ease-out both; }
 .hp-hero-card {
     flex: 0 0 auto;
     min-width: 260px;
@@ -570,6 +555,7 @@ body.homepage .site-footer {
     border-radius: 20px;
     padding: 1.75rem;
     box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    animation: hp-card-in 0.65s ease-out 0.15s both;
 }
 .hp-hero-card-avatar {
     width: 48px; height: 48px; border-radius: 50%;
