@@ -1,8 +1,18 @@
+
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FreelancerListingController;
+use App\Http\Controllers\FreelancerProfileController;
+use App\Http\Controllers\PublicProjectsController;
+use App\Http\Controllers\Auth\OtpVerificationController;
+use App\Http\Controllers\Client\FinanceHistoryExportController;
+use App\Http\Controllers\Client\ServiceTitleController;
+
 // Placeholder para rota de pagamentos do cliente
 Route::get('/cliente/pagamentos', function () {
     return 'Em breve: painel de pagamentos do cliente.';
 })->name('client.payments');
-<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FreelancerListingController;
