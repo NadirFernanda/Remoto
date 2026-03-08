@@ -443,3 +443,11 @@ table.bg-white, table.bg-white td, table.bg-white th, .min-w-full.bg-white, .min
     color: #0f172a;
 }
 
+/* Remove all box-shadow and backdrop-filter from header */
+.site-header, .site-header.scrolled, .site-header.site-header-compact, .site-header.site-header-compact.scrolled {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+}
+
