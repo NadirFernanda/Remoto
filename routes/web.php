@@ -1,3 +1,7 @@
+// Placeholder para edição de perfil do cliente
+Route::get('/cliente/perfil/editar', function () {
+    return 'Em breve: edição de perfil do cliente.';
+})->name('client.profile.edit');
 
 <?php
 
