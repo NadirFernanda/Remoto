@@ -51,6 +51,13 @@
             <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
             <span class="text-xs font-medium text-gray-700">Editar perfil</span>
         </a>
+        <a href="{{ route('freelancer.projects') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
+            <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
+            <span class="text-xs font-medium text-gray-700">Histórico de Projetos</span>
+            <div class="mt-2">
+                <span class="inline-block px-3 py-1 text-xs rounded-full bg-[#e0f7fa] text-[#00baff] font-semibold">Ver todos</span>
+            </div>
+        </a>
         {{-- <a href="{{ route('freelancer.wallet') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
             <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
             <span class="text-xs font-medium text-gray-700">Extrato</span>
@@ -58,72 +65,4 @@
     </div>
 
 
-    {{-- Últimos Projetos --}}
-    <div class="bg-white rounded-2xl border border-gray-200 p-5 mb-8">
-        <h2 class="font-semibold text-xl mb-2 text-[#222]">Últimos Projetos</h2>
-        <div class="overflow-x-auto">
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4">Título</th>
-                        <th class="py-2 px-4">Status</th>
-                        <th class="py-2 px-4">Valor</th>
-                        <th class="py-2 px-4">Data</th>
-                        <th class="py-2 px-4">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($projects as $project)
-                        <tr class="border-b">
-                            <td class="py-2 px-4">{{ $project->titulo ?? '-' }}</td>
-                            <td class="py-2 px-4">{{ ucfirst(str_replace('_', ' ', $project->status)) }}</td>
-                            <td class="py-2 px-4">Kz {{ number_format($project->valor, 2, ',', '.') }}</td>
-                            <td class="py-2 px-4">{{ $project->created_at->format('d/m/Y') }}</td>
-                            <td>
-                                <div class="table-actions" role="group" aria-label="Ações do projeto">
-                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                        <a href="{{ route('service.chat', ['service' => $project->id]) }}" class="action-btn relative" title="Abrir chat" aria-label="Abrir chat do projeto {{ $project->id }}">
-                                            @include('components.icon', ['name' => 'dots', 'class' => 'w-5 h-5'])
-                                            @livewire('chat.chat-badge', ['serviceId' => $project->id], key('chat-badge-'.$project->id))
-                                        </a>
-                                        <span class="action-label">Chat</span>
-                                    </div>
-                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                        <a href="{{ route('freelancer.service.delivery', ['service' => $project->id]) }}" class="action-btn" title="Entregar" aria-label="Entregar projeto {{ $project->id }}">
-                                            @include('components.icon', ['name' => 'check', 'class' => 'w-5 h-5'])
-                                        </a>
-                                        <span class="action-label">Entregar</span>
-                                    </div>
-                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                        <button wire:click="sendToModeration({{ $project->id }})" class="action-btn" title="Enviar para Moderação" aria-label="Enviar para Moderação projeto {{ $project->id }}">
-                                            @include('components.icon', ['name' => 'close', 'class' => 'w-5 h-5'])
-                                        </button>
-                                        <span class="action-label">Enviar para Moderação</span>
-                                    </div>
-                                    @if($project->status === 'completed')
-                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                        <a href="{{ route('service.review.leave', ['service' => $project->id]) }}" class="action-btn" title="Avaliar" aria-label="Avaliar projeto {{ $project->id }}">
-                                            @include('components.icon', ['name' => 'star', 'class' => 'w-5 h-5'])
-                                        </a>
-                                        <span class="action-label">Avaliar</span>
-                                    </div>
-                                    @endif
-                                    @if(in_array($project->status, ['in_progress','delivered','completed']))
-                                    <div class="action-item" style="display:flex; align-items:center; gap:.5rem;">
-                                        <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="action-btn" title="Disputar" aria-label="Abrir disputa do projeto {{ $project->id }}">
-                                            @include('components.icon', ['name' => 'flag', 'class' => 'w-5 h-5'])
-                                        </a>
-                                        <span class="action-label">Disputar</span>
-                                    </div>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="5" class="text-center py-4 text-[#888]">Nenhum projeto encontrado.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
 </div>
