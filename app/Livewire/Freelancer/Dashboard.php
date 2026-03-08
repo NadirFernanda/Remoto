@@ -47,6 +47,7 @@ class Dashboard extends Component
         // Indicações
         $referrals = \App\Models\Referral::where('affiliate_id', $user->id)->with('user')->get();
 
+        $period = $this->period ?? 7;
         return view('livewire.freelancer.dashboard', [
             'projects' => $this->services,
             'saldo_pendente' => $this->saldo_pendente,
@@ -55,6 +56,7 @@ class Dashboard extends Component
             'kpi_projetos_andamento' => $kpi_projetos_andamento,
             'affiliate_link' => $affiliate_link,
             'referrals' => $referrals,
+            'period' => $period,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Freelancer',
         ]);
