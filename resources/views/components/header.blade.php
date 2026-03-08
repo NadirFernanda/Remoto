@@ -12,7 +12,7 @@
                     Contratar
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por habilidade</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por localização</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Por categoria</a>
@@ -23,7 +23,7 @@
                     Encontrar trabalho
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
                     <a href="{{ route('public.projects') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Projetos</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Concursos</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Vagas</a>
@@ -34,7 +34,7 @@
                     Soluções
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
+                <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Empresas</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Parceiros</a>
                     <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-50">Ajuda</a>
@@ -45,9 +45,9 @@
             @guest
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link">Cadastro</a>
-                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
+                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar projeto</a>
             @else
-                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar Projeto</a>
+                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition">Publicar projeto</a>
                 <div class="flex items-center ml-4">
                     @if(auth()->user()->activeRole() !== 'freelancer')
                         <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
