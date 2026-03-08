@@ -1,3 +1,20 @@
+/* Header navigation alignment */
+.nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-left: 2rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+}
+
+.nav-link {
+    margin-left: 0;
+}
 /* Botões de ação quadrados e centralizados */
 .action-icon {
     width: 40px;
