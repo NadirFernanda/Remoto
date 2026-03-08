@@ -57,8 +57,6 @@
         </a> --}}
     </div>
 
-    {{-- Histórico de carteira --}}
-    @livewire('freelancer.wallet-history')
 
     {{-- Últimos Projetos --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-5 mb-8">
