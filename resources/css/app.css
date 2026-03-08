@@ -198,7 +198,9 @@ body{
 /* Small responsive tweaks */
 @media (max-width:768px){
     .site-header{ padding-top:.6rem; padding-bottom:.6rem; }
-    .site-logo{ height:64px; max-height:84px; }
+    .site-logo{ height:52px; max-height:64px; }
+    /* Hide desktop action buttons — hamburger takes over on mobile */
+    .header-actions{ display:none !important; }
 }
 
 .filters-row{ display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end; justify-content:center; }
@@ -425,6 +427,22 @@ body{
 .hp-hero-card-tag-price { color: #fff176; font-weight: 900; font-size: .95rem; }
 .hp-hero-card-stars { color: #fff176; font-size: .9rem; margin-bottom: .15rem; letter-spacing: .04em; }
 @media (max-width: 860px) { .hp-hero-card { display: none; } }
+
+/* Hero mobile adjustments */
+@media (max-width: 768px) {
+    .hp-hero-slide { padding: 3.5rem 1.25rem 3rem; min-height: 400px; }
+    .hp-hero-title { font-size: clamp(1.7rem, 7vw, 2.4rem); margin-bottom: 1rem; }
+    .hp-hero-bullets li { font-size: .95rem; }
+    .hp-hero-inner { gap: 1.5rem; }
+    .hp-ctas { flex-direction: column; align-items: flex-start; gap: .75rem; }
+    .hp-btn { width: 100%; max-width: 340px; justify-content: center; text-align: center; }
+    /* Reduce main padding-top to fit smaller mobile header */
+    main { padding-top: 5rem !important; }
+    /* Reduce section vertical padding on mobile */
+    .hp-section { padding: 3rem 1.25rem; }
+    /* CTA section buttons centred on mobile */
+    .hp-cta-text .hp-ctas { flex-direction: column; align-items: center; }
+}
 
 .hp-hero-dots { display: flex; justify-content: center; gap: .5rem; padding-bottom: 1.5rem; position: relative; z-index: 2; }
 .hp-hero-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.35); border: none; cursor: pointer; transition: background .2s, transform .2s; padding: 0; }
