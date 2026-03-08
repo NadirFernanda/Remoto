@@ -105,6 +105,7 @@ class Dashboard extends Component
     public $kpi_freelancers_contratados = 0;
     public $kpi_projetos_andamento = 0;
     public $kpi_projetos_concluidos = 0;
+    public $period = 7;
 
     public function mount()
     {
@@ -226,6 +227,7 @@ class Dashboard extends Component
             'kpi_projetos_andamento' => $this->kpi_projetos_andamento,
             'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
             'affiliate_link' => $affiliate_link,
+            'period' => $this->period,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Cliente',
         ]);
