@@ -1,5 +1,3 @@
-    Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -151,3 +149,6 @@ Route::middleware('auth')->group(function () {
   // Liberação de pagamento (escrow)
   Route::post('/cliente/servico/{service}/liberar-pagamento', [\App\Http\Controllers\ServiceEscrowController::class, 'releasePayment'])->name('client.service.release_payment');
 });
+
+// Página de projetos do freelancer
+Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
