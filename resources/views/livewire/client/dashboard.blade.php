@@ -43,14 +43,14 @@
 			<svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
 			<span class="text-xs font-medium text-gray-700">Gerir Projetos</span>
 		</a>
-		<a href="{{ route('client.payments') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
-			<svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7v4a2 2 0 01-2 2H7a2 2 0 01-2-2V7m5 4V7m0 0V5a2 2 0 012-2h2a2 2 0 012 2v2m-6 0h6"/></svg>
-			<span class="text-xs font-medium text-red-600">Reembolso</span>
-			<div class="mt-2 flex flex-col gap-1 items-center">
-				<a href="{{ route('client.refund.request') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-red-50 text-red-600 font-semibold hover:bg-red-100 transition">Solicitar</a>
-				<a href="{{ route('client.refunds') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition">Meus pedidos</a>
-			</div>
-		</a>
+		   <a href="{{ route('client.payments') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
+			   <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
+			   <span class="text-xs font-medium text-gray-700">Reembolso</span>
+			   <div class="mt-2 flex flex-col gap-1 items-center">
+				   <a href="{{ route('client.refund.request') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition">Solicitar</a>
+				   <a href="{{ route('client.refunds') }}" class="inline-block px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold hover:bg-gray-200 transition">Meus pedidos</a>
+			   </div>
+		   </a>
 		<a href="{{ route('client.profile.edit') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
 			<svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
 			<span class="text-xs font-medium text-gray-700">Editar perfil</span>
