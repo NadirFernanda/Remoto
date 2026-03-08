@@ -40,27 +40,6 @@
     box-shadow: 0 12px 36px rgba(2,6,23,0.12);
 }
 
-/* Ícones */
-.btn-nowrap {
-    white-space: nowrap;
-    min-width: 130px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(2,6,23,0.06);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6em;
-    cursor: pointer;
-    transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-    padding: .5rem .75rem;
-    text-decoration: none;
-    -webkit-tap-highlight-color: transparent;
-    background: #00baff;
-    color: #021018;
-    border: 0;
-}
 .kpi-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; margin-bottom:1.25rem; }
 .kpi-card{ background: var(--card-bg); border-radius:12px; padding:1.25rem 1.1rem; box-shadow: 0 6px 18px rgba(2,6,23,0.06); border:1px solid rgba(15,23,42,0.03); text-align:center; }
 .kpi-card .value{ font-size:1.45rem; font-weight:800; color:var(--accent-v); letter-spacing:0.2px; }

@@ -69,17 +69,17 @@
         <div class="hp-footer-col">
             <h4>Sobre</h4>
             <ul>
-                <li><a href="#">Sobre nós</a></li>
-                <li><a href="#">Como funciona</a></li>
-                <li><a href="#">Segurança</a></li>
-                <li><a href="#">Investidores</a></li>
-                <li><a href="#">Mapa do site</a></li>
-                <li><a href="#">Histórias</a></li>
-                <li><a href="#">Notícias</a></li>
-                <li><a href="#">Equipe</a></li>
-                <li><a href="#">Prêmios</a></li>
-                <li><a href="#">Comunicados de imprensa</a></li>
-                <li><a href="#">Carreiras</a></li>
+                <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
+                <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
+                <li><a href="{{ route('sobre.seguranca') }}">Segurança</a></li>
+                <li><a href="{{ route('sobre.investidores') }}">Investidores</a></li>
+                <li><a href="{{ route('sobre.mapa-do-site') }}">Mapa do site</a></li>
+                <li><a href="{{ route('sobre.historias') }}">Histórias</a></li>
+                <li><a href="{{ route('sobre.noticias') }}">Notícias</a></li>
+                <li><a href="{{ route('sobre.equipe') }}">Equipe</a></li>
+                <li><a href="{{ route('sobre.premios') }}">Prêmios</a></li>
+                <li><a href="{{ route('sobre.comunicados') }}">Comunicados de imprensa</a></li>
+                <li><a href="{{ route('sobre.carreiras') }}">Carreiras</a></li>
             </ul>
         </div>
     </div>

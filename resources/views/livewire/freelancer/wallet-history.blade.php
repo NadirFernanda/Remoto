@@ -2,7 +2,7 @@
     <h2 class="font-semibold text-xl mb-4 text-[#222]">Histórico de Movimentações</h2>
     <div class="mb-4 flex items-center gap-2">
         <label for="tipo" class="text-sm text-[#888]">Filtrar por tipo:</label>
-        <select wire:model="tipo" id="tipo" class="filter-select">
+        <select wire:model="tipo" id="tipo" class="pub-select">
             <option value="">Todos</option>
             @foreach($tipos as $t)
                 <option value="{{ $t }}">{{ ucfirst(str_replace('_', ' ', $t)) }}</option>

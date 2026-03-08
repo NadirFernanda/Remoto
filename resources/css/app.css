@@ -64,15 +64,15 @@
 
 /* Consolidated header styles (moved from component and welcome) */
 .site-theme{
-    /* Dark theme matching the logo cyan/turquoise */
-    --bg-v: #071422; /* deep navy */
-    --muted-v: #94a3b8;
-    --accent-v: #00baff; /* logo cyan */
-    --accent-2: #06b6d4; /* secondary turquoise */
-    --card-bg: rgba(255,255,255,0.03);
-    --glass-border: rgba(255,255,255,0.04);
-    --glass-shadow: 0 10px 40px rgba(2,6,23,0.6);
-    --text-strong: #e6eef6;
+    /* Tema claro — header/footer escuros, conteúdo claro */
+    --bg-v: #0f172a;          /* header / footer dark */
+    --accent-v: #00baff;       /* brand cyan */
+    --accent-2: #06b6d4;       /* secondary cyan */
+    --muted-v: #94a3b8;        /* muted text */
+    --card-bg: #ffffff;         /* card background */
+    --glass-border: #e8edf3;    /* card border */
+    --glass-shadow: 0 2px 8px rgba(0,0,0,.06); /* card shadow */
+    --text-strong: #0f172a;    /* body text */
 }
 
 html,body{height:100%;}
@@ -81,8 +81,8 @@ body{
     font-feature-settings: 'cv02','cv03','cv04','cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: linear-gradient(180deg,var(--bg-v),#021018 70%);
-    color:var(--text-strong);
+    background: #f5f7fa;
+    color: #0f172a;
 }
 .site-header{
     font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -104,13 +104,7 @@ body{
 .site-header.site-header-compact .site-logo{ height:48px; max-height:64px; }
 .site-logo-compact{ height:48px; max-height:64px; }
 
-/* Page-specific override: make profile edit page fully white to remove dark site background */
-.profile-page{ background: #ffffff !important; color: #0f172a !important; }
-.profile-page .site-footer{ background: #ffffff !important; color: #6b7280 !important; border-top: 1px solid rgba(15,23,42,0.04) !important; }
-
-/* Light page: white background for public content pages (projetos, freelancers, etc.) */
-.light-page{ background: #f8fafc !important; color: #1e293b !important; }
-.light-page .site-footer{ background: #f8fafc !important; color: #6b7280 !important; border-top: 1px solid #e2e8f0 !important; }
+/* Light input (still used in some pages) */
 .light-input{ width:100%; background:#fff; border:1px solid #e2e8f0; color:#1e293b; padding:.55rem .75rem; border-radius:10px; font-size:.9rem; transition: border-color .2s, box-shadow .2s; }
 .light-input:focus{ border-color:#00baff; box-shadow:0 0 0 3px rgba(0,186,255,0.1); outline:none; }
 .light-input::placeholder{ color:#94a3b8; }
@@ -118,10 +112,8 @@ body{
 /* Section helpers: allow alternating backgrounds per section */
 .section{ padding:3.5rem 0; background:transparent; }
 
-.container--card{ background:var(--card-bg); border-radius:12px; padding:1.5rem; box-shadow:var(--glass-shadow); border:1px solid var(--glass-border); }
 /* Header nav & actions: locked to Inter, consistent sizing */
-.nav-link{ margin-left:1rem; font-family:'Inter',system-ui,sans-serif; font-size:.9375rem; color:var(--text-strong); font-weight:500; letter-spacing:-.01em; transition:color .16s ease; }
-.nav-link:hover{ color:var(--accent-v); }
+.nav-link{ margin-left:1rem; font-family:'Inter',system-ui,sans-serif; font-size:.9375rem; font-weight:500; letter-spacing:-.01em; transition:color .16s ease; }
 
 /* Responsive header layout */
 .header-container{ max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
@@ -137,10 +129,10 @@ body{
     .mobile-cta{ display:inline-flex; align-items:center; gap:.5rem; margin-left:0.75rem; }
 }
 
-/* Mobile dropdown nav links — guaranteed white text on dark bg */
+/* Mobile dropdown nav links — white text on dark header */
 @media (max-width: 768px){
     .mobile-menu-dropdown .nav-link{
-        color: #e6eef6 !important;
+        color: #e2e8f0 !important;
         margin-left: 0;
         padding: .55rem .75rem;
         border-radius: 8px;
@@ -151,7 +143,7 @@ body{
 }
 
 /* Footer */
-.site-footer{ background:transparent; color:var(--muted-v); border-top:1px solid rgba(255,255,255,0.04); }
+.site-footer{ background: transparent; color: var(--muted-v); }
 
 /* Buttons */
 .btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: #00baff; color:#021018; padding:.6rem 1rem; border-radius:10px; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; box-shadow: 0 10px 30px rgba(0,186,255,0.08); text-decoration:none; opacity:1; }
@@ -193,7 +185,7 @@ body{
 @media (max-width:480px){ .action-row{ flex-wrap:wrap; } }
 
 /* Ensure btns are not affected by nav link color rules */
-.nav-link{ color:var(--text-strong); }
+.nav-link{ color: #e2e8f0; }
 .nav-link.btn-primary{ color:#021018; }
 
 /* Utility */
@@ -201,58 +193,7 @@ body{
 
 
 
-/* Cards used in benefits/testimonials and project cards */
-.glass-card{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px;
-    padding:1rem;
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 0 14px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    overflow: hidden;
-    min-height: 340px;
-}
-.glass-card .icon{ color:var(--accent-v); }
 
-.glass-card::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    border-radius: 14px;
-    padding: 1px;
-    background: linear-gradient(135deg, rgba(0,186,255,0.06), rgba(6,182,212,0.04));
-    opacity: 0.65;
-    mix-blend-mode: overlay;
-}
-
-.glass-card:hover{ transform: translateY(-6px); box-shadow: 0 18px 46px rgba(2,6,23,0.65); }
-
-/* Project-specific card elements */
-.project-thumbnail{ width:100%; height:150px; border-radius:10px; object-fit:cover; display:block; margin-bottom:.85rem; background: linear-gradient(135deg,var(--accent-2),var(--accent-v)); }
-.project-title{ font-size:1.05rem; font-weight:800; color:var(--text-strong); margin:0 0 .4rem 0; }
-.project-excerpt{ color: rgba(230,238,246,0.82); font-size:.95rem; margin-top:.25rem; line-height:1.35; }
-.project-excerpt div, .project-excerpt p { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-.project-meta{ display:flex; gap:0.75rem; align-items:center; justify-content:space-between; margin-top:.75rem; flex-wrap:wrap; }
-.project-meta-left{ display:flex; gap:.75rem; align-items:center; }
-.project-price-badge{ background:linear-gradient(90deg,var(--accent-2),var(--accent-v)); color:#021018; font-weight:900; padding:.45rem .7rem; border-radius:999px; box-shadow:0 10px 26px rgba(0,186,255,0.10); transform-origin:center; transition: transform .16s ease, box-shadow .16s ease; }
-.project-price-badge:hover{ transform: translateY(-2px) scale(1.02); box-shadow:0 14px 36px rgba(0,186,255,0.12); }
-
-/* Avatar style when no thumbnail */
-.project-avatar{ width:100%; height:150px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:2.4rem; color:#021018; background: linear-gradient(135deg,var(--accent-2),var(--accent-v)); margin-bottom:.85rem; }
-
-/* Keep actions at bottom */
-.card-actions{ margin-top: 1rem; }
-.card-body{ flex: 1 1 auto; }
-
-@media (max-width: 768px){
-    .glass-card{ min-height: auto; }
-    .project-thumbnail, .project-avatar{ height:120px; }
-}
 
 /* Small responsive tweaks */
 @media (max-width:768px){
@@ -260,44 +201,24 @@ body{
     .site-logo{ height:64px; max-height:84px; }
 }
 
-/* Projects page improvements */
-.projects-hero{ padding:2.25rem 0; text-align:center; }
-.projects-hero h2{ font-size:2.1rem; color:var(--accent-v); font-weight:800; margin-bottom:.25rem; }
-.projects-hero p{ color:rgba(230,238,246,0.85); margin-bottom:.75rem; }
-
 .filters-row{ display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-end; justify-content:center; }
 .filters-row .form-group{ min-width:180px; }
-.filters-row .container--card{ display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
-
-/* Filter inputs */
-.filter-label{ display:block; font-size:.78rem; font-weight:700; color:var(--accent-v); margin-bottom:.45rem; }
-.filter-input{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-strong); padding:.55rem .75rem; border-radius:10px; min-width:200px; }
-.filter-input::placeholder{ color:rgba(230,238,246,0.45); }
-.filter-select{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text-strong); padding:.55rem .9rem; border-radius:10px; min-width:220px; appearance:none; -webkit-appearance:none; }
-.filter-date{ padding:.45rem .6rem; }
 
 /* Form actions aligned on small screens */
 .form-actions{ display:flex; align-items:center; }
 @media (max-width:900px){
     .filters-row{ justify-content:stretch; }
     .filters-row .form-group{ width:100%; min-width:unset; }
-    .filter-input, .filter-select{ width:100%; }
     .form-actions{ width:100%; justify-content:flex-start; }
 }
-
-/* Subtle hover/focus for inputs */
-.filter-input:focus, .filter-select:focus { box-shadow: 0 8px 20px rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.32); outline: none; }
 
 /* Advanced filters collapse */
 .advanced-filters{ display:block; max-height:0; overflow:hidden; transition:max-height .32s ease, opacity .28s ease; opacity:0; }
 .advanced-filters.open{ max-height:600px; opacity:1; margin-top:1rem; }
 .advanced-filters .form-group{ margin-right:0.5rem; }
-.advanced-filters .filter-input{ min-width:240px; }
 
 /* Toggle button small tweak */
 #toggle-advanced-filters{ cursor:pointer; }
-
-.project-avatar{ width:56px; height:56px; border-radius:10px; background:linear-gradient(135deg,var(--accent-2),var(--accent-v)); display:flex; align-items:center; justify-content:center; color:#021018; font-weight:800; font-size:1.25rem; margin-bottom:0.75rem; }
 
 /* Avatar utility classes */
 .avatar-xs{ width:24px; height:24px; border-radius:9999px; object-fit:cover; display:inline-block; }
@@ -332,26 +253,6 @@ body{
 .status-completed{ color:#64748b !important; }
 .status-cancelled{ color:#ef4444 !important; }
 
-.project-card-hover{ transition:transform .18s ease, box-shadow .18s ease; }
-.project-card-hover:hover{ transform:translateY(-6px); box-shadow:0 18px 46px rgba(2,6,23,0.55); }
-
-/* Make the whole card act as a link while keeping interactive children usable */
-.card-link {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: block;
-    border-radius: 12px;
-    /* visual none, but ensure keyboard focus visible */
-    background: transparent;
-    text-indent: -9999px;
-}
-
-/* Ensure actionable controls sit above the overlay */
-.glass-card .btn, .glass-card a.btn, .glass-card button {
-    position: relative;
-    z-index: 3;
-}
 
 /* Action toolbar: default inline layout to avoid buttons expanding into separate cards */
 .action-row{ display:inline-flex; gap:.5rem; align-items:center; }
@@ -398,11 +299,6 @@ body{
     margin: 0 !important;
 }
 .action-row .btn-eq { color: var(--accent-v) !important; }
-.glass-card .action-row a, .glass-card .action-row button, .glass-card .action-row .btn-eq {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
 
 /* Remove card-like background for action cells in orders-table */
 .orders-table td.no-card{
@@ -414,70 +310,11 @@ body{
 }
 .orders-table td.no-card .action-row{ margin:0 !important; }
 
-/* Prevent large SVGs or images from overflowing inside cards */
-.glass-card svg, .glass-card img{ max-width:100%; height:auto; display:block; }
-
-
-
-/* Focus styles for accessibility */
-.card-link:focus {
-    outline: 3px solid rgba(0,186,255,0.18);
-    outline-offset: 3px;
-    box-shadow: 0 8px 30px rgba(0,186,255,0.08);
-}
-
-.glass-card:focus-within {
-    box-shadow: 0 6px 28px rgba(56,230,212,0.06), 0 0 0 3px rgba(56,230,212,0.04);
-}
-
 /* Buttons and links focus */
 .btn:focus, a:focus {
     outline: 3px solid rgba(var(--accent-v-rgb,56,230,212),0.18);
     outline-offset: 2px;
 }
-.pagination-custom{ display:flex; gap:.5rem; justify-content:center; align-items:center; margin-top:1rem; }
-.pagination-custom a, .pagination-custom span{ padding:.5rem .75rem; border-radius:8px; background:rgba(255,255,255,0.03); color:var(--text-strong); text-decoration:none; }
-.pagination-custom .active{ background:var(--accent-v); color:#021018; font-weight:800; box-shadow:0 8px 22px rgba(0,186,255,0.08); }
-
-/* Global readable text for glass-like cards and panels
-   This ensures light backgrounds/blur don't make body text unreadable.
-   Targets card containers and project/list panels while preserving
-   buttons, badges, and accent-colored elements.
-*/
-.glass-card, .container--card, .project-card, .projects-hero {
-    --card-text: rgba(2,6,23,0.88);
-}
-.glass-card p, .glass-card span, .glass-card h1, .glass-card h2, .glass-card h3, .glass-card h4, .glass-card h5,
-.container--card p, .container--card span,
-.project-title, .project-excerpt, .project-meta, .action-label {
-    color: var(--card-text);
-}
-
-/* Keep interactive accents intact (buttons, badges, icons) */
-.glass-card .btn, .glass-card .action-btn, .glass-card .project-price-badge, .glass-card .status-badge,
-.container--card .btn, .container--card .action-btn { color: inherit; }
-
-/* Tables with explicit white background should use dark text for readability */
-table.bg-white, table.bg-white td, table.bg-white th, .min-w-full.bg-white, .min-w-full.bg-white td, .min-w-full.bg-white th {
-    color: #0f172a; /* dark slate */
-}
-
-/* Also ensure lists/panels that use white backgrounds (e.g., recent messages list) render dark text */
-.bg-white, .bg-white * {
-    color: #0f172a;
-}
-
-/* Homepage: fundo branco, texto escuro */
-body.homepage {
-    background: #f5f7fa !important;
-    color: #0f172a !important;
-}
-body.homepage .site-footer {
-    background: #1e293b !important;
-    color: #94a3b8 !important;
-    border-top: none !important;
-}
-
 /* Remove all box-shadow and backdrop-filter from header */
 .site-header, .site-header.scrolled, .site-header.site-header-compact, .site-header.site-header-compact.scrolled {
     box-shadow: none !important;

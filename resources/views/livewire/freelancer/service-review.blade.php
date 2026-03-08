@@ -14,10 +14,10 @@
             {{ session('info') }}
         </div>
     @endif
-    <div class="glass-card max-w-2xl w-full p-8 mb-8 shadow-xl border border-cyan-100">
+    <div class="pub-card" style="max-width:42rem;width:100%;padding:2rem;margin:0 auto 2rem;">
         <h2 class="text-2xl font-extrabold text-center mb-6 text-[#00baff] tracking-tight">Detalhes do Serviço</h2>
         <div class="mb-4 flex items-center gap-3">
-            <div class="project-avatar flex-shrink-0">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
+            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00baff,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
             <div>
                 <div class="font-bold text-lg text-[#222]">{{ $service->titulo }}</div>
             </div>

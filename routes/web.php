@@ -28,6 +28,21 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
+// --- Institutional / Sobre pages ---
+Route::prefix('sobre')->name('sobre.')->group(function () {
+    Route::get('/sobre-nos',     fn() => view('sobre.sobre-nos'))->name('sobre-nos');
+    Route::get('/como-funciona', fn() => view('sobre.como-funciona'))->name('como-funciona');
+    Route::get('/seguranca',     fn() => view('sobre.seguranca'))->name('seguranca');
+    Route::get('/investidores',  fn() => view('sobre.investidores'))->name('investidores');
+    Route::get('/mapa-do-site',  fn() => view('sobre.mapa-do-site'))->name('mapa-do-site');
+    Route::get('/historias',     fn() => view('sobre.historias'))->name('historias');
+    Route::get('/noticias',      fn() => view('sobre.noticias'))->name('noticias');
+    Route::get('/equipe',        fn() => view('sobre.equipe'))->name('equipe');
+    Route::get('/premios',       fn() => view('sobre.premios'))->name('premios');
+    Route::get('/comunicados',   fn() => view('sobre.comunicados'))->name('comunicados');
+    Route::get('/carreiras',     fn() => view('sobre.carreiras'))->name('carreiras');
+});
+
 // --- Public routes ---
 Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
 Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('freelancers.search');
