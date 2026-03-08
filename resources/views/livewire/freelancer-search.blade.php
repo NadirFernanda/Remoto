@@ -7,11 +7,7 @@
             <p class="pub-hero-sub">Pesquise por habilidade, preço, avaliação e disponibilidade</p>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:1.5rem;">
-            @media (min-width:1024px) {
-                .fs-layout { flex-direction: row !important; }
-            }
-        </div>
+        <style>@media(min-width:1024px){.fs-layout{flex-direction:row!important}}</style>
 
         <div class="fs-layout" style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
 

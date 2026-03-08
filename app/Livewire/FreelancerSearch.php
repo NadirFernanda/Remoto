@@ -111,11 +111,19 @@ class FreelancerSearch extends Component
             ->sort()
             ->values();
 
+        $baseLanguages = collect([
+            'Português', 'Inglês', 'Francês', 'Espanhol', 'Árabe',
+            'Mandarim', 'Russo', 'Alemão', 'Italiano', 'Japonês',
+            'Coreano', 'Hindi', 'Bengali', 'Suaíli', 'Hauçá',
+            'Iorubá', 'Zulu', 'Amárico', 'Somali', 'Lingala',
+        ]);
+
         $allLanguages = FreelancerProfile::query()
             ->whereNotNull('languages')
             ->pluck('languages')
             ->filter()
             ->flatten()
+            ->merge($baseLanguages)
             ->unique()
             ->sort()
             ->values();

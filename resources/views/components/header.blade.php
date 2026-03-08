@@ -8,58 +8,62 @@
             </a>
 
             <nav class="nav-desktop" style="display:flex;align-items:center;gap:0.25rem;margin-left:0;">
-                <div x-data="{open:false}" class="relative">
+                {{-- ============================================================ --}}
+                {{-- DROPDOWN 1: CONTRATAR --}}
+                {{-- Comportamento: hover no item esquerdo troca painel direito --}}
+                {{-- ============================================================ --}}
+                <div x-data="{open:false, tab:'habilidade'}" class="relative">
                     <button @click="open = !open" class="nav-link" style="display:flex;align-items:center;gap:0.35rem;white-space:nowrap;">
                         Contratar
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak
-                         class="absolute left-0 mt-2 bg-white rounded-2xl z-50"
-                         style="width:760px;box-shadow:0 24px 64px rgba(0,0,0,.18);border:1px solid #e8eef4;">
+                         class="absolute left-0 mt-2 rounded-2xl z-50"
+                         style="width:800px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
                         <div style="display:flex;">
                             <!-- Coluna esquerda: opções de navegação -->
-                            <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid #f0f4f8;flex-shrink:0;">
-                                <p style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Encontrar profissionais</p>
+                            <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid rgba(255,255,255,.07);flex-shrink:0;">
+                                <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Encontrar profissionais</p>
                                 <a href="{{ route('freelancers.search') }}"
                                    style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='#f0f7ff'" onmouseout="this.style.background='transparent'">
-                                    <span style="width:38px;height:38px;border-radius:9px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                    <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                                     </span>
                                     <span style="flex:1;">
-                                        <span style="display:block;font-weight:700;color:#0f172a;font-size:.85rem;">Por habilidade</span>
-                                        <span style="display:block;font-size:.75rem;color:#64748b;margin-top:.15rem;line-height:1.45;">Procura um profissional com uma habilidade específica?</span>
+                                        <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Por habilidade</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Procura um profissional com uma habilidade específica?</span>
                                     </span>
-                                    <svg width="15" height="15" fill="none" stroke="#cbd5e1" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+                                    <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
                                 </a>
                                 <a href="{{ route('freelancers.search') }}"
                                    style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;margin-bottom:.25rem;"
-                                   onmouseover="this.style.background='#f0f7ff'" onmouseout="this.style.background='transparent'">
-                                    <span style="width:38px;height:38px;border-radius:9px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                    <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                     </span>
                                     <span style="flex:1;">
-                                        <span style="display:block;font-weight:700;color:#0f172a;font-size:.85rem;">Por localização</span>
-                                        <span style="display:block;font-size:.75rem;color:#64748b;margin-top:.15rem;line-height:1.45;">Pesquise com base na localização e fuso horário.</span>
+                                        <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Por localização</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Pesquise com base na localização e fuso horário.</span>
                                     </span>
-                                    <svg width="15" height="15" fill="none" stroke="#cbd5e1" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+                                    <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
                                 </a>
                                 <a href="{{ route('freelancers.index') }}"
                                    style="display:flex;align-items:flex-start;gap:.875rem;padding:.7rem .875rem;border-radius:.875rem;text-decoration:none;transition:background .15s;"
-                                   onmouseover="this.style.background='#f0f7ff'" onmouseout="this.style.background='transparent'">
-                                    <span style="width:38px;height:38px;border-radius:9px;background:#e0f2fe;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                   onmouseover="this.style.background='rgba(0,153,214,.12)'" onmouseout="this.style.background='transparent'">
+                                    <span style="width:38px;height:38px;border-radius:9px;background:rgba(0,153,214,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                                         <svg width="19" height="19" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                     </span>
                                     <span style="flex:1;">
-                                        <span style="display:block;font-weight:700;color:#0f172a;font-size:.85rem;">Por categoria</span>
-                                        <span style="display:block;font-size:.75rem;color:#64748b;margin-top:.15rem;line-height:1.45;">Encontre profissionais para determinada categoria de projeto.</span>
+                                        <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.85rem;">Por categoria</span>
+                                        <span style="display:block;font-size:.75rem;color:#94a3b8;margin-top:.15rem;line-height:1.45;">Encontre profissionais para determinada categoria de projeto.</span>
                                     </span>
-                                    <svg width="15" height="15" fill="none" stroke="#cbd5e1" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+                                    <svg width="15" height="15" fill="none" stroke="#374151" stroke-width="2.5" viewBox="0 0 24 24" style="margin-top:3px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
                                 </a>
                             </div>
                             <!-- Coluna direita: cards de categorias com imagens -->
                             <div style="flex:1;padding:1.5rem 1.125rem;">
-                                <p style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Categorias populares</p>
+                                <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Categorias populares</p>
                                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
                                     <a href="{{ route('freelancers.search', ['skill' => 'design']) }}"
                                        style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;"
