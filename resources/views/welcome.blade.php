@@ -176,14 +176,38 @@
         <h2 class="hp-title">Categorias populares</h2>
         <p class="hp-subtitle">Encontre o profissional certo para cada tipo de projeto.</p>
         <div class="hp-categories">
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🎨</span><span class="hp-cat-label">Design & Arte</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">💻</span><span class="hp-cat-label">Desenvolvimento Web</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">📱</span><span class="hp-cat-label">Apps Mobile</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">✍️</span><span class="hp-cat-label">Redação & Conteúdo</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">📊</span><span class="hp-cat-label">Marketing Digital</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🎬</span><span class="hp-cat-label">Vídeo & Áudio</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🔍</span><span class="hp-cat-label">SEO & Analytics</span></a>
-            <a href="{{ route('freelancers.index') }}" class="hp-cat-card"><span class="hp-cat-emoji">🤝</span><span class="hp-cat-label">Suporte & Admin</span></a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.121 2.121 0 0 0-3-3L5 17v3"/></svg></span>
+                <span class="hp-cat-label">Design & Arte</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                <span class="hp-cat-label">Desenvolvimento Web</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
+                <span class="hp-cat-label">Apps Mobile</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
+                <span class="hp-cat-label">Redação & Conteúdo</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+                <span class="hp-cat-label">Marketing Digital</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+                <span class="hp-cat-label">Vídeo & Áudio</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                <span class="hp-cat-label">SEO & Analytics</span>
+            </a>
+            <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
+                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+                <span class="hp-cat-label">Suporte & Admin</span>
+            </a>
         </div>
         <div style="margin-top:2.5rem;">
             <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary">Ver todas as categorias →</a>
@@ -205,19 +229,19 @@
             </div>
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
-                    <div class="hp-benefit-icon">🔒</div>
+                    <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
                     <div><h4>Pagamento seguro</h4><p>Dinheiro fica em custódia e só é liberado quando você aprovar o trabalho.</p></div>
                 </div>
                 <div class="hp-benefit-item">
-                    <div class="hp-benefit-icon">✅</div>
+                    <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
                     <div><h4>Freelancers verificados</h4><p>Perfis validados, portfólios reais e avaliações de clientes anteriores.</p></div>
                 </div>
                 <div class="hp-benefit-item">
-                    <div class="hp-benefit-icon">💬</div>
+                    <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
                     <div><h4>Suporte 24h</h4><p>Nossa equipe está disponível para ajudar clientes e freelancers a qualquer momento.</p></div>
                 </div>
                 <div class="hp-benefit-item">
-                    <div class="hp-benefit-icon">⚡</div>
+                    <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
                     <div><h4>Resultados rápidos</h4><p>Receba propostas em minutos e inicie seu projeto em menos de 24 horas.</p></div>
                 </div>
             </div>
