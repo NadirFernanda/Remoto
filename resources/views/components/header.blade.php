@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             <!-- Coluna direita: painéis de cards por tab -->
-                            <div style="flex:1;padding:1.5rem 1.125rem;">
+                            <div style="flex:1;padding:1.5rem 1.125rem;min-height:380px;display:flex;flex-direction:column;">
                                 <!-- Painel: habilidade -->
                                 <div x-show="tab==='habilidade'">
                                     <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Profissionais por habilidade</p>
@@ -156,6 +156,11 @@
                                         </a>
                                     </div>
                                 </div>
+                                <!-- Footer Contratar -->
+                                <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:.75rem;margin-top:auto;display:flex;align-items:center;justify-content:space-between;">
+                                    <span style="font-size:.75rem;font-weight:600;color:#94a3b8;">Explorar todos os freelancers</span>
+                                    <a href="{{ route('freelancers.index') }}" style="font-size:.75rem;font-weight:700;color:#0099d6;text-decoration:none;display:flex;align-items:center;gap:.25rem;">Ver todos <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,7 +231,7 @@
                                 </div>
                             </div>
                             <!-- Coluna direita: painéis por tab -->
-                            <div style="flex:1;padding:1.5rem 1.125rem;">
+                            <div style="flex:1;padding:1.5rem 1.125rem;min-height:380px;display:flex;flex-direction:column;">
                                 <!-- Painel: habilidade -->
                                 <div x-show="tab==='habilidade'">
                                     <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Trabalhos por habilidade</p>
@@ -300,7 +305,7 @@
                                     </div>
                                 </div>
                                 <!-- Footer links comuns -->
-                                <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:.75rem;display:flex;align-items:center;justify-content:space-between;">
+                                <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:.75rem;margin-top:auto;display:flex;align-items:center;justify-content:space-between;">
                                     <span style="font-size:.75rem;font-weight:600;color:#94a3b8;">Outros trabalhos populares</span>
                                     <a href="{{ route('public.projects') }}" style="font-size:.75rem;font-weight:700;color:#0099d6;text-decoration:none;display:flex;align-items:center;gap:.25rem;">Ver mais <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg></a>
                                 </div>

@@ -594,8 +594,8 @@ body{
 
 .hp-footer-bar { border-top: 1px solid rgba(255,255,255,.07); }
 .hp-footer-bar-inner { max-width: 1200px; margin: 0 auto; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-.hp-footer-bar-copy   { font-size: .8125rem; color: #475569; letter-spacing: -.005em; }
+.hp-footer-bar-copy   { font-size: .8125rem; color: #94a3b8; letter-spacing: -.005em; }
 .hp-footer-bar-links  { display: flex; gap: 1.5rem; }
-.hp-footer-bar-links a { color: #475569; text-decoration: none; font-size: .8125rem; font-weight: 400; transition: color .18s; }
-.hp-footer-bar-links a:hover { color: #94a3b8; }
+.hp-footer-bar-links a { color: #94a3b8; text-decoration: none; font-size: .8125rem; font-weight: 400; transition: color .18s; }
+.hp-footer-bar-links a:hover { color: #e2e8f0; }
 
