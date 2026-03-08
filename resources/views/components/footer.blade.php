@@ -56,12 +56,12 @@
         <div class="hp-footer-col">
             <h4>Empresa</h4>
             <ul>
-                <li><a href="#">Sobre nós</a></li>
-                <li><a href="#">Como funciona</a></li>
+                <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
+                <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
                 <li><a href="#">Programa de afiliados</a></li>
                 <li><a href="#">Termos de uso</a></li>
                 <li><a href="#">Política de privacidade</a></li>
-                <li><a href="#">Suporte</a></li>
+                <li><a href="{{ route('sobre.como-funciona') }}">Suporte</a></li>
             </ul>
         </div>
 

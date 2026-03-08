@@ -14,9 +14,9 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg py-2 z-50" style="text-align:left;">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por habilidade</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por localização</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por categoria</a>
+                        <a href="{{ route('freelancers.search') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por habilidade</a>
+                        <a href="{{ route('freelancers.search') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por localização</a>
+                        <a href="{{ route('freelancers.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Por categoria</a>
                     </div>
                 </div>
                 <div x-data="{open:false}" class="relative">
@@ -26,8 +26,8 @@
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg py-2 z-50" style="text-align:left;">
                         <a href="{{ route('public.projects') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Projetos</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Concursos</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Vagas</a>
+                        <a href="{{ route('public.projects') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Concursos</a>
+                        <a href="{{ route('freelancer.available-projects') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Vagas</a>
                     </div>
                 </div>
                 <div x-data="{open:false}" class="relative">
@@ -36,9 +36,9 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak class="absolute left-0 mt-2 w-56 bg-white rounded-lg py-2 z-50" style="text-align:left;">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Empresas</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Parceiros</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Ajuda</a>
+                        <a href="{{ route('sobre.investidores') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Empresas</a>
+                        <a href="{{ route('sobre.sobre-nos') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Parceiros</a>
+                        <a href="{{ route('sobre.como-funciona') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Ajuda</a>
                     </div>
                 </div>
             </nav>
