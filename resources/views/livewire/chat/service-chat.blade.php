@@ -121,11 +121,14 @@
                             const fd = new FormData();
                             fd.append('file', file);
                             try {
+                                const token = document.querySelector('meta[name=csrf-token]')?.content
+                                           || document.querySelector('[name=_token]')?.value
+                                           || '';
                                 const r = await fetch('/chat/upload-file', {
                                     method: 'POST',
                                     body: fd,
                                     headers: {
-                                        'X-CSRF-TOKEN': document.querySelector('[name=_token]').value,
+                                        'X-CSRF-TOKEN': token,
                                         'X-Requested-With': 'XMLHttpRequest'
                                     }
                                 });
@@ -136,23 +139,20 @@
                                 const d = await r.json();
                                 this.pendingFile = d.filename;
                                 this.pendingOriginal = d.original;
+                                await $wire.set('pendingAnexo', d.filename);
+                                await $wire.set('pendingAnexoOriginal', d.original);
                             } catch(e) {
                                 this.uploadError = e.message || 'Erro ao carregar ficheiro.';
                             } finally {
                                 this.uploading = false;
                                 event.target.value = '';
                             }
-                        },
-                        enviar() {
-                            if (this.uploading) return;
-                            $wire.enviarMensagem(this.pendingFile, this.pendingOriginal);
                         }
                     }"
                     @message-sent.window="pendingFile = null; pendingOriginal = null; uploadError = null"
-                    @submit.prevent="enviar()"
+                    wire:submit="enviarMensagem"
                     class="flex items-end gap-2">
 
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     {{-- Attach button --}}
                     <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
@@ -187,8 +187,10 @@
                     </div>
 
                     <button type="submit"
+                            wire:loading.attr="disabled"
+                            wire:target="enviarMensagem"
+                            wire:loading.class="opacity-50 cursor-not-allowed"
                             :disabled="uploading"
-                            :class="uploading ? 'opacity-50 cursor-not-allowed' : ''"
                             class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>

@@ -13,6 +13,8 @@ class ServiceChat extends Component
     public $mensagem = '';
     public $chat_bloqueado = true;
     public $messages = [];
+    public $pendingAnexo = null;
+    public $pendingAnexoOriginal = null;
 
     public function mount(Service $service)
     {
@@ -29,13 +31,13 @@ class ServiceChat extends Component
         $this->messages = $this->service->messages()->orderBy('created_at')->get()->all();
     }
 
-    public function enviarMensagem(?string $anexoFilename = null, ?string $anexoOriginal = null)
+    public function enviarMensagem()
     {
         if ($this->chat_bloqueado) return;
 
         $mensagem = trim($this->mensagem ?? '');
 
-        if ($mensagem === '' && !$anexoFilename) {
+        if ($mensagem === '' && !$this->pendingAnexo) {
             return;
         }
 
@@ -43,8 +45,8 @@ class ServiceChat extends Component
             $this->service->messages()->create([
                 'user_id'             => Auth::id(),
                 'conteudo'            => $mensagem,
-                'anexo'               => $anexoFilename ?: null,
-                'nome_original_anexo' => $anexoOriginal ?: null,
+                'anexo'               => $this->pendingAnexo ?: null,
+                'nome_original_anexo' => $this->pendingAnexoOriginal ?: null,
             ]);
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
@@ -53,7 +55,9 @@ class ServiceChat extends Component
         }
 
         \App\Models\ChatRead::markRead($this->service->id, Auth::id());
-        $this->mensagem = '';
+        $this->mensagem             = '';
+        $this->pendingAnexo         = null;
+        $this->pendingAnexoOriginal = null;
         $this->atualizarMensagens();
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
