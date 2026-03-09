@@ -137,7 +137,6 @@
                                 const d = await r.json();
                                 this.pendingFile = d.filename;
                                 this.pendingOriginal = d.original;
-                                this.$dispatch('upload-complete', { filename: d.filename, original: d.original });
                             } catch(e) {
                                 this.uploadError = e.message || 'Erro ao carregar ficheiro.';
                             } finally {
@@ -146,9 +145,8 @@
                             }
                         }
                     }"
-                    @upload-complete="$wire.set('pendingAnexo', $event.detail.filename); $wire.set('pendingAnexoOriginal', $event.detail.original)"
                     @message-sent.window="pendingFile = null; pendingOriginal = null; uploadError = null"
-                    wire:submit="enviarMensagem"
+                    @submit.prevent="if (!uploading) $wire.enviarMensagem(pendingFile, pendingOriginal)"
                     class="flex items-end gap-2">
 
 
@@ -185,10 +183,8 @@
                     </div>
 
                     <button type="submit"
-                            wire:loading.attr="disabled"
-                            wire:target="enviarMensagem"
-                            wire:loading.class="opacity-50 cursor-not-allowed"
                             :disabled="uploading"
+                            :class="uploading ? 'opacity-50 cursor-not-allowed' : ''"
                             class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
