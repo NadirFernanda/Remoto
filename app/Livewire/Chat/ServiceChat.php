@@ -60,11 +60,19 @@ class ServiceChat extends Component
         }
 
         try {
-            $this->service->messages()->create([
+            $msg = $this->service->messages()->create([
                 'user_id'             => Auth::id(),
                 'conteudo'            => $mensagem,
                 'anexo'               => $anexoFilename,
                 'nome_original_anexo' => $anexoOriginal,
+            ]);
+            Log::info('[CHAT DEBUG] Mensagem enviada', [
+                'id' => $msg->id,
+                'conteudo' => $msg->conteudo,
+                'anexo' => $msg->anexo,
+                'nome_original_anexo' => $msg->nome_original_anexo,
+                'user_id' => $msg->user_id,
+                'created_at' => $msg->created_at,
             ]);
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
