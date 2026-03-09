@@ -11,7 +11,6 @@
     <link rel="icon" href="{{ asset('img/logo.png') }}" sizes="any">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}">
