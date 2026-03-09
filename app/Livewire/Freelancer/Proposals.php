@@ -44,7 +44,7 @@ class Proposals extends Component
             $proposal->update(['service_id' => $service->id]);
         }
 
-        return $this->redirect(route('service.chat', $proposal->service_id), navigate: true);
+        return redirect()->route('service.chat', $proposal->service_id);
     }
 
     public function accept(int $proposalId): void
