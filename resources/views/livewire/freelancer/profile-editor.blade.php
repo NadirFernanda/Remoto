@@ -39,14 +39,7 @@
                         <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
                     @endif
                 </div>
-                <div>
-                    <button type="button" wire:click="savePhoto"
-                        wire:loading.attr="disabled"
-                        class="inline-flex items-center gap-1 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white text-sm font-semibold px-4 py-2 rounded-lg transition whitespace-nowrap">
-                        <span wire:loading.remove wire:target="savePhoto">💾 Guardar foto</span>
-                        <span wire:loading wire:target="savePhoto">A guardar…</span>
-                    </button>
-                </div>
+                {{-- Botão de guardar foto removido: upload e salvamento agora são automáticos ao selecionar a foto --}}
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

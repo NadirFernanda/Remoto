@@ -62,23 +62,7 @@ class ProfileEditor extends Component
         }
     }
 
-    public function savePhoto()
-    {
-        $this->validate(['profilePhoto' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:8192']);
-
-        $user = User::find(Auth::id());
-        if ($user->profile_photo) {
-            Storage::disk('public')->delete($user->profile_photo);
-        }
-        $ext  = $this->profilePhoto->getClientOriginalExtension();
-        $path = $this->profilePhoto->storeAs('avatars', Str::uuid() . '.' . $ext, 'public');
-        $user->profile_photo = $path;
-        $user->save();
-        $this->currentProfilePhoto = $path;
-        $this->profilePhoto = null;
-        $this->resetErrorBag('profilePhoto');
-        $this->photoMessage = 'Foto de perfil atualizada!';
-    }
+    // savePhoto removido: upload e salvamento agora são automáticos
 
     public function updatedProfilePhoto()
     {
