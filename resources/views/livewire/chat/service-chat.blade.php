@@ -29,11 +29,7 @@
             id="chat-messages"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
             x-data
-            x-init="
-                $el.scrollTop = $el.scrollHeight;
-                const _wire = $wire;
-                setInterval(function() { _wire.atualizarMensagens() }, 8000);
-            "
+            x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
             @forelse($messages as $msg)
@@ -199,4 +195,13 @@ window.addEventListener('livewire:update', function() {
     if (el) el.scrollTop = el.scrollHeight;
 });
 if (Notification && Notification.permission !== 'granted') Notification.requestPermission();
+
+// Polling seguro: usa Livewire.find() com o ID do componente renderizado pelo PHP
+document.addEventListener('livewire:initialized', function() {
+    const componentId = '{{ $this->getId() }}';
+    setInterval(function() {
+        const component = window.Livewire ? window.Livewire.find(componentId) : null;
+        if (component) component.call('atualizarMensagens');
+    }, 8000);
+});
 </script>
