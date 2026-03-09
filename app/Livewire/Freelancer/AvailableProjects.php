@@ -35,16 +35,26 @@ class AvailableProjects extends Component
         // Não altera status do serviço, apenas cadastra candidatura
         $service->save();
 
+        // Limite de 6 candidatos por projeto
+        if ($service->candidates()->count() >= 6) {
+            session()->flash('error', 'Este projeto já atingiu o limite de 6 candidatos.');
+            return redirect()->route('freelancer.dashboard');
+        }
+
         // Cria ou atualiza ServiceCandidate
         $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
         if (!$candidate) {
             $service->candidates()->create([
                 'freelancer_id' => $user->id,
                 'status' => 'pending',
+                'proposal_message' => $this->proposalMessage,
+                'proposal_value' => $this->proposalValue,
             ]);
         } elseif ($candidate->status === 'invited') {
             // Freelancer está aceitando um convite do cliente
             $candidate->status = 'pending';
+            $candidate->proposal_message = $this->proposalMessage;
+            $candidate->proposal_value = $this->proposalValue;
             $candidate->save();
         }
 
@@ -89,25 +99,29 @@ class AvailableProjects extends Component
             'proposalValue' => 'nullable|numeric|min:0',
         ]);
 
+
+        // Limite de 6 candidatos por projeto
+        if ($service->candidates()->count() >= 6) {
+            session()->flash('error', 'Este projeto já atingiu o limite de 6 candidatos.');
+            $this->proposalModal = false;
+            return redirect()->route('freelancer.dashboard');
+        }
+
         // Cria candidatura com status de proposta, se ainda não existir
         $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
         if (!$candidate) {
             $service->candidates()->create([
                 'freelancer_id' => $user->id,
                 'status' => 'proposal_sent',
+                'proposal_message' => $this->proposalMessage,
+                'proposal_value' => $this->proposalValue,
             ]);
         } else {
             $candidate->status = 'proposal_sent';
+            $candidate->proposal_message = $this->proposalMessage;
+            $candidate->proposal_value = $this->proposalValue;
             $candidate->save();
         }
-
-        // Log da proposta (conteúdo armazenado em log — alterar para persistência se desejar)
-        \Log::info('Proposta enviada', [
-            'service_id' => $service->id,
-            'freelancer_id' => $user->id,
-            'message' => $this->proposalMessage,
-            'value' => $this->proposalValue,
-        ]);
 
         session()->flash('success', 'Proposta enviada com sucesso!');
         $this->proposalModal = false;
