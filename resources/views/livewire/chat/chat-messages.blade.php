@@ -1,5 +1,6 @@
 <div
     id="chat-messages"
+    wire:poll.8s
     class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50 h-full"
     x-data
     x-init="$el.scrollTop = $el.scrollHeight"

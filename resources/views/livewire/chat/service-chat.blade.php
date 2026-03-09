@@ -24,8 +24,10 @@
             @endif
         </div>
 
-        {{-- Messages area: sub-componente separado com wire:poll para não interferir com uploads --}}
-        <livewire:chat.chat-messages :service="$service" wire:poll.8s />
+        {{-- Messages area: wire:ignore impede ServiceChat de tentar re-inicializar ChatMessages durante morph de upload --}}
+        <div wire:ignore class="flex-1 overflow-hidden">
+            <livewire:chat.chat-messages :service="$service" />
+        </div>
 
         @error('mensagem') <div class="px-4 py-1 text-xs text-red-500 bg-red-50">{{ $message }}</div> @enderror
 
