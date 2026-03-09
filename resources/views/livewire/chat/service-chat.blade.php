@@ -27,15 +27,20 @@
         {{-- Messages area --}}
         <div
             id="chat-messages"
-            wire:poll.8000ms="atualizarMensagens"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
             x-data
-            x-init="$el.scrollTop = $el.scrollHeight"
+            x-init="
+                $el.scrollTop = $el.scrollHeight;
+                const _wire = $wire;
+                setInterval(function() { _wire.atualizarMensagens() }, 8000);
+            "
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
             @forelse($messages as $msg)
                 @php
                     $isMine = $msg->user_id === auth()->id();
+                @endphp
+                @php
                     $name = $msg->user->name ?? 'Utilizador';
                     $avatar = $msg->user ? $msg->user->avatarUrl() : asset('img/default-avatar.svg');
                     $ext = $msg->anexo ? strtolower(pathinfo($msg->anexo, PATHINFO_EXTENSION)) : null;
@@ -44,7 +49,7 @@
                     $displayName = $msg->nome_original_anexo ?? $msg->anexo;
                 @endphp
                 @if($msg->conteudo || $msg->anexo)
-                <div class="flex items-end gap-2 {{ $isMine ? 'justify-end' : 'justify-start' }}">
+                <div wire:key="msg-{{ $msg->id }}" class="flex items-end gap-2 {{ $isMine ? 'justify-end' : 'justify-start' }}">
                     @if(!$isMine)
                         <img src="{{ $avatar }}" alt="{{ $name }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">
                     @endif
@@ -99,7 +104,7 @@
         @error('mensagem') <div class="px-4 py-1 text-xs text-red-500 bg-red-50">{{ $message }}</div> @enderror
 
         {{-- Input bar --}}
-        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3" wire:ignore>
+        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3">
             @if($chat_bloqueado)
                 <div class="flex items-center justify-center gap-2 py-2 text-slate-400 text-sm">
                     &#128274; Chat disponivel apos aceitacao do servico
