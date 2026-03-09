@@ -28,10 +28,17 @@
         <div
             id="chat-messages"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
-            x-data
+            x-data="{ polling: null }"
             x-init="
                 $el.scrollTop = $el.scrollHeight;
-                setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
+                this.polling = setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
+                $watch(() => $wire.chatFile, (val) => {
+                    if (val) {
+                        if (this.polling) { clearInterval(this.polling); this.polling = null; }
+                    } else {
+                        if (!this.polling) this.polling = setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
+                    }
+                });
             "
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
