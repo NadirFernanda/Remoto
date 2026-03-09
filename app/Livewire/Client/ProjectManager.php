@@ -10,6 +10,8 @@ use App\Models\Milestone;
 use App\Models\ServiceAttachment;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\WalletLog;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 
@@ -134,10 +136,33 @@ class ProjectManager extends Component
         // Rejeita os outros
         $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
 
+        // Se o freelancer propôs um valor, usar esse como valor final do serviço
+        if ($candidate->proposal_value && $candidate->proposal_value > 0) {
+            $service->valor         = (float) $candidate->proposal_value;
+            $service->taxa          = 10.0;
+            $service->valor_liquido = round($candidate->proposal_value * 0.90, 2);
+        }
+
         // Atualiza o projeto
         $service->freelancer_id = $freelancerId;
         $service->status = 'in_progress';
         $service->save();
+
+        // Registar retenção em escrow na carteira do cliente
+        if ($service->valor && $service->valor > 0) {
+            $clientWallet = Wallet::firstOrCreate(
+                ['user_id' => auth()->id()],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            $clientWallet->increment('saldo_pendente', $service->valor);
+            WalletLog::create([
+                'user_id'   => auth()->id(),
+                'wallet_id' => $clientWallet->id,
+                'valor'     => -$service->valor,
+                'tipo'      => 'escrow_retido',
+                'descricao' => 'Pagamento retido em escrow para o projeto: ' . $service->titulo,
+            ]);
+        }
 
         // Notifica o freelancer escolhido
         Notification::create([
@@ -204,14 +229,43 @@ class ProjectManager extends Component
             'payment_released_at'  => now(),
         ]);
 
-        \App\Models\Notification::create([
+        // Creditar valor líquido na carteira do freelancer
+        if ($service->valor_liquido && $service->valor_liquido > 0) {
+            $freelancerWallet = Wallet::firstOrCreate(
+                ['user_id' => $service->freelancer_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            $freelancerWallet->increment('saldo', $service->valor_liquido);
+            WalletLog::create([
+                'user_id'   => $service->freelancer_id,
+                'wallet_id' => $freelancerWallet->id,
+                'valor'     => $service->valor_liquido,
+                'tipo'      => 'pagamento_projeto',
+                'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
+            ]);
+
+            // Libertar o escrow na carteira do cliente
+            $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
+            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                $clientWallet->decrement('saldo_pendente', $service->valor);
+                WalletLog::create([
+                    'user_id'   => $service->cliente_id,
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => 0,
+                    'tipo'      => 'escrow_liberado',
+                    'descricao' => 'Escrow liberado após aprovação do projeto: ' . $service->titulo,
+                ]);
+            }
+        }
+
+        Notification::create([
             'user_id'    => $service->freelancer_id,
             'service_id' => $service->id,
             'type'       => 'delivery_approved',
-            'message'    => 'O cliente aprovou sua entrega no projeto "' . $service->titulo . '".',
+            'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
         ]);
 
-        session()->flash('success', 'Entrega aprovada. Pagamento liberado para o freelancer.');
+        session()->flash('success', 'Entrega aprovada. ' . number_format($service->valor_liquido, 2, ',', '.') . ' Kz creditados na carteira do freelancer.');
     }
 
     public function requestRevision(int $serviceId): void
