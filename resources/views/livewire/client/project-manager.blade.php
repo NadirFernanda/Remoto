@@ -124,7 +124,7 @@
                 $doneMilestones  = $selected->milestones->where('completed', true)->count();
                 $totalMilestones = $selected->milestones->count();
             @endphp
-            <div class="flex-1 min-w-0 space-y-4" x-data="{ tab: 'milestones' }">
+            <div class="flex-1 min-w-0 space-y-4" x-data="{ tab: '{{ in_array($selected->status, ['published','accepted']) ? 'proposals' : 'milestones' }}' }">
 
                 {{-- Back on mobile --}}
                 <button wire:click="$set('selectedServiceId', null)" class="lg:hidden btn-outline text-xs flex items-center gap-1">
@@ -245,10 +245,20 @@
 
                 {{-- Tab navigation --}}
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="flex border-b border-gray-100">
+                    <div class="flex border-b border-gray-100 overflow-x-auto">
+                        @if(in_array($selected->status, ['published', 'accepted']))
+                        <button @click="tab = 'proposals'"
+                            :class="tab === 'proposals' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            class="px-5 py-3 text-sm transition whitespace-nowrap">
+                            Propostas
+                            @if($candidates->count() > 0)
+                                <span class="ml-1 text-xs px-1.5 py-0.5 rounded-full bg-[#00baff]/10 text-[#00baff]">{{ $candidates->whereIn('status', ['pending','proposal_sent','invited'])->count() }}</span>
+                            @endif
+                        </button>
+                        @endif
                         <button @click="tab = 'milestones'"
                             :class="tab === 'milestones' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
-                            class="px-5 py-3 text-sm transition">
+                            class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Marcos
                             @if($totalMilestones > 0)
                                 <span class="ml-1 text-xs text-gray-400">({{ $doneMilestones }}/{{ $totalMilestones }})</span>
@@ -256,7 +266,7 @@
                         </button>
                         <button @click="tab = 'attachments'"
                             :class="tab === 'attachments' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
-                            class="px-5 py-3 text-sm transition">
+                            class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Anexos
                             @if($selected->attachments->count() > 0)
                                 <span class="ml-1 text-xs text-gray-400">({{ $selected->attachments->count() }})</span>
@@ -264,10 +274,109 @@
                         </button>
                         <button @click="tab = 'briefing'"
                             :class="tab === 'briefing' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
-                            class="px-5 py-3 text-sm transition">
+                            class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Briefing
                         </button>
                     </div>
+
+                    {{-- ─── PROPOSTAS TAB ───────────────────────── --}}
+                    @if(in_array($selected->status, ['published', 'accepted']))
+                    <div x-show="tab === 'proposals'" class="p-5 space-y-4">
+
+                        @if($candidates->isEmpty())
+                            <div class="text-center py-8">
+                                <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                                </svg>
+                                <p class="text-sm text-gray-400">Ainda não há propostas para este projeto.</p>
+                                <a href="{{ route('client.matching', $selected->id) }}" class="btn-primary mt-3 text-xs inline-flex">Sugerir Freelancers</a>
+                            </div>
+                        @else
+                            <p class="text-xs text-gray-500">{{ $candidates->whereIn('status', ['pending','proposal_sent','invited'])->count() }} proposta(s) recebida(s) · máx. 6</p>
+
+                            <div class="space-y-3">
+                                @foreach($candidates as $candidate)
+                                    @php
+                                        $fl = $candidate->freelancer;
+                                        $fp = $fl?->freelancerProfile;
+                                        $isPending = in_array($candidate->status, ['pending', 'proposal_sent', 'invited']);
+                                        $statusBadge = match($candidate->status) {
+                                            'pending'       => ['Candidatura', 'bg-blue-100 text-blue-700'],
+                                            'proposal_sent' => ['Proposta', 'bg-indigo-100 text-indigo-700'],
+                                            'invited'       => ['Convidado', 'bg-yellow-100 text-yellow-700'],
+                                            'chosen'        => ['Escolhido', 'bg-green-100 text-green-700'],
+                                            'rejected'      => ['Rejeitado', 'bg-red-100 text-red-500'],
+                                            default         => [$candidate->status, 'bg-gray-100 text-gray-500'],
+                                        };
+                                    @endphp
+                                    <div class="rounded-2xl border {{ $isPending ? 'border-gray-200' : 'border-gray-100 opacity-60' }} p-4 space-y-3">
+                                        {{-- Cabeçalho do candidato --}}
+                                        <div class="flex items-center justify-between gap-3">
+                                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                                <a href="{{ route('freelancer.show', $fl->id) }}" target="_blank">
+                                                    <img src="{{ $fl->avatarUrl() }}" alt="{{ $fl->name }}"
+                                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-[#00baff]/20 flex-shrink-0">
+                                                </a>
+                                                <div class="min-w-0">
+                                                    <a href="{{ route('freelancer.show', $fl->id) }}" target="_blank"
+                                                        class="text-sm font-semibold text-gray-900 hover:text-[#00baff] truncate block">
+                                                        {{ $fl->name }}
+                                                    </a>
+                                                    @if($fp?->headline)
+                                                        <p class="text-xs text-gray-400 truncate">{{ $fp->headline }}</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            <span class="text-xs px-2.5 py-1 rounded-full font-medium flex-shrink-0 {{ $statusBadge[1] }}">
+                                                {{ $statusBadge[0] }}
+                                            </span>
+                                        </div>
+
+                                        {{-- Valor proposto --}}
+                                        @if($candidate->proposal_value)
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-xs text-gray-500">Valor proposto:</span>
+                                                <span class="text-sm font-bold text-[#00baff]">{{ number_format($candidate->proposal_value, 2) }} Kz</span>
+                                            </div>
+                                        @endif
+
+                                        {{-- Mensagem da proposta --}}
+                                        @if($candidate->proposal_message)
+                                            <div class="bg-gray-50 rounded-[10px] border border-gray-100 p-3">
+                                                <p class="text-xs text-gray-500 font-medium mb-1">Mensagem:</p>
+                                                <p class="text-sm text-gray-700 leading-relaxed">{{ $candidate->proposal_message }}</p>
+                                            </div>
+                                        @endif
+
+                                        {{-- Botões de ação (apenas para candidatos pendentes) --}}
+                                        @if($isPending)
+                                            <div class="flex gap-2 pt-1">
+                                                <button
+                                                    wire:click="escolherFreelancer({{ $selected->id }}, {{ $fl->id }})"
+                                                    wire:confirm="Confirma a escolha de {{ $fl->name }} para este projeto? Os outros candidatos serão notificados."
+                                                    class="btn-primary text-xs flex-1 justify-center">
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                                    </svg>
+                                                    Aceitar
+                                                </button>
+                                                <button
+                                                    wire:click="rejeitarFreelancer({{ $selected->id }}, {{ $fl->id }})"
+                                                    wire:confirm="Rejeitar a proposta de {{ $fl->name }}?"
+                                                    class="btn-outline text-xs flex-1 justify-center text-red-500 border-red-200 hover:bg-red-50">
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                                    </svg>
+                                                    Rejeitar
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    @endif
 
                     {{-- ─── MILESTONES TAB ──────────────────────── --}}
                     <div x-show="tab === 'milestones'" class="p-5 space-y-4">

@@ -5,9 +5,13 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
+use App\Models\ServiceCandidate;
 use App\Models\Milestone;
 use App\Models\ServiceAttachment;
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectManager extends Component
 {
@@ -107,6 +111,83 @@ class ProjectManager extends Component
         session()->flash('success', 'Ficheiro removido.');
     }
 
+    // ─── Proposals / Candidates ─────────────────────────────
+    public function escolherFreelancer(int $serviceId, int $freelancerId): void
+    {
+        $service = Service::where('id', $serviceId)->where('cliente_id', auth()->id())->firstOrFail();
+
+        if ($service->status !== 'published') {
+            session()->flash('error', 'Só é possível escolher freelancer para projetos publicados.');
+            return;
+        }
+
+        $candidate = $service->candidates()->where('freelancer_id', $freelancerId)->first();
+        if (!$candidate || !in_array($candidate->status, ['pending', 'proposal_sent', 'invited'])) {
+            session()->flash('error', 'Candidato inválido ou já processado.');
+            return;
+        }
+
+        // Escolhe o candidato
+        $candidate->status = 'chosen';
+        $candidate->save();
+
+        // Rejeita os outros
+        $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
+
+        // Atualiza o projeto
+        $service->freelancer_id = $freelancerId;
+        $service->status = 'in_progress';
+        $service->save();
+
+        // Notifica o freelancer escolhido
+        Notification::create([
+            'user_id'    => $freelancerId,
+            'service_id' => $service->id,
+            'type'       => 'service_chosen',
+            'title'      => 'Selecionado para projeto',
+            'message'    => 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '".',
+        ]);
+
+        // Notifica os rejeitados
+        $rejeitados = $service->candidates()->where('status', 'rejected')->get();
+        foreach ($rejeitados as $rej) {
+            Notification::create([
+                'user_id'    => $rej->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'service_rejected',
+                'title'      => 'Proposta não selecionada',
+                'message'    => 'Infelizmente não foi selecionado para o projeto "' . $service->titulo . '".',
+            ]);
+        }
+
+        session()->flash('success', 'Freelancer escolhido! O projeto foi atualizado e todos os candidatos foram notificados.');
+        $this->selectedServiceId = $service->id;
+    }
+
+    public function rejeitarFreelancer(int $serviceId, int $freelancerId): void
+    {
+        $service = Service::where('id', $serviceId)->where('cliente_id', auth()->id())->firstOrFail();
+
+        $candidate = $service->candidates()->where('freelancer_id', $freelancerId)->first();
+        if (!$candidate) {
+            session()->flash('error', 'Candidato não encontrado.');
+            return;
+        }
+
+        $candidate->status = 'rejected';
+        $candidate->save();
+
+        Notification::create([
+            'user_id'    => $freelancerId,
+            'service_id' => $service->id,
+            'type'       => 'service_rejected',
+            'title'      => 'Proposta rejeitada',
+            'message'    => 'A sua proposta para o projeto "' . $service->titulo . '" foi rejeitada.',
+        ]);
+
+        session()->flash('success', 'Candidato rejeitado e notificado.');
+    }
+
     // ─── Delivery approval ─────────────────────────────────
     public function approveDelivery(int $serviceId): void
     {
@@ -202,8 +283,12 @@ class ProjectManager extends Component
             ? $projects->firstWhere('id', $this->selectedServiceId)
             : null;
 
+        $candidates = $selected
+            ? $selected->candidates()->with('freelancer.freelancerProfile')->whereIn('status', ['pending', 'proposal_sent', 'invited', 'rejected'])->orderByDesc('created_at')->get()
+            : collect();
+
         return view('livewire.client.project-manager', compact(
-            'projects', 'selected', 'statusLabels', 'pipeline'
+            'projects', 'selected', 'statusLabels', 'pipeline', 'candidates'
         ))->layout('layouts.livewire');
     }
 }
