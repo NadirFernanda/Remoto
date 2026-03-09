@@ -54,7 +54,8 @@ class ServiceChat extends Component
             $filename = time() . '_' . $safe;
             $this->chatFile->storeAs('anexos', $filename, 'public');
             $anexoFilename = $filename;
-            $anexoOriginal = $original;
+            // Sempre salva o nome original, mesmo para PDF e outros tipos
+            $anexoOriginal = $original ?: $filename;
             $this->chatFile = null;
         }
 
