@@ -31,7 +31,7 @@
             x-data
             x-init="
                 $el.scrollTop = $el.scrollHeight;
-                setInterval(() => { if (!$wire.anexo) $wire.atualizarMensagens() }, 8000);
+                setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
             "
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
@@ -107,67 +107,34 @@
                     &#128274; Chat disponivel apos aceitacao do servico
                 </div>
             @else
-                <form
-                    x-data="{
-                        pendingFile: null,
-                        pendingOriginal: null,
-                        uploading: false,
-                        uploadError: null,
-                        async upload(event) {
-                            const file = event.target.files[0];
-                            if (!file) return;
-                            this.uploading = true;
-                            this.uploadError = null;
-                            const fd = new FormData();
-                            fd.append('file', file);
-                            try {
-                                const token = document.querySelector('meta[name=csrf-token]')?.content || '';
-                                const r = await fetch('/chat/upload-file', {
-                                    method: 'POST',
-                                    body: fd,
-                                    headers: {
-                                        'X-CSRF-TOKEN': token,
-                                        'X-Requested-With': 'XMLHttpRequest'
-                                    }
-                                });
-                                if (!r.ok) {
-                                    const err = await r.json().catch(() => ({}));
-                                    throw new Error(err.error || 'Erro ao carregar');
-                                }
-                                const d = await r.json();
-                                this.pendingFile = d.filename;
-                                this.pendingOriginal = d.original;
-                            } catch(e) {
-                                this.uploadError = e.message || 'Erro ao carregar ficheiro.';
-                            } finally {
-                                this.uploading = false;
-                                event.target.value = '';
-                            }
-                        }
-                    }"
-                    @message-sent.window="pendingFile = null; pendingOriginal = null; uploadError = null"
-                    @submit.prevent="if (!uploading) $wire.enviarMensagem(pendingFile, pendingOriginal)"
-                    class="flex items-end gap-2">
+                <form wire:submit="enviarMensagem" class="flex items-end gap-2">
 
-
-                    {{-- Attach button --}}
+                    {{-- Attach button - Livewire WithFileUploads (igual ao portfolio/foto de perfil) --}}
                     <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
                         <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
-                            <svg x-show="pendingFile" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                            <svg x-show="!pendingFile" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            @if($chatFile)
+                                <svg class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            @else
+                                <svg class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            @endif
                         </div>
-                        <input type="file" @change="upload($event)" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+                        <input type="file" wire:model="chatFile" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
                     </label>
 
-                    {{-- File preview badge --}}
-                    <div x-show="pendingFile" class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
-                        <span>&#128204;</span>
-                        <span class="truncate" x-text="pendingOriginal"></span>
-                    </div>
+                    {{-- Upload progress via Livewire --}}
+                    <div wire:loading wire:target="chatFile" class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
 
-                    {{-- Upload progress --}}
-                    <div x-show="uploading" class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
-                    <div x-show="uploadError" x-text="uploadError" class="text-xs text-red-500 flex-shrink-0 max-w-[140px] truncate"></div>
+                    {{-- File preview badge (renderizado pelo servidor após upload) --}}
+                    @if($chatFile)
+                        <div class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
+                            <span>&#128204;</span>
+                            <span class="truncate">{{ $chatFile->getClientOriginalName() }}</span>
+                        </div>
+                    @endif
+
+                    @error('chatFile')
+                        <div class="text-xs text-red-500 flex-shrink-0 max-w-[140px] truncate">{{ $message }}</div>
+                    @enderror
 
                     <div class="flex-1 relative">
                         <input type="text"
@@ -183,8 +150,6 @@
                     </div>
 
                     <button type="submit"
-                            :disabled="uploading"
-                            :class="uploading ? 'opacity-50 cursor-not-allowed' : ''"
                             class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>

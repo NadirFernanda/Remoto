@@ -3,14 +3,18 @@
 namespace App\Livewire\Chat;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ServiceChat extends Component
 {
+    use WithFileUploads;
+
     public Service $service;
     public $mensagem = '';
+    public $chatFile = null;
     public $chat_bloqueado = true;
     public $messages = [];
 
@@ -30,22 +34,36 @@ class ServiceChat extends Component
         $this->messages = $this->service->messages()->orderBy('created_at')->get()->all();
     }
 
-    public function enviarMensagem(?string $anexoFilename = null, ?string $anexoOriginal = null)
+    public function enviarMensagem()
     {
         if ($this->chat_bloqueado) return;
 
         $mensagem = trim($this->mensagem ?? '');
 
-        if ($mensagem === '' && !$anexoFilename) {
+        if ($mensagem === '' && !$this->chatFile) {
             return;
+        }
+
+        $anexoFilename = null;
+        $anexoOriginal = null;
+
+        if ($this->chatFile) {
+            $this->validate(['chatFile' => 'nullable|file|max:20480']);
+            $original = $this->chatFile->getClientOriginalName();
+            $safe     = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
+            $filename = time() . '_' . $safe;
+            $this->chatFile->storeAs('anexos', $filename, 'public');
+            $anexoFilename = $filename;
+            $anexoOriginal = $original;
+            $this->chatFile = null;
         }
 
         try {
             $this->service->messages()->create([
                 'user_id'             => Auth::id(),
                 'conteudo'            => $mensagem,
-                'anexo'               => $anexoFilename ?: null,
-                'nome_original_anexo' => $anexoOriginal ?: null,
+                'anexo'               => $anexoFilename,
+                'nome_original_anexo' => $anexoOriginal,
             ]);
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
