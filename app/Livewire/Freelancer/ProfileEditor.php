@@ -10,8 +10,6 @@ use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
 
 class ProfileEditor extends Component
 {
@@ -75,12 +73,8 @@ class ProfileEditor extends Component
         if ($user->profile_photo) {
             Storage::disk('public')->delete($user->profile_photo);
         }
-        $manager = new ImageManager(new Driver());
-        $jpeg = $manager->read($this->profilePhoto->getRealPath())
-            ->cover(400, 400)
-            ->toJpeg(quality: 80);
-        $path = 'avatars/' . Str::uuid() . '.jpg';
-        Storage::disk('public')->put($path, $jpeg);
+        $ext = $this->profilePhoto->getClientOriginalExtension();
+        $path = $this->profilePhoto->storeAs('avatars', Str::uuid() . '.' . $ext, 'public');
         $user->profile_photo = $path;
         $user->save();
         $this->currentProfilePhoto = $path;
