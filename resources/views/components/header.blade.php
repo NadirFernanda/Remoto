@@ -7,7 +7,7 @@
                 <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="site-logo">
             </a>
 
-            <nav class="nav-desktop" style="display:flex;align-items:center;gap:0.25rem;margin-left:0;">
+            <nav class="nav-desktop" style="align-items:center;gap:0.25rem;margin-left:0;">
                 {{-- ============================================================ --}}
                 {{-- DROPDOWN 1: CONTRATAR --}}
                 {{-- Comportamento: hover no item esquerdo troca painel direito --}}
