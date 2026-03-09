@@ -21,6 +21,32 @@ class Proposals extends Component
         $this->resetPage();
     }
 
+    public function openChat(int $proposalId): mixed
+    {
+        $user     = Auth::user();
+        $proposal = Proposal::where('id', $proposalId)
+            ->where('recipient_id', $user->id)
+            ->firstOrFail();
+
+        if (!$proposal->service_id) {
+            // Proposta antiga sem Service — criar agora em modo negociação
+            $service = Service::create([
+                'cliente_id'    => $proposal->sender_id,
+                'freelancer_id' => $user->id,
+                'titulo'        => $proposal->title ?? 'Projecto via proposta',
+                'briefing'      => $proposal->message,
+                'service_type'  => 'direct_invite',
+                'valor'         => $proposal->value ?? 0,
+                'taxa'          => $proposal->fee   ?? 0,
+                'valor_liquido' => $proposal->net   ?? 0,
+                'status'        => 'negotiating',
+            ]);
+            $proposal->update(['service_id' => $service->id]);
+        }
+
+        return $this->redirect(route('service.chat', $proposal->service_id), navigate: true);
+    }
+
     public function accept(int $proposalId): void
     {
         $user     = Auth::user();
