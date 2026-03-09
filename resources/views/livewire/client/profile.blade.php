@@ -11,19 +11,26 @@
     {{-- Foto de perfil --}}
     <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
         <label class="block text-gray-700 font-semibold mb-3">Foto de perfil</label>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 flex-wrap">
             <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border-2 border-gray-200">
                 <img id="cp-avatar-preview" class="w-full h-full object-cover"
-                     src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
+                     src="{{ $currentProfilePhoto ? asset('storage/' . $currentProfilePhoto) : asset('img/default-avatar.svg') }}"
+                     alt="Avatar">
             </div>
-            <div class="flex-1">
+            <div class="flex-1 min-w-0">
                 <input
                     type="file"
+                    id="cp-photo-input"
                     wire:model="profilePhoto"
                     accept="image/jpeg,image/png,image/webp,image/gif"
-                    class="block w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border file:border-[#00baff] file:bg-white file:text-[#00baff] file:font-medium file:cursor-pointer hover:file:bg-[#00baff]/5 cursor-pointer"
-                    onchange="if(this.files[0]){document.getElementById('cp-avatar-preview').src=URL.createObjectURL(this.files[0])}"
+                    class="sr-only"
+                    onchange="if(this.files[0]){document.getElementById('cp-avatar-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('cp-photo-name').textContent=this.files[0].name}"
                 >
+                <label for="cp-photo-input"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/5 cursor-pointer text-sm font-medium transition">
+                    📷 Escolher foto
+                </label>
+                <span id="cp-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro selecionado</span>
                 @error('profilePhoto') <div class="pub-field-error mt-1">{{ $message }}</div> @enderror
                 <p class="text-xs text-gray-400 mt-1">jpg, png ou webp · máx. 8 MB</p>
             </div>
