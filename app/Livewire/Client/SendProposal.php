@@ -40,25 +40,6 @@ class SendProposal extends Component
     #[On('openProposal')]
     public function openProposal($recipientId)
     {
-        $user = Auth::user();
-
-        // Guard: não pode convidar a si mesmo
-        if ($user && $user->id == $recipientId) {
-            session()->flash('error', 'Não pode enviar uma proposta para si mesmo.');
-            return;
-        }
-
-        // Guard: já existe proposta pendente para este freelancer
-        $exists = Proposal::where('sender_id', $user?->id)
-            ->where('recipient_id', $recipientId)
-            ->where('status', 'pending')
-            ->exists();
-
-        if ($exists) {
-            session()->flash('error', 'Já tem uma proposta pendente com este freelancer.');
-            return;
-        }
-
         $this->reset(['title', 'message', 'value', 'attachments']);
         $this->recipient_id = $recipientId;
         $this->show = true;
@@ -74,11 +55,28 @@ class SendProposal extends Component
         $user = Auth::user();
 
         if (!$user) {
-            session()->flash('error', 'Precisa estar autenticado para enviar proposta.');
-            return;
+            $this->close();
+            return redirect()->route('login');
         }
 
         $this->validate();
+
+        // Guard: não pode convidar a si mesmo
+        if ($user->id == $this->recipient_id) {
+            $this->addError('message', 'Não pode enviar uma proposta para si mesmo.');
+            return;
+        }
+
+        // Guard: já existe proposta pendente para este freelancer
+        $exists = Proposal::where('sender_id', $user->id)
+            ->where('recipient_id', $this->recipient_id)
+            ->where('status', 'pending')
+            ->exists();
+
+        if ($exists) {
+            $this->addError('message', 'Já tem uma proposta pendente com este freelancer.');
+            return;
+        }
 
         $fee = $this->value ? round($this->value * 0.10, 2) : 0;
         $net = $this->value ? round($this->value - $fee, 2) : 0;

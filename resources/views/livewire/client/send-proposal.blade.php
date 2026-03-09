@@ -108,7 +108,11 @@
 
                 {{-- Rodapé --}}
                 <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 flex-shrink-0 bg-gray-50 rounded-b-2xl">
-                    <p class="text-xs text-gray-400">O freelancer poderá aceitar ou recusar a proposta.</p>
+                    @error('message')
+                        <p class="text-xs text-red-600 font-medium">{{ $message }}</p>
+                    @else
+                        <p class="text-xs text-gray-400">O freelancer poderá aceitar ou recusar a proposta.</p>
+                    @enderror
                     <div class="flex gap-3">
                         <button type="button" wire:click="close" class="btn-outline text-sm px-4 py-2">Cancelar</button>
                         <button type="button" wire:click="send"
