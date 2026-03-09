@@ -153,8 +153,13 @@
                     </button>
                 </form>
 
-                <div id="emoji-picker" style="display:none; position:absolute; bottom:80px; right:80px; z-index:1000;"></div>
+                <div id="emoji-picker" wire:ignore style="display:none; position:absolute; bottom:80px; right:80px; z-index:1000;"></div>
+
+                @assets
                 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
+                @endassets
+
+                @script
                 <script>
                 function toggleEmojiPicker() {
                     const picker = document.getElementById('emoji-picker');
@@ -177,10 +182,12 @@
                     }
                 });
                 </script>
+                @endscript
             @endif
         </div>
     </div>
 </div>
+@script
 <script>
 let lastMsgCount = document.querySelectorAll('#chat-messages > div').length;
 window.addEventListener('livewire:update', function() {
@@ -195,3 +202,4 @@ window.addEventListener('livewire:update', function() {
 });
 if (Notification && Notification.permission !== 'granted') Notification.requestPermission();
 </script>
+@endscript
