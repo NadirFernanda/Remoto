@@ -33,7 +33,10 @@
                     <div id="email-error" class="pub-field-error" style="display:none;"></div>
                 </div>
                 <div class="pub-field">
-                    <label for="login-password">Senha</label>
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
+                        <label for="login-password" style="margin-bottom:0;">Senha</label>
+                        <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#00baff;font-weight:600;text-decoration:none;">Esqueci a minha senha</a>
+                    </div>
                     <input type="password" name="password" id="login-password" class="pub-input" placeholder="••••••••" required>
                     <div id="password-error" class="pub-field-error" style="display:none;"></div>
                 </div>
