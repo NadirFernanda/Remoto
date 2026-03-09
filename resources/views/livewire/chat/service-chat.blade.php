@@ -30,7 +30,8 @@
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
             x-data
             x-init="$el.scrollTop = $el.scrollHeight"
-            wire:poll.8s="atualizarMensagens"
+            @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
+            wire:poll.{{ $anexo ? '999999' : '8' }}s="atualizarMensagens"
         >
             @forelse($messages as $msg)
                 @php
@@ -120,10 +121,11 @@
                     @if($anexo)
                         <div class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
                             <span>&#128204;</span>
-                            <span class="truncate">{{ $anexo->getClientOriginalName() }}</span>
+                            @php try { $__nomeAnexo = $anexo->getClientOriginalName(); } catch(\Throwable $e) { $__nomeAnexo = 'ficheiro'; } @endphp
+                            <span class="truncate">{{ $__nomeAnexo }}</span>
                         </div>
                     @endif
-                    <div wire:loading wire:target="anexo" class="text-xs text-[#0ea5e9] flex-shrink-0">A enviar...</div>
+                    <div wire:loading wire:target="anexo" class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
 
                     <div class="flex-1 relative">
                         <input type="text"
@@ -139,6 +141,9 @@
                     </div>
 
                     <button type="submit"
+                            wire:loading.attr="disabled"
+                            wire:target="anexo,enviarMensagem"
+                            wire:loading.class="opacity-50 cursor-not-allowed"
                             class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>

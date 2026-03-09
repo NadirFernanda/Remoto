@@ -35,29 +35,43 @@ class ServiceChat extends Component
     public function enviarMensagem()
     {
         if ($this->chat_bloqueado) return;
+
         $this->validate([
             'mensagem' => 'nullable|string|max:2000',
-            'anexo'    => 'nullable|file|max:51200', // 50MB
+            'anexo'    => 'nullable|file|max:51200',
         ]);
+
         if (empty(trim($this->mensagem ?? '')) && !$this->anexo) {
             return;
         }
-        $anexoPath   = null;
+
+        $anexoPath    = null;
         $nomeOriginal = null;
+
         if ($this->anexo) {
-            $nomeOriginal = $this->anexo->getClientOriginalName(); // antes do store()
-            $anexoPath    = $this->anexo->store('anexos', 'public');
+            try {
+                $nomeOriginal = $this->anexo->getClientOriginalName();
+                $anexoPath    = $this->anexo->storePublicly('anexos', 'public');
+                if (!$anexoPath) {
+                    $this->addError('anexo', 'Erro ao guardar o ficheiro. Tente novamente.');
+                    return;
+                }
+            } catch (\Throwable $e) {
+                $this->addError('anexo', 'Falhou o envio do ficheiro: ' . $e->getMessage());
+                return;
+            }
         }
+
         $this->service->messages()->create([
-            'user_id' => Auth::id(),
-            'conteudo' => $this->mensagem ?? '',
-            'anexo' => $anexoPath ? basename($anexoPath) : null,
+            'user_id'             => Auth::id(),
+            'conteudo'            => $this->mensagem ?? '',
+            'anexo'               => $anexoPath ? basename($anexoPath) : null,
             'nome_original_anexo' => $nomeOriginal,
         ]);
-        // atualiza leitura do remetente
+
         \App\Models\ChatRead::markRead($this->service->id, Auth::id());
         $this->mensagem = '';
-        $this->anexo = null;
+        $this->anexo    = null;
         $this->atualizarMensagens();
         $this->dispatch('scroll-bottom');
     }
