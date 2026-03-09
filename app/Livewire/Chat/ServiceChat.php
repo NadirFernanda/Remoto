@@ -80,7 +80,12 @@ class ServiceChat extends Component
 
     public function render()
     {
-        return view('livewire.chat.service-chat')->layout('layouts.livewire');
+        $messages = $this->service->messages()
+            ->with('user')
+            ->orderBy('created_at')
+            ->get();
+
+        return view('livewire.chat.service-chat', ['messages' => $messages])->layout('layouts.livewire');
     }
 }
 
