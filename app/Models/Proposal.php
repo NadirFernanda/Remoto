@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proposal extends Model
 {
     protected $fillable = [
-        'sender_id', 'recipient_id', 'message', 'value', 'fee', 'net', 'type', 'status'
+        'sender_id', 'recipient_id', 'title', 'message', 'value', 'fee', 'net', 'type', 'status'
     ];
 
     protected $casts = [

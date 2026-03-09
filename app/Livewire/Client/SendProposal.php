@@ -6,81 +6,122 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use App\Models\Proposal;
+use App\Models\Notification;
 use Auth;
 
 class SendProposal extends Component
 {
     use WithFileUploads;
-    public $show = false;
+
+    public $show        = false;
     public $recipient_id;
-    public $message;
+    public $title       = '';
+    public $message     = '';
     public $value;
     public $attachments = [];
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'recipient_id' => 'required|exists:users,id',
-            'message' => 'nullable|string|max:5000',
-            'value' => 'nullable|numeric|min:0',
-            'attachments' => 'nullable|array|max:5',
-            'attachments.*' => 'file|max:5120|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg,zip',
+            'title'        => 'required|string|max:120',
+            'message'      => 'required|string|max:5000',
+            'value'        => 'nullable|numeric|min:0',
+            'attachments'  => 'nullable|array|max:5',
+            'attachments.*'=> 'file|max:5120|mimes:pdf,doc,docx,xlsx,png,jpg,jpeg,zip',
         ];
     }
+
+    protected $messages = [
+        'title.required'   => 'Indique o título do projeto.',
+        'message.required' => 'Escreva uma mensagem para o freelancer.',
+    ];
 
     #[On('openProposal')]
     public function openProposal($recipientId)
     {
+        $user = Auth::user();
+
+        // Guard: não pode convidar a si mesmo
+        if ($user && $user->id == $recipientId) {
+            session()->flash('error', 'Não pode enviar uma proposta para si mesmo.');
+            return;
+        }
+
+        // Guard: já existe proposta pendente para este freelancer
+        $exists = Proposal::where('sender_id', $user?->id)
+            ->where('recipient_id', $recipientId)
+            ->where('status', 'pending')
+            ->exists();
+
+        if ($exists) {
+            session()->flash('error', 'Já tem uma proposta pendente com este freelancer.');
+            return;
+        }
+
+        $this->reset(['title', 'message', 'value', 'attachments']);
         $this->recipient_id = $recipientId;
         $this->show = true;
     }
 
     public function close()
     {
-        $this->reset(['show', 'recipient_id', 'message', 'value']);
+        $this->reset(['show', 'recipient_id', 'title', 'message', 'value', 'attachments']);
     }
 
     public function send()
     {
-        $this->validate();
         $user = Auth::user();
+
         if (!$user) {
             session()->flash('error', 'Precisa estar autenticado para enviar proposta.');
             return;
         }
 
+        $this->validate();
+
         $fee = $this->value ? round($this->value * 0.10, 2) : 0;
         $net = $this->value ? round($this->value - $fee, 2) : 0;
 
         $proposal = Proposal::create([
-            'sender_id' => $user->id,
+            'sender_id'    => $user->id,
             'recipient_id' => $this->recipient_id,
-            'message' => $this->message,
-            'value' => $this->value,
-            'fee' => $fee,
-            'net' => $net,
-            'type' => 'direct_invite',
-            'status' => 'pending',
+            'title'        => $this->title,
+            'message'      => $this->message,
+            'value'        => $this->value,
+            'fee'          => $fee,
+            'net'          => $net,
+            'type'         => 'direct_invite',
+            'status'       => 'pending',
         ]);
 
-        // Handle attachments
+        // Guardar anexos
         $stored = [];
-        if (!empty($this->attachments)) {
-            foreach ($this->attachments as $file) {
-                if (!$file) continue;
-                $path = $file->storePubliclyAs('proposals/'.$proposal->id, uniqid().'_'.preg_replace('/[^A-Za-z0-9_.-]/', '_', $file->getClientOriginalName()), 'public');
-                $stored[] = $path;
-            }
+        foreach ($this->attachments ?? [] as $file) {
+            if (!$file) continue;
+            $path = $file->storePubliclyAs(
+                'proposals/' . $proposal->id,
+                uniqid() . '_' . preg_replace('/[^A-Za-z0-9_.-]/', '_', $file->getClientOriginalName()),
+                'public'
+            );
+            $stored[] = $path;
         }
-
         if (!empty($stored)) {
             $proposal->attachments = $stored;
             $proposal->save();
         }
 
-        session()->flash('success', 'Proposta enviada com sucesso.');
+        // Notificar o freelancer
+        Notification::create([
+            'user_id' => $this->recipient_id,
+            'type'    => 'proposal_received',
+            'title'   => 'Nova proposta de cliente',
+            'message' => $user->name . ' enviou-lhe uma proposta: "' . $this->title . '"',
+        ]);
+
         $this->close();
         $this->dispatch('proposalSent');
+        session()->flash('success', 'Proposta enviada com sucesso! O freelancer será notificado.');
     }
 
     public function render()

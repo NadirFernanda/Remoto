@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
 
     // --- Freelancer routes ---
     Route::get('/freelancer/dashboard', \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
+    Route::get('/freelancer/propostas', \App\Livewire\Freelancer\Proposals::class)->name('freelancer.proposals');
     Route::get('/freelancer/notificacoes', \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
     Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
