@@ -115,7 +115,7 @@
                                 <svg class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                             @endif
                         </div>
-                        <input type="file" wire:model="chatFile" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+                        <input type="file" wire:model="chatFile" wire:loading.attr="disabled" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
                     </label>
 
                     {{-- Upload progress via Livewire --}}
@@ -146,7 +146,8 @@
                         </button>
                     </div>
 
-                    <button type="submit"
+                        <button type="submit"
+                            wire:loading.attr="disabled"
                             class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
