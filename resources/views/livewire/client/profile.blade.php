@@ -30,21 +30,43 @@
         </div>
     </div>
 
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Nome</label>
-        <input type="text" class="w-full border rounded px-3 py-2" value="{{ $user->name }}" readonly>
+    {{-- Dados pessoais editáveis --}}
+    <div class="pub-field">
+        <label for="cp-name">Nome</label>
+        <input type="text" id="cp-name" wire:model.defer="name" class="pub-input" placeholder="O seu nome completo">
+        @error('name') <div class="pub-field-error">{{ $message }}</div> @enderror
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">E-mail</label>
-        <input type="email" class="w-full border rounded px-3 py-2" value="{{ $user->email }}" readonly>
+    <div class="pub-field">
+        <label>E-mail</label>
+        <input type="email" class="pub-input" value="{{ $user->email }}" readonly style="opacity:.7;cursor:not-allowed;">
+        <div style="font-size:.75rem;color:#64748b;margin-top:.25rem;">O e-mail não pode ser alterado aqui.</div>
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Tipo de Conta</label>
-        <input type="text" class="w-full border rounded px-3 py-2" value="{{ ucfirst($user->role) }}" readonly>
+    <div class="pub-field">
+        <label>Tipo de Conta</label>
+        <input type="text" class="pub-input" value="{{ ucfirst($user->role) }}" readonly style="opacity:.7;cursor:not-allowed;">
     </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Áreas de interesse (ex.: Marketing, WordPress)</label>
-        <input type="text" wire:model.defer="interests_input" class="w-full border rounded px-3 py-2" placeholder="Adicione até 10 tags separadas por vírgula">
+    <div class="pub-field">
+        <label for="cp-phone">Telefone</label>
+        <input type="text" id="cp-phone" wire:model.defer="phone" class="pub-input" placeholder="+244 900 000 000">
+        @error('phone') <div class="pub-field-error">{{ $message }}</div> @enderror
+    </div>
+    <div class="pub-field">
+        <label for="cp-location">Localização</label>
+        <input type="text" id="cp-location" wire:model.defer="location" class="pub-input" placeholder="Ex.: Luanda, Angola">
+        @error('location') <div class="pub-field-error">{{ $message }}</div> @enderror
+    </div>
+    <div class="action-row mb-6" role="toolbar" aria-label="Guardar dados pessoais">
+        <button wire:click.prevent="saveProfile" class="btn-eq btn-primary" aria-label="Guardar perfil">
+            @include('components.icon', ['name' => 'save', 'class' => 'mr-2'])
+            <span>Guardar dados</span>
+        </button>
+    </div>
+
+    <hr class="my-6">
+
+    <div class="pub-field">
+        <label for="cp-interests">Áreas de interesse (ex.: Marketing, WordPress)</label>
+        <input type="text" id="cp-interests" wire:model.defer="interests_input" class="pub-input" placeholder="Adicione até 10 tags separadas por vírgula">
         <div class="text-xs text-gray-500 mt-1">Use tags separadas por vírgula. Isso ajuda freelancers a encontrar você.</div>
     </div>
     <div class="mb-4">

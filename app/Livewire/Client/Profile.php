@@ -20,6 +20,9 @@ class Profile extends Component
     public $interests_input;
     public $profilePhoto;
     public $currentProfilePhoto;
+    public $name;
+    public $phone;
+    public $location;
 
     public function mount()
     {
@@ -27,6 +30,28 @@ class Profile extends Component
         $profile = $this->user->profile;
         $this->interests_input = $profile && $profile->interests ? implode(', ', $profile->interests) : '';
         $this->currentProfilePhoto = $this->user->profile_photo;
+        $this->name     = $this->user->name;
+        $this->phone    = $this->user->phone;
+        $this->location = $this->user->location;
+    }
+
+    public function saveProfile()
+    {
+        $this->validate([
+            'name'     => 'required|string|max:120',
+            'phone'    => 'nullable|string|max:50',
+            'location' => 'nullable|string|max:255',
+        ]);
+
+        $user = \App\Models\User::find(Auth::id());
+        $user->update([
+            'name'     => $this->name,
+            'phone'    => $this->phone,
+            'location' => $this->location,
+        ]);
+
+        $this->user = $user;
+        session()->flash('success', 'Perfil atualizado com sucesso!');
     }
 
     public function updatedProfilePhoto()

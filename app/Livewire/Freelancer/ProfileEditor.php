@@ -7,8 +7,9 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\FreelancerProfile;
 use App\Models\Portfolio;
-use Auth;
-use Storage;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileEditor extends Component
 {
@@ -87,7 +88,7 @@ class ProfileEditor extends Component
     public function saveProfile()
     {
         $this->validate();
-        $user = Auth::user();
+        $user = User::find(Auth::id());
         // update user fields
         $user->update([
             'name' => $this->name,

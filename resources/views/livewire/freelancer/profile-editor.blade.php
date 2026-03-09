@@ -15,7 +15,7 @@
         </div>
     @endif
 
-    <form wire:submit.prevent="saveProfile">
+    <form wire:submit="saveProfile">
         {{-- User personal fields --}}
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Foto de perfil</label>
@@ -34,23 +34,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome</label>
-                <input type="text" wire:model.defer="name" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('name') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="name" id="pe-name" class="pub-input">
+                @error('name') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">E-mail</label>
-                <input type="email" wire:model.defer="email" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('email') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="email" wire:model.defer="email" id="pe-email" class="pub-input">
+                @error('email') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Telefone</label>
-                <input type="text" wire:model.defer="phone" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('phone') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="phone" class="pub-input">
+                @error('phone') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Localização</label>
-                <input type="text" wire:model.defer="location" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('location') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="location" class="pub-input">
+                @error('location') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
         </div>
 
@@ -58,30 +58,30 @@
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Título profissional</label>
-                <input type="text" wire:model.defer="headline" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('headline') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="headline" class="pub-input">
+                @error('headline') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Taxa por hora</label>
-                <input type="text" wire:model.defer="hourly_rate" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('hourly_rate') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="hourly_rate" class="pub-input">
+                @error('hourly_rate') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Moeda</label>
-                <input type="text" wire:model.defer="currency" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('currency') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="currency" class="pub-input">
+                @error('currency') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Disponibilidade</label>
-                <select wire:model.defer="availability_status" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
+                <select wire:model.defer="availability_status" class="pub-input">
                     <option value="available">Disponível</option>
                     <option value="busy">Ocupado</option>
                     <option value="unavailable">Indisponível</option>
                 </select>
-                @error('availability_status') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                @error('availability_status') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Verificação de identidade (KYC)</label>
@@ -100,20 +100,20 @@
 
         <div class="mt-4">
             <label class="block text-sm font-medium text-gray-700">Resumo / Bio profissional</label>
-            <textarea wire:model.defer="summary" rows="4" class="block w-full rounded-lg border border-gray-200 py-2 px-3"></textarea>
-            @error('summary') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+            <textarea wire:model.defer="summary" rows="4" class="pub-input"></textarea>
+            @error('summary') <div class="pub-field-error">{{ $message }}</div> @enderror
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Skills (vírgula separado)</label>
-                <input type="text" wire:model.defer="skills" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('skills') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="skills" class="pub-input">
+                @error('skills') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Idiomas (vírgula separado)</label>
-                <input type="text" wire:model.defer="languages" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('languages') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="text" wire:model.defer="languages" class="pub-input">
+                @error('languages') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
         </div>
 
@@ -121,18 +121,18 @@
         <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Projetos concluídos</label>
-                <input type="number" wire:model.defer="metrics_completed_projects" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('metrics_completed_projects') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="number" wire:model.defer="metrics_completed_projects" class="pub-input">
+                @error('metrics_completed_projects') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Avaliação média (0-5)</label>
-                <input type="number" step="0.1" wire:model.defer="metrics_rating" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('metrics_rating') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="number" step="0.1" wire:model.defer="metrics_rating" class="pub-input">
+                @error('metrics_rating') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Ganhos totais</label>
-                <input type="number" step="0.01" wire:model.defer="metrics_total_earnings" class="block w-full rounded-lg border border-gray-200 py-2 px-3">
-                @error('metrics_total_earnings') <span class="text-red-600 text-sm">{{ $message }}</span> @enderror
+                <input type="number" step="0.01" wire:model.defer="metrics_total_earnings" class="pub-input">
+                @error('metrics_total_earnings') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
         </div>
 

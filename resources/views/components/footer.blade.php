@@ -1,8 +1,8 @@
 <footer class="hp-footer">
 
     <div class="hp-footer-top">
-        <!-- Primeira linha: Marca ocupa as duas colunas -->
-        <div class="hp-footer-brand" style="grid-column: 1 / -1;">
+        <!-- Primeira linha: Marca -->
+        <div class="hp-footer-brand">
             <a href="/" class="hp-footer-brand-logo" aria-label="24 Horas">
                 <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="hp-footer-logo">
             </a>
