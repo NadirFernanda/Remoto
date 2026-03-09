@@ -76,6 +76,7 @@ class ProfileEditor extends Component
         $user->save();
         $this->currentProfilePhoto = $path;
         $this->profilePhoto = null;
+        $this->resetErrorBag('profilePhoto');
         $this->photoMessage = 'Foto de perfil atualizada!';
     }
 
