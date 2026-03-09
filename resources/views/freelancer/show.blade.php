@@ -30,7 +30,16 @@
                         <span style="font-weight:700;color:#00baff;">{{ number_format($user->freelancerProfile->hourly_rate,2) }} {{ $user->freelancerProfile->currency }}/h</span>
                     @endif
                     @if($user->freelancerProfile && $user->freelancerProfile->availability_status)
-                        <span>· {{ ucfirst($user->freelancerProfile->availability_status) }}</span>
+                        @php
+                            $statusMap = [
+                                'available'   => 'Disponível',
+                                'busy'        => 'Ocupado',
+                                'unavailable' => 'Indisponível',
+                                'vacation'    => 'Em férias',
+                            ];
+                            $statusLabel = $statusMap[$user->freelancerProfile->availability_status] ?? ucfirst($user->freelancerProfile->availability_status);
+                        @endphp
+                        <span>· {{ $statusLabel }}</span>
                     @endif
                 </div>
             </div>

@@ -91,6 +91,18 @@
             <path d="M21 21l-4.35-4.35"></path>
         </svg>
         @break
+    @case('flag')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+            <line x1="4" y1="22" x2="4" y2="15"></line>
+        </svg>
+        @break
+    @case('send')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        @break
     @default
         {{-- unknown icon --}}
 @endswitch
