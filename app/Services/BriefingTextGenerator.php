@@ -32,27 +32,57 @@ class BriefingTextGenerator
 
     public static function generate(array $data): string
     {
+        $title          = trim($data['title'] ?? '');
+        $businessType   = trim($data['business_type'] ?? '');
+        $necessity      = trim($data['necessity'] ?? '');
+        $targetAudience = trim($data['target_audience'] ?? '');
+        $style          = trim($data['style'] ?? '');
+        $deadline       = trim($data['deadline'] ?? '');
+        $budgetRange    = trim($data['budget_range'] ?? '');
+
+        // Clean and sanitize the core description
+        $necessity = self::corrigirOrtografia($necessity);
+        $necessity = self::filtrarOfensivas($necessity);
+        $necessity = ucfirst(rtrim($necessity, '.') . '.');
+
         $partes = [];
-        if (!empty($data['business_type'])) {
-            $partes[] = "Meu negócio é do tipo: {$data['business_type']}.";
+
+        // Introduction line referencing service category
+        if ($businessType) {
+            $partes[] = "Procuro um profissional em {$businessType} para o seguinte projeto:";
+        } else {
+            $partes[] = "Procuro um profissional freelancer para o seguinte projeto:";
         }
-        if (!empty($data['target_audience'])) {
-            $partes[] = "O público-alvo que desejo atingir é: {$data['target_audience']}.";
+
+        $partes[] = '';
+
+        // Core description — the main text the client wrote
+        $partes[] = $necessity;
+
+        // Extra structured details
+        $extras = [];
+        if ($targetAudience) {
+            $extras[] = "- Público-alvo: {$targetAudience}";
         }
-        if (!empty($data['style'])) {
-            $partes[] = "O estilo desejado para o projeto é: {$data['style']}.";
+        if ($style) {
+            $extras[] = "- Estilo / Referências: {$style}";
         }
-        if (!empty($data['colors'])) {
-            $partes[] = "Tenho preferência pelas cores: {$data['colors']}.";
+        if ($deadline) {
+            $extras[] = "- Prazo desejado: {$deadline}";
         }
-        if (!empty($data['usage'])) {
-            $partes[] = "O material/serviço será utilizado em: {$data['usage']}.";
+        if ($budgetRange) {
+            $extras[] = "- Orçamento estimado: {$budgetRange}";
         }
-        $texto = "Desejo um serviço/projeto profissional. ";
-        $texto .= implode(' ', $partes);
-        // Corrigir ortografia e filtrar palavras ofensivas
-        $texto = self::corrigirOrtografia($texto);
-        $texto = self::filtrarOfensivas($texto);
-        return trim($texto);
+
+        if (!empty($extras)) {
+            $partes[] = '';
+            $partes[] = "Informações adicionais:";
+            $partes   = array_merge($partes, $extras);
+        }
+
+        $partes[] = '';
+        $partes[] = "Freelancers interessados, por favor enviem proposta com portfólio relevante e estimativa de prazo.";
+
+        return trim(implode("\n", $partes));
     }
 }
