@@ -15,6 +15,7 @@ class Service extends Model
         'freelancer_id',
         'titulo',
         'briefing',
+        'delivery_message',
         'service_type',
         'valor',
         'taxa',

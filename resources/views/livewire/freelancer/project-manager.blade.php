@@ -41,7 +41,7 @@
                                 {{ ucfirst(str_replace('_', ' ', $project->status)) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">Kz {{ number_format($project->valor, 2, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Kz {{ number_format($project->valor_liquido ?? $project->valor * 0.9, 2, ',', '.') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $project->created_at->format('d/m/Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap flex flex-wrap gap-2">
                             <a href="{{ route('service.chat', ['service' => $project->id]) }}" class="px-2 py-1 bg-[#e0f7fa] text-[#00baff] rounded hover:bg-[#00baff] hover:text-white text-xs font-semibold" title="Chat">Chat</a>
