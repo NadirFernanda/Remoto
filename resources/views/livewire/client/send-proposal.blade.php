@@ -11,10 +11,7 @@
             <div class="absolute inset-0 bg-black/50" @click="$wire.close()"></div>
 
             {{-- Modal --}}
-            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col"
-                 x-transition:enter="transition ease-out duration-200"
-                 x-transition:enter-start="opacity-0 scale-95"
-                 x-transition:enter-end="opacity-100 scale-100">
+            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
 
                 {{-- Cabeçalho --}}
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
@@ -81,7 +78,7 @@
                                     if (/[^0-9\.,]/.test($el.value)) { showCharError = true; setTimeout(()=> showCharError = false, 1500); }
                                     v = v.replace(/,/g, '.'); const p = v.split('.');
                                     if (p.length > 2) v = p.shift() + '.' + p.join('');
-                                    $el.value = v; $el.dispatchEvent(new Event('input'));
+                                    $el.value = v;
                                 "
                                 @keydown="
                                     const allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
