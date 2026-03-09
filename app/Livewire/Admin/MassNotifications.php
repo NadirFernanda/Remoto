@@ -34,7 +34,7 @@ class MassNotifications extends Component
         if ($this->target === 'freelancers') {
             $query->where('role', 'freelancer');
         } elseif ($this->target === 'clients') {
-            $query->where('role', 'client');
+            $query->where('role', 'cliente');
         }
 
         $users = $query->get();

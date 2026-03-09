@@ -15,6 +15,7 @@ class Refund extends Model
         'reason',
         'details',
         'status',
+        'evidence_paths',
     ];
 
     public function service()

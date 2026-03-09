@@ -5,6 +5,7 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Service;
 use App\Models\Refund;
 
@@ -40,11 +41,11 @@ class RefundRequest extends Component
         ]);
 
         if ($this->evidence) {
+            $paths = [];
             foreach ($this->evidence as $file) {
-                $refund->addMedia($file->getRealPath())
-                    ->usingFileName($file->getClientOriginalName())
-                    ->toMediaCollection('evidence');
+                $paths[] = $file->store("refunds/{$refund->id}", 'public');
             }
+            $refund->update(['evidence_paths' => json_encode($paths)]);
         }
 
         session()->flash('success', 'Pedido de reembolso enviado para análise. Você será notificado sobre o andamento.');
