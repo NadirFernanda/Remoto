@@ -36,8 +36,8 @@ class ServiceChat extends Component
     {
         if ($this->chat_bloqueado) return;
         $this->validate([
-            'mensagem' => 'nullable|string|max:500',
-            'anexo' => 'nullable|file|max:10240', // 10MB
+            'mensagem' => 'nullable|string|max:2000',
+            'anexo'    => 'nullable|file|max:20480', // 20MB
         ]);
         if (empty(trim($this->mensagem ?? '')) && !$this->anexo) {
             return;
