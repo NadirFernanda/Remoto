@@ -6,6 +6,9 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Dispute;
 use App\Models\Service;
+use App\Models\Wallet;
+use App\Models\WalletLog;
+use App\Models\Notification;
 use App\Services\AuditLogger;
 
 class DisputeAdmin extends Component
@@ -105,13 +108,108 @@ class DisputeAdmin extends Component
             'payment_released_at' => now(),
         ]);
 
+        // Creditar carteira do freelancer
+        if ($service->valor_liquido && $service->freelancer_id) {
+            $freelancerWallet = Wallet::firstOrCreate(
+                ['user_id' => $service->freelancer_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            $freelancerWallet->increment('saldo', $service->valor_liquido);
+            WalletLog::create([
+                'user_id'   => $service->freelancer_id,
+                'wallet_id' => $freelancerWallet->id,
+                'valor'     => $service->valor_liquido,
+                'tipo'      => 'pagamento_projeto',
+                'descricao' => 'Pagamento liberado pelo admin (disputa resolvida): ' . $service->titulo,
+            ]);
+
+            // Libertar escrow do cliente
+            $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
+            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                $clientWallet->decrement('saldo_pendente', $service->valor);
+            }
+        }
+
+        Notification::create([
+            'user_id'    => $service->freelancer_id,
+            'service_id' => $service->id,
+            'type'       => 'payment_released',
+            'title'      => 'Pagamento liberado',
+            'message'    => 'O admin resolveu a disputa a seu favor. O pagamento de ' . number_format($service->valor_liquido, 0, ',', '.') . ' Kz foi creditado na sua carteira.',
+        ]);
+
+        Notification::create([
+            'user_id'    => $service->cliente_id,
+            'service_id' => $service->id,
+            'type'       => 'dispute_resolved',
+            'title'      => 'Disputa resolvida',
+            'message'    => 'A disputa no projecto "' . $service->titulo . '" foi resolvida. O pagamento foi liberado ao freelancer.',
+        ]);
+
         AuditLogger::log(
             'payment_released',
-            "Pagamento liberado pelo admin para o serviço #{$service->id} '{$service->titulo}'",
+            "Pagamento liberado pelo admin para '{$service->titulo}' — {$service->valor_liquido} Kz creditados ao freelancer",
             'Service', $service->id, $before, ['status' => 'completed', 'is_payment_released' => true]
         );
 
-        session()->flash('success', 'Pagamento liberado para o freelancer.');
+        session()->flash('success', 'Pagamento liberado e creditado na carteira do freelancer.');
+    }
+
+    public function reembolsarCliente(int $serviceId): void
+    {
+        $service = Service::findOrFail($serviceId);
+
+        if ($service->is_payment_released) {
+            session()->flash('error', 'O pagamento já foi liberado — não é possível reembolsar.');
+            return;
+        }
+
+        $before = ['status' => $service->status];
+
+        // Devolver escrow ao cliente
+        if ($service->valor && $service->cliente_id) {
+            $clientWallet = Wallet::firstOrCreate(
+                ['user_id' => $service->cliente_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            if ($clientWallet->saldo_pendente >= $service->valor) {
+                $clientWallet->decrement('saldo_pendente', $service->valor);
+            }
+            $clientWallet->increment('saldo', $service->valor);
+            WalletLog::create([
+                'user_id'   => $service->cliente_id,
+                'wallet_id' => $clientWallet->id,
+                'valor'     => $service->valor,
+                'tipo'      => 'reembolso_disputa',
+                'descricao' => 'Reembolso por decisão admin na disputa: ' . $service->titulo,
+            ]);
+        }
+
+        $service->update(['status' => 'cancelled']);
+
+        Notification::create([
+            'user_id'    => $service->cliente_id,
+            'service_id' => $service->id,
+            'type'       => 'refund_processed',
+            'title'      => 'Reembolso processado',
+            'message'    => 'A disputa no projecto "' . $service->titulo . '" foi resolvida a seu favor. ' . number_format($service->valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.',
+        ]);
+
+        Notification::create([
+            'user_id'    => $service->freelancer_id,
+            'service_id' => $service->id,
+            'type'       => 'dispute_resolved',
+            'title'      => 'Disputa resolvida',
+            'message'    => 'A disputa no projecto "' . $service->titulo . '" foi resolvida. O valor foi reembolsado ao cliente.',
+        ]);
+
+        AuditLogger::log(
+            'client_refunded',
+            "Reembolso de {$service->valor} Kz processado ao cliente '{$service->cliente->name}' na disputa do projecto '{$service->titulo}'",
+            'Service', $service->id, $before, ['status' => 'cancelled']
+        );
+
+        session()->flash('success', 'Cliente reembolsado. ' . number_format($service->valor, 0, ',', '.') . ' Kz creditados na sua carteira.');
     }
 
     public function render()

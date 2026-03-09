@@ -109,9 +109,14 @@
                                 ❄ Congelar
                             </button>
                             <button wire:click="releasePayment({{ $selected->service->id }})"
-                                wire:confirm="Liberar o pagamento ao freelancer e marcar como concluído?"
+                                wire:confirm="Liberar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
                                 class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition">
-                                ✓ Liberar pagamento
+                                ✓ Liberar → Freelancer
+                            </button>
+                            <button wire:click="reembolsarCliente({{ $selected->service->id }})"
+                                wire:confirm="Reembolsar o cliente? O escrow será devolvido à carteira do cliente e o projecto cancelado."
+                                class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition">
+                                ↩ Reembolsar → Cliente
                             </button>
                         @else
                             <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já liberado</span>
