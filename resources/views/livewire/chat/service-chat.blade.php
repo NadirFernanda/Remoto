@@ -113,7 +113,7 @@
     </div>
 </div>
 <script>
-let lastMsgCount = {{ count($messages) }};
+let lastMsgCount = document.querySelectorAll('#chat-messages > div').length;
 window.addEventListener('livewire:update', function() {
     const msgs = document.querySelectorAll('#chat-messages > div');
     if (msgs.length > lastMsgCount) {
