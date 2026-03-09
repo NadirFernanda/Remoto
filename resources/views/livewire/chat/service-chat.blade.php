@@ -121,9 +121,7 @@
                             const fd = new FormData();
                             fd.append('file', file);
                             try {
-                                const token = document.querySelector('meta[name=csrf-token]')?.content
-                                           || document.querySelector('[name=_token]')?.value
-                                           || '';
+                                const token = document.querySelector('meta[name=csrf-token]')?.content || '';
                                 const r = await fetch('/chat/upload-file', {
                                     method: 'POST',
                                     body: fd,
@@ -139,8 +137,7 @@
                                 const d = await r.json();
                                 this.pendingFile = d.filename;
                                 this.pendingOriginal = d.original;
-                                await $wire.set('pendingAnexo', d.filename);
-                                await $wire.set('pendingAnexoOriginal', d.original);
+                                this.$dispatch('upload-complete', { filename: d.filename, original: d.original });
                             } catch(e) {
                                 this.uploadError = e.message || 'Erro ao carregar ficheiro.';
                             } finally {
@@ -149,6 +146,7 @@
                             }
                         }
                     }"
+                    @upload-complete="$wire.set('pendingAnexo', $event.detail.filename); $wire.set('pendingAnexoOriginal', $event.detail.original)"
                     @message-sent.window="pendingFile = null; pendingOriginal = null; uploadError = null"
                     wire:submit="enviarMensagem"
                     class="flex items-end gap-2">
