@@ -4,6 +4,7 @@ namespace App\Livewire\Client;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\On;
 use App\Models\Proposal;
 use Auth;
 
@@ -16,8 +17,6 @@ class SendProposal extends Component
     public $value;
     public $attachments = [];
 
-    protected $listeners = ['openProposal'];
-
     protected function rules()
     {
         return [
@@ -29,6 +28,7 @@ class SendProposal extends Component
         ];
     }
 
+    #[On('openProposal')]
     public function openProposal($recipientId)
     {
         $this->recipient_id = $recipientId;

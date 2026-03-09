@@ -1,11 +1,5 @@
 <div>
     @if($show)
-            x-init="init()"
-            x-cloak
-            @keydown.window.escape="$wire.close()"
-            @keydown.window="if ($event.key === 'Tab') handleTab($event)"
-            x-effect="document.body.classList.toggle('overflow-hidden', open)"
-            class="fixed inset-0 z-50 flex items-center justify-center">
         <div x-data="{ open: true, focusables: [], firstFocusable: null, lastFocusable: null, showCharError: false, init() { this.$nextTick(() => { this.focusables = Array.from(this.$el.querySelectorAll('a,button,input,textarea,select,[tabindex]')).filter(el => el.getAttribute('tabindex') !== '-1' && !el.hasAttribute('disabled')); this.firstFocusable = this.focusables[0] || null; this.lastFocusable = this.focusables[this.focusables.length - 1] || null; if (this.firstFocusable) this.firstFocusable.focus(); }); }, handleTab(e) { if (this.focusables.length === 0) return; if (e.shiftKey) { if (document.activeElement === this.firstFocusable) { e.preventDefault(); this.lastFocusable.focus(); } } else { if (document.activeElement === this.lastFocusable) { e.preventDefault(); this.firstFocusable.focus(); } } } }"
             x-init="init()"
             x-cloak

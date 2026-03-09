@@ -50,7 +50,7 @@
                     <a href="#report" class="btn-outline action-icon" title="Reportar" aria-label="Reportar">
                         @include('components.icon', ['name' => 'flag', 'class' => 'w-5 h-5'])
                     </a>
-                    <button onclick="Livewire.emit('openProposal', {{ $user->id }})" class="btn-primary action-icon" title="Enviar proposta" aria-label="Enviar proposta">
+                    <button onclick="Livewire.dispatch('openProposal', { recipientId: {{ $user->id }} })" class="btn-primary action-icon" title="Enviar proposta" aria-label="Enviar proposta">
                         @include('components.icon', ['name' => 'send', 'class' => 'w-5 h-5'])
                     </button>
                 </div>
