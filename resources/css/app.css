@@ -126,9 +126,10 @@ body{
 }
 
 /* Ensure a visible CTA on small screens without opening the mobile menu */
-.mobile-cta{ display:none; }
-@media (max-width: 768px){
-    .mobile-cta{ display:inline-flex; align-items:center; gap:.5rem; margin-left:0.75rem; }
+/* Cadastro button in mobile-nav is hidden on mobile */
+.mobile-cta{ display:none !important; }
+@media (min-width: 769px){
+    .mobile-cta{ display:inline-flex !important; align-items:center; gap:.5rem; margin-left:0.75rem; }
 }
 
 /* Mobile dropdown nav links — white text on dark header */
