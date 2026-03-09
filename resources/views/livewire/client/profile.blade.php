@@ -9,23 +9,31 @@
     @endif
 
     {{-- Foto de perfil --}}
-    <div class="mb-6">
-        <label class="block text-gray-700 font-semibold mb-2">Foto de perfil</label>
+    <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+        <label class="block text-gray-700 font-semibold mb-3">Foto de perfil</label>
         <div class="flex items-center gap-4">
-            <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
-                @if($currentProfilePhoto)
-                    <img class="w-full h-full object-cover" src="{{ Storage::url($currentProfilePhoto) }}" alt="Avatar">
-                @else
-                    <img class="w-full h-full object-cover" src="{{ asset('img/default-avatar.svg') }}" alt="Avatar">
-                @endif
+            <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border-2 border-gray-200">
+                <img id="cp-avatar-preview" class="w-full h-full object-cover"
+                     src="{{ $currentProfilePhoto ? Storage::url($currentProfilePhoto) : asset('img/default-avatar.svg') }}" alt="Avatar">
             </div>
             <div class="flex-1">
-                <x-file-input wire:model="profilePhoto" accept="image/*" label="📷 Escolher nova foto" loading-target="profilePhoto">
-                    @error('profilePhoto') <span class="text-red-600 text-sm block mt-1">{{ $message }}</span> @enderror
-                    <p class="text-xs text-gray-500">Máx. 8 MB · jpg, png ou webp</p>
-                </x-file-input>
-                @error('profilePhoto') <span class="text-red-600 text-sm block mt-1">{{ $message }}</span> @enderror
-                <p class="text-xs text-gray-500 mt-1">A foto é atualizada automaticamente ao selecionar o ficheiro. Máx. 8 MB — jpg, png ou webp.</p>
+                <input
+                    type="file"
+                    wire:model="profilePhoto"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    class="block w-full text-sm text-gray-600 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border file:border-[#00baff] file:bg-white file:text-[#00baff] file:font-medium file:cursor-pointer hover:file:bg-[#00baff]/5 cursor-pointer"
+                    onchange="if(this.files[0]){document.getElementById('cp-avatar-preview').src=URL.createObjectURL(this.files[0])}"
+                >
+                @error('profilePhoto') <div class="pub-field-error mt-1">{{ $message }}</div> @enderror
+                <p class="text-xs text-gray-400 mt-1">jpg, png ou webp · máx. 8 MB</p>
+            </div>
+            <div>
+                <button type="button" wire:click="savePhoto"
+                    wire:loading.attr="disabled"
+                    class="inline-flex items-center gap-1 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white text-sm font-semibold px-4 py-2 rounded-lg transition whitespace-nowrap">
+                    <span wire:loading.remove wire:target="savePhoto">💾 Guardar foto</span>
+                    <span wire:loading wire:target="savePhoto">A guardar…</span>
+                </button>
             </div>
         </div>
     </div>
