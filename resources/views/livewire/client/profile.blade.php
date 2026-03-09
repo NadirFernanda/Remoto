@@ -23,7 +23,7 @@
                     id="cp-photo-input"
                     wire:model="profilePhoto"
                     accept="image/jpeg,image/png,image/webp,image/gif"
-                    class="sr-only"
+                    style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
                     onchange="if(this.files[0]){document.getElementById('cp-avatar-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('cp-photo-name').textContent=this.files[0].name}"
                 >
                 <label for="cp-photo-input"
