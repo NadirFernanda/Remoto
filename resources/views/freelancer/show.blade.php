@@ -54,7 +54,6 @@
                         @include('components.icon', ['name' => 'send', 'class' => 'w-5 h-5'])
                     </button>
                 </div>
-                @livewire('client.send-proposal')
             </div>
         </div>
 
@@ -172,4 +171,8 @@
     </div>
 </div>
 </div>
+
+{{-- Modal fora de qualquer container para evitar clipping de overflow/transform --}}
+@livewire('client.send-proposal')
+
 @endsection
