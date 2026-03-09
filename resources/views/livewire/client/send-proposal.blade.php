@@ -8,9 +8,15 @@
             x-effect="document.body.classList.toggle('overflow-hidden', open)"
             class="fixed inset-0 z-50 flex items-center justify-center">
             <div class="absolute inset-0 bg-black/50" @click="$wire.close()" x-transition.opacity></div>
-            <div class="bg-white rounded-lg shadow-lg z-50 w-full max-w-2xl p-6" x-transition:enter="transform transition ease-in-out duration-200" x-transition:enter-start="scale-95 opacity-0" x-transition:enter-end="scale-100 opacity-100" x-transition:leave="transform transition ease-in-out duration-150" x-transition:leave-start="scale-100 opacity-100" x-transition:leave-end="scale-95 opacity-0">
-                <h3 class="text-lg font-medium">Enviar proposta</h3>
-                <div class="mt-4">
+            <div class="relative bg-white rounded-2xl shadow-xl z-10 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto" x-transition:enter="transform transition ease-in-out duration-200" x-transition:enter-start="scale-95 opacity-0" x-transition:enter-end="scale-100 opacity-100" x-transition:leave="transform transition ease-in-out duration-150" x-transition:leave-start="scale-100 opacity-100" x-transition:leave-end="scale-95 opacity-0">
+                <div class="flex items-center justify-between p-6 pb-4 border-b border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-900">Enviar proposta</h3>
+                    <button type="button" wire:click="close" class="text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                <div>
                     <label class="block text-sm font-medium text-gray-700">Valor (opcional)</label>
                     <input data-focus-start
                            type="text"
@@ -62,6 +68,7 @@
                     <button type="button" class="btn-outline" wire:click.prevent="close">Cancelar</button>
                     <button type="button" wire:click="send" class="btn-primary">Enviar proposta</button>
                 </div>
+                </div>{{-- /p-6 --}}
             </div>
         </div>
     @endif
