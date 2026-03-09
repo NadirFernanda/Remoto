@@ -26,10 +26,6 @@ class ServiceReview extends Component
             return;
         }
         // Não altera status do serviço, apenas cadastra candidatura
-        \Log::debug('CANDIDATURA SERVIÇO: freelancer_id', [
-            'service_id' => $this->service->id,
-            'freelancer_id' => $user->id
-        ]);
         $this->service->save();
 
         // Cria ServiceCandidate se não existir

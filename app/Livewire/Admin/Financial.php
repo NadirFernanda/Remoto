@@ -27,9 +27,9 @@ class Financial extends Component
             ->orderByDesc('created_at')
             ->paginate(50);
 
-        $totalEntradas  = WalletLog::where('created_at', '>=', $start)->where('tipo', 'like', '%entrada%')->sum('valor');
-        $totalSaidas    = WalletLog::where('created_at', '>=', $start)->where('tipo', 'like', '%saida%')->sum('valor');
-        $totalComissoes = WalletLog::where('created_at', '>=', $start)->where('tipo', 'comissao')->sum('valor');
+        $totalEntradas  = WalletLog::where('created_at', '>=', $start)->where('tipo', 'escrow_retido')->sum('valor');
+        $totalSaidas    = WalletLog::where('created_at', '>=', $start)->where('tipo', 'saque_aprovado')->sum('valor');
+        $totalComissoes = WalletLog::where('created_at', '>=', $start)->where('tipo', 'pagamento_projeto')->sum('valor') * 10 / 90;
 
         return view('livewire.admin.financial', compact('logs', 'totalEntradas', 'totalSaidas', 'totalComissoes'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão Financeira']);

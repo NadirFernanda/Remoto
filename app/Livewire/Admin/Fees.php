@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use App\Models\PlatformSetting;
 
 class Fees extends Component
 {
@@ -25,10 +26,19 @@ class Fees extends Component
         'withdrawFeePercent.required' => 'A percentagem de saque é obrigatória.',
     ];
 
+    public function mount(): void
+    {
+        $this->commissionRate     = (float) PlatformSetting::get('commission_rate', 10);
+        $this->withdrawFeeFixed   = (float) PlatformSetting::get('withdraw_fee_fixed', 2);
+        $this->withdrawFeePercent = (float) PlatformSetting::get('withdraw_fee_percent', 1.5);
+    }
+
     public function save(): void
     {
         $this->validate();
-        // TODO: persist to settings table
+        PlatformSetting::set('commission_rate',      $this->commissionRate);
+        PlatformSetting::set('withdraw_fee_fixed',   $this->withdrawFeeFixed);
+        PlatformSetting::set('withdraw_fee_percent', $this->withdrawFeePercent);
         $this->savedMsg = 'Taxas actualizadas com sucesso.';
     }
 
@@ -38,3 +48,4 @@ class Fees extends Component
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Taxas e Comissões']);
     }
 }
+

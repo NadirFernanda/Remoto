@@ -17,6 +17,7 @@ class Dashboard extends Component
     public $services;
     public $saldo_disponivel = 0;
     public $saldo_pendente = 0;
+    public int $period = 7;
 
     public function mount()
     {
@@ -25,10 +26,6 @@ class Dashboard extends Component
             ->whereIn('status', ['accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
             ->orderByDesc('created_at')
             ->get();
-        \Log::debug('FREELANCER DASHBOARD: projetos em andamento retornados', [
-            'freelancer_id' => $user->id,
-            'services' => $this->services->pluck('id', 'status')
-        ]);
         $this->saldo_disponivel = $user->wallet->saldo ?? 0;
         $this->saldo_pendente = $user->wallet->saldo_pendente ?? 0;
     }
@@ -47,7 +44,7 @@ class Dashboard extends Component
         // Indicações
         $referrals = \App\Models\Referral::where('affiliate_id', $user->id)->with('user')->get();
 
-        $period = $this->period ?? 7;
+        $period = $this->period;
         return view('livewire.freelancer.dashboard', [
             'projects' => $this->services,
             'saldo_pendente' => $this->saldo_pendente,

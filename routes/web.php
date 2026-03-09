@@ -9,10 +9,7 @@ use App\Http\Controllers\Client\FinanceHistoryExportController;
 use App\Http\Controllers\Client\ServiceTitleController;
 use App\Http\Controllers\ChatFileUploadController;
 
-// Placeholder para rota de pagamentos do cliente
-Route::get('/cliente/pagamentos', function () {
-    return 'Em breve: painel de pagamentos do cliente.';
-})->name('client.payments');
+Route::middleware('auth')->get('/cliente/pagamentos', \App\Livewire\Client\FinanceHistory::class)->name('client.payments');
 
 // Homepage
 Route::get('/', function () {
@@ -191,12 +188,5 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/cliente/reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
 });
-// Placeholder para edição de perfil do cliente
-Route::get('/cliente/perfil/editar', function () {
-    return 'Em breve: edição de perfil do cliente.';
-})->name('client.profile.edit');
-
-// Placeholder para relatórios do cliente
-Route::get('/cliente/relatorios', function () {
-    return view('livewire.client.reports-placeholder');
-})->name('client.reports');
+Route::middleware('auth')->get('/cliente/perfil/editar', \App\Livewire\Client\Profile::class)->name('client.profile.edit');
+Route::middleware('auth')->get('/cliente/relatorios', \App\Livewire\Client\OrderHistory::class)->name('client.reports');

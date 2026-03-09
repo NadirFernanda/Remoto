@@ -10,6 +10,8 @@ use App\Models\ServiceCandidate;
 use App\Models\User;
 use App\Models\Dispute;
 use App\Models\Notification;
+use App\Models\Wallet;
+use App\Models\WalletLog;
 
 class Dashboard extends Component
 {
@@ -33,9 +35,38 @@ class Dashboard extends Component
         $service->payment_released_at = now();
         $service->status = 'completed';
         $service->save();
-        // TODO: Notificar admin e freelancer
-        session()->flash('success', 'Pagamento liberado com sucesso! O admin será notificado para processar o pagamento ao freelancer.');
-        $this->mount(); // Atualiza a lista
+
+        // Creditar valor líquido na carteira do freelancer
+        if ($service->valor_liquido && $service->valor_liquido > 0 && $service->freelancer_id) {
+            $freelancerWallet = Wallet::firstOrCreate(
+                ['user_id' => $service->freelancer_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            $freelancerWallet->increment('saldo', $service->valor_liquido);
+            WalletLog::create([
+                'user_id'   => $service->freelancer_id,
+                'wallet_id' => $freelancerWallet->id,
+                'valor'     => $service->valor_liquido,
+                'tipo'      => 'pagamento_projeto',
+                'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
+            ]);
+
+            // Libertar o escrow na carteira do cliente
+            $clientWallet = Wallet::where('user_id', $user->id)->first();
+            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                $clientWallet->decrement('saldo_pendente', $service->valor);
+            }
+        }
+
+        Notification::create([
+            'user_id'    => $service->freelancer_id,
+            'service_id' => $service->id,
+            'type'       => 'delivery_approved',
+            'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
+        ]);
+
+        session()->flash('success', 'Pagamento liberado com sucesso!');
+        $this->mount();
     }
 
     public function colocarEmModeracao($serviceId)
@@ -109,27 +140,17 @@ class Dashboard extends Component
 
     public function mount()
     {
-        \Log::debug('DASHBOARD CLIENTE: mount iniciado');
         $user = Auth::user();
-        \Log::debug('DASHBOARD CLIENTE: user', ['user' => $user]);
         if (!$user) {
-            \Log::error('DASHBOARD CLIENTE: Usuário não autenticado');
-            throw new \Exception('Usuário não autenticado. Faça login para acessar o dashboard do cliente.');
+            abort(403, 'Usuário não autenticado.');
         }
         // Proteção: só permite acesso se for cliente
         if (method_exists($user, 'activeRole') && $user->activeRole() !== 'cliente') {
-            \Log::error('DASHBOARD CLIENTE: Usuário não é cliente');
             abort(403, 'Acesso não autorizado ao dashboard do cliente.');
         }
         $services = Service::where('cliente_id', $user->id)->get();
-        \Log::debug('DASHBOARD CLIENTE: services', ['services' => $services]);
-        if ($services === null) {
-            \Log::error('DASHBOARD CLIENTE: Nenhum serviço retornado para o cliente');
-            throw new \Exception('Nenhum serviço encontrado para o cliente.');
-        }
         $this->orders = $services->sortByDesc('created_at')->take(5);
-        \Log::debug('DASHBOARD CLIENTE: orders', ['orders' => $this->orders]);
-        // Mensagens recentes (exemplo básico)
+        // Mensagens recentes
         $this->recent_messages = \App\Models\Message::with(['user', 'service'])
             ->where('user_id', $user->id)
             ->orderByDesc('created_at')
@@ -142,14 +163,12 @@ class Dashboard extends Component
             ->whereIn('service_id', $serviceIds)
             ->orderByDesc('created_at')
             ->get();
-        \Log::debug('DASHBOARD CLIENTE: recent_messages', ['recent_messages' => $this->recent_messages]);
         // KPIs
         $this->kpi_total_gasto = $services->where('status', 'completed')->sum('valor');
         $this->kpi_projetos_publicados = $services->count();
         $this->kpi_freelancers_contratados = $services->whereNotNull('freelancer_id')->count();
         $this->kpi_projetos_andamento = $services->where('status', 'in_progress')->count();
         $this->kpi_projetos_concluidos = $services->where('status', 'completed')->count();
-        \Log::debug('DASHBOARD CLIENTE: mount finalizado');
     }
 
     public function escolherFreelancer($serviceId, $freelancerId)
