@@ -10,12 +10,15 @@ use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProfileEditor extends Component
 {
     use WithFileUploads;
 
     public string $successMessage = '';
+    public string $photoMessage = '';
 
     public $headline;
     public $profilePhoto;
@@ -63,6 +66,28 @@ class ProfileEditor extends Component
         }
     }
 
+    public function updatedProfilePhoto()
+    {
+        $this->validate(['profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192']);
+        if (!$this->profilePhoto) return;
+
+        $user = User::find(Auth::id());
+        if ($user->profile_photo) {
+            Storage::disk('public')->delete($user->profile_photo);
+        }
+        $manager = new ImageManager(new Driver());
+        $jpeg = $manager->read($this->profilePhoto->getRealPath())
+            ->cover(400, 400)
+            ->toJpeg(quality: 80);
+        $path = 'avatars/' . Str::uuid() . '.jpg';
+        Storage::disk('public')->put($path, $jpeg);
+        $user->profile_photo = $path;
+        $user->save();
+        $this->currentProfilePhoto = $path;
+        $this->profilePhoto = null;
+        $this->photoMessage = 'Foto de perfil atualizada!';
+    }
+
     protected function rules()
     {
         return [
@@ -97,19 +122,6 @@ class ProfileEditor extends Component
             'location' => $this->location,
         ]);
 
-        // handle profile photo upload
-        if ($this->profilePhoto) {
-            // delete old photo if exists
-            if ($user->profile_photo) {
-                Storage::disk('public')->delete($user->profile_photo);
-            }
-            $ext = $this->profilePhoto->getClientOriginalExtension();
-            $path = $this->profilePhoto->storeAs('avatars', Str::uuid() . '.' . $ext, 'public');
-            $user->profile_photo = $path;
-            $user->save();
-            $this->currentProfilePhoto = $path;
-            $this->profilePhoto = null;
-        }
         $profile = FreelancerProfile::updateOrCreate(
             ['user_id' => $user->id],
             [

@@ -1,10 +1,4 @@
   <div>
-    @if($successMessage)
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">
-            {{ $successMessage }}
-        </div>
-    @endif
-
     @if($errors->any())
         <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
             <ul class="list-disc list-inside space-y-1">
@@ -28,6 +22,9 @@
                         @error('profilePhoto') <span class="text-red-600 text-sm block">{{ $message }}</span> @enderror
                         <p class="text-xs text-gray-500">Rosto visível, sem logos · mínimo 200×200 · jpg/png/webp · máx. 8 MB</p>
                     </x-file-input>
+                    @if($photoMessage)
+                        <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -175,14 +172,28 @@
             }
         </script>
 
-        <div class="mt-6 flex gap-3">
-            <button type="submit" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Salvar perfil">
-                @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
-                Salvar perfil
-            </button>
-            <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center gap-2 border border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold px-5 py-2 rounded-lg transition">
-                Cancelar
-            </a>
+        <div class="mt-6">
+            @if($successMessage)
+                <div class="mb-3 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                    {{ $successMessage }}
+                </div>
+            @endif
+            <div class="flex gap-3 items-center">
+                <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Salvar perfil">
+                    <span wire:loading.remove wire:target="saveProfile">
+                        @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
+                        Salvar perfil
+                    </span>
+                    <span wire:loading wire:target="saveProfile" class="flex items-center gap-2">
+                        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                        A guardar…
+                    </span>
+                </button>
+                <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center gap-2 border border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold px-5 py-2 rounded-lg transition">
+                    Cancelar
+                </a>
+            </div>
         </div>
     </form>
 </div>
