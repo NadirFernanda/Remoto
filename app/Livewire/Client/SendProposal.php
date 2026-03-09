@@ -19,6 +19,7 @@ class SendProposal extends Component
     public $message     = '';
     public $value;
     public $attachments = [];
+    public bool $sent   = false;
 
     protected function rules(): array
     {
@@ -47,7 +48,8 @@ class SendProposal extends Component
 
     public function close()
     {
-        $this->reset(['show', 'recipient_id', 'title', 'message', 'value', 'attachments']);
+        $this->dispatch('proposalModalClosed');
+        $this->reset(['show', 'sent', 'recipient_id', 'title', 'message', 'value', 'attachments']);
     }
 
     public function send()
@@ -117,9 +119,8 @@ class SendProposal extends Component
             'message' => $user->name . ' enviou-lhe uma proposta: "' . $this->title . '"',
         ]);
 
-        $this->close();
+        $this->sent = true;
         $this->dispatch('proposalSent');
-        session()->flash('success', 'Proposta enviada com sucesso! O freelancer será notificado.');
     }
 
     public function render()

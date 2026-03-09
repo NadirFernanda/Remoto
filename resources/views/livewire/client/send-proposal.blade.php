@@ -1,5 +1,6 @@
-<div>
+<div x-on:proposalmodalclosed.window="document.body.classList.remove('overflow-hidden')">
     @if($show)
+        @if(!$sent)
         <div
             x-data="{ handleTab(e) { const els = Array.from($el.querySelectorAll('a,button,input,textarea,select,[tabindex]')).filter(el => el.getAttribute('tabindex') !== '-1' && !el.hasAttribute('disabled')); const first = els[0]; const last = els[els.length-1]; if (!first) return; if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } } else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } } } }"
             x-init="$nextTick(() => { const f = $el.querySelector('[autofocus]'); if(f) f.focus(); document.body.classList.add('overflow-hidden'); })"
@@ -126,5 +127,24 @@
 
             </div>
         </div>
+
+        @else
+        {{-- Painel de sucesso --}}
+        <div class="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <div class="absolute inset-0 bg-black/50" @click="$wire.close()"></div>
+            <div x-init="setTimeout(() => $wire.close(), 4000)"
+                 class="relative bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center">
+                <div class="flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mx-auto mb-5">
+                    <svg class="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Proposta enviada!</h3>
+                <p class="text-sm text-gray-500 mb-6">O freelancer foi notificado e poderá aceitar ou recusar a sua proposta.</p>
+                <button wire:click="close" class="btn-primary w-full text-sm py-2.5">Fechar</button>
+            </div>
+        </div>
+        @endif
+
     @endif
 </div>
