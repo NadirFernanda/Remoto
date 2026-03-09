@@ -29,23 +29,26 @@ class Proposals extends Component
             ->where('status', 'pending')
             ->firstOrFail();
 
-        // Criar o projeto/serviço directamente 
-        $service = Service::create([
-            'cliente_id'    => $proposal->sender_id,
-            'freelancer_id' => $user->id,
-            'titulo'        => $proposal->title ?? 'Projecto via proposta',
-            'briefing'      => $proposal->message,
-            'service_type'  => 'direct_invite',
-            'valor'         => $proposal->value ?? 0,
-            'taxa'          => $proposal->fee   ?? 0,
-            'valor_liquido' => $proposal->net   ?? 0,
-            'status'        => 'accepted',
-        ]);
+        if ($proposal->service_id) {
+            // Promover o Service existente de negociação para aceite
+            Service::where('id', $proposal->service_id)->update(['status' => 'accepted']);
+        } else {
+            // Fallback: propostas antigas sem service_id criam o Service agora
+            Service::create([
+                'cliente_id'    => $proposal->sender_id,
+                'freelancer_id' => $user->id,
+                'titulo'        => $proposal->title ?? 'Projecto via proposta',
+                'briefing'      => $proposal->message,
+                'service_type'  => 'direct_invite',
+                'valor'         => $proposal->value ?? 0,
+                'taxa'          => $proposal->fee   ?? 0,
+                'valor_liquido' => $proposal->net   ?? 0,
+                'status'        => 'accepted',
+            ]);
+        }
 
-        // Marcar proposta como aceite
         $proposal->update(['status' => 'accepted']);
 
-        // Notificar o cliente
         Notification::create([
             'user_id' => $proposal->sender_id,
             'type'    => 'proposal_accepted',
@@ -53,7 +56,7 @@ class Proposals extends Component
             'message' => $user->name . ' aceitou a sua proposta "' . $proposal->title . '".',
         ]);
 
-        session()->flash('success', 'Proposta aceite. O projeto foi criado e já pode começar a trabalhar.');
+        session()->flash('success', 'Proposta aceite! Pode continuar a negociação ou começar a trabalhar no chat.');
     }
 
     public function decline(int $proposalId): void
@@ -63,6 +66,10 @@ class Proposals extends Component
             ->where('recipient_id', $user->id)
             ->where('status', 'pending')
             ->firstOrFail();
+
+        if ($proposal->service_id) {
+            Service::where('id', $proposal->service_id)->update(['status' => 'cancelled']);
+        }
 
         $proposal->update(['status' => 'rejected']);
 
@@ -83,7 +90,7 @@ class Proposals extends Component
 
         $proposals = Proposal::where('recipient_id', $user->id)
             ->where('status', $this->tab)
-            ->with('sender')
+            ->with('sender', 'service')
             ->orderByDesc('created_at')
             ->paginate(10);
 

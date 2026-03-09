@@ -10,13 +10,15 @@
                 <div class="font-semibold text-base leading-tight truncate">{{ $service->titulo ?? 'Chat do Servico' }}</div>
                 <div class="text-xs text-blue-100 mt-0.5">
                     @php
-                        $statusLabels = ['accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue','completed'=>'Concluido'];
+                        $statusLabels = ['negotiating'=>'Em negociação','accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue','completed'=>'Concluido'];
                     @endphp
                     {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
                 </div>
             </div>
             @if($chat_bloqueado)
                 <span class="text-xs bg-white/20 rounded-full px-3 py-1">Bloqueado</span>
+            @elseif($service->status === 'negotiating')
+                <span class="flex items-center gap-1 text-xs bg-amber-400/30 rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-amber-300 inline-block"></span> Em negociação</span>
             @else
                 <span class="flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-green-300 inline-block"></span> Activo</span>
             @endif

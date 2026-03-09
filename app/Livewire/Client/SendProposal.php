@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\On;
 use App\Models\Proposal;
+use App\Models\Service;
 use App\Models\Notification;
 use Auth;
 
@@ -19,7 +20,8 @@ class SendProposal extends Component
     public $message     = '';
     public $value;
     public $attachments = [];
-    public bool $sent   = false;
+    public bool $sent     = false;
+    public $service_id   = null;
 
     protected function rules(): array
     {
@@ -49,7 +51,7 @@ class SendProposal extends Component
     public function close()
     {
         $this->dispatch('proposalModalClosed');
-        $this->reset(['show', 'sent', 'recipient_id', 'title', 'message', 'value', 'attachments']);
+        $this->reset(['show', 'sent', 'service_id', 'recipient_id', 'title', 'message', 'value', 'attachments']);
     }
 
     public function send()
@@ -83,6 +85,19 @@ class SendProposal extends Component
         $fee = $this->value ? round($this->value * 0.10, 2) : 0;
         $net = $this->value ? round($this->value - $fee, 2) : 0;
 
+        // Criar o Service em modo negociação (canal de chat)
+        $service = Service::create([
+            'cliente_id'    => $user->id,
+            'freelancer_id' => $this->recipient_id,
+            'titulo'        => $this->title,
+            'briefing'      => $this->message,
+            'service_type'  => 'direct_invite',
+            'valor'         => $this->value ?? 0,
+            'taxa'          => $fee,
+            'valor_liquido' => $net,
+            'status'        => 'negotiating',
+        ]);
+
         $proposal = Proposal::create([
             'sender_id'    => $user->id,
             'recipient_id' => $this->recipient_id,
@@ -93,6 +108,7 @@ class SendProposal extends Component
             'net'          => $net,
             'type'         => 'direct_invite',
             'status'       => 'pending',
+            'service_id'   => $service->id,
         ]);
 
         // Guardar anexos
@@ -119,7 +135,8 @@ class SendProposal extends Component
             'message' => $user->name . ' enviou-lhe uma proposta: "' . $this->title . '"',
         ]);
 
-        $this->sent = true;
+        $this->service_id = $service->id;
+        $this->sent       = true;
         $this->dispatch('proposalSent');
     }
 

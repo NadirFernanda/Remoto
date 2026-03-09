@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proposal extends Model
 {
     protected $fillable = [
-        'sender_id', 'recipient_id', 'title', 'message', 'value', 'fee', 'net', 'type', 'status'
+        'sender_id', 'recipient_id', 'title', 'message', 'value', 'fee', 'net', 'type', 'status', 'service_id'
     ];
 
     protected $casts = [
@@ -22,5 +22,10 @@ class Proposal extends Model
     public function recipient()
     {
         return $this->belongsTo(User::class, 'recipient_id');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 }

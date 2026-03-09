@@ -19,7 +19,7 @@ class ServiceChat extends Component
     public function mount(Service $service)
     {
         $this->service = $service;
-        $this->chat_bloqueado = $service->status !== 'accepted' && $service->status !== 'in_progress' && $service->status !== 'delivered' && $service->status !== 'completed';
+        $this->chat_bloqueado = !in_array($service->status, ['negotiating', 'accepted', 'in_progress', 'delivered', 'completed']);
         $this->atualizarMensagens();
         // Marca como lido ao abrir a conversa
         if (auth()->check()) {
