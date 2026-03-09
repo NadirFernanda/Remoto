@@ -27,19 +27,10 @@
         {{-- Messages area --}}
         <div
             id="chat-messages"
+            wire:poll.8000ms="atualizarMensagens"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
-            x-data="{ polling: null }"
-            x-init="
-                $el.scrollTop = $el.scrollHeight;
-                this.polling = setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
-                $watch(() => $wire.chatFile, (val) => {
-                    if (val) {
-                        if (this.polling) { clearInterval(this.polling); this.polling = null; }
-                    } else {
-                        if (!this.polling) this.polling = setInterval(() => { if (!$wire.chatFile) $wire.atualizarMensagens() }, 8000);
-                    }
-                });
-            "
+            x-data
+            x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
             @forelse($messages as $msg)
