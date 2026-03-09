@@ -26,6 +26,14 @@ class ServiceChat extends Component
         }
     }
 
+    public function updatedChatFile()
+    {
+        if ($this->chatFile) {
+            $this->dispatch('chat-file-selected', name: $this->chatFile->getClientOriginalName());
+        }
+        $this->skipRender();
+    }
+
     public function enviarMensagem()
     {
         if ($this->chat_bloqueado) return;
@@ -76,6 +84,7 @@ class ServiceChat extends Component
         $this->mensagem = '';
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
+        $this->dispatch('chat-file-cleared');
     }
 
     public function render()
