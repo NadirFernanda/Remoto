@@ -29,9 +29,11 @@
             id="chat-messages"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
             x-data
-            x-init="$el.scrollTop = $el.scrollHeight"
+            x-init="
+                $el.scrollTop = $el.scrollHeight;
+                setInterval(() => { if (!$wire.anexo) $wire.atualizarMensagens() }, 8000);
+            "
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
-            wire:poll.{{ $anexo ? '999999' : '8' }}s="atualizarMensagens"
         >
             @forelse($messages as $msg)
                 @php
