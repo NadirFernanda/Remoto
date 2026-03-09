@@ -98,7 +98,7 @@
         @error('mensagem') <div class="px-4 py-1 text-xs text-red-500 bg-red-50">{{ $message }}</div> @enderror
 
         {{-- Input bar --}}
-        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3">
+        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3" wire:ignore>
             @if($chat_bloqueado)
                 <div class="flex items-center justify-center gap-2 py-2 text-slate-400 text-sm">
                     &#128274; Chat disponivel apos aceitacao do servico
