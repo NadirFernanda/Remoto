@@ -552,6 +552,10 @@ body{
 
 /* auth form card */
 .pub-auth-card { background: #fff; border-radius: 20px; border: 1px solid #e8edf3; box-shadow: 0 4px 24px rgba(0,0,0,.07); padding: 2.5rem; }
+@media (max-width: 600px) {
+    .pub-auth-card { padding: 1.25rem; }
+    .pub-container--sm { padding: 0 0.5rem; }
+}
 .pub-auth-title { font-size: 1.6rem; font-weight: 900; color: #0f172a; margin-bottom: .35rem; letter-spacing: -.02em; }
 .pub-auth-sub { color: #64748b; font-size: .9rem; margin-bottom: 2rem; }
 .pub-field { margin-bottom: 1.25rem; }
