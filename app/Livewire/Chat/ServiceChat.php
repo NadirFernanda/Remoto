@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ServiceChat extends Component
 {
@@ -36,38 +37,51 @@ class ServiceChat extends Component
     {
         if ($this->chat_bloqueado) return;
 
-        $this->validate([
-            'mensagem' => 'nullable|string|max:2000',
-            'anexo'    => 'nullable|file|max:51200',
-        ]);
+        $mensagem = trim($this->mensagem ?? '');
 
-        if (empty(trim($this->mensagem ?? '')) && !$this->anexo) {
+        if ($mensagem === '' && !$this->anexo) {
             return;
         }
 
-        $anexoPath    = null;
+        $anexoNome    = null;
         $nomeOriginal = null;
 
         if ($this->anexo) {
             try {
                 $nomeOriginal = $this->anexo->getClientOriginalName();
-                $anexoPath    = $this->anexo->storePublicly('anexos', 'public');
-                if (!$anexoPath) {
-                    $this->addError('anexo', 'Erro ao guardar o ficheiro. Tente novamente.');
+                \Log::info('Chat upload start', ['nome' => $nomeOriginal]);
+
+                $safe = preg_replace('/[^a-zA-Z0-9._-]/', '_', $nomeOriginal);
+                $path = $this->anexo->storeAs('anexos', time() . '_' . $safe, 'public');
+
+                \Log::info('Chat upload result', ['path' => $path]);
+
+                if (!$path) {
+                    $this->addError('anexo', 'Não foi possível guardar o ficheiro. Tente novamente.');
                     return;
                 }
+
+                $anexoNome = basename($path);
+
             } catch (\Throwable $e) {
-                $this->addError('anexo', 'Falhou o envio do ficheiro: ' . $e->getMessage());
+                \Log::error('Chat upload exception: ' . $e->getMessage());
+                $this->addError('anexo', 'Erro ao enviar ficheiro: ' . $e->getMessage());
                 return;
             }
         }
 
-        $this->service->messages()->create([
-            'user_id'             => Auth::id(),
-            'conteudo'            => $this->mensagem ?? '',
-            'anexo'               => $anexoPath ? basename($anexoPath) : null,
-            'nome_original_anexo' => $nomeOriginal,
-        ]);
+        try {
+            $this->service->messages()->create([
+                'user_id'             => Auth::id(),
+                'conteudo'            => $mensagem,
+                'anexo'               => $anexoNome,
+                'nome_original_anexo' => $nomeOriginal,
+            ]);
+        } catch (\Throwable $e) {
+            \Log::error('Chat message create exception: ' . $e->getMessage());
+            $this->addError('mensagem', 'Erro ao enviar mensagem: ' . $e->getMessage());
+            return;
+        }
 
         \App\Models\ChatRead::markRead($this->service->id, Auth::id());
         $this->mensagem = '';
