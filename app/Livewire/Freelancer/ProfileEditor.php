@@ -6,7 +6,6 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\FreelancerProfile;
-use App\Models\Portfolio;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +26,6 @@ class ProfileEditor extends Component
     public $availability_status = 'available';
     public $skills = '';
     public $languages = '';
-    public $portfolioFiles = [];
     // user fields
     public $name;
     public $email;
@@ -117,7 +115,6 @@ class ProfileEditor extends Component
             'metrics_completed_projects' => 'nullable|integer|min:0',
             'metrics_rating' => 'nullable|numeric|min:0|max:5',
             'metrics_total_earnings' => 'nullable|numeric|min:0',
-            'portfolioFiles.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,mp4,zip|max:51200',
         ];
     }
 
@@ -150,22 +147,6 @@ class ProfileEditor extends Component
                 ],
             ]
         );
-
-        // handle portfolio uploads
-        if (!empty($this->portfolioFiles)) {
-            foreach ($this->portfolioFiles as $file) {
-                $path = $file->store('portfolios', 'public');
-                Portfolio::create([
-                    'user_id' => $user->id,
-                    'title' => Str::limit($this->headline ?? 'Portfolio item', 80),
-                    'description' => null,
-                    'media_path' => $path,
-                    'media_type' => $file->getClientMimeType(),
-                    'is_public' => true,
-                ]);
-            }
-            $this->portfolioFiles = [];
-        }
 
         $this->successMessage = 'Perfil salvo com sucesso!';
     }

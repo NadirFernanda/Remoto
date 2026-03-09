@@ -154,44 +154,19 @@
             </div>
         </div>
 
-        <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Adicionar ao portfólio (múltiplo)</label>
-            <x-file-input wire:model="portfolioFiles" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" multiple label="Carregar ficheiros" loading-target="portfolioFiles">
-                @error('portfolioFiles.*') <span class="text-red-600 text-sm block">{{ $message }}</span> @enderror
-            </x-file-input>
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-center justify-between gap-4">
+            <div>
+                <p class="text-sm font-medium text-gray-700">Portfólio</p>
+                <p class="text-xs text-gray-500 mt-0.5">Adicione trabalhos, certificações e estudos de caso no gestor de portfólio.</p>
+            </div>
+            <a href="{{ route('freelancer.portfolio') }}"
+               class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2 rounded-lg transition flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0l-4-4m4 4l-4 4"/>
+                </svg>
+                Gerir portfólio
+            </a>
         </div>
-
-        <script>
-            function bytesToMB(bytes) { return bytes / 1024 / 1024; }
-            function validateProfilePhoto(input) {
-                var errEl = document.getElementById('profilePhotoError');
-                errEl.textContent = '';
-                if (!input.files || !input.files[0]) return;
-                var f = input.files[0];
-                var maxBytes = 50 * 1024 * 1024; // 50MB
-                if (f.size > maxBytes) {
-                    errEl.textContent = 'Arquivo muito grande. Máximo permitido: 50MB.';
-                    input.value = '';
-                    return false;
-                }
-                return true;
-            }
-            function validatePortfolioFiles(input) {
-                var errEl = document.getElementById('portfolioFilesError');
-                errEl.textContent = '';
-                if (!input.files || input.files.length === 0) return;
-                var maxBytes = 50 * 1024 * 1024; // 50MB per file
-                for (var i = 0; i < input.files.length; i++) {
-                    var f = input.files[i];
-                    if (f.size > maxBytes) {
-                        errEl.textContent = 'Um dos arquivos é maior que 50MB. Remova arquivos grandes.';
-                        input.value = '';
-                        return false;
-                    }
-                }
-                return true;
-            }
-        </script>
 
         <div class="mt-6">
             @if($successMessage)
