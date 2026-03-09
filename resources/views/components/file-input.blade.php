@@ -69,7 +69,7 @@
     @endif
 
     {{-- Preview area (client-side, no server round-trip) --}}
-    <div class="space-y-2" wire:ignore>
+    <div class="space-y-2">
         <template x-for="(f, i) in files" :key="i">
             <div>
                 {{-- Image preview --}}
