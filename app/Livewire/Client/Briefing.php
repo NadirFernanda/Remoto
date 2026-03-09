@@ -16,10 +16,6 @@ class Briefing extends Component
     // Step 2
     public string $title1 = '';
     public string $necessity1 = '';
-    public string $target_audience1 = '';
-    public string $style1 = '';
-    public string $deadline = '';
-    public string $budget_range = '';
 
     // Step 3
     public string $generated_description = '';
@@ -69,13 +65,9 @@ class Briefing extends Component
             : $this->business_type1;
 
         $briefingData = [
-            'title'           => $this->title1,
-            'business_type'   => $serviceType,
-            'necessity'       => $this->necessity1,
-            'target_audience' => $this->target_audience1,
-            'style'           => $this->style1,
-            'deadline'        => $this->deadline,
-            'budget_range'    => $this->budget_range,
+            'title'         => $this->title1,
+            'business_type' => $serviceType,
+            'necessity'     => $this->necessity1,
         ];
         $this->generated_description = BriefingTextGenerator::generate($briefingData);
     }

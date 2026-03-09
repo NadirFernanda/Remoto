@@ -142,32 +142,6 @@
                     @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Público-alvo</label>
-                        <input type="text" wire:model.defer="target_audience1"
-                               class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
-                               placeholder="Ex: Empresas B2B, jovens adultos...">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Estilo preferido</label>
-                        <input type="text" wire:model.defer="style1"
-                               class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
-                               placeholder="Ex: Moderno, minimalista, corporativo...">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Prazo desejado</label>
-                        <input type="text" wire:model.defer="deadline"
-                               class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
-                               placeholder="Ex: 2 semanas, até 30/04...">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Orçamento estimado</label>
-                        <input type="text" wire:model.defer="budget_range"
-                               class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
-                               placeholder="Ex: 50.000 – 100.000 Kz">
-                    </div>
-                </div>
             </div>
         </div>
 
