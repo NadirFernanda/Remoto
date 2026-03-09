@@ -42,11 +42,12 @@ class ServiceChat extends Component
         if (empty(trim($this->mensagem ?? '')) && !$this->anexo) {
             return;
         }
-        $anexoPath = null;
+        $anexoPath   = null;
+        $nomeOriginal = null;
         if ($this->anexo) {
-            $anexoPath = $this->anexo->store('anexos', 'public');
+            $nomeOriginal = $this->anexo->getClientOriginalName(); // antes do store()
+            $anexoPath    = $this->anexo->store('anexos', 'public');
         }
-        $nomeOriginal = $this->anexo ? $this->anexo->getClientOriginalName() : null;
         $this->service->messages()->create([
             'user_id' => Auth::id(),
             'conteudo' => $this->mensagem ?? '',
