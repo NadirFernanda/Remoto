@@ -7,6 +7,7 @@ use App\Http\Controllers\PublicProjectsController;
 use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Client\FinanceHistoryExportController;
 use App\Http\Controllers\Client\ServiceTitleController;
+use App\Http\Controllers\ChatFileUploadController;
 
 // Placeholder para rota de pagamentos do cliente
 Route::get('/cliente/pagamentos', function () {
@@ -76,6 +77,11 @@ Route::post('/email/verification-notification', function () {
     auth()->user()->sendEmailVerificationNotification();
     return back()->with('message', 'Link de verificação enviado!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+// --- Chat file upload ---
+Route::post('/chat/upload-file', [ChatFileUploadController::class, 'upload'])
+    ->middleware('auth')
+    ->name('chat.upload.file');
 
 // --- Authenticated routes ---
 Route::middleware('auth')->group(function () {
