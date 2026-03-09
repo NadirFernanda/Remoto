@@ -20,7 +20,28 @@ class ServiceChat extends Component
     public function mount(Service $service)
     {
         $this->service = $service;
-        $this->chat_bloqueado = !in_array($service->status, ['negotiating', 'accepted', 'in_progress', 'delivered', 'completed']);
+
+        $user = auth()->user();
+
+        // Verifica se o utilizador tem acesso ao chat:
+        // - cliente dono do projeto
+        // - freelancer contratado
+        // - candidato com proposta enviada (pré-contratação)
+        $isOwner     = $user && $user->id === $service->cliente_id;
+        $isFreelancer = $user && $user->id === $service->freelancer_id;
+        $isCandidate  = $user && $service->candidates()->where('freelancer_id', $user->id)
+            ->whereIn('status', ['pending', 'proposal_sent', 'invited', 'chosen'])
+            ->exists();
+
+        if (!$isOwner && !$isFreelancer && !$isCandidate) {
+            abort(403, 'Acesso não autorizado ao chat.');
+        }
+
+        // Chat desbloqueado para negociação pré-contratação e fases activas
+        $this->chat_bloqueado = !in_array($service->status, [
+            'published', 'negotiating', 'accepted', 'in_progress', 'delivered', 'completed'
+        ]);
+
         if (auth()->check()) {
             \App\Models\ChatRead::markRead($service->id, auth()->id());
         }

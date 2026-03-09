@@ -112,8 +112,21 @@
                         </div>
 
                         <div class="mt-5 flex flex-col gap-2">
-                            <button type="button" wire:click="acceptService({{ $project->id }})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Aceitar projeto</button>
-                            <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
+                            @if(in_array($project->id, $myCandidacies))
+                                {{-- Já candidatado: mostrar badge + botão de chat --}}
+                                <div class="flex items-center justify-center gap-1 py-2 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm font-medium">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                    Proposta enviada
+                                </div>
+                                <a href="{{ route('service.chat', $project->id) }}"
+                                    class="flex items-center justify-center gap-2 bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                    Chat com o cliente
+                                </a>
+                            @else
+                                <button type="button" wire:click="acceptService({{ $project->id }})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Aceitar projeto</button>
+                                <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
+                            @endif
                         </div>
                     </div>
                 @empty

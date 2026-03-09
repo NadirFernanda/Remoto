@@ -350,11 +350,18 @@
 
                                         {{-- Botões de ação (apenas para candidatos pendentes) --}}
                                         @if($isPending)
-                                            <div class="flex gap-2 pt-1">
+                                            <div class="flex gap-2 pt-1 flex-wrap">
+                                                <a href="{{ route('service.chat', $selected->id) }}"
+                                                    class="btn-outline text-xs flex-1 justify-center min-w-[80px]">
+                                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                                    </svg>
+                                                    Chat
+                                                </a>
                                                 <button
                                                     wire:click="escolherFreelancer({{ $selected->id }}, {{ $fl->id }})"
                                                     wire:confirm="Confirma a escolha de {{ $fl->name }} para este projeto? Os outros candidatos serão notificados."
-                                                    class="btn-primary text-xs flex-1 justify-center">
+                                                    class="btn-primary text-xs flex-1 justify-center min-w-[80px]">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                                     </svg>
@@ -363,7 +370,7 @@
                                                 <button
                                                     wire:click="rejeitarFreelancer({{ $selected->id }}, {{ $fl->id }})"
                                                     wire:confirm="Rejeitar a proposta de {{ $fl->name }}?"
-                                                    class="btn-outline text-xs flex-1 justify-center text-red-500 border-red-200 hover:bg-red-50">
+                                                    class="btn-outline text-xs flex-1 justify-center text-red-500 border-red-200 hover:bg-red-50 min-w-[80px]">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                                                     </svg>

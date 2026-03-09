@@ -4,10 +4,12 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use App\Models\Service;
+use App\Models\ServiceCandidate;
 
 class AvailableProjects extends Component
 {
     public $projects;
+    public $myCandidacies = []; // IDs dos projetos onde já me candidatei
     public $proposalModal = false;
     public $proposalServiceId = null;
     public $proposalMessage = '';
@@ -22,6 +24,14 @@ class AvailableProjects extends Component
             ->where('cliente_id', '!=', $userId)
             ->orderByDesc('created_at')
             ->get();
+
+        // IDs dos projetos onde este freelancer já tem candidatura ativa
+        $serviceIds = $this->projects->pluck('id')->all();
+        $this->myCandidacies = ServiceCandidate::where('freelancer_id', $userId)
+            ->whereIn('service_id', $serviceIds)
+            ->whereIn('status', ['pending', 'proposal_sent', 'invited'])
+            ->pluck('service_id')
+            ->all();
     }
 
     public function acceptService($serviceId)
