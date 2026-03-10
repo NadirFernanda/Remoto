@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('dashboard-title', 'Novo Contrato/Parceria')
+@section('dashboard-title', '')
 
 @section('dashboard-content')
     <h2 class="text-2xl font-bold text-center mb-6">Novo Contrato/Parceria</h2>
