@@ -20,12 +20,6 @@
 
         {{-- Imagens de fundo em crossfade (overlay azul forte acima delas) --}}
 
-        {{-- TESTE VISUAL: Exibe as imagens diretamente para isolar problema de acesso/servidor --}}
-        <div style="display:flex;gap:10px;margin:40px 0;z-index:9999;position:relative;">
-            <img src="/img/heru1.jpg" style="width:120px;border:2px solid #00baff;">
-            <img src="/img/heru2.jpg" style="width:120px;border:2px solid #06b6d4;">
-            <img src="/img/heru3.jpg" style="width:120px;border:2px solid #10b981;">
-        </div>
     <div class="hp-hero-bg" :class="slide===0 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru1.jpg'); background-position:center 30%;"></div>
     <div class="hp-hero-bg" :class="slide===1 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru2.jpg'); background-position:center 55%; transform:scale(1.05);"></div>
     <div class="hp-hero-bg" :class="slide===2 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru3.jpg'); background-position:center 40%;"></div>
