@@ -11,6 +11,10 @@ use App\Http\Controllers\ChatFileUploadController;
 
 Route::middleware('auth')->get('/cliente/pagamentos', \App\Livewire\Client\FinanceHistory::class)->name('client.payments');
 
+// ─── Loja de Infoprodutos (public) ───────────────────────────────────────────
+Route::get('/loja', \App\Livewire\Loja\Vitrine::class)->name('loja.index');
+Route::get('/loja/{produto:slug}', \App\Livewire\Loja\ProdutoDetalhe::class)->name('loja.show');
+
 // Homepage
 Route::get('/', function () {
     return view('welcome');
@@ -121,6 +125,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/freelancer/perfil/editar', \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
     Route::get('/freelancer/portfolio', \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
     Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
+    Route::get('/freelancer/loja', \App\Livewire\Freelancer\Loja::class)->name('freelancer.loja');
     Route::get('/kyc', \App\Livewire\KycForm::class)->name('kyc.submit');
 
     // --- Client routes ---
@@ -152,6 +157,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
+    Route::get('/admin/loja', \App\Livewire\Admin\LojaAdmin::class)->name('admin.loja');
     
         // Painel admin de reembolsos
         Route::middleware(['auth', 'can:admin'])->group(function () {
