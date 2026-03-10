@@ -10,43 +10,39 @@
             <p class="pub-hero-sub">Encontre rapidamente qualquer página e funcionalidade da plataforma 24 Horas Remoto.</p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;">
-
-            <div class="pub-card">
-                <h2 style="font-size:1rem;font-weight:800;color:#00baff;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em;">Público</h2>
-                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
-                    <li><a href="{{ route('home') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Início</a></li>
-                    <li><a href="{{ route('public.projects') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Projetos disponíveis</a></li>
-                    <li><a href="{{ route('freelancers.index') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Freelancers</a></li>
-                    <li><a href="{{ route('freelancers.search') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Busca avançada</a></li>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
+                <h2 class="text-base font-extrabold text-[#00baff] mb-4 uppercase tracking-wide">Público</h2>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="{{ route('home') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Início</a></li>
+                    <li><a href="{{ route('public.projects') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Projetos disponíveis</a></li>
+                    <li><a href="{{ route('freelancers.index') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Freelancers</a></li>
+                    <li><a href="{{ route('freelancers.search') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Busca avançada</a></li>
                 </ul>
             </div>
-
-            <div class="pub-card">
-                <h2 style="font-size:1rem;font-weight:800;color:#00baff;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em;">Conta</h2>
-                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
-                    <li><a href="/login" style="color:#475569;text-decoration:none;font-size:.9rem;">Entrar</a></li>
-                    <li><a href="/register" style="color:#475569;text-decoration:none;font-size:.9rem;">Criar conta</a></li>
-                    <li><a href="{{ route('dashboard') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Painel do utilizador</a></li>
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
+                <h2 class="text-base font-extrabold text-[#00baff] mb-4 uppercase tracking-wide">Conta</h2>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="/login" class="text-[#475569] text-base hover:text-[#00baff] transition">Entrar</a></li>
+                    <li><a href="/register" class="text-[#475569] text-base hover:text-[#00baff] transition">Criar conta</a></li>
+                    <li><a href="{{ route('dashboard') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Painel do utilizador</a></li>
                 </ul>
             </div>
-
-            <div class="pub-card">
-                <h2 style="font-size:1rem;font-weight:800;color:#00baff;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.04em;">Sobre</h2>
-                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.5rem;">
-                    <li><a href="{{ route('sobre.sobre-nos') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Sobre nós</a></li>
-                    <li><a href="{{ route('sobre.como-funciona') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Como funciona</a></li>
-                    <li><a href="{{ route('sobre.seguranca') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Segurança</a></li>
-                    <li><a href="{{ route('sobre.investidores') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Investidores</a></li>
-                    <li><a href="{{ route('sobre.historias') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Histórias</a></li>
-                    <li><a href="{{ route('sobre.noticias') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Notícias</a></li>
-                    <li><a href="{{ route('sobre.equipe') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Equipe</a></li>
-                    <li><a href="{{ route('sobre.premios') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Prêmios</a></li>
-                    <li><a href="{{ route('sobre.comunicados') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Comunicados de imprensa</a></li>
-                    <li><a href="{{ route('sobre.carreiras') }}" style="color:#475569;text-decoration:none;font-size:.9rem;">Carreiras</a></li>
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
+                <h2 class="text-base font-extrabold text-[#00baff] mb-4 uppercase tracking-wide">Sobre</h2>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="{{ route('sobre.sobre-nos') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Sobre nós</a></li>
+                    <li><a href="{{ route('sobre.como-funciona') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Como funciona</a></li>
+                    <li><a href="{{ route('sobre.seguranca') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Segurança</a></li>
+                    <li><a href="{{ route('sobre.investidores') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Investidores</a></li>
+                    <li><a href="{{ route('sobre.historias') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Histórias</a></li>
+                    <li><a href="{{ route('sobre.noticias') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Notícias</a></li>
+                    <li><a href="{{ route('sobre.equipe') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Equipe</a></li>
+                    <li><a href="{{ route('sobre.premios') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Prêmios</a></li>
+                    <li><a href="{{ route('sobre.comunicados') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Comunicados de imprensa</a></li>
+                    <li><a href="{{ route('sobre.carreiras') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Carreiras</a></li>
                 </ul>
             </div>
-
         </div>
 
     </div>
