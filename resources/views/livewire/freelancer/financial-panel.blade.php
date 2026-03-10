@@ -1,7 +1,7 @@
 <div class="light-page min-h-screen pt-8 pb-12">
 <div class="max-w-5xl mx-auto px-4">
 
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">Painel Financeiro</h1>
             <p class="text-sm text-gray-500 mt-1">Acompanhe os seus ganhos, taxas e movimentações</p>
@@ -49,7 +49,7 @@
     @if($total_movimentos > 0)
     <div class="bg-white rounded-2xl border shadow-sm p-5 mb-8">
         <h2 class="font-semibold text-gray-700 mb-3 text-sm">Resumo do período</h2>
-        <div class="grid grid-cols-3 gap-4 text-center">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             <div>
                 <div class="text-lg font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</div>
                 <div class="text-xs text-gray-500">Ganhos</div>

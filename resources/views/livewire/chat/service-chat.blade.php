@@ -1,5 +1,5 @@
 ﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
-    <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 520px;">
+    <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
         <div class="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-[#0ea5e9] to-[#0284c7] text-white shadow-sm flex-shrink-0">
@@ -151,7 +151,7 @@
                     </button>
                 </form>
 
-                <div id="emoji-picker" wire:ignore style="display:none; position:absolute; bottom:80px; right:80px; z-index:1000;"></div>
+                <div id="emoji-picker" wire:ignore style="display:none; position:absolute; bottom:60px; right:0.5rem; z-index:1000; max-width:calc(100vw - 1rem);"></div>
 
                 @assets
                 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>

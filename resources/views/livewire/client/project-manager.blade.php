@@ -527,7 +527,7 @@
                             <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{{ $selected->briefing }}</p>
                         </div>
                         @if($selected->valor)
-                            <div class="mt-4 grid grid-cols-3 gap-3">
+                            <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
                                 <div class="bg-gray-50 rounded-[10px] border border-gray-100 p-3 text-center">
                                     <p class="text-xs text-gray-500">Valor</p>
                                     <p class="text-sm font-bold text-gray-800 mt-1">{{ number_format($selected->valor, 2) }} Kz</p>

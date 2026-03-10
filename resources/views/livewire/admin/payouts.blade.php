@@ -26,7 +26,7 @@
             <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">{{ $pendentes->count() }}</span>
             Saques Pendentes — aguardam aprovação
         </h3>
-        <div class="rounded-2xl border border-orange-200 overflow-hidden">
+        <div class="rounded-2xl border border-orange-200 overflow-x-auto">
             <table class="min-w-full text-sm">
                 <thead class="bg-orange-50">
                     <tr>
@@ -74,7 +74,7 @@
 
     {{-- ─── Histórico ──────────────────────────────────────────── --}}
     <h3 class="text-sm font-semibold text-gray-600 mb-2">Histórico de Saques</h3>
-    <div class="rounded-2xl border border-gray-200 overflow-hidden">
+    <div class="rounded-2xl border border-gray-200 overflow-x-auto">
         <table class="min-w-full text-sm">
             <thead class="bg-gray-50">
                 <tr>

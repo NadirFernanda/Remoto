@@ -39,7 +39,7 @@
     </div>
 
     {{-- ─── Projects pipeline ──────────────────────────────────── --}}
-    <div class="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         @php
             $pipeCards = [
                 ['label' => 'Publicados',   'val' => $stats['projects_published'], 'cls' => 'bg-blue-50 text-blue-700 border-blue-100'],

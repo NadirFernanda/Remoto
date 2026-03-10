@@ -1,13 +1,29 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="flex min-h-screen bg-gray-50">
-    <aside class="w-64 bg-white border-r border-gray-100 flex flex-col shadow-sm" style="min-height:100vh">
+<div x-data="{ sidebarOpen: false }" class="dash-wrapper">
+    {{-- Mobile sidebar toggle --}}
+    <button @click="sidebarOpen = !sidebarOpen"
+        class="dash-sidebar-toggle"
+        aria-label="Abrir menu lateral">
+        <svg x-show="!sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        <svg x-show="sidebarOpen" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+
+    {{-- Overlay --}}
+    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
+        class="dash-overlay" style="display:none;"></div>
+
+    {{-- Sidebar --}}
+    <aside class="dash-sidebar"
+        :class="sidebarOpen ? 'dash-sidebar--open' : ''"
+        @click.away="sidebarOpen = false">
         @include('partials.dashboard-sidebar')
     </aside>
 
-    <main class="flex-1 p-8">
-        <div class="bg-white rounded-2xl p-6 shadow-md">
+    {{-- Main content --}}
+    <main class="dash-main">
+        <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md">
         @if(session('error'))
             <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
                 {{ session('error') }}
@@ -25,9 +41,9 @@
             $actions = $dashboardActions ?? null;
         @endphp
 
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
-            <div class="flex items-center gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <h1 class="text-xl sm:text-2xl font-bold">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
+            <div class="flex items-center gap-3 flex-wrap">
                 @if(!empty($actions))
                     {!! $actions !!}
                 @elseif(View::hasSection('dashboard-actions'))

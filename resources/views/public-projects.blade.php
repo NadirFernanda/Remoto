@@ -89,7 +89,7 @@
         @endphp
 
         {{-- Cards --}}
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:1.5rem;">
             @forelse($projects as $project)
                 @php
                     $briefing = json_decode($project->briefing, true);

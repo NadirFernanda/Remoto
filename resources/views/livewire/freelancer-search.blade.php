@@ -7,12 +7,15 @@
             <p class="pub-hero-sub">Pesquise por habilidade, preço, avaliação e disponibilidade</p>
         </div>
 
-        <style>@media(min-width:1024px){.fs-layout{flex-direction:row!important}}</style>
+        <style>
+            @media(max-width:767px){.fs-layout{flex-direction:column!important}.fs-sidebar{width:100%!important}}
+            @media(min-width:768px){.fs-layout{flex-direction:row!important}}
+        </style>
 
         <div class="fs-layout" style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
 
             {{-- ── Sidebar de Filtros ── --}}
-            <aside style="width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:.75rem;">
+            <aside class="fs-sidebar" style="width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:.75rem;">
 
                 <div class="pub-sidebar-block">
                     <label class="pub-filter-label">Pesquisa</label>

@@ -128,7 +128,7 @@
     <div class="flex flex-wrap gap-3 mb-5">
         <input wire:model.live.debounce.300ms="search" type="text"
             placeholder="Pesquisar nome ou email..."
-            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
         <select wire:model.live="roleFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             <option value="">Todos os tipos</option>
             <option value="admin">Admin</option>

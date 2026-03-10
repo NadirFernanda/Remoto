@@ -24,7 +24,7 @@
             $andamento = $orders->whereIn('status', ['em_andamento', 'em andamento', 'in_progress'])->count();
             $concluido = $orders->where('status', 'concluido')->count();
         @endphp
-        <div class="grid grid-cols-3 gap-3 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
             <div class="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
                 <div class="text-2xl font-bold text-[#00baff]">{{ $total }}</div>
                 <div class="text-xs text-gray-400 mt-1">Total</div>
@@ -119,8 +119,7 @@
         @if($orders->count() > 0)
         <div class="mt-6 text-center">
             <a href="{{ route('client.briefing') }}"
-               class="btn-eq btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold transition-all"
-               style="min-width: 180px;">
+               class="btn-eq btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>

@@ -1,4 +1,4 @@
-<div class="p-6 bg-white rounded shadow max-w-2xl mx-auto mt-8">
+<div class="p-4 sm:p-6 bg-white rounded shadow max-w-2xl mx-auto mt-8">
     <h2 class="text-2xl font-bold mb-4">Notificações</h2>
     <ul>
         @forelse($notifications as $notification)

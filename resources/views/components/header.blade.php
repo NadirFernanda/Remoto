@@ -19,7 +19,7 @@
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak
                          class="absolute left-0 mt-2 rounded-2xl z-50"
-                         style="width:800px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
+                         style="width:800px;max-width:calc(100vw - 2rem);background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
                         <div style="display:flex;">
                             <!-- Coluna esquerda: tabs de navegação -->
                             <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid rgba(255,255,255,.07);flex-shrink:0;">
@@ -172,7 +172,7 @@
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak
                          class="absolute left-0 mt-2 rounded-2xl z-50"
-                         style="width:760px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
+                         style="width:760px;max-width:calc(100vw - 2rem);background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);">
                         <div style="display:flex;">
                             <!-- Coluna esquerda: tabs -->
                             <div style="width:280px;padding:1.5rem 1.125rem;border-right:1px solid rgba(255,255,255,.07);flex-shrink:0;">
@@ -326,7 +326,7 @@
                     </button>
                     <div x-show="open" @click.outside="open = false" x-cloak
                          class="absolute left-0 mt-2 rounded-2xl z-50"
-                         style="width:560px;background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);padding:1.25rem;">
+                         style="width:560px;max-width:calc(100vw - 2rem);background:#141928;box-shadow:0 24px 64px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.08);padding:1.25rem;">
                         <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Para o seu negócio</p>
                         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.625rem;">
                             <a href="{{ route('sobre.investidores') }}"
