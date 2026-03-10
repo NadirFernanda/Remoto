@@ -10,42 +10,37 @@
             <p class="pub-hero-sub">Conheça as pessoas apaixonadas que constroem e evoluem a 24 Horas Remoto todos os dias.</p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:1.5rem;">
-
-            <div class="pub-card" style="text-align:center;">
-                <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#00baff,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;margin:0 auto 1rem;">N</div>
-                <div style="font-weight:800;color:#0f172a;font-size:1rem;">Nadir Fernanda</div>
-                <div style="color:#00baff;font-size:.82rem;font-weight:700;margin:.2rem 0 .6rem;">CEO &amp; Co-fundadora</div>
-                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Visionária por trás da 24 Horas Remoto, com experiência em empreendedorismo digital e desenvolvimento de produto na África Subsaariana.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] flex items-center justify-center text-white font-black text-3xl mx-auto mb-4">N</div>
+                <div class="font-extrabold text-[#0f172a] text-lg">Nadir Fernanda</div>
+                <div class="text-[#00baff] text-xs font-bold my-1 mb-3">CEO &amp; Co-fundadora</div>
+                <p class="text-[#64748b] text-base leading-relaxed m-0">Visionária por trás da 24 Horas Remoto, com experiência em empreendedorismo digital e desenvolvimento de produto na África Subsaariana.</p>
             </div>
-
-            <div class="pub-card" style="text-align:center;">
-                <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#06b6d4,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;margin:0 auto 1rem;">P</div>
-                <div style="font-weight:800;color:#0f172a;font-size:1rem;">Paulo Mendes</div>
-                <div style="color:#00baff;font-size:.82rem;font-weight:700;margin:.2rem 0 .6rem;">CTO &amp; Co-fundador</div>
-                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Engenheiro de software com mais de 10 anos de experiência em plataformas de marketplace e sistemas de pagamento seguros.</p>
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#06b6d4] to-[#0077cc] flex items-center justify-center text-white font-black text-3xl mx-auto mb-4">P</div>
+                <div class="font-extrabold text-[#0f172a] text-lg">Paulo Mendes</div>
+                <div class="text-[#00baff] text-xs font-bold my-1 mb-3">CTO &amp; Co-fundador</div>
+                <p class="text-[#64748b] text-base leading-relaxed m-0">Engenheiro de software com mais de 10 anos de experiência em plataformas de marketplace e sistemas de pagamento seguros.</p>
             </div>
-
-            <div class="pub-card" style="text-align:center;">
-                <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#10b981,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;margin:0 auto 1rem;">C</div>
-                <div style="font-weight:800;color:#0f172a;font-size:1rem;">Catarina Lopes</div>
-                <div style="color:#00baff;font-size:.82rem;font-weight:700;margin:.2rem 0 .6rem;">Directora de Produto</div>
-                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Especialista em UX e growth, responsável por transformar feedback de utilizadores em funcionalidades que fazem a diferença real.</p>
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#10b981] to-[#0077cc] flex items-center justify-center text-white font-black text-3xl mx-auto mb-4">C</div>
+                <div class="font-extrabold text-[#0f172a] text-lg">Catarina Lopes</div>
+                <div class="text-[#00baff] text-xs font-bold my-1 mb-3">Directora de Produto</div>
+                <p class="text-[#64748b] text-base leading-relaxed m-0">Especialista em UX e growth, responsável por transformar feedback de utilizadores em funcionalidades que fazem a diferença real.</p>
             </div>
-
-            <div class="pub-card" style="text-align:center;">
-                <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.6rem;margin:0 auto 1rem;">R</div>
-                <div style="font-weight:800;color:#0f172a;font-size:1rem;">Roberto Silva</div>
-                <div style="color:#00baff;font-size:.82rem;font-weight:700;margin:.2rem 0 .6rem;">Director de Operações</div>
-                <p style="color:#64748b;font-size:.88rem;line-height:1.55;margin:0;">Garante que cada transação, debate e resolução de disputa ocorre com eficiência e justiça para ambas as partes.</p>
+            <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
+                <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#f59e0b] to-[#0077cc] flex items-center justify-center text-white font-black text-3xl mx-auto mb-4">R</div>
+                <div class="font-extrabold text-[#0f172a] text-lg">Roberto Silva</div>
+                <div class="text-[#00baff] text-xs font-bold my-1 mb-3">Director de Operações</div>
+                <p class="text-[#64748b] text-base leading-relaxed m-0">Garante que cada transação, debate e resolução de disputa ocorre com eficiência e justiça para ambas as partes.</p>
             </div>
-
         </div>
 
-        <div class="pub-card" style="text-align:center;">
-            <h2 style="font-size:1.1rem;font-weight:800;color:#0f172a;margin-bottom:.5rem;">Quer fazer parte da nossa equipe?</h2>
-            <p style="color:#64748b;font-size:.9rem;margin-bottom:1rem;">Estamos sempre à procura de talentos apaixonados pela nossa missão.</p>
-            <a href="{{ route('sobre.carreiras') }}" style="display:inline-block;background:#00baff;color:#fff;font-weight:800;padding:.75rem 2rem;border-radius:10px;text-decoration:none;font-size:.95rem;">Ver vagas abertas</a>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
+            <h2 class="text-xl md:text-2xl font-extrabold text-[#0f172a] mb-2">Quer fazer parte da nossa equipe?</h2>
+            <p class="text-[#64748b] mb-4 text-lg">Estamos sempre à procura de talentos apaixonados pela nossa missão.</p>
+            <a href="{{ route('sobre.carreiras') }}" class="inline-block bg-[#00baff] hover:bg-[#009ad6] text-white font-extrabold px-8 py-3 rounded-xl text-lg transition">Ver vagas abertas</a>
         </div>
 
     </div>
