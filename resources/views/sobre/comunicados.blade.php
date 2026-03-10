@@ -10,31 +10,31 @@
             <p class="pub-hero-sub">Comunicados oficiais da 24 Horas Remoto para jornalistas, analistas e parceiros de media.</p>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="font-size:.75rem;color:#94a3b8;font-weight:600;margin-bottom:.35rem;">20 de Janeiro de 2025</div>
-            <h3 style="font-size:1.05rem;font-weight:800;color:#0f172a;margin:0 0 .5rem;">24 Horas Remoto lança verificação de identidade em tempo real para freelancers angolanos</h3>
-            <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0 0 .75rem;">O novo sistema KYC (Know Your Customer) da 24 Horas Remoto permite que os freelancers verifiquem a sua identidade em menos de 10 minutos usando documento de identificação e selfie...</p>
-            <a href="#" style="color:#00baff;font-size:.88rem;font-weight:700;text-decoration:none;">Ler comunicado completo →</a>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="text-xs text-[#94a3b8] font-semibold mb-1">20 de Janeiro de 2025</div>
+            <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto lança verificação de identidade em tempo real para freelancers angolanos</h3>
+            <p class="text-[#64748b] text-base leading-relaxed mb-3">O novo sistema KYC (Know Your Customer) da 24 Horas Remoto permite que os freelancers verifiquem a sua identidade em menos de 10 minutos usando documento de identificação e selfie...</p>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="font-size:.75rem;color:#94a3b8;font-weight:600;margin-bottom:.35rem;">15 de Novembro de 2024</div>
-            <h3 style="font-size:1.05rem;font-weight:800;color:#0f172a;margin:0 0 .5rem;">24 Horas Remoto atinge 5.000 utilizadores e 1.200 projectos publicados em menos de um ano</h3>
-            <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0 0 .75rem;">A plataforma angolana de freelancing celebra o primeiro ano de operações com crescimento acelerado, superando as metas iniciais de utilizadores em 250%...</p>
-            <a href="#" style="color:#00baff;font-size:.88rem;font-weight:700;text-decoration:none;">Ler comunicado completo →</a>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="text-xs text-[#94a3b8] font-semibold mb-1">15 de Novembro de 2024</div>
+            <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto atinge 5.000 utilizadores e 1.200 projectos publicados em menos de um ano</h3>
+            <p class="text-[#64748b] text-base leading-relaxed mb-3">A plataforma angolana de freelancing celebra o primeiro ano de operações com crescimento acelerado, superando as metas iniciais de utilizadores em 250%...</p>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="font-size:.75rem;color:#94a3b8;font-weight:600;margin-bottom:.35rem;">3 de Outubro de 2024</div>
-            <h3 style="font-size:1.05rem;font-weight:800;color:#0f172a;margin:0 0 .5rem;">24 Horas Remoto abre Centro de Disputas Mediadas para resolução de conflitos</h3>
-            <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0 0 .75rem;">O novo módulo de gestão de disputas garante que qualquer conflito entre cliente e freelancer seja resolvido de forma justa, documentada e transparente por mediadores especializados...</p>
-            <a href="#" style="color:#00baff;font-size:.88rem;font-weight:700;text-decoration:none;">Ler comunicado completo →</a>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="text-xs text-[#94a3b8] font-semibold mb-1">3 de Outubro de 2024</div>
+            <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto abre Centro de Disputas Mediadas para resolução de conflitos</h3>
+            <p class="text-[#64748b] text-base leading-relaxed mb-3">O novo módulo de gestão de disputas garante que qualquer conflito entre cliente e freelancer seja resolvido de forma justa, documentada e transparente por mediadores especializados...</p>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
         </div>
 
-        <div class="pub-card" style="background:#f8fafc;">
-            <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:.5rem;">Contacto para imprensa</h3>
-            <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0 0 .5rem;">Para pedidos de entrevista, esclarecimentos sobre comunicados ou acesso ao kit de imprensa:</p>
-            <p style="margin:0;"><strong style="color:#0f172a;">press@remoto.ao</strong></p>
+        <div class="bg-[#f8fafc] border border-[#e6f3fa] rounded-3xl shadow-xl p-8 md:p-10 mb-5 transition hover:shadow-2xl">
+            <h3 class="text-base font-extrabold text-[#0f172a] mb-2">Contacto para imprensa</h3>
+            <p class="text-[#475569] text-base leading-relaxed mb-2">Para pedidos de entrevista, esclarecimentos sobre comunicados ou acesso ao kit de imprensa:</p>
+            <p class="m-0"><strong class="text-[#0f172a]">press@remoto.ao</strong></p>
         </div>
 
     </div>
