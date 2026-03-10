@@ -3,6 +3,7 @@
 @section('dashboard-title', 'Novo Contrato/Parceria')
 
 @section('dashboard-content')
+    <h2 class="text-2xl font-bold text-center mb-6">Novo Contrato/Parceria</h2>
     <form method="POST" action="{{ route('admin.comercial.store') }}" enctype="multipart/form-data" class="max-w-xl mx-auto bg-white rounded-2xl shadow p-8 space-y-6">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
