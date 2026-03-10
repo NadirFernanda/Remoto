@@ -20,8 +20,8 @@
 
     {{-- Imagens de fundo em crossfade (overlay azul forte acima delas) --}}
     <div class="hp-hero-bg" :class="slide===0 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru1.jpg'); background-position:center 30%;"></div>
-    <div class="hp-hero-bg" :class="slide===1 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru1.jpg'); background-position:center 55%; transform:scale(1.05);"></div>
-    <div class="hp-hero-bg" :class="slide===2 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru1.jpg'); background-position:right 40%;"></div>
+    <div class="hp-hero-bg" :class="slide===1 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru2.jpg'); background-position:center 55%; transform:scale(1.05);"></div>
+    <div class="hp-hero-bg" :class="slide===2 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru3.jpg'); background-position:right 40%;"></div>
     <div class="hp-hero-overlay"></div>
 
     {{-- Slide 1 --}}
