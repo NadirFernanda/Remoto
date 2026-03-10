@@ -94,7 +94,7 @@
                         <button wire:click="openProposal({{ $userModel->id }})" class="px-4 py-2 rounded-full bg-blue-600 text-white">Enviar proposta</button>
                     </div>
                 @else
-                    <div>Carregando...</div>
+                    <div>A carregar...</div>
                 @endif
             </div>
         </div>

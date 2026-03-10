@@ -18,12 +18,12 @@
         <main class="max-w-6xl mx-auto p-8">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-cyan-600">Projetos Disponíveis</h2>
-                    <p class="text-sm text-gray-500 mt-1">Escolha os projetos que combinam com o seu perfil e agenda.</p>
+                    <h2 class="text-2xl font-bold text-cyan-600">Projectos Disponíveis</h2>
+                    <p class="text-sm text-gray-500 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
                 </div>
                 <div class="hidden md:flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-full px-4 py-2">
                     <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span>Pedidos em tempo real — atualize para ver novos projetos</span>
+                    <span>Pedidos em tempo real — actualize para ver novos projectos</span>
                 </div>
             </div>
 
@@ -124,14 +124,14 @@
                                     Chat com o cliente
                                 </a>
                             @else
-                                <button type="button" wire:click="acceptService({{ $project->id }})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Aceitar projeto</button>
+                                <button type="button" wire:click="acceptService({{ $project->id }})" class="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm">Aceitar projecto</button>
                                 <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
                             @endif
                         </div>
                     </div>
                 @empty
                     <div class="col-span-3 text-gray-500 text-center text-sm bg-white border border-dashed border-gray-300 rounded-xl py-10">
-                        Nenhum projeto disponível no momento. Volte mais tarde ou mantenha suas notificações ativas.
+                        Nenhum projecto disponível de momento. Volte mais tarde ou mantenha as suas notificações activas.
                     </div>
                 @endforelse
             </div>

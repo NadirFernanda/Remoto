@@ -8,13 +8,13 @@
         {{-- Hero --}}
         <div class="pub-hero" style="margin-bottom:2rem;">
             <div class="pub-hero-label">Marketplace</div>
-            <h1 class="pub-hero-title">Projetos Disponíveis</h1>
+            <h1 class="pub-hero-title">Projectos Disponíveis</h1>
             <p class="pub-hero-sub">Encontre trabalhos publicados por clientes com briefing completo — filtre por valor, data e tipo.</p>
         </div>
 
         {{-- Filtros --}}
         @php $advancedOpen = (request('business_type') || request('target_audience')) ? 'open' : ''; @endphp
-        <form method="GET" class="pub-filters" role="search" aria-label="Filtrar projetos" style="margin-bottom:2rem;">
+        <form method="GET" class="pub-filters" role="search" aria-label="Filtrar projectos" style="margin-bottom:2rem;">
             <div class="pub-filter-grid">
                 <div class="pub-filter-group">
                     <label class="pub-filter-label" for="valor_min">Valor mínimo</label>
@@ -37,7 +37,7 @@
                     <select name="status" id="status" class="pub-select">
                         <option value="">Todos</option>
                         <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Publicado</option>
-                        <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Aceito</option>
+                        <option value="accepted" {{ request('status') == 'accepted' ? 'selected' : '' }}>Aceite</option>
                         <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Em andamento</option>
                         <option value="delivered" {{ request('status') == 'delivered' ? 'selected' : '' }}>Entregue</option>
                         <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Concluído</option>
@@ -80,7 +80,7 @@
         @php
             $statusMap = [
                 'published'   => 'Publicado',
-                'accepted'    => 'Aceito',
+                'accepted'    => 'Aceite',
                 'in_progress' => 'Em andamento',
                 'delivered'   => 'Entregue',
                 'completed'   => 'Concluído',
@@ -139,8 +139,8 @@
             @empty
                 <div class="pub-empty" style="grid-column:1/-1;">
                     <svg width="42" height="42" fill="none" stroke="#94a3b8" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto .75rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-3-3v6M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <p style="font-size:1rem;font-weight:700;color:#64748b;margin:.25rem 0 0;">Nenhum projeto disponível no momento.</p>
-                    <p style="font-size:.875rem;color:#94a3b8;margin:.25rem 0 0;">Volte em breve para ver novos projetos.</p>
+                    <p style="font-size:1rem;font-weight:700;color:#64748b;margin:.25rem 0 0;">Nenhum projecto disponível no momento.</p>
+                    <p style="font-size:.875rem;color:#94a3b8;margin:.25rem 0 0;">Volte em breve para ver novos projectos.</p>
                 </div>
             @endforelse
         </div>

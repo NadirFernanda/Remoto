@@ -6,7 +6,7 @@
 
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Reconhecimento</div>
-            <h1 class="pub-hero-title">Prêmios e distinções</h1>
+            <h1 class="pub-hero-title">Prémios e distinções</h1>
             <p class="pub-hero-sub">O reconhecimento externo que valida o impacto da 24 Horas Remoto no ecossistema digital de Angola.</p>
         </div>
 

@@ -9,7 +9,7 @@
         </a>
         <div>
             <h1 class="text-2xl font-bold text-gray-900">{{ $edit ? 'Editar pedido' : 'Novo pedido' }}</h1>
-            <p class="text-sm text-gray-400 mt-0.5">Descreva seu projecto e encontre o freelancer ideal</p>
+            <p class="text-sm text-gray-400 mt-0.5">Descreva o seu projecto e encontre o freelancer ideal</p>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
     {{-- ─── STEP 1: Service type picker ─────────────────────────────── --}}
     @if($step === 1)
     <div>
-        <h2 class="text-lg font-semibold text-gray-800 mb-1">Que tipo de serviço você precisa?</h2>
+        <h2 class="text-lg font-semibold text-gray-800 mb-1">Que tipo de serviço precisa?</h2>
         <p class="text-sm text-gray-400 mb-6">Escolha a categoria mais próxima do seu projecto</p>
 
         @error('business_type1')
@@ -57,7 +57,7 @@
                 $icons = [
                     'Desenvolvimento de sites e sistemas web' => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8l3 3-3 3"/><path d="M13 14h4"/></svg>', 'short' => 'Dev. Web'],
                     'Criação de lojas virtuais (e-commerce)'  => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>', 'short' => 'E-commerce'],
-                    'Desenvolvimento de aplicativos mobile'   => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>', 'short' => 'App Mobile'],
+                    'Desenvolvimento de aplicações mobile'   => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>', 'short' => 'App Mobile'],
                     'Design gráfico (logos, banners, identidade visual)' => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="22"/><line x1="2" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="22" y2="12"/></svg>', 'short' => 'Design Gráfico'],
                     'Redação de textos, artigos e blogs'      => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>', 'short' => 'Redação'],
                     'Marketing digital (SEO, Google Ads, Facebook Ads)'  => ['icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', 'short' => 'Marketing Digital'],
@@ -212,7 +212,7 @@
 
         <div class="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 mb-6">
             <p class="text-sm text-cyan-800">
-                <strong>O que acontece a seguir?</strong> Após submeter, você definirá o orçamento e o pedido será publicado para que freelancers enviem propostas.
+                <strong>O que acontece a seguir?</strong> Após submeter, poderá definir o orçamento e o pedido será publicado para que freelancers enviem propostas.
             </p>
         </div>
 

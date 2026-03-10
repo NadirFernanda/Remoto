@@ -9,7 +9,7 @@
             <input
                 type="text"
                 wire:model.debounce.400ms="search"
-                placeholder="Buscar por nome, especialidade ou descrição…"
+                placeholder="Pesquisar por nome, especialidade ou descrição…"
                 class="w-full pl-10 pr-4 py-2.5 rounded-[10px] border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
             >
         </div>
@@ -95,7 +95,7 @@
                         </div>
                         <span style="font-size:.78rem;color:#0f172a;font-weight:700;">{{ $rating > 0 ? number_format($rating,1) : 'Novo' }}</span>
                         @if($projects > 0)
-                            <span style="font-size:.72rem;color:#94a3b8;">· {{ $projects }} projetos</span>
+                            <span style="font-size:.72rem;color:#94a3b8;">· {{ $projects }} projectos</span>
                         @endif
                     </div>
 

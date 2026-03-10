@@ -12,7 +12,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-4">Pagamentos protegidos por escrow</h2>
-            <p class="text-[#475569] text-lg leading-relaxed">Quando um cliente aceita uma proposta, o valor do projeto é retido na plataforma. O freelancer só recebe após o cliente aprovar a entrega — ou após resolução de eventuais disputas. Nenhum pagamento é liberado antes da confirmação bilateral.</p>
+            <p class="text-[#475569] text-lg leading-relaxed">Quando um cliente aceita uma proposta, o valor do projecto é retido na plataforma. O freelancer só recebe após o cliente aprovar a entrega — ou após resolução de eventuais disputas. Nenhum pagamento é libertado antes da confirmação bilateral.</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
@@ -21,7 +21,7 @@
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-6">Camadas de proteção técnica</h2>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-6">Camadas de protecção técnica</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div class="bg-[#f8fafc] rounded-2xl p-6 border border-[#e2e8f0]">
                     <div class="text-[#00baff] font-extrabold mb-2 text-lg">HTTPS / TLS</div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
-            <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-4">Denuncie atividade suspeita</h2>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-4">Denuncie actividade suspeita</h2>
             <p class="text-[#475569] text-lg leading-relaxed">Identificou comportamento suspeito, phishing ou tentativa de fraude? Contacte-nos imediatamente através do e-mail <strong>seguranca@remoto.ao</strong> ou use o botão "Denunciar" disponível em qualquer perfil ou mensagem.</p>
         </div>
 

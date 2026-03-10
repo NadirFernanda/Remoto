@@ -29,16 +29,16 @@
     <div class="hp-hero-slide" x-show="slide===0">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projeto</span></h1>
+                <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projecto</span></h1>
                 <ul class="hp-hero-bullets">
                     <li>N.º 1 marketplace freelance de Angola</li>
-                    <li>Qualquer serviço que você precisar</li>
-                    <li>Receba propostas em minutos, grátis</li>
+                    <li>Qualquer serviço que precisar</li>
+                    <li>Receba propostas em minutos, gratuitamente</li>
                     <li>Pague só quando estiver 100% satisfeito</li>
                 </ul>
                 <div class="hp-ctas">
                     <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
-                    <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro Freelancing</a>
+                    <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro como Freelancer</a>
                 </div>
             </div>
             <div class="hp-hero-card">
@@ -50,10 +50,10 @@
                         <div class="hp-hero-card-role">Designer UI/UX</div>
                     </div>
                 </div>
-                <p class="hp-hero-card-quote">"Projeto entregue antes do prazo, comunicação excelente e resultado profissional."</p>
+                <p class="hp-hero-card-quote">"Projecto entregue antes do prazo, comunicação excelente e resultado profissional."</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Design de App</span>
-                    <span class="hp-hero-card-tag-price">R$ 850</span>
+                    <span class="hp-hero-card-tag-price">Kz 85.000</span>
                 </div>
             </div>
         </div>
@@ -63,16 +63,16 @@
     <div class="hp-hero-slide" x-show="slide===1" style="display:none;">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Ganhe dinheiro fazendo<br>o que você <span class="hp-hero-accent">ama</span></h1>
+                <h1 class="hp-hero-title">Ganhe dinheiro a fazer<br>o que <span class="hp-hero-accent">ama</span></h1>
                 <ul class="hp-hero-bullets">
-                    <li>Crie seu perfil gratuito em minutos</li>
-                    <li>Acesse milhares de projetos todo dia</li>
-                    <li>Defina seu preço e horários</li>
+                    <li>Crie o seu perfil gratuito em minutos</li>
+                    <li>Aceda a milhares de projectos todos os dias</li>
+                    <li>Defina o seu preço e horários</li>
                     <li>Receba pagamentos seguros e rápidos</li>
                 </ul>
                 <div class="hp-ctas">
                     <a href="/register" class="hp-btn hp-btn-white">Começar como Freelancer</a>
-                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
+                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos disponíveis</a>
                 </div>
             </div>
             <div class="hp-hero-card">
@@ -84,10 +84,10 @@
                         <div class="hp-hero-card-role">Dev Full Stack</div>
                     </div>
                 </div>
-                <p class="hp-hero-card-quote">"Encontrei projetos incríveis logo na primeira semana. A plataforma é simples e o pagamento é seguro."</p>
+                <p class="hp-hero-card-quote">"Encontrei projectos incríveis logo na primeira semana. A plataforma é simples e o pagamento é seguro."</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Sistema Web</span>
-                    <span class="hp-hero-card-tag-price">R$ 2.400</span>
+                    <span class="hp-hero-card-tag-price">Kz 240.000</span>
                 </div>
             </div>
         </div>
@@ -97,15 +97,15 @@
     <div class="hp-hero-slide" x-show="slide===2" style="display:none;">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Tudo que seu negócio<br>precisa, em um <span class="hp-hero-accent">só lugar</span></h1>
+                <h1 class="hp-hero-title">Tudo que o seu negócio<br>precisa, num <span class="hp-hero-accent">só lugar</span></h1>
                 <ul class="hp-hero-bullets">
                     <li>Design, Dev, Marketing, Redação e muito mais</li>
-                    <li>+5.000 profissionais verificados ativos</li>
+                    <li>+5.000 profissionais verificados activos</li>
                     <li>Sistema de custódia: pague com segurança</li>
                     <li>Suporte dedicado 24 horas por dia</li>
                 </ul>
                 <div class="hp-ctas">
-                    <a href="/register" class="hp-btn hp-btn-white">Publicar projeto grátis</a>
+                    <a href="/register" class="hp-btn hp-btn-white">Publicar projecto gratuito</a>
                     <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-outline-white">Explorar freelancers</a>
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <p class="hp-hero-card-quote">"Minha campanha teve 3× mais resultados. Profissional incrível, contratada em menos de 2 horas!"</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Campanha Ads</span>
-                    <span class="hp-hero-card-tag-price">R$ 1.200</span>
+                    <span class="hp-hero-card-tag-price">Kz 120.000</span>
                 </div>
             </div>
         </div>
@@ -142,12 +142,12 @@
     <div class="hp-container" style="text-align:center;">
         <p class="hp-label">Simples e rápido</p>
         <h2 class="hp-title">Como funciona</h2>
-        <p class="hp-subtitle">Em poucos passos, você conecta clientes e freelancers de forma segura.</p>
+        <p class="hp-subtitle">Em poucos passos, conecta clientes e freelancers de forma segura.</p>
         <div class="hp-steps">
             <div class="hp-step">
                 <div class="hp-step-icon">1</div>
-                <h3>Publique seu projeto</h3>
-                <p>Descreva o que precisa e defina seu orçamento. É gratuito e leva menos de 2 minutos.</p>
+                <h3>Publique o seu projecto</h3>
+                <p>Descreva o que precisa e defina o seu orçamento. É gratuito e leva menos de 2 minutos.</p>
             </div>
             <div class="hp-step">
                 <div class="hp-step-icon">2</div>
@@ -162,7 +162,7 @@
             <div class="hp-step">
                 <div class="hp-step-icon">4</div>
                 <h3>Pague com segurança</h3>
-                <p>Pagamento em custódia: o freelancer só recebe após sua aprovação.</p>
+                <p>Pagamento em custódia: o freelancer só recebe após a sua aprovação.</p>
             </div>
         </div>
     </div>
@@ -175,7 +175,7 @@
     <div class="hp-container" style="text-align:center;">
         <p class="hp-label">Explore</p>
         <h2 class="hp-title">Categorias populares</h2>
-        <p class="hp-subtitle">Encontre o profissional certo para cada tipo de projeto.</p>
+        <p class="hp-subtitle">Encontre o profissional certo para cada tipo de projecto.</p>
         <div class="hp-categories">
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
                 <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.121 2.121 0 0 0-3-3L5 17v3"/></svg></span>
@@ -225,13 +225,13 @@
             <div class="hp-benefits-text">
                 <p class="hp-label">Por que nós</p>
                 <h2 class="hp-title">Trabalhe com<br>segurança e confiança</h2>
-                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">Nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
+                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
                 <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
             </div>
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-                    <div><h4>Pagamento seguro</h4><p>Dinheiro fica em custódia e só é liberado quando você aprovar o trabalho.</p></div>
+                    <div><h4>Pagamento seguro</h4><p>Dinheiro fica em custódia e só é libertado quando aprovar o trabalho.</p></div>
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
@@ -239,11 +239,11 @@
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                    <div><h4>Suporte 24h</h4><p>Nossa equipe está disponível para ajudar clientes e freelancers a qualquer momento.</p></div>
+                    <div><h4>Suporte 24h</h4><p>A nossa equipa está disponível para ajudar clientes e freelancers a qualquer momento.</p></div>
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-                    <div><h4>Resultados rápidos</h4><p>Receba propostas em minutos e inicie seu projeto em menos de 24 horas.</p></div>
+                    <div><h4>Resultados rápidos</h4><p>Receba propostas em minutos e inicie o seu projecto em menos de 24 horas.</p></div>
                 </div>
             </div>
         </div>
@@ -256,15 +256,15 @@
 <section class="hp-section hp-section--gray">
     <div class="hp-container" style="text-align:center;">
         <p class="hp-label">Depoimentos</p>
-        <h2 class="hp-title">O que dizem nossos usuários</h2>
-        <p class="hp-subtitle">Histórias reais de clientes e freelancers que transformaram seus negócios.</p>
+        <h2 class="hp-title">O que dizem os nossos utilizadores</h2>
+        <p class="hp-subtitle">Histórias reais de clientes e freelancers que transformaram os seus negócios.</p>
         <div class="hp-testimonials">
             <div class="hp-testimonial">
                 <div class="hp-testimonial-stars">★★★★★</div>
-                <p class="hp-testimonial-text">"Publiquei o projeto e já tinha 8 propostas em menos de 2 horas. Contratei uma designer incrível e o logo ficou perfeito!"</p>
+                <p class="hp-testimonial-text">"Publiquei o projecto e já tinha 8 propostas em menos de 2 horas. Contratei uma designer incrível e o logótipo ficou perfeito!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">C</div>
-                    <div><div class="hp-testimonial-name">Carlos Mendes</div><div class="hp-testimonial-role">Cliente · São Paulo</div></div>
+                    <div><div class="hp-testimonial-name">Carlos Mendes</div><div class="hp-testimonial-role">Cliente · Luanda</div></div>
                 </div>
             </div>
             <div class="hp-testimonial">
@@ -280,7 +280,7 @@
                 <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicação excelente e dentro do orçamento!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">R</div>
-                    <div><div class="hp-testimonial-name">Rafael Costa</div><div class="hp-testimonial-role">Cliente · Rio de Janeiro</div></div>
+                    <div><div class="hp-testimonial-name">Rafael Costa</div><div class="hp-testimonial-role">Cliente · Benguela</div></div>
                 </div>
             </div>
         </div>
@@ -293,10 +293,10 @@
 <section class="hp-section hp-section--blue">
     <div class="hp-container--narrow hp-cta-text" style="text-align:center;">
         <h2 class="hp-title hp-title--white">Pronto para começar?</h2>
-        <p class="hp-subtitle hp-subtitle--white" style="max-width:600px; margin:0 auto 2.5rem;">Junte-se a milhares de clientes e freelancers que já confiam na 24 Horas. Cadastro 100% gratuito.</p>
+        <p class="hp-subtitle hp-subtitle--white" style="max-width:600px; margin:0 auto 2.5rem;">Junte-se a milhares de clientes e freelancers que já confiam na 24 Horas. Registo 100% gratuito.</p>
         <div class="hp-ctas" style="justify-content:center;">
-            <a href="/register" class="hp-btn hp-btn-white">Criar conta grátis</a>
-            <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projetos disponíveis</a>
+            <a href="/register" class="hp-btn hp-btn-white">Criar conta gratuita</a>
+            <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos disponíveis</a>
         </div>
     </div>
 </section>

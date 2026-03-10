@@ -2,8 +2,8 @@
 <div class="bg-white border border-[#00baff]/30 rounded-2xl shadow-sm mb-6 overflow-hidden">
     <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#00baff]/10 to-transparent">
         <div>
-            <h2 class="font-semibold text-gray-800">Configure sua conta</h2>
-            <p class="text-sm text-gray-500">Complete os passos para começar a receber projetos</p>
+            <h2 class="font-semibold text-gray-800">Configure a sua conta</h2>
+            <p class="text-sm text-gray-500">Complete os passos para começar a receber projectos</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="text-right">

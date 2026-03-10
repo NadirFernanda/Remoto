@@ -9,7 +9,7 @@
                 <a href="/" style="display:inline-block;margin-bottom:1.25rem;">
                     <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:56px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
                 </a>
-                <h1 id="titulo-cadastro" class="pub-auth-title">Criar conta como Freelancer</h1>
+                <h1 id="titulo-registo" class="pub-auth-title">Criar conta como Freelancer</h1>
                 <p class="pub-auth-sub">Preencha os dados para começar</p>
             </div>
 
@@ -33,7 +33,7 @@
                 @csrf
                 {{-- Role selector --}}
                 <div class="pub-field">
-                    <label>Quero me cadastrar como:</label>
+                    <label>Quero registar-me como:</label>
                     <div style="display:flex;gap:1rem;margin-top:.4rem;">
                         <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#0f172a;cursor:pointer;">
                             <input type="radio" name="role" value="freelancer" id="role-freelancer" {{ old('role', 'freelancer') == 'freelancer' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
@@ -48,7 +48,7 @@
 
                 <div class="pub-field">
                     <label for="name">Nome completo</label>
-                    <input class="pub-input" type="text" name="name" id="reg-name" value="{{ old('name') }}" placeholder="Seu nome">
+                    <input class="pub-input" type="text" name="name" id="reg-name" value="{{ old('name') }}" placeholder="O seu nome">
                     <div id="name-error" class="pub-field-error" style="display:none;"></div>
                     @error('name')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
@@ -61,20 +61,20 @@
                 </div>
 
                 <div class="pub-field">
-                    <label for="password">Senha</label>
+                    <label for="password">Palavra-passe</label>
                     <input class="pub-input" type="password" name="password" id="reg-password" placeholder="••••••••">
                     <div id="reg-password-error" class="pub-field-error" style="display:none;"></div>
                     @error('password')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="pub-field">
-                    <label for="password_confirmation">Confirmar senha</label>
+                    <label for="password_confirmation">Confirmar palavra-passe</label>
                     <input class="pub-input" type="password" name="password_confirmation" id="reg-password-confirm" placeholder="••••••••">
                     <div id="reg-confirm-error" class="pub-field-error" style="display:none;"></div>
                     @error('password_confirmation')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
-                <button type="submit" id="botao-cadastro" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;margin-top:.25rem;">Cadastrar como Freelancer</button>
+                <button type="submit" id="botao-registo" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;margin-top:.25rem;">Registar como Freelancer</button>
             </form>
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">
@@ -91,8 +91,8 @@ function validateRegisterForm(event) {
     const fields = [
         { id: 'reg-name',            errId: 'name-error',         empty: 'Preencha o seu nome completo.' },
         { id: 'reg-email',           errId: 'reg-email-error',    empty: 'Preencha o e-mail.' },
-        { id: 'reg-password',        errId: 'reg-password-error', empty: 'Preencha a senha.' },
-        { id: 'reg-password-confirm',errId: 'reg-confirm-error',  empty: 'Confirme a sua senha.' },
+        { id: 'reg-password',        errId: 'reg-password-error', empty: 'Preencha a palavra-passe.' },
+        { id: 'reg-password-confirm',errId: 'reg-confirm-error',  empty: 'Confirme a sua palavra-passe.' },
     ];
     fields.forEach(f => {
         const el  = document.getElementById(f.id);
@@ -114,7 +114,7 @@ function validateRegisterForm(event) {
     const emailEl = document.getElementById('reg-email');
     const emailErr = document.getElementById('reg-email-error');
     if (emailEl.value.trim() && !/^\S+@\S+\.\S+$/.test(emailEl.value)) {
-        emailErr.textContent = 'Digite um e-mail válido.';
+        emailErr.textContent = 'Introduza um e-mail válido.';
         emailErr.style.display = 'block';
         emailEl.style.borderColor = '#dc2626';
         if (valid) emailEl.focus();
@@ -125,14 +125,14 @@ function validateRegisterForm(event) {
     const pwErr  = document.getElementById('reg-password-error');
     const pwcErr = document.getElementById('reg-confirm-error');
     if (pw.value && pw.value.length < 8) {
-        pwErr.textContent = 'A senha deve ter no mínimo 8 caracteres.';
+        pwErr.textContent = 'A palavra-passe deve ter no mínimo 8 caracteres.';
         pwErr.style.display = 'block';
         pw.style.borderColor = '#dc2626';
         if (valid) pw.focus();
         valid = false;
     }
     if (pw.value && pwc.value && pw.value !== pwc.value) {
-        pwcErr.textContent = 'As senhas não coincidem.';
+        pwcErr.textContent = 'As palavras-passe não coincidem.';
         pwcErr.style.display = 'block';
         pwc.style.borderColor = '#dc2626';
         if (valid) pwc.focus();
@@ -145,20 +145,20 @@ function validateRegisterForm(event) {
 document.addEventListener('DOMContentLoaded', function() {
     const freelancerRadio = document.getElementById('role-freelancer');
     const clientRadio = document.getElementById('role-cliente');
-    const submitButton = document.getElementById('botao-cadastro');
-    const tituloCadastro = document.getElementById('titulo-cadastro');
-    function updateCadastroUI() {
+    const submitButton = document.getElementById('botao-registo');
+    const tituloRegisto = document.getElementById('titulo-registo');
+    function updateRegistoUI() {
         if (clientRadio.checked) {
-            submitButton.textContent = 'Cadastrar como Cliente';
-            tituloCadastro.textContent = 'Criar conta como Cliente';
+            submitButton.textContent = 'Registar como Cliente';
+            if (tituloRegisto) tituloRegisto.textContent = 'Criar conta como Cliente';
         } else {
-            submitButton.textContent = 'Cadastrar como Freelancer';
-            tituloCadastro.textContent = 'Criar conta como Freelancer';
+            submitButton.textContent = 'Registar como Freelancer';
+            if (tituloRegisto) tituloRegisto.textContent = 'Criar conta como Freelancer';
         }
     }
-    freelancerRadio.addEventListener('change', updateCadastroUI);
-    clientRadio.addEventListener('change', updateCadastroUI);
-    updateCadastroUI();
+    freelancerRadio.addEventListener('change', updateRegistoUI);
+    clientRadio.addEventListener('change', updateRegistoUI);
+    updateRegistoUI();
 });
 </script>
 @endsection

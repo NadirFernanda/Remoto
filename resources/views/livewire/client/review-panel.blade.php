@@ -67,7 +67,7 @@
                             <p class="text-sm text-gray-700">{{ $review->comment }}</p>
                         @endif
                         @if($review->service)
-                            <p class="text-xs text-gray-400 mt-2">Projeto: {{ $review->service->titulo }}</p>
+                            <p class="text-xs text-gray-400 mt-2">Projecto: {{ $review->service->titulo }}</p>
                         @endif
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                             <p class="text-sm text-gray-700">{{ $review->comment }}</p>
                         @endif
                         @if($review->service)
-                            <p class="text-xs text-gray-400 mt-2">Projeto: {{ $review->service->titulo }}</p>
+                            <p class="text-xs text-gray-400 mt-2">Projecto: {{ $review->service->titulo }}</p>
                         @endif
                     </div>
                 </div>

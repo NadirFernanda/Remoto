@@ -15,9 +15,9 @@
                 <h2 class="text-base font-extrabold text-[#00baff] mb-4 uppercase tracking-wide">Público</h2>
                 <ul class="flex flex-col gap-2">
                     <li><a href="{{ route('home') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Início</a></li>
-                    <li><a href="{{ route('public.projects') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Projetos disponíveis</a></li>
+                    <li><a href="{{ route('public.projects') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Projectos disponíveis</a></li>
                     <li><a href="{{ route('freelancers.index') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Freelancers</a></li>
-                    <li><a href="{{ route('freelancers.search') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Busca avançada</a></li>
+                    <li><a href="{{ route('freelancers.search') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Pesquisa avançada</a></li>
                 </ul>
             </div>
             <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
@@ -37,8 +37,8 @@
                     <li><a href="{{ route('sobre.investidores') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Investidores</a></li>
                     <li><a href="{{ route('sobre.historias') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Histórias</a></li>
                     <li><a href="{{ route('sobre.noticias') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Notícias</a></li>
-                    <li><a href="{{ route('sobre.equipe') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Equipe</a></li>
-                    <li><a href="{{ route('sobre.premios') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Prêmios</a></li>
+                    <li><a href="{{ route('sobre.equipe') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Equipa</a></li>
+                    <li><a href="{{ route('sobre.premios') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Prémios</a></li>
                     <li><a href="{{ route('sobre.comunicados') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Comunicados de imprensa</a></li>
                     <li><a href="{{ route('sobre.carreiras') }}" class="text-[#475569] text-base hover:text-[#00baff] transition">Carreiras</a></li>
                 </ul>

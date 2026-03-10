@@ -21,14 +21,14 @@
             <p class="text-xs text-gray-400 mt-1">Recebido em pagamentos</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
-            <p class="text-xs text-gray-500 mb-1">Projetos Concluídos</p>
+            <p class="text-xs text-gray-500 mb-1">Projectos Concluídos</p>
             <p class="text-2xl font-bold text-green-600">{{ $kpi_projetos_concluidos ?? 0 }}</p>
             <p class="text-xs text-gray-400 mt-1">Finalizados com sucesso</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1">Em Andamento</p>
             <p class="text-2xl font-bold text-yellow-500">{{ $kpi_projetos_andamento ?? 0 }}</p>
-            <p class="text-xs text-gray-400 mt-1">Projetos ativos</p>
+            <p class="text-xs text-gray-400 mt-1">Projectos activos</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1">Saldo Pendente</p>
@@ -62,7 +62,7 @@
         </a>
         <a href="{{ route('freelancer.projects') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#00baff]/50 transition group">
             <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"/></svg>
-            <span class="text-xs font-medium text-gray-700">Histórico de Projetos</span>
+            <span class="text-xs font-medium text-gray-700">Histórico de Projectos</span>
             <div class="mt-2">
                 <span class="inline-block px-3 py-1 text-xs rounded-full bg-[#e0f7fa] text-[#00baff] font-semibold">Ver todos</span>
             </div>

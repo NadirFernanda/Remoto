@@ -24,8 +24,8 @@
         <label class="block text-gray-700 font-semibold">Status do afiliado:</label>
         @php
             $affiliateStatusLabels = [
-                'ativo' => 'Ativo',
-                'inativo' => 'Inativo',
+                'ativo' => 'Activo',
+                'inativo' => 'Inactivo',
                 'pendente' => 'Pendente',
                 'recusado' => 'Recusado',
             ];

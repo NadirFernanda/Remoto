@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">Painel Financeiro</h1>
-            <p class="text-sm text-gray-500 mt-1">Acompanhe seus ganhos, taxas e movimentações</p>
+            <p class="text-sm text-gray-500 mt-1">Acompanhe os seus ganhos, taxas e movimentações</p>
         </div>
         {{-- Period filter --}}
         <div class="flex items-center gap-2">
@@ -93,7 +93,7 @@
                                 @elseif($svc->status === 'in_progress') bg-purple-100 text-purple-700
                                 @elseif($svc->status === 'delivered') bg-orange-100 text-orange-700
                                 @endif">
-                                @php $labels = ['accepted'=>'Aceito','in_progress'=>'Em andamento','delivered'=>'Entregue']; @endphp
+                                @php $labels = ['accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue']; @endphp
                                 {{ $labels[$svc->status] ?? $svc->status }}
                             </span>
                         </td>
@@ -125,7 +125,7 @@
         <h2 class="font-semibold text-gray-700 mb-3">Extrato de movimentações</h2>
 
         @if($logs->isEmpty())
-            <p class="text-sm text-gray-400 py-4 text-center">Nenhuma movimentação no período selecionado.</p>
+            <p class="text-sm text-gray-400 py-4 text-center">Nenhuma movimentação no período seleccionado.</p>
         @else
         <div class="overflow-x-auto">
             <table class="w-full text-sm">

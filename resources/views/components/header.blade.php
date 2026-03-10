@@ -393,7 +393,7 @@
         <div class="header-actions">
             @guest
                 <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="nav-link">Cadastro</a>
+                <a href="/register" class="nav-link">Registo</a>
                 <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
             @else
                 <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
@@ -435,7 +435,7 @@
         </div>
 
         <div class="mobile-nav flex items-center gap-3">
-            <a href="/register" class="mobile-cta btn-primary">Cadastro</a>
+            <a href="/register" class="mobile-cta btn-primary">Registo</a>
             <button @click="open = !open" class="p-2 rounded-md text-white bg-[#00baff]/20 border border-white/20 hover:bg-[#00baff]/30 transition">
                 <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -455,7 +455,7 @@
             <a href="#depoimentos" class="nav-link">Depoimentos</a>
             @guest
                 <a href="/login" class="nav-link">Login</a>
-                <a href="/register" class="nav-link btn-primary">Cadastro</a>
+                <a href="/register" class="nav-link btn-primary">Registo</a>
             @else
                 <div class="flex items-center gap-3 px-2 py-2 border rounded-lg">
                     <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm">

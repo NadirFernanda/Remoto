@@ -26,8 +26,8 @@
                 <div class="w-14 h-14 min-w-[3.25rem] rounded-full bg-gradient-to-br from-[#06b6d4] to-[#0077cc] flex items-center justify-center text-white font-black text-2xl">M</div>
                 <div class="flex-1 min-w-[200px]">
                     <div class="font-extrabold text-[#0f172a] mb-1">Manuel Costa — CEO, Startup de Logística, Benguela</div>
-                    <div class="text-[#94a3b8] text-xs mb-3">Cliente · 12 projetos contratados</div>
-                    <p class="text-[#475569] text-lg leading-relaxed m-0">"Precisávamos de um sistema de gestão de frotas personalizado. Publicámos o projeto, recebemos 8 propostas em 48 horas e contratámos o freelancer certo ao primeiro pedido de revisão. O escrow deu-nos a tranquilidade de pagar apenas após validar cada entrega."</p>
+                    <div class="text-[#94a3b8] text-xs mb-3">Cliente · 12 projectos contratados</div>
+                    <p class="text-[#475569] text-lg leading-relaxed m-0">"Precisávamos de um sistema de gestão de frotas personalizado. Publicámos o projecto, recebemos 8 propostas em 48 horas e contratámos o freelancer certo ao primeiro pedido de revisão. O escrow deu-nos a tranquilidade de pagar apenas após validar cada entrega."</p>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="flex-1 min-w-[200px]">
                     <div class="font-extrabold text-[#0f172a] mb-1">Sofia Mbala — Designer Gráfico, Huambo</div>
                     <div class="text-[#94a3b8] text-xs mb-3">Freelancer verificada · 31 projectos concluídos</div>
-                    <p class="text-[#475569] text-lg leading-relaxed m-0">"Sou de Huambo e nunca imaginei conseguir clientes de Luanda ou do exterior trabalhando remotamente. A 24 Horas Remoto abriu esse caminho para mim. Hoje o meu rendimento como designer ultrapassou o meu antigo salário de empregada."</p>
+                    <p class="text-[#475569] text-lg leading-relaxed m-0">"Sou de Huambo e nunca imaginei conseguir clientes de Luanda ou do exterior trabalhando remotamente. A 24 Horas Remoto abriu este caminho para mim. Hoje o meu rendimento como designer ultrapassou o meu antigo salário de empregada."</p>
                 </div>
             </div>
         </div>

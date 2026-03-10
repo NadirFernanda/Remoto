@@ -5,9 +5,9 @@
     @endif
     <form wire:submit.prevent="submit" enctype="multipart/form-data" class="space-y-4 max-w-lg">
         <div>
-            <label class="block text-sm font-medium mb-1">Pedido/Projeto</label>
+            <label class="block text-sm font-medium mb-1">Pedido/Projecto</label>
             <select wire:model="service_id" class="w-full border rounded-lg px-3 py-2">
-                <option value="">Selecione...</option>
+                <option value="">Seleccione...</option>
                 @foreach($services as $service)
                     <option value="{{ $service->id }}">{{ $service->titulo }} ({{ money_aoa($service->valor) }})</option>
                 @endforeach
@@ -28,7 +28,7 @@
             <label class="block text-sm font-medium mb-1">Provas/Anexos (opcional)</label>
             <input type="file" wire:model="evidence" multiple class="w-full">
             @error('evidence.*') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-            <div wire:loading wire:target="evidence" class="text-xs text-gray-500 mt-1">Carregando arquivos...</div>
+            <div wire:loading wire:target="evidence" class="text-xs text-gray-500 mt-1">A carregar ficheiros...</div>
         </div>
         <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition">Enviar Pedido</button>
     </form>

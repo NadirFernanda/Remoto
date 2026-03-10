@@ -26,8 +26,8 @@
         </div>
         <form wire:submit.prevent="entregarServico" enctype="multipart/form-data">
             <div class="mb-4">
-                <label class="block font-semibold mb-2">Arquivo de entrega</label>
-                <x-file-input wire:model="entrega_arquivo" label="📎 Selecionar ficheiro de entrega" loading-target="entrega_arquivo">
+                <label class="block font-semibold mb-2">Ficheiro de entrega</label>
+                <x-file-input wire:model="entrega_arquivo" label="📎 Seleccionar ficheiro de entrega" loading-target="entrega_arquivo">
                     @error('entrega_arquivo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </x-file-input>
             </div>

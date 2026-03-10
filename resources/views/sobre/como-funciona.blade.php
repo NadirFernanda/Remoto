@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Guia</div>
             <h1 class="pub-hero-title">Como funciona</h1>
-            <p class="pub-hero-sub">Da publicação do projeto à entrega final — veja como a 24 Horas Remoto facilita cada passo da sua contratação.</p>
+            <p class="pub-hero-sub">Da publicação do projecto à entrega final — veja como a 24 Horas Remoto facilita cada passo da sua contratação.</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex gap-4 items-start">
                     <div class="w-10 h-10 min-w-[2.5rem] rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] text-white font-extrabold text-lg flex items-center justify-center">2</div>
-                    <div><span class="font-bold text-[#0f172a]">Publique o seu projeto</span><br><span class="text-[#64748b] text-base">Descreva o que precisa, defina o orçamento e o prazo. O nosso formulário guiado ajuda-o a estruturar o briefing em poucos minutos.</span></div>
+                    <div><span class="font-bold text-[#0f172a]">Publique o seu projecto</span><br><span class="text-[#64748b] text-base">Descreva o que precisa, defina o orçamento e o prazo. O nosso formulário guiado ajuda-o a estruturar o briefing em poucos minutos.</span></div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div class="w-10 h-10 min-w-[2.5rem] rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] text-white font-extrabold text-lg flex items-center justify-center">3</div>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="flex gap-4 items-start">
                     <div class="w-10 h-10 min-w-[2.5rem] rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] text-white font-extrabold text-lg flex items-center justify-center">4</div>
-                    <div><span class="font-bold text-[#0f172a]">Pague em segurança</span><br><span class="text-[#64748b] text-base">O valor fica retido na plataforma (escrow) e só é liberado após a sua aprovação da entrega.</span></div>
+                    <div><span class="font-bold text-[#0f172a]">Pague em segurança</span><br><span class="text-[#64748b] text-base">O valor fica retido na plataforma (escrow) e só é libertado após a sua aprovação da entrega.</span></div>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="flex gap-4 items-start">
                     <div class="w-10 h-10 min-w-[2.5rem] rounded-full bg-gradient-to-br from-[#06b6d4] to-[#0077cc] text-white font-extrabold text-lg flex items-center justify-center">2</div>
-                    <div><span class="font-bold text-[#0f172a]">Explore os projetos disponíveis</span><br><span class="text-[#64748b] text-base">Filtre por categoria, orçamento e prazo. Submeta propostas nos projetos que se alinham com as suas competências.</span></div>
+                    <div><span class="font-bold text-[#0f172a]">Explore os projectos disponíveis</span><br><span class="text-[#64748b] text-base">Filtre por categoria, orçamento e prazo. Submeta propostas nos projectos que se alinham com as suas competências.</span></div>
                 </div>
                 <div class="flex gap-4 items-start">
                     <div class="w-10 h-10 min-w-[2.5rem] rounded-full bg-gradient-to-br from-[#06b6d4] to-[#0077cc] text-white font-extrabold text-lg flex items-center justify-center">3</div>
@@ -56,7 +56,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa] transition hover:shadow-2xl">
             <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-4">Taxas de serviço</h2>
-            <p class="text-[#475569] text-lg leading-relaxed">A plataforma cobra uma taxa de serviço sobre cada transação concluída com sucesso. O registo e a publicação de projetos são gratuitos. Consulte a tabela de preços atualizada na secção de ajuda da sua conta.</p>
+            <p class="text-[#475569] text-lg leading-relaxed">A plataforma cobra uma taxa de serviço sobre cada transação concluída com sucesso. O registo e a publicação de projectos são gratuitos. Consulte a tabela de preços actualizada na secção de ajuda da sua conta.</p>
         </div>
 
     </div>

@@ -3,10 +3,10 @@
         <div class="mb-4 p-3 bg-green-50 text-green-800 rounded-[10px] border border-green-200 text-sm">{{ session('success') }}</div>
     @endif
 
-    {{-- Projetos em moderação sem disputa formal --}}
+    {{-- Projectos em moderação sem disputa formal --}}
     @if($orphanModerations->count() > 0)
         <div class="mb-5 bg-orange-50 border border-orange-200 rounded-2xl p-4">
-            <h3 class="text-sm font-bold text-orange-800 mb-3">⚠ Projetos em moderação sem disputa formal ({{ $orphanModerations->count() }})</h3>
+            <h3 class="text-sm font-bold text-orange-800 mb-3">⚠ Projectos em moderação sem disputa formal ({{ $orphanModerations->count() }})</h3>
             <div class="space-y-2">
                 @foreach($orphanModerations as $svc)
                     <div class="flex items-center justify-between bg-white border border-orange-100 rounded-xl px-4 py-2 text-sm">
@@ -97,21 +97,21 @@
                             <span class="font-semibold text-gray-800">{{ $selected->service->status }}</span>
                         </span>
                         <span class="text-gray-400">·</span>
-                        <span class="text-gray-600">Pagamento liberado:
+                        <span class="text-gray-600">Pagamento libertado:
                             <span class="font-semibold {{ $selected->service->is_payment_released ? 'text-green-600' : 'text-red-500' }}">
                                 {{ $selected->service->is_payment_released ? 'Sim' : 'Não' }}
                             </span>
                         </span>
                         @if(!$selected->service->is_payment_released)
                             <button wire:click="freezePayment({{ $selected->service->id }})"
-                                wire:confirm="Congelar o pagamento deste projeto (colocar em moderação)?"
+                                wire:confirm="Congelar o pagamento deste projecto (colocar em moderação)?"
                                 class="px-2 py-1 bg-orange-100 text-orange-700 border border-orange-300 rounded-lg hover:bg-orange-200 transition">
                                 ❄ Congelar
                             </button>
                             <button wire:click="releasePayment({{ $selected->service->id }})"
-                                wire:confirm="Liberar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
+                                wire:confirm="Libertar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
                                 class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition">
-                                ✓ Liberar → Freelancer
+                                ✓ Libertar → Freelancer
                             </button>
                             <button wire:click="reembolsarCliente({{ $selected->service->id }})"
                                 wire:confirm="Reembolsar o cliente? O escrow será devolvido à carteira do cliente e o projecto cancelado."
@@ -119,7 +119,7 @@
                                 ↩ Reembolsar → Cliente
                             </button>
                         @else
-                            <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já liberado</span>
+                            <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já libertado</span>
                         @endif
                     </div>
                 </div>

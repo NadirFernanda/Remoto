@@ -6,7 +6,7 @@
 
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Pessoas</div>
-            <h1 class="pub-hero-title">Nossa equipe</h1>
+            <h1 class="pub-hero-title">A nossa equipa</h1>
             <p class="pub-hero-sub">Conheça as pessoas apaixonadas que constroem e evoluem a 24 Horas Remoto todos os dias.</p>
         </div>
 
@@ -38,7 +38,7 @@
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
-            <h2 class="text-xl md:text-2xl font-extrabold text-[#0f172a] mb-2">Quer fazer parte da nossa equipe?</h2>
+            <h2 class="text-xl md:text-2xl font-extrabold text-[#0f172a] mb-2">Quer fazer parte da nossa equipa?</h2>
             <p class="text-[#64748b] mb-4 text-lg">Estamos sempre à procura de talentos apaixonados pela nossa missão.</p>
             <a href="{{ route('sobre.carreiras') }}" class="inline-block bg-[#00baff] hover:bg-[#009ad6] text-white font-extrabold px-8 py-3 rounded-xl text-lg transition">Ver vagas abertas</a>
         </div>

@@ -8,7 +8,7 @@
 # {{ $greeting }}
 @else
     @if ($level === 'error')
-        # Opa!
+        # Erro!
     @else
         # Bem-vindo à 24 Horas Remoto!
     @endif
@@ -17,9 +17,9 @@
 
 {{-- Intro Lines --}}
 @if ($level !== 'error')
-Olá! Obrigado por se cadastrar na <strong>24 Horas Remoto</strong>.
+Olá! Obrigado por se registar na <strong>24 Horas Remoto</strong>.
 <br><br>
-Para ativar sua conta e começar a usar todos os recursos da nossa plataforma, confirme seu e-mail clicando no botão abaixo:
+Para activar a sua conta e começar a usar todos os recursos da nossa plataforma, confirme o seu e-mail clicando no botão abaixo:
 <br><br>
 @endif
 
@@ -39,11 +39,11 @@ Para ativar sua conta e começar a usar todos os recursos da nossa plataforma, c
 
 {{-- Outro Lines --}}
 @if ($level !== 'error')
-Se você não realizou este cadastro, pode ignorar este e-mail.
+Se não realizou este registo, pode ignorar este e-mail.
 <br><br>
 Qualquer dúvida, estamos à disposição!
 <br>
-Equipe 24 Horas Remoto
+Equipa 24 Horas Remoto
 @endif
 
 {{-- Salutation --}}

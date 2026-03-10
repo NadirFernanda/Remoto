@@ -31,7 +31,7 @@
                 <input type="text" id="newTitleInput" value="{{ $service->titulo }}" maxlength="100" class="border border-cyan-400 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none" required>
                 <div class="flex gap-2 justify-end">
                     <button type="button" onclick="document.getElementById('editTitleModal').close()" class="px-3 py-1 rounded bg-gray-200 hover:bg-gray-300">Cancelar</button>
-                    <button type="submit" class="px-3 py-1 rounded bg-cyan-500 text-white hover:bg-cyan-600">Salvar</button>
+                    <button type="submit" class="px-3 py-1 rounded bg-cyan-500 text-white hover:bg-cyan-600">Guardar</button>
                 </div>
             </form>
         </dialog>
@@ -63,7 +63,7 @@
                     titleSpan.innerText = newTitle;
                     modal.close();
                 } else {
-                    alert('Erro ao salvar título!');
+                    alert('Erro ao guardar o título!');
                 }
             });
         }
@@ -107,7 +107,7 @@
                 @endif">
                 @if($service->status === 'published') Publicado
                 @elseif($service->status === 'cancelled') Cancelado
-                @elseif($service->status === 'accepted') Aceito
+                @elseif($service->status === 'accepted') Aceite
                 @elseif($service->status === 'in_progress') Em andamento
                 @elseif($service->status === 'delivered') Entregue
                 @elseif($service->status === 'completed') Concluído
@@ -125,7 +125,7 @@
             <div class="action-row mt-4">
                     <a href="{{ route('service.chat', $service->id) }}" class="btn-eq btn-outline relative focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2">
                         @include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
-                        <span>Acessar chat do serviço</span>
+                        <span>Aceder ao chat do serviço</span>
                         @livewire('chat.chat-badge', ['serviceId' => $service->id], key('chat-badge-'.$service->id))
                     </a>
             </div>

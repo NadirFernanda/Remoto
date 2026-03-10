@@ -83,7 +83,7 @@
                 <span>Enviar proposta</span>
             </button>
 
-            <a href="{{ route('service.chat', $service->id) }}" class="btn-eq btn-outline relative" title="Acessar chat do serviço">
+            <a href="{{ route('service.chat', $service->id) }}" class="btn-eq btn-outline relative" title="Aceder ao chat do serviço">
                 @include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
                 <span>Chat</span>
                 @livewire('chat.chat-badge', ['serviceId' => $service->id], key('chat-badge-'.$service->id))
@@ -115,7 +115,7 @@
                             @error('proposalMessage') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="block text-sm font-medium text-gray-700">Valor líquido (opcional) — valor que você receberá</label>
+                            <label class="block text-sm font-medium text-gray-700">Valor líquido (opcional) — valor que irá receber</label>
                             <input type="number" step="0.01" wire:model.defer="proposalValue" class="mt-1 block w-48 border rounded p-2" />
                             @error('proposalValue') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
                         </div>

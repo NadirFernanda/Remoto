@@ -18,7 +18,7 @@
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 flex-shrink-0">
                     <div>
                         <h3 class="text-xl font-bold text-gray-900">Enviar proposta</h3>
-                        <p class="text-sm text-gray-500 mt-0.5">Descreva o projeto e o que pretende do freelancer</p>
+                        <p class="text-sm text-gray-500 mt-0.5">Descreva o projecto e o que pretende do freelancer</p>
                     </div>
                     <button type="button" wire:click="close" class="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-lg hover:bg-gray-100">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -33,7 +33,7 @@
                     {{-- Título --}}
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                            Título do projeto <span class="text-red-500">*</span>
+                            Título do projecto <span class="text-red-500">*</span>
                         </label>
                         <input
                             type="text"
@@ -55,7 +55,7 @@
                             wire:model="message"
                             rows="5"
                             maxlength="5000"
-                            placeholder="Descreva o projeto, os requisitos, prazos e qualquer detalhe relevante para o freelancer..."
+                            placeholder="Descreva o projecto, os requisitos, prazos e qualquer detalhe relevante para o freelancer..."
                             class="block w-full rounded-xl border border-gray-200 py-2.5 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition resize-none @error('message') border-red-400 @enderror"></textarea>
                         @error('message')
                             <p class="mt-1 text-xs text-red-600">{{ $message }}</p>

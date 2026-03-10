@@ -28,7 +28,7 @@
                             <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Utilizador</th>
                             <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Tipo</th>
                             <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Submetido</th>
-                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Ação</th>
+                            <th class="py-2 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Acção</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,7 +127,7 @@
     {{-- Filters --}}
     <div class="flex flex-wrap gap-3 mb-5">
         <input wire:model.live.debounce.300ms="search" type="text"
-            placeholder="Buscar nome ou email..."
+            placeholder="Pesquisar nome ou email..."
             class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
         <select wire:model.live="roleFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             <option value="">Todos os tipos</option>
@@ -156,7 +156,7 @@
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Nível Admin</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">KYC</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Estado</th>
-                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Cadastro</th>
+                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Registo</th>
                     <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Acções</th>
                 </tr>
             </thead>

@@ -1,7 +1,7 @@
 <div class="p-6 bg-white rounded shadow">
     <h2 class="text-2xl font-bold mb-4">Painel de Reembolsos</h2>
     <div class="flex gap-4 mb-4">
-        <input type="text" wire:model.debounce.500ms="search" placeholder="Buscar motivo..." class="input input-bordered w-1/3" />
+        <input type="text" wire:model.debounce.500ms="search" placeholder="Pesquisar motivo..." class="input input-bordered w-1/3" />
         <select wire:model="status" class="input input-bordered">
             <option value="">Todos status</option>
             <option value="pendente">Pendente</option>
@@ -38,7 +38,7 @@
                     <td class="p-2">{{ $refund->created_at->format('d/m/Y H:i') }}</td>
                     <td class="p-2">
                         @if($refund->proof)
-                            <a href="{{ asset('storage/'.$refund->proof) }}" target="_blank" class="text-blue-600 underline">Ver arquivo</a>
+                            <a href="{{ asset('storage/'.$refund->proof) }}" target="_blank" class="text-blue-600 underline">Ver ficheiro</a>
                         @else
                             -
                         @endif

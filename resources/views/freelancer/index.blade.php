@@ -6,7 +6,7 @@
         <div class="pub-hero" style="margin-bottom:2rem;">
             <div class="pub-hero-label">Profissionais</div>
             <h1 class="pub-hero-title">Freelancers Qualificados</h1>
-            <p class="pub-hero-sub">Encontre profissionais talentosos para o seu projeto.</p>
+            <p class="pub-hero-sub">Encontre profissionais talentosos para o seu projecto.</p>
         </div>
         @livewire('freelancer.listing')
         @livewire('client.send-proposal')

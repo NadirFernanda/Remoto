@@ -11,7 +11,7 @@
             </a>
             <h1 class="text-xl font-bold text-gray-900">Freelancers Sugeridos</h1>
             <p class="text-sm text-gray-500 mt-0.5">
-                Para o projeto <span class="font-medium text-gray-700">"{{ $service->titulo }}"</span>
+                Para o projecto <span class="font-medium text-gray-700">"{{ $service->titulo }}"</span>
             </p>
         </div>
     </div>
@@ -41,7 +41,7 @@
         <div>
             <p class="text-xs text-[#0099d6] font-semibold uppercase tracking-wide">Como funciona o matching</p>
             <p class="text-sm text-gray-600 mt-0.5">
-                Os freelancers são classificados por compatibilidade de skills com o briefing do projeto,
+                Os freelancers são classificados por compatibilidade de skills com o briefing do projecto,
                 disponibilidade, avaliação, portfólio e histórico de colaboração consigo.
             </p>
         </div>
@@ -121,7 +121,7 @@
                                         <span class="text-xs text-gray-400 ml-0.5">{{ number_format($rating,1) }}</span>
                                     @endif
                                     @if($projects > 0)
-                                        <span class="text-xs text-gray-400 ml-1">· {{ $projects }} projetos</span>
+                                        <span class="text-xs text-gray-400 ml-1">· {{ $projects }} projectos</span>
                                     @endif
                                 </div>
                             </div>

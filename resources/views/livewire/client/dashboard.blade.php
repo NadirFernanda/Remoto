@@ -21,7 +21,7 @@
 			<p class="text-xs text-gray-400 mt-1">Pagamentos realizados</p>
 		</div>
 		<div class="bg-white rounded-2xl border border-gray-200 p-5">
-			<p class="text-xs text-gray-500 mb-1">Projetos Publicados</p>
+			<p class="text-xs text-gray-500 mb-1">Projectos Publicados</p>
 			<p class="text-2xl font-bold text-green-600">{{ $kpi_projetos_publicados ?? 0 }}</p>
 			<p class="text-xs text-gray-400 mt-1">Pedidos criados</p>
 		</div>
@@ -33,7 +33,7 @@
 		<div class="bg-white rounded-2xl border border-gray-200 p-5">
 			<p class="text-xs text-gray-500 mb-1">Em Andamento</p>
 			<p class="text-2xl font-bold text-yellow-500">{{ $kpi_projetos_andamento ?? 0 }}</p>
-			<p class="text-xs text-gray-400 mt-1">Pedidos ativos</p>
+			<p class="text-xs text-gray-400 mt-1">Pedidos activos</p>
 		</div>
 	</div>
 
@@ -41,7 +41,7 @@
 	   <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
 		   <a href="{{ route('client.projects') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#00baff]/50 transition group h-full min-h-[150px]">
 			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#00baff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/></svg>
-			   <span class="text-xs text-gray-700">Gerir Projetos</span>
+			   <span class="text-xs text-gray-700">Gerir Projectos</span>
 			   <span class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e6fafd] text-gray-700 font-medium mt-2">Ver todos</span>
 		   </a>
 		   <a href="{{ route('client.payments') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#00baff]/50 transition group h-full min-h-[150px]">

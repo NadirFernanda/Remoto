@@ -24,7 +24,7 @@
                 </div>
                 <div class="bg-[#f0f9ff] rounded-2xl p-8 border border-[#bae6fd]">
                     <div class="text-3xl font-black text-[#00baff]">+1.2k</div>
-                    <div class="text-[#64748b] text-base mt-2">Projetos publicados</div>
+                    <div class="text-[#64748b] text-base mt-2">Projectos publicados</div>
                 </div>
                 <div class="bg-[#f0f9ff] rounded-2xl p-8 border border-[#bae6fd]">
                     <div class="text-3xl font-black text-[#00baff]">92%</div>

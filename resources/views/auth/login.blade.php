@@ -10,7 +10,7 @@
                     <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:56px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
                 </a>
                 <h1 class="pub-auth-title">Entrar na 24 Horas</h1>
-                <p class="pub-auth-sub">Bem-vindo de volta! Acesse a sua conta.</p>
+                <p class="pub-auth-sub">Bem-vindo de volta! Aceda à sua conta.</p>
             </div>
 
             @if(session('status'))
@@ -34,8 +34,8 @@
                 </div>
                 <div class="pub-field">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
-                        <label for="login-password" style="margin-bottom:0;">Senha</label>
-                        <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#00baff;font-weight:600;text-decoration:none;">Esqueci a minha senha</a>
+                        <label for="login-password" style="margin-bottom:0;">Palavra-passe</label>
+                        <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#00baff;font-weight:600;text-decoration:none;">Esqueci a minha palavra-passe</a>
                     </div>
                     <input type="password" name="password" id="login-password" class="pub-input" placeholder="••••••••" required>
                     <div id="password-error" class="pub-field-error" style="display:none;"></div>
@@ -45,7 +45,7 @@
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">
                 Não tem conta?
-                <a href="/register" style="color:#00baff;font-weight:700;text-decoration:none;">Criar conta grátis</a>
+                <a href="/register" style="color:#00baff;font-weight:700;text-decoration:none;">Criar conta gratuita</a>
             </p>
         </div>
     </div>
@@ -68,13 +68,13 @@ function validateLoginForm(event) {
         email.style.borderColor = '#dc2626';
         valid = false;
     } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
-        emailError.textContent = 'Digite um e-mail válido.';
+        emailError.textContent = 'Introduza um e-mail válido.';
         emailError.style.display = 'block';
         email.style.borderColor = '#dc2626';
         valid = false;
     }
     if (!password.value) {
-        passwordError.textContent = 'Preencha a senha.';
+        passwordError.textContent = 'Preencha a palavra-passe.';
         passwordError.style.display = 'block';
         password.style.borderColor = '#dc2626';
         valid = false;

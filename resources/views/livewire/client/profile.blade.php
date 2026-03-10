@@ -30,7 +30,7 @@
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/5 cursor-pointer text-sm font-medium transition">
                     📷 Escolher foto
                 </label>
-                <span id="cp-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro selecionado</span>
+                <span id="cp-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
                 @error('profilePhoto') <div class="pub-field-error mt-1">{{ $message }}</div> @enderror
                 <p class="text-xs text-gray-400 mt-1">jpg, png ou webp · máx. 8 MB</p>
             </div>
@@ -82,10 +82,10 @@
     <div class="pub-field">
         <label for="cp-interests">Áreas de interesse (ex.: Marketing, WordPress)</label>
         <input type="text" id="cp-interests" wire:model.defer="interests_input" class="pub-input" placeholder="Adicione até 10 tags separadas por vírgula">
-        <div class="text-xs text-gray-500 mt-1">Use tags separadas por vírgula. Isso ajuda freelancers a encontrar você.</div>
+        <div class="text-xs text-gray-500 mt-1">Use tags separadas por vírgula. Isto ajuda os freelancers a encontrá-lo.</div>
     </div>
     <div class="mb-4">
-        <label class="block text-gray-700 font-semibold mb-1">Áreas salvas</label>
+        <label class="block text-gray-700 font-semibold mb-1">Áreas guardadas</label>
         @if($user->profile && $user->profile->interests)
             <div class="flex flex-wrap gap-2">
                 @foreach($user->profile->interests as $tag)
@@ -93,13 +93,13 @@
                 @endforeach
             </div>
         @else
-            <div class="text-sm text-gray-500">Nenhuma área salva.</div>
+            <div class="text-sm text-gray-500">Nenhuma área guardada.</div>
         @endif
     </div>
     <div class="action-row mt-4" role="toolbar" aria-label="Ações do perfil">
-        <button wire:click.prevent="saveInterests" class="btn-eq btn-primary" aria-label="Salvar interesses">
+        <button wire:click.prevent="saveInterests" class="btn-eq btn-primary" aria-label="Guardar interesses">
             @include('components.icon', ['name' => 'save', 'class' => 'mr-2'])
-            <span>Salvar interesses</span>
+            <span>Guardar interesses</span>
         </button>
     </div>
 </div>

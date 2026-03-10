@@ -9,7 +9,7 @@
                 <a href="/" style="display:inline-block;margin-bottom:1.25rem;">
                     <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:56px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
                 </a>
-                <h1 class="pub-auth-title">Recuperar senha</h1>
+                <h1 class="pub-auth-title">Recuperar palavra-passe</h1>
                 <p class="pub-auth-sub">Informe o seu e-mail para receber o link de redefinição.</p>
             </div>
 
@@ -35,7 +35,7 @@
             </form>
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">
-                Lembrou a senha?
+                Lembrou a palavra-passe?
                 <a href="/login" style="color:#00baff;font-weight:700;text-decoration:none;">Entrar</a>
             </p>
         </div>

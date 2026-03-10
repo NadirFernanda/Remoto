@@ -59,7 +59,7 @@
                     <td colspan="6" class="py-8 text-center text-gray-400 text-lg">
                         <div class="flex flex-col items-center gap-2">
                             <span class="text-5xl">📄</span>
-                            Nenhum contrato/parceria cadastrado.
+                            Nenhum contrato/parceria registado.
                         </div>
                     </td>
                 </tr>

@@ -3,14 +3,14 @@
     {{-- ─── Header ─────────────────────────────────────────── --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-            <h1 class="text-xl font-bold text-gray-900">Gestão de Projetos</h1>
-            <p class="text-sm text-gray-500">Acompanhe o progresso, milestones e entregas dos seus projetos.</p>
+            <h1 class="text-xl font-bold text-gray-900">Gestão de Projectos</h1>
+            <p class="text-sm text-gray-500">Acompanhe o progresso, milestones e entregas dos seus projectos.</p>
         </div>
         <a href="{{ route('client.briefing') }}" class="btn-primary self-start">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
-            Novo Projeto
+            Novo Projecto
         </a>
     </div>
 
@@ -109,8 +109,8 @@
                     <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/>
                     </svg>
-                    <p class="text-sm text-gray-500 font-medium">Nenhum projeto encontrado</p>
-                    <a href="{{ route('client.briefing') }}" class="btn-primary mt-3 text-xs">Criar projeto</a>
+                    <p class="text-sm text-gray-500 font-medium">Nenhum projecto encontrado</p>
+                    <a href="{{ route('client.briefing') }}" class="btn-primary mt-3 text-xs">Criar projecto</a>
                 </div>
             @endforelse
         </div>
@@ -288,7 +288,7 @@
                                 <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
                                 </svg>
-                                <p class="text-sm text-gray-400">Ainda não há propostas para este projeto.</p>
+                                <p class="text-sm text-gray-400">Ainda não há propostas para este projecto.</p>
                                 <a href="{{ route('client.matching', $selected->id) }}" class="btn-primary mt-3 text-xs inline-flex">Sugerir Freelancers</a>
                             </div>
                         @else
@@ -360,7 +360,7 @@
                                                 </a>
                                                 <button
                                                     wire:click="escolherFreelancer({{ $selected->id }}, {{ $fl->id }})"
-                                                    wire:confirm="Confirma a escolha de {{ $fl->name }} para este projeto? Os outros candidatos serão notificados."
+                                                    wire:confirm="Confirma a escolha de {{ $fl->name }} para este projecto? Os outros candidatos serão notificados."
                                                     class="btn-primary text-xs flex-1 justify-center min-w-[80px]">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
@@ -467,7 +467,7 @@
                                 <textarea wire:model="milestoneDesc" rows="2" placeholder="Descrição (opcional)"
                                     class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
                                 <div class="flex gap-2">
-                                    <button wire:click="addMilestone" class="btn-primary text-xs">Salvar Marco</button>
+                                    <button wire:click="addMilestone" class="btn-primary text-xs">Guardar Marco</button>
                                     <button @click="open = false" class="btn-outline text-xs">Cancelar</button>
                                 </div>
                             </div>
@@ -521,7 +521,7 @@
                     <div x-show="tab === 'briefing'" class="p-5">
                         <div class="bg-gray-50 rounded-[10px] border border-gray-100 p-4">
                             <div class="flex items-center justify-between mb-3">
-                                <h3 class="text-sm font-semibold text-gray-700">Descrição do Projeto</h3>
+                                <h3 class="text-sm font-semibold text-gray-700">Descrição do Projecto</h3>
                                 <a href="{{ route('client.briefing', ['edit' => $selected->id]) }}" class="btn-outline text-xs">Editar</a>
                             </div>
                             <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{{ $selected->briefing }}</p>

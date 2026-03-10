@@ -18,7 +18,7 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
                 <select name="status" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
-                    <option value="ativo">Ativo</option>
+                    <option value="ativo">Activo</option>
                     <option value="pendente">Pendente</option>
                     <option value="encerrado">Encerrado</option>
                 </select>
@@ -35,11 +35,11 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Documento (PDF)</label>
             <div class="flex items-center gap-3">
-                <input type="file" name="documento" id="doc-input" accept="application/pdf" class="hidden" onchange="document.getElementById('doc-file-name').textContent = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';">
+                <input type="file" name="documento" id="doc-input" accept="application/pdf" class="hidden" onchange="document.getElementById('doc-file-name').textContent = this.files[0] ? this.files[0].name : 'Nenhum ficheiro seleccionado';">
                 <button type="button" onclick="document.getElementById('doc-input').click();" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/10 cursor-pointer text-base font-medium transition">
-                    <span class="text-lg">📄</span> Escolher arquivo
+                    <span class="text-lg">📄</span> Escolher ficheiro
                 </button>
-                <span id="doc-file-name" class="text-sm text-gray-500">Nenhum arquivo selecionado</span>
+                <span id="doc-file-name" class="text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
             </div>
             <p class="text-xs text-gray-400 mt-1">PDF até 8MB</p>
         </div>
@@ -48,7 +48,7 @@
             <textarea name="notes" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" rows="3"></textarea>
         </div>
         <div class="flex justify-end gap-3 pt-2">
-            <button type="submit" class="bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-6 py-2 rounded-lg shadow transition">Salvar</button>
+            <button type="submit" class="bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-6 py-2 rounded-lg shadow transition">Guardar</button>
             <a href="{{ route('admin.comercial.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-2 rounded-lg shadow transition">Cancelar</a>
         </div>
     </form>

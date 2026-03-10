@@ -26,7 +26,7 @@
                         </div>
                         @if($notification->service_id)
                             <div class="flex gap-2">
-                                <span class="btn-eq small cursor-pointer" title="Ver projeto">Ver</span>
+                                <span class="btn-eq small cursor-pointer" title="Ver projecto">Ver</span>
                                 <span class="btn-eq btn-outline small cursor-pointer" title="Enviar proposta">Enviar proposta</span>
                                 @php $unread = auth()->check() ? \App\Models\ChatRead::unreadCount($notification->service_id, auth()->id()) : 0; @endphp
                                 <span class="btn-eq btn-outline small relative cursor-pointer" title="Ir para o chat">Chat
@@ -66,7 +66,7 @@
                             </div>
                             @if($notification->service_id)
                                 <div class="flex gap-2">
-                                    <span class="btn-eq small cursor-pointer" title="Ver projeto">Ver</span>
+                                    <span class="btn-eq small cursor-pointer" title="Ver projecto">Ver</span>
                                     <span class="btn-eq btn-outline small cursor-pointer" title="Enviar proposta">Enviar proposta</span>
                                     @php $unread = auth()->check() ? \App\Models\ChatRead::unreadCount($notification->service_id, auth()->id()) : 0; @endphp
                                     <span class="btn-eq btn-outline small relative cursor-pointer" title="Ir para o chat">Chat

@@ -34,7 +34,7 @@
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Freelancer</th>
                         <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase">Valor Solicitado</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Descrição</th>
-                        <th class="py-3 px-4 text-center text-xs font-semibold text-gray-500 uppercase">Ação</th>
+                        <th class="py-3 px-4 text-center text-xs font-semibold text-gray-500 uppercase">Acção</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-orange-100">

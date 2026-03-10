@@ -1,6 +1,6 @@
 <div>
     <div class="flex flex-col md:flex-row gap-3 mb-6">
-        <input wire:model.live.debounce.300ms="search" type="text" placeholder="Buscar por título..." class="border rounded px-3 py-2 text-sm w-full md:w-72">
+        <input wire:model.live.debounce.300ms="search" type="text" placeholder="Pesquisar por título..." class="border rounded px-3 py-2 text-sm w-full md:w-72">
         <select wire:model.live="statusFilter" class="border rounded px-3 py-2 text-sm">
             <option value="">Todos os status</option>
             <option value="published">Publicado</option>

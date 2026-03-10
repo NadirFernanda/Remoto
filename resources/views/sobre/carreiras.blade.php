@@ -7,7 +7,7 @@
         <div class="pub-hero" style="margin-bottom:2.5rem;">
             <div class="pub-hero-label">Trabalhe connosco</div>
             <h1 class="pub-hero-title">Carreiras na 24 Horas Remoto</h1>
-            <p class="pub-hero-sub">Junte-se a uma equipe que está a redefinir o futuro do trabalho em Angola. Construímos uma cultura de impacto, autonomia e crescimento contínuo.</p>
+            <p class="pub-hero-sub">Junte-se a uma equipa que está a redefinir o futuro do trabalho em Angola. Construímos uma cultura de impacto, autonomia e crescimento contínuo.</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
@@ -23,7 +23,7 @@
                 </div>
                 <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
                     <div class="text-[#00baff] font-extrabold mb-1">📈 Crescimento acelerado</div>
-                    <p class="text-[#64748b] text-base m-0 leading-relaxed">Equipe pequena, decisões rápidas, visibilidade real do seu trabalho desde o primeiro dia.</p>
+                    <p class="text-[#64748b] text-base m-0 leading-relaxed">Equipa pequena, decisões rápidas, visibilidade real do seu trabalho desde o primeiro dia.</p>
                 </div>
             </div>
         </div>

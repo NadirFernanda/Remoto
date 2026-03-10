@@ -19,7 +19,7 @@
         </div>
         <div class="mb-4 p-3 bg-cyan-50 rounded flex items-center">
             @include('components.icon', ['name' => 'wallet', 'class' => 'w-6 h-6 text-cyan-500 mr-2'])
-            <span class="text-cyan-700">Seu pagamento ficará seguro até a entrega do serviço.</span>
+            <span class="text-cyan-700">O seu pagamento ficará seguro até à entrega do serviço.</span>
         </div>
         <form wire:submit.prevent="confirmPayment" class="space-y-4">
             <div>
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             @elseif($payment_method === 'paypal')
-                <div class="p-3 bg-blue-50 rounded text-blue-700">Você será redirecionado para o PayPal para finalizar o pagamento.</div>
+                <div class="p-3 bg-blue-50 rounded text-blue-700">Será redireccionado para o PayPal para finalizar o pagamento.</div>
             @elseif($payment_method === 'express')
                 <div class="p-3 bg-yellow-50 rounded text-yellow-700">Pagamento via Express: instruções aparecerão aqui.</div>
             @elseif($payment_method === 'bank')
@@ -65,7 +65,7 @@
 
             <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg transition-all duration-150">Pagar e publicar pedido</button>
         </form>
-        <div class="text-xs text-gray-500 mt-4 text-center">Política de reembolso e segurança: O valor só será liberado ao freelancer após a entrega confirmada.</div>
+        <div class="text-xs text-gray-500 mt-4 text-center">Política de reembolso e segurança: O valor só será libertado ao freelancer após a entrega confirmada.</div>
         @if(session('success'))
             <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>
         @endif

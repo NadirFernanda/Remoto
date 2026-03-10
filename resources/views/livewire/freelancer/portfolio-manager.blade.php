@@ -14,7 +14,7 @@ $categoryIcons = [
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-2xl font-bold text-gray-800">Meu Portfólio</h1>
-            <p class="text-sm text-gray-500 mt-1">Apresente seus trabalhos, certificações e estudos de caso</p>
+            <p class="text-sm text-gray-500 mt-1">Apresente os seus trabalhos, certificações e estudos de caso</p>
         </div>
         <button wire:click="openForm('imagem')" class="btn-eq btn-primary">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -64,8 +64,8 @@ $categoryIcons = [
             @if(in_array($tab, ['imagem', 'documento']))
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Arquivo {{ $tab === 'imagem' ? '(JPG, PNG, GIF — máx. 8MB)' : '(PDF, DOCX, etc. — máx. 20MB)' }}
-                    {{ $editingId ? '(deixe em branco para manter o atual)' : '*' }}
+                    Ficheiro {{ $tab === 'imagem' ? '(JPG, PNG, GIF — máx. 8MB)' : '(PDF, DOCX, etc. — máx. 20MB)' }}
+                    {{ $editingId ? '(deixe em branco para manter o actual)' : '*' }}
                 </label>
                 <x-file-input
                     wire:model="file"
@@ -107,7 +107,7 @@ $categoryIcons = [
                 </label>
                 <textarea wire:model.defer="description" rows="{{ $tab === 'estudo_de_caso' ? 6 : 3 }}"
                     class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]"
-                    placeholder="{{ $tab === 'estudo_de_caso' ? 'Descreva o projeto: contexto, desafio enfrentado, solução desenvolvida e resultados obtidos...' : 'Descrição opcional' }}"></textarea>
+                    placeholder="{{ $tab === 'estudo_de_caso' ? 'Descreva o projecto: contexto, desafio enfrentado, solução desenvolvida e resultados obtidos...' : 'Descrição opcional' }}"></textarea>
                 @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -118,7 +118,7 @@ $categoryIcons = [
 
             <div class="flex gap-3 pt-2">
                 <button type="submit" class="btn-eq btn-primary">
-                    {{ $editingId ? 'Salvar alterações' : 'Adicionar ao portfólio' }}
+                    {{ $editingId ? 'Guardar alterações' : 'Adicionar ao portfólio' }}
                 </button>
                 <button type="button" wire:click="resetForm" class="btn-eq btn-outline">Cancelar</button>
             </div>
@@ -134,7 +134,7 @@ $categoryIcons = [
             <svg class="w-16 h-16 text-gray-200 mb-4" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
-            <p class="text-gray-500 font-medium">Seu portfólio está vazio</p>
+            <p class="text-gray-500 font-medium">O seu portfólio está vazio</p>
             <p class="text-sm text-gray-400 mt-1">Adicione imagens, documentos, links e certificações</p>
             <button wire:click="openForm('imagem')" class="mt-4 btn-eq btn-primary">Começar agora</button>
         </div>
@@ -214,7 +214,7 @@ $categoryIcons = [
                                 <a href="{{ asset('storage/' . $item->media_path) }}" target="_blank"
                                    class="text-xs text-[#00baff] hover:underline mt-0.5 inline-flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                    Ver arquivo
+                                    Ver ficheiro
                                 </a>
                             @endif
                             @if($item->description)

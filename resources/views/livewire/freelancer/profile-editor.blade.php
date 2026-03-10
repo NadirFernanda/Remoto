@@ -32,7 +32,7 @@
                         class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/5 cursor-pointer text-sm font-medium transition">
                         📷 Escolher foto
                     </label>
-                    <span id="pe-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro selecionado</span>
+                    <span id="pe-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
                     @error('profilePhoto') <div class="pub-field-error mt-1">{{ $message }}</div> @enderror
                     <p class="text-xs text-gray-400 mt-1">jpg, png ou webp · máx. 8 MB</p>
                     @if($photoMessage)
@@ -131,7 +131,7 @@
         {{-- Metrics inputs --}}
         <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Projetos concluídos</label>
+                <label class="block text-sm font-medium text-gray-700">Projectos concluídos</label>
                 <input type="number" wire:model.defer="metrics_completed_projects" class="pub-input">
                 @error('metrics_completed_projects') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
@@ -169,10 +169,10 @@
                 </div>
             @endif
             <div class="flex gap-3 items-center">
-                <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Salvar perfil">
+                <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Guardar perfil">
                     <span wire:loading.remove wire:target="saveProfile">
                         @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
-                        Salvar perfil
+                        Guardar perfil
                     </span>
                     <span wire:loading wire:target="saveProfile" class="flex items-center gap-2">
                         <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>

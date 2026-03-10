@@ -8,7 +8,7 @@
         {{-- Voltar --}}
         <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
-            Voltar aos projetos
+            Voltar aos projectos
         </a>
 
         <div class="pub-card" style="padding:2rem;">
@@ -53,14 +53,14 @@
                             @php $role = auth()->user()->activeRole(); @endphp
                             @if($role === 'freelancer')
                                 @if(auth()->id() === $service->cliente_id)
-                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Este é o seu projeto</span>
+                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Este é o seu projecto</span>
                                 @elseif($service->status === 'published')
                                     <form method="POST" action="{{ route('service.candidatar', $service->id) }}" style="display:inline;">
                                         @csrf
-                                        <button type="submit" class="pub-btn-primary">Candidatar-me a este projeto</button>
+                                        <button type="submit" class="pub-btn-primary">Candidatar-me a este projecto</button>
                                     </form>
                                 @else
-                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Projeto não disponível</span>
+                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Projecto não disponível</span>
                                 @endif
                             @elseif(in_array($role, ['cliente', 'client']))
                                 @if(auth()->user()->canSwitchRole())

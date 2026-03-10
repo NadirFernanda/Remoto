@@ -32,7 +32,7 @@
                         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;">
                             @include('components.icon', ['name' => 'plus', 'class' => 'w-12 h-12'])
                             <span style="color: #222; font-weight: 600; font-size: 1.1rem;">Nenhuma movimentação encontrada</span>
-                            <span style="color: #888; font-size: 0.98rem;">Você ainda não possui registros de entrada ou saída na sua carteira.</span>
+                            <span style="color: #888; font-size: 0.98rem;">Ainda não possui registos de entrada ou saída na sua carteira.</span>
                         </div>
                     </td>
                 </tr>

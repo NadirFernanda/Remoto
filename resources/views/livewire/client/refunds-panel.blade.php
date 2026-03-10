@@ -3,7 +3,7 @@
     <table class="min-w-full bg-white rounded-2xl border border-gray-200">
         <thead class="bg-red-50">
             <tr>
-                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600">Projeto</th>
+                <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600">Projecto</th>
                 <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600">Motivo</th>
                 <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600">Status</th>
                 <th class="px-4 py-2 text-left text-xs font-semibold text-gray-600">Data</th>

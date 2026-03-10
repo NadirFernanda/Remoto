@@ -1,8 +1,8 @@
-<!-- Modal de Cadastro Freelancer -->
+<!-- Modal de Registo Freelancer -->
 <div id="freelancer-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 hidden">
     <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md relative">
         <button onclick="closeFreelancerModal()" class="absolute top-2 right-2 text-gray-500 hover:text-cyan-600 text-2xl">&times;</button>
-        <h2 class="text-2xl font-bold text-cyan-600 mb-4 text-center">Cadastro Rápido Freelancer</h2>
+        <h2 class="text-2xl font-bold text-cyan-600 mb-4 text-center">Registo Rápido Freelancer</h2>
         <form method="POST" action="/register">
             @csrf
             <input type="hidden" name="role" value="freelancer">
@@ -15,10 +15,10 @@
                 <input type="email" name="email" id="email" required class="w-full px-3 py-2 border rounded focus:ring-cyan-400">
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-bold mb-1" for="password">Senha</label>
+                <label class="block text-sm font-bold mb-1" for="password">Palavra-passe</label>
                 <input type="password" name="password" id="password" required class="w-full px-3 py-2 border rounded focus:ring-cyan-400">
             </div>
-            <button type="submit" class="w-full bg-cyan-500 text-white font-bold py-2 rounded hover:bg-cyan-600 transition">Cadastrar</button>
+            <button type="submit" class="w-full bg-cyan-500 text-white font-bold py-2 rounded hover:bg-cyan-600 transition">Registar</button>
         </form>
     </div>
 </div>

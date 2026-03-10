@@ -1,5 +1,5 @@
 <div>
-    <h1 class="text-2xl font-bold mb-6 text-[#00baff]">Meus Projetos</h1>
+    <h1 class="text-2xl font-bold mb-6 text-[#00baff]">Os Meus Projectos</h1>
     <div class="flex flex-wrap gap-4 mb-6">
         @foreach(['accepted' => 'Em Andamento', 'in_progress' => 'Em Progresso', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
             <span class="inline-block px-4 py-2 rounded-lg text-xs font-semibold bg-[#e0f7fa] text-[#00baff]">
@@ -8,7 +8,7 @@
         @endforeach
     </div>
     <div class="flex flex-col sm:flex-row gap-4 mb-4">
-        <input type="text" wire:model.debounce.500ms="search" placeholder="Buscar por título..." class="w-full sm:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00baff]">
+        <input type="text" wire:model.debounce.500ms="search" placeholder="Pesquisar por título..." class="w-full sm:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00baff]">
         <select wire:model="status" class="w-full sm:w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00baff]">
             <option value="">Todos os status</option>
             <option value="accepted">Em Andamento</option>
@@ -56,7 +56,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center py-4 text-[#888]">Nenhum projeto encontrado.</td>
+                        <td colspan="5" class="text-center py-4 text-[#888]">Nenhum projecto encontrado.</td>
                     </tr>
                 @endforelse
             </tbody>
