@@ -4,7 +4,10 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-900">Gestão Comercial</h2>
         <a href="{{ route('admin.comercial.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold shadow transition text-base">
-            <span class="text-lg">➕</span> Novo Contrato/Parceria
+            <span class="text-lg">
+                <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 4v14M4 11h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+            </span>
+            Novo Contrato/Parceria
         </a>
     </div>
 @endsection
