@@ -59,6 +59,6 @@ class RefundRequest extends Component
             ->get();
         return view('livewire.client.refund-request', [
             'services' => $services,
-        ]);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Solicitar Reembolso']);
     }
 }

@@ -254,7 +254,7 @@
         </a>
         @endif
 
-    @else
+    @elseif(in_array($role, ['cliente', 'client']))
 
         {{-- ── Cliente ── --}}
         <a href="{{ route('client.dashboard') }}"

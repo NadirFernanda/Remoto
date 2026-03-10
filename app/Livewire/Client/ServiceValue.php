@@ -60,6 +60,7 @@ class ServiceValue extends Component
 
     public function render()
     {
-        return view('livewire.client.service-value');
+        return view('livewire.client.service-value')
+            ->layout('layouts.livewire');
     }
 }

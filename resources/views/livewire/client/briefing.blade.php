@@ -1,14 +1,9 @@
-<div class="min-h-screen bg-gray-50 py-10">
-<div class="max-w-4xl mx-auto px-4">
+<div>
 
     {{-- Header --}}
-    <div class="flex items-center gap-4 mb-8">
-        <a href="{{ route('client.dashboard') }}"
-           class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 bg-white shadow-sm text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-all">
-            @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-5 h-5'])
-        </a>
+    <div class="flex items-center gap-4 mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">{{ $edit ? 'Editar pedido' : 'Novo pedido' }}</h1>
+            <h1 class="text-xl font-bold text-gray-900">{{ $edit ? 'Editar pedido' : 'Novo pedido' }}</h1>
             <p class="text-sm text-gray-400 mt-0.5">Descreva o seu projecto e encontre o freelancer ideal</p>
         </div>
     </div>
@@ -231,5 +226,4 @@
     </div>
     @endif
 
-</div>
 </div>

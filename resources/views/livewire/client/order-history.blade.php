@@ -1,14 +1,10 @@
-<div class="min-h-screen bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 py-10">
+<div>
+    <div>
 
         {{-- Header --}}
-        <div class="flex items-center gap-4 mb-8">
-            <a href="{{ route('client.dashboard') }}"
-               class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-400 hover:text-gray-700 hover:border-gray-400 transition-all bg-white shadow-sm">
-                @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-5 h-5'])
-            </a>
+        <div class="flex items-center gap-4 mb-6">
             <div class="flex-1">
-                <h1 class="text-2xl font-bold text-gray-900">Meus Pedidos</h1>
+                <h1 class="text-xl font-bold text-gray-900">Meus Pedidos</h1>
                 <p class="text-sm text-gray-400 mt-0.5">Acompanhe o estado dos seus projectos</p>
             </div>
             <a href="{{ route('client.projects') }}" class="btn-primary text-xs self-center">

@@ -196,6 +196,7 @@ class PaymentEscrow extends Component
     {
         // DEBUG: Exibir valor recebido na URL
         session()->flash('debug_valor', 'Valor recebido: ' . $this->valor);
-        return view('livewire.client.payment-escrow');
+        return view('livewire.client.payment-escrow')
+            ->layout('layouts.livewire');
     }
 }

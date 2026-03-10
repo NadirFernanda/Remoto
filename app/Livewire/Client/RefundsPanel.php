@@ -16,6 +16,6 @@ class RefundsPanel extends Component
             ->get();
         return view('livewire.client.refunds-panel', [
             'refunds' => $refunds,
-        ]);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Reembolsos']);
     }
 }

@@ -72,7 +72,7 @@ class Briefing extends Component
         $this->generated_description = BriefingTextGenerator::generate($briefingData);
     }
 
-    public function submitBriefing(): void
+    public function submitBriefing()
     {
         $this->validate([
             'title1'               => 'required|max:100',
@@ -118,7 +118,7 @@ class Briefing extends Component
             : 'Pedido criado com sucesso! Defina o orçamento para publicar.'
         );
 
-        redirect()->route('client.value', ['service' => $serviceId]);
+        return redirect()->route('client.value', ['service' => $serviceId]);
     }
 
     public function mount(): void
@@ -145,6 +145,7 @@ class Briefing extends Component
         $templates     = array_keys(BriefingTemplateService::templates());
         $allCategories = array_merge($templates, ['Outro']);
 
-        return view('livewire.client.briefing', compact('allCategories'));
+        return view('livewire.client.briefing', compact('allCategories'))
+            ->layout('layouts.dashboard', ['dashboardTitle' => $this->edit ? 'Editar Pedido' : 'Novo Pedido']);
     }
 }

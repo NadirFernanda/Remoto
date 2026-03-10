@@ -142,11 +142,15 @@ class Dashboard extends Component
     {
         $user = Auth::user();
         if (!$user) {
-            abort(403, 'Usuário não autenticado.');
+            return redirect()->route('login');
         }
-        // Proteção: só permite acesso se for cliente
+        // Redireciona para o dashboard correto se o role ativo não for cliente
         if (method_exists($user, 'activeRole') && $user->activeRole() !== 'cliente') {
-            abort(403, 'Acesso não autorizado ao dashboard do cliente.');
+            $activeRole = $user->activeRole();
+            if ($activeRole === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
+            return redirect()->route('freelancer.dashboard');
         }
         $services = Service::where('cliente_id', $user->id)->get();
         $this->orders = $services->sortByDesc('created_at')->take(5);
