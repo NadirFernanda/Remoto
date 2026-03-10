@@ -10,42 +10,42 @@
             <p class="pub-hero-sub">O reconhecimento externo que valida o impacto da 24 Horas Remoto no ecossistema digital de Angola.</p>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;">
-                <div style="width:56px;height:56px;min-width:56px;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🏆</div>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="flex gap-5 items-start flex-wrap">
+                <div class="w-14 h-14 min-w-[56px] rounded-xl bg-gradient-to-br from-[#f59e0b] to-[#fbbf24] flex items-center justify-center text-2xl">🏆</div>
                 <div>
-                    <div style="font-weight:800;color:#0f172a;font-size:1rem;margin-bottom:.2rem;">Melhor Startup de Tecnologia — Angola Tech Awards 2024</div>
-                    <div style="color:#94a3b8;font-size:.82rem;margin-bottom:.5rem;">Angola Tech Foundation · Novembro 2024</div>
-                    <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0;">Distinguida entre mais de 120 candidatas como a startup com maior impacto positivo no mercado de trabalho digital angolano.</p>
+                    <div class="font-extrabold text-[#0f172a] text-base mb-1">Melhor Startup de Tecnologia — Angola Tech Awards 2024</div>
+                    <div class="text-[#94a3b8] text-xs mb-2">Angola Tech Foundation · Novembro 2024</div>
+                    <p class="text-[#64748b] text-base leading-relaxed m-0">Distinguida entre mais de 120 candidatas como a startup com maior impacto positivo no mercado de trabalho digital angolano.</p>
                 </div>
             </div>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;">
-                <div style="width:56px;height:56px;min-width:56px;border-radius:12px;background:linear-gradient(135deg,#e5e7eb,#d1d5db);display:flex;align-items:center;justify-content:center;font-size:1.6rem;">🥈</div>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="flex gap-5 items-start flex-wrap">
+                <div class="w-14 h-14 min-w-[56px] rounded-xl bg-gradient-to-br from-[#e5e7eb] to-[#d1d5db] flex items-center justify-center text-2xl">🥈</div>
                 <div>
-                    <div style="font-weight:800;color:#0f172a;font-size:1rem;margin-bottom:.2rem;">2.º Lugar — Pitch da Economia Digital CEAC 2024</div>
-                    <div style="color:#94a3b8;font-size:.82rem;margin-bottom:.5rem;">Centro Empresarial de Angola · Setembro 2024</div>
-                    <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0;">Reconhecida pelo júri pelo modelo de negócio sustentável e pelo impacto social na empregabilidade de jovens formados.</p>
+                    <div class="font-extrabold text-[#0f172a] text-base mb-1">2.º Lugar — Pitch da Economia Digital CEAC 2024</div>
+                    <div class="text-[#94a3b8] text-xs mb-2">Centro Empresarial de Angola · Setembro 2024</div>
+                    <p class="text-[#64748b] text-base leading-relaxed m-0">Reconhecida pelo júri pelo modelo de negócio sustentável e pelo impacto social na empregabilidade de jovens formados.</p>
                 </div>
             </div>
         </div>
 
-        <div class="pub-card" style="margin-bottom:1.25rem;">
-            <div style="display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;">
-                <div style="width:56px;height:56px;min-width:56px;border-radius:12px;background:linear-gradient(135deg,#00baff,#0077cc);display:flex;align-items:center;justify-content:center;font-size:1.6rem;">⭐</div>
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
+            <div class="flex gap-5 items-start flex-wrap">
+                <div class="w-14 h-14 min-w-[56px] rounded-xl bg-gradient-to-br from-[#00baff] to-[#0077cc] flex items-center justify-center text-2xl">⭐</div>
                 <div>
-                    <div style="font-weight:800;color:#0f172a;font-size:1rem;margin-bottom:.2rem;">Seleccionada — Programa de Aceleração AfriTech 2024</div>
-                    <div style="color:#94a3b8;font-size:.82rem;margin-bottom:.5rem;">AfriTech Accelerator · Julho 2024</div>
-                    <p style="color:#64748b;font-size:.9rem;line-height:1.6;margin:0;">Uma das 12 startups africanas seleccionadas para o programa de aceleração, que inclui mentoria e acesso a investidores globais.</p>
+                    <div class="font-extrabold text-[#0f172a] text-base mb-1">Seleccionada — Programa de Aceleração AfriTech 2024</div>
+                    <div class="text-[#94a3b8] text-xs mb-2">AfriTech Accelerator · Julho 2024</div>
+                    <p class="text-[#64748b] text-base leading-relaxed m-0">Uma das 12 startups africanas seleccionadas para o programa de aceleração, que inclui mentoria e acesso a investidores globais.</p>
                 </div>
             </div>
         </div>
 
-        <div class="pub-card" style="background:#f0f9ff;border-color:#bae6fd;">
-            <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:.5rem;">Nominações em aberto</h3>
-            <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0;">Se a sua organização pretende nomear a 24 Horas Remoto para uma distinção, contacte-nos em <strong>comunicacao@remoto.ao</strong>.</p>
+        <div class="bg-[#f0f9ff] border border-[#bae6fd] rounded-3xl shadow-xl p-8 md:p-10 mb-5 transition hover:shadow-2xl">
+            <h3 class="text-base font-extrabold text-[#0f172a] mb-2">Nominações em aberto</h3>
+            <p class="text-[#475569] text-base leading-relaxed m-0">Se a sua organização pretende nomear a 24 Horas Remoto para uma distinção, contacte-nos em <strong>comunicacao@remoto.ao</strong>.</p>
         </div>
 
     </div>
