@@ -10,7 +10,7 @@
             <p class="pub-hero-sub">Conheça as pessoas apaixonadas que constroem e evoluem a 24 Horas Remoto todos os dias.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 text-center border border-[#e6f3fa] transition hover:shadow-2xl">
                 <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] flex items-center justify-center text-white font-black text-3xl mx-auto mb-4">N</div>
                 <div class="font-extrabold text-[#0f172a] text-lg">Nadir Fernanda</div>
