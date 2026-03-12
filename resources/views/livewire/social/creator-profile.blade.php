@@ -64,6 +64,18 @@
                                     : 'border-[#00baff] bg-[#00baff] text-white hover:bg-[#009ad6] hover:border-[#009ad6]' }}">
                             {{ $isFollowing ? 'A seguir ✓' : 'Seguir' }}
                         </button>
+                        @if($creator->has_creator_profile)
+                            @if($isSubscribed)
+                                <span class="text-center px-5 py-2.5 text-sm font-semibold rounded-xl bg-green-50 text-green-700 border-2 border-green-200">
+                                    ✓ Assinante activo
+                                </span>
+                            @else
+                                <button wire:click="subscribe" wire:confirm="Será debitado {{ number_format($subscriptionPrice, 2) }} KZS da sua carteira. Confirma a assinatura mensal?"
+                                    class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 transition">
+                                    Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês
+                                </button>
+                            @endif
+                        @endif
                         @if($creator->role === 'freelancer')
                             <a href="{{ route('freelancer.show', $creator) }}"
                                class="text-center px-5 py-2.5 text-sm font-semibold rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition">
@@ -119,7 +131,10 @@
     @else
         <div class="space-y-6">
             @foreach($posts as $post)
-                @include('livewire.social.partials.post-card', ['post' => $post])
+                @include('livewire.social.partials.post-card', [
+                    'post'                 => $post,
+                    'subscribedCreatorIds' => $subscribedCreatorIds ?? [],
+                ])
             @endforeach
         </div>
 

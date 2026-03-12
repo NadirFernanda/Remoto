@@ -42,6 +42,15 @@
             </div>
         </a>
         <div class="flex items-center gap-2">
+            @auth
+                @if(!$isOwner)
+                    <button wire:click="toggleFollow({{ $post->user_id }})"
+                        class="text-xs font-semibold px-3 py-1 rounded-lg border transition
+                            {{ $isFollowing ? 'border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400' : 'border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white' }}">
+                        {{ $isFollowing ? 'A seguir' : '+ Seguir' }}
+                    </button>
+                @endif
+            @endauth
             @if(isset($post->visibility) && $post->visibility === 'followers')
                 <span class="text-xs text-gray-400 bg-gray-100 rounded-full px-2 py-0.5">seguidores</span>
             @endif
