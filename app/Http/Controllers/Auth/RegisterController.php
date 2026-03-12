@@ -98,7 +98,7 @@ class RegisterController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'role'     => 'required|in:freelancer,cliente',
+            'role'     => 'required|in:freelancer,cliente,creator',
         ], [
             'name.required'      => 'O nome é obrigatório.',
             'name.max'           => 'O nome não pode ter mais de 255 caracteres.',
@@ -121,6 +121,17 @@ class RegisterController extends Controller
             ]);
 
             // $user->sendEmailVerificationNotification(); // Desativado: fluxo OTP
+
+            // Seed multi-profile flag for new users
+            $profileFlag = match ($user->role) {
+                'freelancer' => ['has_freelancer_profile' => true],
+                'cliente'    => ['has_cliente_profile'    => true],
+                'creator'    => ['has_creator_profile'    => true],
+                default      => [],
+            };
+            if ($profileFlag) {
+                $user->update($profileFlag);
+            }
 
             // Dispara evento para ações pós-cadastro
             if ($user->role === 'freelancer') {

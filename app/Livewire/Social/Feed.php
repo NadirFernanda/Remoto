@@ -70,7 +70,11 @@ class Feed extends Component
         $isEmpty = $isEmpty ?? false;
         $posts = $query->latest()->paginate(10);
 
-        return view('livewire.social.feed', compact('posts', 'isEmpty'))
+        $subscribedCreatorIds = $user
+            ? $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray()
+            : [];
+
+        return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds'))
             ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
     }
 

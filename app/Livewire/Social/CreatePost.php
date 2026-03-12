@@ -89,8 +89,8 @@ class CreatePost extends Component
 
     public function mount(?int $repost_id = null): void
     {
-        if (!Auth::check() || Auth::user()->activeRole() !== 'freelancer') {
-            abort(403, 'Apenas freelancers podem publicar conteúdo.');
+        if (!Auth::check() || !in_array(Auth::user()->activeRole(), ['freelancer', 'creator'])) {
+            abort(403, 'Apenas freelancers e criadores podem publicar conteúdo.');
         }
 
         if ($repost_id) {

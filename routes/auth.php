@@ -36,6 +36,8 @@ Route::post('/login', function (Request $request) {
             return redirect()->intended('/freelancer/dashboard');
         } elseif ($user->role === 'admin') {
             return redirect()->intended('/admin/dashboard');
+        } elseif ($user->role === 'creator') {
+            return redirect()->intended('/creator/dashboard');
         } else {
             return redirect()->intended('/');
         }

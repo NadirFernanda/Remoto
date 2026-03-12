@@ -31,19 +31,40 @@
 
             <form method="POST" action="/register" novalidate onsubmit="return validateRegisterForm(event)">
                 @csrf
-                {{-- Role selector --}}
-                <div class="pub-field">
-                    <label>Quero registar-me como:</label>
-                    <div style="display:flex;gap:1rem;margin-top:.4rem;">
-                        <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#0f172a;cursor:pointer;">
-                            <input type="radio" name="role" value="freelancer" id="role-freelancer" {{ old('role', 'freelancer') == 'freelancer' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
-                            Freelancer
+                {{-- Role selector (3 opções) --}}
+                <div class="pub-field" x-data="{ role: '{{ old('role', 'freelancer') }}' }">
+                    <label style="display:block;margin-bottom:.6rem;">Quero registar-me como:</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;">
+
+                        {{-- Freelancer --}}
+                        <label @click="role='freelancer'" :style="role==='freelancer' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
+                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
+                            <input type="radio" name="role" value="freelancer" x-model="role" style="display:none;">
+                            <div style="font-size:1.4rem;margin-bottom:.25rem;">💼</div>
+                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Freelancer</div>
+                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Ofereço serviços</div>
                         </label>
-                        <label style="display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#0f172a;cursor:pointer;">
-                            <input type="radio" name="role" value="cliente" id="role-cliente" {{ old('role') == 'cliente' ? 'checked' : '' }} style="accent-color:#00baff;width:1rem;height:1rem;">
-                            Cliente
+
+                        {{-- Cliente --}}
+                        <label @click="role='cliente'" :style="role==='cliente' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
+                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
+                            <input type="radio" name="role" value="cliente" x-model="role" style="display:none;">
+                            <div style="font-size:1.4rem;margin-bottom:.25rem;">🏢</div>
+                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Cliente</div>
+                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Contrato serviços</div>
                         </label>
+
+                        {{-- Criador/Seguidor --}}
+                        <label @click="role='creator'" :style="role==='creator' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
+                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
+                            <input type="radio" name="role" value="creator" x-model="role" style="display:none;">
+                            <div style="font-size:1.4rem;margin-bottom:.25rem;">🎬</div>
+                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Criador</div>
+                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Crio conteúdo</div>
+                        </label>
+
                     </div>
+                    @error('role')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
                 <div class="pub-field">
@@ -74,7 +95,7 @@
                     @error('password_confirmation')<div class="pub-field-error">{{ $message }}</div>@enderror
                 </div>
 
-                <button type="submit" id="botao-registo" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;margin-top:.25rem;">Registar como Freelancer</button>
+                <button type="submit" id="botao-registo" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;margin-top:.25rem;">Criar conta</button>
             </form>
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">

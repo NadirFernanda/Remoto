@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use App\Models\CreatorSubscription;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -33,6 +34,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'bio',
         'profile_photo',
         'location',
+        'has_freelancer_profile',
+        'has_cliente_profile',
+        'has_creator_profile',
+        'freelancer_suspended',
+        'cliente_suspended',
+        'creator_suspended',
     ];
     public function profile()
     {
@@ -141,6 +148,55 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->stories()->where('expires_at', '>', now())->exists();
     }
 
+    // ── Creator Module ───────────────────────────────────────────────────────
+
+    public function creatorProfile()
+    {
+        return $this->hasOne(CreatorProfile::class);
+    }
+
+    /** Subscriptions where this user is the creator (fans subscribing to them) */
+    public function subscriptionsAsCreator()
+    {
+        return $this->hasMany(CreatorSubscription::class, 'creator_id');
+    }
+
+    /** Subscriptions this user has purchased (creators they follow) */
+    public function subscriptionsAsSubscriber()
+    {
+        return $this->hasMany(CreatorSubscription::class, 'subscriber_id');
+    }
+
+    public function isSubscribedTo(int $creatorId): bool
+    {
+        return $this->subscriptionsAsSubscriber()
+            ->where('creator_id', $creatorId)
+            ->where('status', 'active')
+            ->where('expires_at', '>', now())
+            ->exists();
+    }
+
+    public function isCreator(): bool
+    {
+        return (bool) $this->has_creator_profile;
+    }
+
+    /** All profile types this user has activated */
+    public function availableProfiles(): array
+    {
+        $profiles = [];
+        if ($this->has_freelancer_profile || $this->role === 'freelancer') {
+            $profiles[] = 'freelancer';
+        }
+        if ($this->has_cliente_profile || $this->role === 'cliente') {
+            $profiles[] = 'cliente';
+        }
+        if ($this->has_creator_profile || $this->role === 'creator') {
+            $profiles[] = 'creator';
+        }
+        return $profiles;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -170,7 +226,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function activeRole(): string
     {
         $sessionRole = session('active_role');
-        if ($sessionRole && in_array($sessionRole, ['cliente', 'freelancer'])) {
+        if ($sessionRole && in_array($sessionRole, ['cliente', 'freelancer', 'creator'])) {
             return $sessionRole;
         }
         return $this->role;
@@ -181,7 +237,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function canSwitchRole(): bool
     {
-        return in_array($this->role, ['cliente', 'freelancer']);
+        return !in_array($this->role, ['admin']);
     }
 
     /**

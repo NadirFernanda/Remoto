@@ -21,6 +21,7 @@ class OtpVerificationController extends Controller
             return match($user->role) {
                 'freelancer' => redirect('/freelancer/dashboard'),
                 'admin'      => redirect('/admin/dashboard'),
+                'creator'    => redirect('/creator/dashboard'),
                 default      => redirect('/cliente/dashboard'),
             };
         }
@@ -68,6 +69,7 @@ class OtpVerificationController extends Controller
             return match($user->role) {
                 'freelancer' => redirect('/freelancer/dashboard')->with('status', 'E-mail verificado com sucesso!'),
                 'admin'      => redirect('/admin/dashboard')->with('status', 'E-mail verificado com sucesso!'),
+                'creator'    => redirect('/creator/dashboard')->with('status', 'E-mail verificado com sucesso!'),
                 default      => redirect('/cliente/dashboard')->with('status', 'E-mail verificado com sucesso!'),
             };
         }

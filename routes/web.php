@@ -38,10 +38,18 @@ Route::get('/dashboard', function () {
     $user = auth()->user();
     return match ($user->activeRole()) {
         'freelancer' => redirect()->route('freelancer.dashboard'),
-        'admin' => redirect()->route('admin.dashboard'),
-        default => redirect()->route('client.dashboard'),
+        'admin'      => redirect()->route('admin.dashboard'),
+        'creator'    => redirect()->route('creator.dashboard'),
+        default      => redirect()->route('client.dashboard'),
     };
 })->middleware('auth')->name('dashboard');
+
+// ─── Creator / Seguidor Module ────────────────────────────────────────────────
+Route::middleware('auth')->prefix('creator')->name('creator.')->group(function () {
+    Route::get('/dashboard', \App\Livewire\Creator\Dashboard::class)->name('dashboard');
+    Route::get('/activar/{profile?}', \App\Livewire\Creator\ActivateProfile::class)->name('activate');
+});
+// Public creator profile (already handled by social.creator route)
 
 // --- Institutional / Sobre pages ---
 Route::prefix('sobre')->name('sobre.')->group(function () {

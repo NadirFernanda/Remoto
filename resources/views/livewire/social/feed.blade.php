@@ -36,7 +36,7 @@
                     </svg>
                     Guardados
                 </a>
-                @if(auth()->user()->activeRole() === 'freelancer')
+                @if(in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
                     <a href="{{ route('social.create') }}"
                        class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2 rounded-xl transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -70,7 +70,10 @@
     {{-- Posts --}}
     <div class="space-y-6">
         @forelse($posts as $post)
-            @include('livewire.social.partials.post-card', ['post' => $post])
+            @include('livewire.social.partials.post-card', [
+                'post'                 => $post,
+                'subscribedCreatorIds' => $subscribedCreatorIds ?? [],
+            ])
         @empty
             <div class="text-center py-16 text-gray-400">
                 <svg class="w-12 h-12 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
