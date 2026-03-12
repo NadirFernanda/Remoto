@@ -80,7 +80,8 @@ class Feed extends Component
         }
 
         return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds'))
-            ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
+            ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social'])
+            ->section('content');
     }
 
     // ── Toggle like ───────────────────────────────────────────────────────────

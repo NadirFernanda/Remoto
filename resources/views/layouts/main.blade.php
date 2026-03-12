@@ -17,12 +17,7 @@
     @include('components.header')
     <main class="pt-24 flex-1">
         @include('components.flash-messages')
-        @php $slotContent = (isset($slot) ? trim((string) $slot) : ''); @endphp
-        @if($slotContent !== '')
-            {!! $slot !!}
-        @else
-            @yield('content')
-        @endif
+        @yield('content')
     </main>
     @include('components.footer')
     @livewireScripts
