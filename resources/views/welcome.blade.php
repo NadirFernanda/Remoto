@@ -1,9 +1,9 @@
-Ôªø@extends('layouts.main')
+@extends('layouts.main')
 
 @section('content')
 
 {{-- ============================
-     HERO ‚Äî CARROSSEL
+     HERO ó CARROSSEL
 ============================== --}}
 <section class="hp-hero"
     x-data="{
@@ -31,10 +31,10 @@
             <div class="hp-hero-text">
                 <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projecto</span></h1>
                 <ul class="hp-hero-bullets">
-                    <li>N.¬∫ 1 marketplace freelance de Angola</li>
-                    <li>Qualquer servi√ßo que precisar</li>
+                    <li>N.∫ 1 marketplace freelance de Angola</li>
+                    <li>Qualquer serviÁo que precisar</li>
                     <li>Receba propostas em minutos, gratuitamente</li>
-                    <li>Pague s√≥ quando estiver 100% satisfeito</li>
+                    <li>Pague sÛ quando estiver 100% satisfeito</li>
                 </ul>
                 <div class="hp-ctas">
                     <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
@@ -45,12 +45,12 @@
                 <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
                     <div class="hp-hero-card-avatar">A</div>
                     <div>
-                        <div class="hp-hero-card-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
+                        <div class="hp-hero-card-stars">?????</div>
                         <div class="hp-hero-card-name">Ana Souza</div>
                         <div class="hp-hero-card-role">Designer UI/UX</div>
                     </div>
                 </div>
-                <p class="hp-hero-card-quote">"Projecto entregue antes do prazo, comunica√ß√£o excelente e resultado profissional."</p>
+                <p class="hp-hero-card-quote">"Projecto entregue antes do prazo, comunicaÁ„o excelente e resultado profissional."</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Design de App</span>
                     <span class="hp-hero-card-tag-price">Kz 85.000</span>
@@ -67,24 +67,24 @@
                 <ul class="hp-hero-bullets">
                     <li>Crie o seu perfil gratuito em minutos</li>
                     <li>Aceda a milhares de projectos todos os dias</li>
-                    <li>Defina o seu pre√ßo e hor√°rios</li>
-                    <li>Receba pagamentos seguros e r√°pidos</li>
+                    <li>Defina o seu preÁo e hor·rios</li>
+                    <li>Receba pagamentos seguros e r·pidos</li>
                 </ul>
                 <div class="hp-ctas">
-                    <a href="/register" class="hp-btn hp-btn-white">Come√ßar como Freelancer</a>
-                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos dispon√≠veis</a>
+                    <a href="/register" class="hp-btn hp-btn-white">ComeÁar como Freelancer</a>
+                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos disponÌveis</a>
                 </div>
             </div>
             <div class="hp-hero-card">
                 <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
                     <div class="hp-hero-card-avatar" style="background:#c7f7e0;color:#059669;">M</div>
                     <div>
-                        <div class="hp-hero-card-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
+                        <div class="hp-hero-card-stars">?????</div>
                         <div class="hp-hero-card-name">Marcos Oliveira</div>
                         <div class="hp-hero-card-role">Dev Full Stack</div>
                     </div>
                 </div>
-                <p class="hp-hero-card-quote">"Encontrei projectos incr√≠veis logo na primeira semana. A plataforma √© simples e o pagamento √© seguro."</p>
+                <p class="hp-hero-card-quote">"Encontrei projectos incrÌveis logo na primeira semana. A plataforma È simples e o pagamento È seguro."</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Sistema Web</span>
                     <span class="hp-hero-card-tag-price">Kz 240.000</span>
@@ -97,11 +97,11 @@
     <div class="hp-hero-slide" x-show="slide===2" style="display:none;">
         <div class="hp-hero-inner">
             <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Tudo que o seu neg√≥cio<br>precisa, num <span class="hp-hero-accent">s√≥ lugar</span></h1>
+                <h1 class="hp-hero-title">Tudo que o seu negÛcio<br>precisa, num <span class="hp-hero-accent">sÛ lugar</span></h1>
                 <ul class="hp-hero-bullets">
-                    <li>Design, Dev, Marketing, Reda√ß√£o e muito mais</li>
+                    <li>Design, Dev, Marketing, RedaÁ„o e muito mais</li>
                     <li>+5.000 profissionais verificados activos</li>
-                    <li>Sistema de cust√≥dia: pague com seguran√ßa</li>
+                    <li>Sistema de custÛdia: pague com seguranÁa</li>
                     <li>Suporte dedicado 24 horas por dia</li>
                 </ul>
                 <div class="hp-ctas">
@@ -113,12 +113,12 @@
                 <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
                     <div class="hp-hero-card-avatar" style="background:#fde8ff;color:#9333ea;">C</div>
                     <div>
-                        <div class="hp-hero-card-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
+                        <div class="hp-hero-card-stars">?????</div>
                         <div class="hp-hero-card-name">Carla Ferreira</div>
                         <div class="hp-hero-card-role">Marketing Digital</div>
                     </div>
                 </div>
-                <p class="hp-hero-card-quote">"Minha campanha teve 3√ó mais resultados. Profissional incr√≠vel, contratada em menos de 2 horas!"</p>
+                <p class="hp-hero-card-quote">"Minha campanha teve 3◊ mais resultados. Profissional incrÌvel, contratada em menos de 2 horas!"</p>
                 <div class="hp-hero-card-tag">
                     <span class="hp-hero-card-tag-label">Campanha Ads</span>
                     <span class="hp-hero-card-tag-price">Kz 120.000</span>
@@ -140,14 +140,14 @@
 ============================== --}}
 <section class="hp-section hp-section--white">
     <div class="hp-container" style="text-align:center;">
-        <p class="hp-label">Simples e r√°pido</p>
+        <p class="hp-label">Simples e r·pido</p>
         <h2 class="hp-title">Como funciona</h2>
         <p class="hp-subtitle">Em poucos passos, conecta clientes e freelancers de forma segura.</p>
         <div class="hp-steps">
             <div class="hp-step">
                 <div class="hp-step-icon">1</div>
                 <h3>Publique o seu projecto</h3>
-                <p>Descreva o que precisa e defina o seu or√ßamento. √â gratuito e leva menos de 2 minutos.</p>
+                <p>Descreva o que precisa e defina o seu orÁamento. … gratuito e leva menos de 2 minutos.</p>
             </div>
             <div class="hp-step">
                 <div class="hp-step-icon">2</div>
@@ -157,12 +157,12 @@
             <div class="hp-step">
                 <div class="hp-step-icon">3</div>
                 <h3>Escolha e contrate</h3>
-                <p>Analise perfis, portf√≥lios e avalia√ß√µes. Escolha o profissional ideal.</p>
+                <p>Analise perfis, portfÛlios e avaliaÁıes. Escolha o profissional ideal.</p>
             </div>
             <div class="hp-step">
                 <div class="hp-step-icon">4</div>
-                <h3>Pague com seguran√ßa</h3>
-                <p>Pagamento em cust√≥dia: o freelancer s√≥ recebe ap√≥s a sua aprova√ß√£o.</p>
+                <h3>Pague com seguranÁa</h3>
+                <p>Pagamento em custÛdia: o freelancer sÛ recebe apÛs a sua aprovaÁ„o.</p>
             </div>
         </div>
     </div>
@@ -191,7 +191,7 @@
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
                 <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
-                <span class="hp-cat-label">Reda√ß√£o & Conte√∫do</span>
+                <span class="hp-cat-label">RedaÁ„o & Conte˙do</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
                 <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
@@ -199,7 +199,7 @@
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
                 <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
-                <span class="hp-cat-label">V√≠deo & √Åudio</span>
+                <span class="hp-cat-label">VÌdeo & ¡udio</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
                 <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
@@ -211,39 +211,39 @@
             </a>
         </div>
         <div style="margin-top:2.5rem;">
-            <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary">Ver todas as categorias ‚Üí</a>
+            <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary">Ver todas as categorias ?</a>
         </div>
     </div>
 </section>
 
 {{-- ============================
-     POR QU√ä ESCOLHER
+     POR QU  ESCOLHER
 ============================== --}}
 <section class="hp-section hp-section--white">
     <div class="hp-container">
         <div class="hp-benefits-grid">
             <div class="hp-benefits-text">
-                <p class="hp-label">Por que n√≥s</p>
-                <h2 class="hp-title">Trabalhe com<br>seguran√ßa e confian√ßa</h2>
-                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de cust√≥dia, verifica√ß√£o de identidade e suporte dedicado.</p>
+                <p class="hp-label">Por que nÛs</p>
+                <h2 class="hp-title">Trabalhe com<br>seguranÁa e confianÁa</h2>
+                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custÛdia, verificaÁ„o de identidade e suporte dedicado.</p>
                 <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
             </div>
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-                    <div><h4>Pagamento seguro</h4><p>Dinheiro fica em cust√≥dia e s√≥ √© libertado quando aprovar o trabalho.</p></div>
+                    <div><h4>Pagamento seguro</h4><p>Dinheiro fica em custÛdia e sÛ È libertado quando aprovar o trabalho.</p></div>
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
-                    <div><h4>Freelancers verificados</h4><p>Perfis validados, portf√≥lios reais e avalia√ß√µes de clientes anteriores.</p></div>
+                    <div><h4>Freelancers verificados</h4><p>Perfis validados, portfÛlios reais e avaliaÁıes de clientes anteriores.</p></div>
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-                    <div><h4>Suporte 24h</h4><p>A nossa equipa est√° dispon√≠vel para ajudar clientes e freelancers a qualquer momento.</p></div>
+                    <div><h4>Suporte 24h</h4><p>A nossa equipa est· disponÌvel para ajudar clientes e freelancers a qualquer momento.</p></div>
                 </div>
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-                    <div><h4>Resultados r√°pidos</h4><p>Receba propostas em minutos e inicie o seu projecto em menos de 24 horas.</p></div>
+                    <div><h4>Resultados r·pidos</h4><p>Receba propostas em minutos e inicie o seu projecto em menos de 24 horas.</p></div>
                 </div>
             </div>
         </div>
@@ -257,30 +257,30 @@
     <div class="hp-container" style="text-align:center;">
         <p class="hp-label">Depoimentos</p>
         <h2 class="hp-title">O que dizem os nossos utilizadores</h2>
-        <p class="hp-subtitle">Hist√≥rias reais de clientes e freelancers que transformaram os seus neg√≥cios.</p>
+        <p class="hp-subtitle">HistÛrias reais de clientes e freelancers que transformaram os seus negÛcios.</p>
         <div class="hp-testimonials">
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
-                <p class="hp-testimonial-text">"Publiquei o projecto e j√° tinha 8 propostas em menos de 2 horas. Contratei uma designer incr√≠vel e o log√≥tipo ficou perfeito!"</p>
+                <div class="hp-testimonial-stars">?????</div>
+                <p class="hp-testimonial-text">"Publiquei o projecto e j· tinha 8 propostas em menos de 2 horas. Contratei uma designer incrÌvel e o logÛtipo ficou perfeito!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">C</div>
-                    <div><div class="hp-testimonial-name">Carlos Mendes</div><div class="hp-testimonial-role">Cliente ¬∑ Luanda</div></div>
+                    <div><div class="hp-testimonial-name">Carlos Mendes</div><div class="hp-testimonial-role">Cliente ∑ Luanda</div></div>
                 </div>
             </div>
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
-                <p class="hp-testimonial-text">"J√° consegui 15 clientes pela plataforma. O sistema de pagamento √© seguro e o suporte responde rapidinho."</p>
+                <div class="hp-testimonial-stars">?????</div>
+                <p class="hp-testimonial-text">"J· consegui 15 clientes pela plataforma. O sistema de pagamento È seguro e o suporte responde rapidinho."</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">J</div>
-                    <div><div class="hp-testimonial-name">Juliana Lima</div><div class="hp-testimonial-role">Freelancer ¬∑ Designer UI/UX</div></div>
+                    <div><div class="hp-testimonial-name">Juliana Lima</div><div class="hp-testimonial-role">Freelancer ∑ Designer UI/UX</div></div>
                 </div>
             </div>
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">‚òÖ‚òÖ‚òÖ‚òÖ‚òÖ</div>
-                <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunica√ß√£o excelente e dentro do or√ßamento!"</p>
+                <div class="hp-testimonial-stars">?????</div>
+                <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicaÁ„o excelente e dentro do orÁamento!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">R</div>
-                    <div><div class="hp-testimonial-name">Rafael Costa</div><div class="hp-testimonial-role">Cliente ¬∑ Benguela</div></div>
+                    <div><div class="hp-testimonial-name">Rafael Costa</div><div class="hp-testimonial-role">Cliente ∑ Benguela</div></div>
                 </div>
             </div>
         </div>
@@ -290,135 +290,111 @@
 {{-- ============================
      COMUNIDADE / CRIADORES
 ============================== --}}
-<section style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
+<section class="hp-hero">
 
-    {{-- Glow decorativo --}}
-    <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 70%);pointer-events:none;"></div>
-    <div style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;"></div>
+    {{-- Imagem de fundo --}}
+    <div class="hp-hero-bg hp-bg-active" style="background-image:url('/img/heru3.jpg'); background-position:center 40%;"></div>
 
-    <div style="max-width:1200px;margin:0 auto;">
+    {{-- Overlay roxo-azul para identidade de criador --}}
+    <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(76,29,149,0.93) 0%,rgba(0,70,180,0.93) 100%);"></div>
 
-        {{-- Badge --}}
-        <div style="text-align:center;margin-bottom:1.25rem;">
-            <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,186,255,.12);border:1px solid rgba(0,186,255,.3);color:#00baff;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem 1rem;border-radius:999px;">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Novidade ¬∑ Comunidade 24 Horas
-            </span>
-        </div>
+    <div class="hp-hero-slide">
+        <div class="hp-hero-inner">
 
-        {{-- T√≠tulo --}}
-        <h2 style="text-align:center;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;">
-            Muito mais do que freelancing.<br>
-            <span style="background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">√â uma comunidade.</span>
-        </h2>
-        <p style="text-align:center;color:#94a3b8;font-size:1.125rem;max-width:620px;margin:0 auto 3.5rem;line-height:1.7;">
-            Partilhe o seu conhecimento, crie conte√∫do exclusivo, construa a sua audi√™ncia ‚Äî e ganhe dinheiro por isso. Ou subscreva os criadores que mais inspira e aceda a conte√∫do premium.
-        </p>
+            {{-- ESQUERDA: texto --}}
+            <div class="hp-hero-text">
 
-        {{-- Dois cards lado a lado --}}
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem;">
+                {{-- Badge --}}
+                <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .9rem;border-radius:999px;margin-bottom:1.25rem;">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Novidade &middot; Comunidade 24 Horas
+                </span>
 
-            {{-- Card Criador --}}
-            <div style="background:linear-gradient(135deg,rgba(0,186,255,.08),rgba(0,186,255,.02));border:1px solid rgba(0,186,255,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,186,255,.15);transition:.3s' : 'transition:.3s'">
-                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(0,186,255,.1) 0%,transparent 70%);pointer-events:none;"></div>
-                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#00baff,#0070ff);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-                    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                </div>
-                <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Criadores</h3>
-                <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem;">Partilhe artigos, v√≠deos, √°udios e dicas exclusivas. Defina o pre√ßo da sua subscri√ß√£o e receba mensalmente dos seus f√£s. A sua audi√™ncia, o seu neg√≥cio.</p>
-                <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:.65rem;">
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Publica√ß√µes com texto, imagens e v√≠deos
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Conte√∫do exclusivo bloqueado para n√£o-assinantes
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Receba 85% de cada subscri√ß√£o directamente na carteira
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Estat√≠sticas de seguidores, alcance e receita
-                    </li>
+                <h2 class="hp-hero-title">Muito mais do que freelancing.<br><span class="hp-hero-accent">… uma comunidade.</span></h2>
+
+                <ul class="hp-hero-bullets">
+                    <li>Publique conte˙do exclusivo e conquiste assinantes</li>
+                    <li>Receba 85% de cada subscriÁ„o directamente na carteira</li>
+                    <li>Feed social com posts, coment·rios e partilhas</li>
+                    <li>Conte˙do premium bloqueado para n„o-assinantes</li>
                 </ul>
-                <a href="/register" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#00baff,#0070ff);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-                    Come√ßar a criar
-                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-                </a>
-            </div>
 
-            {{-- Card Assinante --}}
-            <div style="background:linear-gradient(135deg,rgba(255,140,0,.07),rgba(255,60,0,.02));border:1px solid rgba(255,140,0,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(255,140,0,.12);transition:.3s' : 'transition:.3s'">
-                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;"></div>
-                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#f59e0b,#ef4444);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-                    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <div class="hp-ctas">
+                    <a href="/register" class="hp-btn hp-btn-white">ComeÁar como Creator</a>
+                    <a href="{{ route('social.feed') }}" class="hp-btn hp-btn-outline-white">Explorar comunidade</a>
                 </div>
-                <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Assinantes</h3>
-                <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem;">Acompanhe os freelancers e especialistas que mais admira. Aceda a tutoriais, dicas avan√ßadas e bastidores por uma subscri√ß√£o mensal acess√≠vel ‚Äî suportando directamente o criador.</p>
-                <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:.65rem;">
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Feed social com posts p√∫blicos e exclusivos
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Assine por apenas 3.000 KZS/m√™s por criador
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Cancele quando quiser, sem compromisso
-                    </li>
-                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                        </span>
-                        Pagamento seguro via carteira digital integrada
-                    </li>
-                </ul>
-                <a href="{{ route('social.feed') }}" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-                    Explorar comunidade
-                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-                </a>
+
+                {{-- Mini-stats --}}
+                <div style="display:flex;gap:2rem;margin-top:2.25rem;flex-wrap:wrap;">
+                    <div>
+                        <p style="font-size:1.5rem;font-weight:900;color:#fff176;line-height:1;">+500</p>
+                        <p style="color:rgba(255,255,255,.6);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Criadores</p>
+                    </div>
+                    <div>
+                        <p style="font-size:1.5rem;font-weight:900;color:#fff176;line-height:1;">+10 mil</p>
+                        <p style="color:rgba(255,255,255,.6);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">PublicaÁıes</p>
+                    </div>
+                    <div>
+                        <p style="font-size:1.5rem;font-weight:900;color:#fff176;line-height:1;">85%</p>
+                        <p style="color:rgba(255,255,255,.6);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Para o criador</p>
+                    </div>
+                    <div>
+                        <p style="font-size:1.5rem;font-weight:900;color:#fff176;line-height:1;">3.000 KZS</p>
+                        <p style="color:rgba(255,255,255,.6);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem;">Por subscriÁ„o</p>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- DIREITA: mock creator card --}}
+            <div class="hp-hero-card">
+
+                {{-- CabeÁalho do criador --}}
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
+                    <div class="hp-hero-card-avatar" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:1.2rem;">M</div>
+                    <div>
+                        <div style="display:flex;align-items:center;gap:.4rem;">
+                            <span class="hp-hero-card-name">Marcos Oliveira</span>
+                            <svg width="14" height="14" fill="#60a5fa" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-.529 3.78 3.745 3.745 0 01-3.78.529A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.78-.529 3.745 3.745 0 01-.529-3.78A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 01.529-3.78 3.746 3.746 0 013.78-.529A3.745 3.745 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.78.529 3.746 3.746 0 01.529 3.78A3.745 3.745 0 0121 12z"/></svg>
+                        </div>
+                        <div class="hp-hero-card-role">Design &amp; Tecnologia</div>
+                    </div>
+                </div>
+
+                {{-- Stats do criador --}}
+                <div style="display:flex;gap:0;margin-bottom:1rem;padding:.6rem 0;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);">
+                    <div style="text-align:center;flex:1;">
+                        <p style="color:#fff;font-weight:800;font-size:.95rem;line-height:1;">1.2K</p>
+                        <p style="color:rgba(255,255,255,.5);font-size:.68rem;margin-top:.15rem;">Seguidores</p>
+                    </div>
+                    <div style="text-align:center;flex:1;">
+                        <p style="color:#fff;font-weight:800;font-size:.95rem;line-height:1;">47</p>
+                        <p style="color:rgba(255,255,255,.5);font-size:.68rem;margin-top:.15rem;">PublicaÁıes</p>
+                    </div>
+                    <div style="text-align:center;flex:1;">
+                        <p style="color:#fff176;font-weight:800;font-size:.95rem;line-height:1;">3K <span style="font-size:.6rem;font-weight:500;color:rgba(255,255,255,.45);">KZS</span></p>
+                        <p style="color:rgba(255,255,255,.5);font-size:.68rem;margin-top:.15rem;">SubscriÁ„o</p>
+                    </div>
+                </div>
+
+                {{-- Preview de post exclusivo --}}
+                <div style="position:relative;border-radius:.6rem;overflow:hidden;margin-bottom:1rem;background:rgba(0,0,0,.25);">
+                    <p class="hp-hero-card-quote" style="padding:.75rem;margin:0;">"Hoje partilho o processo completo de como criei uma identidade visual do zero ó pesquisa, moodboard e entrega final no Figma..."</p>
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,10,40,.6);backdrop-filter:blur(4px);">
+                        <div style="text-align:center;">
+                            <svg width="26" height="26" fill="rgba(255,255,255,.85)" viewBox="0 0 24 24" style="margin:0 auto .3rem;"><path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd"/></svg>
+                            <span style="color:rgba(255,255,255,.9);font-size:.72rem;font-weight:600;">Conte˙do exclusivo</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Bot„o assinar --}}
+                <div class="hp-hero-card-tag" style="display:block;text-align:center;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#3b82f6);">
+                    <span style="color:#fff;font-weight:700;font-size:.88rem;">Assinar &middot; 3.000 KZS/mÍs</span>
+                </div>
+
             </div>
         </div>
-
-        {{-- Stats de prova social --}}
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:3rem;text-align:center;">
-            <div>
-                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+500</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Criadores activos</p>
-            </div>
-            <div>
-                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+10 mil</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publica√ß√µes mensais</p>
-            </div>
-            <div>
-                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">3.000 KZS</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscri√ß√£o/m√™s</p>
-            </div>
-            <div>
-                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">85%</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
-            </div>
-        </div>
-
     </div>
 </section>
 
@@ -427,11 +403,11 @@
 ============================== --}}
 <section class="hp-section hp-section--blue">
     <div class="hp-container--narrow hp-cta-text" style="text-align:center;">
-        <h2 class="hp-title hp-title--white">Pronto para come√ßar?</h2>
-        <p class="hp-subtitle hp-subtitle--white" style="max-width:600px; margin:0 auto 2.5rem;">Junte-se a milhares de clientes e freelancers que j√° confiam na 24 Horas. Registo 100% gratuito.</p>
+        <h2 class="hp-title hp-title--white">Pronto para comeÁar?</h2>
+        <p class="hp-subtitle hp-subtitle--white" style="max-width:600px; margin:0 auto 2.5rem;">Junte-se a milhares de clientes e freelancers que j· confiam na 24 Horas. Registo 100% gratuito.</p>
         <div class="hp-ctas" style="justify-content:center;">
             <a href="/register" class="hp-btn hp-btn-white">Criar conta gratuita</a>
-            <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos dispon√≠veis</a>
+            <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos disponÌveis</a>
         </div>
     </div>
 </section>
