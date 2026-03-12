@@ -105,6 +105,31 @@
     {{-- Pagination --}}
     <div class="mt-8">{{ $posts->links() }}</div>
 
+    {{-- Edit modal --}}
+    @if($editingPostId)
+        <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6">
+                <h3 class="text-lg font-bold mb-3">Editar publicação</h3>
+                <textarea wire:model="editContent" rows="5"
+                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                    maxlength="3000"
+                    placeholder="Escreva o novo conteúdo..."></textarea>
+                <p class="text-xs text-gray-400 mt-1 text-right">{{ strlen($editContent) }}/3000</p>
+                @error('editContent') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                <div class="flex gap-3 mt-4">
+                    <button wire:click="saveEditPost"
+                        class="flex-1 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold py-2 rounded-xl transition">
+                        Guardar alterações
+                    </button>
+                    <button wire:click="cancelEditPost"
+                        class="flex-1 border border-gray-200 text-gray-600 text-sm font-medium py-2 rounded-xl hover:bg-gray-50 transition">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
     {{-- Report modal --}}
     @if($reportingPostId || $reportingUserId)
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">

@@ -56,6 +56,10 @@
                 <div x-show="open" x-transition @click.away="open = false"
                      class="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-lg w-48 z-10 py-1">
                     @if($isOwner)
+                        <button wire:click="openEditPost({{ $post->id }})" @click="open = false"
+                            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                            Editar publicação
+                        </button>
                         <button wire:click="deletePost({{ $post->id }})" @click="open = false"
                             class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
                             Eliminar publicação

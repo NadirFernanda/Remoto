@@ -18,6 +18,8 @@ class Feed extends Component
 
     public string $commentText = '';
     public ?int $commentingPostId = null;
+    public ?int $editingPostId = null;
+    public string $editContent = '';
     public ?int $reportingPostId = null;
     public ?int $reportingUserId = null;
     public string $reportReason = '';
@@ -35,6 +37,7 @@ class Feed extends Component
     protected $rules = [
         'commentText'  => 'required|string|min:1|max:1000',
         'reportReason' => 'required|string|max:500',
+        'editContent'  => 'required|string|min:1|max:3000',
     ];
 
     // ── Feed query ────────────────────────────────────────────────────────────
@@ -121,6 +124,35 @@ class Feed extends Component
     }
 
     // ── Delete post ───────────────────────────────────────────────────────────
+
+    // ── Edit post ─────────────────────────────────────────────────────────────
+
+    public function openEditPost(int $postId): void
+    {
+        $user = Auth::user();
+        $post = SocialPost::where('id', $postId)->where('user_id', $user?->id)->first();
+        if (!$post) return;
+
+        $this->editingPostId = $postId;
+        $this->editContent   = $post->content;
+    }
+
+    public function saveEditPost(): void
+    {
+        $this->validate(['editContent' => 'required|string|min:1|max:3000']);
+
+        $user = Auth::user();
+        $post = SocialPost::where('id', $this->editingPostId)->where('user_id', $user?->id)->first();
+        if (!$post) return;
+
+        $post->update(['content' => $this->editContent]);
+        $this->reset('editingPostId', 'editContent');
+    }
+
+    public function cancelEditPost(): void
+    {
+        $this->reset('editingPostId', 'editContent');
+    }
 
     public function deletePost(int $postId): void
     {
