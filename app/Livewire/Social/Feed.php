@@ -8,7 +8,9 @@ use App\Models\SocialPost;
 use App\Models\SocialLike;
 use App\Models\SocialComment;
 use App\Models\SocialReport;
+use App\Models\SocialBookmark;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Feed extends Component
 {
@@ -21,10 +23,16 @@ class Feed extends Component
     public string $reportReason = '';
     public string $reportType = '';
 
+    // Filters
+    public string $hashtag = '';
+    public bool $bookmarkedOnly = false;
+
     protected $paginationTheme = 'tailwind';
 
+    protected $queryString = ['hashtag', 'bookmarkedOnly'];
+
     protected $rules = [
-        'commentText' => 'required|string|min:1|max:1000',
+        'commentText'  => 'required|string|min:1|max:1000',
         'reportReason' => 'required|string|max:500',
     ];
 
@@ -34,35 +42,36 @@ class Feed extends Component
     {
         $user = Auth::user();
 
-        if ($user) {
-            $followingIds = $user->following()->pluck('users.id');
+        $query = SocialPost::with([
+            'user.freelancerProfile',
+            'media',
+            'likes',
+            'comments.user',
+            'repost.user',
+            'repost.media',
+        ])->active();
 
+        if ($this->hashtag) {
+            $tag = ltrim($this->hashtag, '#');
+            $query->where('content', 'like', '%#' . $tag . '%');
+        } elseif ($this->bookmarkedOnly && $user) {
+            $bookmarkedIds = $user->bookmarks()->pluck('post_id');
+            $query->whereIn('id', $bookmarkedIds);
+        } elseif ($user) {
+            $followingIds = $user->following()->pluck('users.id');
             if ($followingIds->isEmpty()) {
-                // Show recent posts from all active freelancers for discovery
-                $posts = SocialPost::with(['user', 'images', 'likes', 'comments.user'])
-                    ->active()
-                    ->latest()
-                    ->paginate(10);
                 $isEmpty = true;
             } else {
-                $posts = SocialPost::with(['user', 'images', 'likes', 'comments.user'])
-                    ->active()
-                    ->whereIn('user_id', $followingIds)
-                    ->latest()
-                    ->paginate(10);
+                $query->whereIn('user_id', $followingIds);
                 $isEmpty = false;
             }
-        } else {
-            // Guest: show all active posts
-            $posts = SocialPost::with(['user', 'images', 'likes', 'comments.user'])
-                ->active()
-                ->latest()
-                ->paginate(10);
-            $isEmpty = false;
         }
 
+        $isEmpty = $isEmpty ?? false;
+        $posts = $query->latest()->paginate(10);
+
         return view('livewire.social.feed', compact('posts', 'isEmpty'))
-            ->layout('layouts.main', ['title' => 'Feed Social']);
+            ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
     }
 
     // ── Toggle like ───────────────────────────────────────────────────────────
@@ -70,18 +79,21 @@ class Feed extends Component
     public function toggleLike(int $postId): void
     {
         $user = Auth::user();
-        if (!$user) {
-            $this->dispatch('need-login');
-            return;
-        }
+        if (!$user) { $this->dispatch('need-login'); return; }
 
         $existing = SocialLike::where('post_id', $postId)->where('user_id', $user->id)->first();
+        $existing ? $existing->delete() : SocialLike::create(['post_id' => $postId, 'user_id' => $user->id]);
+    }
 
-        if ($existing) {
-            $existing->delete();
-        } else {
-            SocialLike::create(['post_id' => $postId, 'user_id' => $user->id]);
-        }
+    // ── Toggle bookmark ───────────────────────────────────────────────────────
+
+    public function toggleBookmark(int $postId): void
+    {
+        $user = Auth::user();
+        if (!$user) { $this->dispatch('need-login'); return; }
+
+        $existing = SocialBookmark::where('post_id', $postId)->where('user_id', $user->id)->first();
+        $existing ? $existing->delete() : SocialBookmark::create(['post_id' => $postId, 'user_id' => $user->id]);
     }
 
     // ── Toggle follow ─────────────────────────────────────────────────────────
@@ -89,20 +101,32 @@ class Feed extends Component
     public function toggleFollow(int $creatorId): void
     {
         $user = Auth::user();
-        if (!$user) {
-            $this->dispatch('need-login');
-            return;
-        }
+        if (!$user) { $this->dispatch('need-login'); return; }
+        if ($user->id === $creatorId) return;
 
-        if ($user->id === $creatorId) {
-            return;
-        }
-
-        if ($user->isFollowedBy($user->id) || $user->following()->where('following_id', $creatorId)->exists()) {
+        if ($user->following()->where('following_id', $creatorId)->exists()) {
             $user->following()->detach($creatorId);
         } else {
             $user->following()->syncWithoutDetaching([$creatorId]);
         }
+    }
+
+    // ── Delete post ───────────────────────────────────────────────────────────
+
+    public function deletePost(int $postId): void
+    {
+        $user = Auth::user();
+        $post = SocialPost::where('id', $postId)->where('user_id', $user?->id)->first();
+        if (!$post) return;
+
+        foreach ($post->media as $media) {
+            Storage::disk('public')->delete($media->path);
+        }
+        foreach ($post->images as $img) {
+            Storage::disk('public')->delete($img->path);
+        }
+
+        $post->delete();
     }
 
     // ── Comments ──────────────────────────────────────────────────────────────
@@ -135,24 +159,24 @@ class Feed extends Component
     {
         $this->reportingPostId = $postId;
         $this->reportingUserId = null;
-        $this->reportType = 'post';
-        $this->reportReason = '';
+        $this->reportType      = 'post';
+        $this->reportReason    = '';
     }
 
     public function openReportUser(int $userId): void
     {
         $this->reportingUserId = $userId;
         $this->reportingPostId = null;
-        $this->reportType = 'user';
-        $this->reportReason = '';
+        $this->reportType      = 'user';
+        $this->reportReason    = '';
     }
 
     public function cancelReport(): void
     {
         $this->reportingPostId = null;
         $this->reportingUserId = null;
-        $this->reportReason = '';
-        $this->reportType = '';
+        $this->reportReason    = '';
+        $this->reportType      = '';
     }
 
     public function submitReport(): void
@@ -164,7 +188,6 @@ class Feed extends Component
 
         $id = $this->reportType === 'post' ? $this->reportingPostId : $this->reportingUserId;
 
-        // Prevent duplicate reports from same user
         $alreadyReported = SocialReport::where('reportable_type', $this->reportType)
             ->where('reportable_id', $id)
             ->where('reporter_id', $user->id)
@@ -179,7 +202,6 @@ class Feed extends Component
                 'status'          => 'pendente',
             ]);
 
-            // Flag post as reported if threshold reached (3+ reports)
             if ($this->reportType === 'post') {
                 $count = SocialReport::where('reportable_type', 'post')
                     ->where('reportable_id', $id)
@@ -192,6 +214,6 @@ class Feed extends Component
         }
 
         $this->cancelReport();
-        session()->flash('success', 'Denúncia enviada. Obrigado por nos ajudar a manter a plataforma segura.');
+        session()->flash('success', 'Denúncia enviada. Obrigado por manter a plataforma segura.');
     }
 }

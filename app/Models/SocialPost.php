@@ -12,9 +12,9 @@ class SocialPost extends Model
     protected $table = 'social_posts';
 
     protected $fillable = [
-        'user_id',
-        'content',
-        'status',
+        'user_id', 'content', 'type',
+        'link_url', 'link_title', 'link_description', 'link_image',
+        'repost_id', 'visibility', 'views_count', 'status',
     ];
 
     // ── Relationships ────────────────────────────────────────────────────────
@@ -24,6 +24,13 @@ class SocialPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    /** Unified media: images, videos, audio, documents */
+    public function media(): HasMany
+    {
+        return $this->hasMany(SocialPostMedia::class, 'post_id')->orderBy('order');
+    }
+
+    /** Legacy images (backward compat with old posts) */
     public function images(): HasMany
     {
         return $this->hasMany(SocialPostImage::class, 'post_id')->orderBy('order');
@@ -45,11 +52,33 @@ class SocialPost extends Model
             ->where('reportable_type', 'post');
     }
 
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(SocialBookmark::class, 'post_id');
+    }
+
+    /** The original post being reshared */
+    public function repost(): BelongsTo
+    {
+        return $this->belongsTo(SocialPost::class, 'repost_id');
+    }
+
+    /** Posts that repost this post */
+    public function reposts(): HasMany
+    {
+        return $this->hasMany(SocialPost::class, 'repost_id');
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     public function isLikedBy(int $userId): bool
     {
         return $this->likes()->where('user_id', $userId)->exists();
+    }
+
+    public function isBookmarkedBy(int $userId): bool
+    {
+        return $this->bookmarks()->where('user_id', $userId)->exists();
     }
 
     public function likesCount(): int
@@ -60,6 +89,24 @@ class SocialPost extends Model
     public function commentsCount(): int
     {
         return $this->comments()->count();
+    }
+
+    public function repostsCount(): int
+    {
+        return $this->reposts()->count();
+    }
+
+    /**
+     * Return content with clickable #hashtags (safe escaped HTML).
+     */
+    public function contentWithHashtags(): string
+    {
+        $safe = e($this->content ?? '');
+        return (string) preg_replace(
+            '/#([a-zA-Z0-9À-ÿ_]+)/u',
+            '<a href="' . url('/social') . '?hashtag=$1" class="text-[#00baff] hover:underline">#$1</a>',
+            $safe
+        );
     }
 
     // ── Scopes ───────────────────────────────────────────────────────────────

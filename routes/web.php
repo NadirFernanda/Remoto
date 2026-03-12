@@ -16,9 +16,12 @@ Route::middleware('auth')->get('/cliente/pagamentos', \App\Livewire\Client\Finan
 Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
 Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
 
-// Authenticated: create post (freelancer only)
+// Authenticated: create post (freelancer only), bookmarks, stories
 Route::middleware('auth')->group(function () {
     Route::get('/social/publicar', \App\Livewire\Social\CreatePost::class)->name('social.create');
+    Route::get('/social/guardados', function () {
+        return redirect('/social?bookmarkedOnly=1');
+    })->name('social.bookmarks');
 });
 
 // ─── Loja de Infoprodutos (public) ───────────────────────────────────────────

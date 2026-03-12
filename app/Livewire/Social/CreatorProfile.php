@@ -9,7 +9,9 @@ use App\Models\SocialPost;
 use App\Models\SocialLike;
 use App\Models\SocialComment;
 use App\Models\SocialReport;
+use App\Models\SocialBookmark;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CreatorProfile extends Component
 {
@@ -36,7 +38,7 @@ class CreatorProfile extends Component
 
     public function render()
     {
-        $posts = SocialPost::with(['user', 'images', 'likes', 'comments.user'])
+        $posts = SocialPost::with(['user.freelancerProfile', 'media', 'likes', 'comments.user', 'repost.user', 'repost.media'])
             ->where('user_id', $this->creator->id)
             ->active()
             ->latest()
@@ -123,13 +125,26 @@ class CreatorProfile extends Component
         $user = Auth::user();
         if (!$user) return;
 
-        $post = SocialPost::where('id', $postId)->where('user_id', $user->id)->firstOrFail();
-        foreach ($post->images as $image) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($image->path);
+        $post = SocialPost::where('id', $postId)->where('user_id', $user->id)->first();
+        if (!$post) return;
+
+        foreach ($post->media as $media) {
+            Storage::disk('public')->delete($media->path);
+        }
+        foreach ($post->images as $img) {
+            Storage::disk('public')->delete($img->path);
         }
         $post->delete();
-
         session()->flash('success', 'Publicação removida.');
+    }
+
+    public function toggleBookmark(int $postId): void
+    {
+        $user = Auth::user();
+        if (!$user) { $this->dispatch('need-login'); return; }
+
+        $existing = SocialBookmark::where('post_id', $postId)->where('user_id', $user->id)->first();
+        $existing ? $existing->delete() : SocialBookmark::create(['post_id' => $postId, 'user_id' => $user->id]);
     }
 
     // ── Report post ───────────────────────────────────────────────────────────

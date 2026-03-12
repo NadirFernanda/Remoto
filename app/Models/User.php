@@ -126,6 +126,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(SocialLike::class);
     }
 
+    public function stories()
+    {
+        return $this->hasMany(SocialStory::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(SocialBookmark::class);
+    }
+
+    public function hasActiveStories(): bool
+    {
+        return $this->stories()->where('expires_at', '>', now())->exists();
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
