@@ -26,10 +26,11 @@ class Feed extends Component
     // Filters
     public string $hashtag = '';
     public bool $bookmarkedOnly = false;
+    public bool $myPostsOnly = false;
 
     protected $paginationTheme = 'tailwind';
 
-    protected $queryString = ['hashtag', 'bookmarkedOnly'];
+    protected $queryString = ['hashtag', 'bookmarkedOnly', 'myPostsOnly'];
 
     protected $rules = [
         'commentText'  => 'required|string|min:1|max:1000',
@@ -54,6 +55,8 @@ class Feed extends Component
         if ($this->hashtag) {
             $tag = ltrim($this->hashtag, '#');
             $query->where('content', 'like', '%#' . $tag . '%');
+        } elseif ($this->myPostsOnly && $user) {
+            $query->where('user_id', $user->id);
         } elseif ($this->bookmarkedOnly && $user) {
             $bookmarkedIds = $user->bookmarks()->pluck('post_id');
             $query->whereIn('id', $bookmarkedIds);

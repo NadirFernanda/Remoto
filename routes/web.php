@@ -22,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/social/guardados', function () {
         return redirect('/social?bookmarkedOnly=1');
     })->name('social.bookmarks');
+    Route::get('/social/minhas-publicacoes', function () {
+        return redirect('/social?myPostsOnly=1');
+    })->name('social.myposts');
 });
 
 // ─── Loja de Infoprodutos (public) ───────────────────────────────────────────
