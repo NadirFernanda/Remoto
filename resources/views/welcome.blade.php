@@ -299,8 +299,8 @@
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
 
     {{-- Glow decorativo --}}
-    <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
-    <div style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
+    <div class="hp-comunidade-glow" style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
+    <div class="hp-comunidade-glow" style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
 
     <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;">
 
@@ -322,7 +322,7 @@
         </p>
 
         {{-- Dois cards lado a lado --}}
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem;">
+        <div class="hp-comunidade-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem;">
 
             {{-- Card Criador --}}
             <div style="background:linear-gradient(135deg,rgba(0,186,255,.08),rgba(0,186,255,.02));border:1px solid rgba(0,186,255,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,186,255,.15);transition:.3s' : 'transition:.3s'">
