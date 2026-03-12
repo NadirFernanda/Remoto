@@ -59,20 +59,26 @@ class Feed extends Component
             $query->whereIn('id', $bookmarkedIds);
         } elseif ($user) {
             $followingIds = $user->following()->pluck('users.id');
+            // Include the user's own posts in the feed
+            $visibleIds = $followingIds->push($user->id)->unique()->values();
             if ($followingIds->isEmpty()) {
                 $isEmpty = true;
             } else {
-                $query->whereIn('user_id', $followingIds);
                 $isEmpty = false;
             }
+            $query->whereIn('user_id', $visibleIds);
         }
 
         $isEmpty = $isEmpty ?? false;
         $posts = $query->latest()->paginate(10);
 
-        $subscribedCreatorIds = $user
-            ? $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray()
-            : [];
+        try {
+            $subscribedCreatorIds = $user
+                ? $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray()
+                : [];
+        } catch (\Throwable $e) {
+            $subscribedCreatorIds = [];
+        }
 
         return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds'))
             ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
