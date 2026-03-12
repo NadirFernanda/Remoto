@@ -50,10 +50,9 @@ class CreatorProfile extends Component
             : false;
 
         return view('livewire.social.creator-profile', compact('posts', 'followersCount', 'isFollowing'))
-            ->layout('layouts.main', [
+            ->layout('layouts.public', [
                 'title' => $this->creator->name . ' — Perfil de Criador',
-            ])
-            ->section('content');
+            ]);
     }
 
     // ── Toggle follow ─────────────────────────────────────────────────────────
