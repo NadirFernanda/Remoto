@@ -11,6 +11,16 @@ use App\Http\Controllers\ChatFileUploadController;
 
 Route::middleware('auth')->get('/cliente/pagamentos', \App\Livewire\Client\FinanceHistory::class)->name('client.payments');
 
+// ─── Módulo Social ────────────────────────────────────────────────────────────
+// Public: anyone can browse feed and creator profiles
+Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
+Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
+
+// Authenticated: create post (freelancer only)
+Route::middleware('auth')->group(function () {
+    Route::get('/social/publicar', \App\Livewire\Social\CreatePost::class)->name('social.create');
+});
+
 // ─── Loja de Infoprodutos (public) ───────────────────────────────────────────
 Route::get('/loja', \App\Livewire\Loja\Vitrine::class)->name('loja.index');
 Route::get('/loja/{produto:slug}', \App\Livewire\Loja\ProdutoDetalhe::class)->name('loja.show');
@@ -158,6 +168,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
     Route::get('/admin/loja', \App\Livewire\Admin\LojaAdmin::class)->name('admin.loja');
+    Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation');
     
         // Painel admin de reembolsos
         Route::middleware(['auth', 'can:admin'])->group(function () {

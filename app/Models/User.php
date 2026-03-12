@@ -90,6 +90,42 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Sponsorship::class);
     }
 
+    // ── Social Module ────────────────────────────────────────────────────────
+
+    public function socialPosts()
+    {
+        return $this->hasMany(SocialPost::class);
+    }
+
+    /** Users this user is following */
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'social_follows', 'follower_id', 'following_id')
+            ->withTimestamps();
+    }
+
+    /** Users that follow this user */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'social_follows', 'following_id', 'follower_id')
+            ->withTimestamps();
+    }
+
+    public function followersCount(): int
+    {
+        return $this->followers()->count();
+    }
+
+    public function isFollowedBy(int $userId): bool
+    {
+        return $this->followers()->where('follower_id', $userId)->exists();
+    }
+
+    public function socialLikes()
+    {
+        return $this->hasMany(SocialLike::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
