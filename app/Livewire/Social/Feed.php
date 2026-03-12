@@ -59,13 +59,9 @@ class Feed extends Component
             $query->whereIn('id', $bookmarkedIds);
         } elseif ($user) {
             $followingIds = $user->following()->pluck('users.id');
-            // Include the user's own posts in the feed
+            $hasFollowing = $followingIds->isNotEmpty();
             $visibleIds = $followingIds->push($user->id)->unique()->values();
-            if ($followingIds->isEmpty()) {
-                $isEmpty = true;
-            } else {
-                $isEmpty = false;
-            }
+            $isEmpty = !$hasFollowing;
             $query->whereIn('user_id', $visibleIds);
         }
 
@@ -81,7 +77,8 @@ class Feed extends Component
         }
 
         return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds'))
-            ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
+            ->layout('layouts.main', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social'])
+            ->section('content');
     }
 
     // ── Toggle like ───────────────────────────────────────────────────────────
