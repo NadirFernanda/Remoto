@@ -288,6 +288,141 @@
 </section>
 
 {{-- ============================
+     COMUNIDADE / CRIADORES
+============================== --}}
+<section style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
+
+    {{-- Glow decorativo --}}
+    <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+    <div style="max-width:1200px;margin:0 auto;">
+
+        {{-- Badge --}}
+        <div style="text-align:center;margin-bottom:1.25rem;">
+            <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,186,255,.12);border:1px solid rgba(0,186,255,.3);color:#00baff;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem 1rem;border-radius:999px;">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Novidade · Comunidade 24 Horas
+            </span>
+        </div>
+
+        {{-- Título --}}
+        <h2 style="text-align:center;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;">
+            Muito mais do que freelancing.<br>
+            <span style="background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">É uma comunidade.</span>
+        </h2>
+        <p style="text-align:center;color:#94a3b8;font-size:1.125rem;max-width:620px;margin:0 auto 3.5rem;line-height:1.7;">
+            Partilhe o seu conhecimento, crie conteúdo exclusivo, construa a sua audiência — e ganhe dinheiro por isso. Ou subscreva os criadores que mais inspira e aceda a conteúdo premium.
+        </p>
+
+        {{-- Dois cards lado a lado --}}
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem;">
+
+            {{-- Card Criador --}}
+            <div style="background:linear-gradient(135deg,rgba(0,186,255,.08),rgba(0,186,255,.02));border:1px solid rgba(0,186,255,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,186,255,.15);transition:.3s' : 'transition:.3s'">
+                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(0,186,255,.1) 0%,transparent 70%);pointer-events:none;"></div>
+                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#00baff,#0070ff);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+                    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                </div>
+                <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Criadores</h3>
+                <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem;">Partilhe artigos, vídeos, áudios e dicas exclusivas. Defina o preço da sua subscrição e receba mensalmente dos seus fãs. A sua audiência, o seu negócio.</p>
+                <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:.65rem;">
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Publicações com texto, imagens e vídeos
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Conteúdo exclusivo bloqueado para não-assinantes
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Receba 85% de cada subscrição directamente na carteira
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Estatísticas de seguidores, alcance e receita
+                    </li>
+                </ul>
+                <a href="/register" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#00baff,#0070ff);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                    Começar a criar
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </a>
+            </div>
+
+            {{-- Card Assinante --}}
+            <div style="background:linear-gradient(135deg,rgba(255,140,0,.07),rgba(255,60,0,.02));border:1px solid rgba(255,140,0,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(255,140,0,.12);transition:.3s' : 'transition:.3s'">
+                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;"></div>
+                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#f59e0b,#ef4444);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+                    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Assinantes</h3>
+                <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem;">Acompanhe os freelancers e especialistas que mais admira. Aceda a tutoriais, dicas avançadas e bastidores por uma subscrição mensal acessível — suportando directamente o criador.</p>
+                <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:.65rem;">
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Feed social com posts públicos e exclusivos
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Assine por apenas 3.000 KZS/mês por criador
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Cancele quando quiser, sem compromisso
+                    </li>
+                    <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        </span>
+                        Pagamento seguro via carteira digital integrada
+                    </li>
+                </ul>
+                <a href="{{ route('social.feed') }}" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                    Explorar comunidade
+                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+                </a>
+            </div>
+        </div>
+
+        {{-- Stats de prova social --}}
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:3rem;text-align:center;">
+            <div>
+                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+500</p>
+                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Criadores activos</p>
+            </div>
+            <div>
+                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+10 mil</p>
+                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publicações mensais</p>
+            </div>
+            <div>
+                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">3.000 KZS</p>
+                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
+            </div>
+            <div>
+                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">85%</p>
+                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{{-- ============================
      CTA FINAL
 ============================== --}}
 <section class="hp-section hp-section--blue">
