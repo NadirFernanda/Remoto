@@ -142,6 +142,6 @@ class Vitrine extends Component
 
         return view('livewire.loja.vitrine', [
             'produtos' => $produtos,
-        ])->layout('layouts.main', ['title' => 'Loja de Infoprodutos']);
+        ])->layout('layouts.app');
     }
 }

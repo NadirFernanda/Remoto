@@ -21,6 +21,6 @@ class FreelancerRecommendations extends Component
         $matches = FreelancerMatcherService::match($this->service, 8);
 
         return view('livewire.client.freelancer-recommendations', compact('matches'))
-            ->layout('layouts.main');
+            ->layout('layouts.app');
     }
 }

@@ -73,6 +73,6 @@ class LeaveReview extends Component
     public function render()
     {
         return view('livewire.leave-review')
-            ->layout('layouts.main');
+            ->layout('layouts.app');
     }
 }
