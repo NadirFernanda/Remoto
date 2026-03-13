@@ -33,6 +33,7 @@ Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $ser
 // Authenticated marketplace routes
 Route::middleware('auth')->group(function () {
     // Freelancer marketplace
+    Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
     Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
     Route::get('/freelancer/servico/{service}/entrega', \App\Livewire\Freelancer\ServiceDelivery::class)->name('freelancer.service.delivery');
