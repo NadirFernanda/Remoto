@@ -59,6 +59,7 @@ class ServiceChat extends Component
         $mensagem = trim($this->mensagem ?? '');
 
         if ($mensagem === '' && !$this->chatFile) {
+            $this->skipRender();
             return;
         }
 
