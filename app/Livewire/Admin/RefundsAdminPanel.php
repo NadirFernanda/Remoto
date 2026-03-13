@@ -74,6 +74,7 @@ class RefundsAdminPanel extends Component
             ->when($this->search, fn($q) => $q->where('reason', 'like', '%'.$this->search.'%'))
             ->orderByDesc('created_at')
             ->paginate(15);
-        return view('livewire.admin.refunds-admin-panel', compact('refunds'));
+        return view('livewire.admin.refunds-admin-panel', compact('refunds'))
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Painel de Reembolsos']);
     }
 }

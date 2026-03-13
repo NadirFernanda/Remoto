@@ -1,3 +1,5 @@
+<a href="{{ route('admin.dashboard') }}" class="btn btn-secondary mb-6">← Voltar ao Dashboard</a>
+
 <div class="p-6 bg-white rounded shadow">
     <h2 class="text-2xl font-bold mb-4">Painel de Reembolsos</h2>
     <div class="flex gap-4 mb-4">
