@@ -49,9 +49,6 @@ class ServiceChat extends Component
 
     public function updatedChatFile()
     {
-        if ($this->chatFile) {
-            $this->dispatch('chat-file-selected', name: $this->chatFile->getClientOriginalName());
-        }
         $this->skipRender();
     }
 

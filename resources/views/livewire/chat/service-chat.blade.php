@@ -105,21 +105,32 @@
                 </div>
             @else
                 <form wire:submit="enviarMensagem" class="flex items-end gap-2"
-                      x-data="{ hasFile: false, fileName: '' }"
-                      x-on:chat-file-selected.window="hasFile = true; fileName = $event.detail.name"
-                      x-on:chat-file-cleared.window="hasFile = false; fileName = ''; $el.querySelector('input[type=file]').value = ''">
+                      x-data="{ hasFile: false, fileName: '', uploading: false }"
+                      x-on:chat-file-cleared.window="hasFile = false; fileName = ''; uploading = false; $refs.chatFileInput.value = ''">
 
-                    {{-- Attach button - Livewire WithFileUploads (igual ao portfolio/foto de perfil) --}}
+                    {{-- Attach button - upload via $wire.upload() sem wire:model --}}
                     <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
                         <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
-                            <svg x-show="hasFile" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                            <svg x-show="!hasFile" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                         </div>
-                        <input type="file" wire:model="chatFile" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+                        <input type="file" x-ref="chatFileInput"
+                               @change="
+                                   const file = $event.target.files[0];
+                                   if (!file) return;
+                                   uploading = true;
+                                   fileName = file.name;
+                                   $wire.upload('chatFile', file,
+                                       () => { uploading = false; hasFile = true; },
+                                       () => { uploading = false; hasFile = false; fileName = ''; },
+                                       () => {}
+                                   );
+                               "
+                               style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
                     </label>
 
-                    {{-- Upload progress via Livewire --}}
-                    <div wire:loading wire:target="chatFile" class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
+                    {{-- Upload progress (Alpine) --}}
+                    <div x-show="uploading" x-cloak class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
 
                     {{-- File preview badge (Alpine, sem re-render do servidor) --}}
                     <div x-show="hasFile" x-cloak
