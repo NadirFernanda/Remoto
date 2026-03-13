@@ -66,7 +66,7 @@ class DisputeAdmin extends Component
     {
         $this->validate(['replyMessage' => 'required|string|min:5|max:2000']);
 
-        $dispute = Dispute::findOrFail($this->selectedId);
+        $dispute = Dispute::with('service')->findOrFail($this->selectedId);
         $dispute->messages()->create([
             'user_id' => auth()->id(),
             'message' => $this->replyMessage,
@@ -77,6 +77,26 @@ class DisputeAdmin extends Component
             "Admin respondeu à disputa #{$dispute->id}",
             'Dispute', $dispute->id
         );
+
+        // Notificar cliente e freelancer envolvidos na disputa
+        $service = $dispute->service;
+        $link    = $service ? route('service.dispute', $service->id) : '#';
+        $title   = $service ? "Mediação: {$service->titulo}" : "Disputa #{$dispute->id}";
+
+        $notifyIds = array_filter(array_unique([
+            $service?->cliente_id,
+            $service?->freelancer_id,
+        ]));
+
+        foreach ($notifyIds as $userId) {
+            Notification::create([
+                'user_id' => $userId,
+                'type'    => 'dispute_admin_reply',
+                'title'   => $title,
+                'message' => 'A equipa de suporte enviou uma nova mensagem na Central de Disputas.',
+                'link'    => $link,
+            ]);
+        }
 
         $this->replyMessage = '';
         session()->flash('success', 'Mensagem enviada.');
