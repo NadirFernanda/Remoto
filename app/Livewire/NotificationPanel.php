@@ -25,6 +25,7 @@ class NotificationPanel extends Component
 
     public function render()
     {
-        return view('livewire.notification-panel');
+        return view('livewire.notification-panel')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Notificações']);
     }
 }

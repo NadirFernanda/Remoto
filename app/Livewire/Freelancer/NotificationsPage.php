@@ -24,6 +24,6 @@ class NotificationsPage extends Component
         return view('livewire.freelancer.notifications-page', [
             'notifications' => $notifications,
             'recent' => $recent
-        ]);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Notificações']);
     }
 }

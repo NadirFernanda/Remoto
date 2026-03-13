@@ -1,11 +1,5 @@
-<div class="min-h-screen bg-white">
-    <div class="max-w-3xl mx-auto px-4 py-10">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-2xl font-bold text-gray-900">Notificações</h1>
-            <a href="{{ route('freelancer.dashboard') }}" class="btn-eq btn-primary">Voltar ao Dashboard</a>
-        </div>
-
-        <div class="mb-8">
+<div>
+    <div class="mb-8">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Mais Recentes</h2>
             <div class="space-y-3">
                 @forelse($recent as $notification)
@@ -83,5 +77,4 @@
                 @endforelse
             </div>
         </div>
-    </div>
 </div>
