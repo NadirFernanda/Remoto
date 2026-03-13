@@ -48,6 +48,9 @@
                             @if(in_array($project->status, ['in_progress','delivered','completed']))
                                 <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-700 hover:text-white text-xs font-semibold" title="Disputar">Disputar</a>
                             @endif
+                            @if($project->status === 'em_moderacao')
+                                <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="px-2 py-1 bg-amber-100 text-amber-700 rounded hover:bg-amber-700 hover:text-white text-xs font-semibold" title="Ver mensagem da moderação">Moderação</a>
+                            @endif
                             @if($project->status === 'completed')
                                 <a href="{{ route('service.review.leave', ['service' => $project->id]) }}" class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-700 hover:text-white text-xs font-semibold" title="Avaliar">Avaliar</a>
                             @endif
