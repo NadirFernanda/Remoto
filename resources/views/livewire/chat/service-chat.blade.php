@@ -98,41 +98,32 @@
         @error('mensagem') <div class="px-4 py-1 text-xs text-red-500 bg-red-50">{{ $message }}</div> @enderror
 
         {{-- Input bar --}}
-        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3" wire:ignore>
+        <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3">
             @if($chat_bloqueado)
                 <div class="flex items-center justify-center gap-2 py-2 text-slate-400 text-sm">
                     &#128274; Chat disponivel apos aceitacao do servico
                 </div>
             @else
                 <form wire:submit="enviarMensagem" class="flex items-end gap-2"
-                      x-data="{ hasFile: false, fileName: '', uploading: false }"
-                      x-on:chat-file-cleared.window="hasFile = false; fileName = ''; uploading = false; $refs.chatFileInput.value = ''">
+                      x-data="chatInput()"
+                      x-init="init($wire)"
+                      x-on:chat-file-cleared.window="clear()">
 
-                    {{-- Attach button - upload via $wire.upload() sem wire:model --}}
+                    {{-- Attach button --}}
                     <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
                         <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
                             <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                             <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                         </div>
-                        <input type="file" x-ref="chatFileInput"
-                               @change="
-                                   const file = $event.target.files[0];
-                                   if (!file) return;
-                                   uploading = true;
-                                   fileName = file.name;
-                                   $wire.upload('chatFile', file,
-                                       () => { uploading = false; hasFile = true; },
-                                       () => { uploading = false; hasFile = false; fileName = ''; },
-                                       () => {}
-                                   );
-                               "
+                        <input type="file" x-ref="fileInput"
+                               @change="handleFile($event, $wire)"
                                style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
                     </label>
 
-                    {{-- Upload progress (Alpine) --}}
+                    {{-- Upload progress --}}
                     <div x-show="uploading" x-cloak class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
 
-                    {{-- File preview badge (Alpine, sem re-render do servidor) --}}
+                    {{-- File preview badge --}}
                     <div x-show="hasFile" x-cloak
                          class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
                         <span>&#128204;</span>
@@ -156,8 +147,8 @@
                         </button>
                     </div>
 
-                        <button type="submit"
-                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
+                    <button type="submit"
+                        class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
                         <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                     </button>
                 </form>
@@ -170,6 +161,33 @@
 
                 @script
                 <script>
+                function chatInput() {
+                    return {
+                        hasFile: false,
+                        fileName: '',
+                        uploading: false,
+                        wire: null,
+                        init(wire) { this.wire = wire; },
+                        handleFile(event, wire) {
+                            const file = event.target.files[0];
+                            if (!file) return;
+                            this.uploading = true;
+                            this.fileName = file.name;
+                            wire.upload('chatFile', file,
+                                () => { this.uploading = false; this.hasFile = true; },
+                                () => { this.uploading = false; this.hasFile = false; this.fileName = ''; },
+                                () => {}
+                            );
+                        },
+                        clear() {
+                            this.hasFile = false;
+                            this.fileName = '';
+                            this.uploading = false;
+                            if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                        }
+                    };
+                }
+
                 function toggleEmojiPicker() {
                     const picker = document.getElementById('emoji-picker');
                     picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
