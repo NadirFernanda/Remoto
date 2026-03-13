@@ -4,8 +4,8 @@ namespace App\Livewire\Client;
 
 use Livewire\Component;
 use App\Models\Service;
-use App\Services\BriefingTextGenerator;
-use App\Services\BriefingTemplateService;
+use App\Modules\Marketplace\Services\BriefingTextGenerator;
+use App\Modules\Marketplace\Services\BriefingTemplateService;
 
 class Briefing extends Component
 {

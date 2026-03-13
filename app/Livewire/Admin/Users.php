@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\KycSubmission;
-use App\Services\AuditLogger;
+use App\Modules\Admin\Services\AuditLogger;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 

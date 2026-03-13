@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use App\Models\WalletLog;
 use App\Models\Wallet;
 use App\Models\Notification;
-use App\Services\AuditLogger;
+use App\Modules\Admin\Services\AuditLogger;
 use Carbon\Carbon;
 
 class Payouts extends Component

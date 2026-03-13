@@ -4,7 +4,7 @@ namespace App\Livewire\Client;
 
 use Livewire\Component;
 use App\Models\Service;
-use App\Services\FreelancerMatcherService;
+use App\Modules\Marketplace\Services\FreelancerMatcherService;
 
 class FreelancerRecommendations extends Component
 {

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Service;
-use App\Services\BriefingTextGenerator;
+use App\Modules\Marketplace\Services\BriefingTextGenerator;
 
 class ConvertBriefingsToText extends Command
 {

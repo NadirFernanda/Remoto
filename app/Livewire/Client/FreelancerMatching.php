@@ -5,7 +5,7 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
-use App\Services\FreelancerMatchingService;
+use App\Modules\Marketplace\Services\FreelancerMatchingService;
 use Illuminate\Support\Facades\Auth;
 
 class FreelancerMatching extends Component

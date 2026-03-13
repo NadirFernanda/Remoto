@@ -9,7 +9,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
-use App\Services\AuditLogger;
+use App\Modules\Admin\Services\AuditLogger;
 
 class DisputeAdmin extends Component
 {

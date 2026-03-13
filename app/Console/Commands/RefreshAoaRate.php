@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\ExchangeRateService;
+use App\Modules\Admin\Services\ExchangeRateService;
 
 class RefreshAoaRate extends Command
 {

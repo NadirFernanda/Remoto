@@ -4,7 +4,7 @@ namespace App\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\User;
-use App\Services\AuditLogger;
+use App\Modules\Admin\Services\AuditLogger;
 
 class MassNotifications extends Component
 {

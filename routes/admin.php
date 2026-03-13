@@ -1,13 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Services\ExchangeRateService;
-use App\Http\Controllers\Admin\ContractController;
+/**
+ * routes/admin.php
+ *
+ * Admin module routes are now registered via:
+ *   App\Modules\Admin\AdminServiceProvider  →  app/Modules/Admin/routes.php
+ *
+ * This file is kept for backwards compatibility and legacy scripts.
+ * It will be removed in a future cleanup.
+ */
 
-Route::middleware(['web','auth'])->group(function () {
-    Route::post('/refresh-aoa-rate', function (ExchangeRateService $svc) {
-        $rate = $svc->refresh();
-        return response()->json(['status' => 'ok', 'rate' => $rate]);
-    });
-    Route::resource('comercial', ContractController::class)->names('admin.comercial');
-});
+// All admin routes have been moved to app/Modules/Admin/routes.php
