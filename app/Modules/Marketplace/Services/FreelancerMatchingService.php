@@ -1,6 +1,6 @@
 ﻿<?php
 
-namespace App\Services;
+namespace App\Modules\Marketplace\Services;
 
 use App\Models\FreelancerProfile;
 use App\Models\Service;

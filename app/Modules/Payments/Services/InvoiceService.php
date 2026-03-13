@@ -1,6 +1,6 @@
 ﻿<?php
 
-namespace App\Services;
+namespace App\Modules\Payments\Services;
 
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
