@@ -9,7 +9,7 @@ use App\Modules\Payments\Controllers\ReceiptController;
 
 // ─── Payments Module Routes ───────────────────────────────────────────────────
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     // Escrow & refunds
     Route::post('/servico/{service}/liberar-pagamento', [ServiceEscrowController::class, 'releasePayment'])->name('service.payment.release');
     Route::post('/servico/{service}/solicitar-reembolso', [ServiceRefundController::class, 'requestRefund'])->name('service.refund.request');

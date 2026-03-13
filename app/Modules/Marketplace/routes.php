@@ -9,11 +9,13 @@ use App\Modules\Marketplace\Controllers\ServiceTitleController;
 // ─── Marketplace Module Routes ────────────────────────────────────────────────
 
 // Public freelancer & project listing
-Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
-Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('freelancers.search');
-Route::get('/freelancers/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
-Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
-Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
+Route::middleware('web')->group(function () {
+    Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
+    Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('freelancers.search');
+    Route::get('/freelancers/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
+    Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
+    Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
+});
 
 Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $service) {
     $user = auth()->user();
@@ -28,10 +30,10 @@ Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $ser
         ]);
     }
     return redirect()->route('freelancer.dashboard')->with('success', 'Candidatura registrada! Aguarde o cliente responder.');
-})->middleware('auth')->name('service.candidatar');
+})->middleware(['web', 'auth'])->name('service.candidatar');
 
 // Authenticated marketplace routes
-Route::middleware('auth')->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     // Freelancer marketplace
     Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
     Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');

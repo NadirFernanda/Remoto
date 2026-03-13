@@ -5,11 +5,13 @@ use Illuminate\Support\Facades\Route;
 // ─── Social Module Routes ─────────────────────────────────────────────────────
 
 // Public: anyone can browse feed and creator profiles
-Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
-Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
+Route::middleware('web')->group(function () {
+    Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
+    Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
+});
 
 // Authenticated: create post, bookmarks, stories
-Route::middleware('auth')->group(function () {
+Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/publicar', \App\Livewire\Social\CreatePost::class)->name('social.create');
     Route::get('/social/guardados', function () {
         return redirect('/social?bookmarkedOnly=1');
