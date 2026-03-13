@@ -11,10 +11,16 @@ class ChatFileUploadController extends Controller
     {
         abort_unless(auth()->check(), 401);
 
+        $request->validate([
+            'file' => [
+                'required',
+                'file',
+                'max:10240', // 10 MB
+                'mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar',
+            ],
+        ]);
+
         $file = $request->file('file');
-        if (!$file) {
-            return response()->json(['error' => 'Nenhum ficheiro recebido.'], 422);
-        }
 
         $original = $file->getClientOriginalName();
         $safe     = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);

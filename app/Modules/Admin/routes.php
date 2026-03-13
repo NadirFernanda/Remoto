@@ -6,7 +6,7 @@ use App\Modules\Admin\Services\ExchangeRateService;
 
 // ─── Admin Module Routes ──────────────────────────────────────────────────────
 
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'admin.module:gestor'])->group(function () {
     // Exchange rate refresh API endpoint
     Route::post('/refresh-aoa-rate', function (ExchangeRateService $svc) {
         $rate = $svc->refresh();
@@ -23,7 +23,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
     Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation');
-    Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds')->middleware('can:admin');
+    Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds');
 
     // Admin — Financial management
     Route::get('/admin/financeiro', \App\Livewire\Admin\Financial::class)->name('admin.financial')->middleware('admin.module:financeiro');
@@ -36,5 +36,5 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/admin/notificacoes-massa', \App\Livewire\Admin\MassNotifications::class)->name('admin.notifications.mass')->middleware('admin.module:suporte');
 
     // Admin — Settings (master only)
-    Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings');
+    Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings')->middleware('admin.module:settings');
 });

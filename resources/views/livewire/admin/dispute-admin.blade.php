@@ -36,7 +36,7 @@
 
     <div class="flex gap-5 items-start">
         {{-- LEFT: list --}}
-        <div class="w-full {{ $selected ? 'hidden lg:block lg:w-80' : '' }} flex-shrink-0 space-y-2">
+        <div class="{{ $selected ? 'hidden lg:block' : '' }} lg:w-80 w-full flex-shrink-0 space-y-2">
             @forelse($disputes as $d)
             <button wire:click="select({{ $d->id }})"
                 class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#00baff]/40 transition
@@ -61,7 +61,7 @@
         </div>
 
         {{-- RIGHT: detail --}}
-        <div class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0 {{ !$selected ? 'hidden lg:block' : '' }}">
             @if($selected)
             {{-- Back on mobile --}}
             <button wire:click="$set('selectedId', null)" class="lg:hidden btn-outline text-xs flex items-center gap-1 mb-4">

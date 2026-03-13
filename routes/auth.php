@@ -19,7 +19,7 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
-// Rota POST para processar o login
+// Rota POST para processar o login (throttle: 5 tentativas por minuto por IP)
 Route::post('/login', function (Request $request) {
     $credentials = $request->only('email', 'password');
     if (Auth::attempt($credentials)) {
@@ -45,7 +45,7 @@ Route::post('/login', function (Request $request) {
     return back()->withErrors([
         'email' => 'Credenciais inválidas.',
     ]);
-});
+})->middleware('throttle:5,1');
 
 // Rota para logout
 Route::post('/logout', function (Request $request) {
