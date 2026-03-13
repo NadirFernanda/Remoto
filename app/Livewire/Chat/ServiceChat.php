@@ -68,7 +68,7 @@ class ServiceChat extends Component
         $anexoOriginal = null;
 
         if ($this->chatFile) {
-            $this->validate(['chatFile' => 'nullable|file|max:20480']);
+            $this->validate(['chatFile' => 'nullable|file|max:51200']);
             $original = $this->chatFile->getClientOriginalName();
             $safe     = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
             $filename = time() . '_' . $safe;
