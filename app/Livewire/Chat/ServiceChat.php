@@ -52,6 +52,7 @@ class ServiceChat extends Component
         if ($this->chatFile) {
             $this->dispatch('chat-file-selected', name: $this->chatFile->getClientOriginalName());
         }
+        $this->skipRender();
     }
 
     public function enviarMensagem()
