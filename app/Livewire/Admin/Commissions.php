@@ -27,14 +27,14 @@ class Commissions extends Component
         };
 
         // Pagamentos de projeto = valor_liquido (90%). Comissão = 10% do bruto = valor_liquido * 10/90
-        $logs = WalletLog::with('user')
+        $query = WalletLog::with('user')
             ->where('tipo', 'pagamento_projeto')
             ->where('created_at', '>=', $start)
             ->when($this->search, fn ($q) => $q->whereHas('user', fn ($u) => $u->where('name', 'like', '%'.$this->search.'%')))
-            ->orderByDesc('created_at')
-            ->paginate(50);
+            ->orderByDesc('created_at');
 
-        $totalPagamentos = (clone $logs->getQuery())->sum('valor');
+        $totalPagamentos = $query->sum('valor');
+        $logs = $query->paginate(50);
         $total = round($totalPagamentos * 10 / 90, 2);
 
         return view('livewire.admin.commissions', compact('logs', 'total'))
