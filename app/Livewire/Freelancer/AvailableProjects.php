@@ -3,37 +3,19 @@
 namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
 use Illuminate\Support\Facades\RateLimiter;
 
 class AvailableProjects extends Component
 {
-    public $projects;
-    public $myCandidacies = []; // IDs dos projetos onde já me candidatei
+    use WithPagination;
+
     public $proposalModal = false;
     public $proposalServiceId = null;
     public $proposalMessage = '';
     public $proposalValue = null;
-
-    public function mount()
-    {
-        $userId = auth()->id();
-        // Exibe apenas projetos publicados, sem freelancer, que o próprio usuário NÃO criou
-        $this->projects = Service::where('status', 'published')
-            ->whereNull('freelancer_id')
-            ->where('cliente_id', '!=', $userId)
-            ->orderByDesc('created_at')
-            ->get();
-
-        // IDs dos projetos onde este freelancer já tem candidatura ativa
-        $serviceIds = $this->projects->pluck('id')->all();
-        $this->myCandidacies = ServiceCandidate::where('freelancer_id', $userId)
-            ->whereIn('service_id', $serviceIds)
-            ->whereIn('status', ['pending', 'proposal_sent', 'invited'])
-            ->pluck('service_id')
-            ->all();
-    }
 
     public function acceptService($serviceId)
     {
@@ -151,6 +133,21 @@ class AvailableProjects extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.available-projects')->layout('layouts.livewire');
+        $userId = auth()->id();
+
+        $projects = Service::where('status', 'published')
+            ->whereNull('freelancer_id')
+            ->where('cliente_id', '!=', $userId)
+            ->orderByDesc('created_at')
+            ->paginate(12);
+
+        $myCandidacies = ServiceCandidate::where('freelancer_id', $userId)
+            ->whereIn('service_id', $projects->pluck('id'))
+            ->whereIn('status', ['pending', 'proposal_sent', 'invited'])
+            ->pluck('service_id')
+            ->all();
+
+        return view('livewire.freelancer.available-projects', compact('projects', 'myCandidacies'))
+            ->layout('layouts.livewire');
     }
 }

@@ -136,6 +136,12 @@
                 @endforelse
             </div>
 
+            @if($projects->hasPages())
+                <div class="mt-8">
+                    {{ $projects->links() }}
+                </div>
+            @endif
+
             {{-- Proposal Modal --}}
             @if($proposalModal)
                 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
