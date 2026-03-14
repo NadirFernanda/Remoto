@@ -45,7 +45,7 @@
             A sua privacidade é protegida nos termos da
             <strong class="text-white">Lei n.º&nbsp;22/11 (LGPD Angola)</strong>
             e do <strong class="text-white">RGPD</strong>.
-            <a href="{{ route('privacy-policy') }}" class="text-[#00baff] hover:underline ml-1" target="_blank" rel="noopener">
+            <a href="{{ route('legal.privacy') }}" class="text-[#00baff] hover:underline ml-1" target="_blank" rel="noopener">
                 Política de Privacidade
             </a>
         </div>
