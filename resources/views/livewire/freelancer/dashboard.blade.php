@@ -1,6 +1,6 @@
 <div x-data="{}">
     {{-- Filtros de período --}}
-    <div class="flex items-center gap-3 mb-6">
+    <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-6 period-filter-pills">
         <span class="text-sm font-medium text-gray-600">Período:</span>
         @foreach([7 => '7 dias', 30 => '30 dias', 90 => '90 dias'] as $days => $label)
             <button

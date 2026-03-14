@@ -294,5 +294,23 @@ main h1, .dashboard-title, h1.text-2xl.font-bold {
 
     /* Reduce card border-radius for more space */
     .bg-white.rounded-2xl { border-radius: 1rem; }
+
+    /* .kpi-grid: go 1-col on very narrow screens */
+    .kpi-grid { grid-template-columns: 1fr; }
+
+    /* Less padding on the smallest screens */
+    .dash-main { padding: 0.625rem 0.5rem; }
 }
+
+/* ── Sidebar nav: prevent long names from overflowing ── */
+.snav-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── Funnel rows: clamp label width on mobile ────────── */
+@media (max-width: 520px) {
+    .funnel-row-label { width: 5rem !important; font-size: .70rem !important; }
+    .funnel-row { gap: .5rem !important; }
+}
+
+/* ── Period filter pills: wrap on small screens ───────── */
+.period-filter { flex-wrap: wrap; gap: .4rem; }
 

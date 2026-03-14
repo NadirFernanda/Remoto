@@ -34,7 +34,7 @@
                 {{-- Role selector (3 opções) --}}
                 <div class="pub-field" x-data="{ role: '{{ old('role', 'freelancer') }}' }">
                     <label style="display:block;margin-bottom:.6rem;">Quero registar-me como:</label>
-                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;">
+                    <div class="role-selector-grid">
 
                         {{-- Freelancer --}}
                         <label @click="role='freelancer'" :style="role==='freelancer' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"

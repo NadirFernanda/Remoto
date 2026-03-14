@@ -28,7 +28,7 @@
     </div>
 
     {{-- Tabs --}}
-    <div class="flex gap-1 bg-gray-100 rounded-xl p-1 mb-6 w-fit">
+    <div class="flex flex-wrap gap-1 bg-gray-100 rounded-xl p-1 mb-6">
         <button wire:click="setTab('pending')"
             class="px-4 py-2 text-sm font-semibold rounded-lg transition-all {{ $tab === 'pending' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700' }}">
             Pendentes

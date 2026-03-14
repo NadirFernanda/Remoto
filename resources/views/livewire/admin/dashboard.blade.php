@@ -1,7 +1,7 @@
 <div x-data="{}">
 
     {{-- ─── Period filter ──────────────────────────────────────── --}}
-    <div class="flex items-center gap-3 mb-6">
+    <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-6 period-filter-pills">
         <span class="text-sm font-medium text-gray-600">Período:</span>
         @foreach([7 => '7 dias', 30 => '30 dias', 90 => '90 dias'] as $days => $label)
             <button
@@ -73,8 +73,8 @@
         <div class="space-y-3">
             @foreach($funnelSteps as $i => $step)
                 @php $pct = round($step['val'] / $maxFunnel * 100); @endphp
-                <div class="flex items-center gap-4">
-                    <span class="w-36 text-xs text-gray-600 flex-shrink-0 text-right">{{ $step['label'] }}</span>
+                <div class="flex items-center gap-2 sm:gap-4 funnel-row">
+                    <span class="w-20 sm:w-36 text-xs text-gray-600 flex-shrink-0 text-right funnel-row-label">{{ $step['label'] }}</span>
                     <div class="flex-1 bg-gray-100 rounded-full h-6 overflow-hidden">
                         <div class="{{ $step['color'] }} h-full rounded-full flex items-center pl-3 transition-all"
                              style="width: {{ max($pct, 5) }}%">
