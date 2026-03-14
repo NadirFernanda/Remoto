@@ -2,29 +2,23 @@
 
 namespace App\Modules\Payments\Controllers;
 
-use App\Models\Service;
+use App\Models\WalletLog;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionHistoryController extends Controller
 {
     /**
-     * Exibe o histórico de transações do usuário (cliente ou freelancer).
+     * Exibe o histórico de movimentos de carteira do utilizador autenticado.
      */
     public function index()
     {
         $user = Auth::user();
 
-        if (!$user) {
-            abort(403);
-        }
+        $transactions = WalletLog::where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->paginate(20);
 
-        $asClient     = Service::where('cliente_id', $user->id)->orderByDesc('created_at')->get();
-        $asFreelancer = Service::where('freelancer_id', $user->id)->orderByDesc('created_at')->get();
-
-        return view('transactions.history', [
-            'asClient'     => $asClient,
-            'asFreelancer' => $asFreelancer,
-        ]);
+        return view('transactions.history', compact('transactions'));
     }
 }

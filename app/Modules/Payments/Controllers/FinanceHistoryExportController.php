@@ -2,52 +2,51 @@
 
 namespace App\Modules\Payments\Controllers;
 
+use App\Models\WalletLog;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Service;
 
-class FinanceHistoryExportController
+class FinanceHistoryExportController extends Controller
 {
     public function exportCsv(Request $request)
     {
         $user  = Auth::user();
-        $query = Service::where('cliente_id', $user->id);
+        $query = WalletLog::where('user_id', $user->id);
 
-        if ($request->has('status') && $request->status) {
-            $query->where('status', $request->status);
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
         }
-        if ($request->has('type') && $request->type) {
-            if ($request->type === 'entrada') {
-                $query->where('valor', '>', 0);
-            } elseif ($request->type === 'saida') {
-                $query->where('valor', '<', 0);
-            }
+        if ($request->filled('sinal')) {
+            $query->where('valor', $request->sinal === 'entrada' ? '>' : '<', 0);
         }
-        if ($request->has('date_start') && $request->date_start) {
+        if ($request->filled('date_start')) {
             $query->whereDate('created_at', '>=', $request->date_start);
         }
-        if ($request->has('date_end') && $request->date_end) {
+        if ($request->filled('date_end')) {
             $query->whereDate('created_at', '<=', $request->date_end);
         }
 
-        $transactions = $query->orderByDesc('created_at')->get();
-        $filename     = 'historico_transacoes_' . now()->format('Ymd_His') . '.csv';
+        $rows     = $query->orderByDesc('created_at')->get();
+        $filename = 'transacoes_' . now()->format('Ymd_His') . '.csv';
 
         $headers = [
-            'Content-Type'        => 'text/csv',
+            'Content-Type'        => 'text/csv; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
-        $callback = function () use ($transactions) {
+        $callback = function () use ($rows) {
             $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['ID', 'Título', 'Valor', 'Status', 'Data']);
-            foreach ($transactions as $t) {
+            // BOM para compatibilidade com Excel
+            fwrite($handle, "\xEF\xBB\xBF");
+            fputcsv($handle, ['ID', 'Tipo', 'Valor (AOA)', 'Descrição', 'Data']);
+            foreach ($rows as $r) {
                 fputcsv($handle, [
-                    $t->id,
-                    $t->titulo,
-                    $t->valor,
-                    $t->status,
-                    $t->created_at->format('d/m/Y'),
+                    $r->id,
+                    $r->tipo,
+                    number_format((float) $r->valor, 2, ',', '.'),
+                    $r->descricao,
+                    $r->created_at->format('d/m/Y H:i'),
                 ]);
             }
             fclose($handle);
