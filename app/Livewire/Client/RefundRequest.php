@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Service;
 use App\Models\Refund;
+use App\Notifications\RefundRequestedNotification;
 
 class RefundRequest extends Component
 {
@@ -46,6 +47,19 @@ class RefundRequest extends Component
                 $paths[] = $file->store("refunds/{$refund->id}", 'public');
             }
             $refund->update(['evidence_paths' => json_encode($paths)]);
+        }
+
+        // Notificar o freelancer do serviço
+        $service = Service::find($this->service_id);
+        if ($service && $service->freelancer_id) {
+            $freelancer = \App\Models\User::find($service->freelancer_id);
+            if ($freelancer) {
+                $freelancer->notify(new RefundRequestedNotification(
+                    $refund,
+                    $service,
+                    route('client.refunds')
+                ));
+            }
         }
 
         session()->flash('success', 'Pedido de reembolso enviado para análise. Você será notificado sobre o andamento.');

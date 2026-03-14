@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use App\Models\Service;
 use App\Models\ServiceAttachment;
 use App\Models\Notification;
+use App\Notifications\ServiceDeliveredNotification;
 use Illuminate\Support\Facades\Storage;
 
 class ServiceDelivery extends Component
@@ -66,6 +67,15 @@ class ServiceDelivery extends Component
             'title'      => 'Entrega recebida',
             'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". Revise e aprove ou solicite revisão.',
         ]);
+
+        $cliente = $this->service->cliente;
+        if ($cliente) {
+            $cliente->notify(new ServiceDeliveredNotification(
+                $this->service,
+                auth()->user(),
+                route('client.projects')
+            ));
+        }
 
         session()->flash('success', 'Entrega enviada com sucesso! O cliente foi notificado.');
         return redirect()->route('freelancer.projects');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Dispute;
 use App\Models\DisputeMessage;
 use App\Models\Service;
+use App\Notifications\DisputeOpenedNotification;
 
 class DisputeCenter extends Component
 {
@@ -64,6 +65,20 @@ class DisputeCenter extends Component
             'user_id'    => Auth::id(),
             'message'    => $this->description,
         ]);
+
+        // Notificar a outra parte envolvida
+        $disputeUrl = route('service.dispute', $this->service);
+        $otherPartyId = Auth::id() === $this->service->cliente_id
+            ? $this->service->freelancer_id
+            : $this->service->cliente_id;
+        if ($otherPartyId) {
+            $otherParty = \App\Models\User::find($otherPartyId);
+            if ($otherParty) {
+                $otherParty->notify(new DisputeOpenedNotification(
+                    $this->dispute, $this->service, Auth::user(), $disputeUrl
+                ));
+            }
+        }
 
         $this->reason = '';
         $this->description = '';

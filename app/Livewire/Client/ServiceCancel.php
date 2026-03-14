@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
+use App\Notifications\ServiceCancelledNotification;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceCancel extends Component
@@ -50,6 +51,14 @@ class ServiceCancel extends Component
                 'title'      => 'Projecto cancelado',
                 'message'    => 'O cliente cancelou o projecto "' . $this->service->titulo . '". O pagamento em escrow foi estornado.',
             ]);
+            $freelancerCancelado = \App\Models\User::find($this->service->freelancer_id);
+            if ($freelancerCancelado) {
+                $freelancerCancelado->notify(new ServiceCancelledNotification(
+                    $this->service,
+                    Auth::user(),
+                    route('freelancer.dashboard')
+                ));
+            }
         }
 
         // Log de reembolso para projectos published (pagamento via gateway externo)

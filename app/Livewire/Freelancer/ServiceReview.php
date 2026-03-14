@@ -4,6 +4,7 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use App\Models\Service;
+use App\Notifications\ProposalReceivedNotification;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceReview extends Component
@@ -35,6 +36,16 @@ class ServiceReview extends Component
                 'freelancer_id' => $user->id,
                 'status' => 'pending',
             ]);
+        }
+
+        // Notificar o cliente
+        $cliente = $this->service->cliente;
+        if ($cliente) {
+            $cliente->notify(new ProposalReceivedNotification(
+                $this->service,
+                $user,
+                route('client.projects')
+            ));
         }
 
         session()->flash('success', 'Candidatura registrada com sucesso!');
@@ -100,6 +111,16 @@ class ServiceReview extends Component
             'message' => $this->proposalMessage,
             'value' => $this->proposalValue,
         ]);
+
+        // Notificar o cliente
+        $clienteProposal = $this->service->cliente;
+        if ($clienteProposal) {
+            $clienteProposal->notify(new ProposalReceivedNotification(
+                $this->service,
+                $user,
+                route('client.projects')
+            ));
+        }
 
         session()->flash('success', 'Proposta enviada com sucesso!');
         $this->proposalModal = false;

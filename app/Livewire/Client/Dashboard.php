@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Service;
+use App\Notifications\PaymentReceivedNotification;
+use App\Notifications\ProposalAcceptedNotification;
 use App\Models\ServiceCandidate;
 use App\Models\User;
 use App\Models\Dispute;
@@ -64,6 +66,15 @@ class Dashboard extends Component
             'type'       => 'delivery_approved',
             'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
         ]);
+
+        $freelancerPago = User::find($service->freelancer_id);
+        if ($freelancerPago) {
+            $freelancerPago->notify(new PaymentReceivedNotification(
+                $service,
+                (float) ($service->valor_liquido ?? $service->valor),
+                route('freelancer.wallet')
+            ));
+        }
 
         session()->flash('success', 'Pagamento liberado com sucesso!');
         $this->mount();
@@ -212,10 +223,10 @@ class Dashboard extends Component
         ]);
         $freelancerEscolhido = User::find($freelancerId);
         if ($freelancerEscolhido) {
-            Mail::raw($mensagemEscolhido, function ($mail) use ($freelancerEscolhido, $service) {
-                $mail->to($freelancerEscolhido->email)
-                     ->subject('Você foi escolhido para o projeto "' . $service->titulo . '"');
-            });
+            $freelancerEscolhido->notify(new ProposalAcceptedNotification(
+                $service,
+                route('freelancer.projects')
+            ));
         }
 
         // Notificar freelancers rejeitados

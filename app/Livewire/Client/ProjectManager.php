@@ -12,6 +12,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletLog;
+use App\Notifications\ProposalAcceptedNotification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 
@@ -172,6 +173,13 @@ class ProjectManager extends Component
             'title'      => 'Selecionado para projeto',
             'message'    => 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '".',
         ]);
+        $freelancerEscolhidoPM = User::find($freelancerId);
+        if ($freelancerEscolhidoPM) {
+            $freelancerEscolhidoPM->notify(new ProposalAcceptedNotification(
+                $service,
+                route('freelancer.projects')
+            ));
+        }
 
         // Notifica os rejeitados
         $rejeitados = $service->candidates()->where('status', 'rejected')->get();
