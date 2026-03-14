@@ -30,7 +30,7 @@
     </div>
 
     {{-- ─── Transactions table ─────────────────────────────────── --}}
-    <div class="rounded-2xl border border-gray-200 overflow-hidden">
+    <div class="rounded-2xl border border-gray-200 overflow-x-auto">
         <table class="min-w-full text-sm">
             <thead class="bg-gray-50">
                 <tr>

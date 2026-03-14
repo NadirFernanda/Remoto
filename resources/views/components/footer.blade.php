@@ -51,8 +51,8 @@
                 <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
                 <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
                 <li><a href="#">Programa de afiliados</a></li>
-                <li><a href="#">Termos de uso</a></li>
-                <li><a href="#">Política de privacidade</a></li>
+                <li><a href="{{ route('legal.terms') }}">Termos de uso</a></li>
+                <li><a href="{{ route('legal.privacy') }}">Política de privacidade</a></li>
                 <li><a href="{{ route('sobre.como-funciona') }}">Suporte</a></li>
             </ul>
         </div>
@@ -78,8 +78,8 @@
         <div class="hp-footer-bar-inner">
             <span class="hp-footer-bar-copy">&copy; {{ date('Y') }} 24Horas. Todos os direitos reservados. &middot; Desenvolvido por <strong>Fernanda Gonçalves</strong></span>
             <div class="hp-footer-bar-links">
-                <a href="#">Termos</a>
-                <a href="#">Privacidade</a>
+                <a href="{{ route('legal.terms') }}">Termos</a>
+                <a href="{{ route('legal.privacy') }}">Privacidade</a>
                 <a href="#">Cookies</a>
                 <a href="#">Suporte</a>
             </div>

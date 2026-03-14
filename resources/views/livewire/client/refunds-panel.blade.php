@@ -1,5 +1,6 @@
 <div>
     <h1 class="text-2xl font-bold mb-6 text-red-600">Meus Pedidos de Reembolso</h1>
+    <div class="overflow-x-auto">
     <table class="min-w-full bg-white rounded-2xl border border-gray-200">
         <thead class="bg-red-50">
             <tr>
@@ -32,4 +33,5 @@
             @endforelse
         </tbody>
     </table>
+    </div>
 </div>

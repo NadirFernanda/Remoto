@@ -10,7 +10,7 @@
         </a>
     </div>
 
-    <div class="rounded-xl overflow-hidden border border-white/10" style="background:#0b1e2d;">
+    <div class="rounded-xl overflow-x-auto border border-white/10" style="background:#0b1e2d;">
         <table class="w-full text-sm text-left">
             <thead>
                 <tr class="text-white/50 text-xs uppercase border-b border-white/10">

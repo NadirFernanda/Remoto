@@ -11,6 +11,7 @@
             <option value="rejeitado">Rejeitado</option>
         </select>
     </div>
+    <div class="overflow-x-auto">
     <table class="min-w-full text-sm">
         <thead>
             <tr class="bg-gray-100">
@@ -59,5 +60,6 @@
             @endforelse
         </tbody>
     </table>
+    </div>
     <div class="mt-4">{{ $refunds->links() }}</div>
 </div>
