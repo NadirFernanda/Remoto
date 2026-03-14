@@ -1,4 +1,12 @@
 /* =============================
+     GLOBAL — PREVENT HORIZONTAL SCROLL
+============================= */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* =============================
      MELHORIAS DE RESPONSIVIDADE
 ============================= */
 
