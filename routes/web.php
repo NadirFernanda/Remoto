@@ -34,8 +34,8 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // ─── Legal / Privacy ──────────────────────────────────────────────────────────
-Route::get('/privacidade', fn() => view('legal.privacy-policy'))->name('privacy-policy');
-Route::get('/termos',      fn() => view('legal.terms'))->name('terms');
+Route::get('/privacidade', fn() => view('legal.privacy-policy'))->name('legal.privacy');
+Route::get('/termos',      fn() => view('legal.terms-of-use'))->name('legal.terms');
 
 // ─── Institutional Pages ──────────────────────────────────────────────────────
 Route::prefix('sobre')->name('sobre.')->group(function () {
