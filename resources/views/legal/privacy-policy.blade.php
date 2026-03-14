@@ -9,10 +9,10 @@
         <h2 class="text-xl font-semibold text-gray-900 mb-3">1. Responsável pelo tratamento</h2>
         <p>
             O responsável pelo tratamento dos seus dados pessoais é a
-            <strong class="text-gray-900">{{ config('app.name') }}</strong>,
+            <strong class="text-gray-900">24h_Remoto</strong>,
             com sede em Luanda, Angola, contactável através de
-            <a href="mailto:{{ config('mail.from.address') }}" class="text-[#00baff] hover:underline">
-                {{ config('mail.from.address') }}
+            <a href="mailto:contacto@24horas.ao" class="text-[#00baff] hover:underline">
+                contacto@24horas.ao
             </a>.
         </p>
     </section>
@@ -72,8 +72,8 @@
         </ul>
         <p class="mt-2">
             Para exercer estes direitos, contacte-nos em
-            <a href="mailto:{{ config('mail.from.address') }}" class="text-[#00baff] hover:underline">
-                {{ config('mail.from.address') }}
+            <a href="mailto:contacto@24horas.ao" class="text-[#00baff] hover:underline">
+                contacto@24horas.ao
             </a>.
         </p>
     </section>
