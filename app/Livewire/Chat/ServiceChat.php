@@ -5,6 +5,7 @@ namespace App\Livewire\Chat;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
+use App\Modules\Messaging\Services\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -43,7 +44,7 @@ class ServiceChat extends Component
         ]);
 
         if (auth()->check()) {
-            \App\Models\ChatRead::markRead($service->id, auth()->id());
+            app(ChatService::class)->markRead($service, auth()->user());
         }
     }
 
@@ -63,35 +64,24 @@ class ServiceChat extends Component
             return;
         }
 
-        $anexoFilename = null;
-        $anexoOriginal = null;
-
         if ($this->chatFile) {
             $this->validate(['chatFile' => 'nullable|file|max:51200']);
-            $original = $this->chatFile->getClientOriginalName();
-            $safe     = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
-            $filename = time() . '_' . $safe;
-            $this->chatFile->storeAs('anexos', $filename, 'public');
-            $anexoFilename = $filename;
-            // Sempre salva o nome original, mesmo para PDF e outros tipos
-            $anexoOriginal = $original ?: $filename;
-            $this->chatFile = null;
         }
 
         try {
-            $msg = $this->service->messages()->create([
-                'user_id'             => Auth::id(),
-                'conteudo'            => $mensagem,
-                'anexo'               => $anexoFilename,
-                'nome_original_anexo' => $anexoOriginal,
-            ]);
+            $msg = app(ChatService::class)->send(
+                $this->service,
+                Auth::user(),
+                $mensagem,
+                $this->chatFile
+            );
             Log::info('[CHAT DEBUG] Mensagem enviada', [
-                'id' => $msg->id,
-                'conteudo' => $msg->conteudo,
-                'anexo' => $msg->anexo,
+                'id'                 => $msg->id,
+                'conteudo'           => $msg->conteudo,
+                'anexo'              => $msg->anexo,
                 'nome_original_anexo' => $msg->nome_original_anexo,
-                'user_id' => $msg->user_id,
-                'created_at' => $msg->created_at,
+                'user_id'            => $msg->user_id,
+                'created_at'         => $msg->created_at,
             ]);
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
@@ -99,8 +89,8 @@ class ServiceChat extends Component
             return;
         }
 
-        \App\Models\ChatRead::markRead($this->service->id, Auth::id());
         $this->mensagem = '';
+        $this->chatFile = null;
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
         $this->dispatch('chat-file-cleared');
@@ -108,10 +98,7 @@ class ServiceChat extends Component
 
     public function render()
     {
-        $messages = $this->service->messages()
-            ->with('user')
-            ->orderBy('created_at')
-            ->get();
+        $messages = app(ChatService::class)->getMessages($this->service);
 
         return view('livewire.chat.service-chat', ['messages' => $messages])->layout('layouts.livewire');
     }

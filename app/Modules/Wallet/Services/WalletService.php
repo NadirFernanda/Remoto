@@ -15,16 +15,16 @@ class WalletService
      */
     public function credit(User $user, float $amount, string $type, string $description, ?int $referenceId = null): void
     {
-        DB::transaction(function () use ($user, $amount, $type, $description, $referenceId) {
+        DB::transaction(function () use ($user, $amount, $type, $description) {
             $wallet = Wallet::firstOrCreate(['user_id' => $user->id]);
             $wallet->increment('saldo', $amount);
 
             WalletLog::create([
-                'wallet_id'    => $wallet->id,
-                'type'         => 'credit',
-                'amount'       => $amount,
-                'description'  => $description,
-                'reference_id' => $referenceId,
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => $amount,
+                'tipo'      => $type,
+                'descricao' => $description,
             ]);
         });
     }
@@ -35,7 +35,7 @@ class WalletService
      */
     public function debit(User $user, float $amount, string $type, string $description, ?int $referenceId = null): void
     {
-        DB::transaction(function () use ($user, $amount, $type, $description, $referenceId) {
+        DB::transaction(function () use ($user, $amount, $type, $description) {
             $wallet = Wallet::firstOrCreate(['user_id' => $user->id]);
 
             if ($wallet->saldo < $amount) {
@@ -45,11 +45,11 @@ class WalletService
             $wallet->decrement('saldo', $amount);
 
             WalletLog::create([
-                'wallet_id'    => $wallet->id,
-                'type'         => 'debit',
-                'amount'       => $amount,
-                'description'  => $description,
-                'reference_id' => $referenceId,
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$amount,
+                'tipo'      => $type,
+                'descricao' => $description,
             ]);
         });
     }
