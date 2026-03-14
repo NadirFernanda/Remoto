@@ -6,6 +6,7 @@ use App\Events\AffiliateCommissionEarned;
 use App\Models\Affiliate;
 use App\Models\Referral;
 use App\Models\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -32,17 +33,23 @@ class AffiliateService
             return $existing;
         }
 
-        // Garantia de unicidade: gera até encontrar código livre
+        // Garantia de unicidade: do-while + DB UNIQUE constraint como rede de segurança.
+        // O try-catch trata a janela de concorrência (dois pedidos simultâneos).
         do {
             $code = strtoupper(Str::random(8));
         } while (Affiliate::where('codigo', $code)->exists());
 
-        return Affiliate::create([
-            'user_id' => $user->id,
-            'codigo'  => $code,
-            'ganhos'  => 0,
-            'status'  => 'active',
-        ]);
+        try {
+            return Affiliate::create([
+                'user_id' => $user->id,
+                'codigo'  => $code,
+                'ganhos'  => 0,
+                'status'  => 'ativo',
+            ]);
+        } catch (UniqueConstraintViolationException) {
+            // Colisão de corrida: outro processo criou o mesmo código; recomeçar.
+            return $this->generateCode($user);
+        }
     }
 
     /**
