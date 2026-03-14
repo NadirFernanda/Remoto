@@ -26,13 +26,7 @@ Route::middleware(['web', 'auth', 'kyc.verified'])->group(function () {
 Route::middleware(['web', 'auth'])->group(function () {
     // Geração do link de afiliado (não requer KYC — apenas autenticação)
     Route::post('/affiliate/generate', function () {
-        $user = auth()->user();
-        if (!$user->affiliate) {
-            \App\Models\Affiliate::create([
-                'user_id' => $user->id,
-                'code'    => strtoupper(\Illuminate\Support\Str::random(8)),
-            ]);
-        }
+        (new \App\Services\AffiliateService())->generateCode(auth()->user());
         return back()->with('success', 'Link de afiliado gerado!');
     })->name('affiliate.generate');
 });

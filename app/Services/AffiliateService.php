@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Services;
+
+use App\Events\AffiliateCommissionEarned;
+use App\Models\Affiliate;
+use App\Models\Referral;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class AffiliateService
+{
+    /**
+     * Comissão fixa por registo via link de afiliado (em AOA).
+     */
+    public const SIGNUP_COMMISSION = 300.0;
+
+    /**
+     * Limite de indicações por IP por dia (anti-fraude).
+     */
+    public const MAX_REFERRALS_PER_IP_PER_DAY = 10;
+
+    /**
+     * Gera um código de afiliado único para o utilizador e cria o registo Affiliate.
+     * Se já existir, retorna o existente sem criar duplicado.
+     */
+    public function generateCode(User $user): Affiliate
+    {
+        $existing = Affiliate::where('user_id', $user->id)->first();
+        if ($existing) {
+            return $existing;
+        }
+
+        // Garantia de unicidade: gera até encontrar código livre
+        do {
+            $code = strtoupper(Str::random(8));
+        } while (Affiliate::where('codigo', $code)->exists());
+
+        return Affiliate::create([
+            'user_id' => $user->id,
+            'codigo'  => $code,
+            'ganhos'  => 0,
+            'status'  => 'active',
+        ]);
+    }
+
+    /**
+     * Regista uma indicação a partir de um código de afiliado na URL.
+     * Aplica protecções anti-fraude: sem auto-indicação, sem duplicados, limite por IP.
+     */
+    public function recordReferral(User $newUser, string $affiliateCode, Request $request): void
+    {
+        $affiliate = User::where('affiliate_code', $affiliateCode)
+            ->where('status', 'active')
+            ->first();
+
+        if (!$affiliate || $affiliate->id === $newUser->id) {
+            return;
+        }
+
+        // Sem indicações duplicadas para o mesmo utilizador
+        if (Referral::where('user_id', $newUser->id)->exists()) {
+            return;
+        }
+
+        // Limite por IP por dia
+        $ip = $request->ip();
+        $todayCount = Referral::where('ip_address', $ip)
+            ->where('created_at', '>=', now()->startOfDay())
+            ->count();
+
+        if ($todayCount >= self::MAX_REFERRALS_PER_IP_PER_DAY) {
+            return;
+        }
+
+        Referral::create([
+            'user_id'      => $newUser->id,
+            'affiliate_id' => $affiliate->id,
+            'ip_address'   => $ip,
+            'user_agent'   => $request->userAgent(),
+        ]);
+
+        // Disparar evento para creditar comissão via listener assíncrono
+        AffiliateCommissionEarned::dispatch($affiliate, $newUser, self::SIGNUP_COMMISSION, 'signup');
+    }
+
+    /**
+     * Credita uma comissão personalizada ao afiliado (ex: por compra de infoproduto).
+     * Usado directamente quando o valor da comissão é calculado externamente.
+     */
+    public function creditCommission(User $affiliate, User $referred, float $commission, string $reason = 'purchase'): void
+    {
+        AffiliateCommissionEarned::dispatch($affiliate, $referred, $commission, $reason);
+    }
+}

@@ -5,6 +5,7 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\UserSessionTrait;
+use App\Services\FeeService;
 use App\Modules\Marketplace\Services\FreelancerService;
 use App\Modules\Payments\Services\PaymentGateway;
 use App\Models\Service;
@@ -60,13 +61,14 @@ class PaymentEscrow extends Component
 
         if ($pagamento) {
             $this->valor = (float)($pagamento['valor'] ?? 10000);
-            $this->taxa = (float)($pagamento['taxa'] ?? 10.0);
-            $this->valor_liquido = (float)($pagamento['valor_liquido'] ?? ($this->valor - ($this->valor * $this->taxa / 100)));
         } else {
-            $valor = request()->query('valor', 10000);
-            $this->valor = (float)$valor;
-            $this->valor_liquido = $this->valor - ($this->valor * $this->taxa / 100);
+            $this->valor = (float)request()->query('valor', 10000);
         }
+
+        // Taxa lida dos PlatformSettings (configurável pelo admin)
+        $fee = (new FeeService())->calculateServiceFee($this->valor);
+        $this->taxa = $fee['taxa'];
+        $this->valor_liquido = $fee['valor_liquido'];
     }
 
     public function confirmPayment()
