@@ -5,10 +5,9 @@ namespace App\Livewire\Social;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\SocialPost;
-use App\Models\SocialLike;
-use App\Models\SocialComment;
-use App\Models\SocialReport;
-use App\Models\SocialBookmark;
+use App\Modules\Social\Services\FeedService;
+use App\Modules\Social\Services\PostService;
+use App\Modules\Social\Services\SocialInteractionService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -44,35 +43,11 @@ class Feed extends Component
 
     public function render()
     {
-        $user = Auth::user();
+        $user    = Auth::user();
+        $service = app(FeedService::class);
 
-        $query = SocialPost::with([
-            'user.freelancerProfile',
-            'media',
-            'likes',
-            'comments.user',
-            'repost.user',
-            'repost.media',
-        ])->active();
-
-        if ($this->hashtag) {
-            $tag = ltrim($this->hashtag, '#');
-            $query->where('content', 'like', '%#' . $tag . '%');
-        } elseif ($this->myPostsOnly && $user) {
-            $query->where('user_id', $user->id);
-        } elseif ($this->bookmarkedOnly && $user) {
-            $bookmarkedIds = $user->bookmarks()->pluck('post_id');
-            $query->whereIn('id', $bookmarkedIds);
-        } elseif ($user) {
-            $followingIds = $user->following()->pluck('users.id');
-            $hasFollowing = $followingIds->isNotEmpty();
-            $visibleIds = $followingIds->push($user->id)->unique()->values();
-            $isEmpty = !$hasFollowing;
-            $query->whereIn('user_id', $visibleIds);
-        }
-
-        $isEmpty = $isEmpty ?? false;
-        $posts = $query->latest()->paginate(10);
+        $posts   = $service->getFeed($user, $this->hashtag, $this->bookmarkedOnly, $this->myPostsOnly);
+        $isEmpty = $service->isEmptyFeed($user, $this->hashtag, $this->bookmarkedOnly, $this->myPostsOnly);
 
         try {
             $subscribedCreatorIds = $user
@@ -93,8 +68,7 @@ class Feed extends Component
         $user = Auth::user();
         if (!$user) { $this->dispatch('need-login'); return; }
 
-        $existing = SocialLike::where('post_id', $postId)->where('user_id', $user->id)->first();
-        $existing ? $existing->delete() : SocialLike::create(['post_id' => $postId, 'user_id' => $user->id]);
+        app(SocialInteractionService::class)->toggleLike($user, $postId);
     }
 
     // ── Toggle bookmark ───────────────────────────────────────────────────────
@@ -104,8 +78,7 @@ class Feed extends Component
         $user = Auth::user();
         if (!$user) { $this->dispatch('need-login'); return; }
 
-        $existing = SocialBookmark::where('post_id', $postId)->where('user_id', $user->id)->first();
-        $existing ? $existing->delete() : SocialBookmark::create(['post_id' => $postId, 'user_id' => $user->id]);
+        app(SocialInteractionService::class)->toggleBookmark($user, $postId);
     }
 
     // ── Toggle follow ─────────────────────────────────────────────────────────
@@ -114,13 +87,8 @@ class Feed extends Component
     {
         $user = Auth::user();
         if (!$user) { $this->dispatch('need-login'); return; }
-        if ($user->id === $creatorId) return;
 
-        if ($user->following()->where('following_id', $creatorId)->exists()) {
-            $user->following()->detach($creatorId);
-        } else {
-            $user->following()->syncWithoutDetaching([$creatorId]);
-        }
+        app(SocialInteractionService::class)->toggleFollow($user, $creatorId);
     }
 
     // ── Delete post ───────────────────────────────────────────────────────────
@@ -145,7 +113,7 @@ class Feed extends Component
         $post = SocialPost::where('id', $this->editingPostId)->where('user_id', $user?->id)->first();
         if (!$post) return;
 
-        $post->update(['content' => $this->editContent]);
+        app(PostService::class)->update($post, $this->editContent);
         $this->reset('editingPostId', 'editContent');
     }
 
@@ -160,14 +128,7 @@ class Feed extends Component
         $post = SocialPost::where('id', $postId)->where('user_id', $user?->id)->first();
         if (!$post) return;
 
-        foreach ($post->media as $media) {
-            Storage::disk('public')->delete($media->path);
-        }
-        foreach ($post->images as $img) {
-            Storage::disk('public')->delete($img->path);
-        }
-
-        $post->delete();
+        app(PostService::class)->delete($post);
     }
 
     // ── Comments ──────────────────────────────────────────────────────────────
@@ -185,12 +146,7 @@ class Feed extends Component
 
         $this->validateOnly('commentText');
 
-        SocialComment::create([
-            'post_id' => $this->commentingPostId,
-            'user_id' => $user->id,
-            'content' => $this->commentText,
-        ]);
-
+        app(SocialInteractionService::class)->addComment($user, $this->commentingPostId, $this->commentText);
         $this->commentText = '';
     }
 
@@ -228,31 +184,7 @@ class Feed extends Component
         $this->validateOnly('reportReason');
 
         $id = $this->reportType === 'post' ? $this->reportingPostId : $this->reportingUserId;
-
-        $alreadyReported = SocialReport::where('reportable_type', $this->reportType)
-            ->where('reportable_id', $id)
-            ->where('reporter_id', $user->id)
-            ->exists();
-
-        if (!$alreadyReported) {
-            SocialReport::create([
-                'reportable_type' => $this->reportType,
-                'reportable_id'   => $id,
-                'reporter_id'     => $user->id,
-                'reason'          => $this->reportReason,
-                'status'          => 'pendente',
-            ]);
-
-            if ($this->reportType === 'post') {
-                $count = SocialReport::where('reportable_type', 'post')
-                    ->where('reportable_id', $id)
-                    ->where('status', 'pendente')
-                    ->count();
-                if ($count >= 3) {
-                    SocialPost::where('id', $id)->update(['status' => 'reported']);
-                }
-            }
-        }
+        app(SocialInteractionService::class)->report($user, $this->reportType, $id, $this->reportReason);
 
         $this->cancelReport();
         session()->flash('success', 'Denúncia enviada. Obrigado por manter a plataforma segura.');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterClientRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -10,23 +12,9 @@ use App\Events\AffiliateCommissionEarned;
 
 class RegisterController extends Controller
 {
-    public function registerClient(Request $request)
+    public function registerClient(RegisterClientRequest $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'role'     => 'required|in:client',
-        ], [
-            'name.required'      => 'O nome é obrigatório.',
-            'name.max'           => 'O nome não pode ter mais de 255 caracteres.',
-            'email.required'     => 'O e-mail é obrigatório.',
-            'email.email'        => 'Introduza um endereço de e-mail válido.',
-            'email.unique'       => 'Este e-mail já está registado.',
-            'password.required'  => 'A senha é obrigatória.',
-            'password.min'       => 'A senha deve ter pelo menos 6 caracteres.',
-            'password.confirmed' => 'As senhas não coincidem.',
-        ]);
+        $validated = $request->validated();
 
         // Gera código de afiliado aleatório
         $affiliateCode = strtoupper(substr(bin2hex(random_bytes(8)), 0, 8));
@@ -82,25 +70,9 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $validated = $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'role'     => 'required|in:freelancer,cliente,creator',
-        ], [
-            'name.required'      => 'O nome é obrigatório.',
-            'name.max'           => 'O nome não pode ter mais de 255 caracteres.',
-            'email.required'     => 'O e-mail é obrigatório.',
-            'email.email'        => 'Introduza um endereço de e-mail válido.',
-            'email.unique'       => 'Este e-mail já está registado.',
-            'password.required'  => 'A senha é obrigatória.',
-            'password.min'       => 'A senha deve ter pelo menos 6 caracteres.',
-            'password.confirmed' => 'As senhas não coincidem.',
-            'role.required'      => 'Seleccione um tipo de conta.',
-            'role.in'            => 'Tipo de conta inválido.',
-        ]);
+        $validated = $request->validated();
 
         try {
             $user = User::create([

@@ -5,9 +5,8 @@ namespace App\Livewire\Social;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\SocialPost;
-use App\Models\SocialPostMedia;
+use App\Modules\Social\Services\PostService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class CreatePost extends Component
 {
@@ -122,54 +121,19 @@ class CreatePost extends Component
 
         $user = Auth::user();
 
-        $post = SocialPost::create([
-            'user_id'          => $user->id,
+        app(PostService::class)->create($user, [
             'content'          => $this->content,
             'type'             => $this->postType,
             'visibility'       => $this->visibility,
-            'status'           => 'active',
-            'link_url'         => $this->postType === 'link' ? $this->linkUrl : null,
-            'link_title'       => $this->postType === 'link' ? ($this->linkTitle ?: null) : null,
-            'link_description' => $this->postType === 'link' ? ($this->linkDescription ?: null) : null,
-            'link_image'       => $this->postType === 'link' ? ($this->linkImage ?: null) : null,
-            'repost_id'        => $this->postType === 'repost' ? $this->repostId : null,
+            'link_url'         => $this->linkUrl,
+            'link_title'       => $this->linkTitle,
+            'link_description' => $this->linkDescription,
+            'link_image'       => $this->linkImage,
+            'repost_id'        => $this->repostId,
+            'photos'           => $this->postType === 'image' ? $this->photos : [],
+            'video'            => $this->postType === 'video' ? $this->video : null,
+            'audio'            => $this->postType === 'audio' ? $this->audio : null,
         ]);
-
-        // Store media files
-        if ($this->postType === 'image') {
-            foreach ($this->photos as $i => $photo) {
-                $path = $photo->store('social/images', 'public');
-                SocialPostMedia::create([
-                    'post_id'       => $post->id,
-                    'type'          => 'image',
-                    'path'          => $path,
-                    'original_name' => $photo->getClientOriginalName(),
-                    'mime_type'     => $photo->getMimeType(),
-                    'file_size'     => $photo->getSize(),
-                    'order'         => $i,
-                ]);
-            }
-        } elseif ($this->postType === 'video') {
-            $path = $this->video->store('social/videos', 'public');
-            SocialPostMedia::create([
-                'post_id'       => $post->id,
-                'type'          => 'video',
-                'path'          => $path,
-                'original_name' => $this->video->getClientOriginalName(),
-                'mime_type'     => $this->video->getMimeType(),
-                'file_size'     => $this->video->getSize(),
-            ]);
-        } elseif ($this->postType === 'audio') {
-            $path = $this->audio->store('social/audio', 'public');
-            SocialPostMedia::create([
-                'post_id'       => $post->id,
-                'type'          => 'audio',
-                'path'          => $path,
-                'original_name' => $this->audio->getClientOriginalName(),
-                'mime_type'     => $this->audio->getMimeType(),
-                'file_size'     => $this->audio->getSize(),
-            ]);
-        }
 
         session()->flash('success', 'Publicação criada com sucesso!');
         $this->redirect(route('social.feed'));
