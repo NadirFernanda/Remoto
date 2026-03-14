@@ -3,16 +3,13 @@
 namespace App\Listeners;
 
 use App\Events\ClientRegistered;
+use App\Mail\WelcomeClientMail;
 use Illuminate\Support\Facades\Mail;
 
 class SendClientWelcomeEmail
 {
-    public function handle(ClientRegistered $event)
+    public function handle(ClientRegistered $event): void
     {
-        $user = $event->user;
-        Mail::raw('Bem-vindo ao site freelancer, ' . $user->name . '!', function ($message) use ($user) {
-            $message->to($user->email)
-                ->subject('Bem-vindo ao Site Freelancer!');
-        });
+        Mail::to($event->user->email)->send(new WelcomeClientMail($event->user));
     }
 }

@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role'         => \App\Http\Middleware\Role::class,
             'admin.module' => \App\Http\Middleware\AdminModule::class,
+            'kyc.verified' => \App\Http\Middleware\KycVerified::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

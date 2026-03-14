@@ -5,6 +5,7 @@ namespace App\Livewire\Client;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ProposalRejectedMail;
 use App\Models\Service;
 use App\Events\PaymentReceived;
 use App\Events\ServiceCompleted;
@@ -246,10 +247,8 @@ class Dashboard extends Component
             ]);
             $freelancerRejeitado = User::find($rej->freelancer_id);
             if ($freelancerRejeitado) {
-                Mail::raw($mensagemRejeitado, function ($mail) use ($freelancerRejeitado, $service) {
-                    $mail->to($freelancerRejeitado->email)
-                         ->subject('Atualização sobre o projeto "' . $service->titulo . '"');
-                });
+                Mail::to($freelancerRejeitado->email)
+                    ->send(new ProposalRejectedMail($freelancerRejeitado, $service, $mensagemRejeitado));
             }
         }
 

@@ -21,12 +21,14 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/cliente/financeiro/export', [FinanceHistoryExportController::class, 'exportCsv'])->name('client.finance.exportCsv');
     Route::get('/cliente/recibo/{service}', [ReceiptController::class, 'download'])->name('client.receipt.download');
 
-    // Freelancer financial
-    Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
-    Route::get('/freelancer/carteira', \App\Livewire\Freelancer\Wallet::class)->name('freelancer.wallet');
-    Route::get('/freelancer/carteira/historico', \App\Livewire\Freelancer\WalletHistory::class)->name('freelancer.wallet.history');
-    Route::get('/freelancer/afiliados', \App\Livewire\Freelancer\AffiliatePanel::class)->name('freelancer.affiliate');
-    Route::get('/freelancer/patrocinio', \App\Livewire\Freelancer\SponsorshipPanel::class)->name('freelancer.sponsorship');
+    // Freelancer financial — requer KYC aprovado
+    Route::middleware('kyc.verified')->group(function () {
+        Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
+        Route::get('/freelancer/carteira', \App\Livewire\Freelancer\Wallet::class)->name('freelancer.wallet');
+        Route::get('/freelancer/carteira/historico', \App\Livewire\Freelancer\WalletHistory::class)->name('freelancer.wallet.history');
+        Route::get('/freelancer/afiliados', \App\Livewire\Freelancer\AffiliatePanel::class)->name('freelancer.affiliate');
+        Route::get('/freelancer/patrocinio', \App\Livewire\Freelancer\SponsorshipPanel::class)->name('freelancer.sponsorship');
+    });
 
     // Transaction history
     Route::get('/transacoes', [TransactionHistoryController::class, 'index'])->name('transactions.history');

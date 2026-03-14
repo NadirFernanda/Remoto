@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OtpCodeMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
-use App\Models\User;
 
 class OtpVerificationController extends Controller
 {
@@ -30,10 +29,7 @@ class OtpVerificationController extends Controller
         if ($user) {
             $otp = rand(100000, 999999);
             Cache::put('otp_' . $user->id, $otp, now()->addMinutes(10));
-            Mail::raw("Seu código de verificação é: $otp", function ($message) use ($user) {
-                $message->to($user->email)
-                    ->subject('Código de verificação de acesso');
-            });
+            Mail::to($user->email)->send(new OtpCodeMail($user, (string) $otp));
         }
 
         return view('auth.otp-verify');
@@ -44,11 +40,7 @@ class OtpVerificationController extends Controller
         $user = Auth::user();
         $otp = rand(100000, 999999);
         Cache::put('otp_' . $user->id, $otp, now()->addMinutes(10));
-        // Envie o OTP por e-mail
-        Mail::raw("Seu código de verificação é: $otp", function ($message) use ($user) {
-            $message->to($user->email)
-                ->subject('Código de verificação de acesso');
-        });
+        Mail::to($user->email)->send(new OtpCodeMail($user, (string) $otp));
         return back()->with('message', 'Código enviado para seu e-mail.');
     }
 
