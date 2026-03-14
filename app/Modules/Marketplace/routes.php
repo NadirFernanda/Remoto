@@ -30,7 +30,7 @@ Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $ser
         ]);
     }
     return redirect()->route('freelancer.dashboard')->with('success', 'Candidatura registrada! Aguarde o cliente responder.');
-})->middleware(['web', 'auth'])->name('service.candidatar');
+})->middleware(['web', 'auth', 'throttle:proposals'])->name('service.candidatar');
 
 // Authenticated marketplace routes
 Route::middleware(['web', 'auth'])->group(function () {

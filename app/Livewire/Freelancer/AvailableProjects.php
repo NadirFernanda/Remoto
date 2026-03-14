@@ -5,6 +5,7 @@ namespace App\Livewire\Freelancer;
 use Livewire\Component;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AvailableProjects extends Component
 {
@@ -103,6 +104,14 @@ class AvailableProjects extends Component
         if (!$user || $user->id === $service->cliente_id) {
             throw new \Exception('Ação não permitida. Você não pode enviar proposta para este serviço.');
         }
+
+        $rateLimitKey = 'send-proposal:' . ($user->id ?? request()->ip());
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 5)) {
+            $seconds = RateLimiter::availableIn($rateLimitKey);
+            session()->flash('error', "Muitas propostas enviadas. Aguarde {$seconds}s antes de tentar novamente.");
+            return;
+        }
+        RateLimiter::hit($rateLimitKey, 600);
 
         $this->validate([
             'proposalMessage' => 'required|string|max:2000',

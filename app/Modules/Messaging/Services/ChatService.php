@@ -2,6 +2,7 @@
 
 namespace App\Modules\Messaging\Services;
 
+use App\Events\MessageSent;
 use App\Models\ChatRead;
 use App\Models\Message;
 use App\Models\Service;
@@ -45,6 +46,9 @@ class ChatService
         ]);
 
         ChatRead::markRead($service->id, $sender->id);
+
+        // Broadcast to all participants on the private chat channel
+        broadcast(new MessageSent($service, $message->load('user')));
 
         return $message;
     }

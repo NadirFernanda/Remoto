@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Modules\Messaging\Services\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 
 class ServiceChat extends Component
 {
@@ -63,6 +64,13 @@ class ServiceChat extends Component
             $this->skipRender();
             return;
         }
+
+        $rateLimitKey = 'chat-message:' . Auth::id();
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 30)) {
+            $this->addError('mensagem', 'Enviou muitas mensagens. Aguarde um momento antes de continuar.');
+            return;
+        }
+        RateLimiter::hit($rateLimitKey, 60);
 
         if ($this->chatFile) {
             $this->validate(['chatFile' => 'nullable|file|max:51200']);

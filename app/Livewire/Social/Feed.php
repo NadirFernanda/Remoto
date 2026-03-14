@@ -9,6 +9,7 @@ use App\Modules\Social\Services\FeedService;
 use App\Modules\Social\Services\PostService;
 use App\Modules\Social\Services\SocialInteractionService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 
 class Feed extends Component
@@ -180,6 +181,15 @@ class Feed extends Component
     {
         $user = Auth::user();
         if (!$user) return;
+
+        $rateLimitKey = 'submit-report:' . $user->id;
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 10)) {
+            $seconds = RateLimiter::availableIn($rateLimitKey);
+            session()->flash('error', "Muitas denúncias enviadas. Aguarde {$seconds}s.");
+            $this->cancelReport();
+            return;
+        }
+        RateLimiter::hit($rateLimitKey, 3600);
 
         $this->validateOnly('reportReason');
 

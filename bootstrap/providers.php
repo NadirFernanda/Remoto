@@ -11,4 +11,7 @@ return [
     App\Modules\Admin\AdminServiceProvider::class,
     App\Modules\Loja\LojaServiceProvider::class,
     App\Modules\Wallet\WalletServiceProvider::class,
+
+    // Broadcasting
+    App\Providers\BroadcastServiceProvider::class,
 ];

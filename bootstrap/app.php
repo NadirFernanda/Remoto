@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
+        web:      __DIR__.'/../routes/web.php',
+        api:      __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
-        health: '/up',
+        health:   '/up',
         then: function () {
             Route::middleware('web')->group(base_path('routes/auth.php'));
             Route::middleware('web')->group(base_path('routes/receipt.php'));
@@ -21,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'role'         => \App\Http\Middleware\Role::class,
             'admin.module' => \App\Http\Middleware\AdminModule::class,
             'kyc.verified' => \App\Http\Middleware\KycVerified::class,
+        ]);
+
+        $middleware->api(prepend: [
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

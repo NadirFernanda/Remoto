@@ -10,13 +10,13 @@ use App\Repositories\Eloquent\AuditLogRepository;
 use App\Repositories\Eloquent\ServiceRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\WalletRepository;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
@@ -25,11 +25,31 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(AuditLogRepositoryInterface::class, AuditLogRepository::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // Nenhuma configuração extra de layout Livewire
+        // ── API throttle ──────────────────────────────────────────────────────
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        // ── Proposals: 5 per 10 minutes per user ─────────────────────────────
+        RateLimiter::for('proposals', function (Request $request) {
+            return Limit::perMinutes(10, 5)->by($request->user()?->id ?: $request->ip());
+        });
+
+        // ── Reviews: 3 per hour per user ─────────────────────────────────────
+        RateLimiter::for('reviews', function (Request $request) {
+            return Limit::perHour(3)->by($request->user()?->id ?: $request->ip());
+        });
+
+        // ── Reports: 10 per hour per user ────────────────────────────────────
+        RateLimiter::for('reports', function (Request $request) {
+            return Limit::perHour(10)->by($request->user()?->id ?: $request->ip());
+        });
+
+        // ── Chat messages: 30 per minute per user ────────────────────────────
+        RateLimiter::for('chat', function (Request $request) {
+            return Limit::perMinute(30)->by($request->user()?->id ?: $request->ip());
+        });
     }
 }

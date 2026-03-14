@@ -8,6 +8,7 @@ use App\Models\Review;
 use App\Models\Service;
 use App\Events\ReviewSubmitted;
 use App\Notifications\ReviewReceivedNotification;
+use Illuminate\Support\Facades\RateLimiter;
 
 class LeaveReview extends Component
 {
@@ -42,12 +43,20 @@ class LeaveReview extends Component
 
     public function submitReview()
     {
+        $user = Auth::user();
+
+        $rateLimitKey = 'submit-review:' . ($user?->id ?? request()->ip());
+        if (RateLimiter::tooManyAttempts($rateLimitKey, 3)) {
+            $seconds = RateLimiter::availableIn($rateLimitKey);
+            session()->flash('error', "Limite de avaliações atingido. Tente novamente em {$seconds}s.");
+            return;
+        }
+        RateLimiter::hit($rateLimitKey, 3600);
+
         $this->validate([
             'rating'  => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
         ]);
-
-        $user = Auth::user();
 
         if ($this->alreadyReviewed) {
             session()->flash('error', 'Você já avaliou este projeto.');

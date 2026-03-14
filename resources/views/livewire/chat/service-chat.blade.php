@@ -226,5 +226,14 @@ window.addEventListener('livewire:update', function() {
     if (el) el.scrollTop = el.scrollHeight;
 });
 if (Notification && Notification.permission !== 'granted') Notification.requestPermission();
+
+// ── Real-time via Laravel Echo / Pusher ─────────────────────────────────────
+if (window.Echo) {
+    const serviceId = {{ $service->id }};
+    Echo.private(`chat.${serviceId}`)
+        .listen('.MessageSent', () => {
+            $wire.$refresh();
+        });
+}
 </script>
 @endscript
