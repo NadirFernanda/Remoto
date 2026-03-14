@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Dispute;
 use App\Models\DisputeMessage;
 use App\Models\Service;
+use App\Events\DisputeOpened as DisputeOpenedEvent;
 use App\Notifications\DisputeOpenedNotification;
 
 class DisputeCenter extends Component
@@ -65,6 +66,9 @@ class DisputeCenter extends Component
             'user_id'    => Auth::id(),
             'message'    => $this->description,
         ]);
+
+        // Disparar evento (notifica admin e regista auditoria)
+        DisputeOpenedEvent::dispatch($this->dispute, $this->service, Auth::user());
 
         // Notificar a outra parte envolvida
         $disputeUrl = route('service.dispute', $this->service);

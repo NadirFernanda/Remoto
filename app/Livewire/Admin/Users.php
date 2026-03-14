@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use App\Models\User;
 use App\Models\KycSubmission;
 use App\Modules\Admin\Services\AuditLogger;
-use App\Notifications\KycStatusNotification;
+use App\Events\KycStatusChanged;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,7 +56,7 @@ class Users extends Component
         KycSubmission::where('user_id', $id)->where('status', 'pending')
             ->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_verified', "KYC verificado para {$user->name} ({$user->email})", 'User', $id, $before, ['kyc_status' => 'verified']);
-        $user->notify(new KycStatusNotification('verified', route('kyc.submit')));
+        KycStatusChanged::dispatch($user, 'verified');
         session()->flash('success', 'KYC verificado.');
     }
 
@@ -68,7 +68,7 @@ class Users extends Component
         KycSubmission::where('user_id', $id)->where('status', 'pending')
             ->update(['status' => 'rejected', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_rejected', "KYC rejeitado para {$user->name} ({$user->email})", 'User', $id, $before, ['kyc_status' => 'rejected']);
-        $user->notify(new KycStatusNotification('rejected', route('kyc.submit')));
+        KycStatusChanged::dispatch($user, 'rejected');
         session()->flash('success', 'KYC rejeitado.');
     }
 
@@ -95,7 +95,7 @@ class Users extends Component
         ]);
         $submission->user->update(['kyc_status' => 'verified']);
         AuditLogger::log('kyc_verified', "KYC aprovado para {$submission->user->name}", 'User', $submission->user_id);
-        $submission->user->notify(new KycStatusNotification('verified', route('kyc.submit'), $this->adminNotes ?: null));
+        KycStatusChanged::dispatch($submission->user, 'verified', $this->adminNotes ?: null);
         $this->closeKycReview();
         session()->flash('success', 'KYC aprovado com sucesso.');
     }
@@ -111,7 +111,7 @@ class Users extends Component
         ]);
         $submission->user->update(['kyc_status' => 'rejected']);
         AuditLogger::log('kyc_rejected', "KYC rejeitado para {$submission->user->name}", 'User', $submission->user_id);
-        $submission->user->notify(new KycStatusNotification('rejected', route('kyc.submit'), $this->adminNotes ?: null));
+        KycStatusChanged::dispatch($submission->user, 'rejected', $this->adminNotes ?: null);
         $this->closeKycReview();
         session()->flash('success', 'KYC rejeitado.');
     }

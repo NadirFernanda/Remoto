@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Events\AffiliateCommissionEarned;
 
 class RegisterController extends Controller
 {
@@ -64,19 +65,8 @@ class RegisterController extends Controller
                         'ip_address' => $ip,
                         'user_agent' => $request->userAgent(),
                     ]);
-                    // Creditar comissão ao afiliado
-                    $wallet = $affiliate->wallet;
-                    if ($wallet) {
-                        $wallet->saldo += 300;
-                        $wallet->save();
-                        \App\Models\WalletLog::create([
-                            'user_id' => $affiliate->id,
-                            'wallet_id' => $wallet->id,
-                            'valor' => 300,
-                            'tipo' => 'comissao_afiliado',
-                            'descricao' => 'Comissão por indicação de usuário ID ' . $user->id,
-                        ]);
-                    }
+                    // Creditar comissão via evento (CreditAffiliateCommission listener)
+                    AffiliateCommissionEarned::dispatch($affiliate, $user, 300.0, 'signup');
                 }
             }
         }

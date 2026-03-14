@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Review;
 use App\Models\Service;
+use App\Events\ReviewSubmitted;
 use App\Notifications\ReviewReceivedNotification;
 
 class LeaveReview extends Component
@@ -70,6 +71,7 @@ class LeaveReview extends Component
             ? route('freelancer.show', $this->targetUser)
             : route('client.dashboard');
         $this->targetUser->notify(new ReviewReceivedNotification($review, $user, $profileUrl));
+        ReviewSubmitted::dispatch($review, $user, $this->targetUser);
 
         $this->submitted = true;
         $this->alreadyReviewed = true;

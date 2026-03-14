@@ -6,6 +6,8 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Service;
+use App\Events\PaymentReceived;
+use App\Events\ServiceCompleted;
 use App\Notifications\PaymentReceivedNotification;
 use App\Notifications\ProposalAcceptedNotification;
 use App\Models\ServiceCandidate;
@@ -74,7 +76,10 @@ class Dashboard extends Component
                 (float) ($service->valor_liquido ?? $service->valor),
                 route('freelancer.wallet')
             ));
+            PaymentReceived::dispatch($service, $freelancerPago, (float) ($service->valor_liquido ?? $service->valor));
         }
+
+        ServiceCompleted::dispatch($service, $user, $freelancerPago ?? new User());
 
         session()->flash('success', 'Pagamento liberado com sucesso!');
         $this->mount();
