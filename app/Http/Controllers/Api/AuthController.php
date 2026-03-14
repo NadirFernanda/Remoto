@@ -53,8 +53,10 @@ class AuthController extends Controller
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
-            'role'     => $data['role'],
         ]);
+        // role atribuído explicitamente — não está em $fillable (OWASP A03)
+        $user->role = $data['role']; // já validado como in:cliente,freelancer,creator
+        $user->save();
 
         $token = $user->createToken('api-token', ['*'], now()->addDays(30))->plainTextToken;
 

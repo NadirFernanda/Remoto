@@ -64,7 +64,8 @@ class KycForm extends Component
         ]);
 
         // Update kyc_status on user
-        $user->update(['kyc_status' => 'pending']);
+        $user->kyc_status = 'pending';
+        $user->save();
 
         $this->existing = $submission;
         $this->reset(['documentFront', 'documentBack', 'selfie']);

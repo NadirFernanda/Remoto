@@ -30,7 +30,9 @@ class Users extends Component
     public function approveUser(int $id): void
     {
         $user = User::findOrFail($id);
-        $user->update(['status' => 'active', 'is_suspended' => false]);
+        $user->status       = 'active';
+        $user->is_suspended = false;
+        $user->save();
         AuditLogger::log('user_approved', "Utilizador {$user->name} ({$user->email}) aprovado/reactivado", 'User', $id);
         session()->flash('success', 'Utilizador aprovado.');
     }
@@ -42,7 +44,9 @@ class Users extends Component
             session()->flash('error', 'Não é possível suspender um admin.');
             return;
         }
-        $user->update(['is_suspended' => true, 'status' => 'suspended']);
+        $user->is_suspended = true;
+        $user->status       = 'suspended';
+        $user->save();
         AuditLogger::log('user_suspended', "Utilizador {$user->name} ({$user->email}) suspenso", 'User', $id);
         session()->flash('success', 'Utilizador suspenso.');
     }
@@ -51,7 +55,8 @@ class Users extends Component
     {
         $user   = User::findOrFail($id);
         $before = ['kyc_status' => $user->kyc_status];
-        $user->update(['kyc_status' => 'verified']);
+        $user->kyc_status = 'verified';
+        $user->save();
         // Also approve pending submission if exists
         KycSubmission::where('user_id', $id)->where('status', 'pending')
             ->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
@@ -64,7 +69,8 @@ class Users extends Component
     {
         $user   = User::findOrFail($id);
         $before = ['kyc_status' => $user->kyc_status];
-        $user->update(['kyc_status' => 'rejected']);
+        $user->kyc_status = 'rejected';
+        $user->save();
         KycSubmission::where('user_id', $id)->where('status', 'pending')
             ->update(['status' => 'rejected', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_rejected', "KYC rejeitado para {$user->name} ({$user->email})", 'User', $id, $before, ['kyc_status' => 'rejected']);
@@ -93,7 +99,8 @@ class Users extends Component
             'reviewed_by' => Auth::id(),
             'reviewed_at' => now(),
         ]);
-        $submission->user->update(['kyc_status' => 'verified']);
+        $submission->user->kyc_status = 'verified';
+        $submission->user->save();
         AuditLogger::log('kyc_verified', "KYC aprovado para {$submission->user->name}", 'User', $submission->user_id);
         KycStatusChanged::dispatch($submission->user, 'verified', $this->adminNotes ?: null);
         $this->closeKycReview();
@@ -109,7 +116,8 @@ class Users extends Component
             'reviewed_by' => Auth::id(),
             'reviewed_at' => now(),
         ]);
-        $submission->user->update(['kyc_status' => 'rejected']);
+        $submission->user->kyc_status = 'rejected';
+        $submission->user->save();
         AuditLogger::log('kyc_rejected', "KYC rejeitado para {$submission->user->name}", 'User', $submission->user_id);
         KycStatusChanged::dispatch($submission->user, 'rejected', $this->adminNotes ?: null);
         $this->closeKycReview();
@@ -131,7 +139,8 @@ class Users extends Component
         if ($user->role !== 'admin') {
             return;
         }
-        $user->update(['admin_role' => $role ?: null]);
+        $user->admin_role = $role ?: null;
+        $user->save();
         AuditLogger::log('admin_role_changed', "Nível de acesso de {$user->name} alterado para: " . ($role ?: 'master (padrão)'), 'User', $userId);
         session()->flash('success', 'Nível de acesso actualizado.');
     }

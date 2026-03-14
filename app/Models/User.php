@@ -20,17 +20,16 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @var list<string>
      */
+    /**
+     * Campos seguros para mass assignment.
+     * NUNCA adicionar: role, admin_role, kyc_status, is_suspended,
+     * email_verified_at, status, *_suspended — atribuir explicitamente via código.
+     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
-        'admin_role',
-        'email_verified_at',
         'affiliate_code',
-        'status',
-        'kyc_status',
-        'is_suspended',
         'phone',
         'bio',
         'profile_photo',
@@ -38,9 +37,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'has_freelancer_profile',
         'has_cliente_profile',
         'has_creator_profile',
-        'freelancer_suspended',
-        'cliente_suspended',
-        'creator_suspended',
     ];
     public function profile()
     {

@@ -23,12 +23,16 @@ class RegisterController extends Controller
         $ref = $request->query('ref');
 
         $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
-            'role' => $validated['role'],
+            'name'           => $validated['name'],
+            'email'          => $validated['email'],
+            'password'       => bcrypt($validated['password']),
             'affiliate_code' => $affiliateCode,
         ]);
+        // role atribuído explicitamente — não está em $fillable (OWASP A03)
+        $user->role = in_array($validated['role'], ['cliente', 'freelancer', 'creator'])
+            ? $validated['role']
+            : 'cliente';
+        $user->save();
 
         // Se veio ref, registra indicação com segurança
         if ($ref) {
@@ -76,11 +80,15 @@ class RegisterController extends Controller
 
         try {
             $user = User::create([
-                'name' => $validated['name'],
-                'email' => $validated['email'],
+                'name'     => $validated['name'],
+                'email'    => $validated['email'],
                 'password' => bcrypt($validated['password']),
-                'role' => $validated['role'],
             ]);
+            // role atribuído explicitamente — não está em $fillable (OWASP A03)
+            $user->role = in_array($validated['role'], ['cliente', 'freelancer', 'creator'])
+                ? $validated['role']
+                : 'cliente';
+            $user->save();
 
             // $user->sendEmailVerificationNotification(); // Desativado: fluxo OTP
 
