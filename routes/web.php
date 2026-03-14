@@ -82,17 +82,22 @@ Route::middleware('auth')->group(function () {
     // KYC
     Route::get('/kyc', \App\Livewire\KycForm::class)->name('kyc.submit');
 
-    // ── Freelancer Core ───────────────────────────────────────────────────────
-    Route::get('/freelancer/dashboard',    \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
-    Route::get('/freelancer/notificacoes', \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
+});
+
+// ─── Freelancer Core ──────────────────────────────────────────────────────────
+Route::middleware(['auth', 'role:freelancer'])->group(function () {
+    Route::get('/freelancer/dashboard',     \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
+    Route::get('/freelancer/notificacoes',  \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
     Route::get('/freelancer/configuracoes', \App\Livewire\Client\Settings::class)->name('freelancer.settings');
     Route::get('/freelancer/perfil/editar', \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
-    Route::get('/freelancer/portfolio',    \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
-    Route::get('/freelancer/onboarding',   \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
+    Route::get('/freelancer/portfolio',     \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
+    Route::get('/freelancer/onboarding',    \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
+});
 
-    // ── Client Core ───────────────────────────────────────────────────────────
-    Route::get('/cliente/dashboard',    \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
-    Route::get('/cliente/perfil',       \App\Livewire\Client\Profile::class)->name('client.profile');
-    Route::get('/cliente/perfil/editar',\App\Livewire\Client\Profile::class)->name('client.profile.edit');
-    Route::get('/cliente/configuracoes',\App\Livewire\Client\Settings::class)->name('client.settings');
+// ─── Client Core ─────────────────────────────────────────────────────────────
+Route::middleware(['auth', 'role:cliente'])->group(function () {
+    Route::get('/cliente/dashboard',     \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
+    Route::get('/cliente/perfil',        \App\Livewire\Client\Profile::class)->name('client.profile');
+    Route::get('/cliente/perfil/editar', \App\Livewire\Client\Profile::class)->name('client.profile.edit');
+    Route::get('/cliente/configuracoes', \App\Livewire\Client\Settings::class)->name('client.settings');
 });

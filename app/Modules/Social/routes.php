@@ -10,7 +10,7 @@ Route::middleware('web')->group(function () {
     Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
 });
 
-// Authenticated: create post, bookmarks, stories
+// Authenticated: create post, bookmarks, stories (todos os roles)
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/publicar', \App\Livewire\Social\CreatePost::class)->name('social.create');
     Route::get('/social/guardados', function () {
@@ -19,10 +19,10 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/minhas-publicacoes', function () {
         return redirect('/social?myPostsOnly=1');
     })->name('social.myposts');
+});
 
-    // Creator profile management
-    Route::prefix('creator')->name('creator.')->group(function () {
-        Route::get('/dashboard', \App\Livewire\Creator\Dashboard::class)->name('dashboard');
-        Route::get('/activar/{profile?}', \App\Livewire\Creator\ActivateProfile::class)->name('activate');
-    });
+// Creator dashboard (role:creator obrigatório)
+Route::middleware(['web', 'auth', 'role:creator'])->prefix('creator')->name('creator.')->group(function () {
+    Route::get('/dashboard', \App\Livewire\Creator\Dashboard::class)->name('dashboard');
+    Route::get('/activar/{profile?}', \App\Livewire\Creator\ActivateProfile::class)->name('activate');
 });

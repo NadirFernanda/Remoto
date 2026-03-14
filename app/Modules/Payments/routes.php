@@ -9,7 +9,8 @@ use App\Modules\Payments\Controllers\ReceiptController;
 
 // ─── Payments Module Routes ───────────────────────────────────────────────────
 
-Route::middleware(['web', 'auth'])->group(function () {
+// Cliente: escrow, pagamentos, financeiro (role:cliente obrigatório)
+Route::middleware(['web', 'auth', 'role:cliente'])->group(function () {
     // Escrow & refunds
     Route::post('/servico/{service}/liberar-pagamento', [ServiceEscrowController::class, 'releasePayment'])->name('service.payment.release');
     Route::post('/servico/{service}/solicitar-reembolso', [ServiceRefundController::class, 'requestRefund'])->name('service.refund.request');
@@ -21,13 +22,15 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/cliente/financeiro/export', [FinanceHistoryExportController::class, 'exportCsv'])->name('client.finance.exportCsv');
     Route::get('/cliente/recibo/{service}', [ReceiptController::class, 'download'])->name('client.receipt.download');
 
-    // Transaction history
-    Route::get('/transacoes', [TransactionHistoryController::class, 'index'])->name('transactions.history');
-
     // Client finance reports
     Route::get('/cliente/relatorios', \App\Livewire\Client\OrderHistory::class)->name('client.reports');
     Route::get('/cliente/financeiro', \App\Livewire\Client\FinancePanel::class)->name('client.finance');
     Route::get('/cliente/reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('client.refunds');
     Route::get('/cliente/solicitar-reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
     Route::get('/cliente/publicar-projeto', \App\Livewire\Client\PublishRequest::class)->name('client.publish.request');
+});
+
+// Histórico de transações (cross-cutting: ambos os roles)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/transacoes', [TransactionHistoryController::class, 'index'])->name('transactions.history');
 });

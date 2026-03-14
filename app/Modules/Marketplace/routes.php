@@ -32,24 +32,27 @@ Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $ser
     return redirect()->route('freelancer.dashboard')->with('success', 'Candidatura registrada! Aguarde o cliente responder.');
 })->middleware(['web', 'auth', 'throttle:proposals'])->name('service.candidatar');
 
-// Authenticated marketplace routes
-Route::middleware(['web', 'auth'])->group(function () {
-    // Freelancer marketplace
+// Authenticated marketplace routes — Freelancer
+Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
     Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
     Route::get('/freelancer/servico/{service}/entrega', \App\Livewire\Freelancer\ServiceDelivery::class)->name('freelancer.service.delivery');
     Route::get('/freelancer/propostas', \App\Livewire\Freelancer\Proposals::class)->name('freelancer.proposals');
+});
 
-    // Client marketplace
+// Authenticated marketplace routes — Cliente
+Route::middleware(['web', 'auth', 'role:cliente'])->group(function () {
     Route::get('/cliente/projetos', \App\Livewire\Client\ProjectManager::class)->name('client.projects');
     Route::get('/cliente/projetos/matching/{service}', \App\Livewire\Client\FreelancerMatching::class)->name('client.matching');
     Route::get('/cliente/briefing', \App\Livewire\Client\Briefing::class)->name('client.briefing');
     Route::get('/cliente/pedidos', \App\Livewire\Client\OrderHistory::class)->name('client.orders');
     Route::get('/cliente/servico/{service}/cancelar', \App\Livewire\Client\ServiceCancel::class)->name('client.service.cancel');
     Route::put('/cliente/servico/{service}/titulo', [ServiceTitleController::class, 'update'])->name('client.service.title.update');
+});
 
-    // Reviews & Disputes (cross-cutting but tied to marketplace services)
+// Cross-cutting: reviews & disputes (ambos os roles podem aceder)
+Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/servico/{service}/avaliar', \App\Livewire\LeaveReview::class)->name('service.review.leave');
     Route::get('/avaliacoes', \App\Livewire\Client\ReviewPanel::class)->name('reviews.panel');
     Route::get('/servico/{service}/disputa', \App\Livewire\DisputeCenter::class)->name('service.dispute');

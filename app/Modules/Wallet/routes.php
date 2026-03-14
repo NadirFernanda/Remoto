@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 // Rotas de carteira e financeiro do freelancer, separadas do módulo Payments.
 // Todas as rotas financeiras do freelancer exigem autenticação + KYC aprovado.
 
-Route::middleware(['web', 'auth', 'kyc.verified'])->group(function () {
+Route::middleware(['web', 'auth', 'role:freelancer', 'kyc.verified'])->group(function () {
     Route::get('/freelancer/financeiro', \App\Livewire\Freelancer\FinancialPanel::class)
         ->name('freelancer.financial');
 
@@ -23,7 +23,7 @@ Route::middleware(['web', 'auth', 'kyc.verified'])->group(function () {
         ->name('freelancer.sponsorship');
 });
 
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
     // Geração do link de afiliado (não requer KYC — apenas autenticação)
     Route::post('/affiliate/generate', function () {
         (new \App\Services\AffiliateService())->generateCode(auth()->user());
