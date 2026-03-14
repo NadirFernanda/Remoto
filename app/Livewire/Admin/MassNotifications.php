@@ -26,6 +26,11 @@ class MassNotifications extends Component
         'mensagem.max'      => 'A mensagem não pode ter mais de 1000 caracteres.',
     ];
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function send(): void
     {
         $this->validate();

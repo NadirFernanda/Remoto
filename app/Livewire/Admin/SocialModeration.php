@@ -23,6 +23,11 @@ class SocialModeration extends Component
         'adminNote' => 'nullable|string|max:1000',
     ];
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function render()
     {
         $query = SocialReport::with('reporter')

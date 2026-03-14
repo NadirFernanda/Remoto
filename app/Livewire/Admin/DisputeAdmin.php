@@ -21,6 +21,11 @@ class DisputeAdmin extends Component
     public string $newStatus = '';
     public string $replyMessage = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingStatusFilter(): void
     {
         $this->resetPage();

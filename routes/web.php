@@ -33,6 +33,10 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
+// ─── Legal / Privacy ──────────────────────────────────────────────────────────
+Route::get('/privacidade', fn() => view('legal.privacy-policy'))->name('privacy-policy');
+Route::get('/termos',      fn() => view('legal.terms'))->name('terms');
+
 // ─── Institutional Pages ──────────────────────────────────────────────────────
 Route::prefix('sobre')->name('sobre.')->group(function () {
     Route::get('/sobre-nos',     fn() => view('sobre.sobre-nos'))->name('sobre-nos');

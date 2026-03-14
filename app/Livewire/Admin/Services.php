@@ -13,6 +13,11 @@ class Services extends Component
     public string $search = '';
     public string $statusFilter = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingSearch(): void
     {
         $this->resetPage();

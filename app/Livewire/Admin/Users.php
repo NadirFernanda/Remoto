@@ -23,6 +23,11 @@ class Users extends Component
     public ?int $reviewingSubmissionId = null;
     public string $adminNotes = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingSearch(): void    { $this->resetPage(); }
     public function updatingRoleFilter(): void { $this->resetPage(); }
     public function updatingKycFilter(): void  { $this->resetPage(); }

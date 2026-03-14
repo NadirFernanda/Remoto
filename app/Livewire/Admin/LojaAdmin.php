@@ -17,6 +17,11 @@ class LojaAdmin extends Component
     public string $busca        = '';
     public string $feedback     = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingBusca(): void       { $this->resetPage(); }
     public function updatingFiltroStatus(): void { $this->resetPage(); }
 

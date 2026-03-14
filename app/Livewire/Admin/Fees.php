@@ -28,6 +28,7 @@ class Fees extends Component
 
     public function mount(): void
     {
+        abort_if(auth()->user()?->role !== 'admin', 403);
         $this->commissionRate     = (float) PlatformSetting::get('commission_rate', 10);
         $this->withdrawFeeFixed   = (float) PlatformSetting::get('withdraw_fee_fixed', 2);
         $this->withdrawFeePercent = (float) PlatformSetting::get('withdraw_fee_percent', 1.5);

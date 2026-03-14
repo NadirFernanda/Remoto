@@ -20,6 +20,7 @@
         @yield('content')
     </main>
     @include('components.footer')
+    @include('components.cookie-consent')
     @livewireScripts
 </body>
 </html>

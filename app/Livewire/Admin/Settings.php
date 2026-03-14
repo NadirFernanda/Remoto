@@ -15,6 +15,7 @@ class Settings extends Component
 
     public function mount(): void
     {
+        abort_if(auth()->user()?->role !== 'admin', 403);
         $this->siteName        = PlatformSetting::get('site_name', config('app.name', ''));
         $this->siteEmail       = PlatformSetting::get('site_email', config('mail.from.address', ''));
         $this->maintenanceMode = PlatformSetting::get('maintenance_mode', '0');

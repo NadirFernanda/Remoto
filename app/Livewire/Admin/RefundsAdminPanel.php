@@ -13,6 +13,11 @@ class RefundsAdminPanel extends Component
     public $status = '';
     public $search = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function approve($id)
     {
         $refund = Refund::with('service')->find($id);

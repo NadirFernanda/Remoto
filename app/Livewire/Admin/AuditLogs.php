@@ -17,6 +17,11 @@ class AuditLogs extends Component
     public string $dateTo      = '';
     public ?int $expandedId    = null;
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingSearch(): void      { $this->resetPage(); }
     public function updatingActionFilter(): void { $this->resetPage(); }
     public function updatingEntityFilter(): void { $this->resetPage(); }

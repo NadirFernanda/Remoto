@@ -12,6 +12,11 @@ class Financial extends Component
 {
     public string $period = 'month';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function render()
     {
         $now   = Carbon::now();

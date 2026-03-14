@@ -7,6 +7,11 @@ use Livewire\Component;
 class Categories extends Component
 {
     // Placeholder — categories feature to be implemented
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function render()
     {
         return view('livewire.admin.categories')

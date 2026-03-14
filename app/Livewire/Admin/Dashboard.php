@@ -19,6 +19,7 @@ class Dashboard extends Component
 
     public function mount(): void
     {
+        abort_if(auth()->user()?->role !== 'admin', 403);
         $this->loadStats();
     }
 

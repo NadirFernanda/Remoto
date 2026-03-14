@@ -15,6 +15,11 @@ class Commissions extends Component
     public string $period = 'month';
     public string $search = '';
 
+    public function mount(): void
+    {
+        abort_if(auth()->user()?->role !== 'admin', 403);
+    }
+
     public function updatingSearch(): void { $this->resetPage(); }
     public function updatingPeriod(): void  { $this->resetPage(); }
 
