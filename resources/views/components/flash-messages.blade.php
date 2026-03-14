@@ -2,13 +2,19 @@
     $hasErrors = isset($errors) && $errors->any();
     $success = session('status') ?? session('success');
     $error = session('error');
+    $invoicePath = session('invoice_path');
 @endphp
 
-@if($success || $error || $hasErrors)
+@if($success || $error || $hasErrors || $invoicePath)
     <div id="flash-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-2xl px-4">
         @if($success)
             <div class="flash flash-success mb-2 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded shadow flex justify-between items-start">
-                <div class="flex-1 mr-4">{{ $success }}</div>
+                <div class="flex-1 mr-4">
+                    {{ $success }}
+                    @if($invoicePath)
+                        — <a href="{{ asset($invoicePath) }}" target="_blank" class="underline font-semibold">Baixar Recibo</a>
+                    @endif
+                </div>
                 <button class="flash-close text-green-700 hover:text-green-900" aria-label="Fechar">✕</button>
             </div>
         @endif
