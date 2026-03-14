@@ -7,6 +7,15 @@ use App\Models\Service;
 
 class ServicePolicy
 {
+    /** Admin tem acesso total a serviços. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /**
      * Permite que apenas o cliente do serviço cancele o pedido.
      */

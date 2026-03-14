@@ -7,6 +7,15 @@ use App\Models\User;
 
 class SocialPostPolicy
 {
+    /** Admin tem acesso total a posts sociais. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /** Apenas freelancers e criadores podem publicar. */
     public function create(User $user): bool
     {

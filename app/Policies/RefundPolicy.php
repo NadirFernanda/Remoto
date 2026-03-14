@@ -8,6 +8,15 @@ use App\Models\User;
 
 class RefundPolicy
 {
+    /** Admin tem acesso total a reembolsos. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /** Apenas o cliente dono do serviço pode pedir reembolso. */
     public function create(User $user, Service $service): bool
     {

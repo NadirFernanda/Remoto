@@ -8,6 +8,15 @@ use App\Models\User;
 
 class DisputePolicy
 {
+    /** Admin tem acesso total a disputas. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /**
      * Cliente ou freelancer aceite no serviço podem abrir disputa.
      */

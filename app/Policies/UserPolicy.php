@@ -6,6 +6,18 @@ use App\Models\User;
 
 class UserPolicy
 {
+    /**
+     * Admin tem acesso total, excepto delete/suspend sobre si mesmo
+     * (essas restrições são aplicadas nos métodos específicos).
+     */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin' && !in_array($ability, ['delete', 'suspend'])) {
+            return true;
+        }
+        return null;
+    }
+
     /** Admin pode listar todos os utilizadores. */
     public function viewAny(User $user): bool
     {

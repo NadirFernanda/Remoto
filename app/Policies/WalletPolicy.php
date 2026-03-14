@@ -7,6 +7,15 @@ use App\Models\Wallet;
 
 class WalletPolicy
 {
+    /** Admin tem acesso total a carteiras. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /** O dono da carteira ou admin podem visualizá-la. */
     public function view(User $user, Wallet $wallet): bool
     {

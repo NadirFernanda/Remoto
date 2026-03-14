@@ -7,6 +7,15 @@ use App\Models\User;
 
 class ContractPolicy
 {
+    /** Admin tem acesso total a contratos. */
+    public function before(User $user, string $ability): bool|null
+    {
+        if ($user->role === 'admin') {
+            return true;
+        }
+        return null;
+    }
+
     /** Apenas admin pode listar contratos de parceria. */
     public function viewAny(User $user): bool
     {
