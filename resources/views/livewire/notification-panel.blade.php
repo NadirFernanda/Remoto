@@ -1,5 +1,4 @@
 <div>
-    <h2 class="text-2xl font-bold mb-4">Notificações</h2>
     <ul>
         @forelse($notifications as $notification)
             <li class="mb-3 flex items-start">
