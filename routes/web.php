@@ -36,6 +36,7 @@ Route::get('/dashboard', function () {
 // ─── Legal / Privacy ──────────────────────────────────────────────────────────
 Route::get('/privacidade', fn() => view('legal.privacy-policy'))->name('legal.privacy');
 Route::get('/termos',      fn() => view('legal.terms-of-use'))->name('legal.terms');
+Route::get('/cookies',     fn() => view('legal.cookies'))->name('legal.cookies');
 
 // ─── Institutional Pages ──────────────────────────────────────────────────────
 Route::prefix('sobre')->name('sobre.')->group(function () {
