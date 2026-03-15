@@ -39,6 +39,9 @@ class FeedService
             $followingIds = $user->following()->pluck('users.id');
             $visibleIds   = $followingIds->push($user->id)->unique()->values();
             $query->whereIn('user_id', $visibleIds);
+        } else {
+            // Guest (unauthenticated): return nothing — all content requires login
+            $query->whereRaw('1 = 0');
         }
 
         return $query->latest()->paginate($perPage);

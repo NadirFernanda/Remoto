@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 // ─── Social Module Routes ─────────────────────────────────────────────────────
 
-// Public: anyone can browse feed and creator profiles
-Route::middleware('web')->group(function () {
+// Feed and creator profiles require authentication
+Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
     Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
 });

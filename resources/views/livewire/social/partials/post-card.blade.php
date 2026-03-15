@@ -101,9 +101,7 @@
 
     {{-- ── CREATOR LOCK OVERLAY ──────────────────────────────────────────────── --}}
     <div class="mx-4 mb-4">
-        @if($post->content)
-            <p class="text-sm text-gray-400 blur-sm select-none line-clamp-2">{{ $post->content }}</p>
-        @endif
+        {{-- Never render premium content in HTML — just show the lock --}}
         <div class="mt-3 border-2 border-dashed border-[#00baff]/30 rounded-2xl p-6 text-center bg-gradient-to-b from-white to-blue-50/30">
             <div class="w-12 h-12 bg-[#00baff]/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <svg class="w-6 h-6 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
