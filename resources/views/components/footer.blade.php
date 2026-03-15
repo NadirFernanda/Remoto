@@ -57,6 +57,7 @@
                 @endauth
                 <li><a href="{{ route('legal.terms') }}">Termos de uso</a></li>
                 <li><a href="{{ route('legal.privacy') }}">Política de privacidade</a></li>
+                <li><a href="{{ route('suporte') }}">Suporte</a></li>
             </ul>
         </div>
         <div class="hp-footer-col">
@@ -82,7 +83,7 @@
                 <a href="{{ route('legal.terms') }}">Termos</a>
                 <a href="{{ route('legal.privacy') }}">Privacidade</a>
                 <a href="#">Cookies</a>
-                <a href="#">Suporte</a>
+                <a href="{{ route('suporte') }}">Suporte</a>
             </div>
         </div>
     </div>

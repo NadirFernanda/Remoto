@@ -52,6 +52,32 @@ Route::prefix('sobre')->name('sobre.')->group(function () {
     Route::get('/carreiras',     fn() => view('sobre.carreiras'))->name('carreiras');
 });
 
+// ─── Suporte / Contacto ───────────────────────────────────────────────────────
+Route::get('/suporte', fn() => view('suporte.index'))->name('suporte');
+Route::post('/suporte', function (\Illuminate\Http\Request $request) {
+    $data = $request->validate([
+        'nome'     => ['required', 'string', 'max:100'],
+        'email'    => ['required', 'email', 'max:150'],
+        'assunto'  => ['required', 'string', 'max:100'],
+        'mensagem' => ['required', 'string', 'max:2000'],
+    ]);
+
+    \Illuminate\Support\Facades\Mail::raw(
+        "Nova mensagem de suporte\n\n" .
+        "Nome: {$data['nome']}\n" .
+        "Email: {$data['email']}\n" .
+        "Assunto: {$data['assunto']}\n\n" .
+        "Mensagem:\n{$data['mensagem']}",
+        function ($message) use ($data) {
+            $message->to('contacto@24horas.ao')
+                    ->replyTo($data['email'], $data['nome'])
+                    ->subject("[Suporte] {$data['assunto']} — {$data['nome']}");
+        }
+    );
+
+    return redirect()->route('suporte')->with('success', 'Mensagem enviada com sucesso! Respondemos em até 24 horas.');
+})->middleware('throttle:5,1')->name('suporte.enviar');
+
 // ─── OTP Verification ─────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/otp', [OtpVerificationController::class, 'showOtpForm'])->name('otp.form');
