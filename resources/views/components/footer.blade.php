@@ -50,26 +50,27 @@
             <ul>
                 <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
                 <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
-                <li><a href="#">Programa de afiliados</a></li>
+                @auth
+                <li><a href="{{ route('dashboard') }}">Programa de afiliados</a></li>
+                @else
+                <li><a href="/register">Programa de afiliados</a></li>
+                @endauth
                 <li><a href="{{ route('legal.terms') }}">Termos de uso</a></li>
                 <li><a href="{{ route('legal.privacy') }}">Política de privacidade</a></li>
-                <li><a href="{{ route('sobre.como-funciona') }}">Suporte</a></li>
             </ul>
         </div>
         <div class="hp-footer-col">
             <h4>Sobre</h4>
             <ul>
-                <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
-                <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
                 <li><a href="{{ route('sobre.seguranca') }}">Segurança</a></li>
+                <li><a href="{{ route('sobre.carreiras') }}">Carreiras</a></li>
                 <li><a href="{{ route('sobre.investidores') }}">Investidores</a></li>
-                <li><a href="{{ route('sobre.mapa-do-site') }}">Mapa do site</a></li>
-                <li><a href="{{ route('sobre.historias') }}">Histórias</a></li>
-                <li><a href="{{ route('sobre.noticias') }}">Notícias</a></li>
                 <li><a href="{{ route('sobre.equipe') }}">Equipa</a></li>
+                <li><a href="{{ route('sobre.noticias') }}">Notícias</a></li>
+                <li><a href="{{ route('sobre.historias') }}">Histórias</a></li>
                 <li><a href="{{ route('sobre.premios') }}">Prémios</a></li>
                 <li><a href="{{ route('sobre.comunicados') }}">Comunicados de imprensa</a></li>
-                <li><a href="{{ route('sobre.carreiras') }}">Carreiras</a></li>
+                <li><a href="{{ route('sobre.mapa-do-site') }}">Mapa do site</a></li>
             </ul>
         </div>
     </div>
