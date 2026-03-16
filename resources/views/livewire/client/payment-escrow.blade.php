@@ -10,7 +10,7 @@
             </div>
             <div class="flex justify-between mb-2">
                 <span>Taxa da plataforma (10%)</span>
-                <span class="text-yellow-600 font-bold">{{ number_format($valor * $taxa / 100, 2, ',', '.') }} Kz</span>
+                <span class="text-yellow-600 font-bold">{{ number_format($taxa, 2, ',', '.') }} Kz</span>
             </div>
             <div class="flex justify-between mb-2">
                 <span>Valor líquido do freelancer</span>
