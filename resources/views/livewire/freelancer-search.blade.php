@@ -15,16 +15,17 @@
         <div class="fs-layout" style="display:flex;flex-wrap:wrap;gap:1.5rem;align-items:flex-start;">
 
             {{-- ── Sidebar de Filtros ── --}}
-            <aside class="fs-sidebar" style="width:240px;flex-shrink:0;display:flex;flex-direction:column;gap:.75rem;">
+            <aside class="fs-sidebar" style="width:260px;flex-shrink:0;">
+                <div style="background:#fff;border-radius:16px;border:1px solid #e8edf3;padding:1.25rem;display:flex;flex-direction:column;gap:1.15rem;box-shadow:0 2px 12px rgba(0,0,0,.04);">
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Pesquisa</label>
                     <input type="text" wire:model.debounce.400ms="query"
                         placeholder="Nome, headline…"
                         class="pub-input">
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Habilidade</label>
                     <select wire:model="skill" class="pub-select">
                         <option value="">Todas</option>
@@ -34,7 +35,7 @@
                     </select>
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Idioma</label>
                     <select wire:model="language" class="pub-select">
                         <option value="">Todos</option>
@@ -44,7 +45,7 @@
                     </select>
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Disponibilidade</label>
                     <select wire:model="availability" class="pub-select">
                         <option value="">Qualquer</option>
@@ -54,7 +55,7 @@
                     </select>
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Avaliação mínima</label>
                     <select wire:model="minRating" class="pub-select">
                         <option value="0">Qualquer</option>
@@ -65,7 +66,7 @@
                     </select>
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Taxa/hora (Kz)</label>
                     <div style="display:flex;gap:.5rem;align-items:center;">
                         <input type="number" wire:model.debounce.500ms="minRate" min="0"
@@ -76,7 +77,7 @@
                     </div>
                 </div>
 
-                <div class="pub-sidebar-block">
+                <div>
                     <label class="pub-filter-label">Ordenar por</label>
                     <select wire:model="sort" class="pub-select">
                         <option value="relevancia">Relevância</option>
@@ -84,6 +85,8 @@
                         <option value="preco_asc">Menor preço</option>
                         <option value="preco_desc">Maior preço</option>
                     </select>
+                </div>
+
                 </div>
             </aside>
 
