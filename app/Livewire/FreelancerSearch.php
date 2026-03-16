@@ -102,11 +102,29 @@ class FreelancerSearch extends Component
             $freelancers->latest();
         }
 
+        $baseSkills = collect([
+            'HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Angular',
+            'Node.js', 'PHP', 'Laravel', 'Python', 'Django', 'Java', 'C#', '.NET',
+            'Ruby', 'Go', 'Swift', 'Kotlin', 'Flutter', 'React Native',
+            'WordPress', 'Shopify', 'WooCommerce', 'Magento',
+            'MySQL', 'PostgreSQL', 'MongoDB', 'Firebase', 'Redis',
+            'AWS', 'Azure', 'Google Cloud', 'Docker', 'Linux',
+            'Git', 'REST API', 'GraphQL',
+            'UI/UX Design', 'Figma', 'Adobe Photoshop', 'Adobe Illustrator',
+            'Premiere Pro', 'After Effects', 'Edição de Vídeo',
+            'SEO', 'Google Ads', 'Facebook Ads', 'Marketing Digital',
+            'Copywriting', 'Redação', 'Tradução',
+            'Gestão de Redes Sociais', 'Community Manager',
+            'Consultoria', 'Contabilidade', 'Finanças',
+            'Excel', 'Power BI', 'Data Analysis',
+        ]);
+
         $allSkills = FreelancerProfile::query()
             ->whereNotNull('skills')
             ->pluck('skills')
             ->filter()
             ->flatten()
+            ->merge($baseSkills)
             ->unique()
             ->sort()
             ->values();
