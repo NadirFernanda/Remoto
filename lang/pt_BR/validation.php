@@ -204,5 +204,51 @@ return [
         'rating'                => 'avaliação',
         'comment'               => 'comentário',
         'reason'                => 'motivo',
+        // Briefing / criação de pedido
+        'title1'                => 'título do pedido',
+        'necessity1'            => 'descrição detalhada',
+        'generated_description' => 'descrição gerada',
+        'business_type1'        => 'tipo de serviço',
+        'business_type1_outro'  => 'tipo de serviço',
+        // Propostas
+        'proposalMessage'       => 'mensagem da proposta',
+        'proposalValue'         => 'valor da proposta',
+        'recipient_id'          => 'destinatário',
+        'value'                 => 'valor',
+        // Gestão de projecto
+        'milestoneTitle'        => 'título da etapa',
+        'milestoneDate'         => 'data da etapa',
+        'milestoneDesc'         => 'descrição da etapa',
+        'attachmentFile'        => 'ficheiro anexo',
+        // Entrega
+        'entrega_arquivo'       => 'ficheiro de entrega',
+        'entrega_mensagem'      => 'mensagem de entrega',
+        // Perfil
+        'profilePhoto'          => 'foto de perfil',
+        'location'              => 'localização',
+        'headline'              => 'título profissional',
+        'summary'               => 'resumo',
+        'hourly_rate'           => 'valor por hora',
+        'currency'              => 'moeda',
+        'availability_status'   => 'disponibilidade',
+        'interests_input'       => 'interesses',
+        // Loja
+        'descricao'             => 'descrição',
+        'tipo'                  => 'tipo',
+        'preco'                 => 'preço',
+        'capa'                  => 'imagem de capa',
+        'arquivo'               => 'ficheiro',
+        'dias'                  => 'dias',
+        // Carteira
+        'valor_saque'           => 'valor do saque',
+        // Reembolso
+        'service_id'            => 'serviço',
+        'details'               => 'detalhes',
+        'evidence'              => 'comprovativo',
+        // Portfólio
+        'featured'              => 'destaque',
+        'external_url'          => 'URL externo',
+        'issuer'                => 'emissor',
+        'issued_year'           => 'ano de emissão',
     ],
 ];

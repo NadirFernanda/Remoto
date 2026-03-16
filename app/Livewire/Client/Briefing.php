@@ -48,6 +48,9 @@ class Briefing extends Component
         $this->validate([
             'title1'    => 'required|string|max:100',
             'necessity1' => 'required|string|min:20|max:2000',
+        ], [], [
+            'title1'    => 'título do pedido',
+            'necessity1' => 'descrição detalhada',
         ]);
         $this->generateDescription();
         $this->step = 3;
@@ -77,6 +80,9 @@ class Briefing extends Component
         $this->validate([
             'title1'               => 'required|max:100',
             'generated_description' => 'required|min:10',
+        ], [], [
+            'title1'               => 'título do pedido',
+            'generated_description' => 'descrição gerada',
         ]);
 
         $serviceType = $this->business_type1 === 'Outro'
