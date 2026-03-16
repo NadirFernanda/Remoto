@@ -79,11 +79,14 @@
         </div>
         <div class="bg-white rounded-lg shadow p-4 text-sm">
             <h3 class="font-semibold text-cyan-700 mb-2">Resumo do pedido</h3>
-            @php($order = session('client_order', []))
-            <p class="mb-1"><span class="font-semibold">Título:</span> {{ $order['title'] ?? '-' }}</p>
-            @php($b = $order['briefing_raw'] ?? [])
-            <p class="mb-1"><span class="font-semibold">Tipo de negócio:</span> {{ $b['business_type'] ?? '-' }}</p>
-            <p class="mb-1"><span class="font-semibold">Descrição do serviço:</span> {{ $b['necessity'] ?? '-' }}</p>
+            @php
+                $order = session('client_order', []);
+                $serviceId = $order['service_id'] ?? request()->route('service');
+                $svc = $serviceId ? \App\Models\Service::find($serviceId) : null;
+            @endphp
+            <p class="mb-1"><span class="font-semibold">Título:</span> {{ $svc->titulo ?? $order['title'] ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Tipo de negócio:</span> {{ $svc->service_type ?? '-' }}</p>
+            <p class="mb-1"><span class="font-semibold">Descrição do serviço:</span> {{ \Illuminate\Support\Str::limit($svc->briefing ?? $order['briefing_text'] ?? '-', 200) }}</p>
         </div>
     </div>
 </div>
