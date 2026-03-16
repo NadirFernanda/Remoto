@@ -113,12 +113,12 @@ class FreelancerMatchingService
             'de','do','da','dos','das','um','uma','uns','umas','o','a','os','as',
             'para','com','por','em','no','na','nos','nas','ao','aos',
             'que','como','mais','muito','quando','onde','se','mas','ou',
-            'e','Ã©','sÃ£o','ser','ter','tem','para','sobre','criar','fazer',
+            'e','é','são','ser','ter','tem','para','sobre','criar','fazer',
             'need','the','with','and','for','of','to','a','an','in','on',
         ];
 
         $text   = Str::lower($text);
-        $text   = preg_replace('/[^a-zÃ¡Ã©Ã­Ã³ÃºÃ¢ÃªÃ®Ã´Ã»Ã£ÃµÃ Ã¨Ã¬Ã²Ã¹Ã¤Ã«Ã¯Ã¶Ã¼Ã§\s]/u', ' ', $text);
+        $text   = preg_replace('/[^a-záéíóúâêîôûãõàèìòùäëïöüç\s]/u', ' ', $text);
         $tokens = preg_split('/\s+/', trim($text));
 
         return array_values(array_unique(

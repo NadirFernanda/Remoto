@@ -5,16 +5,16 @@ namespace App\Modules\Marketplace\Services;
 class BriefingTextGenerator
 {
     /**
-     * Corrige erros ortogrÃ¡ficos simples em portuguÃªs (exemplo bÃ¡sico).
+     * Corrige erros ortográficos simples em português (exemplo básico).
      */
     protected static function corrigirOrtografia($texto)
     {
-        // Exemplo simples de correÃ§Ã£o (pode ser expandido ou integrar API externa)
+        // Exemplo simples de correção (pode ser expandido ou integrar API externa)
         $correcoes = [
             'proficional' => 'profissional',
-            'negosio' => 'negÃ³cio',
+            'negosio' => 'negócio',
             'corre' => 'cores',
-            // Adicione mais correÃ§Ãµes conforme necessÃ¡rio
+            // Adicione mais correções conforme necessário
         ];
         return str_ireplace(array_keys($correcoes), array_values($correcoes), $texto);
     }
@@ -25,7 +25,7 @@ class BriefingTextGenerator
     protected static function filtrarOfensivas($texto)
     {
         $ofensivas = [
-            'palavrÃ£o1', 'palavrÃ£o2', 'idiota', 'burro', 'estÃºpido', 'otÃ¡rio', 'merda', 'bosta', 'porra', 'caralho', 'fdp', 'foda', 'puta', 'desgraÃ§ado', 'imbecil', 'maldito', 'vagabundo', 'corno', 'cu', 'piranha', 'arrombado', 'babaca', 'cuzÃ£o', 'escroto', 'viado', 'bicha', 'boceta', 'cacete', 'pica', 'pau no cu', 'filho da puta'
+            'palavrão1', 'palavrão2', 'idiota', 'burro', 'estúpido', 'otário', 'merda', 'bosta', 'porra', 'caralho', 'fdp', 'foda', 'puta', 'desgraçado', 'imbecil', 'maldito', 'vagabundo', 'corno', 'cu', 'piranha', 'arrombado', 'babaca', 'cuzão', 'escroto', 'viado', 'bicha', 'boceta', 'cacete', 'pica', 'pau no cu', 'filho da puta'
         ];
         return preg_replace('/\b(' . implode('|', array_map('preg_quote', $ofensivas)) . ')\b/i', '[removido]', $texto);
     }
@@ -56,32 +56,32 @@ class BriefingTextGenerator
 
         $partes[] = '';
 
-        // Core description â€” the main text the client wrote
+        // Core description — the main text the client wrote
         $partes[] = $necessity;
 
         // Extra structured details
         $extras = [];
         if ($targetAudience) {
-            $extras[] = "- PÃºblico-alvo: {$targetAudience}";
+            $extras[] = "- Público-alvo: {$targetAudience}";
         }
         if ($style) {
-            $extras[] = "- Estilo / ReferÃªncias: {$style}";
+            $extras[] = "- Estilo / Referências: {$style}";
         }
         if ($deadline) {
             $extras[] = "- Prazo desejado: {$deadline}";
         }
         if ($budgetRange) {
-            $extras[] = "- OrÃ§amento estimado: {$budgetRange}";
+            $extras[] = "- Orçamento estimado: {$budgetRange}";
         }
 
         if (!empty($extras)) {
             $partes[] = '';
-            $partes[] = "InformaÃ§Ãµes adicionais:";
+            $partes[] = "Informações adicionais:";
             $partes   = array_merge($partes, $extras);
         }
 
         $partes[] = '';
-        $partes[] = "Freelancers interessados, por favor enviem proposta com portfÃ³lio relevante e estimativa de prazo.";
+        $partes[] = "Freelancers interessados, por favor enviem proposta com portfólio relevante e estimativa de prazo.";
 
         return trim(implode("\n", $partes));
     }

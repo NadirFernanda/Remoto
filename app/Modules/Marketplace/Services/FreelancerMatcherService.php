@@ -100,7 +100,7 @@ class FreelancerMatcherService
                           'the', 'and', 'for', 'are', 'but', 'not', 'you', 'all', 'can', 'her', 'was'];
             $words = preg_split('/\s+/', mb_strtolower(strip_tags($service->briefing)));
             foreach ($words as $word) {
-                $clean = preg_replace('/[^a-zÃ¡Ã©Ã­Ã³ÃºÃ£ÃµÃ¢ÃªÃ´Ã Ã¼]/u', '', $word);
+                $clean = preg_replace('/[^a-záéíóúãõâêôàü]/u', '', $word);
                 if (mb_strlen($clean) > 4 && !in_array($clean, $stopwords)) {
                     $keywords[] = $clean;
                 }

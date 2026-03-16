@@ -42,7 +42,7 @@ class ServiceEscrowController extends Controller
 
         return redirect()->back()->with(
             'success',
-            'Pagamento liberado para o freelancer com sucesso! Fatura/recibo gerado: <a href="/' . $invoicePath . '" target="_blank">Baixar Recibo</a>'
-        );
+            'Pagamento liberado para o freelancer com sucesso!'
+        )->with('invoice_path', $invoicePath);
     }
 }
