@@ -1,5 +1,7 @@
 @extends('layouts.main')
 
+@section('main-padding', 'pt-0')
+
 @section('content')
 <div x-data="{ sidebarOpen: false }" class="dash-wrapper">
     {{-- Mobile sidebar toggle --}}
