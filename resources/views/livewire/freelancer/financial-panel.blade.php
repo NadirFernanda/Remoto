@@ -1,178 +1,190 @@
-<div class="light-page min-h-screen pt-8 pb-12">
-<div class="max-w-5xl mx-auto px-4">
+<div x-data="{ valorSaque: 0, taxa: {{ $taxaSaque }}, minimo: {{ $saqueMinimo }}, saldo: {{ $wallet->saldo ?? 0 }} }">
 
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Painel Financeiro</h1>
-            <p class="text-sm text-gray-500 mt-1">Acompanhe os seus ganhos, taxas e movimentações</p>
+    {{-- ── SALDO HEADER ────────────────────────────── --}}
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Saldo disponível</p>
+            <p class="text-2xl font-bold text-green-600">Kz {{ number_format($wallet->saldo ?? 0, 2, ',', '.') }}</p>
+            <p class="text-xs text-gray-400 mt-1">pronto para saque</p>
         </div>
-        {{-- Period filter --}}
-        <div class="flex items-center gap-2">
-            <label class="text-sm text-gray-500">Período:</label>
-            <select wire:model.live="period" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#00baff]">
-                <option value="month">Este mês</option>
-                <option value="last_month">Mês anterior</option>
-                <option value="quarter">Últimos 3 meses</option>
-                <option value="all">Todo o período</option>
-            </select>
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Pendente</p>
+            <p class="text-2xl font-bold text-yellow-500">Kz {{ number_format($wallet->saldo_pendente ?? 0, 2, ',', '.') }}</p>
+            <p class="text-xs text-gray-400 mt-1">em processamento</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Ganhos no período</p>
+            <p class="text-2xl font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</p>
+            <p class="text-xs text-gray-400 mt-1">bruto recebido</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Taxas cobradas</p>
+            <p class="text-2xl font-bold text-red-400">Kz {{ number_format($taxas, 2, ',', '.') }}</p>
+            <p class="text-xs text-gray-400 mt-1">comissão da plataforma</p>
         </div>
     </div>
 
-    {{-- ===== KPI CARDS ===== --}}
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div class="bg-white rounded-2xl border shadow-sm p-5">
-            <div class="text-xs text-gray-500 mb-1 font-medium uppercase tracking-wide">Saldo disponível</div>
-            <div class="text-2xl font-bold text-green-600">Kz {{ number_format($wallet->saldo ?? 0, 2, ',', '.') }}</div>
-            <div class="text-xs text-gray-400 mt-1">pronto para saque</div>
-        </div>
-        <div class="bg-white rounded-2xl border shadow-sm p-5">
-            <div class="text-xs text-gray-500 mb-1 font-medium uppercase tracking-wide">Pendente</div>
-            <div class="text-2xl font-bold text-yellow-500">Kz {{ number_format($wallet->saldo_pendente ?? 0, 2, ',', '.') }}</div>
-            <div class="text-xs text-gray-400 mt-1">em processamento</div>
-        </div>
-        <div class="bg-white rounded-2xl border shadow-sm p-5">
-            <div class="text-xs text-gray-500 mb-1 font-medium uppercase tracking-wide">Ganhos no período</div>
-            <div class="text-2xl font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</div>
-            <div class="text-xs text-gray-400 mt-1">bruto recebido</div>
-        </div>
-        <div class="bg-white rounded-2xl border shadow-sm p-5">
-            <div class="text-xs text-gray-500 mb-1 font-medium uppercase tracking-wide">Taxas cobradas</div>
-            <div class="text-2xl font-bold text-red-400">Kz {{ number_format($taxas, 2, ',', '.') }}</div>
-            <div class="text-xs text-gray-400 mt-1">comissão da plataforma</div>
-        </div>
-    </div>
+    {{-- ── CORPO PRINCIPAL: SAQUE + RESUMO ────────── --}}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
 
-    {{-- Breakdown bar --}}
-    @php
-    $total_movimentos = $ganhos + $saques + $reembolsos;
-    @endphp
-    @if($total_movimentos > 0)
-    <div class="bg-white rounded-2xl border shadow-sm p-5 mb-8">
-        <h2 class="font-semibold text-gray-700 mb-3 text-sm">Resumo do período</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div>
-                <div class="text-lg font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</div>
-                <div class="text-xs text-gray-500">Ganhos</div>
+        {{-- SAQUE (2/3) --}}
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-5">
+                <div>
+                    <h2 class="text-base font-bold text-gray-800">Solicitar Saque</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Mínimo Kz {{ number_format($saqueMinimo, 0, ',', '.') }} · Taxa {{ $taxaSaque }}%</p>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
+                </div>
             </div>
-            <div>
-                <div class="text-lg font-bold text-red-400">Kz {{ number_format($taxas, 2, ',', '.') }}</div>
-                <div class="text-xs text-gray-500">Taxas ({{ $ganhos > 0 ? number_format($taxas / $ganhos * 100, 1) : 0 }}%)</div>
-            </div>
-            <div>
-                <div class="text-lg font-bold text-gray-600">Kz {{ number_format($saques, 2, ',', '.') }}</div>
-                <div class="text-xs text-gray-500">Saques</div>
-            </div>
-        </div>
-    </div>
-    @endif
 
-    {{-- ===== PENDING SERVICES ===== --}}
-    @if($pendingServices->count())
-    <div class="bg-white rounded-2xl border shadow-sm p-5 mb-8">
-        <h2 class="font-semibold text-gray-700 mb-3">
-            A receber
-            <span class="ml-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">{{ $pendingServices->count() }} serviço(s)</span>
-        </h2>
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-                <thead>
-                    <tr class="text-left text-xs text-gray-400 border-b">
-                        <th class="pb-2 font-medium">Serviço</th>
-                        <th class="pb-2 font-medium">Status</th>
-                        <th class="pb-2 font-medium text-right">Valor líquido</th>
-                        <th class="pb-2 font-medium"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-50">
-                    @foreach($pendingServices as $svc)
-                    <tr>
-                        <td class="py-2 font-medium text-gray-800 max-w-xs truncate">{{ $svc->titulo ?? 'Serviço #'.$svc->id }}</td>
-                        <td class="py-2">
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                @if($svc->status === 'accepted') bg-blue-100 text-blue-700
-                                @elseif($svc->status === 'in_progress') bg-purple-100 text-purple-700
-                                @elseif($svc->status === 'delivered') bg-orange-100 text-orange-700
-                                @endif">
-                                @php $labels = ['accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue']; @endphp
-                                {{ $labels[$svc->status] ?? $svc->status }}
-                            </span>
-                        </td>
-                        <td class="py-2 text-right font-semibold text-green-600">
-                            Kz {{ number_format($svc->valor_liquido ?? 0, 2, ',', '.') }}
-                        </td>
-                        <td class="py-2 text-right">
-                            <a href="{{ route('freelancer.service.review', $svc->id) }}" class="text-xs text-[#00baff] hover:underline">Ver</a>
-                        </td>
-                    </tr>
+            @if($successMsg)
+            <div class="mb-4 flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700">
+                <svg class="w-5 h-5 mt-0.5 shrink-0 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                {{ $successMsg }}
+            </div>
+            @endif
+
+            <form wire:submit.prevent="solicitarSaque" x-on:input.debounce.300ms="valorSaque = parseFloat($el.querySelector('[wire\\:model]').value) || 0">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Valor a sacar <span class="text-red-400">*</span></label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Kz</span>
+                        <input
+                            type="number"
+                            wire:model.live="valorSaque"
+                            x-model="valorSaque"
+                            min="{{ $saqueMinimo }}"
+                            step="100"
+                            placeholder="{{ number_format($saqueMinimo, 0) }}"
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#00baff] focus:ring-1 focus:ring-[#00baff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
+                        >
+                    </div>
+                    @error('valorSaque')
+                        <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Calculadora em tempo real --}}
+                <div class="bg-gray-50 rounded-xl p-4 mb-5 text-sm space-y-2.5" x-show="valorSaque > 0">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Valor solicitado</span>
+                        <span class="font-medium text-gray-800">Kz <span x-text="(+valorSaque || 0).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Taxa de retirada (<span x-text="taxa"></span>%)</span>
+                        <span class="font-medium text-red-500">− Kz <span x-text="((+valorSaque || 0) * taxa / 100).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
+                    </div>
+                    <div class="border-t border-gray-200 pt-2.5 flex justify-between">
+                        <span class="font-semibold text-gray-700">Receberá</span>
+                        <span class="font-bold text-green-600 text-base">Kz <span x-text="((+valorSaque || 0) - (+(+valorSaque || 0) * taxa / 100)).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    wire:loading.attr="disabled"
+                    class="w-full py-3 rounded-xl bg-[#00baff] hover:bg-[#009de0] text-white font-semibold text-sm transition disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading.remove>Solicitar saque</span>
+                    <span wire:loading class="flex items-center gap-2">
+                        <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                        A processar…
+                    </span>
+                </button>
+            </form>
+
+            <p class="text-xs text-gray-400 mt-3 text-center">Os saques são processados em 1–3 dias úteis após aprovação.</p>
+        </div>
+
+        {{-- RESUMO + FILTRO (1/3) --}}
+        <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col gap-5">
+            <div>
+                <h2 class="text-base font-bold text-gray-800 mb-1">Resumo do período</h2>
+                <select wire:model.live="period" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff] outline-none">
+                    <option value="month">Este mês</option>
+                    <option value="last_month">Mês anterior</option>
+                    <option value="quarter">Últimos 3 meses</option>
+                    <option value="all">Todo o período</option>
+                </select>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50">
+                    <span class="text-xs font-medium text-gray-600">Ganhos</span>
+                    <span class="text-sm font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</span>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-xl bg-red-50">
+                    <span class="text-xs font-medium text-gray-600">Taxas <span class="text-gray-400">({{ $ganhos > 0 ? number_format($taxas / $ganhos * 100, 1) : 0 }}%)</span></span>
+                    <span class="text-sm font-bold text-red-500">Kz {{ number_format($taxas, 2, ',', '.') }}</span>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                    <span class="text-xs font-medium text-gray-600">Saques</span>
+                    <span class="text-sm font-bold text-gray-700">Kz {{ number_format($saques, 2, ',', '.') }}</span>
+                </div>
+                <div class="flex items-center justify-between p-3 rounded-xl bg-green-50">
+                    <span class="text-xs font-medium text-gray-600">Reembolsos</span>
+                    <span class="text-sm font-bold text-green-600">Kz {{ number_format($reembolsos, 2, ',', '.') }}</span>
+                </div>
+            </div>
+
+            @if($pendingServices->count())
+            <div class="border-t border-gray-100 pt-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">A receber</p>
+                <div class="space-y-2">
+                    @foreach($pendingServices->take(4) as $svc)
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-xs text-gray-700 truncate max-w-[120px]">{{ $svc->titulo ?? 'Serviço #'.$svc->id }}</span>
+                        <span class="text-xs font-semibold text-green-600 shrink-0">Kz {{ number_format($svc->valor_liquido ?? 0, 0, ',', '.') }}</span>
+                    </div>
                     @endforeach
-                </tbody>
-                <tfoot>
-                    <tr class="border-t border-gray-200">
-                        <td colspan="2" class="pt-2 text-sm font-medium text-gray-600">Total previsto</td>
-                        <td class="pt-2 text-right font-bold text-green-600">
-                            Kz {{ number_format($pendingServices->sum('valor_liquido'), 2, ',', '.') }}
-                        </td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+                    @if($pendingServices->count() > 4)
+                        <p class="text-xs text-gray-400">+ {{ $pendingServices->count() - 4 }} mais</p>
+                    @endif
+                </div>
+                <div class="border-t border-gray-100 pt-2 mt-2 flex justify-between">
+                    <span class="text-xs font-semibold text-gray-600">Total previsto</span>
+                    <span class="text-xs font-bold text-green-600">Kz {{ number_format($pendingServices->sum('valor_liquido'), 0, ',', '.') }}</span>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
-    @endif
 
-    {{-- ===== TRANSACTION LOG ===== --}}
-    <div class="bg-white rounded-2xl border shadow-sm p-5">
-        <h2 class="font-semibold text-gray-700 mb-3">Extrato de movimentações</h2>
+    {{-- ── EXTRATO ─────────────────────────────────── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <h2 class="text-base font-bold text-gray-800 mb-4">Extrato de movimentações</h2>
 
         @if($logs->isEmpty())
-            <p class="text-sm text-gray-400 py-4 text-center">Nenhuma movimentação no período seleccionado.</p>
+            <div class="text-center py-10">
+                <svg class="w-10 h-10 text-gray-200 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <p class="text-sm text-gray-400">Nenhuma movimentação no período seleccionado.</p>
+            </div>
         @else
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead>
-                    <tr class="text-left text-xs text-gray-400 border-b">
-                        <th class="pb-2 font-medium">Data</th>
-                        <th class="pb-2 font-medium">Tipo</th>
-                        <th class="pb-2 font-medium">Descrição</th>
-                        <th class="pb-2 font-medium text-right">Valor</th>
+                    <tr class="text-left text-xs text-gray-400 border-b border-gray-100">
+                        <th class="pb-3 font-medium">Data</th>
+                        <th class="pb-3 font-medium">Tipo</th>
+                        <th class="pb-3 font-medium hidden sm:table-cell">Descrição</th>
+                        <th class="pb-3 font-medium text-right">Valor</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @foreach($logs as $log)
                     @php
-                    $tipoCor = match($log->tipo) {
-                        'ganho'      => 'text-green-600',
-                        'taxa'       => 'text-red-400',
-                        'saque'      => 'text-gray-600',
-                        'reembolso'  => 'text-blue-500',
-                        default      => 'text-gray-500',
-                    };
-                    $tipoLabel = match($log->tipo) {
-                        'ganho'      => 'Ganho',
-                        'taxa'       => 'Taxa',
-                        'saque'      => 'Saque',
-                        'reembolso'  => 'Reembolso',
-                        default      => ucfirst($log->tipo),
-                    };
-                    $sinal = in_array($log->tipo, ['ganho','reembolso']) ? '+' : '-';
+                        $tipoCor   = match($log->tipo) { 'ganho','reembolso' => 'text-green-600', 'taxa' => 'text-red-400', default => 'text-gray-600' };
+                        $tipoLabel = match($log->tipo) { 'ganho'=>'Ganho','taxa'=>'Taxa','saque'=>'Saque','saque_solicitado'=>'Saque','reembolso'=>'Reembolso', default=>ucfirst(str_replace('_',' ',$log->tipo)) };
+                        $bgLabel   = match($log->tipo) { 'ganho'=>'bg-green-50 text-green-700','taxa'=>'bg-red-50 text-red-600','saque','saque_solicitado'=>'bg-gray-100 text-gray-600','reembolso'=>'bg-blue-50 text-blue-600', default=>'bg-gray-100 text-gray-500' };
+                        $sinal     = in_array($log->tipo, ['ganho','reembolso']) ? '+' : '−';
                     @endphp
                     <tr>
-                        <td class="py-2.5 text-gray-500 text-xs whitespace-nowrap">
-                            {{ $log->created_at->format('d/m/Y H:i') }}
+                        <td class="py-3 text-gray-400 text-xs whitespace-nowrap">{{ $log->created_at->format('d/m/Y') }}</td>
+                        <td class="py-3">
+                            <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $bgLabel }}">{{ $tipoLabel }}</span>
                         </td>
-                        <td class="py-2.5">
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                @if($log->tipo === 'ganho') bg-green-50 text-green-700
-                                @elseif($log->tipo === 'taxa') bg-red-50 text-red-600
-                                @elseif($log->tipo === 'saque') bg-gray-100 text-gray-600
-                                @else bg-blue-50 text-blue-600 @endif">
-                                {{ $tipoLabel }}
-                            </span>
-                        </td>
-                        <td class="py-2.5 text-gray-600 max-w-xs truncate">{{ $log->descricao ?? '—' }}</td>
-                        <td class="py-2.5 text-right font-semibold {{ $tipoCor }}">
-                            {{ $sinal }} Kz {{ number_format($log->valor, 2, ',', '.') }}
-                        </td>
+                        <td class="py-3 text-gray-500 text-xs max-w-xs truncate hidden sm:table-cell">{{ $log->descricao ?? '—' }}</td>
+                        <td class="py-3 text-right font-semibold text-sm {{ $tipoCor }}">{{ $sinal }} Kz {{ number_format(abs($log->valor), 2, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -181,5 +193,4 @@
         @endif
     </div>
 
-</div>
 </div>

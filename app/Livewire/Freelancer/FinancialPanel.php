@@ -4,12 +4,62 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use App\Models\WalletLog;
+use App\Models\Wallet as WalletModel;
 use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FinancialPanel extends Component
 {
     public string $period = 'month';
+
+    // Withdrawal form
+    public float|int $valorSaque    = 0;
+    public float|int $saqueMinimo   = 20000;
+    public float     $taxaSaque     = 20.0;
+    public string    $successMsg    = '';
+
+    public function mount(): void
+    {
+        $wallet           = Auth::user()->wallet;
+        $this->saqueMinimo = $wallet->saque_minimo ?? 20000;
+        $this->taxaSaque   = $wallet->taxa_saque   ?? 20.0;
+    }
+
+    public function solicitarSaque(): void
+    {
+        $this->successMsg = '';
+
+        $this->validate([
+            'valorSaque' => ['required', 'numeric', 'min:' . $this->saqueMinimo],
+        ], [
+            'valorSaque.min' => "O valor mínimo de saque é Kz " . number_format($this->saqueMinimo, 0, ',', '.') . ".",
+        ]);
+
+        $user   = Auth::user();
+        $wallet = WalletModel::where('user_id', $user->id)->firstOrFail();
+
+        if ($wallet->saldo < $this->valorSaque) {
+            $this->addError('valorSaque', 'Saldo insuficiente para este saque.');
+            return;
+        }
+
+        $liquido = round($this->valorSaque - ($this->valorSaque * $this->taxaSaque / 100), 2);
+
+        $wallet->decrement('saldo', $this->valorSaque);
+
+        WalletLog::create([
+            'user_id'   => $user->id,
+            'wallet_id' => $wallet->id,
+            'valor'     => -$this->valorSaque,
+            'tipo'      => 'saque_solicitado',
+            'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz. Líquido após taxa: " . number_format($liquido, 2, ',', '.') . " Kz.",
+        ]);
+
+        $this->successMsg = "Saque de Kz " . number_format($this->valorSaque, 0, ',', '.') . " solicitado com sucesso. Receberá Kz " . number_format($liquido, 0, ',', '.') . " após taxa de {$this->taxaSaque}%.";
+        $this->valorSaque = 0;
+        $this->resetErrorBag();
+    }
 
     public function render()
     {
