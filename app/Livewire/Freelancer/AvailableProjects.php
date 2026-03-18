@@ -135,7 +135,8 @@ class AvailableProjects extends Component
     {
         $userId = auth()->id();
 
-        $projects = Service::where('status', 'published')
+        $projects = Service::with('cliente')
+            ->where('status', 'published')
             ->whereNull('freelancer_id')
             ->where('cliente_id', '!=', $userId)
             ->orderByDesc('created_at')

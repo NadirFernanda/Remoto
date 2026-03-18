@@ -129,16 +129,19 @@
                             @endif
                         </div>
 
-                        <div class="flex items-center gap-2 mt-2">
-                            <a href="{{ route('client.profile', $project->cliente_id) }}"
-                               class="text-xs text-cyan-700 hover:underline font-medium">
-                                Ver perfil do cliente
-                            </a>
-                            <button type="button"
-                                    wire:click="showProjectDetails({{ $project->id }})"
-                                    class="text-xs text-cyan-700 hover:underline font-medium">
+                        <div class="flex items-center gap-3 mt-3 pt-3 border-t border-gray-100">
+                            <a href="{{ route('public.project.show', $project->id) }}"
+                               class="flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-cyan-600 bg-cyan-50 border border-cyan-200 hover:bg-cyan-100 py-2 px-3 rounded-lg transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 Ver detalhes
-                            </button>
+                            </a>
+                            @if($project->cliente)
+                                <a href="{{ route('freelancer.show', $project->cliente) }}"
+                                   class="flex-1 flex items-center justify-center gap-1.5 text-xs font-semibold text-gray-600 bg-gray-50 border border-gray-200 hover:bg-gray-100 py-2 px-3 rounded-lg transition">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                    Perfil do cliente
+                                </a>
+                            @endif
                         </div>
                     </div>
                 @empty

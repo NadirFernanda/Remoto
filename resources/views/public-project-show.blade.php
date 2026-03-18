@@ -1,7 +1,32 @@
 @extends('layouts.main')
 
 @section('content')
-@php $briefing = json_decode($service->briefing, true); @endphp
+@php
+    $briefing = json_decode($service->briefing, true);
+
+    // Mapa de labels em português para os campos do briefing
+    $labelMap = [
+        'title'           => 'Título',
+        'business_type'   => 'Tipo de negócio',
+        'necessity'       => 'Necessidade',
+        'target_audience' => 'Público-alvo',
+        'usage'           => 'Utilização prevista',
+        'budget'          => 'Orçamento',
+        'deadline'        => 'Prazo',
+        'description'     => 'Descrição',
+        'objectives'      => 'Objectivos',
+        'references'      => 'Referências',
+        'notes'           => 'Notas adicionais',
+        'platform'        => 'Plataforma',
+        'features'        => 'Funcionalidades',
+        'technologies'    => 'Tecnologias',
+        'style'           => 'Estilo',
+        'tone'            => 'Tom de comunicação',
+        'language'        => 'Idioma',
+        'pages'           => 'Número de páginas',
+        'integrations'    => 'Integrações',
+    ];
+@endphp
 <div class="pub-page">
     <div class="pub-container--md" style="padding-top:2rem;padding-bottom:3rem;">
 
@@ -34,10 +59,16 @@
                         @if(is_array($briefing))
                             @foreach($briefing as $k => $v)
                                 @if($k === 'thumbnail') @continue @endif
+                                @php
+                                    $label = $labelMap[$k] ?? ucwords(str_replace('_', ' ', $k));
+                                    $display = is_array($v) ? implode(', ', $v) : $v;
+                                @endphp
+                                @if(!empty($display))
                                 <div style="margin-bottom:.5rem;">
-                                    <strong style="color:#0f172a;min-width:130px;display:inline-block;">{{ ucfirst(str_replace('_',' ',$k)) }}:</strong>
-                                    {{ is_array($v) ? implode(', ', $v) : $v }}
+                                    <strong style="color:#0f172a;min-width:160px;display:inline-block;">{{ $label }}:</strong>
+                                    {{ $display }}
                                 </div>
+                                @endif
                             @endforeach
                         @else
                             <p>{{ $service->briefing }}</p>
