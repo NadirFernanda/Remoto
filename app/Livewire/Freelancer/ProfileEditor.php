@@ -109,7 +109,7 @@ class ProfileEditor extends Component
         $user = User::find(Auth::id());
         // update user fields
         $user->update([
-            'name' => $this->name,
+            'name' => strip_tags($this->name),
             'email' => $this->email,
             'phone' => $this->phone,
             'location' => $this->location,

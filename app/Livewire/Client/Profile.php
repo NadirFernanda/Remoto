@@ -43,7 +43,7 @@ class Profile extends Component
 
         $user = \App\Models\User::find(Auth::id());
         $user->update([
-            'name'     => $this->name,
+            'name'     => strip_tags($this->name),
             'phone'    => $this->phone,
             'location' => $this->location,
         ]);

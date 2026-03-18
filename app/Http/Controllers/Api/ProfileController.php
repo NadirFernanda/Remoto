@@ -40,7 +40,7 @@ class ProfileController extends Controller
         ]);
 
         if (isset($data['name'])) {
-            $user->name = $data['name'];
+            $user->name = strip_tags($data['name']);
         }
 
         if (isset($data['password'])) {

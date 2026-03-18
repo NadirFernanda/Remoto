@@ -23,7 +23,7 @@ class RegisterController extends Controller
         $ref = $request->query('ref');
 
         $user = User::create([
-            'name'           => $validated['name'],
+            'name'           => strip_tags($validated['name']),
             'email'          => $validated['email'],
             'password'       => bcrypt($validated['password']),
             'affiliate_code' => $affiliateCode,
@@ -78,7 +78,7 @@ class RegisterController extends Controller
 
         try {
             $user = User::create([
-                'name'     => $validated['name'],
+                'name'     => strip_tags($validated['name']),
                 'email'    => $validated['email'],
                 'password' => bcrypt($validated['password']),
             ]);
