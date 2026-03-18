@@ -173,7 +173,7 @@ body{
     font-feature-settings: 'cv02','cv03','cv04','cv11';
 }
 
-.site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease; position: relative;}
+.site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease;}
 .site-header.scrolled{background: var(--bg-v); backdrop-filter: blur(12px);}
 .logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
