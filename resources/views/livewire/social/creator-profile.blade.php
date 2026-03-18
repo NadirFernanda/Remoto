@@ -76,11 +76,12 @@
                                 </button>
                             @endif
                         @endif
-                        @if($creator->role === 'freelancer')
-                            <a href="{{ route('freelancer.show', $creator) }}"
-                               class="text-center px-5 py-2.5 text-sm font-semibold rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition">
+                        @if($creator->role === 'freelancer' || $creator->has_freelancer_profile)
+                            <button type="button"
+                                onclick="Livewire.dispatch('openProposal', { recipientId: {{ $creator->id }} })"
+                                class="text-center px-5 py-2.5 text-sm font-semibold rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition">
                                 Contratar
-                            </a>
+                            </button>
                         @endif
                     @else
                         <a href="{{ route('social.create') }}"
@@ -93,8 +94,8 @@
                        class="px-5 py-2.5 text-sm font-semibold rounded-xl border-2 border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white transition text-center">
                         Seguir
                     </a>
-                    @if($creator->role === 'freelancer')
-                        <a href="{{ route('freelancer.show', $creator) }}"
+                    @if($creator->role === 'freelancer' || $creator->has_freelancer_profile)
+                        <a href="{{ route('login') }}"
                            class="text-center px-5 py-2.5 text-sm font-semibold rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 transition">
                             Contratar
                         </a>
@@ -166,5 +167,9 @@
             </div>
         </div>
     @endif
+
+    @auth
+        @livewire('client.send-proposal')
+    @endauth
 
 </div>
