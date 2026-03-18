@@ -457,17 +457,27 @@
                 </button>
                 <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-1">Por habilidade</p>
-                    <a href="{{ route('freelancers.search', ['skill' => 'design']) }}" class="nav-link text-sm">Designers Gráficos</a>
-                    <a href="{{ route('freelancers.search', ['skill' => 'web']) }}" class="nav-link text-sm">Dev. de Websites</a>
-                    <a href="{{ route('freelancers.search', ['skill' => 'mobile']) }}" class="nav-link text-sm">Apps Mobile</a>
-                    <a href="{{ route('freelancers.search', ['skill' => 'video']) }}" class="nav-link text-sm">Edição de Vídeo</a>
-                    <a href="{{ route('freelancers.search', ['skill' => 'marketing']) }}" class="nav-link text-sm">Marketing Digital</a>
-                    <a href="{{ route('freelancers.search', ['skill' => 'redacao']) }}" class="nav-link text-sm">Redação & Conteúdo</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'design']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3"/></svg>Designers Gráficos</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'web']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18M9 21V9"/></svg>Dev. de Websites</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'mobile']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01"/></svg>Apps Mobile</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'video']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Edição de Vídeo</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'marketing']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 20V10M12 20V4M6 20v-6"/></svg>Marketing Digital</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'redacao']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Redação & Conteúdo</a>
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Por localização</p>
-                    <a href="{{ route('freelancers.search', ['location' => 'luanda']) }}" class="nav-link text-sm">Luanda</a>
-                    <a href="{{ route('freelancers.search', ['location' => 'benguela']) }}" class="nav-link text-sm">Benguela</a>
-                    <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" class="nav-link text-sm">Huambo</a>
-                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-cyan-400">Ver todos os freelancers →</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'luanda']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Luanda</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'benguela']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Benguela</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Huambo</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-cyan-400 flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver todos os freelancers</a>
                 </div>
             </div>
             <!-- Accordion: Encontrar Trabalho -->
@@ -477,10 +487,14 @@
                     <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
-                    <a href="{{ route('public.projects') }}" class="nav-link text-sm">Projectos abertos</a>
-                    <a href="{{ route('public.projects') }}" class="nav-link text-sm">Concursos activos</a>
-                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm">Explorar categorias</a>
-                    <a href="{{ route('public.projects') }}" class="nav-link text-sm text-cyan-400">Ver mais trabalhos →</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Projectos abertos</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Concursos activos</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>Explorar categorias</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm text-cyan-400 flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver mais trabalhos</a>
                 </div>
             </div>
             <!-- Accordion: Soluções -->
@@ -490,12 +504,18 @@
                     <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
-                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm">Empresas</a>
-                    <a href="{{ route('sobre.sobre-nos') }}" class="nav-link text-sm">Desafios de Inovação</a>
-                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm">Serviços de campo</a>
-                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm">API da Plataforma</a>
-                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm">IA para negócios</a>
-                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm">Trabalhos locais</a>
+                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>Empresas</a>
+                    <a href="{{ route('sobre.sobre-nos') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Desafios de Inovação</a>
+                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Serviços de campo</a>
+                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>API da Plataforma</a>
+                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4"/></svg>IA para negócios</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0099d6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Trabalhos locais</a>
                 </div>
             </div>
             <div class="border-t border-white/10 my-1"></div>

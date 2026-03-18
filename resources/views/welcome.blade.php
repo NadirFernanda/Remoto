@@ -349,7 +349,7 @@
                         <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
-                        Receba 85% de cada subscrição directamente na carteira
+                        Receba 75% de cada subscrição directamente na carteira
                     </li>
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
                         <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -420,7 +420,7 @@
                 <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
             </div>
             <div>
-                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">85%</p>
+                <p style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">75%</p>
                 <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
             </div>
         </div>
