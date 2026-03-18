@@ -449,6 +449,56 @@
 
     <div x-show="open" x-transition class="px-4 pb-4 md:hidden">
         <div class="mobile-menu-dropdown flex flex-col gap-1 bg-[#071422] border border-white/10 rounded-xl p-3 mt-2 shadow-xl">
+            <!-- Accordion: Contratar -->
+            <div x-data="{sub:false}">
+                <button @click="sub=!sub" class="nav-link w-full text-left flex items-center justify-between">
+                    <span>Contratar</span>
+                    <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-1">Por habilidade</p>
+                    <a href="{{ route('freelancers.search', ['skill' => 'design']) }}" class="nav-link text-sm">Designers Gráficos</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'web']) }}" class="nav-link text-sm">Dev. de Websites</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'mobile']) }}" class="nav-link text-sm">Apps Mobile</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'video']) }}" class="nav-link text-sm">Edição de Vídeo</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'marketing']) }}" class="nav-link text-sm">Marketing Digital</a>
+                    <a href="{{ route('freelancers.search', ['skill' => 'redacao']) }}" class="nav-link text-sm">Redação & Conteúdo</a>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Por localização</p>
+                    <a href="{{ route('freelancers.search', ['location' => 'luanda']) }}" class="nav-link text-sm">Luanda</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'benguela']) }}" class="nav-link text-sm">Benguela</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" class="nav-link text-sm">Huambo</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-cyan-400">Ver todos os freelancers →</a>
+                </div>
+            </div>
+            <!-- Accordion: Encontrar Trabalho -->
+            <div x-data="{sub:false}">
+                <button @click="sub=!sub" class="nav-link w-full text-left flex items-center justify-between">
+                    <span>Encontrar Trabalho</span>
+                    <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm">Projectos abertos</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm">Concursos activos</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm">Explorar categorias</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm text-cyan-400">Ver mais trabalhos →</a>
+                </div>
+            </div>
+            <!-- Accordion: Soluções -->
+            <div x-data="{sub:false}">
+                <button @click="sub=!sub" class="nav-link w-full text-left flex items-center justify-between">
+                    <span>Soluções</span>
+                    <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
+                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm">Empresas</a>
+                    <a href="{{ route('sobre.sobre-nos') }}" class="nav-link text-sm">Desafios de Inovação</a>
+                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm">Serviços de campo</a>
+                    <a href="{{ route('sobre.como-funciona') }}" class="nav-link text-sm">API da Plataforma</a>
+                    <a href="{{ route('sobre.investidores') }}" class="nav-link text-sm">IA para negócios</a>
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm">Trabalhos locais</a>
+                </div>
+            </div>
+            <div class="border-t border-white/10 my-1"></div>
             <a href="#categorias" class="nav-link">Categorias</a>
             <a href="{{ route('freelancers.index') }}" class="nav-link">Freelancers</a>
             <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
