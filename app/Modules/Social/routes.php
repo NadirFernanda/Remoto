@@ -17,9 +17,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/guardados', function () {
         return redirect('/social?bookmarkedOnly=1');
     })->name('social.bookmarks');
-    Route::get('/social/minhas-publicacoes', function () {
-        return redirect('/social?myPostsOnly=1');
-    })->name('social.myposts');
+    Route::get('/social/minhas-publicacoes', \App\Livewire\Social\MyPosts::class)->name('social.myposts');
 });
 
 // Creator dashboard (role:creator obrigatório)
