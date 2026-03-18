@@ -12,7 +12,7 @@
 {{-- ─── User profile card ───────────────────────────────────── --}}
 @if(auth()->check())
 @php $u = auth()->user(); @endphp
-<div class="px-4 pt-6 pb-4 border-b border-gray-100">
+<div class="px-4 pt-3 pb-3 border-b border-gray-100">
     <div class="flex items-center gap-3">
         <img src="{{ $u->avatarUrl() }}" alt="{{ $u->name }}"
             class="w-10 h-10 rounded-full object-cover ring-2 ring-[#00baff]/20 flex-shrink-0"

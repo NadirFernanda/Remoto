@@ -23,14 +23,13 @@
 
     {{-- Main content --}}
     <main class="dash-main">
-        <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md">
         @if(session('error'))
-            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
+            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-xl text-center font-semibold text-sm">
                 {{ session('error') }}
             </div>
         @endif
         @if(session('success'))
-            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
+            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-xl text-center font-semibold text-sm">
                 {{ session('success') }}
             </div>
         @endif
@@ -41,8 +40,8 @@
             $actions = $dashboardActions ?? null;
         @endphp
 
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-            <h1 class="text-xl sm:text-2xl font-bold">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
             <div class="flex items-center gap-3 flex-wrap">
                 @if(!empty($actions))
                     {!! $actions !!}
@@ -59,8 +58,6 @@
         @else
             @yield('dashboard-content')
         @endif
-
-        </div>
     </main>
 </div>
 @endsection

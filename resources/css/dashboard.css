@@ -25,7 +25,7 @@
 .dash-main {
     flex: 1;
     min-width: 0; /* prevent flex child overflow */
-    padding: 1.5rem;
+    padding: 0.875rem 1.25rem 1.5rem;
 }
 
 /* Mobile sidebar toggle — hidden on desktop */
@@ -71,19 +71,20 @@
         transition: transform .28s ease;
         width: 17rem;
         box-shadow: 4px 0 20px rgba(0,0,0,.12);
+        padding-top: 4.375rem; /* clear the fixed header on mobile */
     }
     .dash-sidebar--open {
         transform: translateX(0);
     }
 
     .dash-main {
-        padding: 1rem 0.75rem;
+        padding: 0.75rem 0.625rem 1rem;
     }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .dash-sidebar { width: 13rem; }
-    .dash-main { padding: 1.25rem; }
+    .dash-main { padding: 0.75rem 1rem 1.25rem; }
 }
 
 /* =====================================================
