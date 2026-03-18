@@ -412,6 +412,9 @@ body{
     border-bottom: 1px solid rgba(255,255,255,0.07) !important;
 }
 
+/* Homepage: hero full-bleed, header flutua por cima (padrão Fiverr/Airbnb) */
+.homepage main { padding-top: 0 !important; }
+
 /* =====================================================
    HOMEPAGE — classes usadas em welcome.blade.php
    ===================================================== */
@@ -475,7 +478,7 @@ body{
     background: linear-gradient(135deg, rgba(0,142,210,0.91) 0%, rgba(0,80,160,0.93) 100%);
 }
 
-.hp-hero-slide { position: relative; z-index: 2; padding: 5.5rem 1.5rem 4.5rem; min-height: 500px; display: flex; align-items: center; }
+.hp-hero-slide { position: relative; z-index: 2; padding: 6.5rem 1.5rem 4.5rem; min-height: 500px; display: flex; align-items: center; }
 .hp-hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
 .hp-hero-title { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 1.5rem; max-width: 700px; }
 .hp-hero-accent { color: #fff176; }
