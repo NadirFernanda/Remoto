@@ -15,8 +15,12 @@ class SeedCreatorProfiles extends Command
     {
         $users = User::where(function ($q) {
             $q->where('role', 'creator')
+              ->orWhere('role', 'freelancer')
               ->orWhere('has_creator_profile', true);
         })->get();
+
+        // Garante que a flag has_creator_profile fica activa para todos os freelancers
+        User::where('role', 'freelancer')->update(['has_creator_profile' => true]);
 
         $created = 0;
         foreach ($users as $user) {
