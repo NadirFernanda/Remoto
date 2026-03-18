@@ -20,6 +20,14 @@
         <div class="min-w-0">
             <p class="text-sm text-gray-800 truncate leading-tight" style="max-width:160px">{{ $u->name }}</p>
             <p class="text-xs text-gray-400 truncate leading-tight" style="max-width:160px">{{ $u->email }}</p>
+            @php $sidebarRole = optional(auth()->user())->activeRole() ?? 'cliente'; @endphp
+            <p class="text-xs font-semibold mt-0.5" style="color:#00baff;">
+                @if($sidebarRole === 'freelancer') Freelancer / Criador
+                @elseif(in_array($sidebarRole, ['cliente', 'client'])) Cliente / Seguidor
+                @elseif($sidebarRole === 'admin') Administrador
+                @else {{ ucfirst($sidebarRole) }}
+                @endif
+            </p>
         </div>
     </div>
 

@@ -29,9 +29,7 @@ class RegisterController extends Controller
             'affiliate_code' => $affiliateCode,
         ]);
         // role atribuído explicitamente — não está em $fillable (OWASP A03)
-        $user->role = in_array($validated['role'], ['cliente', 'freelancer', 'creator'])
-            ? $validated['role']
-            : 'cliente';
+        $user->role = $validated['role'] === 'freelancer' ? 'freelancer' : 'cliente';
         $user->save();
 
         // Se veio ref, registra indicação com segurança
@@ -85,22 +83,18 @@ class RegisterController extends Controller
                 'password' => bcrypt($validated['password']),
             ]);
             // role atribuído explicitamente — não está em $fillable (OWASP A03)
-            $user->role = in_array($validated['role'], ['cliente', 'freelancer', 'creator'])
-                ? $validated['role']
-                : 'cliente';
+            // 'creator' foi integrado no freelancer — apenas 2 roles de registo
+            $user->role = $validated['role'] === 'freelancer' ? 'freelancer' : 'cliente';
             $user->save();
 
-            // $user->sendEmailVerificationNotification(); // Desativado: fluxo OTP
-
-            // Seed multi-profile flag for new users
-            $profileFlag = match ($user->role) {
-                'freelancer' => ['has_freelancer_profile' => true],
+            // Seed multi-profile flags: freelancer tem automaticamente acesso ao módulo de criador
+            $profileFlags = match ($user->role) {
+                'freelancer' => ['has_freelancer_profile' => true, 'has_creator_profile' => true],
                 'cliente'    => ['has_cliente_profile'    => true],
-                'creator'    => ['has_creator_profile'    => true],
                 default      => [],
             };
-            if ($profileFlag) {
-                $user->update($profileFlag);
+            if ($profileFlags) {
+                $user->update($profileFlags);
             }
 
             // Dispara evento para ações pós-cadastro

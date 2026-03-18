@@ -31,36 +31,29 @@
 
             <form method="POST" action="/register" novalidate onsubmit="return validateRegisterForm(event)">
                 @csrf
-                {{-- Role selector (3 opções) --}}
+                {{-- Role selector (2 perfis unificados) --}}
                 <div class="pub-field" x-data="{ role: '{{ old('role', 'freelancer') }}' }">
-                    <label style="display:block;margin-bottom:.6rem;">Quero registar-me como:</label>
-                    <div class="role-selector-grid">
+                    <label style="display:block;margin-bottom:.6rem;font-weight:600;">Quero registar-me como:</label>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
 
-                        {{-- Freelancer --}}
-                        <label @click="role='freelancer'" :style="role==='freelancer' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
-                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
+                        {{-- Freelancer / Criador --}}
+                        <label @click="role='freelancer'; document.getElementById('titulo-registo').textContent='Criar conta como Freelancer / Criador'"
+                               :style="role==='freelancer' ? 'border-color:#00baff;background:#f0fbff;box-shadow:0 0 0 3px rgba(0,186,255,.12);' : 'border-color:#e2e8f0;background:#fff;'"
+                               style="border:2px solid;border-radius:14px;padding:1rem .75rem;cursor:pointer;text-align:center;transition:all .2s;">
                             <input type="radio" name="role" value="freelancer" x-model="role" style="display:none;">
-                            <div style="font-size:1.4rem;margin-bottom:.25rem;">💼</div>
-                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Freelancer</div>
-                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Ofereço serviços</div>
+                            <div style="font-size:1.6rem;margin-bottom:.4rem;">💼🎬</div>
+                            <div style="font-size:.85rem;font-weight:700;color:#0f172a;line-height:1.2;">Freelancer<br><span style="color:#00baff;">/ Criador</span></div>
+                            <div style="font-size:.68rem;color:#64748b;margin-top:.35rem;line-height:1.4;">Ofereço serviços &amp; crio conteúdo</div>
                         </label>
 
-                        {{-- Cliente --}}
-                        <label @click="role='cliente'" :style="role==='cliente' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
-                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
+                        {{-- Cliente / Seguidor --}}
+                        <label @click="role='cliente'; document.getElementById('titulo-registo').textContent='Criar conta como Cliente / Seguidor'"
+                               :style="role==='cliente' ? 'border-color:#00baff;background:#f0fbff;box-shadow:0 0 0 3px rgba(0,186,255,.12);' : 'border-color:#e2e8f0;background:#fff;'"
+                               style="border:2px solid;border-radius:14px;padding:1rem .75rem;cursor:pointer;text-align:center;transition:all .2s;">
                             <input type="radio" name="role" value="cliente" x-model="role" style="display:none;">
-                            <div style="font-size:1.4rem;margin-bottom:.25rem;">🏢</div>
-                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Cliente</div>
-                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Contrato serviços</div>
-                        </label>
-
-                        {{-- Criador/Seguidor --}}
-                        <label @click="role='creator'" :style="role==='creator' ? 'border-color:#00baff;background:#f0fbff;' : 'border-color:#e2e8f0;background:#fff;'"
-                               style="border:2px solid;border-radius:12px;padding:.75rem .5rem;cursor:pointer;text-align:center;transition:all .2s;">
-                            <input type="radio" name="role" value="creator" x-model="role" style="display:none;">
-                            <div style="font-size:1.4rem;margin-bottom:.25rem;">🎬</div>
-                            <div style="font-size:.8rem;font-weight:700;color:#0f172a;">Criador</div>
-                            <div style="font-size:.65rem;color:#64748b;margin-top:.2rem;">Crio conteúdo</div>
+                            <div style="font-size:1.6rem;margin-bottom:.4rem;">🏢❤️</div>
+                            <div style="font-size:.85rem;font-weight:700;color:#0f172a;line-height:1.2;">Cliente<br><span style="color:#00baff;">/ Seguidor</span></div>
+                            <div style="font-size:.68rem;color:#64748b;margin-top:.35rem;line-height:1.4;">Contrato serviços &amp; sigo criadores</div>
                         </label>
 
                     </div>
