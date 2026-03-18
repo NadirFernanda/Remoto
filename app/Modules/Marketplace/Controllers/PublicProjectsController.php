@@ -44,6 +44,7 @@ class PublicProjectsController extends Controller
 
     public function show(Request $request, Service $service)
     {
+        $service->loadMissing('cliente');
         return view('public-project-show', compact('service'));
     }
 }

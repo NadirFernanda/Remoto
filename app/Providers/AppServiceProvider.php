@@ -12,7 +12,6 @@ use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\WalletRepository;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,13 +27,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // ── Forçar charset UTF-8 no MySQL/MariaDB (fix para acentos em produção) ─
-        DB::afterConnecting(function (\Illuminate\Database\Connection $connection) {
-            if (in_array($connection->getDriverName(), ['mysql', 'mariadb'])) {
-                $connection->statement('SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci');
-            }
-        });
-
         // ── API throttle ──────────────────────────────────────────────────────
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
