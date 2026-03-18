@@ -527,9 +527,6 @@
                 </div>
             </div>
             <div class="border-t border-white/10 my-1"></div>
-            <a href="#categorias" class="nav-link">Categorias</a>
-            <a href="{{ route('freelancers.index') }}" class="nav-link">Freelancers</a>
-            <a href="{{ route('public.projects') }}" class="nav-link">Serviços</a>
             <a href="#depoimentos" class="nav-link">Depoimentos</a>
             @guest
                 <a href="/login" class="nav-link">Login</a>
