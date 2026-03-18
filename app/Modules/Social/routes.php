@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 // Feed and creator profiles require authentication
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social', \App\Livewire\Social\Feed::class)->name('social.feed');
+    Route::get('/social/criadores', \App\Livewire\Social\CreatorSearch::class)->name('social.creators');
     Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
 });
 
