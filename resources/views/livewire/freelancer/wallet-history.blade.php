@@ -1,4 +1,4 @@
-<div class="bg-white rounded shadow p-6 mt-6">
+<div class="bg-white rounded shadow p-6">
     <h2 class="font-semibold text-xl mb-4 text-[#222]">Histórico de Movimentações</h2>
     <div class="mb-4 flex items-center gap-2">
         <label for="tipo" class="text-sm text-[#888]">Filtrar por tipo:</label>

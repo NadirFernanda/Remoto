@@ -1,4 +1,4 @@
-<div class="container mx-auto px-4 py-8 max-w-xl">
+<div class="container mx-auto px-4 pb-8 max-w-xl">
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Carteira do Freelancer</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow p-6">

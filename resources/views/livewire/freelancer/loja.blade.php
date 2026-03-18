@@ -1,4 +1,4 @@
-<div class="light-page min-h-screen pt-8 pb-16">
+<div class="light-page min-h-screen pb-16">
 <div class="max-w-6xl mx-auto px-4">
 
     {{-- Header --}}

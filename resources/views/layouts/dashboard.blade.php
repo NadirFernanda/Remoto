@@ -3,7 +3,7 @@
 @section('main-padding', 'pt-0')
 
 @section('content')
-<div x-data="{ sidebarOpen: false }" class="dash-wrapper">
+<div x-data="{ sidebarOpen: false }" class="dash-wrapper pt-[70px]">
     {{-- Mobile sidebar toggle --}}
     <button @click="sidebarOpen = !sidebarOpen"
         class="dash-sidebar-toggle"
