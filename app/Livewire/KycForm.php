@@ -17,6 +17,7 @@ class KycForm extends Component
     public $documentBack;
     public $selfie;
     public string $successMessage = '';
+    public bool $showResubmitForm = false;
 
     public ?KycSubmission $existing = null;
 
@@ -37,15 +38,23 @@ class KycForm extends Component
         ];
     }
 
+    public function requestResubmit(): void
+    {
+        $this->showResubmitForm = true;
+        $this->successMessage   = '';
+        $this->reset(['documentFront', 'documentBack', 'selfie']);
+        $this->documentType = $this->existing?->document_type ?? 'bi';
+    }
+
     public function submit(): void
     {
         $this->validate();
 
         $user = Auth::user();
 
-        // Only allow new submission if no pending/approved one exists
-        if ($this->existing && in_array($this->existing->status, ['pending', 'approved'])) {
-            $this->successMessage = '';
+        // Block re-submission if there is already a pending/approved one,
+        // UNLESS the user explicitly requested a resubmission
+        if (!$this->showResubmitForm && $this->existing && in_array($this->existing->status, ['pending', 'approved'])) {
             session()->flash('error', 'Já tem uma submissão em análise ou aprovada.');
             return;
         }
@@ -68,6 +77,7 @@ class KycForm extends Component
         $user->save();
 
         $this->existing = $submission;
+        $this->showResubmitForm = false;
         $this->reset(['documentFront', 'documentBack', 'selfie']);
         $this->successMessage = 'Documentos enviados com sucesso! A equipa irá analisar em breve.';
     }

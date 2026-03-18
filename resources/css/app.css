@@ -589,7 +589,7 @@ body{
    ===================================================== */
 
 /* wrapper de página */
-.pub-page { background: #f5f7fa; min-height: 100vh; padding: 2.5rem 0 4rem; font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+.pub-page { background: #f5f7fa; min-height: 100vh; padding: 0 0 4rem; font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
 
 /* container centralizado */
 .pub-container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }

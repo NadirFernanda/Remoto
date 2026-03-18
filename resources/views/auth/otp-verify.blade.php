@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="pub-page" style="display:flex;align-items:center;justify-content:center;">
+<div class="pub-page" style="padding-top:0;display:flex;align-items:center;justify-content:center;">
     <div class="pub-container--sm" style="width:100%;padding-top:2rem;padding-bottom:3rem;">
         <div class="pub-auth-card" style="text-align:center;">
             {{-- Logo --}}

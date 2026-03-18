@@ -2,8 +2,8 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="pub-page">
-    <div class="pub-container" style="padding-top:2.5rem;padding-bottom:3rem;">
+<div class="pub-page" style="padding-top:0">
+    <div class="pub-container" style="padding-top:0.75rem;padding-bottom:3rem;">
 
         {{-- Hero --}}
         <div class="pub-hero" style="margin-bottom:2rem;">

@@ -27,8 +27,8 @@
         'integrations'    => 'Integrações',
     ];
 @endphp
-<div class="pub-page">
-    <div class="pub-container--md" style="padding-top:2rem;padding-bottom:3rem;">
+<div class="pub-page" style="padding-top:0">
+    <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
 
         {{-- Voltar --}}
         <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
