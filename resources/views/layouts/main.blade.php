@@ -15,7 +15,7 @@
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}">
     @include('components.header')
-    <main class="@yield('main-padding', 'pt-[70px]') flex-1">
+    <main class="@yield('main-padding', 'pt-[70px]') flex-1" style="@yield('main-style', '')">
         @include('components.flash-messages')
         @yield('content')
     </main>
