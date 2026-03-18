@@ -38,9 +38,6 @@ class CreatorSearch extends Component
                 $q->where('role', 'creator')
                   ->orWhere('has_creator_profile', true);
             })
-            ->whereHas('creatorProfile', function ($q) {
-                $q->where('is_public', true);
-            })
             ->with(['creatorProfile'])
             ->when($this->query, function ($q) {
                 $q->where(function ($inner) {

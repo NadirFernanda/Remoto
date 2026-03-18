@@ -4,14 +4,23 @@ namespace App\Listeners;
 
 use App\Events\FreelancerRegistered;
 use App\Models\Profile;
+use App\Models\CreatorProfile;
+use App\Models\FreelancerProfile;
 
 class CreateFreelancerProfile
 {
     public function handle(FreelancerRegistered $event)
     {
-        Profile::create([
-            'user_id' => $event->user->id,
-            // Adicione outros campos padrão do perfil aqui
-        ]);
+        $user = $event->user;
+
+        Profile::firstOrCreate(['user_id' => $user->id]);
+
+        FreelancerProfile::firstOrCreate(['user_id' => $user->id]);
+
+        // Freelancers têm acesso ao módulo criador - perfil criado automaticamente
+        CreatorProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['is_public' => true]
+        );
     }
 }
