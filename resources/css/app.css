@@ -7,6 +7,18 @@ html, body {
 }
 
 /* =============================
+     SCROLLBAR PERSONALIZADA
+============================= */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,186,255,0.55) transparent;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,186,255,0.5); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,186,255,0.85); }
+
+/* =============================
      MELHORIAS DE RESPONSIVIDADE
 ============================= */
 
@@ -159,19 +171,19 @@ body{
     font-feature-settings: 'cv02','cv03','cv04','cv11';
 }
 
-.site-header{background: var(--bg-v); border-bottom:none; padding-top:.5rem; padding-bottom:.5rem; transition: background .3s ease, backdrop-filter .3s ease;}
+.site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease;}
 .site-header.scrolled{background: var(--bg-v); backdrop-filter: blur(12px);}
 .logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
 
 /* Image logo used in header */
-.site-logo{ height:40px; max-height:44px; object-fit:contain; display:block; filter: drop-shadow(0 0 10px rgba(0,186,255,0.4)); }
+.site-logo{ height:48px; max-height:52px; object-fit:contain; display:block; filter: drop-shadow(0 0 12px rgba(0,186,255,0.38)); }
 .header-container{ align-items:center; }
 
-.site-header.site-header-compact{ padding-top: .35rem; padding-bottom: .35rem; background: var(--bg-v); transition: background .3s ease; }
-.site-header.site-header-compact.scrolled{ background: var(--bg-v); backdrop-filter: blur(12px); }
-.site-header.site-header-compact .site-logo{ height:40px; max-height:44px; }
-.site-logo-compact{ height:40px; max-height:44px; }
+.site-header.site-header-compact{ padding-top: .5rem; padding-bottom: .5rem; background: var(--bg-v); transition: background .3s ease; }
+.site-header.site-header-compact.scrolled{ background: var(--bg-v); }
+.site-header.site-header-compact .site-logo{ height:48px; max-height:52px; }
+.site-logo-compact{ height:48px; max-height:52px; }
 
 /* Light input (still used in some pages) */
 .light-input{ width:100%; background:#fff; border:1px solid #e2e8f0; color:#1e293b; padding:.55rem .75rem; border-radius:10px; font-size:.9rem; transition: border-color .2s, box-shadow .2s; }
@@ -269,8 +281,8 @@ body{
 
 /* Small responsive tweaks */
 @media (max-width:768px){
-    .site-header{ padding-top:.4rem; padding-bottom:.4rem; }
-    .site-logo{ height:34px; max-height:38px; }
+    .site-header{ padding-top:.45rem; padding-bottom:.45rem; }
+    .site-logo{ height:38px; max-height:42px; }
     /* Hide desktop action buttons — hamburger takes over on mobile */
     .header-actions{ display:none !important; }
 }
@@ -389,13 +401,13 @@ body{
     outline: 3px solid rgba(var(--accent-v-rgb,56,230,212),0.18);
     outline-offset: 2px;
 }
-/* Remove all box-shadow and backdrop-filter from header */
+/* Header: sem sombra excessiva mas com separador sutil */
 .site-header, .site-header.scrolled, .site-header.site-header-compact, .site-header.site-header-compact.scrolled {
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    border-bottom: none !important;
     opacity: 1 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
 }
 
 /* =====================================================
