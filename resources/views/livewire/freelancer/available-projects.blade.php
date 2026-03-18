@@ -128,6 +128,18 @@
                                 <button type="button" wire:click="showProposalModal({{ $project->id }})" class="bg-white border border-cyan-400 text-cyan-600 hover:bg-cyan-50 font-semibold py-2 px-4 rounded-lg w-full text-center transition-all text-sm">Enviar proposta</button>
                             @endif
                         </div>
+
+                        <div class="flex items-center gap-2 mt-2">
+                            <a href="{{ route('client.profile', $project->cliente_id) }}"
+                               class="text-xs text-cyan-700 hover:underline font-medium">
+                                Ver perfil do cliente
+                            </a>
+                            <button type="button"
+                                    wire:click="showProjectDetails({{ $project->id }})"
+                                    class="text-xs text-cyan-700 hover:underline font-medium">
+                                Ver detalhes
+                            </button>
+                        </div>
                     </div>
                 @empty
                     <div class="col-span-3 text-gray-500 text-center text-sm bg-white border border-dashed border-gray-300 rounded-xl py-10">
