@@ -130,12 +130,7 @@
 }
 .fsp-card-cover {
     height: 70px;flex-shrink: 0;position: relative;
-    background: linear-gradient(135deg, #071428 0%, #0a2040 50%, #006bb3 100%);
-}
-.fsp-card-cover::after {
-    content: '';position: absolute;inset: 0;
-    background: radial-gradient(ellipse at 25% 60%, rgba(0,186,255,.22) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 20%, rgba(0,100,210,.2) 0%, transparent 45%);
+    background: linear-gradient(120deg, #0575e6 0%, #00baff 100%);
 }
 .fsp-card-avatar {
     position: absolute;bottom: -22px;left: 15px;z-index: 1;
