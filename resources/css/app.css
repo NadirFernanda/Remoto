@@ -7,16 +7,18 @@ html, body {
 }
 
 /* =============================
-     SCROLLBAR PERSONALIZADA
+     SCROLL PROGRESS BAR (no header)
 ============================= */
-html {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0,186,255,0.55) transparent;
+.scroll-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #00baff, #0070ff);
+    transition: width .1s linear;
+    z-index: 10;
+    border-radius: 0 2px 2px 0;
 }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,186,255,0.5); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,186,255,0.85); }
 
 /* =============================
      MELHORIAS DE RESPONSIVIDADE
@@ -171,7 +173,7 @@ body{
     font-feature-settings: 'cv02','cv03','cv04','cv11';
 }
 
-.site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease;}
+.site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease; position: relative;}
 .site-header.scrolled{background: var(--bg-v); backdrop-filter: blur(12px);}
 .logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
