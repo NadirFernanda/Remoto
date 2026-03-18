@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
-@section('main-padding', 'pt-0')
+@section('main-padding', 'pt-[70px]')
 
 @section('content')
-<div x-data="{ sidebarOpen: false }" class="dash-wrapper pt-[70px]">
+<div x-data="{ sidebarOpen: false }" class="dash-wrapper">
     {{-- Mobile sidebar toggle --}}
     <button @click="sidebarOpen = !sidebarOpen"
         class="dash-sidebar-toggle"
