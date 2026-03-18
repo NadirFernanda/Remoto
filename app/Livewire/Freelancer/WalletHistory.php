@@ -47,6 +47,6 @@ class WalletHistory extends Component
             'logs' => $this->logs,
             'tipos' => $tipos,
             'tipo' => $this->tipo,
-        ]);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Histórico da Carteira']);
     }
 }

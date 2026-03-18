@@ -117,12 +117,15 @@ Route::middleware('auth')->group(function () {
 
 // ─── Freelancer Core ──────────────────────────────────────────────────────────
 Route::middleware(['auth', 'role:freelancer'])->group(function () {
-    Route::get('/freelancer/dashboard',     \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
-    Route::get('/freelancer/notificacoes',  \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
-    Route::get('/freelancer/configuracoes', \App\Livewire\Client\Settings::class)->name('freelancer.settings');
-    Route::get('/freelancer/perfil/editar', \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
-    Route::get('/freelancer/portfolio',     \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
-    Route::get('/freelancer/onboarding',    \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
+    Route::get('/freelancer/dashboard',          \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
+    Route::get('/freelancer/notificacoes',       \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
+    Route::get('/freelancer/configuracoes',      \App\Livewire\Client\Settings::class)->name('freelancer.settings');
+    Route::get('/freelancer/perfil/editar',      \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
+    Route::get('/freelancer/portfolio',          \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
+    Route::get('/freelancer/onboarding',         \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
+    Route::get('/freelancer/financeiro',         \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
+    Route::get('/freelancer/carteira',           \App\Livewire\Freelancer\Wallet::class)->name('freelancer.wallet');
+    Route::get('/freelancer/carteira/historico', \App\Livewire\Freelancer\WalletHistory::class)->name('freelancer.wallet.history');
 });
 
 // ─── Client Core ─────────────────────────────────────────────────────────────

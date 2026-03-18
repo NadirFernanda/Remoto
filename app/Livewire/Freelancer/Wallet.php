@@ -61,6 +61,7 @@ class Wallet extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.wallet');
+        return view('livewire.freelancer.wallet')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Carteira & Saques']);
     }
 }
