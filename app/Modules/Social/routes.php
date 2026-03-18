@@ -24,4 +24,5 @@ Route::middleware(['web', 'auth'])->group(function () {
 Route::middleware(['web', 'auth', 'role:creator'])->prefix('creator')->name('creator.')->group(function () {
     Route::get('/dashboard', \App\Livewire\Creator\Dashboard::class)->name('dashboard');
     Route::get('/activar/{profile?}', \App\Livewire\Creator\ActivateProfile::class)->name('activate');
+    Route::get('/assinaturas', \App\Livewire\Creator\SubscriptionManager::class)->name('subscriptions');
 });
