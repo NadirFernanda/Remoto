@@ -1,25 +1,48 @@
-<div>
-    <ul>
+<div wire:poll.60s="refresh">
+    <div class="mb-6">
+        <h1 class="text-xl font-bold text-gray-900">Notificações</h1>
+        <p class="text-sm text-gray-400 mt-0.5">Acompanhe todas as suas notificações</p>
+    </div>
+
+    <div class="space-y-2">
         @forelse($notifications as $notification)
-            <li class="mb-3 flex items-start">
-                <span class="inline-block w-2 h-2 rounded-full mt-2 mr-3 {{
-                    $notification->type === 'success' ? 'bg-green-500' :
-                    ($notification->type === 'warning' ? 'bg-yellow-500' :
-                    ($notification->type === 'info' ? 'bg-blue-500' : 'bg-gray-400'))
-                }}"></span>
-                <div>
-                    <div class="font-medium {{
-                        $notification->type === 'success' ? 'text-green-700' :
-                        ($notification->type === 'warning' ? 'text-yellow-700' :
-                        ($notification->type === 'info' ? 'text-blue-700' : 'text-gray-700'))
-                    }}">
-                        {{ $notification->message }}
-                    </div>
-                    <div class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($notification->created_at)->diffForHumans() }}</div>
+            @php
+                $url = '#';
+                if ($notification->service_id) {
+                    $url = in_array($notification->type, ['service_chosen','delivery_approved','revision_requested'])
+                        ? route('freelancer.service.delivery', $notification->service_id)
+                        : route('freelancer.service.review', $notification->service_id);
+                }
+                $dotColor = $notification->read ? 'bg-gray-200' : 'bg-[#00baff]';
+                $typeColor = match($notification->type) {
+                    'service_chosen'     => 'bg-green-50 border-green-100',
+                    'service_rejected'   => 'bg-red-50 border-red-100',
+                    'delivery_approved'  => 'bg-green-50 border-green-100',
+                    'revision_requested' => 'bg-yellow-50 border-yellow-100',
+                    'novo_projeto'       => 'bg-blue-50 border-blue-100',
+                    'nova_mensagem'      => 'bg-purple-50 border-purple-100',
+                    default              => 'bg-gray-50 border-gray-100',
+                };
+            @endphp
+            <a href="{{ $url }}"
+               class="flex items-start gap-3 px-4 py-3.5 rounded-xl border {{ $typeColor }} hover:opacity-80 transition {{ $notification->read ? 'opacity-70' : '' }}">
+                <span class="mt-2 w-2.5 h-2.5 flex-shrink-0 rounded-full {{ $dotColor }}"></span>
+                <div class="flex-1 min-w-0">
+                    @if($notification->title)
+                        <p class="text-sm font-semibold text-gray-800">{{ $notification->title }}</p>
+                    @endif
+                    <p class="text-sm text-gray-600 leading-snug mt-0.5">{{ $notification->message }}</p>
+                    <p class="text-xs text-gray-400 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
                 </div>
-            </li>
+            </a>
         @empty
-            <li class="text-gray-500">Nenhuma notificação encontrada.</li>
+            <div class="bg-white rounded-2xl border border-dashed border-gray-200 p-12 text-center">
+                <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+                </svg>
+                <p class="text-sm text-gray-400 font-medium">Nenhuma notificação encontrada.</p>
+            </div>
         @endforelse
-    </ul>
+    </div>
 </div>
+

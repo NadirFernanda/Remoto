@@ -406,9 +406,7 @@
             @else
                 <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
                 <div style="display:flex;align-items:center;gap:.75rem;">
-                    @if(auth()->user()->activeRole() !== 'freelancer')
-                        <a href="{{ route('notifications') }}" class="nav-link">Notificações</a>
-                    @endif
+                    <livewire:notification-bell />
                     @if(auth()->user()->canSwitchRole())
                         <form method="POST" action="{{ route('switch.role') }}" class="inline">
                             @csrf
@@ -554,7 +552,10 @@
                         </button>
                     </form>
                 @endif
-                <a href="{{ route('freelancer.notifications') }}" class="nav-link">Notificações</a>
+                <div class="flex items-center gap-2 px-2">
+                    <livewire:notification-bell />
+                    <span class="text-sm text-white/70">Notificações</span>
+                </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="nav-link text-left">Sair</button>

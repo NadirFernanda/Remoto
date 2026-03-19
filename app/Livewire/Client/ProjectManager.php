@@ -9,6 +9,7 @@ use App\Models\ServiceCandidate;
 use App\Models\Milestone;
 use App\Models\ServiceAttachment;
 use App\Models\Notification;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletLog;
@@ -349,8 +350,13 @@ class ProjectManager extends Component
             ? $selected->candidates()->with('freelancer.freelancerProfile')->whereIn('status', ['pending', 'proposal_sent', 'invited', 'rejected'])->orderByDesc('created_at')->get()
             : collect();
 
+        // Check if client already left a review for the selected project
+        $hasReview = $selected
+            ? Review::where('author_id', auth()->id())->where('service_id', $selected->id)->exists()
+            : false;
+
         return view('livewire.client.project-manager', compact(
-            'projects', 'selected', 'statusLabels', 'pipeline', 'candidates'
+            'projects', 'selected', 'statusLabels', 'pipeline', 'candidates', 'hasReview'
         ))->layout('layouts.livewire');
     }
 }
