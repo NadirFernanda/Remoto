@@ -102,13 +102,13 @@ class CreatorProfile extends Component
         }
 
         $price       = $this->creator->creatorProfile?->subscription_price ?? 3000;
-        $platformFee = round($price * 0.15, 2); // 15% platform fee
-        $netAmount   = $price - $platformFee;
+        $platformFee = round($price * \App\Services\FeeService::SUBSCRIPTION_FEE_RATE, 2); // 25%
+        $netAmount   = round($price - $platformFee, 2);
 
         // Check subscriber wallet
         $wallet = Wallet::firstOrCreate(
             ['user_id' => $user->id],
-            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 5000, 'taxa_saque' => 0]
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 0, 'taxa_saque' => 0]
         );
 
         if ($wallet->saldo < $price) {
@@ -119,13 +119,27 @@ class CreatorProfile extends Component
         DB::transaction(function () use ($user, $price, $platformFee, $netAmount, $wallet) {
             // Deduct from subscriber
             $wallet->decrement('saldo', $price);
+            WalletLog::create([
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$price,
+                'tipo'      => 'assinatura',
+                'descricao' => "Assinatura do criador \"{$this->creator->name}\" por 1 mês.",
+            ]);
 
-            // Credit creator (net amount)
+            // Credit creator directly (net amount after 25% platform fee)
             $creatorWallet = Wallet::firstOrCreate(
                 ['user_id' => $this->creator->id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 5000, 'taxa_saque' => 0]
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 0, 'taxa_saque' => 0]
             );
-            $creatorWallet->increment('saldo_pendente', $netAmount);
+            $creatorWallet->increment('saldo', $netAmount);
+            WalletLog::create([
+                'user_id'   => $this->creator->id,
+                'wallet_id' => $creatorWallet->id,
+                'valor'     => $netAmount,
+                'tipo'      => 'ganho_assinatura',
+                'descricao' => "Assinatura de \"{$user->name}\" — comissão de 25% retida pela plataforma.",
+            ]);
 
             // Create subscription
             CreatorSubscription::create([

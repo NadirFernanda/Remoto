@@ -3,6 +3,9 @@
 namespace App\Modules\Payments\Controllers;
 
 use App\Models\Service;
+use App\Models\Wallet;
+use App\Models\WalletLog;
+use App\Services\FeeService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +17,8 @@ class ServiceEscrowController extends Controller
 {
     /**
      * Cliente confirma entrega e libera pagamento para o freelancer.
+     * Distribui automaticamente: freelancer recebe o valor líquido,
+     * plataforma retém a taxa de serviço (10% por defeito).
      */
     public function releasePayment(Request $request, Service $service)
     {
@@ -36,6 +41,35 @@ class ServiceEscrowController extends Controller
             $service->payment_released_at = Carbon::now();
             $service->status = 'completed';
             $service->save();
+
+            // ── Distribute payment to freelancer ──────────────────────────
+            if ($service->freelancer_id && $service->valor > 0) {
+                $feeService = app(FeeService::class);
+                $fee        = $feeService->calculateServiceFee((float) $service->valor);
+                $taxa       = $fee['taxa'];
+                $liquido    = $fee['valor_liquido'];
+
+                // Update service record with calculated values
+                $service->taxa          = $taxa;
+                $service->valor_liquido = $liquido;
+                $service->save();
+
+                // Credit freelancer wallet
+                $freelancerWallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->freelancer_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 0, 'taxa_saque' => 0]
+                );
+                $freelancerWallet->increment('saldo', $liquido);
+
+                $feeRate = $feeService->getServiceFeeRate();
+                WalletLog::create([
+                    'user_id'   => $service->freelancer_id,
+                    'wallet_id' => $freelancerWallet->id,
+                    'valor'     => $liquido,
+                    'tipo'      => 'ganho_servico',
+                    'descricao' => "Pagamento do serviço \"{$service->titulo}\" — comissão de {$feeRate}% retida pela plataforma.",
+                ]);
+            }
 
             $invoicePath = InvoiceService::generate($service);
         });

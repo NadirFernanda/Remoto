@@ -1,4 +1,4 @@
-<div x-data="{ valorSaque: 0, taxa: {{ $taxaSaque }}, minimo: {{ $saqueMinimo }}, saldo: {{ $wallet->saldo ?? 0 }} }">
+<div x-data="{ valorSaque: 0, saldo: {{ $wallet->saldo ?? 0 }} }">
 
     {{-- ── SALDO HEADER ────────────────────────────── --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -32,7 +32,7 @@
             <div class="flex items-center justify-between mb-5">
                 <div>
                     <h2 class="text-base font-bold text-gray-800">Solicitar Saque</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Mínimo Kz {{ number_format($saqueMinimo, 0, ',', '.') }} · Taxa {{ $taxaSaque }}%</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Sem taxa de retirada — comissões já descontadas em cada transação</p>
                 </div>
                 <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
                     <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
@@ -55,9 +55,9 @@
                             type="number"
                             wire:model.live="valorSaque"
                             x-model="valorSaque"
-                            min="{{ $saqueMinimo }}"
+                            min="1"
                             step="100"
-                            placeholder="{{ number_format($saqueMinimo, 0) }}"
+                            placeholder="1000"
                             class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#00baff] focus:ring-1 focus:ring-[#00baff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>
@@ -72,13 +72,9 @@
                         <span>Valor solicitado</span>
                         <span class="font-medium text-gray-800">Kz <span x-text="(+valorSaque || 0).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
                     </div>
-                    <div class="flex justify-between text-gray-600">
-                        <span>Taxa de retirada (<span x-text="taxa"></span>%)</span>
-                        <span class="font-medium text-red-500">− Kz <span x-text="((+valorSaque || 0) * taxa / 100).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
-                    </div>
                     <div class="border-t border-gray-200 pt-2.5 flex justify-between">
                         <span class="font-semibold text-gray-700">Receberá</span>
-                        <span class="font-bold text-green-600 text-base">Kz <span x-text="((+valorSaque || 0) - (+(+valorSaque || 0) * taxa / 100)).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
+                        <span class="font-bold text-green-600 text-base">Kz <span x-text="(+valorSaque || 0).toLocaleString('pt-AO', {minimumFractionDigits:2})"></span></span>
                     </div>
                 </div>
 

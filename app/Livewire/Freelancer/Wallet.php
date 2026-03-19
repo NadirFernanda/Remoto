@@ -11,8 +11,6 @@ class Wallet extends Component
 {
     public $saldo_disponivel = 0;
     public $saldo_pendente = 0;
-    public $saque_minimo = 20000;
-    public $taxa_saque = 20.0;
     public $valor_saque = 0;
     public $mensagem = '';
 
@@ -21,14 +19,12 @@ class Wallet extends Component
         $user = Auth::user();
         $this->saldo_disponivel = $user->wallet->saldo ?? 0;
         $this->saldo_pendente = $user->wallet->saldo_pendente ?? 0;
-        $this->saque_minimo = $user->wallet->saque_minimo ?? 20000;
-        $this->taxa_saque = $user->wallet->taxa_saque ?? 20.0;
     }
 
     public function solicitarSaque()
     {
         $this->validate([
-            'valor_saque' => 'required|numeric|min:' . $this->saque_minimo,
+            'valor_saque' => 'required|numeric|min:1',
         ]);
 
         $user   = Auth::user();
@@ -39,7 +35,8 @@ class Wallet extends Component
             return;
         }
 
-        $valor_liquido = round($this->valor_saque - ($this->valor_saque * $this->taxa_saque / 100), 2);
+        // Saque sem taxa — comissões já são cobradas no momento de cada transação
+        $valor_liquido = round($this->valor_saque, 2);
 
         // Debitar saldo
         $wallet->decrement('saldo', $this->valor_saque);
@@ -50,11 +47,11 @@ class Wallet extends Component
             'wallet_id' => $wallet->id,
             'valor'     => -$this->valor_saque,
             'tipo'      => 'saque_solicitado',
-            'descricao' => "Saque solicitado de {$this->valor_saque} Kz. Líquido após taxa: {$valor_liquido} Kz.",
+            'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz.",
         ]);
 
         $this->saldo_disponivel = $wallet->fresh()->saldo;
-        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado. Receberá " . number_format($valor_liquido, 0, ',', '.') . " Kz após taxa de {$this->taxa_saque}%.";
+        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado com sucesso.";
         $this->valor_saque = 0;
         session()->flash('success', $this->mensagem);
     }

@@ -31,8 +31,8 @@ class UserSeeder extends Seeder
         ], [
             'saldo' => 0,
             'saldo_pendente' => 0,
-            'saque_minimo' => 20000,
-            'taxa_saque' => 20.00,
+            'saque_minimo' => 0,
+            'taxa_saque' => 0,
         ]);
 
         $freelancer = \App\Models\User::updateOrCreate([
@@ -53,8 +53,8 @@ class UserSeeder extends Seeder
         ], [
             'saldo' => 0,
             'saldo_pendente' => 0,
-            'saque_minimo' => 20000,
-            'taxa_saque' => 20.00,
+            'saque_minimo' => 0,
+            'taxa_saque' => 0,
         ]);
     }
 }
