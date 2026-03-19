@@ -137,7 +137,7 @@
             @foreach($imgs->take(3) as $i => $img)
                 <div class="relative overflow-hidden bg-gray-100">
                     <img src="{{ $img->url() }}"
-                         class="w-full object-cover {{ $count === 1 ? 'max-h-96' : 'aspect-square' }}"
+                         class="w-full h-auto object-contain {{ $count > 1 ? 'max-h-72' : '' }}"
                          alt="Imagem {{ $i + 1 }}" loading="lazy">
                     @if($i === 2 && $count > 3)
                         <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -152,7 +152,7 @@
     @elseif(isset($post->type) && $post->type === 'video' && $post->media->where('type','video')->isNotEmpty())
         @php $vid = $post->media->where('type','video')->first(); @endphp
         <div class="bg-black">
-            <video controls preload="metadata" class="w-full max-h-[28rem] mx-auto"
+            <video controls preload="metadata" class="w-full h-auto max-h-[80vh] mx-auto block"
                    poster="{{ $vid->thumbnailUrl() ?? '' }}">
                 <source src="{{ $vid->url() }}" type="{{ $vid->mime_type ?? 'video/mp4' }}">
             </video>
