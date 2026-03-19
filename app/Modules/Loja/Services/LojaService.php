@@ -31,7 +31,7 @@ class LojaService
             throw new \RuntimeException('Saldo insuficiente. Recarregue a sua carteira antes de comprar.');
         }
 
-        $comissao        = round($produto->preco * 0.30, 2);
+        $comissao        = round($produto->preco * 0.20, 2);
         $valorFreelancer = round($produto->preco - $comissao, 2);
 
         DB::transaction(function () use ($user, $wallet, $produto, $comissao, $valorFreelancer) {
@@ -60,7 +60,7 @@ class LojaService
                     'wallet_id' => $freelancerWallet->id,
                     'valor'     => $valorFreelancer,
                     'tipo'      => 'ganho_infoproduto',
-                    'descricao' => "Venda do infoproduto \"{$produto->titulo}\" — comissão de 30% retida.",
+                    'descricao' => "Venda do infoproduto \"{$produto->titulo}\" — comissão de 20% retida.",
                 ]);
             }
 

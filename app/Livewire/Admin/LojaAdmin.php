@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoPatrocinio;
 use App\Models\InfoprodutoCompra;
+use Illuminate\Support\Facades\Storage;
 
 class LojaAdmin extends Component
 {
@@ -16,6 +17,10 @@ class LojaAdmin extends Component
     public string $filtroTipo   = '';
     public string $busca        = '';
     public string $feedback     = '';
+
+    // ─── Product inspection modal ───────────────────────────────────
+    public bool $showInspecao    = false;
+    public ?int $inspecaoId     = null;
 
     public function mount(): void
     {
@@ -29,12 +34,43 @@ class LojaAdmin extends Component
     {
         Infoproduto::findOrFail($id)->update(['status' => 'ativo']);
         $this->feedback = 'Produto aprovado e publicado na Loja.';
+        $this->fecharInspecao();
     }
 
     public function rejeitar(int $id): void
     {
         Infoproduto::findOrFail($id)->update(['status' => 'inativo']);
         $this->feedback = 'Produto rejeitado e ocultado da Loja.';
+        $this->fecharInspecao();
+    }
+
+    // ─── Inspection ─────────────────────────────────────────────────
+
+    public function inspecionar(int $id): void
+    {
+        $this->inspecaoId   = $id;
+        $this->showInspecao = true;
+    }
+
+    public function fecharInspecao(): void
+    {
+        $this->showInspecao = false;
+        $this->inspecaoId   = null;
+    }
+
+    public function downloadArquivoAdmin(int $id)
+    {
+        $produto = Infoproduto::findOrFail($id);
+
+        if (!$produto->arquivo_path || !Storage::disk('private')->exists($produto->arquivo_path)) {
+            $this->feedback = 'Ficheiro do produto não encontrado.';
+            return;
+        }
+
+        return Storage::disk('private')->download(
+            $produto->arquivo_path,
+            $produto->titulo . ' — ' . basename($produto->arquivo_path)
+        );
     }
 
     public function render()
@@ -69,9 +105,15 @@ class LojaAdmin extends Component
                                         ->where('data_fim', '>=', today())->count(),
         ];
 
+        $produtoInspecao = null;
+        if ($this->showInspecao && $this->inspecaoId) {
+            $produtoInspecao = Infoproduto::with('freelancer:id,name,email')->find($this->inspecaoId);
+        }
+
         return view('livewire.admin.loja-admin', [
-            'produtos' => $produtos,
-            'stats'    => $stats,
+            'produtos'        => $produtos,
+            'stats'           => $stats,
+            'produtoInspecao' => $produtoInspecao,
         ])->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão da Loja']);
     }
 }

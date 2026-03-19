@@ -41,7 +41,7 @@
         <div class="text-gray-200 hidden sm:block">|</div>
         <div>
             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Comissão da plataforma</div>
-            <div class="text-lg font-semibold text-gray-700">30% <span class="text-xs text-gray-400 font-normal">por venda</span></div>
+            <div class="text-lg font-semibold text-gray-700">20% <span class="text-xs text-gray-400 font-normal">por venda</span></div>
         </div>
         <div class="text-gray-200 hidden sm:block">|</div>
         <div>

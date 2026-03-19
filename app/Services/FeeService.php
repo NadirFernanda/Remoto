@@ -12,9 +12,9 @@ class FeeService
     public const SETTING_KEY = 'commission_rate';
 
     /**
-     * Taxa fixa da Loja (infoprodutos) — 30% conforme definido em LojaService.
+     * Taxa fixa da Loja (infoprodutos) — 20% conforme definido em LojaService.
      */
-    public const LOJA_FEE_RATE = 0.30;
+    public const LOJA_FEE_RATE = 0.20;
 
     /**
      * Retorna a taxa de comissão de serviços como percentagem (ex: 10 para 10%).

@@ -124,10 +124,14 @@
                     @endauth
                 </div>
 
-                {{-- Commission info --}}
+                {{-- Commission info (only visible to the product owner) --}}
+                @auth
+                @if($produto->freelancer_id === auth()->id())
                 <div class="text-xs text-gray-400 mb-6">
-                    30% do valor retido como comissão da plataforma. O freelancer recebe 70%.
+                    20% do valor retido como comissão da plataforma. O freelancer recebe 80%.
                 </div>
+                @endif
+                @endauth
 
                 {{-- Share buttons --}}
                 <div class="mb-6">

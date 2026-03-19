@@ -242,6 +242,14 @@
                             {{-- Ações --}}
                             <td class="px-4 py-4">
                                 <div class="flex items-center justify-center gap-2">
+                                    {{-- Inspecionar (always visible) --}}
+                                    <button wire:click="inspecionar({{ $produto->id }})"
+                                        class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 transition-all duration-150"
+                                        title="Inspecionar produto">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                                        Inspecionar
+                                    </button>
+
                                     @if($produto->status === 'em_moderacao')
                                         <button wire:click="aprovar({{ $produto->id }})"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-150 shadow-sm shadow-emerald-200">
@@ -303,4 +311,185 @@
         </div>
 
     </div>
+
+    {{-- ══════════════════════════════════════════════════════════════ --}}
+    {{--  MODAL: Inspeção do Produto (Admin)                          --}}
+    {{-- ══════════════════════════════════════════════════════════════ --}}
+    @if($showInspecao && $produtoInspecao)
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4" x-data x-on:keydown.escape.window="$wire.fecharInspecao()">
+
+        {{-- Overlay --}}
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" wire:click="fecharInspecao"></div>
+
+        {{-- Modal Content --}}
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto border border-slate-200">
+
+            {{-- Header --}}
+            <div class="sticky top-0 bg-white z-10 px-6 py-4 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800">Inspeção do Produto</h2>
+                        <p class="text-xs text-slate-400">Verifique a imagem e o conteúdo real do produto</p>
+                    </div>
+                </div>
+                <button wire:click="fecharInspecao" class="p-2 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <div class="p-6 space-y-6">
+
+                {{-- Status badge --}}
+                <div class="flex items-center gap-3">
+                    @if($produtoInspecao->status === 'em_moderacao')
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+                            Aguardando verificação
+                        </span>
+                    @elseif($produtoInspecao->status === 'ativo')
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                            Ativo
+                        </span>
+                    @elseif($produtoInspecao->status === 'inativo')
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                            Rejeitado / Inativo
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                            <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                            {{ $produtoInspecao->statusLabel() }}
+                        </span>
+                    @endif
+
+                    <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-100">
+                        {{ $produtoInspecao->tipoLabel() }}
+                    </span>
+                </div>
+
+                {{-- Product title & freelancer --}}
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800">{{ $produtoInspecao->titulo }}</h3>
+                    <div class="flex items-center gap-2 mt-2 text-sm text-slate-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <span><strong>{{ $produtoInspecao->freelancer->name }}</strong> ({{ $produtoInspecao->freelancer->email }})</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1 text-sm text-slate-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span>Publicado em {{ $produtoInspecao->created_at->format('d/m/Y H:i') }}</span>
+                    </div>
+                    <div class="mt-2">
+                        <span class="text-2xl font-bold text-slate-800">Kz {{ number_format($produtoInspecao->preco, 0, ',', '.') }}</span>
+                        <span class="text-sm text-slate-400 ml-2">·</span>
+                        <span class="text-sm text-slate-500 ml-2">{{ $produtoInspecao->vendas_count }} venda(s)</span>
+                    </div>
+                </div>
+
+                {{-- ── SECTION 1: Cover Image ── --}}
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200">
+                        <h4 class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            Imagem de Capa (o que o cliente vê)
+                        </h4>
+                    </div>
+                    <div class="p-4 bg-white">
+                        @if($produtoInspecao->capa_path)
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produtoInspecao->capa_path) }}"
+                                alt="Capa: {{ $produtoInspecao->titulo }}"
+                                class="w-full max-h-80 object-contain rounded-lg border border-slate-100">
+                        @else
+                            <div class="w-full h-40 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-sm">
+                                Sem imagem de capa
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- ── SECTION 2: Product File (the real content) ── --}}
+                <div class="border border-indigo-200 rounded-xl overflow-hidden">
+                    <div class="bg-indigo-50 px-4 py-2.5 border-b border-indigo-200">
+                        <h4 class="text-sm font-semibold text-indigo-700 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Ficheiro do Produto (conteúdo real vendido)
+                        </h4>
+                    </div>
+                    <div class="p-4 bg-white">
+                        @if($produtoInspecao->arquivo_path)
+                            <div class="flex items-center justify-between p-4 bg-indigo-50/50 rounded-lg border border-indigo-100">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-indigo-100 flex items-center justify-center">
+                                        <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm font-medium text-slate-700">{{ basename($produtoInspecao->arquivo_path) }}</div>
+                                        <div class="text-xs text-slate-400">Ficheiro armazenado no disco privado</div>
+                                    </div>
+                                </div>
+                                <button wire:click="downloadArquivoAdmin({{ $produtoInspecao->id }})"
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition shadow-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                    Fazer Download para Verificação
+                                </button>
+                            </div>
+                            <p class="mt-2 text-xs text-indigo-600/70">
+                                <svg class="w-3.5 h-3.5 inline -mt-0.5 mr-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Descarregue o ficheiro e verifique se corresponde ao título, descrição e imagem de capa. Rejeite caso o conteúdo seja fraudulento.
+                            </p>
+                        @else
+                            <div class="flex items-center gap-3 p-4 bg-red-50 rounded-lg border border-red-200">
+                                <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                <span class="text-sm text-red-700 font-medium">Nenhum ficheiro de produto encontrado. Este produto não possui conteúdo para entregar.</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- ── SECTION 3: Description ── --}}
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <div class="bg-slate-50 px-4 py-2.5 border-b border-slate-200">
+                        <h4 class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                            Descrição do Produto
+                        </h4>
+                    </div>
+                    <div class="p-4 bg-white">
+                        <div class="text-sm text-slate-600 whitespace-pre-line leading-relaxed max-h-60 overflow-y-auto">{{ $produtoInspecao->descricao }}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            {{-- Footer actions --}}
+            <div class="sticky bottom-0 bg-white z-10 px-6 py-4 border-t border-slate-100 rounded-b-2xl flex items-center justify-between gap-3">
+                <button wire:click="fecharInspecao"
+                    class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition">
+                    Fechar
+                </button>
+                <div class="flex items-center gap-2">
+                    @if($produtoInspecao->status === 'em_moderacao' || $produtoInspecao->status === 'inativo')
+                        <button wire:click="aprovar({{ $produtoInspecao->id }})"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            Aprovar Produto
+                        </button>
+                    @endif
+                    @if($produtoInspecao->status === 'em_moderacao' || $produtoInspecao->status === 'ativo')
+                        <button wire:click="rejeitar({{ $produtoInspecao->id }})"
+                            class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-red-100 hover:bg-red-200 text-red-700 transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Rejeitar Produto
+                        </button>
+                    @endif
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @endif
+
 </div>
