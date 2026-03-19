@@ -260,7 +260,7 @@
             <div class="fsp-filter-group">
                 <label class="fsp-filter-label">Disponibilidade</label>
                 <div style="display:flex;flex-direction:column;gap:.38rem;margin-top:.05rem;">
-                    @foreach(['' => ['Qualquer',''], 'disponivel' => ['Disponível','#22c55e'], 'ocupado' => ['Ocupado','#eab308'], 'ferias' => ['Férias','#94a3b8']] as $val => [$label, $color])
+                    @foreach(['' => ['Qualquer',''], 'available' => ['Disponível','#22c55e'], 'busy' => ['Ocupado','#eab308'], 'unavailable' => ['Férias','#94a3b8']] as $val => [$label, $color])
                         <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
                             <input type="radio" wire:model.live="availability" value="{{ $val }}"
                                    style="accent-color:#00baff;width:14px;height:14px;flex-shrink:0;">

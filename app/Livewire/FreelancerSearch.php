@@ -34,7 +34,7 @@ class FreelancerSearch extends Component
     public function updatingSkill()     { $this->resetPage(); }
     public function updatingLanguage()  { $this->resetPage(); }
     public function updatingAvailability() { $this->resetPage(); }
-    public function updatingsort()      { $this->resetPage(); }
+    public function updatingSort()      { $this->resetPage(); }
     public function updatingMinRate()   { $this->resetPage(); }
     public function updatingMaxRate()   { $this->resetPage(); }
     public function updatingMinRating() { $this->resetPage(); }
@@ -80,9 +80,10 @@ class FreelancerSearch extends Component
                 });
             })
             ->when($this->minRating > 0, function ($q) {
-                $q->whereHas('reviewsReceived', function ($r) {
-                    $r->havingRaw('AVG(rating) >= ?', [$this->minRating]);
-                });
+                $q->whereRaw(
+                    '(SELECT COALESCE(AVG(rating), 0) FROM reviews WHERE target_id = users.id) >= ?',
+                    [(float) $this->minRating]
+                );
             });
 
         // Sorting
