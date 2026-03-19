@@ -25,7 +25,7 @@ class Listing extends Component
     public function render()
     {
         $query = User::where('role', 'freelancer')
-            ->with(['freelancerProfile', 'portfolios'])
+            ->with(['freelancerProfile', 'portfolios', 'reviewsReceived'])
             ->when($this->search, function ($q) {
                 $q->where(function ($sub) {
                     $sub->where('name', 'ilike', "%{$this->search}%")

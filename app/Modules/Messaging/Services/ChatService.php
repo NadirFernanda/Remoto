@@ -50,6 +50,27 @@ class ChatService
         // Broadcast to all participants on the private chat channel
         broadcast(new MessageSent($service, $message->load('user')));
 
+        // Notify the other participant
+        $recipientId = null;
+        if ($sender->id === $service->cliente_id) {
+            $recipientId = $service->freelancer_id;
+        } elseif ($sender->id === $service->freelancer_id) {
+            $recipientId = $service->cliente_id;
+        } else {
+            // candidate or other participant → notify the client
+            $recipientId = $service->cliente_id;
+        }
+
+        if ($recipientId) {
+            \App\Models\Notification::create([
+                'user_id'    => $recipientId,
+                'service_id' => $service->id,
+                'type'       => 'nova_mensagem',
+                'title'      => 'Nova mensagem',
+                'message'    => $sender->name . ' enviou uma mensagem no projecto "' . $service->titulo . '".',
+            ]);
+        }
+
         return $message;
     }
 
