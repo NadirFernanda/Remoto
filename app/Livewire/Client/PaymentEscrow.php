@@ -16,8 +16,10 @@ class PaymentEscrow extends Component
 {
     use UserSessionTrait;
     public float $valor = 10000;
-    public float $taxa = 10.0;
-    public float $valor_liquido = 0;
+    public float $taxa_cliente = 0.0;   // 10% charged to client (on top of project price)
+    public float $valor_total = 0.0;    // total the client actually pays
+    public float $taxa = 0.0;           // 20% deducted from freelancer
+    public float $valor_liquido = 0;    // what the freelancer receives
 
     // Método de pagamento
     public $payment_method = 'card'; // 'card', 'paypal', 'express', 'bank'
@@ -65,9 +67,11 @@ class PaymentEscrow extends Component
             $this->valor = (float)request()->query('valor', 10000);
         }
 
-        // Taxa lida dos PlatformSettings (configurável pelo admin)
+        // Calcula taxas duais: 10% do cliente + 20% do freelancer
         $fee = (new FeeService())->calculateServiceFee($this->valor);
-        $this->taxa = $fee['taxa'];
+        $this->taxa_cliente  = $fee['taxa_cliente'];
+        $this->valor_total   = $fee['total_cliente'];
+        $this->taxa          = $fee['taxa'];
         $this->valor_liquido = $fee['valor_liquido'];
     }
 

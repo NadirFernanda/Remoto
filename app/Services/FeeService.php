@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\PlatformSetting;
-
 class FeeService
 {
     /**
-     * Chave usada no PlatformSetting para a taxa de comissão de serviços.
+     * Chave de referência para taxa de serviços (mantida para compatibilidade).
      */
     public const SETTING_KEY = 'commission_rate';
 
@@ -22,26 +20,34 @@ class FeeService
     public const SUBSCRIPTION_FEE_RATE = 0.25;
 
     /**
-     * Retorna a taxa de comissão de serviços como percentagem (ex: 10 para 10%).
-     * Lê do PlatformSetting ou usa 10% como fallback.
+     * Taxa cobrada ao Cliente nos projetos freelancer (10% sobre o valor do projeto).
      */
-    public function getServiceFeeRate(): float
-    {
-        return (float) PlatformSetting::get(self::SETTING_KEY, 10);
-    }
+    public const SERVICE_CLIENT_FEE_RATE = 0.10;
 
     /**
-     * Calcula a taxa e o valor líquido para um serviço.
+     * Taxa deduzida ao Freelancer nos projetos (20% do valor do projeto).
+     */
+    public const SERVICE_FREELANCER_FEE_RATE = 0.20;
+
+    /**
+     * Calcula as taxas duais dos projetos freelancer:
+     *  - taxa_cliente: 10% cobrado ao cliente (adicionado ao preço)
+     *  - total_cliente: total que o cliente paga (valor + taxa_cliente)
+     *  - taxa: 20% deduzido do freelancer
+     *  - valor_liquido: o que o freelancer recebe (valor - taxa)
      *
-     * @return array{taxa: float, valor_liquido: float}
+     * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
     public function calculateServiceFee(float $valor): array
     {
-        $rate          = $this->getServiceFeeRate() / 100;
-        $taxa          = round($valor * $rate, 2);
+        $taxa_cliente  = round($valor * self::SERVICE_CLIENT_FEE_RATE, 2);
+        $total_cliente = round($valor + $taxa_cliente, 2);
+        $taxa          = round($valor * self::SERVICE_FREELANCER_FEE_RATE, 2);
         $valor_liquido = round($valor - $taxa, 2);
 
         return [
+            'taxa_cliente'  => $taxa_cliente,
+            'total_cliente' => $total_cliente,
             'taxa'          => $taxa,
             'valor_liquido' => $valor_liquido,
         ];

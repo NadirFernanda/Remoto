@@ -28,9 +28,9 @@
     padding: 0.875rem 1.25rem 1.5rem;
 }
 
-/* Mobile sidebar toggle — hidden on desktop */
+/* Sidebar toggle — always visible on all screen sizes */
 .dash-sidebar-toggle {
-    display: none;
+    display: flex;
     position: fixed;
     bottom: 1.25rem;
     right: 1.25rem;
@@ -57,8 +57,17 @@
     z-index: 40;
 }
 
+/* Desktop: collapse sidebar when wrapper has sidebar-collapsed class */
+@media (min-width: 769px) {
+    .dash-sidebar-collapsed .dash-sidebar {
+        display: none;
+    }
+    .dash-sidebar-collapsed .dash-main {
+        padding-left: 1.25rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .dash-sidebar-toggle { display: flex; }
     .dash-overlay { display: block; }
 
     .dash-sidebar {

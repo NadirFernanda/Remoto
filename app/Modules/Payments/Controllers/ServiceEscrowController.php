@@ -44,10 +44,9 @@ class ServiceEscrowController extends Controller
 
             // ── Distribute payment to freelancer ──────────────────────────
             if ($service->freelancer_id && $service->valor > 0) {
-                $feeService = app(FeeService::class);
-                $fee        = $feeService->calculateServiceFee((float) $service->valor);
-                $taxa       = $fee['taxa'];
-                $liquido    = $fee['valor_liquido'];
+                // 20% is deducted from the freelancer's share
+                $taxa    = round((float) $service->valor * FeeService::SERVICE_FREELANCER_FEE_RATE, 2);
+                $liquido = round((float) $service->valor - $taxa, 2);
 
                 // Update service record with calculated values
                 $service->taxa          = $taxa;
@@ -61,13 +60,12 @@ class ServiceEscrowController extends Controller
                 );
                 $freelancerWallet->increment('saldo', $liquido);
 
-                $feeRate = $feeService->getServiceFeeRate();
                 WalletLog::create([
                     'user_id'   => $service->freelancer_id,
                     'wallet_id' => $freelancerWallet->id,
                     'valor'     => $liquido,
                     'tipo'      => 'ganho_servico',
-                    'descricao' => "Pagamento do serviço \"{$service->titulo}\" — comissão de {$feeRate}% retida pela plataforma.",
+                    'descricao' => "Pagamento do serviço \"{$service->titulo}\" — comissão de 20% retida pela plataforma.",
                 ]);
             }
 
