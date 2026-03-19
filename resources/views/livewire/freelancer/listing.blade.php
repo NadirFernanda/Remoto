@@ -23,12 +23,13 @@
     letter-spacing: .06em;text-transform: uppercase;margin-bottom: .9rem;
 }
 .fl-hero h1 {
-    font-size: clamp(1.7rem, 4vw, 2.5rem);font-weight: 900;
-    color: #fff;margin: 0 0 .55rem;line-height: 1.15;
+    font-size: clamp(1.7rem, 4vw, 2.5rem) !important;font-weight: 900 !important;
+    color: #fff !important;margin: 0 0 .55rem !important;line-height: 1.15 !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,.4) !important;
 }
 .fl-hero-sub {
-    font-size: .95rem;color: rgba(255,255,255,.6);
-    margin: 0 auto 1.6rem;max-width: 500px;
+    font-size: .95rem !important;color: rgba(255,255,255,.75) !important;
+    margin: 0 auto 1.6rem !important;max-width: 500px !important;
 }
 .fl-searchbar {
     max-width: 660px;margin: 0 auto;display: flex;gap: .5rem;position:relative;
@@ -59,8 +60,8 @@
     display: flex;justify-content: center;gap: 2.25rem;
     margin-top: 1.6rem;flex-wrap: wrap;
 }
-.fl-hero-stat strong { display: block;font-size: 1.25rem;font-weight: 900;color: #fff; }
-.fl-hero-stat span   { font-size: .72rem;color: rgba(255,255,255,.48); }
+.fl-hero-stat strong { display: block !important;font-size: 1.25rem !important;font-weight: 900 !important;color: #fff !important; }
+.fl-hero-stat span   { font-size: .72rem !important;color: rgba(255,255,255,.65) !important; }
 /* ── Body ─────────────────────────────────────────────── */
 .fl-body {
     max-width: 1220px;margin: 0 auto;
@@ -161,8 +162,8 @@
         <svg width="8" height="8" fill="currentColor" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
         Profissionais verificados
     </div>
-    <h1>Freelancers Qualificados</h1>
-    <p class="fl-hero-sub">Encontre o profissional ideal para o seu projecto</p>
+    <h1 style="color:#fff !important;text-shadow:0 1px 8px rgba(0,0,0,.4);">Freelancers Qualificados</h1>
+    <p class="fl-hero-sub" style="color:rgba(255,255,255,.8) !important;">Encontre o profissional ideal para o seu projecto</p>
 
     {{-- Search bar --}}
     <div class="fl-searchbar">

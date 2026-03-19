@@ -26,11 +26,12 @@
     letter-spacing: .06em;text-transform: uppercase;margin-bottom: .9rem;
 }
 .fsp-hero h1 {
-    font-size: clamp(1.7rem, 4vw, 2.5rem);font-weight: 900;
-    color: #fff;margin: 0 0 .55rem;line-height: 1.15;
+    font-size: clamp(1.7rem, 4vw, 2.5rem);font-weight: 900 !important;
+    color: #fff !important;margin: 0 0 .55rem;line-height: 1.15;
+    text-shadow: 0 1px 8px rgba(0,0,0,.4);
 }
 .fsp-hero-sub {
-    font-size: .95rem;color: rgba(255,255,255,.6);
+    font-size: .95rem;color: rgba(255,255,255,.75) !important;
     margin: 0 auto 1.6rem;max-width: 500px;
 }
 /* Search bar in hero */
@@ -195,8 +196,8 @@
         <svg width="8" height="8" fill="currentColor" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5"/></svg>
         Profissionais verificados
     </div>
-    <h1>Encontre o Freelancer ideal</h1>
-    <p class="fsp-hero-sub">Habilidades, avaliações e disponibilidade em tempo real</p>
+    <h1 style="color:#fff !important;text-shadow:0 1px 8px rgba(0,0,0,.4);">Encontre o Freelancer ideal</h1>
+    <p class="fsp-hero-sub" style="color:rgba(255,255,255,.8) !important;">Habilidades, avaliações e disponibilidade em tempo real</p>
     <div class="fsp-searchbar">
         <svg class="fsp-searchbar-icon" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35"/>
