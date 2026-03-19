@@ -7,24 +7,17 @@
     <div class="space-y-2">
         @forelse($notifications as $notification)
             @php
-                $url = '#';
-                if ($notification->service_id) {
-                    $url = in_array($notification->type, ['service_chosen','delivery_approved','revision_requested'])
-                        ? route('freelancer.service.delivery', $notification->service_id)
-                        : route('freelancer.service.review', $notification->service_id);
-                }
                 $dotColor = $notification->read ? 'bg-gray-200' : 'bg-[#00baff]';
                 $typeColor = match($notification->type) {
-                    'service_chosen'     => 'bg-green-50 border-green-100',
-                    'service_rejected'   => 'bg-red-50 border-red-100',
-                    'delivery_approved'  => 'bg-green-50 border-green-100',
-                    'revision_requested' => 'bg-yellow-50 border-yellow-100',
-                    'novo_projeto'       => 'bg-blue-50 border-blue-100',
-                    'nova_mensagem'      => 'bg-purple-50 border-purple-100',
-                    default              => 'bg-gray-50 border-gray-100',
+                    'service_chosen', 'delivery_approved', 'payment_released', 'saque_aprovado', 'refund_approved' => 'bg-green-50 border-green-100',
+                    'service_rejected', 'saque_rejeitado', 'refund_rejected', 'project_cancelled'                => 'bg-red-50 border-red-100',
+                    'revision_requested', 'dispute_admin_reply', 'dispute_resolved'                              => 'bg-yellow-50 border-yellow-100',
+                    'novo_projeto', 'proposal_received', 'delivery_submitted', 'project_invite', 'direct_invite' => 'bg-blue-50 border-blue-100',
+                    'nova_mensagem'                                                                               => 'bg-purple-50 border-purple-100',
+                    default                                                                                       => 'bg-gray-50 border-gray-100',
                 };
             @endphp
-            <a href="{{ $url }}"
+            <a href="{{ $notification->getUrl() }}"
                class="flex items-start gap-3 px-4 py-3.5 rounded-xl border {{ $typeColor }} hover:opacity-80 transition {{ $notification->read ? 'opacity-70' : '' }}">
                 <span class="mt-2 w-2.5 h-2.5 flex-shrink-0 rounded-full {{ $dotColor }}"></span>
                 <div class="flex-1 min-w-0">

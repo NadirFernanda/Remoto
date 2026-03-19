@@ -19,4 +19,51 @@ class Notification extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Resolve the destination URL for this notification,
+     * so clicking it takes the user to the right place.
+     */
+    public function getUrl(): string
+    {
+        $sid = $this->service_id;
+
+        try {
+            return match($this->type) {
+                // ── Freelancer receives ──────────────────────────────
+                'service_chosen'       => $sid ? route('freelancer.service.delivery', $sid) : route('freelancer.projects'),
+                'revision_requested'   => $sid ? route('freelancer.service.delivery', $sid) : route('freelancer.projects'),
+                'delivery_approved'    => route('freelancer.wallet'),
+                'payment_released'     => route('freelancer.wallet'),
+                'saque_aprovado'       => route('freelancer.wallet'),
+                'saque_rejeitado'      => route('freelancer.wallet'),
+                'service_rejected'     => route('freelancer.proposals'),
+                'project_cancelled'    => route('freelancer.projects'),
+                'novo_projeto'         => route('freelancer.available-projects'),
+                'project_invite'       => route('freelancer.proposals'),
+                'direct_invite'        => route('freelancer.proposals'),
+                'nova_mensagem'        => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+
+                // ── Client receives ──────────────────────────────────
+                'proposal_received'    => route('client.projects'),
+                'proposal_accepted'    => route('client.projects'),
+                'proposal_rejected'    => route('client.projects'),
+                'delivery_submitted'   => route('client.projects'),
+                'refund_processed'     => route('client.refunds'),
+                'refund_approved'      => route('client.refunds'),
+                'refund_rejected'      => route('client.refunds'),
+                'moderation_requested' => route('client.projects'),
+
+                // ── Both sides (dispute) ─────────────────────────────
+                'dispute_admin_reply'   => $sid ? route('service.dispute', $sid) : '#',
+                'dispute_opened'        => $sid ? route('service.dispute', $sid) : '#',
+                'dispute_opened_admin'  => route('admin.disputes'),
+                'dispute_resolved'      => $sid ? route('service.dispute', $sid) : '#',
+
+                default => '#',
+            };
+        } catch (\Throwable) {
+            return '#';
+        }
+    }
 }

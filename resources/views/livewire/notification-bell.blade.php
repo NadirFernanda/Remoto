@@ -38,23 +38,16 @@
         <div class="max-h-80 overflow-y-auto divide-y divide-gray-50">
             @forelse($recent as $notif)
                 @php
-                    $url = '#';
-                    if (!empty($notif['service_id'])) {
-                        $url = in_array($notif['type'], ['service_chosen','delivery_approved','revision_requested'])
-                            ? route('freelancer.service.delivery', $notif['service_id'])
-                            : route('freelancer.service.review', $notif['service_id']);
-                    }
                     $icon = match($notif['type'] ?? '') {
-                        'service_chosen'       => 'text-green-500',
-                        'novo_projeto'         => 'text-blue-500',
-                        'service_rejected'     => 'text-red-400',
-                        'delivery_approved'    => 'text-green-500',
-                        'revision_requested'   => 'text-yellow-500',
-                        'nova_mensagem'        => 'text-purple-500',
-                        default                => 'text-[#00baff]',
+                        'service_chosen', 'delivery_approved', 'payment_released', 'saque_aprovado' => 'text-green-500',
+                        'novo_projeto', 'proposal_received', 'delivery_submitted'                   => 'text-blue-500',
+                        'service_rejected', 'saque_rejeitado', 'refund_rejected'                    => 'text-red-400',
+                        'revision_requested', 'dispute_admin_reply', 'dispute_resolved'             => 'text-yellow-500',
+                        'nova_mensagem', 'direct_invite', 'project_invite'                          => 'text-purple-500',
+                        default                                                                     => 'text-[#00baff]',
                     };
                 @endphp
-                <a href="{{ $url }}"
+                <a href="{{ $notif['url'] }}"
                    wire:click="markRead({{ $notif['id'] }})"
                    class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition {{ $notif['read'] ? 'opacity-70' : '' }}">
                     <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full {{ $notif['read'] ? 'bg-gray-200' : 'bg-[#00baff]' }}"></span>

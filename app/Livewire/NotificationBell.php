@@ -36,6 +36,7 @@ class NotificationBell extends Component
                 'type'       => $n->type,
                 'read'       => (bool) $n->read,
                 'service_id' => $n->service_id,
+                'url'        => $n->getUrl(),
                 'created_at' => $n->created_at->diffForHumans(),
             ])
             ->toArray();
