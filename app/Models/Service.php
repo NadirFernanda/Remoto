@@ -26,6 +26,9 @@ class Service extends Model
         'status',
         'is_payment_released',
         'payment_released_at',
+        'valor_ajuste',
+        'valor_ajuste_taxa',
+        'valor_ajuste_pago',
     ];
 
     public function cliente()

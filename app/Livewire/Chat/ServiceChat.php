@@ -5,6 +5,9 @@ namespace App\Livewire\Chat;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
+use App\Models\Wallet;
+use App\Models\WalletLog;
+use App\Models\Notification;
 use App\Modules\Messaging\Services\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -18,6 +21,10 @@ class ServiceChat extends Component
     public $mensagem = '';
     public $chatFile = null;
     public $chat_bloqueado = true;
+
+    // ── Inserir Valor modal ──────────────────────────────────────────────────
+    public $showValorModal = false;
+    public $novoValorTotal = '';
 
     public function mount(Service $service)
     {
@@ -47,6 +54,141 @@ class ServiceChat extends Component
         if (auth()->check()) {
             app(ChatService::class)->markRead($service, auth()->user());
         }
+    }
+
+    // ── Computed helpers ─────────────────────────────────────────────────────
+
+    /** Breakdown do extra: extra, taxa (10%), total_cliente */
+    public function getExtraBreakdownProperty(): array
+    {
+        $novo  = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
+        $atual = (float) $this->service->valor;
+        $extra = round(max(0.0, $novo - $atual), 2);
+        $taxa  = round($extra * 0.10, 2);
+        return [
+            'atual'         => $atual,
+            'novo'          => $novo,
+            'extra'         => $extra,
+            'taxa'          => $taxa,
+            'total_cliente' => round($extra + $taxa, 2),
+        ];
+    }
+
+    public function getIsClienteProperty(): bool
+    {
+        return auth()->check() && auth()->id() === $this->service->cliente_id;
+    }
+
+    public function getMostrarBotaoValorProperty(): bool
+    {
+        return $this->isCliente
+            && !$this->chat_bloqueado
+            && in_array($this->service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+    }
+
+    // ── Acções do modal ──────────────────────────────────────────────────────
+
+    public function abrirModalValor(): void
+    {
+        $this->resetErrorBag();
+        $this->novoValorTotal = '';
+
+        // Pré-preencher com o proposal_value do candidato mais alto acima do valor actual
+        $candidate = $this->service->candidates()
+            ->whereNotNull('proposal_value')
+            ->where('proposal_value', '>', $this->service->valor)
+            ->orderByDesc('proposal_value')
+            ->first();
+
+        if ($candidate) {
+            $this->novoValorTotal = (string) $candidate->proposal_value;
+        }
+
+        $this->showValorModal = true;
+    }
+
+    public function fecharModalValor(): void
+    {
+        $this->showValorModal = false;
+        $this->novoValorTotal = '';
+        $this->resetErrorBag();
+    }
+
+    public function pagarValorExtra(): void
+    {
+        if (!$this->isCliente) {
+            $this->addError('novoValorTotal', 'Apenas o cliente pode processar pagamentos.');
+            return;
+        }
+
+        $this->validate([
+            'novoValorTotal' => 'required|numeric|min:1',
+        ], [
+            'novoValorTotal.required' => 'Indique o novo valor total acordado.',
+            'novoValorTotal.numeric'  => 'O valor deve ser numérico.',
+            'novoValorTotal.min'      => 'O valor deve ser maior que zero.',
+        ]);
+
+        $service = $this->service;
+        $novo    = round((float) $this->novoValorTotal, 2);
+        $atual   = round((float) $service->valor, 2);
+
+        if ($novo <= $atual) {
+            $this->addError('novoValorTotal', 'O novo valor (' . number_format($novo, 2, ',', '.') . ' Kz) deve ser superior ao valor actual (' . number_format($atual, 2, ',', '.') . ' Kz).');
+            return;
+        }
+
+        $extra         = round($novo - $atual, 2);
+        $taxa          = round($extra * 0.10, 2);
+        $total_cliente = round($extra + $taxa, 2);
+
+        $clientWallet = Wallet::firstOrCreate(
+            ['user_id' => auth()->id()],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+        );
+
+        if ((float) $clientWallet->saldo < $total_cliente) {
+            $this->addError(
+                'novoValorTotal',
+                'Saldo insuficiente. Precisas de ' . number_format($total_cliente, 2, ',', '.') . ' Kz mas tens apenas ' . number_format($clientWallet->saldo, 2, ',', '.') . ' Kz disponíveis.'
+            );
+            return;
+        }
+
+        // Processar débito e escrow
+        $clientWallet->decrement('saldo', $total_cliente);
+        $clientWallet->increment('saldo_pendente', $extra);
+
+        WalletLog::create([
+            'user_id'   => auth()->id(),
+            'wallet_id' => $clientWallet->id,
+            'valor'     => -$total_cliente,
+            'tipo'      => 'escrow_ajuste',
+            'descricao' => 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)',
+        ]);
+
+        // Actualizar serviço
+        $service->valor              = $novo;
+        $service->valor_liquido      = round($novo * 0.80, 2);
+        $service->valor_ajuste       = $extra;
+        $service->valor_ajuste_taxa  = $taxa;
+        $service->valor_ajuste_pago  = true;
+        $service->save();
+
+        // Notificar freelancer
+        if ($service->freelancer_id) {
+            Notification::create([
+                'user_id'    => $service->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'payment_adjustment',
+                'title'      => 'Pagamento adicional recebido',
+                'message'    => 'O cliente pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.',
+            ]);
+        }
+
+        $this->showValorModal = false;
+        $this->novoValorTotal = '';
+        session()->flash('chat_success', 'Pagamento de ' . number_format($total_cliente, 2, ',', '.') . ' Kz processado com sucesso!');
     }
 
     public function updatedChatFile()

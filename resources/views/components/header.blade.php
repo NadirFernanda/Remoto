@@ -15,6 +15,7 @@
                 <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="site-logo">
             </a>
 
+            @guest
             <nav class="nav-desktop" style="align-items:center;gap:0.25rem;margin-left:0;">
                 {{-- ============================================================ --}}
                 {{-- DROPDOWN 1: CONTRATAR --}}
@@ -395,6 +396,7 @@
                     </div>
                 </div>
             </nav>
+            @endguest
         </div>
 
         <!-- Direita: Botões -->
@@ -404,35 +406,94 @@
                 <a href="/register" class="nav-link">Registo</a>
                 <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
             @else
-                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
-                <div style="display:flex;align-items:center;gap:.75rem;">
+                {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
+                <div style="display:flex;align-items:center;gap:.625rem;">
+                    {{-- Ícone Mensagens --}}
+                    <a href="{{ in_array(auth()->user()->activeRole(), ['freelancer']) ? route('freelancer.dashboard') : route('client.dashboard') }}"
+                       title="Mensagens"
+                       style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e2e8f0;transition:background .15s,border-color .15s;text-decoration:none;"
+                       onmouseover="this.style.background='rgba(0,186,255,.13)';this.style.borderColor='rgba(0,186,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.08)'">
+                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    </a>
+                    {{-- Notificações --}}
                     <livewire:notification-bell />
+                    {{-- Publicar: Projecto + Conteúdo --}}
+                    <div x-data="{open:false}" class="relative">
+                        <button @click="open = !open"
+                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
+                            Publicar
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :class="open?'rotate-180':''" style="transition:transform .15s;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" @click.outside="open = false" x-cloak
+                             class="absolute right-0 mt-2 rounded-xl z-50"
+                             style="width:230px;background:#141928;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);padding:.625rem;">
+                            <a href="{{ route('client.projects') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(255,45,85,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#ff2d55" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Projecto</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Publique um novo projecto</span>
+                                </span>
+                            </a>
+                            <a href="{{ route('social.create') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(0,186,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#00baff" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Conteúdo</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Publique um post ou artigo</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    {{-- Troca de módulo --}}
                     @if(auth()->user()->canSwitchRole())
                         <form method="POST" action="{{ route('switch.role') }}" class="inline">
                             @csrf
-                            <button type="submit" class="nav-link" style="display:flex;align-items:center;gap:.35rem;" title="Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                                <span>{{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}</span>
+                            <button type="submit"
+                                    style="display:flex;align-items:center;gap:.4rem;padding:.45rem .875rem;border-radius:.6875rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#e2e8f0;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .15s,border-color .15s;"
+                                    onmouseover="this.style.background='rgba(0,186,255,.12)';this.style.borderColor='rgba(0,186,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.1)'"
+                                    title="Mudar para modo {{ auth()->user()->activeRole() === 'freelancer' ? 'Cliente' : 'Freelancer' }}">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                                {{ auth()->user()->activeRole() === 'freelancer' ? 'Modo Cliente' : 'Modo Freelancer' }}
                             </button>
                         </form>
                     @endif
+                    {{-- Avatar / Menu do utilizador --}}
                     <div x-data="{open:false}" class="relative">
-                        <button @click="open = !open" class="nav-link" style="display:flex;align-items:center;gap:.5rem;margin-left:0;">
+                        <button @click="open = !open"
+                                style="display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem .3rem .3rem;border-radius:2rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);cursor:pointer;transition:background .15s;"
+                                onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
                             <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}';">
-                            <span>{{ auth()->user()->name }}</span>
+                            <span style="font-size:.82rem;font-weight:600;color:#e2e8f0;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ auth()->user()->name }}</span>
+                            <svg width="13" height="13" fill="none" stroke="#94a3b8" stroke-width="2.5" viewBox="0 0 24 24" :class="open?'rotate-180':''" style="transition:transform .15s;margin-right:.25rem;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div x-show="open" @click.outside="open = false" x-cloak class="absolute right-0 mt-2 w-48 bg-white rounded-lg py-2">
+                        <div x-show="open" @click.outside="open = false" x-cloak
+                             class="absolute right-0 mt-2 w-52 rounded-xl py-2 shadow-xl"
+                             style="background:#141928;border:1px solid rgba(255,255,255,.08);">
+                            <div style="padding:.5rem 1rem .375rem;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:.375rem;">
+                                <p style="font-size:.8rem;font-weight:700;color:#f1f5f9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ auth()->user()->name }}</p>
+                                <p style="font-size:.7rem;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ auth()->user()->email }}</p>
+                            </div>
                             @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
-                                <a href="{{ route('client.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
+                                <a href="{{ route('client.dashboard') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Dashboard</a>
                             @elseif(auth()->user()->activeRole() === 'freelancer')
-                                <a href="{{ route('freelancer.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
+                                <a href="{{ route('freelancer.dashboard') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Dashboard</a>
                             @else
-                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Dashboard</a>
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Dashboard</a>
                             @endif
-                            <a href="{{ route('freelancer.notifications') }}" class="block px-4 py-2 text-sm hover:bg-gray-50">Notificações</a>
+                            <a href="{{ route('freelancer.notifications') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Notificações</a>
+                            <div style="border-top:1px solid rgba(255,255,255,.07);margin:.375rem 0;"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Sair</button>
+                                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#f87171;">Sair</button>
                             </form>
                         </div>
                     </div>
@@ -441,7 +502,11 @@
         </div>
 
         <div class="mobile-nav flex items-center gap-3">
-            <a href="/register" class="mobile-cta btn-primary">Registo</a>
+            @guest
+                <a href="/register" class="mobile-cta btn-primary">Registo</a>
+            @else
+                <livewire:notification-bell />
+            @endguest
             <button @click="open = !open" class="p-2 rounded-md text-white bg-[#00baff]/20 border border-white/20 hover:bg-[#00baff]/30 transition">
                 <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -455,6 +520,7 @@
 
     <div x-show="open" x-transition class="px-4 pb-4 md:hidden">
         <div class="mobile-menu-dropdown flex flex-col gap-1 bg-[#071422] border border-white/10 rounded-xl p-3 mt-2 shadow-xl">
+            @guest
             <!-- Accordion: Contratar -->
             <div x-data="{sub:false}">
                 <button @click="sub=!sub" class="nav-link w-full text-left flex items-center justify-between">
@@ -526,17 +592,20 @@
             </div>
             <div class="border-t border-white/10 my-1"></div>
             <a href="#depoimentos" class="nav-link">Depoimentos</a>
+            @endguest
             @guest
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link btn-primary">Registo</a>
             @else
-                <div class="flex items-center gap-3 px-2 py-2 border rounded-lg">
-                    <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm">
-                    <div class="flex-1">
-                        <div class="font-semibold">{{ auth()->user()->name }}</div>
-                        <div class="text-xs text-gray-400">{{ auth()->user()->email }}</div>
+                {{-- Card do utilizador --}}
+                <div class="flex items-center gap-3 px-2 py-2 border border-white/10 rounded-xl mb-1">
+                    <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
+                    <div class="flex-1 min-w-0">
+                        <div class="font-semibold text-white text-sm truncate">{{ auth()->user()->name }}</div>
+                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
                     </div>
                 </div>
+                {{-- Dashboard --}}
                 @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
                     <a href="{{ route('client.dashboard') }}" class="nav-link">Dashboard</a>
                 @elseif(auth()->user()->activeRole() === 'freelancer')
@@ -544,21 +613,32 @@
                 @else
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
                 @endif
+                {{-- Publicar --}}
+                <div class="border-t border-white/10 my-1"></div>
+                <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pb-1">Publicar</p>
+                <a href="{{ route('client.projects') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    Projecto
+                </a>
+                <a href="{{ route('social.create') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                    Conteúdo
+                </a>
+                {{-- Troca de módulo --}}
                 @if(auth()->user()->canSwitchRole())
+                    <div class="border-t border-white/10 my-1"></div>
                     <form method="POST" action="{{ route('switch.role') }}">
                         @csrf
-                        <button type="submit" class="nav-link text-left text-cyan-400">
-                            Mudar para {{ auth()->user()->switchableRole() === 'freelancer' ? 'Freelancer' : 'Cliente' }}
+                        <button type="submit" class="nav-link text-left w-full flex items-center gap-2 text-cyan-400">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                            {{ auth()->user()->activeRole() === 'freelancer' ? 'Mudar para Modo Cliente' : 'Mudar para Modo Freelancer' }}
                         </button>
                     </form>
                 @endif
-                <div class="flex items-center gap-2 px-2">
-                    <livewire:notification-bell />
-                    <span class="text-sm text-white/70">Notificações</span>
-                </div>
+                <div class="border-t border-white/10 my-1"></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="nav-link text-left">Sair</button>
+                    <button type="submit" class="nav-link text-left w-full text-red-400">Sair</button>
                 </form>
             @endguest
         </div>

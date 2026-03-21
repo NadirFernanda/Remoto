@@ -22,7 +22,26 @@
             @else
                 <span class="flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-green-300 inline-block"></span> Activo</span>
             @endif
+
+            @if($mostrarBotaoValor)
+                <button wire:click="abrirModalValor"
+                        style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#ff2d55;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;flex-shrink:0;white-space:nowrap;box-shadow:0 2px 8px rgba(255,45,85,.45);"
+                        title="Inserir valor adicional acordado com o freelancer">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
+                    </svg>
+                    Inserir Valor
+                </button>
+            @endif
         </div>
+
+        {{-- Flash: Inserir Valor success --}}
+        @if(session('chat_success'))
+            <div class="px-4 py-2 text-sm text-green-700 bg-green-50 border-b border-green-100 flex items-center gap-2 flex-shrink-0">
+                <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                {{ session('chat_success') }}
+            </div>
+        @endif
 
         {{-- Messages area --}}
         <div
@@ -211,6 +230,74 @@
             @endif
         </div>
     </div>
+
+    {{-- Modal: Inserir Valor --}}
+    @if($showValorModal)
+    @php
+        $bd = $this->extraBreakdown;
+    @endphp
+    <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
+         wire:click.self="fecharModalValor">
+        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" wire:click.stop>
+
+            {{-- Modal header --}}
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Inserir Valor Acordado</h3>
+                <button wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            {{-- Valor actual --}}
+            <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
+                <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+            </div>
+
+            {{-- Input: novo valor total --}}
+            <div style="margin-bottom:.75rem;">
+                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Novo valor total acordado (Kz)</label>
+                <input wire:model.live="novoValorTotal"
+                       type="number"
+                       min="0"
+                       step="0.01"
+                       placeholder="Ex.: 80000"
+                       style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                       onfocus="this.style.borderColor='#0ea5e9'"
+                       onblur="this.style.borderColor='#e2e8f0'">
+                @error('novoValorTotal')
+                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Breakdown table (live) --}}
+            @if($bd['extra'] > 0)
+            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;"><span>Valor extra para o freelancer</span><span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span></div>
+                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;"><span>Taxa de plataforma (10%)</span><span style="font-weight:600;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span></div>
+                <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
+                <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;"><span>Total a pagar agora</span><span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span></div>
+            </div>
+            @endif
+
+            {{-- Actions --}}
+            <div style="display:flex;gap:.75rem;">
+                <button wire:click="fecharModalValor"
+                        style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                    Cancelar
+                </button>
+                <button wire:click="pagarValorExtra"
+                        wire:loading.attr="disabled"
+                        wire:target="pagarValorExtra"
+                        style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
+                    <span wire:loading.remove wire:target="pagarValorExtra">Confirmar Pagamento</span>
+                    <span wire:loading wire:target="pagarValorExtra">A processar...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
 </div>
 @script
 <script>
