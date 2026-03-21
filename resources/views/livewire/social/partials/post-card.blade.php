@@ -102,25 +102,78 @@
     {{-- ── Text content ─────────────────────────────────────────────────────── --}}
 
     @if($isCreatorPost && !$isSubscribed)
+    {{-- ── PREVIEW BLOQUEADO: mostra pré-visualização desfocada + overlay de subscrição ── --}}
+    <div class="relative mx-0 mb-0 overflow-hidden"
+         x-data="{ showModal: false }">
 
-    {{-- ── CREATOR LOCK OVERLAY ──────────────────────────────────────────────── --}}
-    <div class="mx-4 mb-4">
-        {{-- Never render premium content in HTML — just show the lock --}}
-        <div class="mt-3 border-2 border-dashed border-[#00baff]/30 rounded-2xl p-6 text-center bg-gradient-to-b from-white to-blue-50/30">
-            <div class="w-12 h-12 bg-[#00baff]/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                <svg class="w-6 h-6 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
-                </svg>
+        {{-- Pré-visualização desfocada (texto + thumbnail) --}}
+        <div class="select-none pointer-events-none">
+            @if($post->content)
+                <div class="px-4 pb-3">
+                    <p class="text-sm text-gray-800 whitespace-pre-line leading-relaxed blur-sm">{!! Str::limit(strip_tags($post->content), 120) !!}...</p>
+                </div>
+            @endif
+            @php $firstMedia = $post->media->first(); @endphp
+            @if($firstMedia)
+                <div class="relative bg-gray-100 overflow-hidden" style="max-height:220px;">
+                    @if(in_array($firstMedia->type, ['image']))
+                        <img src="{{ $firstMedia->url() }}" class="w-full object-cover blur-md scale-105" style="max-height:220px;" alt="" loading="lazy">
+                    @elseif($firstMedia->type === 'video')
+                        @if($firstMedia->thumbnailUrl())
+                            <img src="{{ $firstMedia->thumbnailUrl() }}" class="w-full object-cover blur-md scale-105" style="max-height:220px;" alt="">
+                        @else
+                            <div class="w-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center" style="height:220px;">
+                                <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </div>
+                        @endif
+                    @elseif($firstMedia->type === 'audio')
+                        <div class="w-full bg-gradient-to-r from-[#00baff]/10 to-blue-50 flex items-center justify-center" style="height:80px;">
+                            <svg class="w-8 h-8 text-[#00baff]/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"/></svg>
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </div>
+
+        {{-- Overlay clicável sobre a pré-visualização --}}
+        <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/60 to-transparent flex flex-col items-center justify-end pb-5 cursor-pointer"
+             @click="showModal = true">
+            <div class="flex flex-col items-center gap-2">
+                <div class="w-10 h-10 rounded-full bg-[#00baff]/10 border border-[#00baff]/20 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                    </svg>
+                </div>
+                <span class="text-xs font-semibold text-gray-700">Clique para ver o conteúdo</span>
             </div>
-            <p class="text-sm font-semibold text-gray-800 mb-1">Conteúdo exclusivo para assinantes</p>
-            <p class="text-xs text-gray-500 mb-4">Assine <strong>{{ $post->user->name }}</strong> para aceder a este conteúdo</p>
-            <a href="{{ route('social.creator', $post->user) }}"
-               class="inline-flex items-center gap-2 bg-[#00baff] text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-[#009ad6] transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
-                </svg>
-                Assinar · 3.000 KZS/mês
-            </a>
+        </div>
+
+        {{-- Modal de subscrição (Alpine) --}}
+        <div x-show="showModal" x-cloak
+             style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.65);backdrop-filter:blur(4px);"
+             @click.self="showModal = false">
+            <div style="background:#fff;border-radius:1.25rem;padding:2rem 1.75rem;max-width:380px;width:calc(100% - 2rem);box-shadow:0 24px 64px rgba(0,0,0,.25);text-align:center;">
+                <div style="width:56px;height:56px;background:#e0f7ff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                    <svg style="width:28px;height:28px;color:#00baff;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                    </svg>
+                </div>
+                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Conteúdo exclusivo</h3>
+                <p style="font-size:.85rem;color:#64748b;margin-bottom:.25rem;">Este conteúdo é exclusivo para assinantes de</p>
+                <p style="font-size:.95rem;font-weight:700;color:#0f172a;margin-bottom:1.25rem;">{{ $post->user->name }}</p>
+                <a href="{{ route('social.creator', $post->user) }}"
+                   style="display:inline-flex;align-items:center;gap:.5rem;background:#00baff;color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.75rem;text-decoration:none;margin-bottom:.75rem;">
+                    <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                    </svg>
+                    Assinar por 3.000 Kz/mês
+                </a>
+                <br>
+                <button @click="showModal = false"
+                        style="font-size:.8rem;color:#94a3b8;background:none;border:none;cursor:pointer;margin-top:.25rem;">
+                    Fechar
+                </button>
+            </div>
         </div>
     </div>
 
