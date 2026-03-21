@@ -8,6 +8,8 @@ use App\Models\SocialLike;
 use App\Models\SocialPost;
 use App\Models\SocialReport;
 use App\Models\User;
+use App\Notifications\PostLikedNotification;
+use App\Notifications\PostCommentedNotification;
 
 class SocialInteractionService
 {
@@ -24,6 +26,13 @@ class SocialInteractionService
         }
 
         SocialLike::create(['post_id' => $postId, 'user_id' => $user->id]);
+
+        // Notificar o criador (excepto se for o próprio a gostar)
+        $post = SocialPost::find($postId);
+        if ($post && $post->user_id !== $user->id) {
+            $post->user->notify(new PostLikedNotification($post, $user));
+        }
+
         return true;
     }
 
@@ -67,11 +76,20 @@ class SocialInteractionService
      */
     public function addComment(User $user, int $postId, string $content): SocialComment
     {
-        return SocialComment::create([
+        $comment = SocialComment::create([
             'post_id' => $postId,
             'user_id' => $user->id,
             'content' => $content,
         ]);
+
+        // Notificar o criador (excepto se for o próprio a comentar)
+        $post = SocialPost::find($postId);
+        if ($post && $post->user_id !== $user->id) {
+            $preview = \Illuminate\Support\Str::limit($content, 60);
+            $post->user->notify(new PostCommentedNotification($post, $user, $preview));
+        }
+
+        return $comment;
     }
 
     /**
