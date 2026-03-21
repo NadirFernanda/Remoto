@@ -418,7 +418,7 @@
                     {{-- Notificações --}}
                     <livewire:notification-bell />
                     {{-- Publicar: Projecto + Conteúdo --}}
-                    <div x-data="{open:false}" class="relative">
+                    <div x-data="{open:false, role:'{{ auth()->user()->activeRole() }}'}" class="relative">
                         <button @click="open = !open"
                                 style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
                                 onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
@@ -429,7 +429,7 @@
                         <div x-show="open" @click.outside="open = false" x-cloak
                              class="absolute right-0 mt-2 rounded-xl z-50"
                              style="width:230px;background:#141928;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);padding:.625rem;">
-                            <a href="{{ route('client.projects') }}" @click="open=false"
+                            <a href="{{ route('client.projects') }}" @click="open=false; if(role!=='cliente'){$event.preventDefault();$dispatch('open-role-switch-modal',{action:'projeto'})}"
                                style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
                                onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
                                 <span style="width:34px;height:34px;border-radius:8px;background:rgba(255,45,85,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -440,7 +440,7 @@
                                     <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Publique um novo projecto</span>
                                 </span>
                             </a>
-                            <a href="{{ route('social.create') }}" @click="open=false"
+                            <a href="{{ route('social.create') }}" @click="open=false; if(!['freelancer','creator'].includes(role)){$event.preventDefault();$dispatch('open-role-switch-modal',{action:'conteudo'})}"
                                style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
                                onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
                                 <span style="width:34px;height:34px;border-radius:8px;background:rgba(0,186,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -625,15 +625,17 @@
                 @endif
                 {{-- Publicar --}}
                 <div class="border-t border-white/10 my-1"></div>
+                <div x-data="{role:'{{ auth()->user()->activeRole() }}'}">
                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pb-1">Publicar</p>
-                <a href="{{ route('client.projects') }}" class="nav-link flex items-center gap-2">
+                <a href="{{ route('client.projects') }}" @click="if(role!=='cliente'){$event.preventDefault();$dispatch('open-role-switch-modal',{action:'projeto'})}" class="nav-link flex items-center gap-2">
                     <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                     Projecto
                 </a>
-                <a href="{{ route('social.create') }}" class="nav-link flex items-center gap-2">
+                <a href="{{ route('social.create') }}" @click="if(!['freelancer','creator'].includes(role)){$event.preventDefault();$dispatch('open-role-switch-modal',{action:'conteudo'})}" class="nav-link flex items-center gap-2">
                     <svg width="14" height="14" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
                     Conteúdo
                 </a>
+                </div>
                 {{-- Troca de módulo --}}
                 @if(auth()->user()->canSwitchRole())
                     <div class="border-t border-white/10 my-1"></div>
@@ -653,4 +655,93 @@
             @endguest
         </div>
     </div>
+{{-- ── Modal: Troca de Modo para Publicar ────────────────────────────── --}}
+@auth
+@php
+    $currentRoleLabel = match(auth()->user()->activeRole()) {
+        'freelancer' => 'Freelancer',
+        'creator'    => 'Criador',
+        default      => 'Cliente',
+    };
+@endphp
+<div x-data="{
+    show: false,
+    action: '',
+    get title() { return this.action==='projeto' ? 'Modo Cliente necessário' : 'Modo Freelancer necessário' },
+    get desc()  { return this.action==='projeto'
+        ? 'Para publicar um projecto e contratar freelancers, precisa de estar no <strong style=\'color:#fff\'>Modo Cliente</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.'
+        : 'Para publicar conteúdo, posts e artigos, precisa de estar no <strong style=\'color:#fff\'>Modo Freelancer</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.' },
+    get targetMode() { return this.action==='projeto' ? 'Cliente' : 'Freelancer' }
+}"
+    @open-role-switch-modal.window="show=true; action=$event.detail.action"
+    @keydown.escape.window="show=false"
+    x-show="show"
+    x-cloak
+    @click.self="show=false"
+    style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(2,10,18,.75);backdrop-filter:blur(8px);">
+
+    <div x-show="show"
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 scale-95 translate-y-3"
+         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 scale-100"
+         x-transition:leave-end="opacity-0 scale-95"
+         style="position:relative;background:linear-gradient(160deg,#0f1a2e 0%,#0a1628 100%);border:1px solid rgba(255,255,255,.1);border-radius:1.25rem;padding:2rem;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,.6);">
+
+        {{-- Close --}}
+        <button @click="show=false"
+                style="position:absolute;top:.875rem;right:.875rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        {{-- Icon --}}
+        <div style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,rgba(0,186,255,.18),rgba(0,186,255,.04));border:1px solid rgba(0,186,255,.22);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <template x-if="action==='projeto'">
+                <svg width="26" height="26" fill="none" stroke="#00baff" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h.01M12 15h.01"/></svg>
+            </template>
+            <template x-if="action==='conteudo'">
+                <svg width="26" height="26" fill="none" stroke="#00baff" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+            </template>
+        </div>
+
+        {{-- Title --}}
+        <h3 x-text="title" style="font-size:1.2rem;font-weight:800;color:#f1f5f9;margin:0 0 .5rem;line-height:1.3;"></h3>
+
+        {{-- Description --}}
+        <p x-html="desc" style="font-size:.875rem;color:#94a3b8;line-height:1.7;margin:0 0 1.375rem;"></p>
+
+        {{-- Current → Target Mode indicator --}}
+        <div style="display:flex;align-items:center;justify-content:center;gap:.875rem;margin-bottom:1.375rem;padding:.8rem 1rem;background:rgba(255,255,255,.035);border-radius:.875rem;border:1px solid rgba(255,255,255,.07);">
+            <div style="text-align:center;">
+                <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo actual</div>
+                <span style="font-size:.8rem;font-weight:700;color:#fca5a5;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:.45rem;padding:.18rem .6rem;">{{ $currentRoleLabel }}</span>
+            </div>
+            <svg width="18" height="18" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            <div style="text-align:center;">
+                <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo necessário</div>
+                <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#86efac;background:rgba(0,186,255,.1);border:1px solid rgba(0,186,255,.22);border-radius:.45rem;padding:.18rem .6rem;"></span>
+            </div>
+        </div>
+
+        {{-- Buttons --}}
+        @if(auth()->user()->canSwitchRole())
+        <form method="POST" action="{{ route('switch.role') }}" style="display:flex;flex-direction:column;gap:.5rem;">
+            @csrf
+            <button type="submit"
+                    style="width:100%;padding:.72rem 1rem;border-radius:.75rem;background:linear-gradient(135deg,#00baff 0%,#0091cc 100%);color:#021018;font-weight:800;font-size:.9rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .15s;box-shadow:0 4px 18px rgba(0,186,255,.25);"
+                    onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                Mudar de Modo agora
+            </button>
+            <button type="button" @click="show=false"
+                    style="width:100%;padding:.6rem 1rem;border-radius:.75rem;background:transparent;color:#64748b;font-weight:600;font-size:.85rem;border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s;"
+                    onmouseover="this.style.background='rgba(255,255,255,.05)';this.style.color='#94a3b8'" onmouseout="this.style.background='transparent';this.style.color='#64748b'">
+                Cancelar
+            </button>
+        </form>
+        @endif
+    </div>
+</div>
+@endauth
 </header>
