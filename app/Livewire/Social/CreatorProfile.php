@@ -73,7 +73,7 @@ class CreatorProfile extends Component
             }
         }
 
-        $subscriptionPrice = $this->creator->creatorProfile?->subscription_price ?? 3000;
+        $subscriptionPrice = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
 
         return view('livewire.social.creator-profile', compact(
             'posts', 'followersCount', 'isFollowing', 'isSubscribed', 'subscribedCreatorIds', 'subscriptionPrice'
@@ -101,7 +101,7 @@ class CreatorProfile extends Component
             return;
         }
 
-        $price       = $this->creator->creatorProfile?->subscription_price ?? 3000;
+        $price       = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
         $platformFee = round($price * \App\Services\FeeService::SUBSCRIPTION_FEE_RATE, 2); // 25%
         $netAmount   = round($price - $platformFee, 2);
 

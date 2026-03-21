@@ -7,21 +7,22 @@ use Illuminate\Support\Facades\Storage;
 
 class CreatorProfile extends Model
 {
+    // Platform-wide fixed subscription price (non-negotiable)
+    const SUBSCRIPTION_PRICE = 3000.00;
+
     protected $fillable = [
         'user_id',
         'category',
         'bio',
         'cover_photo',
-        'subscription_price',
         'is_public',
         'total_subscribers',
         'total_earnings',
     ];
 
     protected $casts = [
-        'subscription_price' => 'float',
-        'total_earnings'     => 'float',
-        'is_public'          => 'boolean',
+        'total_earnings' => 'float',
+        'is_public'      => 'boolean',
     ];
 
     public function user()
