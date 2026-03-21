@@ -70,7 +70,7 @@
                         {{ ucfirst($post->type) }}
                     </span>
                     @if($post->visibility === 'followers')
-                        <span style="font-size:.63rem;background:#fef3c7;color:#b45309;border-radius:6px;padding:.1rem .4rem;font-weight:600;">Só seguidores</span>
+                        <span style="font-size:.63rem;background:#fef3c7;color:#b45309;border-radius:6px;padding:.1rem .4rem;font-weight:600;">Apenas assinantes</span>
                     @endif
                     <span style="font-size:.63rem;border-radius:6px;padding:.1rem .4rem;font-weight:600;
                                  {{ $isActive ? 'background:#dcfce7;color:#16a34a;' : 'background:#f1f5f9;color:#64748b;' }}">

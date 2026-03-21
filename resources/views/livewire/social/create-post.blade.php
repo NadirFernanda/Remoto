@@ -216,14 +216,20 @@
         {{-- Visibility --}}
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Visibilidade</label>
-            <div class="flex gap-3">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" wire:model="visibility" value="public" class="text-[#00baff]">
-                    <span class="text-sm text-gray-700">Público (todos podem ver)</span>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-start gap-2.5 cursor-pointer group">
+                    <input type="radio" wire:model="visibility" value="public" class="text-[#00baff] mt-0.5">
+                    <div>
+                        <span class="text-sm font-medium text-gray-800">Público — qualquer pessoa pode ver</span>
+                        <p class="text-xs text-gray-400 mt-0.5">Aparece no feed de todos os utilizadores da plataforma.</p>
+                    </div>
                 </label>
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" wire:model="visibility" value="followers" class="text-[#00baff]">
-                    <span class="text-sm text-gray-700">Apenas seguidores</span>
+                <label class="flex items-start gap-2.5 cursor-pointer group">
+                    <input type="radio" wire:model="visibility" value="followers" class="text-[#00baff] mt-0.5">
+                    <div>
+                        <span class="text-sm font-medium text-gray-800">Apenas assinantes</span>
+                        <p class="text-xs text-gray-400 mt-0.5">Só quem paga a tua subscrição mensal pode ver este conteúdo.</p>
+                    </div>
                 </label>
             </div>
         </div>
