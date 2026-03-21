@@ -10,9 +10,21 @@ class Role
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        if (!Auth::check() || Auth::user()->activeRole() !== $role) {
-            abort(403, 'Acesso não autorizado.');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
+
+        if (Auth::user()->activeRole() !== $role) {
+            // Admin routes stay hard-forbidden
+            if ($role === 'admin') {
+                abort(403, 'Acesso restrito a administradores.');
+            }
+
+            // For all other role mismatches, redirect with context
+            session()->flash('role_redirect', $role);
+            return redirect()->route('dashboard');
+        }
+
         return $next($request);
     }
 }
