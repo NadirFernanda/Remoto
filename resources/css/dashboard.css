@@ -28,7 +28,11 @@
     padding: 0.875rem 1.25rem 1.5rem;
 }
 
-/* Sidebar toggle — always visible on all screen sizes */
+/* Sidebar toggle — only on desktop (mobile uses header hamburger) */
+@media (max-width: 768px) {
+    .dash-sidebar-toggle { display: none !important; }
+}
+
 .dash-sidebar-toggle {
     display: flex;
     position: fixed;
