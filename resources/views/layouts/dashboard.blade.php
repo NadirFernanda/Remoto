@@ -81,7 +81,37 @@
         @php
             $title = $dashboardTitle ?? null;
             $actions = $dashboardActions ?? null;
+            $hideBackButton = $hideBackButton ?? false;
+            $mainDashboardRoutes = [
+                'client.dashboard', 'freelancer.dashboard', 'admin.dashboard',
+                'creator.dashboard', 'dashboard', 'notifications', 'kyc.submit',
+                'social.feed', 'social.creators', 'freelancers.index', 'loja.index',
+                'admin.users', 'admin.financial', 'admin.disputes', 'admin.audit',
+                'admin.social.moderation', 'admin.loja',
+            ];
+            $isMainDashboard = $hideBackButton || in_array(Route::currentRouteName(), $mainDashboardRoutes);
         @endphp
+
+        {{-- Universal back button — shown on all sub-pages --}}
+        @if(!$isMainDashboard)
+            <div class="mb-3" id="dash-back-btn" style="display:none;">
+                <a href="javascript:history.back()"
+                   class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 font-medium transition group">
+                    <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-700 transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+            <script>
+                (function() {
+                    if (window.history.length > 1) {
+                        var btn = document.getElementById('dash-back-btn');
+                        if (btn) btn.style.display = '';
+                    }
+                })();
+            </script>
+        @endif
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
             <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
