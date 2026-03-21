@@ -1,5 +1,4 @@
 <div class="container mx-auto px-4 py-8 flex flex-col items-center">
-    <h2 class="text-xl font-bold text-cyan-600 mb-2">Confirme e realize o pagamento</h2>
     <p class="text-sm text-gray-600 mb-4">Passo 3 de 3 &middot; Revise os dados e escolha o método de pagamento.</p>
     <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-2 bg-white rounded-lg shadow p-6">

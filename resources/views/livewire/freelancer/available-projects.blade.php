@@ -18,7 +18,6 @@
         <main class="max-w-6xl mx-auto p-8">
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-cyan-600">Projectos Disponíveis</h2>
                     <p class="text-sm text-gray-500 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
                 </div>
                 <div class="hidden md:flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-full px-4 py-2">

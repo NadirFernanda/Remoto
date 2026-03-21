@@ -18,7 +18,7 @@
         @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-5 h-5'])
         Voltar
     </a>
-    <h2 class="text-xl font-bold text-cyan-600 mb-4">Detalhes do Pedido</h2>
+
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <div class="mb-2 flex items-center gap-2">
             <span class="font-semibold">Título:</span> <span id="service-title">{{ $service->titulo }}</span>

@@ -9,7 +9,6 @@
                 </svg>
                 Voltar
             </a>
-            <h1 class="text-xl font-bold text-gray-900">Freelancers Sugeridos</h1>
             <p class="text-sm text-gray-500 mt-0.5">
                 Para o projecto <span class="font-medium text-gray-700">"{{ $service->titulo }}"</span>
             </p>

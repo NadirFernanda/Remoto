@@ -1,5 +1,4 @@
 <div class="container mx-auto px-4 py-8 flex flex-col items-center">
-    <h2 class="text-xl font-bold text-cyan-600 mb-2">Defina o valor do serviço</h2>
     <p class="text-sm text-gray-600 mb-4">Passo 2 de 3 &middot; Escolha quanto deseja investir neste pedido.</p>
     <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-2 bg-white rounded-lg shadow p-6">
