@@ -87,7 +87,7 @@
                 'creator.dashboard', 'dashboard', 'notifications', 'kyc.submit',
                 'social.feed', 'social.creators', 'freelancers.index', 'loja.index',
                 'admin.users', 'admin.financial', 'admin.disputes', 'admin.audit',
-                'admin.social.moderation', 'admin.loja',
+                'admin.social.moderation', 'admin.loja', 'client.briefing',
             ];
             $isMainDashboard = $hideBackButton || in_array(Route::currentRouteName(), $mainDashboardRoutes);
         @endphp

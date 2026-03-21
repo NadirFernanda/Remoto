@@ -3,7 +3,6 @@
     {{-- Header --}}
     <div class="flex items-center gap-4 mb-6">
         <div>
-            <h1 class="text-xl font-bold text-gray-900">{{ $edit ? 'Editar pedido' : 'Novo pedido' }}</h1>
             <p class="text-sm text-gray-400 mt-0.5">Descreva o seu projecto e encontre o freelancer ideal</p>
         </div>
     </div>
