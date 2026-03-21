@@ -8,22 +8,21 @@
      @toggle-sidebar.window="sidebarOpen = !sidebarOpen"
      :class="desktopCollapsed ? 'dash-sidebar-collapsed' : ''"
      class="dash-wrapper">
-    {{-- Sidebar toggle — visible on all screen sizes --}}
-    <button @click="sidebarOpen = !sidebarOpen; desktopCollapsed = !desktopCollapsed"
+    {{-- Sidebar toggle — desktop only (colapsa/expande o sidebar lateral) --}}
+    <button @click="desktopCollapsed = !desktopCollapsed"
         class="dash-sidebar-toggle"
-        :aria-label="sidebarOpen ? 'Fechar menu lateral' : 'Abrir menu lateral'">
-        <svg x-show="!sidebarOpen && !desktopCollapsed" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
-        <svg x-show="sidebarOpen || desktopCollapsed" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        :aria-label="desktopCollapsed ? 'Expandir menu lateral' : 'Colapsar menu lateral'">
+        <svg x-show="!desktopCollapsed" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        <svg x-show="desktopCollapsed" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
 
-    {{-- Overlay (mobile only) --}}
-    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false; desktopCollapsed = false"
+    {{-- Overlay (mobile) — fecha sidebar ao clicar fora --}}
+    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false"
         class="dash-overlay" style="display:none;"></div>
 
     {{-- Sidebar --}}
     <aside class="dash-sidebar"
-        :class="sidebarOpen ? 'dash-sidebar--open' : ''"
-        @click.away="sidebarOpen = false">
+        :class="sidebarOpen ? 'dash-sidebar--open' : ''">
         @include('partials.dashboard-sidebar')
     </aside>
 
