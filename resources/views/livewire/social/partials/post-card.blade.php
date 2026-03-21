@@ -16,10 +16,11 @@
     $isFollowing   = $authUser && !$isOwner
                      ? $authUser->following()->where('following_id', $post->user_id)->exists()
                      : false;
-    // Creator gating
+    // Creator gating — só bloqueia posts com visibility = 'followers', nunca os públicos
     $isCreatorPost = ($post->user->has_creator_profile ?? false);
     $isSubscribed  = $isOwner
                      || !$isCreatorPost
+                     || ($post->visibility ?? 'public') !== 'followers'
                      || ($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
 @endphp
 
@@ -52,7 +53,10 @@
                 @endif
             @endauth
             @if(isset($post->visibility) && $post->visibility === 'followers')
-                <span class="text-xs text-gray-400 bg-gray-100 rounded-full px-2 py-0.5">seguidores</span>
+                <span class="inline-flex items-center gap-1 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                    Assinantes
+                </span>
             @endif
             <span class="text-xs text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
             {{-- Options dropdown --}}

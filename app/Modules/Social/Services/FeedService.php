@@ -29,22 +29,51 @@ class FeedService
 
         if ($hashtag) {
             $tag = ltrim($hashtag, '#');
-            $query->where('content', 'like', '%#' . $tag . '%');
+            $query->where('content', 'like', '%#' . $tag . '%')
+                  ->where(function ($q) use ($user) {
+                      $this->applyVisibilityFilter($q, $user);
+                  });
         } elseif ($myPostsOnly && $user) {
             $query->where('user_id', $user->id);
         } elseif ($bookmarkedOnly && $user) {
             $bookmarkedIds = $user->bookmarks()->pluck('post_id');
             $query->whereIn('id', $bookmarkedIds);
-        } elseif ($user) {
-            $followingIds = $user->following()->pluck('users.id');
-            $visibleIds   = $followingIds->push($user->id)->unique()->values();
-            $query->whereIn('user_id', $visibleIds);
         } else {
-            // Guest (unauthenticated): return nothing — all content requires login
-            $query->whereRaw('1 = 0');
+            // Main feed: todos os posts públicos + posts de assinantes para subscritores activos
+            $query->where(function ($q) use ($user) {
+                $this->applyVisibilityFilter($q, $user);
+            });
         }
 
         return $query->latest()->paginate($perPage);
+    }
+
+    /**
+     * Aplica filtro de visibilidade ao query builder:
+     *  - 'public'    → qualquer pessoa (logada ou não)
+     *  - 'followers' → apenas subscritores activos do criador
+     *  - posts próprios do utilizador → sempre visíveis para si mesmo
+     */
+    private function applyVisibilityFilter($query, ?User $user): void
+    {
+        $query->where('visibility', 'public');   // qualquer um vê os públicos
+
+        if ($user) {
+            // Os seus próprios posts (independente da visibilidade)
+            $query->orWhere('user_id', $user->id);
+
+            // Posts "apenas seguidores" de criadores com subscrição activa
+            $subscribedCreatorIds = $user->subscriptionsAsSubscriber()
+                ->active()
+                ->pluck('creator_id');
+
+            if ($subscribedCreatorIds->isNotEmpty()) {
+                $query->orWhere(function ($q) use ($subscribedCreatorIds) {
+                    $q->where('visibility', 'followers')
+                      ->whereIn('user_id', $subscribedCreatorIds);
+                });
+            }
+        }
     }
 
     /**
@@ -53,10 +82,7 @@ class FeedService
      */
     public function isEmptyFeed(?User $user, string $hashtag, bool $bookmarkedOnly, bool $myPostsOnly): bool
     {
-        if (!$user || $hashtag || $bookmarkedOnly || $myPostsOnly) {
-            return false;
-        }
-
-        return $user->following()->count() === 0;
+        // O feed principal agora mostra todos os posts públicos — nunca está "vazio por falta de seguidos"
+        return false;
     }
 }
