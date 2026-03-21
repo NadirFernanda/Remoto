@@ -177,12 +177,15 @@ class ServiceChat extends Component
 
         // Notificar freelancer
         if ($service->freelancer_id) {
+            $prazoTexto = $service->prazo
+                ? ' Data de entrega acordada: ' . \Carbon\Carbon::parse($service->prazo)->format('d/m/Y') . '.'
+                : '';
             Notification::create([
                 'user_id'    => $service->freelancer_id,
                 'service_id' => $service->id,
                 'type'       => 'payment_adjustment',
-                'title'      => 'Pagamento adicional recebido',
-                'message'    => 'O cliente pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.',
+                'title'      => 'Pagamento adicional recebido — proposta aceite',
+                'message'    => 'O cliente aceitou e pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.' . $prazoTexto,
             ]);
         }
 

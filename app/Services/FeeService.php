@@ -31,27 +31,23 @@ class FeeService
 
     /**
      * Modelo de taxas:
-     *  - O cliente paga EXACTAMENTE o valor do projecto (sem nenhum extra).
-     *  - A plataforma retém 20% do valor como taxa de serviço.
-     *  - O freelancer recebe 80% quando o cliente liberar o pagamento.
-     *  - taxa_cliente: 10% informativo (mostrado ao cliente como taxa de plataforma)
-     *  - total_cliente: igual ao valor — cliente NÃO paga nada além do acordado
-     *  - taxa: 20% deduzido ao freelancer na liquidação
-     *  - valor_liquido: 80% — valor que o freelancer recebe
+     *  - O cliente paga o valor do projecto + 10% de taxa de serviço.
+     *  - Na entrega o freelancer recebe 80% do valor do projecto (plataforma fica 20%).
      *
      * Exemplo: projecto de 50.000 Kz
-     *   → cliente paga: 50.000 Kz
-     *   → taxa plataforma: 10.000 Kz (20%)
-     *   → freelancer recebe: 40.000 Kz (80%)
+     *   → taxa_cliente:  5.000 Kz (10%)
+     *   → total_cliente: 55.000 Kz — o que o cliente paga
+     *   → taxa:          10.000 Kz (20% — deduzida ao freelancer na entrega)
+     *   → valor_liquido: 40.000 Kz (80% — o que o freelancer recebe)
      *
      * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
     public function calculateServiceFee(float $valor): array
     {
-        $taxa_cliente  = round($valor * self::SERVICE_CLIENT_FEE_RATE, 2);   // 10% — informativo
-        $total_cliente = $valor;                                               // cliente paga o valor exacto
-        $taxa          = round($valor * self::SERVICE_FREELANCER_FEE_RATE, 2); // 20% plataforma
-        $valor_liquido = round($valor - $taxa, 2);                             // 80% freelancer
+        $taxa_cliente  = round($valor * self::SERVICE_CLIENT_FEE_RATE, 2);   // 10% adicionado ao cliente
+        $total_cliente = round($valor + $taxa_cliente, 2);                   // total que o cliente paga
+        $taxa          = round($valor * self::SERVICE_FREELANCER_FEE_RATE, 2); // 20% plataforma na entrega
+        $valor_liquido = round($valor - $taxa, 2);                             // 80% freelancer na entrega
 
         return [
             'taxa_cliente'  => $taxa_cliente,
