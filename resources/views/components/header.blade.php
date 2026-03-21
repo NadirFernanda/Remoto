@@ -508,8 +508,8 @@
                 <livewire:notification-bell />
             @endguest
             @auth
-            {{-- Utilizador autenticado: clica programaticamente no FAB do dashboard --}}
-            <button @click="document.getElementById('dash-fab')?.click()" class="p-2 rounded-md text-white bg-[#00baff]/20 border border-white/20 hover:bg-[#00baff]/30 transition">
+            {{-- Utilizador autenticado: toggle sidebar via Alpine.store --}}
+            <button @click="$store.sidebar.toggle()" class="p-2 rounded-md text-white bg-[#00baff]/20 border border-white/20 hover:bg-[#00baff]/30 transition">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
