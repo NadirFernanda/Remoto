@@ -108,14 +108,12 @@
                                     </svg>
                                     {{ number_format($profile?->total_subscribers ?? 0) }} assinantes
                                 </span>
-                                @if(($profile?->subscription_price ?? 0) > 0)
-                                    <span class="flex items-center gap-1 font-medium text-gray-700">
-                                        <svg class="w-3.5 h-3.5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                        </svg>
-                                        Kz {{ number_format($profile->subscription_price, 0, ',', '.') }}/mês
-                                    </span>
-                                @endif
+                                <span class="flex items-center gap-1 font-medium text-gray-700">
+                                    <svg class="w-3.5 h-3.5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    Kz 3.000/mês
+                                </span>
                             </div>
 
                             {{-- Actions --}}
@@ -125,15 +123,17 @@
                                     Ver perfil
                                 </a>
                                 @auth
-                                    @if(!$isSubbed && ($profile?->subscription_price ?? 0) > 0)
-                                        <a href="{{ route('social.creator', $creator) }}"
-                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition">
-                                            Assinar
-                                        </a>
+                                    @if(auth()->id() === $creator->id)
+                                        {{-- own profile: no subscribe button --}}
                                     @elseif($isSubbed)
                                         <a href="{{ route('social.creator', $creator) }}"
                                            class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-green-50 text-green-600 border border-green-100 hover:bg-green-100 transition">
                                             Ver conteúdo
+                                        </a>
+                                    @else
+                                        <a href="{{ route('social.creator', $creator) }}"
+                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition">
+                                            Assinar
                                         </a>
                                     @endif
                                 @endauth
