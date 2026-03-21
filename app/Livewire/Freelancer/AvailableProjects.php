@@ -149,6 +149,6 @@ class AvailableProjects extends Component
             ->all();
 
         return view('livewire.freelancer.available-projects', compact('projects', 'myCandidacies'))
-            ->layout('layouts.livewire');
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Projectos Disponíveis']);
     }
 }

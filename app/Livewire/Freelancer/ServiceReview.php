@@ -136,6 +136,6 @@ class ServiceReview extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.service-review')->layout('layouts.livewire');
+        return view('livewire.freelancer.service-review')->layout('layouts.dashboard', ['dashboardTitle' => 'Revisão do Serviço']);
     }
 }

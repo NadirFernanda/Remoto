@@ -253,7 +253,7 @@ class ServiceChat extends Component
     {
         $messages = app(ChatService::class)->getMessages($this->service);
 
-        return view('livewire.chat.service-chat', ['messages' => $messages])->layout('layouts.livewire');
+        return view('livewire.chat.service-chat', ['messages' => $messages])->layout('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço']);
     }
 }
 

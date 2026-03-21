@@ -103,6 +103,6 @@ class ServiceCancel extends Component
     {
         return view('livewire.client.service-cancel', [
             'service' => $this->service
-        ])->layout('layouts.livewire');
+        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Cancelar Serviço']);
     }
 }

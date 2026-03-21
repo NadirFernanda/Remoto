@@ -61,6 +61,6 @@ class ServiceValue extends Component
     public function render()
     {
         return view('livewire.client.service-value')
-            ->layout('layouts.livewire');
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Definir Valor']);
     }
 }
