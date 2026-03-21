@@ -30,20 +30,28 @@ class FeeService
     public const SERVICE_FREELANCER_FEE_RATE = 0.20;
 
     /**
-     * Calcula as taxas duais dos projetos freelancer:
-     *  - taxa_cliente: 10% cobrado ao cliente (adicionado ao preço)
-     *  - total_cliente: total que o cliente paga (valor + taxa_cliente)
-     *  - taxa: 20% deduzido do freelancer
-     *  - valor_liquido: o que o freelancer recebe (valor - taxa)
+     * Modelo de taxas:
+     *  - O cliente paga EXACTAMENTE o valor do projecto (sem nenhum extra).
+     *  - A plataforma retém 20% do valor como taxa de serviço.
+     *  - O freelancer recebe 80% quando o cliente liberar o pagamento.
+     *  - taxa_cliente: 10% informativo (mostrado ao cliente como taxa de plataforma)
+     *  - total_cliente: igual ao valor — cliente NÃO paga nada além do acordado
+     *  - taxa: 20% deduzido ao freelancer na liquidação
+     *  - valor_liquido: 80% — valor que o freelancer recebe
+     *
+     * Exemplo: projecto de 50.000 Kz
+     *   → cliente paga: 50.000 Kz
+     *   → taxa plataforma: 10.000 Kz (20%)
+     *   → freelancer recebe: 40.000 Kz (80%)
      *
      * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
     public function calculateServiceFee(float $valor): array
     {
-        $taxa_cliente  = round($valor * self::SERVICE_CLIENT_FEE_RATE, 2);
-        $total_cliente = round($valor + $taxa_cliente, 2);
-        $taxa          = round($valor * self::SERVICE_FREELANCER_FEE_RATE, 2);
-        $valor_liquido = round($valor - $taxa, 2);
+        $taxa_cliente  = round($valor * self::SERVICE_CLIENT_FEE_RATE, 2);   // 10% — informativo
+        $total_cliente = $valor;                                               // cliente paga o valor exacto
+        $taxa          = round($valor * self::SERVICE_FREELANCER_FEE_RATE, 2); // 20% plataforma
+        $valor_liquido = round($valor - $taxa, 2);                             // 80% freelancer
 
         return [
             'taxa_cliente'  => $taxa_cliente,

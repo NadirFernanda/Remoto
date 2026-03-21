@@ -142,7 +142,7 @@ class ProjectManager extends Component
         if ($candidate->proposal_value && $candidate->proposal_value > 0) {
             $service->valor         = (float) $candidate->proposal_value;
             $service->taxa          = 10.0;
-            $service->valor_liquido = round($candidate->proposal_value * 0.90, 2);
+            $service->valor_liquido = round($candidate->proposal_value * 0.80, 2); // 80% para o freelancer, 20% taxa plataforma
         }
 
         // Atualiza o projeto

@@ -5,16 +5,20 @@
         <div class="md:col-span-2 bg-white rounded-lg shadow p-6">
         <div class="mb-4">
             <div class="flex justify-between mb-2">
-                <span>Valor do projeto</span>
+                <span class="font-semibold">Valor do projeto</span>
                 <span class="font-bold">{{ number_format($valor, 2, ',', '.') }} Kz</span>
             </div>
             <div class="flex justify-between mb-2">
-                <span class="text-gray-600">Taxa de serviço (10% — plataforma)</span>
-                <span class="text-yellow-600 font-bold">+ {{ number_format($taxa_cliente, 2, ',', '.') }} Kz</span>
+                <span class="text-gray-500 text-sm">Taxa de serviço (10% — inclusa)</span>
+                <span class="text-gray-400 text-sm">{{ number_format($taxa_cliente, 2, ',', '.') }} Kz</span>
             </div>
             <div class="flex justify-between mb-3 pt-2 border-t border-gray-200">
                 <span class="font-semibold">Total a pagar</span>
                 <span class="font-bold text-cyan-700 text-lg">{{ number_format($valor_total, 2, ',', '.') }} Kz</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500">O freelancer vai receber</span>
+                <span class="text-green-600 font-bold">{{ number_format($valor_liquido, 2, ',', '.') }} Kz</span>
             </div>
         </div>
         <div class="mb-4 p-3 bg-cyan-50 rounded flex items-center">
