@@ -430,11 +430,12 @@
                                         <div class="text-xs text-slate-400">Ficheiro armazenado no disco privado</div>
                                     </div>
                                 </div>
-                                <button wire:click="downloadArquivoAdmin({{ $produtoInspecao->id }})"
+                                <a href="{{ route('admin.loja.download', $produtoInspecao->id) }}"
+                                    target="_blank"
                                     class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition shadow-sm">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                     Fazer Download para Verificação
-                                </button>
+                                </a>
                             </div>
                             <p class="mt-2 text-xs text-indigo-600/70">
                                 <svg class="w-3.5 h-3.5 inline -mt-0.5 mr-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

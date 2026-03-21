@@ -7,7 +7,6 @@ use Livewire\WithPagination;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoPatrocinio;
 use App\Models\InfoprodutoCompra;
-use Illuminate\Support\Facades\Storage;
 
 class LojaAdmin extends Component
 {
@@ -56,21 +55,6 @@ class LojaAdmin extends Component
     {
         $this->showInspecao = false;
         $this->inspecaoId   = null;
-    }
-
-    public function downloadArquivoAdmin(int $id)
-    {
-        $produto = Infoproduto::findOrFail($id);
-
-        if (!$produto->arquivo_path || !Storage::disk('private')->exists($produto->arquivo_path)) {
-            $this->feedback = 'Ficheiro do produto não encontrado.';
-            return;
-        }
-
-        return Storage::disk('private')->download(
-            $produto->arquivo_path,
-            $produto->titulo . ' — ' . basename($produto->arquivo_path)
-        );
     }
 
     public function render()

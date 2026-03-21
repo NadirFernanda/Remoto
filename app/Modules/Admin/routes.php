@@ -45,4 +45,18 @@ Route::middleware(['web', 'auth', 'admin.module:gestor'])->group(function () {
 
     // Admin — Settings (master only)
     Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings')->middleware('admin.module:settings');
+
+    // Admin — Download infoproduto file for moderation review
+    Route::get('/admin/loja/download/{id}', function (int $id) {
+        $produto = \App\Models\Infoproduto::findOrFail($id);
+
+        if (!$produto->arquivo_path || !\Illuminate\Support\Facades\Storage::disk('private')->exists($produto->arquivo_path)) {
+            abort(404, 'Ficheiro não encontrado.');
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('private')->download(
+            $produto->arquivo_path,
+            $produto->titulo . ' — ' . basename($produto->arquivo_path)
+        );
+    })->name('admin.loja.download');
 });
