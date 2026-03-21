@@ -200,11 +200,11 @@ body{
 
 /* Responsive header layout */
 .header-container{ max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
-.mobile-nav{ display:none; }
+.mobile-nav{ display:none !important; }
 @media (max-width: 768px){
     .nav-desktop{ display:none !important; }
     .header-actions{ display:none !important; }
-    .mobile-nav{ display:flex; }
+    .mobile-nav{ display:flex !important; }
     .site-logo{ height:44px; max-height:44px; }
 }
 
