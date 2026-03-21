@@ -96,8 +96,8 @@ class PaymentEscrow extends Component
             ]);
             // Integração com gateway de pagamento
             $paymentResult = PaymentGateway::charge([
-                'amount' => $this->valor,
-                'card_name' => $this->card_name,
+                'amount'      => $this->valor_total,  // cobra o total real (valor + taxa)
+                'card_name'   => $this->card_name,
                 'card_number' => $this->card_number,
                 'card_expiry' => $this->card_expiry,
                 'card_cvv' => $this->card_cvv,
