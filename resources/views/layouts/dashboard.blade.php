@@ -5,6 +5,7 @@
 
 @section('content')
 <div x-data="{ sidebarOpen: false, desktopCollapsed: false }"
+     @toggle-sidebar.window="sidebarOpen = !sidebarOpen"
      :class="desktopCollapsed ? 'dash-sidebar-collapsed' : ''"
      class="dash-wrapper">
     {{-- Sidebar toggle — visible on all screen sizes --}}
