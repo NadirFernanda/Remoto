@@ -5,6 +5,7 @@ namespace App\Livewire\Freelancer;
 use Livewire\Component;
 use App\Models\Service;
 use App\Notifications\ProposalReceivedNotification;
+use App\Services\FeeService;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceReview extends Component
@@ -70,47 +71,41 @@ class ServiceReview extends Component
     {
         $user = Auth::user();
         if (!$user || !$user->can('accept', $this->service)) {
-            throw new \Exception('Ação não permitida. Você não pode enviar proposta para este serviço.');
+            abort(403, 'Não tem permissão para enviar proposta para este serviço.');
         }
 
         $this->validate([
             'proposalMessage' => 'required|string|max:2000',
-            'proposalValue' => 'nullable|numeric|min:0',
+            'proposalValue'   => 'required|numeric|min:1000',
+        ], [
+            'proposalValue.required' => 'Informe o valor que pretende receber pelo projeto.',
+            'proposalValue.min'      => 'O valor mínimo de proposta é Kz 1.000.',
         ]);
 
-        // Agora: o freelancer informa o VALOR LÍQUIDO (o que ele receberá).
-        // A taxa de plataforma (10% sobre o valor bruto) é calculada internamente.
-        // Dado net = 0.9 * gross  => gross = net / 0.9  => fee = gross * 0.10 = net / 9
-        $net = $this->proposalValue !== null ? (float)$this->proposalValue : 0.0;
-        $fee = $net > 0 ? round($net / 9, 2) : 0.0; // aproximado: fee = net * (1/9)
-        $gross = round($net + $fee, 2);
+        // O freelancer informa o VALOR BRUTO do projeto (gross).
+        // A plataforma deduz 20% na entrega — o freelancer recebe 80%.
+        // FeeService::calculateServiceFee() aplica este modelo de forma consistente.
+        $gross = (float) $this->proposalValue;
+        $fees  = (new FeeService())->calculateServiceFee($gross);
+        $fee   = $fees['taxa'];           // 20% deduzido ao freelancer
+        $net   = $fees['valor_liquido'];  // 80% que o freelancer recebe
 
         // Cria ou atualiza candidatura com status de proposta
         $candidate = $this->service->candidates()->where('freelancer_id', $user->id)->first();
+        $proposalData = [
+            'status'           => 'proposal_sent',
+            'proposal_message' => $this->proposalMessage,
+            'proposal_value'   => $gross, // valor bruto proposto (base de cálculo)
+            'proposal_fee'     => $fee,   // 20% plataforma (deduzido na entrega)
+            'proposal_net'     => $net,   // 80% que o freelancer recebe
+        ];
         if (!$candidate) {
-            $this->service->candidates()->create([
-                'freelancer_id' => $user->id,
-                'status' => 'proposal_sent',
-                'proposal_message' => $this->proposalMessage,
-                'proposal_value' => $net, // stored as líquido (freelancer receives)
-                'proposal_fee' => $fee,
-                'proposal_net' => $net,
-            ]);
+            $this->service->candidates()->create(
+                array_merge(['freelancer_id' => $user->id], $proposalData)
+            );
         } else {
-            $candidate->status = 'proposal_sent';
-            $candidate->proposal_message = $this->proposalMessage;
-            $candidate->proposal_value = $net; // stored as líquido (freelancer receives)
-            $candidate->proposal_fee = $fee;
-            $candidate->proposal_net = $net;
-            $candidate->save();
+            $candidate->fill($proposalData)->save();
         }
-
-        \Log::info('Proposta enviada (detalhes)', [
-            'service_id' => $this->service->id,
-            'freelancer_id' => $user->id,
-            'message' => $this->proposalMessage,
-            'value' => $this->proposalValue,
-        ]);
 
         // Notificar o cliente
         $clienteProposal = $this->service->cliente;

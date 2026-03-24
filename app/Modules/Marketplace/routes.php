@@ -33,7 +33,7 @@ Route::post('/projetos/{service}/candidatar', function (\App\Models\Service $ser
 })->middleware(['web', 'auth', 'throttle:proposals'])->name('service.candidatar');
 
 // Authenticated marketplace routes — Freelancer
-Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/projetos', \App\Livewire\Freelancer\ProjectManager::class)->name('freelancer.projects');
     Route::get('/freelancer/projetos-disponiveis', \App\Livewire\Freelancer\AvailableProjects::class)->name('freelancer.available-projects');
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
@@ -42,7 +42,7 @@ Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
 });
 
 // Authenticated marketplace routes — Cliente
-Route::middleware(['web', 'auth', 'role:cliente'])->group(function () {
+Route::middleware(['web', 'auth', 'verified', 'role:cliente'])->group(function () {
     Route::get('/cliente/projetos', \App\Livewire\Client\ProjectManager::class)->name('client.projects');
     Route::get('/cliente/projetos/matching/{service}', \App\Livewire\Client\FreelancerMatching::class)->name('client.matching');
     Route::get('/cliente/briefing', \App\Livewire\Client\Briefing::class)->name('client.briefing');

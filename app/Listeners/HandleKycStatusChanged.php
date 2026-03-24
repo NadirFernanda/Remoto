@@ -14,6 +14,16 @@ class HandleKycStatusChanged implements ShouldQueue
 
     public function handle(KycStatusChanged $event): void
     {
+        // Sincronizar FreelancerProfile.kyc_status com o estado aprovado no User
+        // O middleware KycVerified lê User.kyc_status, mas mantemos FreelancerProfile em sync
+        // para consistência de queries de pesquisa e exibição de perfil.
+        $profile = $event->user->freelancerProfile;
+        if ($profile) {
+            // 'verified' no User == 'verified' no FreelancerProfile
+            $profile->kyc_status = $event->status; // 'verified' | 'rejected'
+            $profile->save();
+        }
+
         // Enviar notificação ao utilizador (email + database)
         $event->user->notify(new KycStatusNotification(
             $event->status,

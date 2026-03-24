@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware('web')->group(base_path('routes/auth.php'));
             Route::middleware('web')->group(base_path('routes/receipt.php'));
-            Route::middleware('web')->group(base_path('routes/admin.php'));
+            // Admin routes are registered by App\Modules\Admin\AdminServiceProvider
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

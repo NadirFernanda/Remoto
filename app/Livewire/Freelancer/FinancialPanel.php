@@ -26,9 +26,9 @@ class FinancialPanel extends Component
         $this->successMsg = '';
 
         $this->validate([
-            'valorSaque' => ['required', 'numeric', 'min:1'],
+            'valorSaque' => ['required', 'numeric', 'min:1000'],
         ], [
-            'valorSaque.min' => 'O valor mínimo de saque é Kz 1.',
+            'valorSaque.min' => 'O valor mínimo de saque é Kz 1.000.',
         ]);
 
         $user   = Auth::user();
@@ -39,18 +39,31 @@ class FinancialPanel extends Component
             return;
         }
 
-        // Saque sem taxa — comissões já são cobradas no momento de cada transação
+        // Verificar se já existe um saque pendente (evita múltiplos saques simultâneos)
+        $pendingSaque = WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->exists();
+
+        if ($pendingSaque) {
+            $this->addError('valorSaque', 'Já tem um saque pendente de aprovação. Aguarde a resolução antes de solicitar outro.');
+            return;
+        }
+
+        // Mover valor do saldo disponível para saldo_pendente (em análise)
+        // O dinheiro fica "reservado" mas visível como "em processamento" —
+        // não desaparece do saldo sem aviso ao utilizador.
         $wallet->decrement('saldo', $this->valorSaque);
+        $wallet->increment('saldo_pendente', $this->valorSaque);
 
         WalletLog::create([
             'user_id'   => $user->id,
             'wallet_id' => $wallet->id,
             'valor'     => -$this->valorSaque,
             'tipo'      => 'saque_solicitado',
-            'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz.",
+            'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
         ]);
 
-        $this->successMsg = "Saque de Kz " . number_format($this->valorSaque, 0, ',', '.') . " solicitado com sucesso.";
+        $this->successMsg = "Saque de Kz " . number_format($this->valorSaque, 0, ',', '.') . " solicitado com sucesso. Será processado em até 2 dias úteis.";
         $this->valorSaque = 0;
         $this->resetErrorBag();
     }

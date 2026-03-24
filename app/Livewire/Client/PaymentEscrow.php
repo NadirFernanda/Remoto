@@ -6,11 +6,10 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\UserSessionTrait;
 use App\Services\FeeService;
-use App\Modules\Marketplace\Services\FreelancerService;
 use App\Modules\Payments\Services\PaymentGateway;
+use App\Jobs\NotifyFreelancersOfNewProject;
 use App\Models\Service;
 use App\Models\User;
-use App\Models\Notification;
 
 class PaymentEscrow extends Component
 {
@@ -26,11 +25,16 @@ class PaymentEscrow extends Component
         
     public $listeners = ['updatedPaymentMethod' => 'render'];
 
-    // Campos de pagamento cartão
-    public $card_name = '';
-    public $card_number = '';
-    public $card_expiry = '';
-    public $card_cvv = '';
+    // Campos de pagamento cartão.
+    // SEGURANÇA: nunca usados para armazenar dados reais — servem apenas
+    // como campos temporários de UI para validação estrutural local.
+    // Em integração real, substituir por token emitido pelo SDK do gateway
+    // (ex: Stripe.js, Multicaixa SDK) — nunca enviar PAN/CVV ao servidor.
+    public string $card_name   = '';
+    public string $card_number = '';
+    public string $card_expiry = '';
+    public string $card_cvv    = '';
+    public string $payment_token = ''; // token gerado pelo gateway front-end (produção)
 
     /**
      * Processa o briefing do cliente: corrige ortografia, remove ofensas e clarifica o texto.
@@ -77,36 +81,36 @@ class PaymentEscrow extends Component
 
     public function confirmPayment()
     {
-
         // Validação dinâmica conforme método de pagamento
         if ($this->payment_method === 'card') {
+            // SEGURANÇA (PCI-DSS): os dados brutos do cartão NUNCA devem ser
+            // submetidos ao servidor. O front-end (JavaScript do gateway — ex:
+            // Multicaixa Express SDK, Stripe.js) converte o cartão num token
+            // opaco e armazena-o em $this->payment_token via Livewire.
+            // Dados de cartão (PAN, CVV, expiry) são zerados após tokenização.
             $this->validate([
-                'card_name' => 'required|string|min:3',
-                'card_number' => 'required|digits_between:13,19',
-                'card_expiry' => ['required', 'regex:/^(0[1-9]|1[0-2])\/(\d{2})$/'],
-                'card_cvv' => 'required|digits_between:3,4',
+                'payment_token' => 'required|string|min:8',
+                'card_name'     => 'required|string|min:3|max:100',
             ], [
-                'card_name.required' => 'Informe o nome do titular do cartão.',
-                'card_number.required' => 'Informe o número do cartão.',
-                'card_expiry.required' => 'Informe a validade.',
-                'card_cvv.required' => 'Informe o CVV.',
-                'card_number.digits_between' => 'Número do cartão inválido.',
-                'card_expiry.regex' => 'Validade deve ser no formato MM/AA.',
-                'card_cvv.digits_between' => 'CVV inválido.',
+                'payment_token.required' => 'Erro ao processar o cartão. Tente novamente.',
+                'card_name.required'     => 'Informe o nome do titular do cartão.',
             ]);
-            // Integração com gateway de pagamento
+
+            // Enviar apenas o token ao gateway — NUNCA PAN, CVV ou expiry
             $paymentResult = PaymentGateway::charge([
-                'amount'      => $this->valor_total,  // cobra o total real (valor + taxa)
-                'card_name'   => $this->card_name,
-                'card_number' => $this->card_number,
-                'card_expiry' => $this->card_expiry,
-                'card_cvv' => $this->card_cvv,
-                'description' => 'Pagamento de serviço',
+                'amount'        => $this->valor_total,
+                'payment_token' => $this->payment_token,
+                'card_name'     => $this->card_name,
+                'description'   => 'Pagamento de serviço',
             ]);
             if (empty($paymentResult['success'])) {
                 session()->flash('error', $paymentResult['message'] ?? 'Falha no pagamento.');
                 return;
             }
+            // Zerar dados sensíveis da memória imediatamente após uso
+            $this->card_number = '';
+            $this->card_expiry = '';
+            $this->card_cvv    = '';
             $transactionId = $paymentResult['transaction_id'] ?? null;
         } elseif ($this->payment_method === 'paypal') {
             // SIMULAÇÃO: PayPal aprovado automaticamente em modo de testes
@@ -170,23 +174,10 @@ class PaymentEscrow extends Component
 
         session()->forget(['client_order', 'briefing', 'briefing_title']);
 
-        // Notificação interna para freelancers ativos
+        // Despachar notificação em background (queue job) para evitar
+        // bloquear o request com N inserts + N emails síncronos.
         if ($service) {
-            $freelancers = FreelancerService::getAllFreelancers();
-            foreach ($freelancers as $freelancer) {
-                Notification::create([
-                    'user_id' => $freelancer->id,
-                    'type' => 'novo_projeto',
-                    'title' => 'Novo projeto publicado',
-                    'message' => 'Um novo projeto foi publicado: ' . $service->titulo,
-                    'read' => false,
-                ]);
-                // Notificação por e-mail (apenas se preferir)
-                if ($freelancer->notify_new_project_email) {
-                    $serviceUrl = route('freelancer.service.review', $service->id);
-                    $freelancer->notify(new \App\Notifications\NewProjectNotification($service, $serviceUrl));
-                }
-            }
+            \App\Jobs\NotifyFreelancersOfNewProject::dispatch($service);
         }
 
         if ($service) {
@@ -200,8 +191,6 @@ class PaymentEscrow extends Component
 
     public function render()
     {
-        // DEBUG: Exibir valor recebido na URL
-        session()->flash('debug_valor', 'Valor recebido: ' . $this->valor);
         return view('livewire.client.payment-escrow')
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Pagamento']);
     }

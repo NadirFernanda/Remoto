@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Dispute extends Model
 {
+    use SoftDeletes;
     protected $fillable = ['service_id', 'opened_by', 'reason', 'description', 'status', 'admin_note'];
 
     public static array $reasons = [

@@ -96,7 +96,7 @@ Route::post('/email/verification-notification', function () {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // ─── Core Authenticated Routes ────────────────────────────────────────────────
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Role switching (cliente ↔ freelancer)
     Route::post('/switch-role', function () {
@@ -119,7 +119,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // ─── Freelancer Core ──────────────────────────────────────────────────────────
-Route::middleware(['auth', 'role:freelancer'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/dashboard',          \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
     Route::get('/freelancer/notificacoes',       \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
     Route::get('/freelancer/configuracoes',      \App\Livewire\Client\Settings::class)->name('freelancer.settings');
@@ -132,7 +132,7 @@ Route::middleware(['auth', 'role:freelancer'])->group(function () {
 });
 
 // ─── Client Core ─────────────────────────────────────────────────────────────
-Route::middleware(['auth', 'role:cliente'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:cliente'])->group(function () {
     Route::get('/cliente/dashboard',     \App\Livewire\Client\Dashboard::class)->name('client.dashboard');
     Route::get('/cliente/perfil',        \App\Livewire\Client\Profile::class)->name('client.profile');
     Route::get('/cliente/perfil/editar', \App\Livewire\Client\Profile::class)->name('client.profile.edit');

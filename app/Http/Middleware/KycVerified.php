@@ -16,9 +16,9 @@ class KycVerified
         $user = $request->user();
 
         if ($user && $user->role === 'freelancer') {
-            $profile = $user->freelancerProfile;
-
-            if (!$profile || $profile->kyc_status !== 'approved') {
+            // Single source of truth: User.kyc_status set by admin approval flow.
+            // 'verified' means KYC was approved by an admin.
+            if ($user->kyc_status !== 'verified') {
                 return redirect()->route('kyc.submit')
                     ->with('warning', 'É necessário ter o KYC aprovado para aceder a esta funcionalidade. Complete a sua verificação de identidade.');
             }

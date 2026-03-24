@@ -29,13 +29,19 @@ class Payouts extends Component
     {
         $log = WalletLog::where('id', $logId)->where('tipo', 'saque_solicitado')->firstOrFail();
 
+        // Remover do saldo_pendente (o montante já foi debitado do saldo na solicitação)
+        $wallet = Wallet::where('id', $log->wallet_id)->first();
+        if ($wallet && $wallet->saldo_pendente >= abs($log->valor)) {
+            $wallet->decrement('saldo_pendente', abs($log->valor));
+        }
+
         $log->update(['tipo' => 'saque_aprovado']);
 
         Notification::create([
             'user_id'   => $log->user_id,
             'type'      => 'saque_aprovado',
             'title'     => 'Saque aprovado',
-            'message'   => 'O seu saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi aprovado e será processado em breve.',
+            'message'   => 'O seu saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi aprovado e será transferido para a sua conta bancária em breve.',
         ]);
 
         AuditLogger::log('saque_aprovado', "Saque #{$log->id} de {$log->valor} Kz aprovado pelo admin", 'WalletLog', $log->id);
@@ -47,10 +53,13 @@ class Payouts extends Component
     {
         $log = WalletLog::where('id', $logId)->where('tipo', 'saque_solicitado')->firstOrFail();
 
-        // Devolver o saldo ao freelancer
+        // Devolver o saldo ao freelancer: retirar de saldo_pendente e repor no saldo disponível
         $wallet = Wallet::where('id', $log->wallet_id)->first();
         if ($wallet) {
             $wallet->increment('saldo', abs($log->valor));
+            if ($wallet->saldo_pendente >= abs($log->valor)) {
+                $wallet->decrement('saldo_pendente', abs($log->valor));
+            }
         }
 
         $log->update(['tipo' => 'saque_rejeitado']);

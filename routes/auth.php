@@ -95,6 +95,21 @@ Route::post('/password/reset', function (Request $request) {
 // Cadastro freelancer centralizado no RegisterController
 use App\Http\Controllers\Auth\RegisterController;
 
+// ─── Email Verification ──────────────────────────────────────────────────────
+// Necessário para o middleware 'verified' funcionar correctamente.
+// O login web já faz auto-verificação, mas utilizadores criados via API
+// ou seeders podem não ter email_verified_at preenchido.
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', function () {
+        return redirect()->route('dashboard');
+    })->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('dashboard')->with('success', 'Email verificado com sucesso!');
+    })->middleware('signed')->name('verification.verify');
+});
+
 Route::get('/register', function () {
     if (Auth::check()) {
         $role = Auth::user()->role;
