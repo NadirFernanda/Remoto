@@ -45,16 +45,22 @@
                         <td class="px-6 py-4 whitespace-nowrap">{{ $project->created_at->format('d/m/Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap flex flex-wrap gap-2">
                             <a href="{{ route('service.chat', ['service' => $project->id]) }}" class="px-2 py-1 bg-[#e0f7fa] text-[#00baff] rounded hover:bg-[#00baff] hover:text-white text-xs font-semibold" title="Chat">Chat</a>
-                            @if(in_array($project->status, ['in_progress','delivered','completed']))
+                            @if(in_array($project->status, ['in_progress','delivered']))
                                 <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-700 hover:text-white text-xs font-semibold" title="Disputar">Disputar</a>
                             @endif
                             @if($project->status === 'em_moderacao')
                                 <a href="{{ route('service.dispute', ['service' => $project->id]) }}" class="px-2 py-1 bg-amber-100 text-amber-700 rounded hover:bg-amber-700 hover:text-white text-xs font-semibold" title="Ver mensagem da moderação">Moderação</a>
                             @endif
                             @if($project->status === 'completed')
-                                <a href="{{ route('service.review.leave', ['service' => $project->id]) }}" class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-700 hover:text-white text-xs font-semibold" title="Avaliar">Avaliar</a>
+                                @if(in_array($project->id, $reviewedIds))
+                                    <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-semibold">&#10003; Avaliado</span>
+                                @else
+                                    <a href="{{ route('service.review.leave', ['service' => $project->id]) }}" class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-700 hover:text-white text-xs font-semibold" title="Avaliar">Avaliar</a>
+                                @endif
                             @endif
-                            <a href="{{ route('freelancer.service.delivery', ['service' => $project->id]) }}" class="px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-700 hover:text-white text-xs font-semibold" title="Entregar">Entregar</a>
+                            @if(in_array($project->status, ['in_progress']))
+                                <a href="{{ route('freelancer.service.delivery', ['service' => $project->id]) }}" class="px-2 py-1 bg-green-100 text-green-700 rounded hover:bg-green-700 hover:text-white text-xs font-semibold" title="Entregar">Entregar</a>
+                            @endif
                         </td>
                     </tr>
                 @empty

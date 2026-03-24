@@ -120,7 +120,11 @@
         <div class="flex-shrink-0 border-t border-slate-200 bg-white px-3 py-3">
             @if($chat_bloqueado)
                 <div class="flex items-center justify-center gap-2 py-2 text-slate-400 text-sm">
-                    &#128274; Chat disponivel apos aceitacao do servico
+                    @if($service->status === 'completed')
+                        &#9989; Projeto concluído — o chat está em modo de leitura
+                    @else
+                        &#128274; Chat disponível após aceitação do serviço
+                    @endif
                 </div>
             @else
                 <form wire:submit="enviarMensagem" class="flex items-end gap-2"

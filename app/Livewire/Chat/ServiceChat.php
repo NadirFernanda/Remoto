@@ -46,9 +46,10 @@ class ServiceChat extends Component
             abort(403, 'Acesso não autorizado ao chat.');
         }
 
-        // Chat desbloqueado para negociação pré-contratação e fases activas
+        // Chat desbloqueado para negociação pré-contratação e fases activas.
+        // 'completed' está excluído: projeto concluído = chat em modo leitura.
         $this->chat_bloqueado = !in_array($service->status, [
-            'published', 'negotiating', 'accepted', 'in_progress', 'delivered', 'completed'
+            'published', 'negotiating', 'accepted', 'in_progress', 'delivered'
         ]);
 
         if (auth()->check()) {

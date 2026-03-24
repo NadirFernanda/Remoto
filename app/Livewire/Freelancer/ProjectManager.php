@@ -33,9 +33,15 @@ class ProjectManager extends Component
             ->selectRaw('status, count(*) as total')
             ->groupBy('status')->pluck('total', 'status');
 
+        $reviewedIds = \App\Models\Review::where('author_id', $user->id)
+            ->whereIn('service_id', $projects->pluck('id'))
+            ->pluck('service_id')
+            ->toArray();
+
         return view('livewire.freelancer.project-manager', [
-            'projects' => $projects,
+            'projects'     => $projects,
             'statusCounts' => $statusCounts,
+            'reviewedIds'  => $reviewedIds,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Meus Projetos',
         ]);
