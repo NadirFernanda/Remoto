@@ -24,34 +24,47 @@ class Wallet extends Component
     public function solicitarSaque()
     {
         $this->validate([
-            'valor_saque' => 'required|numeric|min:1',
+            'valor_saque' => 'required|numeric|min:1000',
+        ], [
+            'valor_saque.min' => 'O valor mínimo de saque é Kz 1.000.',
         ]);
 
         $user   = Auth::user();
-        $wallet = WalletModel::where('user_id', $user->id)->firstOrFail();
+        $wallet = WalletModel::firstOrCreate(
+            ['user_id' => $user->id],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
+        );
 
         if ($wallet->saldo < $this->valor_saque) {
             $this->addError('valor_saque', 'Saldo insuficiente.');
             return;
         }
 
-        // Saque sem taxa — comissões já são cobradas no momento de cada transação
-        $valor_liquido = round($this->valor_saque, 2);
+        // Prevenir múltiplos saques simultâneos
+        $pendingSaque = WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->exists();
 
-        // Debitar saldo
+        if ($pendingSaque) {
+            $this->addError('valor_saque', 'Já tem um saque pendente de aprovação. Aguarde a resolução antes de solicitar outro.');
+            return;
+        }
+
+        // Mover para saldo_pendente (não desaparece do saldo sem aviso)
         $wallet->decrement('saldo', $this->valor_saque);
+        $wallet->increment('saldo_pendente', $this->valor_saque);
 
-        // Registar log
         WalletLog::create([
             'user_id'   => $user->id,
             'wallet_id' => $wallet->id,
             'valor'     => -$this->valor_saque,
             'tipo'      => 'saque_solicitado',
-            'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz.",
+            'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz — a aguardar aprovação do admin.",
         ]);
 
         $this->saldo_disponivel = $wallet->fresh()->saldo;
-        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado com sucesso.";
+        $this->saldo_pendente   = $wallet->fresh()->saldo_pendente;
+        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado. Será processado em até 2 dias úteis.";
         $this->valor_saque = 0;
         session()->flash('success', $this->mensagem);
     }

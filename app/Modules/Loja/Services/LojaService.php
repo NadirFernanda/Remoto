@@ -4,6 +4,7 @@ namespace App\Modules\Loja\Services;
 
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoCompra;
+use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -52,17 +53,20 @@ class LojaService
                 'descricao' => "Compra do infoproduto \"{$produto->titulo}\".",
             ]);
 
-            $freelancerWallet = $produto->freelancer->wallet;
-            if ($freelancerWallet) {
-                $freelancerWallet->increment('saldo', $valorFreelancer);
-                WalletLog::create([
-                    'user_id'   => $produto->freelancer_id,
-                    'wallet_id' => $freelancerWallet->id,
-                    'valor'     => $valorFreelancer,
-                    'tipo'      => 'ganho_infoproduto',
-                    'descricao' => "Venda do infoproduto \"{$produto->titulo}\" — comissão de 20% retida.",
-                ]);
-            }
+            // firstOrCreate: garante que a carteira existe antes de creditar
+            // (evita perda silenciosa de pagamento se wallet row não existir)
+            $freelancerWallet = Wallet::firstOrCreate(
+                ['user_id' => $produto->freelancer_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
+            );
+            $freelancerWallet->increment('saldo', $valorFreelancer);
+            WalletLog::create([
+                'user_id'   => $produto->freelancer_id,
+                'wallet_id' => $freelancerWallet->id,
+                'valor'     => $valorFreelancer,
+                'tipo'      => 'ganho_infoproduto',
+                'descricao' => "Venda do infoproduto \"{$produto->titulo}\" — comissão de 20% retida.",
+            ]);
 
             $produto->increment('vendas_count');
         });

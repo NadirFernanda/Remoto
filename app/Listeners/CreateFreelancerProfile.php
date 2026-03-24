@@ -3,9 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\FreelancerRegistered;
-use App\Models\Profile;
 use App\Models\CreatorProfile;
 use App\Models\FreelancerProfile;
+use App\Models\Profile;
+use App\Models\Wallet;
 
 class CreateFreelancerProfile
 {
@@ -21,6 +22,18 @@ class CreateFreelancerProfile
         CreatorProfile::firstOrCreate(
             ['user_id' => $user->id],
             ['is_public' => true]
+        );
+
+        // Criar carteira para o freelancer — necessária para FinancialPanel e saques.
+        // Sem este registo, firstOrFail() nas páginas financeiras causa 500.
+        Wallet::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'saldo'          => 0,
+                'saldo_pendente' => 0,
+                'saque_minimo'   => 1000,
+                'taxa_saque'     => 0,
+            ]
         );
     }
 }

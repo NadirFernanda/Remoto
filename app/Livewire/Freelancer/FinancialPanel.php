@@ -32,7 +32,10 @@ class FinancialPanel extends Component
         ]);
 
         $user   = Auth::user();
-        $wallet = WalletModel::where('user_id', $user->id)->firstOrFail();
+        $wallet = WalletModel::firstOrCreate(
+            ['user_id' => $user->id],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
+        );
 
         if ($wallet->saldo < $this->valorSaque) {
             $this->addError('valorSaque', 'Saldo insuficiente para este saque.');
