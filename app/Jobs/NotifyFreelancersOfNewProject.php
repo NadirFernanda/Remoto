@@ -37,11 +37,12 @@ class NotifyFreelancersOfNewProject implements ShouldQueue
     public function handle(): void
     {
         // Processa em chunks para evitar carregar todos os freelancers em memória
+        // is_suspended é NOT NULL com default false — whereNull seria sempre vazio
+        // e o orWhere sem grupo anularia os filtros de role/status anteriores.
         User::query()
             ->where('role', 'freelancer')
             ->where('status', 'active')
-            ->whereNull('is_suspended')
-            ->orWhere('is_suspended', false)
+            ->where('is_suspended', false)
             ->select('id', 'name', 'email', 'notify_new_project_email')
             ->chunkById(100, function ($freelancers) {
                 $now = now();

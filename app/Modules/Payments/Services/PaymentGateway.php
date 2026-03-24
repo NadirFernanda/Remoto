@@ -59,14 +59,6 @@ class PaymentGateway implements PaymentGatewayContract
         ];
     }
 
-    /**
-     * Mantido por compatibilidade com código legado que chama PaymentGateway::charge([...]).
-     * @deprecated Usar instância injectada via PaymentGatewayContract.
-     */
-    public static function charge(array $data): array
-    {
-        return (new self())->charge($data);
-    }
 }
 
 

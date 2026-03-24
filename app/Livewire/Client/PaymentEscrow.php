@@ -97,7 +97,7 @@ class PaymentEscrow extends Component
             ]);
 
             // Enviar apenas o token ao gateway — NUNCA PAN, CVV ou expiry
-            $paymentResult = PaymentGateway::charge([
+            $paymentResult = (new PaymentGateway())->charge([
                 'amount'        => $this->valor_total,
                 'payment_token' => $this->payment_token,
                 'card_name'     => $this->card_name,
