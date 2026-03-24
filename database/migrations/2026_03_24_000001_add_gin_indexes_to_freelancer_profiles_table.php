@@ -18,6 +18,23 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // As colunas skills, languages e metrics podem ser do tipo json (não jsonb).
+        // jsonb_path_ops requer jsonb — convertemos primeiro via USING cast.
+        // O cast json::jsonb é seguro e sem perda de dados.
+        DB::statement("ALTER TABLE freelancer_profiles
+            ALTER COLUMN skills    TYPE jsonb USING skills::jsonb,
+            ALTER COLUMN languages TYPE jsonb USING languages::jsonb");
+
+        // metrics pode não existir em todos os ambientes — converter só se existir
+        $hasMetrics = DB::selectOne("
+            SELECT 1 FROM information_schema.columns
+            WHERE table_name = 'freelancer_profiles' AND column_name = 'metrics'
+        ");
+        if ($hasMetrics) {
+            DB::statement("ALTER TABLE freelancer_profiles
+                ALTER COLUMN metrics TYPE jsonb USING metrics::jsonb");
+        }
+
         DB::statement(
             'CREATE INDEX IF NOT EXISTS idx_fp_skills_gin
              ON freelancer_profiles USING GIN (skills jsonb_path_ops)'
@@ -28,13 +45,14 @@ return new class extends Migration
              ON freelancer_profiles USING GIN (languages jsonb_path_ops)'
         );
 
-        DB::statement(
-            'CREATE INDEX IF NOT EXISTS idx_fp_metrics_gin
-             ON freelancer_profiles USING GIN (metrics jsonb_path_ops)'
-        );
+        if ($hasMetrics) {
+            DB::statement(
+                'CREATE INDEX IF NOT EXISTS idx_fp_metrics_gin
+                 ON freelancer_profiles USING GIN (metrics jsonb_path_ops)'
+            );
+        }
 
         // Índice B-tree composto para filtros de disponibilidade + taxa horária
-        // (usados frequentemente em combinação na pesquisa avançada)
         DB::statement(
             'CREATE INDEX IF NOT EXISTS idx_fp_availability_hourly
              ON freelancer_profiles (availability_status, hourly_rate)'
