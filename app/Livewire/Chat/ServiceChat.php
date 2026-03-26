@@ -184,7 +184,9 @@ class ServiceChat extends Component
             return;
         }
 
-        // Processar débito e escrow
+        // Processar débito, escrow e persistência dentro de uma transacção atómica
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
+
         $clientWallet->decrement('saldo', $total_cliente);
         $clientWallet->increment('saldo_pendente', $extra);
 
@@ -202,7 +204,7 @@ class ServiceChat extends Component
 
         // Actualizar serviço
         $service->valor         = $novo;
-        $service->valor_liquido = round($novo * 0.80, 2);
+        $service->valor_liquido = round($novo * 0.90, 2); // 90% = valor líquido para o freelancer
 
         if ($isDirect) {
             // Contratação directa (negotiating ou accepted+direct_invite):
@@ -215,6 +217,8 @@ class ServiceChat extends Component
         }
 
         $service->save();
+
+        }); // fim DB::transaction
 
         // Notificar freelancer
         if ($service->freelancer_id) {

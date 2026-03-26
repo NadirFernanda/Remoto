@@ -10,7 +10,7 @@
                 <div class="font-semibold text-base leading-tight truncate">{{ $service->titulo ?? 'Chat do Servico' }}</div>
                 <div class="text-xs text-blue-100 mt-0.5">
                     @php
-                        $statusLabels = ['negotiating'=>'Em negociação','accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue','completed'=>'Concluido'];
+                        $statusLabels = ['published'=>'Publicado','negotiating'=>'Em negociação','accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue','completed'=>'Concluído','cancelled'=>'Cancelado'];
                     @endphp
                     {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
                 </div>

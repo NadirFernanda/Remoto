@@ -29,7 +29,8 @@ class Proposals extends Component
             ->firstOrFail();
 
         if (!$proposal->service_id) {
-            // Proposta antiga sem Service — criar agora em modo negociação
+            // Proposta antiga sem Service — criar agora com o status correcto
+            $chatStatus = in_array($proposal->status, ['accepted']) ? 'accepted' : 'negotiating';
             $service = Service::create([
                 'cliente_id'    => $proposal->sender_id,
                 'freelancer_id' => $user->id,
@@ -39,7 +40,7 @@ class Proposals extends Component
                 'valor'         => $proposal->value ?? 0,
                 'taxa'          => $proposal->fee   ?? 0,
                 'valor_liquido' => $proposal->net   ?? 0,
-                'status'        => 'negotiating',
+                'status'        => $chatStatus,
             ]);
             $proposal->update(['service_id' => $service->id]);
         }
@@ -59,8 +60,8 @@ class Proposals extends Component
             // Promover o Service existente de negociação para aceite
             Service::where('id', $proposal->service_id)->update(['status' => 'accepted']);
         } else {
-            // Fallback: propostas antigas sem service_id criam o Service agora
-            Service::create([
+            // Fallback: propostas antigas sem service_id — criar Service e guardar o ID
+            $newService = Service::create([
                 'cliente_id'    => $proposal->sender_id,
                 'freelancer_id' => $user->id,
                 'titulo'        => $proposal->title ?? 'Projecto via proposta',
@@ -71,9 +72,10 @@ class Proposals extends Component
                 'valor_liquido' => $proposal->net   ?? 0,
                 'status'        => 'accepted',
             ]);
+            $proposal->service_id = $newService->id;
         }
 
-        $proposal->update(['status' => 'accepted']);
+        $proposal->update(['status' => 'accepted', 'service_id' => $proposal->service_id]);
 
         Notification::create([
             'user_id'    => $proposal->sender_id,
