@@ -1,30 +1,31 @@
-<div>
+<div class="max-w-6xl mx-auto space-y-6">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Projetos Disponiveis</h2>
+        <p class="text-sm text-white/90 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
+    </div>
+
     @if(session('error'))
-        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
             {{ session('error') }}
         </div>
     @endif
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
             {{ session('success') }}
         </div>
     @endif
     @if(session('info'))
-        <div class="mb-4 p-3 bg-blue-100 text-blue-700 rounded shadow text-center font-semibold">
+        <div class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
             {{ session('info') }}
         </div>
     @endif
-    <div class="min-h-screen bg-gray-50">
-        <main class="max-w-6xl mx-auto p-8">
-            <div class="flex items-center justify-between mb-6">
-                <div>
-                    <p class="text-sm text-gray-500 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
-                </div>
-                <div class="hidden md:flex items-center gap-2 text-xs text-gray-500 bg-white border border-gray-200 rounded-full px-4 py-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                    <span>Pedidos em tempo real — actualize para ver novos projectos</span>
-                </div>
-            </div>
+
+    <div class="flex items-center justify-between">
+        <div class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-full px-4 py-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Pedidos em tempo real — actualize para ver novos projectos</span>
+        </div>
+    </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($projects as $project)
@@ -156,30 +157,28 @@
                 </div>
             @endif
 
-            {{-- Proposal Modal --}}
-            @if($proposalModal)
-                <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div class="bg-white rounded-lg w-full max-w-2xl p-6 shadow-xl">
-                        <h3 class="text-lg font-bold mb-3">Enviar proposta</h3>
-                        <form wire:submit.prevent="sendProposal">
-                            <div class="mb-3">
-                                <label class="block text-sm font-medium text-gray-700">Mensagem</label>
-                                <textarea wire:model.defer="proposalMessage" class="mt-1 block w-full border rounded p-2" rows="5"></textarea>
-                                @error('proposalMessage') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="mb-3">
-                                <label class="block text-sm font-medium text-gray-700">Valor (opcional)</label>
-                                <input type="number" step="0.01" wire:model.defer="proposalValue" class="mt-1 block w-48 border rounded p-2" />
-                                @error('proposalValue') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="flex justify-end gap-2">
-                                <button type="button" wire:click="$set('proposalModal', false)" class="px-4 py-2 rounded bg-gray-200">Cancelar</button>
-                                <button type="submit" class="px-4 py-2 rounded bg-cyan-500 text-white">Enviar proposta</button>
-                            </div>
-                        </form>
+    {{-- Proposal Modal --}}
+    @if($proposalModal)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl">
+                <h3 class="text-lg font-bold mb-3">Enviar proposta</h3>
+                <form wire:submit.prevent="sendProposal" class="space-y-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Mensagem</label>
+                        <textarea wire:model.defer="proposalMessage" class="mt-1 block w-full border border-gray-200 rounded-xl p-2" rows="5"></textarea>
+                        @error('proposalMessage') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
                     </div>
-                </div>
-            @endif
-        </main>
-    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Valor (opcional)</label>
+                        <input type="number" step="0.01" wire:model.defer="proposalValue" class="mt-1 block w-48 border border-gray-200 rounded-xl p-2" />
+                        @error('proposalValue') <div class="text-red-600 text-sm mt-1">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" wire:click="$set('proposalModal', false)" class="px-4 py-2 rounded-xl bg-gray-100">Cancelar</button>
+                        <button type="submit" class="px-4 py-2 rounded-xl bg-cyan-500 text-white">Enviar proposta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    @endif
 </div>

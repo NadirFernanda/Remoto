@@ -1,4 +1,9 @@
-<div class="max-w-2xl mx-auto py-12 px-4">
+<div class="max-w-5xl mx-auto space-y-6">
+
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Ativar Perfil</h2>
+        <p class="text-sm text-white/90 mt-1">Ative perfis adicionais para aceder a mais funcionalidades.</p>
+    </div>
 
     @if(session('success'))
         <div class="mb-6 p-3 bg-green-100 text-green-700 rounded-xl text-sm font-medium">

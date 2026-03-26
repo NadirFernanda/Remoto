@@ -1,4 +1,9 @@
-<div class="max-w-4xl mx-auto pb-8 px-4 space-y-8">
+<div class="max-w-6xl mx-auto space-y-6">
+
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Painel do Criador</h2>
+        <p class="text-sm text-white/90 mt-1">Gerencie as suas assinaturas, conteúdos e ganhos.</p>
+    </div>
 
     @if(session('success'))
         <div class="p-3 bg-green-100 text-green-700 rounded-xl text-sm font-medium">
@@ -6,12 +11,8 @@
         </div>
     @endif
 
-    {{-- Header --}}
     <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-900">Painel do Criador</h1>
-            <p class="text-sm text-gray-500 mt-0.5">Gerencie as suas assinaturas, conteúdos e ganhos</p>
-        </div>
+        <div></div>
         <div class="flex gap-3">
             <a href="{{ route('social.creator', $user) }}"
                class="inline-flex items-center gap-2 text-sm font-semibold text-[#00baff] border border-[#00baff] px-4 py-2 rounded-xl hover:bg-[#00baff]/5 transition">
