@@ -98,23 +98,47 @@
             </div>
 
             {{-- Capa --}}
-            <div>
+            <div x-data="{ capaNome: '' }">
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Imagem de Capa {{ !$editingId ? '<span class="text-red-500">*</span>' : '(opcional para atualizar)' }}
+                    Imagem de Capa
+                    @if(!$editingId) <span class="text-red-500">*</span> @else <span class="text-gray-400 font-normal">(opcional para actualizar)</span> @endif
                 </label>
-                <input type="file" wire:model="capa" accept="image/*"
-                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-[#00baff]/10 file:text-[#00baff] hover:file:bg-[#00baff]/20">
+                <div class="flex items-center gap-3">
+                    <label for="loja-capa-input"
+                           class="inline-flex items-center gap-2 cursor-pointer bg-[#00baff]/10 hover:bg-[#00baff]/20 text-[#00baff] font-semibold text-sm px-4 py-2 rounded-lg transition flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Escolher imagem
+                    </label>
+                    <span class="text-sm text-gray-500 truncate" x-text="capaNome || 'Nenhum ficheiro escolhido'"></span>
+                    <input type="file" id="loja-capa-input" wire:model="capa" accept="image/*"
+                           class="sr-only"
+                           x-on:change="capaNome = $event.target.files[0]?.name || ''">
+                </div>
                 <p class="text-xs text-gray-400 mt-1">JPG, PNG ou WEBP • máx. 4MB</p>
                 @error('capa') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             {{-- Ficheiro --}}
-            <div>
+            <div x-data="{ arquivoNome: '' }">
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                    Ficheiro do Produto {{ !$editingId ? '<span class="text-red-500">*</span>' : '(opcional para atualizar)' }}
+                    Ficheiro do Produto
+                    @if(!$editingId) <span class="text-red-500">*</span> @else <span class="text-gray-400 font-normal">(opcional para actualizar)</span> @endif
                 </label>
-                <input type="file" wire:model="arquivo"
-                    class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-[#00baff]/10 file:text-[#00baff] hover:file:bg-[#00baff]/20">
+                <div class="flex items-center gap-3">
+                    <label for="loja-arquivo-input"
+                           class="inline-flex items-center gap-2 cursor-pointer bg-[#00baff]/10 hover:bg-[#00baff]/20 text-[#00baff] font-semibold text-sm px-4 py-2 rounded-lg transition flex-shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+                        </svg>
+                        Escolher ficheiro
+                    </label>
+                    <span class="text-sm text-gray-500 truncate" x-text="arquivoNome || 'Nenhum ficheiro escolhido'"></span>
+                    <input type="file" id="loja-arquivo-input" wire:model="arquivo"
+                           class="sr-only"
+                           x-on:change="arquivoNome = $event.target.files[0]?.name || ''">
+                </div>
                 <p class="text-xs text-gray-400 mt-1">PDF, MP3, MP4, ZIP, etc. • máx. 100MB</p>
                 @error('arquivo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
