@@ -24,5 +24,10 @@ Route::middleware(['web', 'auth'])->group(function () {
 Route::middleware(['web', 'auth', 'role:creator'])->prefix('creator')->name('creator.')->group(function () {
     Route::get('/dashboard', \App\Livewire\Creator\Dashboard::class)->name('dashboard');
     Route::get('/activar/{profile?}', \App\Livewire\Creator\ActivateProfile::class)->name('activate');
+});
+
+// Assinaturas acessível a qualquer utilizador autenticado com perfil de criador
+// (a verificação de has_creator_profile é feita dentro do componente)
+Route::middleware(['web', 'auth'])->prefix('creator')->name('creator.')->group(function () {
     Route::get('/assinaturas', \App\Livewire\Creator\SubscriptionManager::class)->name('subscriptions');
 });
