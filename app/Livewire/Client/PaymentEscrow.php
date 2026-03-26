@@ -177,6 +177,7 @@ class PaymentEscrow extends Component
         // Despachar notificação em background (queue job) para evitar
         // bloquear o request com N inserts + N emails síncronos.
         if ($service) {
+            (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'publish_service', $service->id);
             \App\Jobs\NotifyFreelancersOfNewProject::dispatch($service);
         }
 

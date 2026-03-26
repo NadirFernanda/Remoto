@@ -70,5 +70,7 @@ class LojaService
 
             $produto->increment('vendas_count');
         });
+
+        (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'buy_product', $produto->id);
     }
 }

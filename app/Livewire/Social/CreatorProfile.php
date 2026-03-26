@@ -116,7 +116,8 @@ class CreatorProfile extends Component
             return;
         }
 
-        DB::transaction(function () use ($user, $price, $platformFee, $netAmount, $wallet) {
+        $subscriptionId = null;
+        DB::transaction(function () use ($user, $price, $platformFee, $netAmount, $wallet, &$subscriptionId) {
             // Deduct from subscriber
             $wallet->decrement('saldo', $price);
             WalletLog::create([
@@ -142,7 +143,7 @@ class CreatorProfile extends Component
             ]);
 
             // Create subscription
-            CreatorSubscription::create([
+            $subscription = CreatorSubscription::create([
                 'subscriber_id' => $user->id,
                 'creator_id'    => $this->creator->id,
                 'amount'        => $price,
@@ -152,7 +153,11 @@ class CreatorProfile extends Component
                 'starts_at'     => now(),
                 'expires_at'    => now()->addMonth(),
             ]);
+
+            $subscriptionId = $subscription->id;
         });
+
+        (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'subscribe_creator', $subscriptionId);
 
         session()->flash('success', 'Assinatura activada! Agora tem acesso ao conteúdo exclusivo de ' . $this->creator->name . '.');
     }

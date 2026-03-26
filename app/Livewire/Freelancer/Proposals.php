@@ -87,6 +87,8 @@ class Proposals extends Component
             ]);
         });
 
+        (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'accept_proposal', $proposal->id);
+
         session()->flash('success', 'Proposta aceite! Pode continuar a negociação ou começar a trabalhar no chat.');
     }
 

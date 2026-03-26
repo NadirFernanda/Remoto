@@ -51,6 +51,8 @@ class ServiceController extends Controller
             'status'     => 'published',
         ]);
 
+        (new \App\Services\AffiliateService())->creditCommissionForReferredAction($request->user(), 'publish_service', $service->id);
+
         return response()->json($service, 201);
     }
 

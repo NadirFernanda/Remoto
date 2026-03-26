@@ -6,6 +6,7 @@ use App\Events\AffiliateCommissionEarned;
 use App\Models\Affiliate;
 use App\Models\Referral;
 use App\Models\User;
+use App\Models\WalletLog;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -111,5 +112,40 @@ class AffiliateService
     public function creditCommission(User $affiliate, User $referred, float $commission, string $reason = 'purchase'): void
     {
         AffiliateCommissionEarned::dispatch($affiliate, $referred, $commission, $reason);
+    }
+
+    /**
+     * Credita comissão fixa ao afiliado dono do link quando o referido executa
+     * uma ação elegível na plataforma.
+     */
+    public function creditCommissionForReferredAction(User $actor, string $actionType, ?int $referenceId = null): void
+    {
+        $referral = Referral::where('user_id', $actor->id)->first();
+        if (!$referral || $referral->affiliate_id === $actor->id) {
+            return;
+        }
+
+        $affiliate = User::where('id', $referral->affiliate_id)
+            ->where('status', 'active')
+            ->first();
+
+        if (!$affiliate) {
+            return;
+        }
+
+        $refKey = $referenceId ?? 0;
+        $marker = '[AFF_ACTION:' . $actionType . ':' . $refKey . ':USER' . $actor->id . ']';
+
+        $alreadyCredited = WalletLog::where('user_id', $affiliate->id)
+            ->where('tipo', 'comissao_afiliado')
+            ->where('descricao', 'like', '%' . $marker . '%')
+            ->exists();
+
+        if ($alreadyCredited) {
+            return;
+        }
+
+        $reason = 'action:' . $actionType . ':' . $refKey . ':' . $actor->id;
+        AffiliateCommissionEarned::dispatch($affiliate, $actor, self::SIGNUP_COMMISSION, $reason);
     }
 }

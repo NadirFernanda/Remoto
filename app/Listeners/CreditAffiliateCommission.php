@@ -22,12 +22,31 @@ class CreditAffiliateCommission implements ShouldQueue
 
         $wallet->increment('saldo', $event->commission);
 
+        $descricao = "Comissão de afiliado pelo registo/acção de \"{$event->referred->name}\"";
+        if (str_starts_with($event->reason, 'action:')) {
+            $parts = explode(':', $event->reason);
+            $actionType = $parts[1] ?? 'acao';
+            $referenceId = $parts[2] ?? '0';
+            $referredId = $parts[3] ?? (string) $event->referred->id;
+
+            $actionLabel = match ($actionType) {
+                'publish_service' => 'publicação de serviço',
+                'buy_product' => 'compra de produto',
+                'subscribe_creator' => 'assinatura de criador',
+                'accept_proposal' => 'aceitação de proposta',
+                default => 'ação elegível',
+            };
+
+            $marker = '[AFF_ACTION:' . $actionType . ':' . $referenceId . ':USER' . $referredId . ']';
+            $descricao = "Comissão de afiliado por {$actionLabel} de \"{$event->referred->name}\" {$marker}";
+        }
+
         WalletLog::create([
             'user_id'   => $event->affiliate->id,
             'wallet_id' => $wallet->id,
             'valor'     => $event->commission,
             'tipo'      => 'comissao_afiliado',
-            'descricao' => "Comissão de afiliado pelo registo/acção de \"{$event->referred->name}\"",
+            'descricao' => $descricao,
         ]);
 
         $event->affiliate->notify(new AffiliateCommissionNotification(
