@@ -1,12 +1,21 @@
-<div class="max-w-xl mx-auto p-6 bg-white rounded shadow mt-8">
-    <h2 class="text-2xl font-bold mb-4">Meu Perfil</h2>
+<div class="max-w-5xl mx-auto space-y-6">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Meu Perfil</h2>
+        <p class="text-sm text-white/90 mt-1">Atualize os seus dados pessoais e preferencias.</p>
+    </div>
 
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded">{{ session('success') }}</div>
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            {{ session('success') }}
+        </div>
     @endif
     @if(session('error'))
-        <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded">{{ session('error') }}</div>
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ session('error') }}
+        </div>
     @endif
+
+    <div class="bg-white border border-gray-200 rounded-2xl p-6">
 
     {{-- Foto de capa + foto de perfil --}}
     <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
@@ -122,4 +131,5 @@
             <span>Guardar interesses</span>
         </button>
     </div>
+</div>
 </div>

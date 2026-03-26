@@ -18,6 +18,25 @@
     @if(session('success'))
         <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg border border-green-200 shadow-sm">{{ session('success') }}</div>
     @endif
+
+    <form method="GET" class="bg-white rounded-2xl border border-gray-200 p-4 mb-5">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Pesquisar parceiro, tipo ou notas"
+                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <input type="text" name="type" value="{{ request('type') }}" placeholder="Tipo"
+                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <select name="status" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <option value="">Todos os status</option>
+                <option value="ativo" @selected(request('status')==='ativo')>Activo</option>
+                <option value="pendente" @selected(request('status')==='pendente')>Pendente</option>
+                <option value="encerrado" @selected(request('status')==='encerrado')>Encerrado</option>
+            </select>
+            <div class="flex gap-2">
+                <button type="submit" class="bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-4 py-2 rounded-lg text-sm">Filtrar</button>
+                <a href="{{ route('admin.comercial.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 py-2 rounded-lg text-sm">Limpar</a>
+            </div>
+        </div>
+    </form>
     <div class="overflow-x-auto rounded-2xl shadow bg-white">
         <table class="min-w-full text-base">
             <thead>
@@ -43,11 +62,14 @@
                             {{ ucfirst($contract->status) }}
                         </span>
                     </td>
-                    <td class="py-3 px-5">{{ $contract->start_date }}</td>
-                    <td class="py-3 px-5">{{ $contract->end_date }}</td>
+                    <td class="py-3 px-5">{{ $contract->start_date ? \Carbon\Carbon::parse($contract->start_date)->format('d/m/Y') : '—' }}</td>
+                    <td class="py-3 px-5">{{ $contract->end_date ? \Carbon\Carbon::parse($contract->end_date)->format('d/m/Y') : '—' }}</td>
                     <td class="py-3 px-5 whitespace-nowrap">
                         <a href="{{ route('admin.comercial.show', $contract) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition"><span>🔎</span>Ver</a>
                         <a href="{{ route('admin.comercial.edit', $contract) }}" class="inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 font-medium ml-3 transition"><span>✏️</span>Editar</a>
+                        @if($contract->document_path)
+                            <a href="{{ asset('storage/' . $contract->document_path) }}" target="_blank" class="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-medium ml-3 transition"><span>📄</span>PDF</a>
+                        @endif
                         <form action="{{ route('admin.comercial.destroy', $contract) }}" method="POST" class="inline">
                             @csrf @method('DELETE')
                             <button type="submit" class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 font-medium ml-3 transition" onclick="return confirm('Remover este contrato/parceria?')"><span>🗑️</span>Remover</button>

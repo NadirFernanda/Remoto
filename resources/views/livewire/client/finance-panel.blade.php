@@ -1,37 +1,46 @@
-<div class="p-4 bg-white rounded shadow mb-6">
-    <h2 class="text-lg font-bold text-cyan-600 mb-2">Resumo Financeiro</h2>
-    <div class="flex items-center justify-between mb-4">
+<div class="bg-white border border-gray-200 rounded-2xl p-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
         <div>
-            <span class="text-gray-700">Saldo disponível:</span>
-            <span class="text-2xl font-bold text-green-600">
+            <h2 class="text-lg font-bold text-slate-900">Resumo Financeiro</h2>
+            <p class="text-sm text-slate-500">Visao geral do seu saldo e ultimos movimentos.</p>
+        </div>
+        <a href="#" class="text-[#00baff] hover:underline font-semibold text-sm">Ver extrato completo</a>
+    </div>
+
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">
+        <div>
+            <span class="text-sm text-slate-500">Saldo disponivel</span>
+            <div class="text-2xl font-extrabold text-emerald-600">
                 @if(is_null($balance))
                     -
                 @else
                     {{ money_aoa($balance) }}
                 @endif
-            </span>
+            </div>
         </div>
-        <a href="#" class="text-cyan-600 hover:underline font-semibold">Ver extrato completo</a>
     </div>
-    <h3 class="text-md font-semibold mb-2">Pagamentos recentes</h3>
-    <ul>
+
+    <h3 class="text-sm font-semibold text-slate-600 mb-2">Pagamentos recentes</h3>
+    <ul class="divide-y divide-slate-100">
         @forelse($recentPayments as $payment)
             @php $amt = $payment['amount'] ?? null; @endphp
-            <li class="flex justify-between items-center border-b py-2">
-                <span>{{ $payment['description'] }}</span>
-                <span class="font-bold {{ (!is_null($amt) && $amt > 0) ? 'text-green-600' : ((!is_null($amt) && $amt < 0) ? 'text-red-600' : '') }}">
-                    @if(is_null($amt))
-                        -
-                    @elseif($amt == 0)
-                        {{ money_aoa(0) }}
-                    @else
-                        {{ $amt > 0 ? '+' : '-' }}{{ money_aoa(abs($amt)) }}
-                    @endif
-                </span>
-                <span class="text-gray-500 text-sm">{{ \Carbon\Carbon::parse($payment['created_at'])->format('d/m/Y') }}</span>
+            <li class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 py-3">
+                <span class="text-slate-700">{{ $payment['description'] }}</span>
+                <div class="flex items-center gap-4">
+                    <span class="font-bold {{ (!is_null($amt) && $amt > 0) ? 'text-emerald-600' : ((!is_null($amt) && $amt < 0) ? 'text-red-600' : '') }}">
+                        @if(is_null($amt))
+                            -
+                        @elseif($amt == 0)
+                            {{ money_aoa(0) }}
+                        @else
+                            {{ $amt > 0 ? '+' : '-' }}{{ money_aoa(abs($amt)) }}
+                        @endif
+                    </span>
+                    <span class="text-slate-500 text-xs">{{ \Carbon\Carbon::parse($payment['created_at'])->format('d/m/Y') }}</span>
+                </div>
             </li>
         @empty
-            <li class="text-gray-500">Nenhum pagamento recente.</li>
+            <li class="text-slate-500 py-3">Nenhum pagamento recente.</li>
         @endforelse
     </ul>
 </div>

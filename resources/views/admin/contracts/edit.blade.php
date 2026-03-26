@@ -3,6 +3,15 @@
 @section('dashboard-title', 'Editar Contrato/Parceria')
 
 @section('dashboard-content')
+    @if ($errors->any())
+        <div class="max-w-xl mx-auto mb-4 p-3 bg-red-50 text-red-700 rounded-lg border border-red-200">
+            <ul class="list-disc pl-5 text-sm">
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form method="POST" action="{{ route('admin.comercial.update', $contract) }}" enctype="multipart/form-data" class="max-w-xl mx-auto bg-white rounded-2xl shadow p-8 space-y-6">
         @csrf
         @method('PUT')

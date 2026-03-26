@@ -4,32 +4,41 @@
 
 @section('dashboard-content')
     <h2 class="text-2xl font-bold text-center mb-6">Novo Contrato/Parceria</h2>
+    @if ($errors->any())
+        <div class="max-w-xl mx-auto mb-4 p-3 bg-red-50 text-red-700 rounded-lg border border-red-200">
+            <ul class="list-disc pl-5 text-sm">
+                @foreach ($errors->all() as $err)
+                    <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form method="POST" action="{{ route('admin.comercial.store') }}" enctype="multipart/form-data" class="max-w-xl mx-auto bg-white rounded-2xl shadow p-8 space-y-6">
         @csrf
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Parceiro</label>
-                <input type="text" name="partner_name" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" required>
+                <input type="text" name="partner_name" value="{{ old('partner_name') }}" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" required>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo</label>
-                <input type="text" name="type" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" required placeholder="Fornecedor, Cliente, Parceria...">
+                <input type="text" name="type" value="{{ old('type') }}" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" required placeholder="Fornecedor, Cliente, Parceria...">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Status</label>
                 <select name="status" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
-                    <option value="ativo">Activo</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="encerrado">Encerrado</option>
+                    <option value="ativo" @selected(old('status')==='ativo')>Activo</option>
+                    <option value="pendente" @selected(old('status', 'pendente')==='pendente')>Pendente</option>
+                    <option value="encerrado" @selected(old('status')==='encerrado')>Encerrado</option>
                 </select>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Data de Início</label>
-                <input type="date" name="start_date" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
+                <input type="date" name="start_date" value="{{ old('start_date') }}" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Data de Fim</label>
-                <input type="date" name="end_date" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
+                <input type="date" name="end_date" value="{{ old('end_date') }}" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition">
             </div>
         </div>
         <div>
@@ -45,7 +54,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">Notas</label>
-            <textarea name="notes" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" rows="3"></textarea>
+            <textarea name="notes" class="w-full rounded-lg border border-gray-300 focus:border-[#00baff] focus:ring-2 focus:ring-[#00baff]/20 px-4 py-2 text-base transition" rows="3">{{ old('notes') }}</textarea>
         </div>
         <div class="flex justify-end gap-3 pt-2">
             <button type="submit" class="bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-6 py-2 rounded-lg shadow transition">Guardar</button>

@@ -5,12 +5,32 @@ namespace App\Modules\Admin\Controllers;
 use Illuminate\Routing\Controller;
 use App\Models\Contract;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContractController extends Controller
 {
     public function index(Request $request)
     {
-        $contracts = Contract::orderByDesc('created_at')->paginate(15);
+        $query = Contract::query();
+
+        if ($request->filled('q')) {
+            $q = $request->string('q');
+            $query->where(function ($sub) use ($q) {
+                $sub->where('partner_name', 'ilike', '%' . $q . '%')
+                    ->orWhere('type', 'ilike', '%' . $q . '%')
+                    ->orWhere('notes', 'ilike', '%' . $q . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->string('status'));
+        }
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->string('type'));
+        }
+
+        $contracts = $query->orderByDesc('created_at')->paginate(15)->withQueryString();
         return view('admin.contracts.index', compact('contracts'));
     }
 
@@ -62,6 +82,9 @@ class ContractController extends Controller
         ]);
 
         if ($request->hasFile('documento')) {
+            if ($contract->document_path && Storage::disk('public')->exists($contract->document_path)) {
+                Storage::disk('public')->delete($contract->document_path);
+            }
             $data['document_path'] = $request->file('documento')->store('contratos', 'public');
         }
 
@@ -71,6 +94,9 @@ class ContractController extends Controller
 
     public function destroy(Contract $contract)
     {
+        if ($contract->document_path && Storage::disk('public')->exists($contract->document_path)) {
+            Storage::disk('public')->delete($contract->document_path);
+        }
         $contract->delete();
         return redirect()->route('admin.comercial.index')->with('success', 'Contrato/parceria removido!');
     }
