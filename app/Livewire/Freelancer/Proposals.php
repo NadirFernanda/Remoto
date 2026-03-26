@@ -76,10 +76,11 @@ class Proposals extends Component
         $proposal->update(['status' => 'accepted']);
 
         Notification::create([
-            'user_id' => $proposal->sender_id,
-            'type'    => 'proposal_accepted',
-            'title'   => 'Proposta aceite!',
-            'message' => $user->name . ' aceitou a sua proposta "' . $proposal->title . '".',
+            'user_id'    => $proposal->sender_id,
+            'service_id' => $proposal->service_id,
+            'type'       => 'proposal_accepted',
+            'title'      => 'Proposta aceite!',
+            'message'    => $user->name . ' aceitou a sua proposta "' . $proposal->title . '".',
         ]);
 
         session()->flash('success', 'Proposta aceite! Pode continuar a negociação ou começar a trabalhar no chat.');
@@ -101,10 +102,11 @@ class Proposals extends Component
 
         // Notificar o cliente
         Notification::create([
-            'user_id' => $proposal->sender_id,
-            'type'    => 'proposal_rejected',
-            'title'   => 'Proposta recusada',
-            'message' => $user->name . ' recusou a sua proposta "' . $proposal->title . '".',
+            'user_id'    => $proposal->sender_id,
+            'service_id' => $proposal->service_id,
+            'type'       => 'proposal_rejected',
+            'title'      => 'Proposta recusada',
+            'message'    => $user->name . ' recusou a sua proposta "' . $proposal->title . '".',
         ]);
 
         session()->flash('info', 'Proposta recusada.');

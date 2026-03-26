@@ -59,13 +59,25 @@ class ServiceChat extends Component
 
     // ── Computed helpers ─────────────────────────────────────────────────────
 
-    /** Breakdown do extra: extra, taxa (10%), total_cliente */
+    /**
+     * Verdadeiro quando o projecto ainda não teve o escrow cobrado.
+     * Cobre dois casos:
+     *   1. status = 'negotiating' (proposta directa enviada, cliente ainda não pagou)
+     *   2. status = 'accepted' + service_type = 'direct_invite' (freelancer aceitou mas cliente ainda não pagou)
+     */
+    public function getIsDirectNegotiationProperty(): bool
+    {
+        return $this->service->status === 'negotiating'
+            || ($this->service->status === 'accepted' && $this->service->service_type === 'direct_invite');
+    }
+
+    /** Breakdown do valor: para negociação directa é o valor total; para ajustes é a diferença */
     public function getExtraBreakdownProperty(): array
     {
-        $novo          = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
-        $isNegotiating = $this->service->status === 'negotiating';
-        // Para negociação directa o escrow ainda não foi cobrado → o valor inteiro é o "extra"
-        $extra = round(max(0.0, $isNegotiating ? $novo : ($novo - (float) $this->service->valor)), 2);
+        $novo  = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
+        $isDirect = $this->isDirectNegotiation;
+        // Negociação directa: escrow ainda não foi cobrado → paga o valor total
+        $extra = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
         $taxa  = round($extra * 0.10, 2);
         return [
             'atual'          => (float) $this->service->valor,
@@ -73,7 +85,7 @@ class ServiceChat extends Component
             'extra'          => $extra,
             'taxa'           => $taxa,
             'total_cliente'  => round($extra + $taxa, 2),
-            'is_negotiating' => $isNegotiating,
+            'is_negotiating' => $isDirect,
         ];
     }
 
@@ -96,8 +108,9 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->novoValorTotal = '';
 
-        if ($this->service->status === 'negotiating') {
-            // Negociação directa: pré-preencher com estimativa inicial se existir
+        if ($this->isDirectNegotiation) {
+            // Negociação directa (negotiating ou accepted+direct_invite):
+            // pré-preencher com estimativa inicial se existir
             if ((float) $this->service->valor > 0) {
                 $this->novoValorTotal = (string) $this->service->valor;
             }
@@ -139,12 +152,12 @@ class ServiceChat extends Component
             'novoValorTotal.min'      => 'O valor deve ser maior que zero.',
         ]);
 
-        $service       = $this->service;
-        $isNegotiating = $service->status === 'negotiating';
-        $novo          = round((float) $this->novoValorTotal, 2);
-        $atual         = round((float) $service->valor, 2);
+        $service    = $this->service;
+        $isDirect   = $this->isDirectNegotiation; // negotiating OU accepted+direct_invite
+        $novo       = round((float) $this->novoValorTotal, 2);
+        $atual      = round((float) $service->valor, 2);
 
-        if ($isNegotiating) {
+        if ($isDirect) {
             // Primeiro pagamento: o valor total acordado vai inteiro para escrow
             $extra = $novo;
         } else {
@@ -175,7 +188,7 @@ class ServiceChat extends Component
         $clientWallet->decrement('saldo', $total_cliente);
         $clientWallet->increment('saldo_pendente', $extra);
 
-        $logDescricao = $isNegotiating
+        $logDescricao = $isDirect
             ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)'
             : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)';
 
@@ -183,7 +196,7 @@ class ServiceChat extends Component
             'user_id'   => auth()->id(),
             'wallet_id' => $clientWallet->id,
             'valor'     => -$total_cliente,
-            'tipo'      => $isNegotiating ? 'escrow_retido' : 'escrow_ajuste',
+            'tipo'      => $isDirect ? 'escrow_retido' : 'escrow_ajuste',
             'descricao' => $logDescricao,
         ]);
 
@@ -191,8 +204,9 @@ class ServiceChat extends Component
         $service->valor         = $novo;
         $service->valor_liquido = round($novo * 0.80, 2);
 
-        if ($isNegotiating) {
-            // Contratação directa: passar para "em andamento" após pagamento confirmado
+        if ($isDirect) {
+            // Contratação directa (negotiating ou accepted+direct_invite):
+            // após pagamento o projecto passa imediatamente para Em andamento
             $service->status = 'in_progress';
         } else {
             $service->valor_ajuste      = $extra;
@@ -204,8 +218,8 @@ class ServiceChat extends Component
 
         // Notificar freelancer
         if ($service->freelancer_id) {
-            if ($isNegotiating) {
-                $notifMsg = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
+            if ($isDirect) {
+                $notifMsg   = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
                 $notifType  = 'project_started';
                 $notifTitle = 'Projecto iniciado';
             } else {
@@ -229,7 +243,7 @@ class ServiceChat extends Component
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $successMsg = 'Pagamento de ' . number_format($total_cliente, 2, ',', '.') . ' Kz processado com sucesso!';
-        if ($isNegotiating) {
+        if ($isDirect) {
             $successMsg .= ' O projecto está agora Em andamento.';
         }
         session()->flash('chat_success', $successMsg);

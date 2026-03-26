@@ -129,10 +129,11 @@ class SendProposal extends Component
 
         // Notificar o freelancer
         Notification::create([
-            'user_id' => $this->recipient_id,
-            'type'    => 'proposal_received',
-            'title'   => 'Nova proposta de cliente',
-            'message' => $user->name . ' enviou-lhe uma proposta: "' . $this->title . '"',
+            'user_id'    => $this->recipient_id,
+            'service_id' => $service->id,
+            'type'       => 'proposal_received',
+            'title'      => 'Nova proposta de cliente',
+            'message'    => $user->name . ' enviou-lhe uma proposta: "' . $this->title . '"',
         ]);
 
         $this->service_id = $service->id;
