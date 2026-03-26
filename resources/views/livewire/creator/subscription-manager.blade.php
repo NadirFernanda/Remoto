@@ -42,6 +42,19 @@
             </div>
         </div>
 
+        {{-- Valor da Assinatura --}}
+        <div style="background:#fff;border:1.5px solid #d1fae5;border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:#ecfdf5;border-radius:50%;"></div>
+            <p style="font-size:.65rem;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;opacity:.75;">Valor da Assinatura</p>
+            <p style="font-size:1.55rem;font-weight:900;color:#059669;margin:0;line-height:1.1;">{{ money_aoa($valorAssinatura, false) }}</p>
+            <p style="font-size:.7rem;color:#10b981;margin:.35rem 0 0;">por mês · recebe <strong>{{ money_aoa($valorAssinatura * 0.75, false) }}</strong></p>
+            <div style="position:absolute;bottom:1rem;right:1rem;">
+                <svg width="22" height="22" fill="none" stroke="#6ee7b7" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+            </div>
+        </div>
+
     </div>
 
     {{-- ── Bar Chart + Year Selector ────────────────────────────────────────── --}}
