@@ -1,21 +1,5 @@
 <div>
 
-    {{-- ── Header ─────────────────────────────────────────────────────────── --}}
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
-        <div>
-            <h2 style="font-size:1.25rem;font-weight:800;color:#0f172a;margin:0;">Gestão de Assinaturas</h2>
-            <p style="font-size:.82rem;color:#64748b;margin:.2rem 0 0;">Desempenho e histórico por ciclo mensal</p>
-        </div>
-        @if($creatorProfile)
-            <div style="background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:12px;padding:.55rem 1rem;display:flex;align-items:center;gap:.6rem;">
-                <svg width="15" height="15" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span style="font-size:.78rem;font-weight:700;color:#0284c7;">
-                    Preço: Kz 3.000 / mês
-                </span>
-            </div>
-        @endif
-    </div>
-
     {{-- ── KPI Cards ────────────────────────────────────────────────────────── --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-bottom:1.75rem;">
 
@@ -54,19 +38,6 @@
             <div style="position:absolute;bottom:1rem;right:1rem;">
                 <svg width="22" height="22" fill="none" stroke="#fcd34d" stroke-width="1.8" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
-                </svg>
-            </div>
-        </div>
-
-        {{-- Valor da Assinatura --}}
-        <div style="background:#fff;border:1.5px solid #ede9fe;border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
-            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:#f5f3ff;border-radius:50%;"></div>
-            <p style="font-size:.65rem;font-weight:700;color:#5b21b6;text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;opacity:.75;">Valor da Assinatura</p>
-            <p style="font-size:1.55rem;font-weight:900;color:#6d28d9;margin:0;line-height:1.1;">{{ money_aoa($valorAssinatura, false) }}</p>
-            <p style="font-size:.7rem;color:#7c3aed;margin:.35rem 0 0;">por mês · recebe <strong>{{ money_aoa($valorAssinatura * 0.75, false) }}</strong></p>
-            <div style="position:absolute;bottom:1rem;right:1rem;">
-                <svg width="22" height="22" fill="none" stroke="#c4b5fd" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
                 </svg>
             </div>
         </div>
