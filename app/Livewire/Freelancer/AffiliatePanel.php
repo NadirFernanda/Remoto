@@ -2,39 +2,46 @@
 
 namespace App\Livewire\Freelancer;
 
+use App\Models\Referral;
+use App\Models\WalletLog;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Affiliate;
 
 class AffiliatePanel extends Component
 {
-    public $affiliateCode;
-    public $earnings;
-    public $status;
+    public string $affiliateCode = '';
+    public string $affiliateLink = '';
+    public float $saldoDisponivel = 0;
+    public int $totalAfiliados = 0;
+    public float $comissaoPorAfiliado = 200;
     public $history = [];
 
     public function mount()
     {
         $user = Auth::user();
-        $affiliate = Affiliate::where('user_id', $user->id)->first();
-        if ($affiliate) {
-            $this->affiliateCode = $affiliate->codigo;
-            $this->earnings = $affiliate->ganhos;
-            $this->status = $affiliate->status;
-            // Histórico real: usar WalletLog com tipo de comissão de afiliado
-            $logs = \App\Models\WalletLog::where('user_id', $user->id)
-                ->where('tipo', 'comissao_afiliado')
-                ->orderByDesc('created_at')
-                ->take(10)
-                ->get();
-            $this->history = $logs->map(function($l) {
-                return [
-                    'created_at' => $l->created_at,
-                    'amount' => $l->valor,
-                    'description' => $l->descricao ?? 'Comissão de afiliado',
-                ];
-            })->toArray();
-        }
+        $this->affiliateCode = (string) ($user->affiliate_code ?? '');
+        $this->affiliateLink = $this->affiliateCode
+            ? url('/register?ref=' . $this->affiliateCode)
+            : '';
+
+        $this->totalAfiliados = Referral::where('affiliate_id', $user->id)->count();
+        $this->saldoDisponivel = (float) WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'comissao_afiliado')
+            ->sum('valor');
+
+        $logs = WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'comissao_afiliado')
+            ->orderByDesc('created_at')
+            ->take(10)
+            ->get();
+
+        $this->history = $logs->map(function ($log) {
+            return [
+                'created_at' => $log->created_at,
+                'amount' => $log->valor,
+                'description' => $log->descricao ?? 'Comissão de afiliado',
+            ];
+        })->toArray();
     }
 
     public function render()

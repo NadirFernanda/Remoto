@@ -1,70 +1,77 @@
-<div class="p-6 bg-white rounded shadow max-w-2xl mx-auto mt-8">
-    <h2 class="text-2xl font-bold mb-4">Programa de Afiliados</h2>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold">Seu código de afiliado:</label>
-        <div class="flex items-center mt-2">
-            <input id="affiliateCode" type="text" class="w-full px-3 py-2 border rounded-l bg-gray-100" value="{{ $affiliateCode }}" readonly>
-            <button x-data x-on:click="navigator.clipboard.writeText(document.getElementById('affiliateCode').value); $dispatch('copied')" class="px-4 py-2 bg-blue-600 text-white rounded-r hover:bg-blue-700 focus:outline-none">Copiar</button>
-        </div>
-        <span x-data="{ show: false }" x-on:copied.window="show = true; setTimeout(() => show = false, 2000)" x-show="show" class="text-green-600 text-sm mt-2 block">Copiado!</span>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold">Ganhos acumulados:</label>
-        <div class="text-lg text-green-700 font-bold mt-1">
-            @if(is_null($earnings))
-                -
-            @elseif($earnings == 0)
-                Gratuito
-            @else
-                {{ money_aoa($earnings) }}
-            @endif
-        </div>
-    </div>
-    <div class="mb-4">
-        <label class="block text-gray-700 font-semibold">Status do afiliado:</label>
-        @php
-            $affiliateStatusLabels = [
-                'ativo' => 'Activo',
-                'inativo' => 'Inactivo',
-                'pendente' => 'Pendente',
-                'recusado' => 'Recusado',
-            ];
-        @endphp
-        <span class="inline-block px-3 py-1 rounded-full text-white {{ $status === 'ativo' ? 'bg-green-500' : 'bg-gray-400' }}">
-            {{ $affiliateStatusLabels[$status] ?? ucfirst($status) }}
-        </span>
-    </div>
+<div class="space-y-6">
     <div>
-        <label class="block text-gray-700 font-semibold mb-2">Histórico de ganhos:</label>
-        <table class="w-full text-left border">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="py-2 px-3">Data</th>
-                    <th class="py-2 px-3">Valor</th>
-                    <th class="py-2 px-3">Descrição</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($history as $item)
+        <h2 class="text-2xl font-bold text-slate-900">Programa de Afiliado</h2>
+        <p class="text-sm text-slate-500 mt-1">Módulo da secção MONETIZAÇÃO com ganhos por link de afiliado.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1">Saldo Disponível</p>
+            <p class="text-2xl font-extrabold text-[#00b894]">{{ money_aoa($saldoDisponivel, false) }}</p>
+            <p class="text-xs text-gray-400 mt-1">Comissões já creditadas</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+            <p class="text-xs text-gray-500 mb-1">Total de Afiliados</p>
+            <p class="text-2xl font-extrabold text-slate-900">{{ $totalAfiliados }}</p>
+            <p class="text-xs text-gray-400 mt-1">Registos via o seu link</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-[#bfe9dd] p-5">
+            <p class="text-xs text-[#0f766e] mb-1">Comissão por Afiliado</p>
+            <p class="text-2xl font-extrabold text-[#0f766e]">Kz {{ number_format($comissaoPorAfiliado, 0, ',', '.') }}</p>
+            <p class="text-xs text-[#0f766e]/70 mt-1">Valor fixo por cada novo afiliado</p>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 p-5" x-data="{ copied: false }">
+        <p class="text-sm font-semibold text-slate-800 mb-2">Link de Afiliado</p>
+
+        @if($affiliateLink)
+            <div class="flex flex-col sm:flex-row gap-2">
+                <input id="affiliateLink" type="text" class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-sm" value="{{ $affiliateLink }}" readonly>
+                <button
+                    x-on:click="navigator.clipboard.writeText(document.getElementById('affiliateLink').value); copied = true; setTimeout(() => copied = false, 2000)"
+                    class="px-4 py-2 bg-[#00baff] text-white rounded-lg hover:bg-[#029ed9] transition text-sm font-semibold">
+                    Copiar link
+                </button>
+            </div>
+            <p x-show="copied" x-transition class="text-xs text-emerald-600 mt-2">Link copiado com sucesso.</p>
+        @else
+            <div class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-700">
+                Código de afiliado não encontrado. Gere o código no seu perfil para activar o programa.
+            </div>
+        @endif
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+        <div class="px-5 py-3 border-b border-gray-100">
+            <p class="text-sm font-semibold text-slate-800">Histórico de Comissões</p>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-500 uppercase text-xs">
                     <tr>
-                        <td class="py-2 px-3">{{ \Carbon\Carbon::parse($item['created_at'])->format('d/m/Y') }}</td>
-                        <td class="py-2 px-3">
-                            @if(is_null($item['amount']))
-                                -
-                            @elseif($item['amount'] == 0)
-                                Gratuito
-                            @else
-                                {{ money_aoa($item['amount']) }}
-                            @endif
-                        </td>
-                        <td class="py-2 px-3">{{ $item['description'] }}</td>
+                        <th class="py-3 px-4">Data</th>
+                        <th class="py-3 px-4">Valor</th>
+                        <th class="py-3 px-4">Descrição</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="3" class="py-2 px-3 text-gray-500">Nenhum histórico encontrado.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @forelse($history as $item)
+                        <tr class="border-t border-gray-100">
+                            <td class="py-3 px-4 text-gray-600">{{ \Carbon\Carbon::parse($item['created_at'])->format('d/m/Y') }}</td>
+                            <td class="py-3 px-4 font-semibold text-[#00b894]">{{ money_aoa($item['amount'], false) }}</td>
+                            <td class="py-3 px-4 text-gray-600">{{ $item['description'] }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="py-4 px-4 text-gray-500">Nenhuma comissão registada ainda.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

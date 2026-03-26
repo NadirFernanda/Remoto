@@ -56,7 +56,7 @@ class RegisterController extends Controller
                         'user_agent' => $request->userAgent(),
                     ]);
                     // Creditar comissão via evento (CreditAffiliateCommission listener)
-                    AffiliateCommissionEarned::dispatch($affiliate, $user, 300.0, 'signup');
+                    AffiliateCommissionEarned::dispatch($affiliate, $user, 200.0, 'signup');
                 }
             }
         }

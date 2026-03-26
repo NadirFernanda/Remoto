@@ -175,6 +175,11 @@
             Minhas Assinaturas
         </a>
         @endif
+        <a href="{{ route('freelancer.affiliate') }}"
+            class="snav-item {{ request()->routeIs('freelancer.affiliate') ? 'snav-active' : '' }}">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101"/></svg>
+            Programa de Afiliado
+        </a>
         <div class="snav-divider mt-1"></div>
         <p class="snav-group-label">Financeiro</p>
         <a href="{{ route('freelancer.financial') }}"

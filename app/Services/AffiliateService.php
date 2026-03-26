@@ -15,7 +15,7 @@ class AffiliateService
     /**
      * Comissão fixa por registo via link de afiliado (em AOA).
      */
-    public const SIGNUP_COMMISSION = 300.0;
+    public const SIGNUP_COMMISSION = 200.0;
 
     /**
      * Limite de indicações por IP por dia (anti-fraude).
@@ -30,16 +30,28 @@ class AffiliateService
     {
         $existing = Affiliate::where('user_id', $user->id)->first();
         if ($existing) {
+            if (empty($user->affiliate_code)) {
+                $user->affiliate_code = $existing->codigo;
+                $user->save();
+            }
             return $existing;
         }
 
         // Garantia de unicidade: do-while + DB UNIQUE constraint como rede de segurança.
         // O try-catch trata a janela de concorrência (dois pedidos simultâneos).
-        do {
-            $code = strtoupper(Str::random(8));
-        } while (Affiliate::where('codigo', $code)->exists());
+        $code = $user->affiliate_code;
+        if (empty($code)) {
+            do {
+                $code = strtoupper(Str::random(8));
+            } while (Affiliate::where('codigo', $code)->exists() || User::where('affiliate_code', $code)->exists());
+        }
 
         try {
+            if ($user->affiliate_code !== $code) {
+                $user->affiliate_code = $code;
+                $user->save();
+            }
+
             return Affiliate::create([
                 'user_id' => $user->id,
                 'codigo'  => $code,
