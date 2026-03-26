@@ -11,35 +11,63 @@
 
     <form wire:submit="saveProfile">
         {{-- User personal fields --}}
-        <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <label class="block text-sm font-medium text-gray-700 mb-3">Foto de perfil</label>
-            <div class="flex items-center gap-4 flex-wrap">
-                <div class="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 border-2 border-gray-200">
-                    <img id="pe-avatar-preview" class="w-full h-full object-cover"
-                         src="{{ $currentProfilePhoto ? asset('storage/' . $currentProfilePhoto) : asset('img/default-avatar.svg') }}"
-                         alt="Avatar">
+        {{-- Foto de capa + foto de perfil --}}
+        <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
+            {{-- Banner de capa --}}
+            <div class="relative h-48 bg-gradient-to-r from-[#00baff] to-[#6a5acd]"
+                 @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
+                <label for="pe-cover-input"
+                       class="absolute bottom-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer transition"
+                       title="Alterar foto de capa">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
+                    </svg>
+                </label>
+                <input type="file" id="pe-cover-input" wire:model="coverPhoto"
+                       accept="image/jpeg,image/png,image/webp"
+                       style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
+                       onchange="if(this.files[0]){var b=this.closest('.relative');b.style.backgroundImage='url('+URL.createObjectURL(this.files[0])+')';b.style.backgroundSize='cover';b.style.backgroundPosition='center';}">
+                <span wire:loading wire:target="coverPhoto"
+                      class="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-sm font-medium">
+                    A carregar capa…
+                </span>
+                @error('coverPhoto')
+                    <div class="absolute bottom-0 left-0 right-0 text-xs text-white bg-red-600/90 px-3 py-1">{{ $message }}</div>
+                @enderror
+            </div>
+            {{-- Avatar sobreposto na capa --}}
+            <div class="relative px-6 pb-4 bg-white">
+                <div class="flex items-end gap-4 -mt-10">
+                    <div class="relative flex-shrink-0">
+                        <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow bg-gray-100">
+                            <img id="pe-avatar-preview" class="w-full h-full object-cover"
+                                 src="{{ $currentProfilePhoto ? asset('storage/' . $currentProfilePhoto) : asset('img/default-avatar.svg') }}"
+                                 alt="Foto de perfil">
+                        </div>
+                        <label for="pe-photo-input"
+                               class="absolute bottom-0 right-0 bg-[#00baff] hover:bg-[#009ad6] text-white rounded-full p-1.5 cursor-pointer shadow transition"
+                               title="Alterar foto de perfil">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
+                            </svg>
+                        </label>
+                        <input type="file" id="pe-photo-input" wire:model="profilePhoto"
+                               accept="image/jpeg,image/png,image/webp,image/gif"
+                               style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
+                               onchange="if(this.files[0]){document.getElementById('pe-avatar-preview').src=URL.createObjectURL(this.files[0])}">
+                        <span wire:loading wire:target="profilePhoto"
+                              class="absolute inset-0 rounded-full flex items-center justify-center bg-black/30 text-white text-xs">…</span>
+                    </div>
+                    <div class="pb-1 text-xs text-gray-400">
+                        Clique nos ícones de câmara para alterar as fotos · jpg, png ou webp · máx. 8 MB
+                        @error('profilePhoto') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        @if($photoMessage)
+                            <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
+                        @endif
+                    </div>
                 </div>
-                <div class="flex-1 min-w-0">
-                    <input
-                        type="file"
-                        id="pe-photo-input"
-                        wire:model="profilePhoto"
-                        accept="image/jpeg,image/png,image/webp,image/gif"
-                        style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
-                        onchange="if(this.files[0]){document.getElementById('pe-avatar-preview').src=URL.createObjectURL(this.files[0]);document.getElementById('pe-photo-name').textContent=this.files[0].name}"
-                    >
-                    <label for="pe-photo-input"
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/5 cursor-pointer text-sm font-medium transition">
-                        📷 Escolher foto
-                    </label>
-                    <span id="pe-photo-name" class="ml-2 text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
-                    @error('profilePhoto') <div class="pub-field-error mt-1">{{ $message }}</div> @enderror
-                    <p class="text-xs text-gray-400 mt-1">jpg, png ou webp · máx. 8 MB</p>
-                    @if($photoMessage)
-                        <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
-                    @endif
-                </div>
-                {{-- Botão de guardar foto removido: upload e salvamento agora são automáticos ao selecionar a foto --}}
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

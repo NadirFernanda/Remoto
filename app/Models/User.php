@@ -33,6 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'bio',
         'profile_photo',
+        'cover_photo',
         'location',
         'has_freelancer_profile',
         'has_cliente_profile',
@@ -255,5 +256,10 @@ class User extends Authenticatable implements MustVerifyEmail
             return asset('storage/' . $this->profile->avatar);
         }
         return asset('img/default-avatar.svg');
+    }
+
+    public function coverPhotoUrl(): ?string
+    {
+        return $this->cover_photo ? Storage::url($this->cover_photo) : null;
     }
 }

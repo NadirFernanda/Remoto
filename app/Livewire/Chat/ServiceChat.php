@@ -243,11 +243,6 @@ class ServiceChat extends Component
         }
 
         }); // fim DB::transaction
-                'type'       => $notifType,
-                'title'      => $notifTitle,
-                'message'    => $notifMsg,
-            ]);
-        }
 
         $this->showValorModal = false;
         $this->novoValorTotal = '';

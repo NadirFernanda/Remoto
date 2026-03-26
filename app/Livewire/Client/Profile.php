@@ -18,6 +18,8 @@ class Profile extends Component
     public $interests_input;
     public $profilePhoto;
     public $currentProfilePhoto;
+    public $coverPhoto;
+    public $currentCoverPhoto;
     public $name;
     public $phone;
     public $location;
@@ -28,6 +30,7 @@ class Profile extends Component
         $profile = $this->user->profile;
         $this->interests_input = $profile && $profile->interests ? implode(', ', $profile->interests) : '';
         $this->currentProfilePhoto = $this->user->profile_photo;
+        $this->currentCoverPhoto   = $this->user->cover_photo;
         $this->name     = $this->user->name;
         $this->phone    = $this->user->phone;
         $this->location = $this->user->location;
@@ -102,6 +105,34 @@ class Profile extends Component
         $this->user = $user;
 
         session()->flash('success', 'Foto de perfil atualizada com sucesso!');
+    }
+
+    public function updatedCoverPhoto()
+    {
+        $this->validate([
+            'coverPhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
+        ], [
+            'coverPhoto.max'   => 'A imagem deve ter no máximo 8 MB.',
+            'coverPhoto.mimes' => 'Formato inválido. Use jpg, png ou webp.',
+            'coverPhoto.image' => 'O ficheiro deve ser uma imagem.',
+        ]);
+
+        $user = Auth::user();
+
+        if ($user->cover_photo) {
+            Storage::disk('public')->delete($user->cover_photo);
+        }
+
+        $ext  = $this->coverPhoto->getClientOriginalExtension();
+        $path = $this->coverPhoto->storeAs('covers', Str::uuid() . '.' . $ext, 'public');
+        $user->cover_photo = $path;
+        $user->save();
+
+        $this->currentCoverPhoto = $path;
+        $this->coverPhoto = null;
+        $this->user = $user;
+
+        session()->flash('success', 'Foto de capa atualizada com sucesso!');
     }
 
     public function saveInterests()

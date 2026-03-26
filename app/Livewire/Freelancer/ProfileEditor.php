@@ -20,6 +20,8 @@ class ProfileEditor extends Component
     public $headline;
     public $profilePhoto;
     public $currentProfilePhoto;
+    public $coverPhoto;
+    public $currentCoverPhoto;
     public $summary;
     public $hourly_rate;
     public $currency = 'USD';
@@ -41,6 +43,7 @@ class ProfileEditor extends Component
     {
         $user = Auth::user();
         $this->currentProfilePhoto = $user->profile_photo;
+        $this->currentCoverPhoto   = $user->cover_photo;
         $this->name = $user->name;
         $this->email = $user->email;
         $this->phone = $user->phone;
@@ -82,10 +85,29 @@ class ProfileEditor extends Component
         $this->photoMessage = 'Foto de perfil atualizada!';
     }
 
+    public function updatedCoverPhoto()
+    {
+        $this->validate(['coverPhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192']);
+        if (!$this->coverPhoto) return;
+
+        $user = User::find(Auth::id());
+        if ($user->cover_photo) {
+            Storage::disk('public')->delete($user->cover_photo);
+        }
+        $ext  = $this->coverPhoto->getClientOriginalExtension();
+        $path = $this->coverPhoto->storeAs('covers', Str::uuid() . '.' . $ext, 'public');
+        $user->cover_photo = $path;
+        $user->save();
+        $this->currentCoverPhoto = $path;
+        $this->coverPhoto = null;
+        $this->photoMessage = 'Foto de capa atualizada!';
+    }
+
     protected function rules()
     {
         return [
             'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
+            'coverPhoto'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
