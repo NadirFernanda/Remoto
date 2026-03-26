@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
+use App\Models\Review;
 use App\Notifications\ServiceCancelledNotification;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,8 +102,13 @@ class ServiceCancel extends Component
 
     public function render()
     {
+        $hasReview = Review::where('service_id', $this->service->id)
+            ->where('author_id', Auth::id())
+            ->exists();
+
         return view('livewire.client.service-cancel', [
-            'service' => $this->service
+            'service'   => $this->service,
+            'hasReview' => $hasReview,
         ])->layout('layouts.dashboard', ['dashboardTitle' => 'Cancelar Serviço']);
     }
 }

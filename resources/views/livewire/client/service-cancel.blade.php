@@ -132,20 +132,30 @@
         @else
             <div class="text-gray-500">Este pedido não pode mais ser cancelado.</div>
             <div class="action-row mt-4 flex flex-wrap gap-3">
-                @if($service->status !== 'cancelled')
+                {{-- Chat: apenas disponível enquanto o projecto está activo (não concluído nem cancelado) --}}
+                @if(!in_array($service->status, ['cancelled', 'completed']))
                     <a href="{{ route('service.chat', $service->id) }}" class="btn-eq btn-outline relative focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2">
                         @include('components.icon', ['name' => 'chat', 'class' => 'w-4 h-4'])
                         <span>Chat</span>
                         @livewire('chat.chat-badge', ['serviceId' => $service->id], key('chat-badge-'.$service->id))
                     </a>
                 @endif
-                @if($service->status === 'completed')
+
+                {{-- Avaliar serviço: apenas quando concluído e ainda não avaliado --}}
+                @if($service->status === 'completed' && !$hasReview)
                     <a href="{{ route('service.review.leave', $service->id) }}" class="btn-eq btn-primary">
                         @include('components.icon', ['name' => 'star', 'class' => 'w-4 h-4'])
                         <span>Avaliar serviço</span>
                     </a>
+                @elseif($service->status === 'completed' && $hasReview)
+                    <span class="btn-eq btn-outline text-green-700 border-green-300 bg-green-50 cursor-default">
+                        @include('components.icon', ['name' => 'check', 'class' => 'w-4 h-4'])
+                        <span>Avaliado</span>
+                    </span>
                 @endif
-                @if(!in_array($service->status, ['cancelled', 'published']))
+
+                {{-- Abrir disputa: apenas durante execução do projecto (in_progress ou delivered) --}}
+                @if(in_array($service->status, ['in_progress', 'delivered']))
                     <a href="{{ route('service.dispute', $service->id) }}" class="btn-eq btn-outline text-red-600 border-red-400 hover:bg-red-50">
                         @include('components.icon', ['name' => 'flag', 'class' => 'w-4 h-4'])
                         <span>Abrir disputa</span>
