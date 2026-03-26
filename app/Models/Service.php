@@ -16,11 +16,12 @@ class Service extends Model
      * Accessor: strip JSON-wrapping quotes from legacy briefing values.
      * Old rows stored as JSON string (e.g. '"My text"') render correctly as plain text.
      */
-    public function getBriefingAttribute(?string $value): ?string
+    public function getBriefingAttribute(mixed $value): ?string
     {
         if ($value === null) return null;
-        $decoded = json_decode($value, true);
-        return (json_last_error() === JSON_ERROR_NONE && is_string($decoded)) ? $decoded : $value;
+        $str = (string) $value;
+        $decoded = json_decode($str, true);
+        return (json_last_error() === JSON_ERROR_NONE && is_string($decoded)) ? $decoded : $str;
     }
 
     protected $fillable = [

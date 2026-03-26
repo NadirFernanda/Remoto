@@ -33,6 +33,8 @@ class Notification extends Model
                 // ── Freelancer receives ──────────────────────────────
                 'service_chosen'       => $sid ? route('freelancer.service.delivery', $sid) : route('freelancer.projects'),
                 'revision_requested'   => $sid ? route('freelancer.service.delivery', $sid) : route('freelancer.projects'),
+                'project_started'      => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+                'payment_adjustment'   => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
                 'delivery_approved'    => route('freelancer.wallet'),
                 'payment_released'     => route('freelancer.wallet'),
                 'saque_aprovado'       => route('freelancer.wallet'),
@@ -52,7 +54,7 @@ class Notification extends Model
                 'refund_processed'     => route('client.refunds'),
                 'refund_approved'      => route('client.refunds'),
                 'refund_rejected'      => route('client.refunds'),
-                'moderation_requested' => route('client.projects'),
+                'moderation_requested' => $sid ? route('service.dispute', $sid) : route('admin.disputes'),
 
                 // ── Both sides (dispute) ─────────────────────────────
                 'dispute_admin_reply'   => $sid ? route('service.dispute', $sid) : '#',

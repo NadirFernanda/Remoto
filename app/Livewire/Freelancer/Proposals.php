@@ -56,34 +56,36 @@ class Proposals extends Component
             ->where('status', 'pending')
             ->firstOrFail();
 
-        if ($proposal->service_id) {
-            // Promover o Service existente de negociação para aceite
-            Service::where('id', $proposal->service_id)->update(['status' => 'accepted']);
-        } else {
-            // Fallback: propostas antigas sem service_id — criar Service e guardar o ID
-            $newService = Service::create([
-                'cliente_id'    => $proposal->sender_id,
-                'freelancer_id' => $user->id,
-                'titulo'        => $proposal->title ?? 'Projecto via proposta',
-                'briefing'      => $proposal->message,
-                'service_type'  => 'direct_invite',
-                'valor'         => $proposal->value ?? 0,
-                'taxa'          => $proposal->fee   ?? 0,
-                'valor_liquido' => $proposal->net   ?? 0,
-                'status'        => 'accepted',
+        \Illuminate\Support\Facades\DB::transaction(function () use ($proposal, $user) {
+            if ($proposal->service_id) {
+                // Promover o Service existente de negociação para aceite
+                Service::where('id', $proposal->service_id)->update(['status' => 'accepted']);
+            } else {
+                // Fallback: propostas antigas sem service_id — criar Service e guardar o ID
+                $newService = Service::create([
+                    'cliente_id'    => $proposal->sender_id,
+                    'freelancer_id' => $user->id,
+                    'titulo'        => $proposal->title ?? 'Projecto via proposta',
+                    'briefing'      => $proposal->message,
+                    'service_type'  => 'direct_invite',
+                    'valor'         => $proposal->value ?? 0,
+                    'taxa'          => $proposal->fee   ?? 0,
+                    'valor_liquido' => $proposal->net   ?? 0,
+                    'status'        => 'accepted',
+                ]);
+                $proposal->service_id = $newService->id;
+            }
+
+            $proposal->update(['status' => 'accepted', 'service_id' => $proposal->service_id]);
+
+            Notification::create([
+                'user_id'    => $proposal->sender_id,
+                'service_id' => $proposal->service_id,
+                'type'       => 'proposal_accepted',
+                'title'      => 'Proposta aceite!',
+                'message'    => $user->name . ' aceitou a sua proposta "' . $proposal->title . '".',
             ]);
-            $proposal->service_id = $newService->id;
-        }
-
-        $proposal->update(['status' => 'accepted', 'service_id' => $proposal->service_id]);
-
-        Notification::create([
-            'user_id'    => $proposal->sender_id,
-            'service_id' => $proposal->service_id,
-            'type'       => 'proposal_accepted',
-            'title'      => 'Proposta aceite!',
-            'message'    => $user->name . ' aceitou a sua proposta "' . $proposal->title . '".',
-        ]);
+        });
 
         session()->flash('success', 'Proposta aceite! Pode continuar a negociação ou começar a trabalhar no chat.');
     }
@@ -96,20 +98,22 @@ class Proposals extends Component
             ->where('status', 'pending')
             ->firstOrFail();
 
-        if ($proposal->service_id) {
-            Service::where('id', $proposal->service_id)->update(['status' => 'cancelled']);
-        }
+        \Illuminate\Support\Facades\DB::transaction(function () use ($proposal, $user) {
+            if ($proposal->service_id) {
+                Service::where('id', $proposal->service_id)->update(['status' => 'cancelled']);
+            }
 
-        $proposal->update(['status' => 'rejected']);
+            $proposal->update(['status' => 'rejected']);
 
-        // Notificar o cliente
-        Notification::create([
-            'user_id'    => $proposal->sender_id,
-            'service_id' => $proposal->service_id,
-            'type'       => 'proposal_rejected',
-            'title'      => 'Proposta recusada',
-            'message'    => $user->name . ' recusou a sua proposta "' . $proposal->title . '".',
-        ]);
+            // Notificar o cliente
+            Notification::create([
+                'user_id'    => $proposal->sender_id,
+                'service_id' => $proposal->service_id,
+                'type'       => 'proposal_rejected',
+                'title'      => 'Proposta recusada',
+                'message'    => $user->name . ' recusou a sua proposta "' . $proposal->title . '".',
+            ]);
+        });
 
         session()->flash('info', 'Proposta recusada.');
     }

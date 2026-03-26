@@ -117,10 +117,18 @@
             </div>
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Mensagem (opcional)</label>
-                <input type="text" wire:model.defer="entrega_mensagem" class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none">
+                <textarea wire:model.defer="entrega_mensagem" rows="4"
+                    class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none resize-y"
+                    placeholder="Descreva o que foi feito, instruções de uso, versões entregues..."></textarea>
                 @error('entrega_mensagem') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
-            <button type="submit" class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 rounded-lg transition-all duration-150">Entregar serviço</button>
+            <button type="submit"
+                wire:loading.attr="disabled"
+                wire:target="entregarServico"
+                class="w-full bg-cyan-500 hover:bg-cyan-600 disabled:opacity-60 text-white font-bold py-3 rounded-lg transition-all duration-150">
+                <span wire:loading.remove wire:target="entregarServico">Entregar serviço</span>
+                <span wire:loading wire:target="entregarServico">A enviar...</span>
+            </button>
         </form>
         @if(session('success'))
             <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">{{ session('success') }}</div>

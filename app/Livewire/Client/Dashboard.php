@@ -23,64 +23,83 @@ class Dashboard extends Component
     public function liberarPagamento($serviceId)
     {
         $user = Auth::user();
-        $service = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
-        if (!$service) {
+
+        // Verificações rápidas antes do lock
+        $serviceCheck = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
+        if (!$serviceCheck) {
             session()->flash('error', 'Pedido não encontrado.');
             return;
         }
-        if ($service->status !== 'delivered') {
+        if ($serviceCheck->status !== 'delivered') {
             session()->flash('error', 'Só é possível liberar pagamento para pedidos entregues.');
             return;
         }
-        if ($service->is_payment_released) {
+        if ($serviceCheck->is_payment_released) {
             session()->flash('info', 'O pagamento já foi liberado para este pedido.');
             return;
         }
-        $service->is_payment_released = true;
-        $service->payment_released_at = now();
-        $service->status = 'completed';
-        $service->save();
 
-        // Creditar valor líquido na carteira do freelancer
-        if ($service->valor_liquido && $service->valor_liquido > 0 && $service->freelancer_id) {
-            $freelancerWallet = Wallet::firstOrCreate(
-                ['user_id' => $service->freelancer_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $freelancerWallet->increment('saldo', $service->valor_liquido);
-            WalletLog::create([
-                'user_id'   => $service->freelancer_id,
-                'wallet_id' => $freelancerWallet->id,
-                'valor'     => $service->valor_liquido,
-                'tipo'      => 'pagamento_projeto',
-                'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
+        $freelancerPago = null;
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($serviceId, $user, &$freelancerPago) {
+            $service = Service::where('id', $serviceId)
+                ->where('cliente_id', $user->id)
+                ->where('is_payment_released', false) // re-verifica no lock
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $service->is_payment_released = true;
+            $service->payment_released_at = now();
+            $service->status = 'completed';
+            $service->save();
+
+            // Creditar valor líquido na carteira do freelancer
+            if ($service->valor_liquido && $service->valor_liquido > 0 && $service->freelancer_id) {
+                $freelancerWallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->freelancer_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $freelancerWallet->increment('saldo', $service->valor_liquido);
+                WalletLog::create([
+                    'user_id'   => $service->freelancer_id,
+                    'wallet_id' => $freelancerWallet->id,
+                    'valor'     => $service->valor_liquido,
+                    'tipo'      => 'pagamento_projeto',
+                    'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
+                ]);
+
+                // Libertar o escrow na carteira do cliente
+                $clientWallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
+                if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                    $clientWallet->decrement('saldo_pendente', $service->valor);
+                }
+            }
+
+            Notification::create([
+                'user_id'    => $service->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'delivery_approved',
+                'title'      => 'Entrega aprovada',
+                'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
             ]);
 
-            // Libertar o escrow na carteira do cliente
-            $clientWallet = Wallet::where('user_id', $user->id)->first();
-            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
-                $clientWallet->decrement('saldo_pendente', $service->valor);
+            $freelancerPago = User::find($service->freelancer_id);
+
+            if ($freelancerPago) {
+                PaymentReceived::dispatch($service, $freelancerPago, (float) ($service->valor_liquido ?? $service->valor));
             }
-        }
+            ServiceCompleted::dispatch($service, $user, $freelancerPago ?? new User());
+        });
 
-        Notification::create([
-            'user_id'    => $service->freelancer_id,
-            'service_id' => $service->id,
-            'type'       => 'delivery_approved',
-            'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
-        ]);
-
-        $freelancerPago = User::find($service->freelancer_id);
+        // Notificações de email fora da transacção (side-effects)
         if ($freelancerPago) {
+            $service = Service::find($serviceId);
             $freelancerPago->notify(new PaymentReceivedNotification(
                 $service,
                 (float) ($service->valor_liquido ?? $service->valor),
                 route('freelancer.wallet')
             ));
-            PaymentReceived::dispatch($service, $freelancerPago, (float) ($service->valor_liquido ?? $service->valor));
         }
-
-        ServiceCompleted::dispatch($service, $user, $freelancerPago ?? new User());
 
         session()->flash('success', 'Pagamento liberado com sucesso!');
         $this->mount();
@@ -195,6 +214,8 @@ class Dashboard extends Component
     public function escolherFreelancer($serviceId, $freelancerId)
     {
         $user = Auth::user();
+
+        // Verificações rápidas antes do lock
         $service = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
         if (!$service) {
             session()->flash('error', 'Pedido não encontrado.');
@@ -209,47 +230,65 @@ class Dashboard extends Component
             session()->flash('error', 'Candidato inválido ou já processado.');
             return;
         }
-        // Atualiza status do candidato escolhido
-        $candidate->status = 'chosen';
-        $candidate->save();
-        // Rejeita os outros candidatos
-        $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
-        // Atualiza o pedido
-        $service->freelancer_id = $freelancerId;
-        $service->status = 'in_progress';
-        $service->save();
 
-        // Notificar freelancer escolhido
-        $mensagemEscolhido = 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '". Acesse o painel para começar.';
-        \App\Models\Notification::create([
-            'user_id'    => $freelancerId,
-            'service_id' => $service->id,
-            'type'       => 'service_chosen',
-            'title'      => 'Selecionado para projecto',
-            'message'    => $mensagemEscolhido,
-        ]);
+        // Operações atómicas com lock anti race-condition
+        \Illuminate\Support\Facades\DB::transaction(function () use ($serviceId, $freelancerId, $candidate, $user) {
+            $service = Service::where('id', $serviceId)
+                ->where('cliente_id', $user->id)
+                ->where('status', 'published')   // re-verifica dentro do lock
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // Atualiza status do candidato escolhido
+            $candidate->status = 'chosen';
+            $candidate->save();
+            // Rejeita os outros candidatos
+            $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
+            // Atualiza o pedido
+            $service->freelancer_id = $freelancerId;
+            $service->status = 'in_progress';
+            $service->save();
+
+            // Notificar freelancer escolhido
+            $mensagemEscolhido = 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '". Acesse o painel para começar.';
+            \App\Models\Notification::create([
+                'user_id'    => $freelancerId,
+                'service_id' => $service->id,
+                'type'       => 'service_chosen',
+                'title'      => 'Selecionado para projecto',
+                'message'    => $mensagemEscolhido,
+            ]);
+
+            // Notificar freelancers rejeitados
+            $rejeitados = $service->candidates()->where('status', 'rejected')->get();
+            foreach ($rejeitados as $rej) {
+                $mensagemRejeitado = 'Infelizmente você não foi selecionado para o projeto "' . $service->titulo . '". Não desanime, há outros projetos disponíveis!';
+                \App\Models\Notification::create([
+                    'user_id'    => $rej->freelancer_id,
+                    'service_id' => $service->id,
+                    'type'       => 'service_rejected',
+                    'title'      => 'Não selecionado',
+                    'message'    => $mensagemRejeitado,
+                ]);
+            }
+        });
+
+        // Email fora da transacção (side-effect)
         $freelancerEscolhido = User::find($freelancerId);
         if ($freelancerEscolhido) {
             $freelancerEscolhido->notify(new ProposalAcceptedNotification(
-                $service,
-                route('freelancer.service.delivery', $service->id)
+                Service::find($serviceId),
+                route('freelancer.service.delivery', $serviceId)
             ));
         }
 
-        // Notificar freelancers rejeitados
-        $rejeitados = $service->candidates()->where('status', 'rejected')->get();
-        foreach ($rejeitados as $rej) {
-            $mensagemRejeitado = 'Infelizmente você não foi selecionado para o projeto "' . $service->titulo . '". Não desanime, há outros projetos disponíveis!';
-            \App\Models\Notification::create([
-                'user_id'    => $rej->freelancer_id,
-                'service_id' => $service->id,
-                'type'       => 'service_rejected',
-                'message'    => $mensagemRejeitado,
-            ]);
+        // Emails de rejeição
+        $rejeitadosEmail = Service::find($serviceId)->candidates()->where('status', 'rejected')->get();
+        foreach ($rejeitadosEmail as $rej) {
             $freelancerRejeitado = User::find($rej->freelancer_id);
             if ($freelancerRejeitado) {
                 Mail::to($freelancerRejeitado->email)
-                    ->send(new ProposalRejectedMail($freelancerRejeitado, $service, $mensagemRejeitado));
+                    ->send(new ProposalRejectedMail($freelancerRejeitado, Service::find($serviceId), 'Infelizmente você não foi selecionado para o projeto'));
             }
         }
 

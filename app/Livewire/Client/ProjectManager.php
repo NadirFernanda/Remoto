@@ -118,6 +118,7 @@ class ProjectManager extends Component
     // ─── Proposals / Candidates ─────────────────────────────
     public function escolherFreelancer(int $serviceId, int $freelancerId): void
     {
+        // Verificações antes da transacção (falham rápido, sem locks)
         $service = Service::where('id', $serviceId)->where('cliente_id', auth()->id())->firstOrFail();
 
         if ($service->status !== 'published') {
@@ -131,67 +132,94 @@ class ProjectManager extends Component
             return;
         }
 
-        // Escolhe o candidato
-        $candidate->status = 'chosen';
-        $candidate->save();
+        // Verificar saldo antes do lock (para dar feedback imediato)
+        $valorFinal = ($candidate->proposal_value && $candidate->proposal_value > 0)
+            ? (float) $candidate->proposal_value
+            : (float) ($service->valor ?? 0);
 
-        // Rejeita os outros
-        $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
-
-        // Se o freelancer propôs um valor, usar esse como valor final do serviço
-        if ($candidate->proposal_value && $candidate->proposal_value > 0) {
-            $service->valor         = (float) $candidate->proposal_value;
-            $service->taxa          = 10.0;
-            $service->valor_liquido = round($candidate->proposal_value * 0.80, 2); // 80% para o freelancer, 20% taxa plataforma
+        if ($valorFinal > 0) {
+            $totalComTaxa = round($valorFinal * 1.10, 2); // valor + 10% taxa
+            $clientWalletCheck = Wallet::where('user_id', auth()->id())->first();
+            if (!$clientWalletCheck || (float) $clientWalletCheck->saldo < $totalComTaxa) {
+                session()->flash('error', 'Saldo insuficiente. Necessita de Kz ' . number_format($totalComTaxa, 2, ',', '.') . ' para reter em escrow.');
+                return;
+            }
         }
 
-        // Atualiza o projeto
-        $service->freelancer_id = $freelancerId;
-        $service->status = 'in_progress';
-        $service->save();
+        // Operações atómicas com lock anti race-condition
+        \Illuminate\Support\Facades\DB::transaction(function () use ($serviceId, $freelancerId, $candidate, $valorFinal) {
+            $service = Service::where('id', $serviceId)
+                ->where('cliente_id', auth()->id())
+                ->where('status', 'published')   // re-verifica dentro do lock
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        // Registar retenção em escrow na carteira do cliente
-        if ($service->valor && $service->valor > 0) {
-            $clientWallet = Wallet::firstOrCreate(
-                ['user_id' => auth()->id()],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $clientWallet->increment('saldo_pendente', $service->valor);
-            WalletLog::create([
-                'user_id'   => auth()->id(),
-                'wallet_id' => $clientWallet->id,
-                'valor'     => -$service->valor,
-                'tipo'      => 'escrow_retido',
-                'descricao' => 'Pagamento retido em escrow para o projeto: ' . $service->titulo,
+            // Escolhe o candidato
+            $candidate->status = 'chosen';
+            $candidate->save();
+
+            // Rejeita os outros
+            $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
+
+            // Se o freelancer propôs um valor, usar esse como valor final do serviço
+            if ($valorFinal > 0) {
+                $service->valor         = $valorFinal;
+                $service->taxa          = 10.0;
+                $service->valor_liquido = round($valorFinal * 0.90, 2); // 90% para o freelancer, 10% taxa plataforma
+            }
+
+            // Atualiza o projeto
+            $service->freelancer_id = $freelancerId;
+            $service->status = 'in_progress';
+            $service->save();
+
+            // Registar retenção em escrow na carteira do cliente (debit saldo + credit saldo_pendente)
+            if ($service->valor && $service->valor > 0) {
+                $totalComTaxa = round($service->valor * 1.10, 2);
+                $clientWallet = Wallet::firstOrCreate(
+                    ['user_id' => auth()->id()],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $clientWallet->decrement('saldo', $totalComTaxa);           // débito real
+                $clientWallet->increment('saldo_pendente', $service->valor); // escrow líquido
+                WalletLog::create([
+                    'user_id'   => auth()->id(),
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => -$totalComTaxa,
+                    'tipo'      => 'escrow_retido',
+                    'descricao' => 'Pagamento retido em escrow para o projeto: ' . $service->titulo,
+                ]);
+            }
+
+            // Notifica o freelancer escolhido
+            Notification::create([
+                'user_id'    => $freelancerId,
+                'service_id' => $service->id,
+                'type'       => 'service_chosen',
+                'title'      => 'Selecionado para projeto',
+                'message'    => 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '".',
             ]);
-        }
 
-        // Notifica o freelancer escolhido
-        Notification::create([
-            'user_id'    => $freelancerId,
-            'service_id' => $service->id,
-            'type'       => 'service_chosen',
-            'title'      => 'Selecionado para projeto',
-            'message'    => 'Parabéns! Você foi escolhido para o projeto "' . $service->titulo . '".',
-        ]);
+            // Notifica os rejeitados
+            $rejeitados = $service->candidates()->where('status', 'rejected')->get();
+            foreach ($rejeitados as $rej) {
+                Notification::create([
+                    'user_id'    => $rej->freelancer_id,
+                    'service_id' => $service->id,
+                    'type'       => 'service_rejected',
+                    'title'      => 'Proposta não selecionada',
+                    'message'    => 'Infelizmente não foi selecionado para o projeto "' . $service->titulo . '".',
+                ]);
+            }
+        });
+
+        // Email fora da transacção (side-effect tolerável)
         $freelancerEscolhidoPM = User::find($freelancerId);
         if ($freelancerEscolhidoPM) {
             $freelancerEscolhidoPM->notify(new ProposalAcceptedNotification(
-                $service,
-                route('freelancer.service.delivery', $service->id)
+                Service::find($serviceId),
+                route('freelancer.service.delivery', $serviceId)
             ));
-        }
-
-        // Notifica os rejeitados
-        $rejeitados = $service->candidates()->where('status', 'rejected')->get();
-        foreach ($rejeitados as $rej) {
-            Notification::create([
-                'user_id'    => $rej->freelancer_id,
-                'service_id' => $service->id,
-                'type'       => 'service_rejected',
-                'title'      => 'Proposta não selecionada',
-                'message'    => 'Infelizmente não foi selecionado para o projeto "' . $service->titulo . '".',
-            ]);
         }
 
         session()->flash('success', 'Freelancer escolhido! O projeto foi atualizado e todos os candidatos foram notificados.');
@@ -271,6 +299,7 @@ class ProjectManager extends Component
             'user_id'    => $service->freelancer_id,
             'service_id' => $service->id,
             'type'       => 'delivery_approved',
+            'title'      => 'Entrega aprovada',
             'message'    => 'O cliente aprovou a sua entrega no projeto "' . $service->titulo . '". O pagamento foi creditado na sua carteira.',
         ]);
 
@@ -292,6 +321,7 @@ class ProjectManager extends Component
             'user_id'    => $service->freelancer_id,
             'service_id' => $service->id,
             'type'       => 'revision_requested',
+            'title'      => 'Revisão solicitada',
             'message'    => 'O cliente solicitou revisão no projeto "' . $service->titulo . '".',
         ]);
 

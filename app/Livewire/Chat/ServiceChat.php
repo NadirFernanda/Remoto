@@ -184,7 +184,7 @@ class ServiceChat extends Component
             return;
         }
 
-        // Processar débito, escrow e persistência dentro de uma transacção atómica
+        // Processar débito, escrow, persistência E notificação dentro de uma transacção atómica
         \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
 
         $clientWallet->decrement('saldo', $total_cliente);
@@ -218,9 +218,7 @@ class ServiceChat extends Component
 
         $service->save();
 
-        }); // fim DB::transaction
-
-        // Notificar freelancer
+        // Notificar freelancer (dentro da transacção para garantir atomicidade)
         if ($service->freelancer_id) {
             if ($isDirect) {
                 $notifMsg   = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
@@ -238,6 +236,13 @@ class ServiceChat extends Component
             Notification::create([
                 'user_id'    => $service->freelancer_id,
                 'service_id' => $service->id,
+                'type'       => $notifType,
+                'title'      => $notifTitle,
+                'message'    => $notifMsg,
+            ]);
+        }
+
+        }); // fim DB::transaction
                 'type'       => $notifType,
                 'title'      => $notifTitle,
                 'message'    => $notifMsg,
