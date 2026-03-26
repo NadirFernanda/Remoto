@@ -33,6 +33,15 @@ class RefundRequest extends Component
             'evidence.*' => 'nullable|file|max:4096',
         ]);
 
+        // BUG-01 fix: verify the service belongs to the authenticated client
+        $ownedService = Service::where('id', $this->service_id)
+            ->where('cliente_id', Auth::id())
+            ->first();
+        if (!$ownedService) {
+            $this->addError('service_id', 'Não tem permissão para solicitar reembolso neste pedido.');
+            return;
+        }
+
         $refund = Refund::create([
             'service_id' => $this->service_id,
             'user_id' => Auth::id(),

@@ -24,6 +24,16 @@ class FreelancerProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function workExperiences()
+    {
+        return $this->hasMany(WorkExperience::class, 'user_id', 'user_id')->orderByDesc('ano_inicio');
+    }
+
+    public function educations()
+    {
+        return $this->hasMany(Education::class, 'user_id', 'user_id')->orderByDesc('ano_inicio');
+    }
+
     public function photoUrl()
     {
         if ($this->user && $this->user->profile_photo) {

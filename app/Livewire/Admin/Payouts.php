@@ -27,60 +27,82 @@ class Payouts extends Component
 
     public function aprovarSaque(int $logId): void
     {
-        $log = WalletLog::where('id', $logId)->where('tipo', 'saque_solicitado')->firstOrFail();
+        // BUG-02 fix: use lockForUpdate + transaction to prevent double-approval race
+        \Illuminate\Support\Facades\DB::transaction(function () use ($logId) {
+            $log = WalletLog::where('id', $logId)
+                ->where('tipo', 'saque_solicitado')
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        // Remover do saldo_pendente (o montante já foi debitado do saldo na solicitação)
-        $wallet = Wallet::where('id', $log->wallet_id)->first();
-        if ($wallet && $wallet->saldo_pendente >= abs($log->valor)) {
-            $wallet->decrement('saldo_pendente', abs($log->valor));
-        }
+            // Re-verify status after lock acquired (idempotency guard)
+            if ($log->tipo !== 'saque_solicitado') {
+                return;
+            }
 
-        $log->update(['tipo' => 'saque_aprovado']);
+            // Remover do saldo_pendente (o montante já foi debitado do saldo na solicitação)
+            $wallet = Wallet::where('id', $log->wallet_id)->lockForUpdate()->first();
+            if ($wallet && $wallet->saldo_pendente >= abs($log->valor)) {
+                $wallet->decrement('saldo_pendente', abs($log->valor));
+            }
 
-        Notification::create([
-            'user_id'   => $log->user_id,
-            'type'      => 'saque_aprovado',
-            'title'     => 'Saque aprovado',
-            'message'   => 'O seu saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi aprovado e será transferido para a sua conta bancária em breve.',
-        ]);
+            $log->update(['tipo' => 'saque_aprovado']);
 
-        AuditLogger::log('saque_aprovado', "Saque #{$log->id} de {$log->valor} Kz aprovado pelo admin", 'WalletLog', $log->id);
+            Notification::create([
+                'user_id'   => $log->user_id,
+                'type'      => 'saque_aprovado',
+                'title'     => 'Saque aprovado',
+                'message'   => 'O seu saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi aprovado e será transferido para a sua conta bancária em breve.',
+            ]);
+
+            AuditLogger::log('saque_aprovado', "Saque #{$log->id} de {$log->valor} Kz aprovado pelo admin", 'WalletLog', $log->id);
+        });
 
         session()->flash('success', 'Saque aprovado e freelancer notificado.');
     }
 
     public function rejeitarSaque(int $logId): void
     {
-        $log = WalletLog::where('id', $logId)->where('tipo', 'saque_solicitado')->firstOrFail();
+        // BUG-03 fix: use lockForUpdate + transaction to prevent double-rejection race
+        \Illuminate\Support\Facades\DB::transaction(function () use ($logId) {
+            $log = WalletLog::where('id', $logId)
+                ->where('tipo', 'saque_solicitado')
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        // Devolver o saldo ao freelancer: retirar de saldo_pendente e repor no saldo disponível
-        $wallet = Wallet::where('id', $log->wallet_id)->first();
-        if ($wallet) {
-            $wallet->increment('saldo', abs($log->valor));
-            if ($wallet->saldo_pendente >= abs($log->valor)) {
-                $wallet->decrement('saldo_pendente', abs($log->valor));
+            // Re-verify status after lock acquired (idempotency guard)
+            if ($log->tipo !== 'saque_solicitado') {
+                return;
             }
-        }
 
-        $log->update(['tipo' => 'saque_rejeitado']);
+            // Devolver o saldo ao freelancer: retirar de saldo_pendente e repor no saldo disponível
+            $wallet = Wallet::where('id', $log->wallet_id)->lockForUpdate()->first();
+            if ($wallet) {
+                $wallet->increment('saldo', abs($log->valor));
+                if ($wallet->saldo_pendente >= abs($log->valor)) {
+                    $wallet->decrement('saldo_pendente', abs($log->valor));
+                }
+            }
 
-        // Log de crédito de devolução
-        WalletLog::create([
-            'user_id'   => $log->user_id,
-            'wallet_id' => $log->wallet_id,
-            'valor'     => abs($log->valor),
-            'tipo'      => 'saque_devolvido',
-            'descricao' => 'Saque rejeitado pelo admin — valor devolvido ao saldo.',
-        ]);
+            $log->update(['tipo' => 'saque_rejeitado']);
 
-        Notification::create([
-            'user_id'   => $log->user_id,
-            'type'      => 'saque_rejeitado',
-            'title'     => 'Saque rejeitado',
-            'message'   => 'O seu pedido de saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi rejeitado. O valor foi devolvido ao seu saldo.',
-        ]);
+            // Log de crédito de devolução
+            WalletLog::create([
+                'user_id'   => $log->user_id,
+                'wallet_id' => $log->wallet_id,
+                'valor'     => abs($log->valor),
+                'tipo'      => 'saque_devolvido',
+                'descricao' => 'Saque rejeitado pelo admin — valor devolvido ao saldo.',
+            ]);
 
-        AuditLogger::log('saque_rejeitado', "Saque #{$log->id} rejeitado — valor devolvido", 'WalletLog', $log->id);
+            Notification::create([
+                'user_id'   => $log->user_id,
+                'type'      => 'saque_rejeitado',
+                'title'     => 'Saque rejeitado',
+                'message'   => 'O seu pedido de saque de ' . number_format(abs($log->valor), 0, ',', '.') . ' Kz foi rejeitado. O valor foi devolvido ao seu saldo.',
+            ]);
+
+            AuditLogger::log('saque_rejeitado', "Saque #{$logId} rejeitado — valor devolvido", 'WalletLog', $logId);
+        });
 
         session()->flash('success', 'Saque rejeitado e saldo devolvido ao freelancer.');
     }

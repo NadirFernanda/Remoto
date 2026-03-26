@@ -213,4 +213,318 @@
             </div>
         </div>
     </form>
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         HISTÓRICO PROFISSIONAL
+    ══════════════════════════════════════════════════════════════════ --}}
+    <div class="mt-8">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                Histórico Profissional
+            </h3>
+            <button type="button" wire:click="openExpForm()"
+                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00baff] hover:text-[#009ad6] transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                Adicionar
+            </button>
+        </div>
+
+        @if(count($experiences) === 0)
+            <div class="text-sm text-gray-400 italic py-3 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                Nenhuma experiência adicionada ainda.
+            </div>
+        @else
+            <div class="space-y-3">
+                @foreach($experiences as $exp)
+                    @php
+                        $meses = ['','Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+                        $inicio = trim(($meses[$exp['mes_inicio'] ?? 0] ?? '') . ' ' . ($exp['ano_inicio'] ?? ''));
+                        $fim    = $exp['atual'] ? 'Actualmente' : trim(($meses[$exp['mes_fim'] ?? 0] ?? '') . ' ' . ($exp['ano_fim'] ?? ''));
+                        $periodo = $inicio || $fim ? trim("$inicio – $fim") : '';
+                    @endphp
+                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#00baff]/40 transition group">
+                        <div class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-gray-800 text-sm">{{ $exp['titulo'] }}</p>
+                            <p class="text-sm text-gray-600">{{ $exp['empresa'] }}{{ $exp['cidade'] ? ' · ' . $exp['cidade'] : '' }}{{ $exp['pais'] ? ', ' . $exp['pais'] : '' }}</p>
+                            @if($periodo)
+                                <p class="text-xs text-gray-400 mt-0.5">{{ $periodo }}</p>
+                            @endif
+                            @if($exp['descricao'])
+                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $exp['descricao'] }}</p>
+                            @endif
+                        </div>
+                        <div class="flex-shrink-0 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+                            <button type="button" wire:click="openExpForm({{ $exp['id'] }})"
+                                    class="p-1.5 text-gray-400 hover:text-[#00baff] transition" title="Editar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                            </button>
+                            <button type="button" wire:click="deleteExperience({{ $exp['id'] }})"
+                                    wire:confirm="Remover esta experiência?"
+                                    class="p-1.5 text-gray-400 hover:text-red-500 transition" title="Remover">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         EDUCAÇÃO
+    ══════════════════════════════════════════════════════════════════ --}}
+    <div class="mt-8">
+        <div class="flex items-center justify-between mb-3">
+            <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                </svg>
+                Educação
+            </h3>
+            <button type="button" wire:click="openEduForm()"
+                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00baff] hover:text-[#009ad6] transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                Adicionar
+            </button>
+        </div>
+
+        @if(count($educations) === 0)
+            <div class="text-sm text-gray-400 italic py-3 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-200">
+                Nenhuma formação adicionada ainda.
+            </div>
+        @else
+            <div class="space-y-3">
+                @foreach($educations as $edu)
+                    @php
+                        $periodo = trim(($edu['ano_inicio'] ?? '') . ($edu['ano_fim'] || $edu['atual'] ? ' – ' . ($edu['atual'] ? 'A frequentar' : $edu['ano_fim']) : ''));
+                    @endphp
+                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#00baff]/40 transition group">
+                        <div class="flex-shrink-0 w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="font-semibold text-gray-800 text-sm">{{ $edu['escola'] }}</p>
+                            <p class="text-sm text-gray-600">{{ implode(' · ', array_filter([$edu['grau'], $edu['area_estudo']])) }}</p>
+                            @if($periodo)
+                                <p class="text-xs text-gray-400 mt-0.5">{{ $periodo }}</p>
+                            @endif
+                            @if($edu['descricao'])
+                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $edu['descricao'] }}</p>
+                            @endif
+                        </div>
+                        <div class="flex-shrink-0 flex gap-2 opacity-0 group-hover:opacity-100 transition">
+                            <button type="button" wire:click="openEduForm({{ $edu['id'] }})"
+                                    class="p-1.5 text-gray-400 hover:text-[#00baff] transition" title="Editar">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                            </button>
+                            <button type="button" wire:click="deleteEducation({{ $edu['id'] }})"
+                                    wire:confirm="Remover esta formação?"
+                                    class="p-1.5 text-gray-400 hover:text-red-500 transition" title="Remover">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         MODAL — Experiência
+    ══════════════════════════════════════════════════════════════════ --}}
+    @if($showExpForm)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" wire:click.self="closeExpForm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between px-6 py-4 border-b">
+                    <h4 class="text-base font-bold text-gray-800">{{ $expForm['id'] ? 'Editar experiência' : 'Adicionar experiência' }}</h4>
+                    <button type="button" wire:click="closeExpForm" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="px-6 py-5 space-y-4">
+                    {{-- Título e Empresa --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Cargo / Título <span class="text-red-500">*</span></label>
+                            <input type="text" wire:model.defer="expForm.titulo" class="pub-input" placeholder="Ex.: Desenvolvedor Web">
+                            @error('expForm.titulo') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Empresa <span class="text-red-500">*</span></label>
+                            <input type="text" wire:model.defer="expForm.empresa" class="pub-input" placeholder="Nome da empresa">
+                            @error('expForm.empresa') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    {{-- Cidade e País --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
+                            <input type="text" wire:model.defer="expForm.cidade" class="pub-input" placeholder="Ex.: Luanda">
+                            @error('expForm.cidade') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">País</label>
+                            <input type="text" wire:model.defer="expForm.pais" class="pub-input" placeholder="Ex.: Angola">
+                            @error('expForm.pais') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    {{-- Período --}}
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mês início</label>
+                            <select wire:model.defer="expForm.mes_inicio" class="pub-input">
+                                <option value="">—</option>
+                                @foreach(['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'] as $i => $m)
+                                    <option value="{{ $i+1 }}">{{ $m }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ano início</label>
+                            <input type="number" wire:model.defer="expForm.ano_inicio" class="pub-input" placeholder="2020" min="1950" max="2100">
+                            @error('expForm.ano_inicio') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Mês fim</label>
+                            <select wire:model.defer="expForm.mes_fim" class="pub-input" @if($expForm['atual']) disabled @endif>
+                                <option value="">—</option>
+                                @foreach(['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'] as $i => $m)
+                                    <option value="{{ $i+1 }}">{{ $m }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ano fim</label>
+                            <input type="number" wire:model.defer="expForm.ano_fim" class="pub-input" placeholder="2023" min="1950" max="2100" @if($expForm['atual']) disabled @endif>
+                            @error('expForm.ano_fim') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    {{-- Actualmente --}}
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="exp-atual" wire:model="expForm.atual" class="w-4 h-4 accent-[#00baff]">
+                        <label for="exp-atual" class="text-sm text-gray-700">Trabalho aqui actualmente</label>
+                    </div>
+                    {{-- Descrição --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                        <textarea wire:model.defer="expForm.descricao" rows="3" class="pub-input" placeholder="Descreva as suas responsabilidades e conquistas…"></textarea>
+                        @error('expForm.descricao') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t flex justify-end gap-3">
+                    <button type="button" wire:click="closeExpForm" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancelar</button>
+                    <button type="button" wire:click="saveExperience" wire:loading.attr="disabled"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
+                        <span wire:loading.remove wire:target="saveExperience">Guardar</span>
+                        <span wire:loading wire:target="saveExperience" class="flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                            A guardar…
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         MODAL — Educação
+    ══════════════════════════════════════════════════════════════════ --}}
+    @if($showEduForm)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" wire:click.self="closeEduForm">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+                <div class="flex items-center justify-between px-6 py-4 border-b">
+                    <h4 class="text-base font-bold text-gray-800">{{ $eduForm['id'] ? 'Editar formação' : 'Adicionar formação' }}</h4>
+                    <button type="button" wire:click="closeEduForm" class="text-gray-400 hover:text-gray-600 p-1">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="px-6 py-5 space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Escola / Instituição <span class="text-red-500">*</span></label>
+                        <input type="text" wire:model.defer="eduForm.escola" class="pub-input" placeholder="Ex.: Universidade Agostinho Neto">
+                        @error('eduForm.escola') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Grau</label>
+                            <select wire:model.defer="eduForm.grau" class="pub-input">
+                                <option value="">— Selecionar —</option>
+                                <option value="Ensino Secundário">Ensino Secundário</option>
+                                <option value="Técnico Médio">Técnico Médio</option>
+                                <option value="Bacharelato">Bacharelato</option>
+                                <option value="Licenciatura">Licenciatura</option>
+                                <option value="Pós-Graduação">Pós-Graduação</option>
+                                <option value="Mestrado">Mestrado</option>
+                                <option value="Doutoramento">Doutoramento</option>
+                                <option value="Certificação">Certificação</option>
+                                <option value="Curso Profissional">Curso Profissional</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                            @error('eduForm.grau') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Área de estudo</label>
+                            <input type="text" wire:model.defer="eduForm.area_estudo" class="pub-input" placeholder="Ex.: Engenharia Informática">
+                            @error('eduForm.area_estudo') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ano início</label>
+                            <input type="number" wire:model.defer="eduForm.ano_inicio" class="pub-input" placeholder="2018" min="1950" max="2100">
+                            @error('eduForm.ano_inicio') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ano fim</label>
+                            <input type="number" wire:model.defer="eduForm.ano_fim" class="pub-input" placeholder="2022" min="1950" max="2100" @if($eduForm['atual']) disabled @endif>
+                            @error('eduForm.ano_fim') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="edu-atual" wire:model="eduForm.atual" class="w-4 h-4 accent-[#00baff]">
+                        <label for="edu-atual" class="text-sm text-gray-700">A frequentar actualmente</label>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descrição (opcional)</label>
+                        <textarea wire:model.defer="eduForm.descricao" rows="3" class="pub-input" placeholder="Actividades, conquistas, notas relevantes…"></textarea>
+                        @error('eduForm.descricao') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t flex justify-end gap-3">
+                    <button type="button" wire:click="closeEduForm" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancelar</button>
+                    <button type="button" wire:click="saveEducation" wire:loading.attr="disabled"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
+                        <span wire:loading.remove wire:target="saveEducation">Guardar</span>
+                        <span wire:loading wire:target="saveEducation" class="flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                            A guardar…
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>

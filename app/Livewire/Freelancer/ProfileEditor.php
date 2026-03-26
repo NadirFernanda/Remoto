@@ -6,6 +6,8 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use App\Models\FreelancerProfile;
+use App\Models\WorkExperience;
+use App\Models\Education;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +41,37 @@ class ProfileEditor extends Component
     public $metrics_total_earnings;
     public $kyc_status;
 
+    // ── Histórico profissional ──────────────────────────────
+    public array $experiences = [];   // lista carregada do DB
+    public array $expForm = [         // formulário do item em edição/criação
+        'id'         => null,
+        'titulo'     => '',
+        'empresa'    => '',
+        'cidade'     => '',
+        'pais'       => '',
+        'mes_inicio' => '',
+        'ano_inicio' => '',
+        'mes_fim'    => '',
+        'ano_fim'    => '',
+        'atual'      => false,
+        'descricao'  => '',
+    ];
+    public bool $showExpForm = false;
+
+    // ── Educação ────────────────────────────────────────────
+    public array $educations = [];    // lista carregada do DB
+    public array $eduForm = [         // formulário do item em edição/criação
+        'id'          => null,
+        'escola'      => '',
+        'grau'        => '',
+        'area_estudo' => '',
+        'ano_inicio'  => '',
+        'ano_fim'     => '',
+        'atual'       => false,
+        'descricao'   => '',
+    ];
+    public bool $showEduForm = false;
+
     public function mount()
     {
         $user = Auth::user();
@@ -63,6 +96,10 @@ class ProfileEditor extends Component
             $this->metrics_total_earnings = $metrics['total_earnings'] ?? null;
             $this->kyc_status = $profile->kyc_status ?? 'pending';
         }
+
+        // Carrega experiências e educações
+        $this->loadExperiences();
+        $this->loadEducations();
     }
 
     // savePhoto removido: upload e salvamento agora são automáticos
@@ -156,6 +193,158 @@ class ProfileEditor extends Component
         );
 
         $this->successMessage = 'Perfil salvo com sucesso!';
+    }
+
+    // ── Histórico profissional ──────────────────────────────
+
+    protected function loadExperiences(): void
+    {
+        $this->experiences = WorkExperience::where('user_id', Auth::id())
+            ->orderByDesc('ano_inicio')
+            ->get()
+            ->toArray();
+    }
+
+    public function openExpForm(?int $id = null): void
+    {
+        if ($id) {
+            $exp = WorkExperience::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+            $this->expForm = $exp->toArray();
+        } else {
+            $this->expForm = [
+                'id' => null, 'titulo' => '', 'empresa' => '', 'cidade' => '',
+                'pais' => '', 'mes_inicio' => '', 'ano_inicio' => '',
+                'mes_fim' => '', 'ano_fim' => '', 'atual' => false, 'descricao' => '',
+            ];
+        }
+        $this->showExpForm = true;
+    }
+
+    public function closeExpForm(): void
+    {
+        $this->showExpForm = false;
+        $this->resetErrorBag('expForm.*');
+    }
+
+    public function saveExperience(): void
+    {
+        $this->validate([
+            'expForm.titulo'     => 'required|string|max:120',
+            'expForm.empresa'    => 'required|string|max:120',
+            'expForm.cidade'     => 'nullable|string|max:100',
+            'expForm.pais'       => 'nullable|string|max:100',
+            'expForm.mes_inicio' => 'nullable|integer|min:1|max:12',
+            'expForm.ano_inicio' => 'nullable|integer|min:1950|max:2100',
+            'expForm.mes_fim'    => 'nullable|integer|min:1|max:12',
+            'expForm.ano_fim'    => 'nullable|integer|min:1950|max:2100',
+            'expForm.atual'      => 'boolean',
+            'expForm.descricao'  => 'nullable|string|max:2000',
+        ], [
+            'expForm.titulo.required'  => 'O título/cargo é obrigatório.',
+            'expForm.empresa.required' => 'O nome da empresa é obrigatório.',
+        ]);
+
+        $data = [
+            'user_id'    => Auth::id(),
+            'titulo'     => strip_tags($this->expForm['titulo']),
+            'empresa'    => strip_tags($this->expForm['empresa']),
+            'cidade'     => $this->expForm['cidade'] ? strip_tags($this->expForm['cidade']) : null,
+            'pais'       => $this->expForm['pais'] ? strip_tags($this->expForm['pais']) : null,
+            'mes_inicio' => $this->expForm['mes_inicio'] ?: null,
+            'ano_inicio' => $this->expForm['ano_inicio'] ?: null,
+            'mes_fim'    => $this->expForm['atual'] ? null : ($this->expForm['mes_fim'] ?: null),
+            'ano_fim'    => $this->expForm['atual'] ? null : ($this->expForm['ano_fim'] ?: null),
+            'atual'      => (bool) $this->expForm['atual'],
+            'descricao'  => $this->expForm['descricao'] ? strip_tags($this->expForm['descricao']) : null,
+        ];
+
+        if ($this->expForm['id']) {
+            WorkExperience::where('id', $this->expForm['id'])->where('user_id', Auth::id())->update($data);
+        } else {
+            WorkExperience::create($data);
+        }
+
+        $this->loadExperiences();
+        $this->showExpForm = false;
+        $this->successMessage = 'Experiência guardada!';
+    }
+
+    public function deleteExperience(int $id): void
+    {
+        WorkExperience::where('id', $id)->where('user_id', Auth::id())->delete();
+        $this->loadExperiences();
+    }
+
+    // ── Educação ────────────────────────────────────────────
+
+    protected function loadEducations(): void
+    {
+        $this->educations = Education::where('user_id', Auth::id())
+            ->orderByDesc('ano_inicio')
+            ->get()
+            ->toArray();
+    }
+
+    public function openEduForm(?int $id = null): void
+    {
+        if ($id) {
+            $edu = Education::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+            $this->eduForm = $edu->toArray();
+        } else {
+            $this->eduForm = [
+                'id' => null, 'escola' => '', 'grau' => '', 'area_estudo' => '',
+                'ano_inicio' => '', 'ano_fim' => '', 'atual' => false, 'descricao' => '',
+            ];
+        }
+        $this->showEduForm = true;
+    }
+
+    public function closeEduForm(): void
+    {
+        $this->showEduForm = false;
+        $this->resetErrorBag('eduForm.*');
+    }
+
+    public function saveEducation(): void
+    {
+        $this->validate([
+            'eduForm.escola'      => 'required|string|max:150',
+            'eduForm.grau'        => 'nullable|string|max:100',
+            'eduForm.area_estudo' => 'nullable|string|max:150',
+            'eduForm.ano_inicio'  => 'nullable|integer|min:1950|max:2100',
+            'eduForm.ano_fim'     => 'nullable|integer|min:1950|max:2100',
+            'eduForm.atual'       => 'boolean',
+            'eduForm.descricao'   => 'nullable|string|max:2000',
+        ], [
+            'eduForm.escola.required' => 'O nome da escola/instituição é obrigatório.',
+        ]);
+
+        $data = [
+            'user_id'     => Auth::id(),
+            'escola'      => strip_tags($this->eduForm['escola']),
+            'grau'        => $this->eduForm['grau'] ? strip_tags($this->eduForm['grau']) : null,
+            'area_estudo' => $this->eduForm['area_estudo'] ? strip_tags($this->eduForm['area_estudo']) : null,
+            'ano_inicio'  => $this->eduForm['ano_inicio'] ?: null,
+            'ano_fim'     => $this->eduForm['atual'] ? null : ($this->eduForm['ano_fim'] ?: null),
+            'atual'       => (bool) $this->eduForm['atual'],
+            'descricao'   => $this->eduForm['descricao'] ? strip_tags($this->eduForm['descricao']) : null,
+        ];
+
+        if ($this->eduForm['id']) {
+            Education::where('id', $this->eduForm['id'])->where('user_id', Auth::id())->update($data);
+        } else {
+            Education::create($data);
+        }
+
+        $this->loadEducations();
+        $this->showEduForm = false;
+        $this->successMessage = 'Educação guardada!';
+    }
+
+    public function deleteEducation(int $id): void
+    {
+        Education::where('id', $id)->where('user_id', Auth::id())->delete();
+        $this->loadEducations();
     }
 
     public function render()

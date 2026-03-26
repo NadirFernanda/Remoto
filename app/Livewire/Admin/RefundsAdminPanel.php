@@ -66,18 +66,23 @@ class RefundsAdminPanel extends Component
 
     public function reject($id)
     {
-        $refund = Refund::find($id);
-        if (!$refund) return;
+        // BUG-05 fix: add lockForUpdate + transaction (mirroring approve())
+        \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
+            $refund = Refund::where('id', $id)->lockForUpdate()->firstOrFail();
 
-        $refund->status = 'rejeitado';
-        $refund->save();
+            if ($refund->status === 'rejeitado') {
+                return; // idempotency guard
+            }
 
-        Notification::create([
-            'user_id' => $refund->user_id,
-            'type'    => 'refund_rejected',
-            'title'   => 'Reembolso rejeitado',
-            'message' => 'O seu pedido de reembolso foi rejeitado pelo admin.',
-        ]);
+            $refund->update(['status' => 'rejeitado']);
+
+            Notification::create([
+                'user_id' => $refund->user_id,
+                'type'    => 'refund_rejected',
+                'title'   => 'Reembolso rejeitado',
+                'message' => 'O seu pedido de reembolso foi rejeitado pelo admin.',
+            ]);
+        });
 
         session()->flash('success', 'Reembolso rejeitado e cliente notificado.');
     }

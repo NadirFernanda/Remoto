@@ -55,10 +55,19 @@ class Dashboard extends Component
 
             // Creditar valor líquido na carteira do freelancer
             if ($service->valor_liquido && $service->valor_liquido > 0 && $service->freelancer_id) {
-                $freelancerWallet = Wallet::firstOrCreate(
-                    ['user_id' => $service->freelancer_id],
-                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-                );
+                // BUG-04 fix: lock freelancer wallet to prevent concurrent-increment race
+                $freelancerWallet = Wallet::where('user_id', $service->freelancer_id)
+                    ->lockForUpdate()
+                    ->first();
+                if (!$freelancerWallet) {
+                    $freelancerWallet = Wallet::create([
+                        'user_id'         => $service->freelancer_id,
+                        'saldo'           => 0,
+                        'saldo_pendente'  => 0,
+                        'saque_minimo'    => 1000,
+                        'taxa_saque'      => 2,
+                    ]);
+                }
                 $freelancerWallet->increment('saldo', $service->valor_liquido);
                 WalletLog::create([
                     'user_id'   => $service->freelancer_id,
@@ -120,48 +129,51 @@ class Dashboard extends Component
             return;
         }
 
-        $service->status = 'em_moderacao';
-        $service->save();
+        // BUG-06 fix: wrap service save + dispute creation + notifications in a transaction
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $user) {
+            $service->status = 'em_moderacao';
+            $service->save();
 
-        // Criar disputa automática se ainda não existir
-        $dispute = Dispute::firstOrCreate(
-            ['service_id' => $service->id],
-            [
-                'opened_by'   => $user->id,
-                'reason'      => 'outro',
-                'description' => 'Projeto colocado em moderação pelo cliente.',
-                'status'      => 'aberta',
-            ]
-        );
-        if ($dispute->wasRecentlyCreated) {
-            $dispute->messages()->create([
-                'user_id' => $user->id,
-                'message' => 'O cliente colocou este projeto em moderação.',
-            ]);
-        }
+            // Criar disputa automática se ainda não existir
+            $dispute = Dispute::firstOrCreate(
+                ['service_id' => $service->id],
+                [
+                    'opened_by'   => $user->id,
+                    'reason'      => 'outro',
+                    'description' => 'Projeto colocado em moderação pelo cliente.',
+                    'status'      => 'aberta',
+                ]
+            );
+            if ($dispute->wasRecentlyCreated) {
+                $dispute->messages()->create([
+                    'user_id' => $user->id,
+                    'message' => 'O cliente colocou este projeto em moderação.',
+                ]);
+            }
 
-        // Notificar todos os admins
-        $admins = User::where('role', 'admin')->get();
-        foreach ($admins as $admin) {
-            Notification::create([
-                'user_id'    => $admin->id,
-                'service_id' => $service->id,
-                'type'       => 'moderation_requested',
-                'title'      => 'Projeto em moderação',
-                'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação.',
-            ]);
-        }
+            // Notificar todos os admins
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'user_id'    => $admin->id,
+                    'service_id' => $service->id,
+                    'type'       => 'moderation_requested',
+                    'title'      => 'Projeto em moderação',
+                    'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação.',
+                ]);
+            }
 
-        // Notificar o freelancer (se houver)
-        if ($service->freelancer_id) {
-            Notification::create([
-                'user_id'    => $service->freelancer_id,
-                'service_id' => $service->id,
-                'type'       => 'moderation_requested',
-                'title'      => 'Projeto em moderação',
-                'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
-            ]);
-        }
+            // Notificar o freelancer (se houver)
+            if ($service->freelancer_id) {
+                Notification::create([
+                    'user_id'    => $service->freelancer_id,
+                    'service_id' => $service->id,
+                    'type'       => 'moderation_requested',
+                    'title'      => 'Projeto em moderação',
+                    'message'    => 'O cliente colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
+                ]);
+            }
+        });
 
         session()->flash('success', 'Pedido colocado em moderação. A equipa de suporte foi notificada.');
         $this->mount();

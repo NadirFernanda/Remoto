@@ -68,46 +68,49 @@ class Dashboard extends Component
             return;
         }
 
-        $service->status = 'em_moderacao';
-        $service->save();
+        // BUG-07 fix: wrap service save + dispute creation + notifications in a transaction
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $user) {
+            $service->status = 'em_moderacao';
+            $service->save();
 
-        // Criar disputa automática se ainda não existir
-        $dispute = Dispute::firstOrCreate(
-            ['service_id' => $service->id],
-            [
-                'opened_by'   => $user->id,
-                'reason'      => 'outro',
-                'description' => 'Projeto colocado em moderação pelo freelancer.',
-                'status'      => 'aberta',
-            ]
-        );
-        if ($dispute->wasRecentlyCreated) {
-            $dispute->messages()->create([
-                'user_id' => $user->id,
-                'message' => 'O freelancer colocou este projeto em moderação.',
-            ]);
-        }
+            // Criar disputa automática se ainda não existir
+            $dispute = Dispute::firstOrCreate(
+                ['service_id' => $service->id],
+                [
+                    'opened_by'   => $user->id,
+                    'reason'      => 'outro',
+                    'description' => 'Projeto colocado em moderação pelo freelancer.',
+                    'status'      => 'aberta',
+                ]
+            );
+            if ($dispute->wasRecentlyCreated) {
+                $dispute->messages()->create([
+                    'user_id' => $user->id,
+                    'message' => 'O freelancer colocou este projeto em moderação.',
+                ]);
+            }
 
-        // Notificar todos os admins
-        $admins = User::where('role', 'admin')->get();
-        foreach ($admins as $admin) {
+            // Notificar todos os admins
+            $admins = User::where('role', 'admin')->get();
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'user_id'    => $admin->id,
+                    'service_id' => $service->id,
+                    'type'       => 'moderation_requested',
+                    'title'      => 'Projeto em moderação',
+                    'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação.',
+                ]);
+            }
+
+            // Notificar o cliente
             Notification::create([
-                'user_id'    => $admin->id,
+                'user_id'    => $service->cliente_id,
                 'service_id' => $service->id,
                 'type'       => 'moderation_requested',
                 'title'      => 'Projeto em moderação',
-                'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação.',
+                'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
             ]);
-        }
-
-        // Notificar o cliente
-        Notification::create([
-            'user_id'    => $service->cliente_id,
-            'service_id' => $service->id,
-            'type'       => 'moderation_requested',
-            'title'      => 'Projeto em moderação',
-            'message'    => 'O freelancer colocou o projeto "' . $service->titulo . '" em moderação. Aguarde a intervenção da equipa.',
-        ]);
+        });
 
         session()->flash('success', 'Serviço enviado para moderação. A equipa de suporte foi notificada.');
 
