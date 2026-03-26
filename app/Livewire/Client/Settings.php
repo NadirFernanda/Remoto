@@ -88,11 +88,7 @@ class Settings extends Component
 
     public function render()
     {
-        $view = request()->routeIs('freelancer.*')
-            ? 'livewire.freelancer.settings'
-            : 'livewire.client.settings';
-
-        return view($view)
+        return view('livewire.client.settings')
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Configurações']);
     }
 }

@@ -122,7 +122,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/dashboard',          \App\Livewire\Freelancer\Dashboard::class)->name('freelancer.dashboard');
     Route::get('/freelancer/notificacoes',       \App\Livewire\Freelancer\NotificationsPage::class)->name('freelancer.notifications');
-    Route::get('/freelancer/configuracoes',      \App\Livewire\Client\Settings::class)->name('freelancer.settings');
+    Route::get('/freelancer/configuracoes',      \App\Livewire\Freelancer\Settings::class)->name('freelancer.settings');
     Route::get('/freelancer/perfil/editar',      \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
     Route::get('/freelancer/portfolio',          \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
     Route::get('/freelancer/onboarding',         \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
