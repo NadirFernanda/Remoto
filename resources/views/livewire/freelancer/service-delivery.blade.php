@@ -1,29 +1,113 @@
 <div class="container mx-auto px-4 py-8 max-w-xl">
     <h2 class="text-xl font-bold text-cyan-600 mb-4">Entrega do Serviço</h2>
+
+    {{-- ── Resumo do projecto ── --}}
+    @php
+        $statusLabels = [
+            'published'   => 'Publicado',
+            'negotiating' => 'Em negociação',
+            'accepted'    => 'Aceite',
+            'in_progress' => 'Em andamento',
+            'delivered'   => 'Entregue',
+            'completed'   => 'Concluído',
+            'cancelled'   => 'Cancelado',
+        ];
+        $typeLabels = [
+            'direct_invite' => 'Contratação directa',
+            'marketplace'   => 'Marketplace',
+        ];
+    @endphp
+    <div class="bg-white rounded-lg shadow p-6 mb-6 border-l-4 border-cyan-400">
+        <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
+            <span class="text-cyan-500">📋</span> Resumo do Projecto
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
+
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Título</p>
+                <p class="font-semibold text-gray-800">{{ $service->titulo ?? '—' }}</p>
+            </div>
+
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Status</p>
+                <span class="px-2 py-1 rounded text-xs font-bold
+                    @if($service->status === 'in_progress') bg-yellow-100 text-yellow-700
+                    @elseif($service->status === 'delivered')  bg-blue-100  text-blue-700
+                    @elseif($service->status === 'completed')  bg-green-100 text-green-700
+                    @elseif($service->status === 'accepted')   bg-cyan-100  text-cyan-700
+                    @else bg-gray-100 text-gray-600 @endif">
+                    {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
+                </span>
+            </div>
+
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Tipo de projecto</p>
+                <p class="text-gray-700">{{ $typeLabels[$service->service_type] ?? ucfirst($service->service_type ?? '—') }}</p>
+            </div>
+
+            @if($service->categoria)
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Categoria</p>
+                <p class="text-gray-700">{{ $service->categoria }}</p>
+            </div>
+            @endif
+
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Valor a receber</p>
+                <p class="font-bold text-green-600 text-base">
+                    Kz {{ number_format($service->valor_liquido ?: $service->valor * 0.90, 2, ',', '.') }}
+                </p>
+            </div>
+
+            @if($service->valor)
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Valor bruto do projecto</p>
+                <p class="text-gray-700">Kz {{ number_format($service->valor, 2, ',', '.') }}</p>
+            </div>
+            @endif
+
+            @if($service->prazo)
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Prazo de entrega</p>
+                <p class="text-gray-700">{{ $service->prazo }}</p>
+            </div>
+            @endif
+
+            <div>
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Data de início</p>
+                <p class="text-gray-700">{{ $service->created_at?->format('d/m/Y') ?? '—' }}</p>
+            </div>
+
+            @if($service->cliente)
+            <div class="sm:col-span-2">
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Cliente</p>
+                <p class="text-gray-700">{{ $service->cliente->name ?? '—' }}</p>
+            </div>
+            @endif
+
+            @if($service->briefing)
+            <div class="sm:col-span-2">
+                <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Briefing / Descrição</p>
+                <p class="text-gray-700 whitespace-pre-line leading-relaxed">{{ $service->briefing }}</p>
+            </div>
+            @endif
+
+        </div>
+
+        {{-- Acesso rápido ao chat --}}
+        <div class="mt-4 pt-4 border-t border-gray-100 flex justify-end">
+            <a href="{{ route('service.chat', $service->id) }}"
+               class="inline-flex items-center gap-1 text-xs text-cyan-600 hover:text-cyan-800 font-semibold">
+                💬 Ir para o chat do projecto
+            </a>
+        </div>
+    </div>
+
+    {{-- ── Formulário de entrega ── --}}
     <div class="bg-white rounded-lg shadow p-6 mb-6">
-        <div class="mb-2">
-            <span class="font-semibold">Título:</span> {{ $service->titulo }}
-        </div>
-        <div class="mb-2">
-            <span class="font-semibold">Status:</span>
-            @php
-                $statusLabels = [
-                    'published' => 'Publicado',
-                    'accepted' => 'Aceite',
-                    'in_progress' => 'Em andamento',
-                    'delivered' => 'Entregue',
-                    'completed' => 'Concluído',
-                    'cancelled' => 'Cancelado',
-                ];
-            @endphp
-            <span class="px-2 py-1 rounded text-xs font-bold
-                @if($service->status === 'in_progress') bg-yellow-100 text-yellow-700
-                @elseif($service->status === 'delivered') bg-blue-100 text-blue-700
-                @elseif($service->status === 'completed') bg-green-100 text-green-700
-                @endif">
-                {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
-            </span>
-        </div>
+        <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
+            <span class="text-cyan-500">📤</span> Submeter Entrega
+        </h3>
         <form wire:submit.prevent="entregarServico" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Ficheiro de entrega</label>

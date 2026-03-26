@@ -31,6 +31,7 @@ class ServiceDelivery extends Component
             session()->flash('error', 'Este projeto não está em andamento.');
             return redirect()->route('freelancer.projects');
         }
+        $service->loadMissing('cliente');
         $this->service = $service;
     }
 
