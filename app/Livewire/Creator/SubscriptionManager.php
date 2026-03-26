@@ -42,6 +42,16 @@ class SubscriptionManager extends Component
 
         $totalSubscriptions = CreatorSubscription::where('creator_id', $user->id)->count();
 
+        // Saldo Disponível = total líquido recebido de todas as assinaturas
+        $saldoDisponivel = $allTimeEarnings;
+
+        // Comissão total retida pela plataforma (25%)
+        $comissaoTotal = CreatorSubscription::where('creator_id', $user->id)
+            ->sum('platform_fee');
+
+        // Valor da assinatura mensal
+        $valorAssinatura = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
+
         // ── Monthly new subscriptions for selected year ──────────────────────
         $monthlyNew = CreatorSubscription::where('creator_id', $user->id)
             ->whereYear('starts_at', $this->selectedYear)
@@ -103,6 +113,9 @@ class SubscriptionManager extends Component
             'mrr',
             'allTimeEarnings',
             'totalSubscriptions',
+            'saldoDisponivel',
+            'comissaoTotal',
+            'valorAssinatura',
             'months',
             'maxNew',
             'recentSubscribers',

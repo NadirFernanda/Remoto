@@ -17,30 +17,58 @@
     </div>
 
     {{-- ── KPI Cards ────────────────────────────────────────────────────────── --}}
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem;margin-bottom:1.5rem;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-bottom:1.75rem;">
 
-        <div style="background:#fff;border:1.5px solid #eef2f7;border-radius:14px;padding:1.1rem 1.2rem;">
-            <p style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 .45rem;">Assinantes Activos</p>
-            <p style="font-size:1.8rem;font-weight:900;color:#0f172a;margin:0;line-height:1;">{{ $activeSubscribers }}</p>
-            <p style="font-size:.72rem;color:#64748b;margin:.3rem 0 0;">em tempo real</p>
+        {{-- Saldo Disponível --}}
+        <div style="background:linear-gradient(135deg,#0575e6 0%,#00baff 100%);border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:rgba(255,255,255,.08);border-radius:50%;"></div>
+            <p style="font-size:.65rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;">Saldo Disponível</p>
+            <p style="font-size:1.55rem;font-weight:900;color:#fff;margin:0;line-height:1.1;">{{ money_aoa($saldoDisponivel, false) }}</p>
+            <p style="font-size:.7rem;color:rgba(255,255,255,.7);margin:.35rem 0 0;">valor líquido acumulado</p>
+            <div style="position:absolute;bottom:1rem;right:1rem;">
+                <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
         </div>
 
-        <div style="background:linear-gradient(135deg,#0575e6 0%,#00baff 100%);border-radius:14px;padding:1.1rem 1.2rem;">
-            <p style="font-size:.68rem;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.06em;margin:0 0 .45rem;">Receita Mensal (MRR)</p>
-            <p style="font-size:1.45rem;font-weight:900;color:#fff;margin:0;line-height:1.1;">{{ money_aoa($mrr, false) }}</p>
-            <p style="font-size:.72rem;color:rgba(255,255,255,.7);margin:.3rem 0 0;">assinaturas activas</p>
+        {{-- Total de Assinaturas --}}
+        <div style="background:#fff;border:1.5px solid #eef2f7;border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:#f0f9ff;border-radius:50%;"></div>
+            <p style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;">Total de Assinaturas</p>
+            <p style="font-size:1.9rem;font-weight:900;color:#0f172a;margin:0;line-height:1;">{{ $totalSubscriptions }}</p>
+            <p style="font-size:.7rem;color:#64748b;margin:.35rem 0 0;">{{ $activeSubscribers }} activas agora</p>
+            <div style="position:absolute;bottom:1rem;right:1rem;">
+                <svg width="22" height="22" fill="none" stroke="#cbd5e1" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
         </div>
 
-        <div style="background:#fff;border:1.5px solid #eef2f7;border-radius:14px;padding:1.1rem 1.2rem;">
-            <p style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 .45rem;">Total Ganho</p>
-            <p style="font-size:1.45rem;font-weight:900;color:#0f172a;margin:0;line-height:1.1;">{{ money_aoa($allTimeEarnings, false) }}</p>
-            <p style="font-size:.72rem;color:#64748b;margin:.3rem 0 0;">histórico completo</p>
+        {{-- Comissão da Plataforma 25% --}}
+        <div style="background:#fff;border:1.5px solid #fef3c7;border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:#fffbeb;border-radius:50%;"></div>
+            <p style="font-size:.65rem;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;opacity:.7;">Comissão Plataforma <span style="background:#fef08a;color:#78350f;padding:.05rem .3rem;border-radius:4px;font-size:.6rem;">25%</span></p>
+            <p style="font-size:1.55rem;font-weight:900;color:#b45309;margin:0;line-height:1.1;">{{ money_aoa($comissaoTotal, false) }}</p>
+            <p style="font-size:.7rem;color:#d97706;margin:.35rem 0 0;">total retido pela plataforma</p>
+            <div style="position:absolute;bottom:1rem;right:1rem;">
+                <svg width="22" height="22" fill="none" stroke="#fcd34d" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>
+                </svg>
+            </div>
         </div>
 
-        <div style="background:#fff;border:1.5px solid #eef2f7;border-radius:14px;padding:1.1rem 1.2rem;">
-            <p style="font-size:.68rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin:0 0 .45rem;">Total Assinaturas</p>
-            <p style="font-size:1.8rem;font-weight:900;color:#0f172a;margin:0;line-height:1;">{{ $totalSubscriptions }}</p>
-            <p style="font-size:.72rem;color:#64748b;margin:.3rem 0 0;">desde início</p>
+        {{-- Valor da Assinatura --}}
+        <div style="background:#fff;border:1.5px solid #ede9fe;border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:#f5f3ff;border-radius:50%;"></div>
+            <p style="font-size:.65rem;font-weight:700;color:#5b21b6;text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;opacity:.75;">Valor da Assinatura</p>
+            <p style="font-size:1.55rem;font-weight:900;color:#6d28d9;margin:0;line-height:1.1;">{{ money_aoa($valorAssinatura, false) }}</p>
+            <p style="font-size:.7rem;color:#7c3aed;margin:.35rem 0 0;">por mês · recebe <strong>{{ money_aoa($valorAssinatura * 0.75, false) }}</strong></p>
+            <div style="position:absolute;bottom:1rem;right:1rem;">
+                <svg width="22" height="22" fill="none" stroke="#c4b5fd" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+            </div>
         </div>
 
     </div>
