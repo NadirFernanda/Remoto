@@ -1,47 +1,73 @@
-<div class="max-w-2xl mx-auto p-6 bg-white rounded shadow mt-8 space-y-6">
-    <h2 class="text-2xl font-bold mb-4">Configurações da Conta</h2>
-
-    <div class="mb-4 border-b pb-5">
-        <label class="block text-gray-700 font-semibold mb-1">Alterar palavra-passe</label>
-        <input type="password" class="w-full border rounded px-3 py-2" placeholder="Nova palavra-passe">
+<div class="max-w-5xl mx-auto space-y-6">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Configurações da Conta</h2>
+        <p class="text-sm text-white/90 mt-1">Gerencie preferências de notificação e segurança da conta.</p>
     </div>
 
-    <div class="mb-4 border-b pb-5">
-        <label class="block text-gray-700 font-semibold mb-1">Receber e-mails de novos projectos</label>
-        <select wire:model="notify_new_project_email" class="w-full border rounded px-3 py-2">
-            <option value="1">Activado</option>
-            <option value="0">Desactivado</option>
-        </select>
-        @if (session('success'))
-            <div class="mt-2 p-2 bg-green-100 text-green-700 rounded text-center text-sm">{{ session('success') }}</div>
-        @endif
+    @if (session('success'))
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white border border-gray-200 rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-slate-900">Notificações</h3>
+            <p class="text-sm text-slate-500 mt-1">Escolha se quer receber e-mails de novos projectos.</p>
+
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-slate-700 mb-2">E-mails de novos projectos</label>
+                <select wire:model="notify_new_project_email" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]">
+                    <option value="1">Activado</option>
+                    <option value="0">Desactivado</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="bg-white border border-amber-200 rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-amber-700">Desativar Conta</h3>
+            <p class="text-sm text-slate-500 mt-1">Suspende acesso imediato. Reativação apenas via suporte.</p>
+
+            <div class="mt-4">
+                <input wire:model.defer="deactivatePassword" type="password" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" placeholder="Confirme a palavra-passe">
+                @error('deactivatePassword')
+                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button wire:click="deactivateAccount" class="mt-4 inline-flex items-center rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold px-4 py-2 transition">
+                Desativar conta
+            </button>
+        </div>
     </div>
-    <div class="border-b pb-5">
-        <h3 class="text-lg font-semibold text-slate-800 mb-2">Desativar Conta</h3>
-        <p class="text-sm text-gray-500 mb-3">A conta fica suspensa e pode ser reativada pelo suporte.</p>
-        <input wire:model.defer="deactivatePassword" type="password" class="w-full border rounded px-3 py-2 mb-2" placeholder="Confirme a palavra-passe">
-        @error('deactivatePassword')
-            <p class="text-sm text-red-600 mb-2">{{ $message }}</p>
-        @enderror
-        <button wire:click="deactivateAccount" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded">
-            Desativar conta
-        </button>
-    </div>
 
-    <div>
-        <h3 class="text-lg font-semibold text-red-700 mb-2">Remover Conta</h3>
-        <p class="text-sm text-gray-500 mb-3">Esta ação é permanente. Digite REMOVER para confirmar.</p>
-        <input wire:model.defer="deletePassword" type="password" class="w-full border rounded px-3 py-2 mb-2" placeholder="Confirme a palavra-passe">
-        @error('deletePassword')
-            <p class="text-sm text-red-600 mb-2">{{ $message }}</p>
-        @enderror
+    <div class="bg-white border border-red-200 rounded-2xl p-6">
+        <h3 class="text-lg font-bold text-red-700">Remover Conta</h3>
+        <p class="text-sm text-slate-500 mt-1">Ação permanente e irreversível. Digite REMOVER para confirmar.</p>
 
-        <input wire:model.defer="deleteConfirmation" type="text" class="w-full border rounded px-3 py-2 mb-2" placeholder="Digite REMOVER">
-        @error('deleteConfirmation')
-            <p class="text-sm text-red-600 mb-2">{{ $message }}</p>
-        @enderror
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+            <div>
+                <input wire:model.defer="deletePassword" type="password" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" placeholder="Confirme a palavra-passe">
+                @error('deletePassword')
+                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <button wire:click="deleteAccount" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            <div>
+                <input wire:model.defer="deleteConfirmation" type="text" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm" placeholder="Digite REMOVER">
+                @error('deleteConfirmation')
+                    <p class="text-xs text-red-600 mt-2">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <button wire:click="deleteAccount" class="mt-4 inline-flex items-center rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 transition">
             Remover conta
         </button>
     </div>
