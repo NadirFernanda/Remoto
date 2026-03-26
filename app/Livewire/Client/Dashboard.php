@@ -88,7 +88,9 @@ class Dashboard extends Component
             if ($freelancerPago) {
                 PaymentReceived::dispatch($service, $freelancerPago, (float) ($service->valor_liquido ?? $service->valor));
             }
-            ServiceCompleted::dispatch($service, $user, $freelancerPago ?? new User());
+            if ($freelancerPago) {
+                ServiceCompleted::dispatch($service, $user, $freelancerPago);
+            }
         });
 
         // Notificações de email fora da transacção (side-effects)
@@ -299,7 +301,7 @@ class Dashboard extends Component
     public function render()
     {
         $user = Auth::user();
-        $affiliate_link = url('/register?ref=' . $user->affiliate_code);
+        $affiliate_link = $user->affiliate_code ? url('/register?ref=' . $user->affiliate_code) : url('/register');
         return view('livewire.client.dashboard', [
             'orders' => $this->orders,
             'recent_messages' => $this->recent_messages,

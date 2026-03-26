@@ -23,26 +23,36 @@ class RefundsAdminPanel extends Component
         $refund = Refund::with('service')->find($id);
         if (!$refund) return;
 
-        $refund->status = 'aprovado';
-        $refund->save();
+        if ($refund->status === 'aprovado') {
+            session()->flash('info', 'Este reembolso já foi processado.');
+            return;
+        }
 
-        // Creditar valor na carteira do cliente
         $service = $refund->service;
         $valor   = $service ? ($service->valor ?? 0) : 0;
-        if ($valor > 0) {
-            $wallet = Wallet::firstOrCreate(
-                ['user_id' => $refund->user_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $wallet->increment('saldo', $valor);
-            WalletLog::create([
-                'user_id'   => $refund->user_id,
-                'wallet_id' => $wallet->id,
-                'valor'     => $valor,
-                'tipo'      => 'reembolso_aprovado',
-                'descricao' => 'Reembolso aprovado pelo admin' . ($service ? ' — projeto: ' . $service->titulo : '') . '.',
-            ]);
-        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($refund, $valor, $service) {
+            $locked = Refund::where('id', $refund->id)->lockForUpdate()->firstOrFail();
+            if ($locked->status === 'aprovado') return;
+
+            $locked->status = 'aprovado';
+            $locked->save();
+
+            if ($valor > 0) {
+                $wallet = Wallet::firstOrCreate(
+                    ['user_id' => $refund->user_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $wallet->increment('saldo', $valor);
+                WalletLog::create([
+                    'user_id'   => $refund->user_id,
+                    'wallet_id' => $wallet->id,
+                    'valor'     => $valor,
+                    'tipo'      => 'reembolso_aprovado',
+                    'descricao' => 'Reembolso aprovado pelo admin' . ($service ? ' — projeto: ' . $service->titulo : '') . '.',
+                ]);
+            }
+        });
 
         Notification::create([
             'user_id' => $refund->user_id,

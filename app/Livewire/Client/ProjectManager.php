@@ -165,7 +165,7 @@ class ProjectManager extends Component
             if ($valorFinal > 0) {
                 $service->valor         = $valorFinal;
                 $service->taxa          = 10.0;
-                $service->valor_liquido = round($valorFinal * 0.90, 2); // 90% para o freelancer, 10% taxa plataforma
+                $service->valor_liquido = round($valorFinal * 0.80, 2); // 80% para o freelancer, 20% taxa plataforma (FeeService)
             }
 
             // Atualiza o projeto
@@ -176,10 +176,7 @@ class ProjectManager extends Component
             // Registar retenção em escrow na carteira do cliente (debit saldo + credit saldo_pendente)
             if ($service->valor && $service->valor > 0) {
                 $totalComTaxa = round($service->valor * 1.10, 2);
-                $clientWallet = Wallet::firstOrCreate(
-                    ['user_id' => auth()->id()],
-                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-                );
+                $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
                 $clientWallet->decrement('saldo', $totalComTaxa);           // débito real
                 $clientWallet->increment('saldo_pendente', $service->valor); // escrow líquido
                 WalletLog::create([

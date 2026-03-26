@@ -28,7 +28,6 @@ class ServiceReview extends Component
             return;
         }
         // Não altera status do serviço, apenas cadastra candidatura
-        $this->service->save();
 
         // Cria ServiceCandidate se não existir
         $candidate = $this->service->candidates()->where('freelancer_id', $user->id)->first();

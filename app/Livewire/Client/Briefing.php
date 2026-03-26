@@ -108,7 +108,7 @@ class Briefing extends Component
                 'briefing'     => $this->generated_description,
                 'service_type' => $serviceType,
                 'taxa'         => 10.00,
-                'status'       => 'published',
+                'status'       => 'draft', // publicado após confirmar pagamento em PaymentEscrow
             ]);
             $serviceId = $service->id;
         }
@@ -118,6 +118,11 @@ class Briefing extends Component
         $order['title']         = $this->title1;
         $order['service_id']    = $serviceId;
         session(['client_order' => $order]);
+
+        if (!$serviceId) {
+            session()->flash('error', 'Não foi possível guardar o pedido. Tente novamente.');
+            return;
+        }
 
         session()->flash('success', $this->edit
             ? 'Pedido atualizado com sucesso!'

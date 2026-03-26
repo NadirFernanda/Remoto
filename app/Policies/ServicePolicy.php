@@ -21,7 +21,7 @@ class ServicePolicy
      */
     public function cancel(User $user, Service $service)
     {
-        return $user->id === $service->cliente_id && in_array($user->activeRole(), ['client', 'cliente']);
+        return $user->id === $service->cliente_id && $user->activeRole() === 'cliente';
     }
 
     /**

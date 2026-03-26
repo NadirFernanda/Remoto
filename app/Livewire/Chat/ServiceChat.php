@@ -186,7 +186,8 @@ class ServiceChat extends Component
 
         // Processar débito, escrow, persistência E notificação dentro de uma transacção atómica
         \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
-
+        // Re-adquire wallet com lock para prevenir race-condition
+        $clientWallet = \App\Models\Wallet::where('id', $clientWallet->id)->lockForUpdate()->firstOrFail();
         $clientWallet->decrement('saldo', $total_cliente);
         $clientWallet->increment('saldo_pendente', $extra);
 
@@ -204,7 +205,7 @@ class ServiceChat extends Component
 
         // Actualizar serviço
         $service->valor         = $novo;
-        $service->valor_liquido = round($novo * 0.90, 2); // 90% = valor líquido para o freelancer
+        $service->valor_liquido = round($novo * 0.80, 2); // 80% = valor líquido para o freelancer (FeeService)
 
         if ($isDirect) {
             // Contratação directa (negotiating ou accepted+direct_invite):

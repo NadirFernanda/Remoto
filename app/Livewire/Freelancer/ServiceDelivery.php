@@ -20,10 +20,6 @@ class ServiceDelivery extends Component
 
     public function mount(Service $service)
     {
-        if (!$service || !$service->id) {
-            session()->flash('error', 'Serviço não encontrado ou inválido.');
-            return redirect()->route('freelancer.dashboard');
-        }
         if ($service->freelancer_id !== auth()->id()) {
             abort(403);
         }
@@ -58,33 +54,40 @@ class ServiceDelivery extends Component
 
         $file = $this->entrega_arquivo;
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($file) {
-            $path = $file->store("deliveries/{$this->service->id}", 'public');
+        // Armazenar o ficheiro ANTES da transacção (I/O não é revertível por rollback)
+        $path = $file->store("deliveries/{$this->service->id}", 'public');
 
-            // Guardar o ficheiro como anexo de entrega
-            ServiceAttachment::create([
-                'service_id' => $this->service->id,
-                'user_id'    => auth()->id(),
-                'filename'   => $file->getClientOriginalName(),
-                'path'       => $path,
-                'size'       => $file->getSize(),
-                'mime_type'  => $file->getMimeType(),
-            ]);
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path) {
+                // Guardar o ficheiro como anexo de entrega
+                ServiceAttachment::create([
+                    'service_id' => $this->service->id,
+                    'user_id'    => auth()->id(),
+                    'filename'   => $file->getClientOriginalName(),
+                    'path'       => $path,
+                    'size'       => $file->getSize(),
+                    'mime_type'  => $file->getMimeType(),
+                ]);
 
-            // Guardar mensagem de entrega e mudar status
-            $this->service->delivery_message = $this->entrega_mensagem;
-            $this->service->status = 'delivered';
-            $this->service->save();
+                // Guardar mensagem de entrega e mudar status
+                $this->service->delivery_message = $this->entrega_mensagem;
+                $this->service->status = 'delivered';
+                $this->service->save();
 
-            // Notificar o cliente (dentro da transacção)
-            Notification::create([
-                'user_id'    => $this->service->cliente_id,
-                'service_id' => $this->service->id,
-                'type'       => 'delivery_submitted',
-                'title'      => 'Entrega recebida',
-                'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". Revise e aprove ou solicite revisão.',
-            ]);
-        });
+                // Notificar o cliente (dentro da transacção)
+                Notification::create([
+                    'user_id'    => $this->service->cliente_id,
+                    'service_id' => $this->service->id,
+                    'type'       => 'delivery_submitted',
+                    'title'      => 'Entrega recebida',
+                    'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". Revise e aprove ou solicite revisão.',
+                ]);
+            });
+        } catch (\Throwable $e) {
+            // Limpar o ficheiro órfão se a transacção falhou
+            Storage::disk('public')->delete($path);
+            throw $e;
+        }
 
         // Email fora da transacção (side-effect tolerável)
         $cliente = $this->service->fresh()->cliente;

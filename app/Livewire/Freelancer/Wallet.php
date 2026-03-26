@@ -50,17 +50,19 @@ class Wallet extends Component
             return;
         }
 
-        // Mover para saldo_pendente (não desaparece do saldo sem aviso)
-        $wallet->decrement('saldo', $this->valor_saque);
-        $wallet->increment('saldo_pendente', $this->valor_saque);
+        // Mover para saldo_pendente dentro de transacção atómica
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user) {
+            $wallet->decrement('saldo', $this->valor_saque);
+            $wallet->increment('saldo_pendente', $this->valor_saque);
 
-        WalletLog::create([
-            'user_id'   => $user->id,
-            'wallet_id' => $wallet->id,
-            'valor'     => -$this->valor_saque,
-            'tipo'      => 'saque_solicitado',
-            'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz — a aguardar aprovação do admin.",
-        ]);
+            WalletLog::create([
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$this->valor_saque,
+                'tipo'      => 'saque_solicitado',
+                'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz — a aguardar aprovação do admin.",
+            ]);
+        });
 
         $this->saldo_disponivel = $wallet->fresh()->saldo;
         $this->saldo_pendente   = $wallet->fresh()->saldo_pendente;
