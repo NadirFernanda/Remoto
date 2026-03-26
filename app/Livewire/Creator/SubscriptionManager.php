@@ -98,12 +98,8 @@ class SubscriptionManager extends Component
             ->get();
 
         // ── Available years (for year selector) ──────────────────────────────
-        $firstYear = (int) (CreatorSubscription::where('creator_id', $user->id)
-            ->min('starts_at') ?? now());
-        $firstYear = $firstYear ?: now()->year;
-        if (!is_int($firstYear)) {
-            $firstYear = Carbon::parse($firstYear)->year;
-        }
+        $minStartsAt = CreatorSubscription::where('creator_id', $user->id)->min('starts_at');
+        $firstYear = $minStartsAt ? Carbon::parse($minStartsAt)->year : now()->year;
         $years = range(now()->year, $firstYear, -1);
 
         return view('livewire.creator.subscription-manager', compact(
