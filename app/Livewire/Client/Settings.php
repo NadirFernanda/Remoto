@@ -6,6 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class Settings extends Component
 {
@@ -66,12 +67,17 @@ class Settings extends Component
 
         $userId = $this->user->id;
 
-        DB::transaction(function () use ($userId) {
-            $user = \App\Models\User::find($userId);
-            if ($user) {
-                $user->delete();
-            }
-        });
+        try {
+            DB::transaction(function () use ($userId) {
+                $user = \App\Models\User::find($userId);
+                if ($user) {
+                    $user->delete();
+                }
+            });
+        } catch (Throwable) {
+            session()->flash('error', 'Não foi possível remover a conta automaticamente. Contacte o suporte.');
+            return;
+        }
 
         Auth::logout();
         request()->session()->invalidate();
