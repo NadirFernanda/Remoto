@@ -16,24 +16,42 @@
             {{-- Banner de capa --}}
             <div class="relative h-48 bg-gradient-to-r from-[#00baff] to-[#6a5acd]"
                  @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
+
+                {{-- Overlay clicável em toda a área do banner --}}
                 <label for="pe-cover-input"
-                       class="absolute bottom-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer transition"
+                       class="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 transition cursor-pointer group"
                        title="Alterar foto de capa">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span class="opacity-0 group-hover:opacity-100 transition flex flex-col items-center gap-1 text-white drop-shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
+                        </svg>
+                        <span class="text-sm font-semibold">Alterar foto de capa</span>
+                    </span>
+                </label>
+
+                {{-- Botão fixo visível sempre (canto inferior direito) --}}
+                <label for="pe-cover-input"
+                       class="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/55 hover:bg-black/80 text-white text-xs font-medium rounded-full px-3 py-1.5 cursor-pointer transition pointer-events-auto z-10"
+                       title="Alterar foto de capa">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
                     </svg>
+                    Alterar capa
                 </label>
+
                 <input type="file" id="pe-cover-input" wire:model="coverPhoto"
                        accept="image/jpeg,image/png,image/webp"
                        style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"
                        onchange="if(this.files[0]){var b=this.closest('.relative');b.style.backgroundImage='url('+URL.createObjectURL(this.files[0])+')';b.style.backgroundSize='cover';b.style.backgroundPosition='center';}">
                 <span wire:loading wire:target="coverPhoto"
-                      class="absolute inset-0 flex items-center justify-center bg-black/30 text-white text-sm font-medium">
+                      class="absolute inset-0 flex items-center justify-center bg-black/40 text-white text-sm font-medium z-20">
+                    <svg class="w-5 h-5 animate-spin mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
                     A carregar capa…
                 </span>
                 @error('coverPhoto')
-                    <div class="absolute bottom-0 left-0 right-0 text-xs text-white bg-red-600/90 px-3 py-1">{{ $message }}</div>
+                    <div class="absolute bottom-0 left-0 right-0 text-xs text-white bg-red-600/90 px-3 py-1 z-20">{{ $message }}</div>
                 @enderror
             </div>
             {{-- Avatar sobreposto na capa --}}
