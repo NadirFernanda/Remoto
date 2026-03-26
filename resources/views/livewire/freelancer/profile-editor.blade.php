@@ -17,26 +17,29 @@
             <div class="relative h-48 bg-gradient-to-r from-[#00baff] to-[#6a5acd]"
                  @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
 
-                {{-- Overlay clicável em toda a área do banner --}}
+                {{-- Overlay escuro ao hover sobre todo o banner --}}
                 <label for="pe-cover-input"
-                       class="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/30 transition cursor-pointer group"
+                       class="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/50 transition-all duration-200 cursor-pointer group"
                        title="Alterar foto de capa">
-                    <span class="opacity-0 group-hover:opacity-100 transition flex flex-col items-center gap-1 text-white drop-shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
-                        </svg>
-                        <span class="text-sm font-semibold">Alterar foto de capa</span>
+                    <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center gap-2 pointer-events-none"
+                          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.8))">
+                        <span class="bg-black/70 rounded-full p-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
+                            </svg>
+                        </span>
+                        <span class="text-white text-sm font-semibold bg-black/60 rounded-full px-4 py-1">Alterar foto de capa</span>
                     </span>
                 </label>
 
-                {{-- Botão fixo visível sempre (canto inferior direito) --}}
+                {{-- Botão sempre visível: fundo branco com texto escuro para contrastar com qualquer cor de capa --}}
                 <label for="pe-cover-input"
-                       class="absolute bottom-3 right-3 flex items-center gap-1.5 bg-black/55 hover:bg-black/80 text-white text-xs font-medium rounded-full px-3 py-1.5 cursor-pointer transition pointer-events-auto z-10"
+                       class="absolute bottom-3 right-3 flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-800 text-xs font-semibold rounded-full px-3 py-1.5 cursor-pointer transition shadow-lg pointer-events-auto z-10 border border-gray-200"
                        title="Alterar foto de capa">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0"/>
                     </svg>
                     Alterar capa
                 </label>
