@@ -178,7 +178,7 @@ class ProjectManager extends Component
         if ($freelancerEscolhidoPM) {
             $freelancerEscolhidoPM->notify(new ProposalAcceptedNotification(
                 $service,
-                route('freelancer.projects')
+                route('freelancer.service.delivery', $service->id)
             ));
         }
 

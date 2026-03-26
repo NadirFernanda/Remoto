@@ -225,13 +225,14 @@ class Dashboard extends Component
             'user_id'    => $freelancerId,
             'service_id' => $service->id,
             'type'       => 'service_chosen',
+            'title'      => 'Selecionado para projecto',
             'message'    => $mensagemEscolhido,
         ]);
         $freelancerEscolhido = User::find($freelancerId);
         if ($freelancerEscolhido) {
             $freelancerEscolhido->notify(new ProposalAcceptedNotification(
                 $service,
-                route('freelancer.projects')
+                route('freelancer.service.delivery', $service->id)
             ));
         }
 

@@ -12,6 +12,17 @@ class Service extends Model
     {
         return $this->hasMany(ServiceCandidate::class);
     }
+    /**
+     * Accessor: strip JSON-wrapping quotes from legacy briefing values.
+     * Old rows stored as JSON string (e.g. '"My text"') render correctly as plain text.
+     */
+    public function getBriefingAttribute(?string $value): ?string
+    {
+        if ($value === null) return null;
+        $decoded = json_decode($value, true);
+        return (json_last_error() === JSON_ERROR_NONE && is_string($decoded)) ? $decoded : $value;
+    }
+
     protected $fillable = [
         'cliente_id',
         'freelancer_id',
