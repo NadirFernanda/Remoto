@@ -246,21 +246,32 @@
 
             {{-- Modal header --}}
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Inserir Valor Acordado</h3>
+                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
+                    {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
+                </h3>
                 <button wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
 
-            {{-- Valor actual --}}
-            <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
-                <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
-                <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
-            </div>
+            {{-- Contexto: negociação directa --}}
+            @if($bd['is_negotiating'])
+                <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
+                    &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
+                </div>
+            @else
+                {{-- Valor actual (apenas para ajustes em projectos já iniciados) --}}
+                <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                    <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
+                    <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                </div>
+            @endif
 
-            {{-- Input: novo valor total --}}
+            {{-- Input: valor --}}
             <div style="margin-bottom:.75rem;">
-                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Novo valor total acordado (Kz)</label>
+                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                    {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
+                </label>
                 <input wire:model.live="novoValorTotal"
                        type="number"
                        min="0"
@@ -277,10 +288,19 @@
             {{-- Breakdown table (live) --}}
             @if($bd['extra'] > 0)
             <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
-                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;"><span>Valor extra para o freelancer</span><span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span></div>
-                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;"><span>Taxa de plataforma (10%)</span><span style="font-weight:600;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span></div>
+                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
+                    <span>{{ $bd['is_negotiating'] ? 'Valor para o freelancer' : 'Valor extra para o freelancer' }}</span>
+                    <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
+                    <span>Taxa de plataforma (10%)</span>
+                    <span style="font-weight:600;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span>
+                </div>
                 <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
-                <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;"><span>Total a pagar agora</span><span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span></div>
+                <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                    <span>Total a pagar agora</span>
+                    <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                </div>
             </div>
             @endif
 
@@ -294,7 +314,9 @@
                         wire:loading.attr="disabled"
                         wire:target="pagarValorExtra"
                         style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
-                    <span wire:loading.remove wire:target="pagarValorExtra">Confirmar Pagamento</span>
+                    <span wire:loading.remove wire:target="pagarValorExtra">
+                        {{ $bd['is_negotiating'] ? 'Confirmar & Iniciar Projecto' : 'Confirmar Pagamento' }}
+                    </span>
                     <span wire:loading wire:target="pagarValorExtra">A processar...</span>
                 </button>
             </div>

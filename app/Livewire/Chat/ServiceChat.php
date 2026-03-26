@@ -62,16 +62,18 @@ class ServiceChat extends Component
     /** Breakdown do extra: extra, taxa (10%), total_cliente */
     public function getExtraBreakdownProperty(): array
     {
-        $novo  = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
-        $atual = (float) $this->service->valor;
-        $extra = round(max(0.0, $novo - $atual), 2);
+        $novo          = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
+        $isNegotiating = $this->service->status === 'negotiating';
+        // Para negociação directa o escrow ainda não foi cobrado → o valor inteiro é o "extra"
+        $extra = round(max(0.0, $isNegotiating ? $novo : ($novo - (float) $this->service->valor)), 2);
         $taxa  = round($extra * 0.10, 2);
         return [
-            'atual'         => $atual,
-            'novo'          => $novo,
-            'extra'         => $extra,
-            'taxa'          => $taxa,
-            'total_cliente' => round($extra + $taxa, 2),
+            'atual'          => (float) $this->service->valor,
+            'novo'           => $novo,
+            'extra'          => $extra,
+            'taxa'           => $taxa,
+            'total_cliente'  => round($extra + $taxa, 2),
+            'is_negotiating' => $isNegotiating,
         ];
     }
 
@@ -94,15 +96,22 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->novoValorTotal = '';
 
-        // Pré-preencher com o proposal_value do candidato mais alto acima do valor actual
-        $candidate = $this->service->candidates()
-            ->whereNotNull('proposal_value')
-            ->where('proposal_value', '>', $this->service->valor)
-            ->orderByDesc('proposal_value')
-            ->first();
+        if ($this->service->status === 'negotiating') {
+            // Negociação directa: pré-preencher com estimativa inicial se existir
+            if ((float) $this->service->valor > 0) {
+                $this->novoValorTotal = (string) $this->service->valor;
+            }
+        } else {
+            // Pré-preencher com o proposal_value do candidato mais alto acima do valor actual
+            $candidate = $this->service->candidates()
+                ->whereNotNull('proposal_value')
+                ->where('proposal_value', '>', $this->service->valor)
+                ->orderByDesc('proposal_value')
+                ->first();
 
-        if ($candidate) {
-            $this->novoValorTotal = (string) $candidate->proposal_value;
+            if ($candidate) {
+                $this->novoValorTotal = (string) $candidate->proposal_value;
+            }
         }
 
         $this->showValorModal = true;
@@ -125,21 +134,27 @@ class ServiceChat extends Component
         $this->validate([
             'novoValorTotal' => 'required|numeric|min:1',
         ], [
-            'novoValorTotal.required' => 'Indique o novo valor total acordado.',
+            'novoValorTotal.required' => 'Indique o valor acordado.',
             'novoValorTotal.numeric'  => 'O valor deve ser numérico.',
             'novoValorTotal.min'      => 'O valor deve ser maior que zero.',
         ]);
 
-        $service = $this->service;
-        $novo    = round((float) $this->novoValorTotal, 2);
-        $atual   = round((float) $service->valor, 2);
+        $service       = $this->service;
+        $isNegotiating = $service->status === 'negotiating';
+        $novo          = round((float) $this->novoValorTotal, 2);
+        $atual         = round((float) $service->valor, 2);
 
-        if ($novo <= $atual) {
-            $this->addError('novoValorTotal', 'O novo valor (' . number_format($novo, 2, ',', '.') . ' Kz) deve ser superior ao valor actual (' . number_format($atual, 2, ',', '.') . ' Kz).');
-            return;
+        if ($isNegotiating) {
+            // Primeiro pagamento: o valor total acordado vai inteiro para escrow
+            $extra = $novo;
+        } else {
+            if ($novo <= $atual) {
+                $this->addError('novoValorTotal', 'O novo valor (' . number_format($novo, 2, ',', '.') . ' Kz) deve ser superior ao valor actual (' . number_format($atual, 2, ',', '.') . ' Kz).');
+                return;
+            }
+            $extra = round($novo - $atual, 2);
         }
 
-        $extra         = round($novo - $atual, 2);
         $taxa          = round($extra * 0.10, 2);
         $total_cliente = round($extra + $taxa, 2);
 
@@ -160,39 +175,64 @@ class ServiceChat extends Component
         $clientWallet->decrement('saldo', $total_cliente);
         $clientWallet->increment('saldo_pendente', $extra);
 
+        $logDescricao = $isNegotiating
+            ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)'
+            : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)';
+
         WalletLog::create([
             'user_id'   => auth()->id(),
             'wallet_id' => $clientWallet->id,
             'valor'     => -$total_cliente,
-            'tipo'      => 'escrow_ajuste',
-            'descricao' => 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)',
+            'tipo'      => $isNegotiating ? 'escrow_retido' : 'escrow_ajuste',
+            'descricao' => $logDescricao,
         ]);
 
         // Actualizar serviço
-        $service->valor              = $novo;
-        $service->valor_liquido      = round($novo * 0.80, 2);
-        $service->valor_ajuste       = $extra;
-        $service->valor_ajuste_taxa  = $taxa;
-        $service->valor_ajuste_pago  = true;
+        $service->valor         = $novo;
+        $service->valor_liquido = round($novo * 0.80, 2);
+
+        if ($isNegotiating) {
+            // Contratação directa: passar para "em andamento" após pagamento confirmado
+            $service->status = 'in_progress';
+        } else {
+            $service->valor_ajuste      = $extra;
+            $service->valor_ajuste_taxa = $taxa;
+            $service->valor_ajuste_pago = true;
+        }
+
         $service->save();
 
         // Notificar freelancer
         if ($service->freelancer_id) {
-            $prazoTexto = $service->prazo
-                ? ' Data de entrega acordada: ' . \Carbon\Carbon::parse($service->prazo)->format('d/m/Y') . '.'
-                : '';
+            if ($isNegotiating) {
+                $notifMsg = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
+                $notifType  = 'project_started';
+                $notifTitle = 'Projecto iniciado';
+            } else {
+                $prazoTexto = $service->prazo
+                    ? ' Data de entrega acordada: ' . \Carbon\Carbon::parse($service->prazo)->format('d/m/Y') . '.'
+                    : '';
+                $notifMsg   = 'O cliente aceitou e pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.' . $prazoTexto;
+                $notifType  = 'payment_adjustment';
+                $notifTitle = 'Pagamento adicional recebido — proposta aceite';
+            }
+
             Notification::create([
                 'user_id'    => $service->freelancer_id,
                 'service_id' => $service->id,
-                'type'       => 'payment_adjustment',
-                'title'      => 'Pagamento adicional recebido — proposta aceite',
-                'message'    => 'O cliente aceitou e pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.' . $prazoTexto,
+                'type'       => $notifType,
+                'title'      => $notifTitle,
+                'message'    => $notifMsg,
             ]);
         }
 
         $this->showValorModal = false;
         $this->novoValorTotal = '';
-        session()->flash('chat_success', 'Pagamento de ' . number_format($total_cliente, 2, ',', '.') . ' Kz processado com sucesso!');
+        $successMsg = 'Pagamento de ' . number_format($total_cliente, 2, ',', '.') . ' Kz processado com sucesso!';
+        if ($isNegotiating) {
+            $successMsg .= ' O projecto está agora Em andamento.';
+        }
+        session()->flash('chat_success', $successMsg);
     }
 
     public function updatedChatFile()
