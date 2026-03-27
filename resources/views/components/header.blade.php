@@ -408,70 +408,88 @@
             @else
                 {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
                 <div style="display:flex;align-items:center;gap:.625rem;">
-                    {{-- Ícone Mensagens --}}
+                    @if(auth()->user()->activeRole() !== 'admin')
+                    {{-- Ícone Mensagens (apenas não-admin) --}}
                     <a href="{{ in_array(auth()->user()->activeRole(), ['freelancer']) ? route('freelancer.dashboard') : route('client.dashboard') }}"
                        title="Mensagens"
                        style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e2e8f0;transition:background .15s,border-color .15s;text-decoration:none;"
                        onmouseover="this.style.background='rgba(0,186,255,.13)';this.style.borderColor='rgba(0,186,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.08)'">
                         <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </a>
-                    {{-- Notificações --}}
+                    {{-- Notificações (apenas não-admin) --}}
                     <livewire:notification-bell />
-                    {{-- Publicar / Notificação --}}
+                    @endif
+                    {{-- Publicar / Admin Menu --}}
                     @if(auth()->user()->activeRole() === 'admin')
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open"
-                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#7c3aed;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
-                                onmouseover="this.style.background='#6d28d9'" onmouseout="this.style.background='#7c3aed'">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
-                            Notificação
+                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+                            Menu Admin
                             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :class="open?'rotate-180':''" style="transition:transform .15s;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="open" @click.outside="open = false" x-cloak
                              class="absolute right-0 mt-2 rounded-xl z-50"
-                             style="width:230px;background:#141928;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);padding:.625rem;">
-                            <a href="{{ route('admin.notifications.mass') }}?target=all" @click="open=false"
+                             style="width:260px;background:#141928;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);padding:.625rem;">
+                            {{-- Gestão de Utilizadores --}}
+                            <a href="{{ route('admin.users') }}" @click="open=false"
                                style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
-                               onmouseover="this.style.background='rgba(124,58,237,.12)'" onmouseout="this.style.background='transparent'">
-                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(124,58,237,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="16" height="16" fill="none" stroke="#7c3aed" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(255,45,85,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#ff2d55" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 </span>
                                 <span>
-                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Todos activos</span>
-                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Enviar a todos os utilizadores</span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Gestão de Utilizadores</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Utilizadores, serviços, comercial</span>
                                 </span>
                             </a>
-                            <a href="{{ route('admin.notifications.mass') }}?target=freelancers" @click="open=false"
+                            {{-- Financeiro --}}
+                            <a href="{{ route('admin.financial') }}" @click="open=false"
                                style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
-                               onmouseover="this.style.background='rgba(124,58,237,.12)'" onmouseout="this.style.background='transparent'">
-                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(0,186,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="16" height="16" fill="none" stroke="#00baff" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
-                                </span>
-                                <span>
-                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Apenas Freelancers</span>
-                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Enviar só a freelancers</span>
-                                </span>
-                            </a>
-                            <a href="{{ route('admin.notifications.mass') }}?target=clients" @click="open=false"
-                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
-                               onmouseover="this.style.background='rgba(124,58,237,.12)'" onmouseout="this.style.background='transparent'">
-                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(255,45,85,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="16" height="16" fill="none" stroke="#ff2d55" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                                </span>
-                                <span>
-                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Apenas Clientes</span>
-                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Enviar só a clientes</span>
-                                </span>
-                            </a>
-                            <a href="{{ route('admin.notifications.mass') }}?target=user" @click="open=false"
-                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
-                               onmouseover="this.style.background='rgba(124,58,237,.12)'" onmouseout="this.style.background='transparent'">
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
                                 <span style="width:34px;height:34px;border-radius:8px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                    <svg width="16" height="16" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                    <svg width="16" height="16" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
                                 </span>
                                 <span>
-                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Individual</span>
-                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Pesquisar utilizador específico</span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Financeiro</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Pagamentos, comissões, saques</span>
+                                </span>
+                            </a>
+                            {{-- Suporte --}}
+                            <a href="{{ route('admin.disputes') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(0,186,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#00baff" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Suporte</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Disputas, notificações, loja, social</span>
+                                </span>
+                            </a>
+                            {{-- Configurações --}}
+                            <a href="{{ route('admin.settings') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(251,191,36,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#fbbf24" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Configurações</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Taxas, categorias, definições gerais</span>
+                                </span>
+                            </a>
+                            {{-- Sistema --}}
+                            <a href="{{ route('admin.audit') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(148,163,184,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#94a3b8" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Sistema</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Logs e auditoria</span>
                                 </span>
                             </a>
                         </div>
@@ -688,22 +706,26 @@
                 <div class="border-t border-white/10 my-1"></div>
                 @if(auth()->user()->activeRole() === 'admin')
                 <div>
-                <p class="text-xs font-bold text-purple-400 uppercase tracking-wider px-2 pb-1">Notificação</p>
-                <a href="{{ route('admin.notifications.mass') }}?target=all" class="nav-link flex items-center gap-2">
-                    <svg width="14" height="14" fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-                    Todos activos
+                <p class="text-xs font-bold uppercase tracking-wider px-2 pb-1" style="color:#ff2d55;">Menu Admin</p>
+                <a href="{{ route('admin.users') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Gestão de Utilizadores
                 </a>
-                <a href="{{ route('admin.notifications.mass') }}?target=freelancers" class="nav-link flex items-center gap-2">
-                    <svg width="14" height="14" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/></svg>
-                    Apenas Freelancers
+                <a href="{{ route('admin.financial') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    Financeiro
                 </a>
-                <a href="{{ route('admin.notifications.mass') }}?target=clients" class="nav-link flex items-center gap-2">
-                    <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                    Apenas Clientes
+                <a href="{{ route('admin.disputes') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    Suporte
                 </a>
-                <a href="{{ route('admin.notifications.mass') }}?target=user" class="nav-link flex items-center gap-2">
-                    <svg width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                    Individual
+                <a href="{{ route('admin.settings') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#fbbf24" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Configurações
+                </a>
+                <a href="{{ route('admin.audit') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    Sistema
                 </a>
                 </div>
                 @else
