@@ -87,8 +87,11 @@ class MassNotifications extends Component
         $this->userMatches = User::where('status', 'active')
             ->where(function ($query) use ($q) {
                 $query->where('name', 'ilike', '%' . $q . '%')
-                    ->orWhere('email', 'ilike', '%' . $q . '%')
-                    ->orWhere('id', $q);
+                    ->orWhere('email', 'ilike', '%' . $q . '%');
+                // Pesquisa por ID apenas se for numérico (evita erro de tipo no PostgreSQL)
+                if (is_numeric($q)) {
+                    $query->orWhere('id', (int) $q);
+                }
             })
             ->limit(8)
             ->get(['id', 'name', 'email', 'role'])

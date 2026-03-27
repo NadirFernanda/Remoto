@@ -19,26 +19,29 @@
                 </div>
             @endif
 
-            @if($errors->any())
-                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:.75rem 1rem;color:#dc2626;font-size:.875rem;margin-bottom:1.25rem;text-align:center;">
-                    {{ $errors->first() }}
-                </div>
-            @endif
-
             <form method="POST" action="/login" novalidate onsubmit="return validateLoginForm(event)">
                 @csrf
                 <div class="pub-field">
                     <label for="login-email">E-mail</label>
-                    <input type="email" name="email" id="login-email" class="pub-input" placeholder="seu@email.com" value="{{ old('email') }}" required autofocus>
-                    <div id="email-error" class="pub-field-error" style="display:none;"></div>
+                    <input type="email" name="email" id="login-email" class="pub-input" placeholder="seu@email.com"
+                           value="{{ old('email') }}" required autofocus
+                           style="{{ $errors->has('email') ? 'border-color:#dc2626;' : '' }}">
+                    <div id="email-error" class="pub-field-error"
+                         style="{{ $errors->has('email') ? 'display:block;' : 'display:none;' }}">
+                        {{ $errors->first('email') }}
+                    </div>
                 </div>
                 <div class="pub-field">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
                         <label for="login-password" style="margin-bottom:0;">Palavra-passe</label>
                         <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#00baff;font-weight:600;text-decoration:none;">Esqueci a minha palavra-passe</a>
                     </div>
-                    <input type="password" name="password" id="login-password" class="pub-input" placeholder="••••••••" required>
-                    <div id="password-error" class="pub-field-error" style="display:none;"></div>
+                    <input type="password" name="password" id="login-password" class="pub-input" placeholder="••••••••" required
+                           style="{{ $errors->has('password') ? 'border-color:#dc2626;' : '' }}">
+                    <div id="password-error" class="pub-field-error"
+                         style="{{ $errors->has('password') ? 'display:block;' : 'display:none;' }}">
+                        {{ $errors->first('password') }}
+                    </div>
                 </div>
                 <button type="submit" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;margin-top:.5rem;">Entrar</button>
             </form>

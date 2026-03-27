@@ -21,30 +21,52 @@ Route::get('/login', function () {
 
 // Rota POST para processar o login (throttle: 5 tentativas por minuto por IP)
 Route::post('/login', function (Request $request) {
-    $credentials = $request->only('email', 'password');
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        $user = Auth::user();
-        // Marca o e-mail como verificado ao fazer login com senha correta
-        if (!$user->hasVerifiedEmail()) {
-            $user->email_verified_at = now();
-            $user->save();
-        }
-        if ($user->role === 'cliente') {
-            return redirect()->intended('/cliente/dashboard');
-        } elseif ($user->role === 'freelancer') {
-            return redirect()->intended('/freelancer/dashboard');
-        } elseif ($user->role === 'admin') {
-            return redirect()->intended('/admin/dashboard');
-        } elseif ($user->role === 'creator') {
-            return redirect()->intended('/creator/dashboard');
-        } else {
-            return redirect()->intended('/');
-        }
-    }
-    return back()->withErrors([
-        'email' => 'Credenciais inválidas.',
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required|string',
+    ], [
+        'email.required'    => 'O e-mail é obrigatório.',
+        'email.email'       => 'Introduza um endereço de e-mail válido.',
+        'password.required' => 'A senha é obrigatória.',
     ]);
+
+    // Verifica se o e-mail existe na base de dados
+    $user = \App\Models\User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return back()->withErrors([
+            'email' => 'Este e-mail não está registado na plataforma.',
+        ])->withInput($request->only('email'));
+    }
+
+    // E-mail existe — verifica a senha
+    if (!\Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+        return back()->withErrors([
+            'password' => 'A senha introduzida está incorrecta.',
+        ])->withInput($request->only('email'));
+    }
+
+    // Credenciais correctas — autenticar
+    Auth::login($user);
+    $request->session()->regenerate();
+
+    // Marca o e-mail como verificado ao fazer login com senha correta
+    if (!$user->hasVerifiedEmail()) {
+        $user->email_verified_at = now();
+        $user->save();
+    }
+
+    if ($user->role === 'cliente') {
+        return redirect()->intended('/cliente/dashboard');
+    } elseif ($user->role === 'freelancer') {
+        return redirect()->intended('/freelancer/dashboard');
+    } elseif ($user->role === 'admin') {
+        return redirect()->intended('/admin/dashboard');
+    } elseif ($user->role === 'creator') {
+        return redirect()->intended('/creator/dashboard');
+    } else {
+        return redirect()->intended('/');
+    }
 })->middleware('throttle:5,1');
 
 // Rota para logout
