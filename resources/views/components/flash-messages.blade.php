@@ -26,7 +26,7 @@
             </div>
         @endif
 
-        @if($hasErrors)
+        @if($hasErrors && !request()->routeIs('login'))
             <div class="flash flash-error mb-2 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded shadow">
                 <div class="font-semibold mb-1">Foram encontrados erros:</div>
                 <ul class="list-disc pl-5">
