@@ -32,6 +32,11 @@ class MassNotifications extends Component
     public function mount(): void
     {
         abort_if(auth()->user()?->role !== 'admin', 403);
+        // Aceitar ?target= da URL (via header Notificação dropdown)
+        $t = request()->query('target', '');
+        if (in_array($t, ['all', 'freelancers', 'clients', 'user'], true)) {
+            $this->target = $t;
+        }
     }
 
     public function send(): void

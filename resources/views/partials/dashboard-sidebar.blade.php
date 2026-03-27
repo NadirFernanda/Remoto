@@ -24,15 +24,23 @@
             <p class="text-xs font-semibold mt-0.5" style="color:#00baff;">
                 @if($sidebarRole === 'freelancer') Freelancer / Criador
                 @elseif(in_array($sidebarRole, ['cliente', 'client'])) Cliente / Seguidor
-                @elseif($sidebarRole === 'admin') Administrador
+                @elseif($sidebarRole === 'admin')
+                    @php $adminModuleLabel = match(optional(auth()->user())->admin_role) {
+                        'gestor'     => 'Admin · Gestor',
+                        'financeiro' => 'Admin · Financeiro',
+                        'suporte'    => 'Admin · Suporte',
+                        'audit'      => 'Admin · Auditoria',
+                        default      => 'Administrador · Master',
+                    }; @endphp
+                    {{ $adminModuleLabel }}
                 @else {{ ucfirst($sidebarRole) }}
                 @endif
             </p>
         </div>
     </div>
 
-    {{-- Affiliate code --}}
-    @if(!empty($u->affiliate_code))
+    {{-- Affiliate code (não exibido para administradores) --}}
+    @if($u->role !== 'admin' && !empty($u->affiliate_code))
         <div class="mt-3 flex items-center gap-1.5 bg-gray-50 rounded-lg px-3 py-2">
             <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/>
@@ -45,7 +53,7 @@
                 Copiar
             </button>
         </div>
-    @else
+    @elseif($u->role !== 'admin')
         <form method="POST" action="{{ route('affiliate.generate') }}" class="mt-3">
             @csrf
             <button type="submit"
