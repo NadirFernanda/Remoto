@@ -408,19 +408,64 @@
             @else
                 {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
                 <div style="display:flex;align-items:center;gap:.625rem;">
-                    @if(auth()->user()->activeRole() !== 'admin')
-                    {{-- Ícone Mensagens (apenas não-admin) --}}
-                    <a href="{{ in_array(auth()->user()->activeRole(), ['freelancer']) ? route('freelancer.dashboard') : route('client.dashboard') }}"
+                    {{-- Ícone Mensagens --}}
+                    <a href="{{ auth()->user()->activeRole() === 'freelancer' ? route('freelancer.dashboard') : (auth()->user()->activeRole() === 'admin' ? route('admin.dashboard') : route('client.dashboard')) }}"
                        title="Mensagens"
                        style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e2e8f0;transition:background .15s,border-color .15s;text-decoration:none;"
                        onmouseover="this.style.background='rgba(0,186,255,.13)';this.style.borderColor='rgba(0,186,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.08)'">
                         <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </a>
-                    {{-- Notificações (apenas não-admin) --}}
+                    {{-- Notificações --}}
                     <livewire:notification-bell />
-                    @endif
                     {{-- Publicar / Admin Menu --}}
                     @if(auth()->user()->activeRole() === 'admin')
+                    {{-- Notificação dropdown (admin) --}}
+                    <div x-data="{open:false}" class="relative">
+                        <button @click="open = !open"
+                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            Notificação
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :class="open?'rotate-180':''" style="transition:transform .15s;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" @click.outside="open = false" x-cloak
+                             class="absolute right-0 mt-2 rounded-xl z-50"
+                             style="width:230px;background:#141928;box-shadow:0 16px 48px rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.08);padding:.625rem;">
+                            <a href="{{ route('admin.notifications.mass', ['target' => 'all']) }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:32px;height:32px;border-radius:8px;background:rgba(255,45,85,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="15" height="15" fill="none" stroke="#ff2d55" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </span>
+                                <span style="font-weight:700;color:#f1f5f9;font-size:.82rem;">Todos Activos</span>
+                            </a>
+                            <a href="{{ route('admin.notifications.mass', ['target' => 'freelancer']) }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(0,186,255,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:32px;height:32px;border-radius:8px;background:rgba(0,186,255,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="15" height="15" fill="none" stroke="#00baff" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+                                </span>
+                                <span style="font-weight:700;color:#f1f5f9;font-size:.82rem;">Apenas Freelancers</span>
+                            </a>
+                            <a href="{{ route('admin.notifications.mass', ['target' => 'cliente']) }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(16,185,129,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:32px;height:32px;border-radius:8px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="15" height="15" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                </span>
+                                <span style="font-weight:700;color:#f1f5f9;font-size:.82rem;">Apenas Clientes</span>
+                            </a>
+                            <a href="{{ route('admin.notifications.mass', ['target' => 'individual']) }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(251,191,36,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:32px;height:32px;border-radius:8px;background:rgba(251,191,36,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="15" height="15" fill="none" stroke="#fbbf24" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </span>
+                                <span style="font-weight:700;color:#f1f5f9;font-size:.82rem;">Individual</span>
+                            </a>
+                        </div>
+                    </div>
+                    {{-- Menu Admin dropdown --}}
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open"
                                 style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
@@ -706,7 +751,25 @@
                 <div class="border-t border-white/10 my-1"></div>
                 @if(auth()->user()->activeRole() === 'admin')
                 <div>
-                <p class="text-xs font-bold uppercase tracking-wider px-2 pb-1" style="color:#ff2d55;">Menu Admin</p>
+                <p class="text-xs font-bold uppercase tracking-wider px-2 pb-1" style="color:#ff2d55;">Notificação</p>
+                <a href="{{ route('admin.notifications.mass', ['target' => 'all']) }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Todos Activos
+                </a>
+                <a href="{{ route('admin.notifications.mass', ['target' => 'freelancer']) }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Apenas Freelancers
+                </a>
+                <a href="{{ route('admin.notifications.mass', ['target' => 'cliente']) }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Apenas Clientes
+                </a>
+                <a href="{{ route('admin.notifications.mass', ['target' => 'individual']) }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#fbbf24" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    Individual
+                </a>
+                <div class="border-t border-white/10 my-1"></div>
+                <p class="text-xs font-bold uppercase tracking-wider px-2 pb-1 pt-1" style="color:#ff2d55;">Menu Admin</p>
                 <a href="{{ route('admin.users') }}" class="nav-link flex items-center gap-2">
                     <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Gestão de Utilizadores
