@@ -1,9 +1,9 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="pub-page" style="padding-top:0;display:flex;align-items:center;justify-content:center;">
-    <div class="pub-container--sm" style="width:100%;padding-top:2rem;padding-bottom:3rem;">
-        <div class="pub-auth-card">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 flex items-center justify-center py-12">
+    <div class="w-full max-w-md px-6">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
             {{-- Logo + título --}}
             <div style="text-align:center;margin-bottom:2rem;">
                 <a href="/" style="display:inline-block;margin-bottom:1.25rem;">

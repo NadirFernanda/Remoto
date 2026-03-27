@@ -1,4 +1,21 @@
-<div>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+
+    {{-- ── Hero Header ── --}}
+    <div class="bg-white border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-800 leading-tight">Assinaturas</h1>
+                <p class="text-sm text-slate-500">Acompanhe receitas, ciclo anual e assinantes activos</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-8">
 
     {{-- ── KPI Cards ────────────────────────────────────────────────────────── --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-bottom:1.75rem;">
@@ -194,4 +211,5 @@
         @endforelse
     </div>
 
+    </div>
 </div>

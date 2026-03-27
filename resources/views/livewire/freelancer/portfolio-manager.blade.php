@@ -8,21 +8,32 @@ $categoryIcons = [
 ];
 @endphp
 
-<div class="light-page min-h-screen pb-12">
-<div class="max-w-5xl mx-auto px-4">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
 
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Meu Portfólio</h1>
-            <p class="text-sm text-gray-500 mt-1">Apresente os seus trabalhos, certificações e estudos de caso</p>
+    {{-- ── Hero Header ── --}}
+    <div class="bg-white border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 leading-tight">Meu Portfólio</h1>
+                    <p class="text-sm text-slate-500">Apresente os seus trabalhos, certificações e estudos de caso</p>
+                </div>
+            </div>
+            <button wire:click="openForm('imagem')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00baff] to-blue-600 hover:opacity-90 text-white text-sm font-semibold transition shadow-md shadow-sky-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                </svg>
+                Adicionar item
+            </button>
         </div>
-        <button wire:click="openForm('imagem')" class="btn-eq btn-primary">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-            </svg>
-            Adicionar item
-        </button>
     </div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-8">
 
     @if(session('success'))
         <div class="mb-4 p-3 bg-green-50 text-green-700 border border-green-200 rounded-lg text-sm">
@@ -231,5 +242,5 @@ $categoryIcons = [
         @endforeach
     @endif
 
-</div>
+    </div>
 </div>

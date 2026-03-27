@@ -1,34 +1,39 @@
-<div class="light-page min-h-screen pb-16">
-<div class="max-w-6xl mx-auto px-4">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
 
-    {{-- Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                <svg class="w-6 h-6 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                </svg>
-                Minha Loja
-            </h1>
-            <p class="text-sm text-gray-500 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
+    {{-- ── Hero Header ── --}}
+    <div class="bg-white border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 leading-tight">Minha Loja</h1>
+                    <p class="text-sm text-slate-500">Gerencie e venda os seus infoprodutos digitais</p>
+                </div>
+            </div>
+            <button wire:click="openCreate"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00baff] to-blue-600 hover:opacity-90 text-white text-sm font-semibold transition shadow-md shadow-sky-200">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                Novo Infoproduto
+            </button>
         </div>
-        <button wire:click="openCreate"
-            class="inline-flex items-center gap-2 px-4 py-2 bg-[#00baff] text-white rounded-xl font-medium text-sm hover:bg-[#009ad6] transition shadow">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            Novo Infoproduto
-        </button>
     </div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-8">
 
     {{-- Feedback --}}
     @if($feedback)
-        <div class="mb-6 px-4 py-3 rounded-xl text-sm font-medium
-            {{ $feedbackType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+        <div class="mb-6 px-4 py-3 rounded-2xl text-sm font-medium border shadow-sm
+            {{ $feedbackType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
             {{ $feedback }}
         </div>
     @endif
 
     {{-- Wallet summary --}}
-    <div class="bg-white rounded-2xl border shadow-sm p-5 mb-8 flex flex-wrap gap-6 items-center">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-8 flex flex-wrap gap-6 items-center">
         <div>
             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Saldo disponível</div>
             <div class="text-2xl font-bold text-green-600">Kz {{ number_format($wallet->saldo ?? 0, 2, ',', '.') }}</div>
@@ -57,7 +62,7 @@
 
     {{-- Product form --}}
     @if($showForm)
-    <div class="bg-white rounded-2xl border shadow-sm p-6 mb-8">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-8">
         <h2 class="text-lg font-bold text-gray-800 mb-5">
             {{ $editingId ? 'Editar Infoproduto' : 'Novo Infoproduto' }}
         </h2>
@@ -67,7 +72,7 @@
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Título <span class="text-red-500">*</span></label>
                 <input type="text" wire:model="titulo" maxlength="200"
-                    class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
+                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400"
                     placeholder="Ex: Guia Completo de Marketing Digital">
                 @error('titulo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
@@ -75,7 +80,7 @@
             {{-- Tipo --}}
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Tipo <span class="text-red-500">*</span></label>
-                <select wire:model="tipo" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]">
+                <select wire:model="tipo" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400">
                     <option value="ebook">E-book (PDF)</option>
                     <option value="audio">Áudio</option>
                     <option value="literatura_digital">Literatura Digital</option>
@@ -90,7 +95,7 @@
                 <div class="relative">
                     <span class="absolute left-3 top-2 text-sm text-gray-400">Kz</span>
                     <input type="number" wire:model="preco" min="5000" step="100"
-                        class="w-full border rounded-lg pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
+                        class="w-full border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400"
                         placeholder="5000">
                 </div>
                 <p class="text-xs text-gray-400 mt-1">Mínimo: 5.000 Kz</p>
@@ -147,7 +152,7 @@
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Descrição <span class="text-red-500">*</span></label>
                 <textarea wire:model="descricao" rows="5" maxlength="5000"
-                    class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]"
+                    class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400"
                     placeholder="Descreva o conteúdo, o que o comprador irá aprender ou obter, público alvo..."></textarea>
                 @error('descricao') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
@@ -161,7 +166,7 @@
 
         <div class="flex items-center gap-3 mt-6">
             <button wire:click="saveProduto" wire:loading.attr="disabled"
-                class="px-5 py-2.5 bg-[#00baff] text-white rounded-xl text-sm font-semibold hover:bg-[#009ad6] transition disabled:opacity-50">
+                class="px-5 py-2.5 bg-gradient-to-r from-[#00baff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
             </button>
@@ -174,7 +179,7 @@
 
     {{-- Products list --}}
     @if($produtos->isEmpty() && !$showForm)
-    <div class="bg-white rounded-2xl border shadow-sm p-12 text-center">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center">
         <svg class="w-16 h-16 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
         </svg>
@@ -184,7 +189,7 @@
     @else
     <div class="grid grid-cols-1 gap-5">
         @foreach($produtos as $produto)
-        <div class="bg-white rounded-2xl border shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="flex flex-col sm:flex-row">
                 {{-- Cover --}}
                 @if($produto->capa_path)
@@ -285,7 +290,7 @@
     </div>
     @endif
 
-</div>
+    </div>
 
 {{-- ═══ SPONSOR MODAL ═══════════════════════════════════════════════════════ --}}
 @if($showSponsorModal)

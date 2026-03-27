@@ -2,8 +2,25 @@
 
 @section('content')
 @php use Illuminate\Support\Str; @endphp
-<div class="pub-page" style="padding-top:0">
-<div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+
+    {{-- ── Header ── --}}
+    <div class="bg-white border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-800 leading-tight">Perfil do Freelancer</h1>
+                <p class="text-sm text-slate-500">Dados, portfólio e avaliações do profissional</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 pt-8">
+    <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
 
     {{-- Voltar --}}
     <a href="{{ route('freelancers.index') }}" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
@@ -169,7 +186,8 @@
             @endif
         </div>
     </div>
-</div>
+    </div>
+    </div>
 </div>
 
 {{-- Modal fora de qualquer container para evitar clipping de overflow/transform --}}
