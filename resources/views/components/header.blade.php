@@ -614,7 +614,9 @@
                             @else
                                 <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Dashboard</a>
                             @endif
-                            <a href="{{ route('freelancer.notifications') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Notificações</a>
+                            @if(auth()->user()->activeRole() !== 'admin')
+                            <a href="{{ auth()->user()->activeRole() === 'freelancer' ? route('freelancer.notifications') : route('notifications') }}" class="block px-4 py-2 hover:bg-white/5" style="font-size:.8rem;color:#e2e8f0;">Notificações</a>
+                            @endif
                             <div style="border-top:1px solid rgba(255,255,255,.07);margin:.375rem 0;"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -630,7 +632,9 @@
             @guest
                 <a href="/register" class="mobile-cta btn-primary">Registo</a>
             @else
-                <livewire:notification-bell />
+                @if(auth()->user()->activeRole() !== 'admin')
+                    <livewire:notification-bell />
+                @endif
             @endguest
             @auth
             {{-- Utilizador autenticado: toggle sidebar via Alpine.store --}}
