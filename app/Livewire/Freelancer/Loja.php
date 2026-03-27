@@ -146,7 +146,7 @@ class Loja extends Component
 
     public function valorPatrocinio(): float
     {
-        return max(1, $this->dias) * 600;
+        return max(1, $this->dias) * \App\Services\FeeService::patrocinioDiario();
     }
 
     public function confirmarPatrocinio(): void

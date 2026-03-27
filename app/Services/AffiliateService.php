@@ -14,9 +14,18 @@ use Illuminate\Support\Str;
 class AffiliateService
 {
     /**
-     * Comissão fixa por registo via link de afiliado (em AOA).
+     * Comissão padrão por registo via link de afiliado (em AOA).
+     * Valor real lido de PlatformSetting::get('affiliate_signup_commission').
      */
     public const SIGNUP_COMMISSION = 200.0;
+
+    /**
+     * Retorna a comissão configurada no painel de administração.
+     */
+    public static function signupCommission(): float
+    {
+        return FeeService::affiliateSignupCommission();
+    }
 
     /**
      * Limite de indicações por IP por dia (anti-fraude).
@@ -102,7 +111,7 @@ class AffiliateService
         ]);
 
         // Disparar evento para creditar comissão via listener assíncrono
-        AffiliateCommissionEarned::dispatch($affiliate, $newUser, self::SIGNUP_COMMISSION, 'signup');
+        AffiliateCommissionEarned::dispatch($affiliate, $newUser, self::signupCommission(), 'signup');
     }
 
     /**
@@ -146,6 +155,6 @@ class AffiliateService
         }
 
         $reason = 'action:' . $actionType . ':' . $refKey . ':' . $actor->id;
-        AffiliateCommissionEarned::dispatch($affiliate, $actor, self::SIGNUP_COMMISSION, $reason);
+        AffiliateCommissionEarned::dispatch($affiliate, $actor, self::signupCommission(), $reason);
     }
 }

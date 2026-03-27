@@ -8,6 +8,7 @@ use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Services\FeeService;
 
 class LojaService
 {
@@ -32,7 +33,7 @@ class LojaService
             throw new \RuntimeException('Saldo insuficiente. Recarregue a sua carteira antes de comprar.');
         }
 
-        $comissao        = round($produto->preco * 0.20, 2);
+        $comissao        = round($produto->preco * FeeService::lojaRate(), 2);
         $valorFreelancer = round($produto->preco - $comissao, 2);
 
         DB::transaction(function () use ($user, $wallet, $produto, $comissao, $valorFreelancer) {
