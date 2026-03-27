@@ -113,6 +113,10 @@
                                 class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition">
                                 ✓ Libertar → Freelancer
                             </button>
+                            <button wire:click="toggleParcialForm"
+                                class="px-2 py-1 bg-purple-100 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-200 transition">
+                                ⚖ Liberar Parcial
+                            </button>
                             <button wire:click="reembolsarCliente({{ $selected->service->id }})"
                                 wire:confirm="Reembolsar o cliente? O escrow será devolvido à carteira do cliente e o projecto cancelado."
                                 class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition">
@@ -121,6 +125,49 @@
                         @else
                             <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já libertado</span>
                         @endif
+                    </div>
+
+                    {{-- Formulário de Liberação Parcial --}}
+                    @if($showParcialForm && !$selected->service->is_payment_released)
+                        <div class="mt-3 bg-purple-50 border border-purple-200 rounded-[10px] p-3">
+                            <p class="text-xs font-semibold text-purple-700 mb-2">⚖ Divisão Parcial do Pagamento</p>
+                            <p class="text-xs text-gray-500 mb-3">
+                                Valor total em escrow: <strong>{{ number_format($selected->service->valor, 0, ',', '.') }} Kz</strong>
+                                · Valor líquido freelancer (100%): <strong>{{ number_format($selected->service->valor_liquido ?? $selected->service->valor, 0, ',', '.') }} Kz</strong>
+                            </p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs font-semibold text-purple-700 whitespace-nowrap">% para Freelancer:</label>
+                                    <input wire:model.live="percentualFreelancer" type="number" min="1" max="99" step="1"
+                                        class="w-20 border border-purple-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:ring-2 focus:ring-purple-300">
+                                    <span class="text-xs text-gray-500">%</span>
+                                </div>
+                                <div class="text-xs text-gray-600 bg-white rounded-lg px-3 py-1.5 border border-gray-200">
+                                    🟢 Freelancer recebe:
+                                    <strong class="text-green-700">
+                                        {{ number_format(round(($selected->service->valor_liquido ?? $selected->service->valor) * ($percentualFreelancer / 100), 2), 0, ',', '.') }} Kz
+                                    </strong>
+                                    &nbsp;|&nbsp;
+                                    🔵 Cliente recebe:
+                                    <strong class="text-blue-700">
+                                        {{ number_format(round($selected->service->valor * ((100 - $percentualFreelancer) / 100), 2), 0, ',', '.') }} Kz
+                                    </strong>
+                                </div>
+                            </div>
+                            @error('percentualFreelancer') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                            <div class="flex gap-2 mt-3">
+                                <button wire:click="liberarParcial({{ $selected->service->id }})"
+                                    wire:confirm="Confirmar divisão parcial? Esta acção não pode ser revertida."
+                                    class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg transition">
+                                    Confirmar Divisão
+                                </button>
+                                <button wire:click="toggleParcialForm"
+                                    class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-lg transition">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    @endif
                     </div>
                 </div>
                 @endif

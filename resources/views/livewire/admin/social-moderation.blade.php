@@ -128,20 +128,79 @@
 
                 {{-- Content preview --}}
                 @if($r->reportable_type === 'post')
-                    @php $post = \App\Models\SocialPost::with('images')->find($r->reportable_id); @endphp
+                    @php $post = \App\Models\SocialPost::with(['images', 'media', 'user'])->find($r->reportable_id); @endphp
                     @if($post)
-                        <div class="bg-gray-50 rounded-xl p-3 mb-4">
-                            <p class="text-xs font-semibold text-gray-500 mb-1">Conteúdo do post:</p>
-                            <p class="text-sm text-gray-700 whitespace-pre-line">{{ $post->content }}</p>
-                            @if($post->images->isNotEmpty())
-                                <div class="flex gap-2 mt-2 flex-wrap">
-                                    @foreach($post->images->take(3) as $img)
-                                        <img src="{{ Storage::url($img->path) }}" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4">
+                            <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">📄 Conteúdo denunciado (Post #{{ $post->id }})</p>
+                            {{-- Author --}}
+                            @if($post->user)
+                                <div class="flex items-center gap-2 mb-2">
+                                    <img src="{{ $post->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover ring-1 ring-gray-200">
+                                    <span class="text-xs font-semibold text-gray-700">{{ $post->user->name }}</span>
+                                    <span class="text-xs text-gray-400">{{ $post->created_at?->format('d/m/Y H:i') }}</span>
+                                    <span class="ml-auto text-[10px] px-2 py-0.5 rounded-full
+                                        {{ $post->status === 'removed' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-500' }}">
+                                        {{ $post->status === 'removed' ? 'Removido' : ucfirst($post->status ?? 'activo') }}
+                                    </span>
+                                </div>
+                            @endif
+                            {{-- Text --}}
+                            @if($post->content)
+                                <p class="text-sm text-gray-800 whitespace-pre-line bg-white rounded-lg px-3 py-2 border border-gray-100 mb-2">{{ $post->content }}</p>
+                            @else
+                                <p class="text-xs text-gray-400 italic mb-2">Sem texto.</p>
+                            @endif
+                            {{-- Media (new) --}}
+                            @if($post->media->isNotEmpty())
+                                <div class="flex gap-2 mt-1 flex-wrap">
+                                    @foreach($post->media->take(4) as $m)
+                                        @if(str_starts_with($m->type ?? '', 'image') || str_ends_with($m->path ?? '', ['.jpg','.jpeg','.png','.gif','.webp']))
+                                            <img src="{{ Storage::url($m->path) }}" class="w-20 h-20 object-cover rounded-lg border border-gray-200">
+                                        @else
+                                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">📎 {{ basename($m->path) }}</span>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            @elseif($post->images->isNotEmpty())
+                                <div class="flex gap-2 mt-1 flex-wrap">
+                                    @foreach($post->images->take(4) as $img)
+                                        <img src="{{ Storage::url($img->path) }}" class="w-20 h-20 object-cover rounded-lg border border-gray-200">
                                     @endforeach
                                 </div>
                             @endif
                         </div>
+                    @else
+                        <div class="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-xs text-red-600">
+                            ⚠ Post #{{ $r->reportable_id }} não encontrado (pode já ter sido eliminado).
+                        </div>
                     @endif
+                @elseif($r->reportable_type === 'user')
+                    @php $reported = \App\Models\User::find($r->reportable_id); @endphp
+                    <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
+                        <p class="text-xs font-semibold text-orange-700 mb-2 uppercase tracking-wide">👤 Utilizador Denunciado</p>
+                        @if($reported)
+                            <div class="flex items-center gap-3 mb-3">
+                                <img src="{{ $reported->avatarUrl() }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-200">
+                                <div>
+                                    <p class="text-sm font-bold text-gray-800">{{ $reported->name }}</p>
+                                    <p class="text-xs text-gray-500">{{ $reported->email }}</p>
+                                </div>
+                                <span class="ml-auto text-[10px] px-2 py-0.5 rounded-full
+                                    {{ $reported->is_banned ?? false ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600' }}">
+                                    {{ ($reported->is_banned ?? false) ? 'Banido' : 'Activo' }}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                                <div><span class="font-semibold">Papel:</span> {{ ucfirst($reported->role ?? '—') }}</div>
+                                <div><span class="font-semibold">Registado:</span> {{ $reported->created_at?->format('d/m/Y') }}</div>
+                                @if($reported->freelancerProfile)
+                                    <div class="col-span-2"><span class="font-semibold">Especialidade:</span> {{ $reported->freelancerProfile->specialization ?? '—' }}</div>
+                                @endif
+                            </div>
+                        @else
+                            <p class="text-xs text-red-600">⚠ Utilizador #{{ $r->reportable_id }} não encontrado.</p>
+                        @endif
+                    </div>
                 @endif
 
                 {{-- Admin note --}}

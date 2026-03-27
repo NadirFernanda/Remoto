@@ -20,6 +20,8 @@ class DisputeAdmin extends Component
     public string $adminNote = '';
     public string $newStatus = '';
     public string $replyMessage = '';
+    public bool  $showParcialForm     = false;
+    public float $percentualFreelancer = 50.0;
 
     public function mount(): void
     {
@@ -178,6 +180,104 @@ class DisputeAdmin extends Component
         );
 
         session()->flash('success', 'Pagamento liberado e creditado na carteira do freelancer.');
+    }
+
+    public function toggleParcialForm(): void
+    {
+        $this->showParcialForm = !$this->showParcialForm;
+    }
+
+    public function liberarParcial(int $serviceId): void
+    {
+        $this->validate([
+            'percentualFreelancer' => 'required|numeric|min:1|max:99',
+        ], [
+            'percentualFreelancer.min' => 'A percentagem mínima é 1%.',
+            'percentualFreelancer.max' => 'A percentagem máxima é 99% (para reembolso total use o botão Reembolsar).',
+        ]);
+
+        $service = Service::findOrFail($serviceId);
+
+        if ($service->is_payment_released) {
+            session()->flash('error', 'O pagamento já foi libertado.');
+            return;
+        }
+
+        $pct             = $this->percentualFreelancer / 100;
+        $valorFreelancer = round(($service->valor_liquido ?? $service->valor) * $pct, 2);
+        $valorCliente    = round($service->valor * (1 - $pct), 2);
+
+        // Creditar freelancer
+        if ($service->freelancer_id && $valorFreelancer > 0) {
+            $fw = Wallet::firstOrCreate(
+                ['user_id' => $service->freelancer_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            $fw->increment('saldo', $valorFreelancer);
+            WalletLog::create([
+                'user_id'   => $service->freelancer_id,
+                'wallet_id' => $fw->id,
+                'valor'     => $valorFreelancer,
+                'tipo'      => 'pagamento_parcial_disputa',
+                'descricao' => "Pagamento parcial ({$this->percentualFreelancer}%) — disputa: {$service->titulo}",
+            ]);
+        }
+
+        // Devolver escrow ao cliente (restante)
+        if ($service->cliente_id) {
+            $cw = Wallet::firstOrCreate(
+                ['user_id' => $service->cliente_id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+            if ($cw->saldo_pendente >= $service->valor) {
+                $cw->decrement('saldo_pendente', $service->valor);
+            }
+            if ($valorCliente > 0) {
+                $cw->increment('saldo', $valorCliente);
+                WalletLog::create([
+                    'user_id'   => $service->cliente_id,
+                    'wallet_id' => $cw->id,
+                    'valor'     => $valorCliente,
+                    'tipo'      => 'reembolso_parcial_disputa',
+                    'descricao' => "Reembolso parcial (" . (100 - $this->percentualFreelancer) . "%) — disputa: {$service->titulo}",
+                ]);
+            }
+        }
+
+        $service->update([
+            'status'              => 'completed',
+            'is_payment_released' => true,
+            'payment_released_at' => now(),
+        ]);
+
+        $fmtFl = number_format($valorFreelancer, 0, ',', '.');
+        $fmtCl = number_format($valorCliente, 0, ',', '.');
+
+        Notification::create([
+            'user_id'    => $service->freelancer_id,
+            'service_id' => $service->id,
+            'type'       => 'payment_released',
+            'title'      => 'Pagamento parcial liberado',
+            'message'    => "A disputa no projecto \"{$service->titulo}\" foi resolvida com divisão. Recebeu {$fmtFl} Kz na sua carteira.",
+        ]);
+
+        Notification::create([
+            'user_id'    => $service->cliente_id,
+            'service_id' => $service->id,
+            'type'       => 'dispute_resolved',
+            'title'      => 'Disputa resolvida (parcial)',
+            'message'    => "A disputa no projecto \"{$service->titulo}\" foi resolvida. Foram devolvidos {$fmtCl} Kz à sua carteira.",
+        ]);
+
+        AuditLogger::log(
+            'payment_partial_released',
+            "Liberar parcial: {$this->percentualFreelancer}% → freelancer ({$fmtFl} Kz), restante → cliente ({$fmtCl} Kz). Projecto: {$service->titulo}",
+            'Service', $service->id
+        );
+
+        $this->showParcialForm    = false;
+        $this->percentualFreelancer = 50.0;
+        session()->flash('success', "Pagamento dividido: {$fmtFl} Kz ao freelancer + {$fmtCl} Kz devolvidos ao cliente.");
     }
 
     public function reembolsarCliente(int $serviceId): void
