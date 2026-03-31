@@ -538,6 +538,20 @@
                                     <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Logs e auditoria</span>
                                 </span>
                             </a>
+                            {{-- Administradores (Master only) --}}
+                            @if(in_array(optional(auth()->user())->admin_role, ['master', null]))
+                            <a href="{{ route('admin.managers') }}" @click="open=false"
+                               style="display:flex;align-items:center;gap:.75rem;padding:.65rem .875rem;border-radius:.625rem;text-decoration:none;transition:background .15s;"
+                               onmouseover="this.style.background='rgba(255,45,85,.1)'" onmouseout="this.style.background='transparent'">
+                                <span style="width:34px;height:34px;border-radius:8px;background:rgba(139,92,246,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                    <svg width="16" height="16" fill="none" stroke="#8b5cf6" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                </span>
+                                <span>
+                                    <span style="display:block;font-weight:700;color:#f1f5f9;font-size:.82rem;">Administradores</span>
+                                    <span style="display:block;font-size:.72rem;color:#94a3b8;margin-top:.1rem;">Cadastro e permissões de admins</span>
+                                </span>
+                            </a>
+                            @endif
                         </div>
                     </div>
                     @else
@@ -795,6 +809,12 @@
                     <svg width="14" height="14" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                     Sistema
                 </a>
+                @if(in_array(optional(auth()->user())->admin_role, ['master', null]))
+                <a href="{{ route('admin.managers') }}" class="nav-link flex items-center gap-2">
+                    <svg width="14" height="14" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/></svg>
+                    Administradores
+                </a>
+                @endif
                 </div>
                 @else
                 <div x-data="{role:'{{ auth()->user()->activeRole() }}'}">
