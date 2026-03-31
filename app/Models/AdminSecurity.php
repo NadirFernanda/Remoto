@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AdminSecurity extends Model
 {
+    protected $table = 'admin_security';
+
     protected $fillable = [
         'user_id',
         'two_factor_required',
