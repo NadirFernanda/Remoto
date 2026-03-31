@@ -136,7 +136,7 @@ class Users extends Component
 
     public function setAdminRole(int $userId, string $role): void
     {
-        $allowed = ['master', 'gestor', 'financeiro', ''];
+        $allowed = ['master', 'gestor', 'financeiro', 'suporte', 'analista', ''];
         if (! in_array($role, $allowed, true)) {
             return;
         }

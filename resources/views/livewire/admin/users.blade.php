@@ -187,6 +187,8 @@
                                 <option value="master"     {{ $user->admin_role === 'master'     ? 'selected' : '' }}>Master</option>
                                 <option value="gestor"     {{ $user->admin_role === 'gestor'     ? 'selected' : '' }}>Gestor</option>
                                 <option value="financeiro" {{ $user->admin_role === 'financeiro' ? 'selected' : '' }}>Financeiro</option>
+                                <option value="suporte"    {{ $user->admin_role === 'suporte'    ? 'selected' : '' }}>Suporte</option>
+                                <option value="analista"   {{ $user->admin_role === 'analista'   ? 'selected' : '' }}>Analista</option>
                             </select>
                         @else
                             <span class="text-gray-300 text-xs">—</span>

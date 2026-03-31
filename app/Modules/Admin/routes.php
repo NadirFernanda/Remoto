@@ -38,9 +38,9 @@ Route::middleware(['web', 'auth', 'admin.module:gestor'])->group(function () {
     // Admin — Export reports (financeiro module)
     Route::get('/admin/relatorios/users/export', [UsersExportController::class, 'exportCsv'])->name('admin.reports.users.export')->middleware('admin.module:financeiro');
     Route::get('/admin/relatorios/financeiro/export', [FinancialExportController::class, 'exportCsv'])->name('admin.reports.financial.export')->middleware('admin.module:financeiro');
-    Route::get('/admin/relatorios/auditoria/export', [AuditExportController::class, 'exportCsv'])->name('admin.reports.audit.export')->middleware('admin.module:financeiro');
-    Route::get('/admin/relatorios/auditoria/export-excel', [AuditExportController::class, 'exportExcel'])->name('admin.reports.audit.export.excel')->middleware('admin.module:financeiro');
-    Route::get('/admin/relatorios/auditoria/export-pdf', [AuditExportController::class, 'exportPdf'])->name('admin.reports.audit.export.pdf')->middleware('admin.module:financeiro');
+    Route::get('/admin/relatorios/auditoria/export', [AuditExportController::class, 'exportCsv'])->name('admin.reports.audit.export')->middleware('admin.module:audit');
+    Route::get('/admin/relatorios/auditoria/export-excel', [AuditExportController::class, 'exportExcel'])->name('admin.reports.audit.export.excel')->middleware('admin.module:audit');
+    Route::get('/admin/relatorios/auditoria/export-pdf', [AuditExportController::class, 'exportPdf'])->name('admin.reports.audit.export.pdf')->middleware('admin.module:audit');
 
     // Admin — Support
     Route::get('/admin/notificacoes-massa', \App\Livewire\Admin\MassNotifications::class)->name('admin.notifications.mass')->middleware('admin.module:suporte');
