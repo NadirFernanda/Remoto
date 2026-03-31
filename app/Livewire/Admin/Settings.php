@@ -3,37 +3,75 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\PlatformSetting;
+use Illuminate\Support\Facades\Storage;
 
 class Settings extends Component
 {
-    // General platform settings stored in platform_settings table
+    use WithFileUploads;
+
+    // ── Plataforma Geral ───────────────────────────────────────────────────────
     public string $siteName        = '';
     public string $siteEmail       = '';
     public string $maintenanceMode = '0';
-    public string $savedMsg        = '';
+
+    // ── Marca & Comunicação ────────────────────────────────────────────────────
+    public string $financialSupportEmail = '';
+    public string $receiptText           = 'Pagamento processado pela 24Horas Remoto.';
+    public string $brandLogoPath         = '';
+    public string $walletMinBalance      = '0';
+    public mixed  $brandLogo             = null;
+
+    public string $savedMsg = '';
+    public string $errorMsg = '';
 
     public function mount(): void
     {
         abort_if(auth()->user()?->role !== 'admin', 403);
+
         $this->siteName        = PlatformSetting::get('site_name', config('app.name', ''));
         $this->siteEmail       = PlatformSetting::get('site_email', config('mail.from.address', ''));
         $this->maintenanceMode = PlatformSetting::get('maintenance_mode', '0');
+
+        $this->financialSupportEmail = PlatformSetting::get('financial_support_email', '');
+        $this->receiptText           = PlatformSetting::get('receipt_text', 'Pagamento processado pela 24Horas Remoto.');
+        $this->brandLogoPath         = PlatformSetting::get('brand_logo_path', '');
+        $this->walletMinBalance      = PlatformSetting::get('wallet_min_balance', '0');
     }
 
     public function save(): void
     {
+        $this->savedMsg = '';
+        $this->errorMsg = '';
+
         $this->validate([
-            'siteName'        => 'required|string|max:100',
-            'siteEmail'       => 'required|email|max:150',
-            'maintenanceMode' => 'required|in:0,1',
+            'siteName'             => 'required|string|max:100',
+            'siteEmail'            => 'required|email|max:150',
+            'maintenanceMode'      => 'required|in:0,1',
+            'financialSupportEmail'=> 'nullable|email|max:150',
+            'receiptText'          => 'nullable|string|max:500',
+            'walletMinBalance'     => 'nullable|numeric|min:0',
+            'brandLogo'            => 'nullable|image|max:2048',
         ]);
 
-        PlatformSetting::set('site_name', $this->siteName);
-        PlatformSetting::set('site_email', $this->siteEmail);
-        PlatformSetting::set('maintenance_mode', $this->maintenanceMode);
+        PlatformSetting::set('site_name',        $this->siteName);
+        PlatformSetting::set('site_email',        $this->siteEmail);
+        PlatformSetting::set('maintenance_mode',  $this->maintenanceMode);
+        PlatformSetting::set('financial_support_email', $this->financialSupportEmail ?? '');
+        PlatformSetting::set('receipt_text',      $this->receiptText ?? '');
+        PlatformSetting::set('wallet_min_balance', $this->walletMinBalance ?? '0');
 
-        // Activar/desactivar modo de manutenção via artisan down/up
+        // Logo upload
+        if ($this->brandLogo) {
+            $ext  = $this->brandLogo->getClientOriginalExtension();
+            $path = $this->brandLogo->storePubliclyAs('brand', 'logo.' . $ext, 'public');
+            PlatformSetting::set('brand_logo_path', $path);
+            $this->brandLogoPath = $path;
+            $this->brandLogo     = null;
+        }
+
+        // Activar/desactivar modo de manutenção
         if ($this->maintenanceMode === '1') {
             if (!file_exists(base_path('storage/framework/down'))) {
                 \Artisan::call('down');
@@ -50,6 +88,6 @@ class Settings extends Component
     public function render()
     {
         return view('livewire.admin.settings')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Configurações Gerais']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Configurações do Sistema']);
     }
 }
