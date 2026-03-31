@@ -23,6 +23,11 @@ class Settings extends Component
     public string $walletMinBalance      = '0';
     public mixed  $brandLogo             = null;
 
+    // ── Prazos & Retenção ─────────────────────────────────────────────────────
+    public string $freelancerPaymentRelease  = 'immediate'; // immediate | after_confirmation
+    public string $creatorPaymentRelease     = 'day_26';    // immediate | day_26
+    public string $infoprodutoPaymentRelease = '7_days';    // immediate | 7_days | 14_days
+
     public string $savedMsg = '';
     public string $errorMsg = '';
 
@@ -38,6 +43,10 @@ class Settings extends Component
         $this->receiptText           = PlatformSetting::get('receipt_text', 'Pagamento processado pela 24Horas Remoto.');
         $this->brandLogoPath         = PlatformSetting::get('brand_logo_path', '');
         $this->walletMinBalance      = PlatformSetting::get('wallet_min_balance', '0');
+
+        $this->freelancerPaymentRelease  = PlatformSetting::get('freelancer_payment_release',  'immediate');
+        $this->creatorPaymentRelease     = PlatformSetting::get('creator_payment_release',     'day_26');
+        $this->infoprodutoPaymentRelease = PlatformSetting::get('infoproduto_payment_release', '7_days');
     }
 
     public function save(): void
@@ -51,8 +60,11 @@ class Settings extends Component
             'maintenanceMode'      => 'required|in:0,1',
             'financialSupportEmail'=> 'nullable|email|max:150',
             'receiptText'          => 'nullable|string|max:500',
-            'walletMinBalance'     => 'nullable|numeric|min:0',
-            'brandLogo'            => 'nullable|image|max:2048',
+            'walletMinBalance'             => 'nullable|numeric|min:0',
+            'brandLogo'                    => 'nullable|image|max:2048',
+            'freelancerPaymentRelease'     => 'required|in:immediate,after_confirmation',
+            'creatorPaymentRelease'        => 'required|in:immediate,day_26',
+            'infoprodutoPaymentRelease'    => 'required|in:immediate,7_days,14_days',
         ]);
 
         PlatformSetting::set('site_name',        $this->siteName);
@@ -61,6 +73,9 @@ class Settings extends Component
         PlatformSetting::set('financial_support_email', $this->financialSupportEmail ?? '');
         PlatformSetting::set('receipt_text',      $this->receiptText ?? '');
         PlatformSetting::set('wallet_min_balance', $this->walletMinBalance ?? '0');
+        PlatformSetting::set('freelancer_payment_release',  $this->freelancerPaymentRelease);
+        PlatformSetting::set('creator_payment_release',     $this->creatorPaymentRelease);
+        PlatformSetting::set('infoproduto_payment_release', $this->infoprodutoPaymentRelease);
 
         // Logo upload
         if ($this->brandLogo) {

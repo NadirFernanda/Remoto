@@ -87,10 +87,80 @@
         </div>
     </div>
 
-    {{-- ── 2. Configurações Gerais ── --}}
+    {{-- ── 2. Configuração de Prazos e Retenção ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-6 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">2. Configuração de Prazos e Retenção</h2>
+            <p class="text-xs text-gray-400 mt-1">Define quando os pagamentos são liberados para cada tipo de prestador.</p>
+        </div>
+
+        {{-- Freelancers --}}
+        <div class="mb-6">
+            <h3 class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Freelancers</h3>
+            <p class="text-xs text-gray-500 mb-3">a. Liberação após a conclusão do projecto para o Freelancer:</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="freelancerPaymentRelease" type="radio" value="immediate"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediata</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="freelancerPaymentRelease" type="radio" value="after_confirmation"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Apenas após a confirmação do contratante</span>
+                </label>
+            </div>
+            @error('freelancerPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="border-t border-gray-100 pt-5 mb-6">
+            {{-- Criadores --}}
+            <h3 class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Criadores</h3>
+            <p class="text-xs text-gray-500 mb-3">a. Liberação de pagamento para Criadores:</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="creatorPaymentRelease" type="radio" value="immediate"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediata</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="creatorPaymentRelease" type="radio" value="day_26"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após o dia 26 de cada mês</span>
+                </label>
+            </div>
+            @error('creatorPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        <div class="border-t border-gray-100 pt-5">
+            {{-- Infoprodutos --}}
+            <h3 class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Infoprodutos</h3>
+            <p class="text-xs text-gray-500 mb-3">a. Liberação de pagamento ao produtor após a venda:</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="infoprodutoPaymentRelease" type="radio" value="immediate"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediato</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="infoprodutoPaymentRelease" type="radio" value="7_days"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após 7 dias</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="infoprodutoPaymentRelease" type="radio" value="14_days"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após 14 dias</span>
+                </label>
+            </div>
+            @error('infoprodutoPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+    </div>
+
+    {{-- ── 3. Configurações Gerais ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
-            <h2 class="text-base font-semibold text-gray-800">2. Configurações Gerais</h2>
+            <h2 class="text-base font-semibold text-gray-800">3. Configurações Gerais</h2>
             <p class="text-xs text-gray-400 mt-1">E-mail da plataforma e modo de manutenção.</p>
         </div>
 
