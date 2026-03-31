@@ -93,7 +93,7 @@ class AdminManager extends Component
         $this->corporateEmail  = $admin->admin_corporate_email ?? '';
         $this->phone           = $admin->admin_phone ?? '';
         $this->cargo           = $admin->admin_cargo ?? '';
-        $this->adminRole       = $admin->admin_role ?? 'gestor';
+        $this->adminRole       = $admin->admin_role ?? 'master';
         $this->password        = '';
         $this->passwordConfirm = '';
 

@@ -29,7 +29,7 @@
                         'gestor'     => 'Admin · Gestor',
                         'financeiro' => 'Admin · Financeiro',
                         'suporte'    => 'Admin · Suporte',
-                        'audit'      => 'Admin · Auditoria',
+                        'analista'   => 'Admin · Analista',
                         default      => 'Administrador · Master',
                     }; @endphp
                     {{ $adminModuleLabel }}

@@ -302,12 +302,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function adminRoleLabel(): string
     {
         return match ($this->admin_role) {
-            'master'     => 'Admin Master',
-            'financeiro' => 'Diretor Financeiro',
-            'gestor'     => 'Gestor de Operações',
-            'suporte'    => 'Gestor de Suporte',
-            'analista'   => 'Analista de Dados',
-            default      => 'Administrador',
+            null, 'master' => 'Admin Master',
+            'financeiro'   => 'Diretor Financeiro',
+            'gestor'       => 'Gestor de Operações',
+            'suporte'      => 'Gestor de Suporte',
+            'analista'     => 'Analista de Dados',
+            default        => 'Administrador',
         };
     }
 }
