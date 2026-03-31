@@ -126,9 +126,6 @@ Route::middleware(['auth', 'verified', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/perfil/editar',      \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
     Route::get('/freelancer/portfolio',          \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
     Route::get('/freelancer/onboarding',         \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
-    Route::get('/freelancer/financeiro',         \App\Livewire\Freelancer\FinancialPanel::class)->name('freelancer.financial');
-    Route::get('/freelancer/carteira',           \App\Livewire\Freelancer\Wallet::class)->name('freelancer.wallet');
-    Route::get('/freelancer/carteira/historico', \App\Livewire\Freelancer\WalletHistory::class)->name('freelancer.wallet.history');
 });
 
 // ─── Client Core ─────────────────────────────────────────────────────────────

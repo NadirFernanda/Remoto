@@ -82,7 +82,8 @@ class Stories extends Component
 
             $storyGroups = User::whereIn('id', $viewerIds)
                 ->whereHas('stories', fn ($q) => $q->active())
-                ->with(['stories' => fn ($q) => $q->active()->orderBy('created_at')])
+                ->with(['stories' => fn ($q) => $q->active()->orderBy('created_at')
+                    ->with(['views' => fn ($q) => $q->where('viewer_id', $user->id)])])
                 ->get()
                 ->sortByDesc(fn ($u) => $u->id === $user->id ? PHP_INT_MAX : 0)
                 ->values()
@@ -92,7 +93,7 @@ class Stories extends Component
                         'type'       => $s->type,
                         'url'        => $s->mediaUrl(),
                         'caption'    => $s->caption,
-                        'viewed'     => $user ? $s->isViewedBy($user->id) : false,
+                        'viewed'     => $user ? $s->views->isNotEmpty() : false,
                         'views'      => $s->views_count,
                         'expires_at' => $s->expires_at->toISOString(),
                     ])->values()->toArray();

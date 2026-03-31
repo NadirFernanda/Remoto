@@ -49,8 +49,15 @@ class Vitrine extends Component
 
     public function render()
     {
+        $today = Carbon::today()->toDateString();
         $query = Infoproduto::where('status', 'ativo')
-            ->with(['freelancer:id,name,profile_photo']);
+            ->with(['freelancer:id,name,profile_photo'])
+            ->withExists([
+                'patrocinios as patrocinado' => fn ($q) => $q
+                    ->where('status', 'ativo')
+                    ->where('data_inicio', '<=', $today)
+                    ->where('data_fim', '>=', $today),
+            ]);
 
         if ($this->busca) {
             $query->where(function ($q) {
@@ -64,7 +71,6 @@ class Vitrine extends Component
         }
 
         // Sponsored products always on top
-        $today = Carbon::today()->toDateString();
         $query->orderByRaw(
             "EXISTS (SELECT 1 FROM infoproduto_patrocinios ip
                      WHERE ip.infoproduto_id = infoprodutos.id
@@ -82,11 +88,6 @@ class Vitrine extends Component
         };
 
         $produtos = $query->paginate(12);
-
-        // Tag sponsored products
-        foreach ($produtos as $produto) {
-            $produto->patrocinado = $produto->isPatrocinado();
-        }
 
         return view('livewire.loja.vitrine', [
             'produtos' => $produtos,

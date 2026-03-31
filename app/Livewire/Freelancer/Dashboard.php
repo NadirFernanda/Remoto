@@ -39,7 +39,9 @@ class Dashboard extends Component
             ->count();
 
         // Link de afiliado
-        $affiliate_link = url('/register?ref=' . $user->affiliate_code);
+        $affiliate_link = $user->affiliate_code
+            ? url('/register?ref=' . $user->affiliate_code)
+            : url('/register');
 
         // Indicações
         $referrals = \App\Models\Referral::where('affiliate_id', $user->id)->with('user')->get();

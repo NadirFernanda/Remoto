@@ -8,6 +8,7 @@ use App\Models\WalletLog;
 use App\Notifications\AffiliateCommissionNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\DB;
 
 class CreditAffiliateCommission implements ShouldQueue
 {
@@ -15,13 +16,6 @@ class CreditAffiliateCommission implements ShouldQueue
 
     public function handle(AffiliateCommissionEarned $event): void
     {
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $event->affiliate->id],
-            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-        );
-
-        $wallet->increment('saldo', $event->commission);
-
         $descricao = "Comissão de afiliado pelo registo/acção de \"{$event->referred->name}\"";
         if (str_starts_with($event->reason, 'action:')) {
             $parts = explode(':', $event->reason);
@@ -41,13 +35,22 @@ class CreditAffiliateCommission implements ShouldQueue
             $descricao = "Comissão de afiliado por {$actionLabel} de \"{$event->referred->name}\" {$marker}";
         }
 
-        WalletLog::create([
-            'user_id'   => $event->affiliate->id,
-            'wallet_id' => $wallet->id,
-            'valor'     => $event->commission,
-            'tipo'      => 'comissao_afiliado',
-            'descricao' => $descricao,
-        ]);
+        DB::transaction(function () use ($event, $descricao) {
+            $wallet = Wallet::firstOrCreate(
+                ['user_id' => $event->affiliate->id],
+                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+            );
+
+            $wallet->increment('saldo', $event->commission);
+
+            WalletLog::create([
+                'user_id'   => $event->affiliate->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => $event->commission,
+                'tipo'      => 'comissao_afiliado',
+                'descricao' => $descricao,
+            ]);
+        });
 
         $event->affiliate->notify(new AffiliateCommissionNotification(
             $event->commission,
