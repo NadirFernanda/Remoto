@@ -48,6 +48,9 @@ Route::middleware(['web', 'auth', 'admin.module:gestor'])->group(function () {
     // Admin — Settings (master only)
     Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings')->middleware('admin.module:settings');
 
+    // Admin — Manage Administrators (master only)
+    Route::get('/admin/administradores', \App\Livewire\Admin\AdminManager::class)->name('admin.managers')->middleware('admin.module:admin-manager');
+
     // Admin — Download infoproduto file for moderation review
     Route::get('/admin/loja/download/{id}', function (int $id) {
         $produto = \App\Models\Infoproduto::findOrFail($id);

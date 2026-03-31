@@ -262,4 +262,52 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->cover_photo ? Storage::url($this->cover_photo) : null;
     }
+
+    // ── Admin Relations ──────────────────────────────────────────────────────
+
+    public function adminPermissions()
+    {
+        return $this->hasMany(AdminPermission::class);
+    }
+
+    public function adminSecurity()
+    {
+        return $this->hasOne(AdminSecurity::class);
+    }
+
+    public function adminNotifications()
+    {
+        return $this->hasOne(AdminNotificationPreference::class);
+    }
+
+    /**
+     * Get the access level for a specific module.
+     * Master always gets 'full'. Others read from admin_permissions table.
+     */
+    public function adminModuleAccess(string $module): string
+    {
+        if ($this->role !== 'admin') {
+            return 'none';
+        }
+        if ($this->admin_role === 'master' || $this->admin_role === null) {
+            return 'full';
+        }
+        $perm = $this->adminPermissions()->where('module', $module)->first();
+        return $perm ? $perm->access : 'none';
+    }
+
+    /**
+     * Human-readable label for admin_role.
+     */
+    public function adminRoleLabel(): string
+    {
+        return match ($this->admin_role) {
+            'master'     => 'Admin Master',
+            'financeiro' => 'Diretor Financeiro',
+            'gestor'     => 'Gestor de Operações',
+            'suporte'    => 'Gestor de Suporte',
+            'analista'   => 'Analista de Dados',
+            default      => 'Administrador',
+        };
+    }
 }
