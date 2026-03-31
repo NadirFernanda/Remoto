@@ -47,6 +47,12 @@ class Settings extends Component
         $this->freelancerPaymentRelease  = PlatformSetting::get('freelancer_payment_release',  'immediate');
         $this->creatorPaymentRelease     = PlatformSetting::get('creator_payment_release',     'day_26');
         $this->infoprodutoPaymentRelease = PlatformSetting::get('infoproduto_payment_release', '7_days');
+
+        $this->withdrawalProcessing     = PlatformSetting::get('withdrawal_processing',      'manual');
+        $this->withdrawalMinAmount      = PlatformSetting::get('withdrawal_min_amount',      '20000');
+        $this->withdrawalLiquidityAlert = PlatformSetting::get('withdrawal_liquidity_alert', '500000');
+        $methods = PlatformSetting::get('withdrawal_methods', '["bank_transfer"]');
+        $this->withdrawalMethods        = json_decode($methods, true) ?? ['bank_transfer'];
     }
 
     public function save(): void
@@ -65,6 +71,11 @@ class Settings extends Component
             'freelancerPaymentRelease'     => 'required|in:immediate,after_confirmation',
             'creatorPaymentRelease'        => 'required|in:immediate,day_26',
             'infoprodutoPaymentRelease'    => 'required|in:immediate,7_days,14_days',
+            'withdrawalProcessing'         => 'required|in:automatic,manual',
+            'withdrawalMinAmount'          => 'required|in:0,20000,60000',
+            'withdrawalLiquidityAlert'     => 'required|in:500000,1000000',
+            'withdrawalMethods'            => 'required|array|min:1',
+            'withdrawalMethods.*'          => 'in:bank_transfer,visa,other',
         ]);
 
         PlatformSetting::set('site_name',        $this->siteName);
@@ -76,6 +87,10 @@ class Settings extends Component
         PlatformSetting::set('freelancer_payment_release',  $this->freelancerPaymentRelease);
         PlatformSetting::set('creator_payment_release',     $this->creatorPaymentRelease);
         PlatformSetting::set('infoproduto_payment_release', $this->infoprodutoPaymentRelease);
+        PlatformSetting::set('withdrawal_processing',      $this->withdrawalProcessing);
+        PlatformSetting::set('withdrawal_min_amount',      $this->withdrawalMinAmount);
+        PlatformSetting::set('withdrawal_liquidity_alert', $this->withdrawalLiquidityAlert);
+        PlatformSetting::set('withdrawal_methods',         json_encode($this->withdrawalMethods));
 
         // Logo upload
         if ($this->brandLogo) {

@@ -157,10 +157,123 @@
         </div>
     </div>
 
-    {{-- ── 3. Configurações Gerais ── --}}
+    {{-- ── 3. Configurações de Saques ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-6 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">3. Configurações de Saques</h2>
+            <p class="text-xs text-gray-400 mt-1">Controlo do processamento, limites e alertas de liquidez para saques da carteira.</p>
+        </div>
+
+        {{-- Processamento --}}
+        <div class="mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Processamento de Saques</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalProcessing" type="radio" value="automatic"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">a.</strong> Processar Automaticamente
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalProcessing" type="radio" value="manual"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">b.</strong> Processar Manualmente
+                    </span>
+                </label>
+            </div>
+            @error('withdrawalProcessing') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Limite mínimo --}}
+        <div class="border-t border-gray-100 pt-5 mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Limite Mínimo de Saque</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMinAmount" type="radio" value="20000"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">a.</strong> 20.000,00 Kz
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMinAmount" type="radio" value="60000"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">b.</strong> 60.000,00 Kz
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMinAmount" type="radio" value="0"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">c.</strong> Sem limite mínimo
+                    </span>
+                </label>
+            </div>
+            @error('withdrawalMinAmount') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Alerta de Liquidez --}}
+        <div class="border-t border-gray-100 pt-5 mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Alerta de Liquidez</p>
+            <p class="text-xs text-gray-400 mb-3">Notificar o administrador quando o total de saques pendentes atingir:</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalLiquidityAlert" type="radio" value="500000"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">a.</strong> Alerta a partir de 500.000,00 Kz pendentes
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalLiquidityAlert" type="radio" value="1000000"
+                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">b.</strong> Alerta a partir de 1.000.000,00 Kz pendentes
+                    </span>
+                </label>
+            </div>
+            @error('withdrawalLiquidityAlert') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Métodos de pagamento --}}
+        <div class="border-t border-gray-100 pt-5">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Métodos de Pagamento Aceites</p>
+            <p class="text-xs text-gray-400 mb-3">Seleccione todos os métodos disponíveis para saques:</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMethods" type="checkbox" value="bank_transfer"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">a.</strong> Transferência Bancária
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMethods" type="checkbox" value="visa"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">b.</strong> Gateway de Pagamento — VISA
+                    </span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="withdrawalMethods" type="checkbox" value="other"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">c.</strong> Outro
+                    </span>
+                </label>
+            </div>
+            @error('withdrawalMethods') <p class="text-red-500 text-xs mt-1">Seleccione pelo menos um método.</p> @enderror
+            @error('withdrawalMethods.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+    </div>
+
+    {{-- ── 4. Configurações Gerais ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
-            <h2 class="text-base font-semibold text-gray-800">3. Configurações Gerais</h2>
+            <h2 class="text-base font-semibold text-gray-800">4. Configurações Gerais</h2>
             <p class="text-xs text-gray-400 mt-1">E-mail da plataforma e modo de manutenção.</p>
         </div>
 
