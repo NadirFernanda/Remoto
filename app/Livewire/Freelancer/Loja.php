@@ -6,7 +6,9 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoPatrocinio;
+use App\Models\Wallet;
 use App\Models\WalletLog;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -168,33 +170,35 @@ class Loja extends Component
             ->where('status', 'ativo')
             ->findOrFail($this->sponsoring);
 
-        // Cancel any running sponsorship for this product
-        InfoprodutoPatrocinio::where('infoproduto_id', $produto->id)
-            ->where('status', 'ativo')
-            ->update(['status' => 'cancelado']);
+        DB::transaction(function () use ($produto, $user, $wallet, $valor) {
+            // Cancel any running sponsorship for this product
+            InfoprodutoPatrocinio::where('infoproduto_id', $produto->id)
+                ->where('status', 'ativo')
+                ->update(['status' => 'cancelado']);
 
-        $inicio = Carbon::today();
-        $fim    = $inicio->copy()->addDays($this->dias - 1);
+            $inicio = Carbon::today();
+            $fim    = $inicio->copy()->addDays($this->dias - 1);
 
-        InfoprodutoPatrocinio::create([
-            'infoproduto_id' => $produto->id,
-            'user_id'        => $user->id,
-            'data_inicio'    => $inicio,
-            'data_fim'       => $fim,
-            'dias'           => $this->dias,
-            'valor_total'    => $valor,
-            'status'         => 'ativo',
-        ]);
+            InfoprodutoPatrocinio::create([
+                'infoproduto_id' => $produto->id,
+                'user_id'        => $user->id,
+                'data_inicio'    => $inicio,
+                'data_fim'       => $fim,
+                'dias'           => $this->dias,
+                'valor_total'    => $valor,
+                'status'         => 'ativo',
+            ]);
 
-        $wallet->decrement('saldo', $valor);
+            $wallet->decrement('saldo', $valor);
 
-        WalletLog::create([
-            'user_id'   => $user->id,
-            'wallet_id' => $wallet->id,
-            'valor'     => -$valor,
-            'tipo'      => 'patrocinio',
-            'descricao' => "Patrocínio do infoproduto \"{$produto->titulo}\" por {$this->dias} dia(s) — Kz " . number_format($valor, 0, ',', '.') . '.',
-        ]);
+            WalletLog::create([
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$valor,
+                'tipo'      => 'patrocinio',
+                'descricao' => "Patrocínio do infoproduto \"{$produto->titulo}\" por {$this->dias} dia(s) — Kz " . number_format($valor, 0, ',', '.') . '.',
+            ]);
+        });
 
         $this->feedbackType     = 'success';
         $this->feedback         = "Patrocínio ativo! Kz " . number_format($valor, 0, ',', '.') . " debitados. O produto ficará em destaque por {$this->dias} dia(s).";

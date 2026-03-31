@@ -88,15 +88,17 @@ class ServiceCancel extends Component
     {
         $clientWallet = Wallet::where('user_id', Auth::id())->first();
         if ($clientWallet && $this->service->valor && $clientWallet->saldo_pendente >= $this->service->valor) {
-            $clientWallet->decrement('saldo_pendente', $this->service->valor);
-            $clientWallet->increment('saldo', $this->service->valor);
-            WalletLog::create([
-                'user_id'   => Auth::id(),
-                'wallet_id' => $clientWallet->id,
-                'valor'     => $this->service->valor,
-                'tipo'      => 'reembolso_escrow',
-                'descricao' => 'Escrow devolvido por cancelamento do projecto: ' . $this->service->titulo,
-            ]);
+            \Illuminate\Support\Facades\DB::transaction(function () use ($clientWallet) {
+                $clientWallet->decrement('saldo_pendente', $this->service->valor);
+                $clientWallet->increment('saldo', $this->service->valor);
+                WalletLog::create([
+                    'user_id'   => Auth::id(),
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => $this->service->valor,
+                    'tipo'      => 'reembolso_escrow',
+                    'descricao' => 'Escrow devolvido por cancelamento do projecto: ' . $this->service->titulo,
+                ]);
+            });
         }
     }
 

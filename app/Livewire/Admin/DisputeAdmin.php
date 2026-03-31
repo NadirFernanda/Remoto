@@ -9,7 +9,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
-use App\Modules\Admin\Services\AuditLogger;
+use Illuminate\Support\Facades\DB;
 
 class DisputeAdmin extends Component
 {
@@ -129,33 +129,35 @@ class DisputeAdmin extends Component
         $service = Service::findOrFail($serviceId);
         $before  = ['status' => $service->status, 'is_payment_released' => $service->is_payment_released];
 
-        $service->update([
-            'status'              => 'completed',
-            'is_payment_released' => true,
-            'payment_released_at' => now(),
-        ]);
-
-        // Creditar carteira do freelancer
-        if ($service->valor_liquido && $service->freelancer_id) {
-            $freelancerWallet = Wallet::firstOrCreate(
-                ['user_id' => $service->freelancer_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $freelancerWallet->increment('saldo', $service->valor_liquido);
-            WalletLog::create([
-                'user_id'   => $service->freelancer_id,
-                'wallet_id' => $freelancerWallet->id,
-                'valor'     => $service->valor_liquido,
-                'tipo'      => 'pagamento_projeto',
-                'descricao' => 'Pagamento liberado pelo admin (disputa resolvida): ' . $service->titulo,
+        DB::transaction(function () use ($service) {
+            $service->update([
+                'status'              => 'completed',
+                'is_payment_released' => true,
+                'payment_released_at' => now(),
             ]);
 
-            // Libertar escrow do cliente
-            $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
-            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
-                $clientWallet->decrement('saldo_pendente', $service->valor);
+            // Creditar carteira do freelancer
+            if ($service->valor_liquido && $service->freelancer_id) {
+                $freelancerWallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->freelancer_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $freelancerWallet->increment('saldo', $service->valor_liquido);
+                WalletLog::create([
+                    'user_id'   => $service->freelancer_id,
+                    'wallet_id' => $freelancerWallet->id,
+                    'valor'     => $service->valor_liquido,
+                    'tipo'      => 'pagamento_projeto',
+                    'descricao' => 'Pagamento liberado pelo admin (disputa resolvida): ' . $service->titulo,
+                ]);
+
+                // Libertar escrow do cliente
+                $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
+                if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                    $clientWallet->decrement('saldo_pendente', $service->valor);
+                }
             }
-        }
+        });
 
         Notification::create([
             'user_id'    => $service->freelancer_id,
@@ -207,48 +209,50 @@ class DisputeAdmin extends Component
         $valorFreelancer = round(($service->valor_liquido ?? $service->valor) * $pct, 2);
         $valorCliente    = round($service->valor * (1 - $pct), 2);
 
-        // Creditar freelancer
-        if ($service->freelancer_id && $valorFreelancer > 0) {
-            $fw = Wallet::firstOrCreate(
-                ['user_id' => $service->freelancer_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $fw->increment('saldo', $valorFreelancer);
-            WalletLog::create([
-                'user_id'   => $service->freelancer_id,
-                'wallet_id' => $fw->id,
-                'valor'     => $valorFreelancer,
-                'tipo'      => 'pagamento_parcial_disputa',
-                'descricao' => "Pagamento parcial ({$this->percentualFreelancer}%) — disputa: {$service->titulo}",
-            ]);
-        }
-
-        // Devolver escrow ao cliente (restante)
-        if ($service->cliente_id) {
-            $cw = Wallet::firstOrCreate(
-                ['user_id' => $service->cliente_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            if ($cw->saldo_pendente >= $service->valor) {
-                $cw->decrement('saldo_pendente', $service->valor);
-            }
-            if ($valorCliente > 0) {
-                $cw->increment('saldo', $valorCliente);
+        DB::transaction(function () use ($service, $valorFreelancer, $valorCliente) {
+            // Creditar freelancer
+            if ($service->freelancer_id && $valorFreelancer > 0) {
+                $fw = Wallet::firstOrCreate(
+                    ['user_id' => $service->freelancer_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $fw->increment('saldo', $valorFreelancer);
                 WalletLog::create([
-                    'user_id'   => $service->cliente_id,
-                    'wallet_id' => $cw->id,
-                    'valor'     => $valorCliente,
-                    'tipo'      => 'reembolso_parcial_disputa',
-                    'descricao' => "Reembolso parcial (" . (100 - $this->percentualFreelancer) . "%) — disputa: {$service->titulo}",
+                    'user_id'   => $service->freelancer_id,
+                    'wallet_id' => $fw->id,
+                    'valor'     => $valorFreelancer,
+                    'tipo'      => 'pagamento_parcial_disputa',
+                    'descricao' => "Pagamento parcial ({$this->percentualFreelancer}%) — disputa: {$service->titulo}",
                 ]);
             }
-        }
 
-        $service->update([
-            'status'              => 'completed',
-            'is_payment_released' => true,
-            'payment_released_at' => now(),
-        ]);
+            // Devolver escrow ao cliente (restante)
+            if ($service->cliente_id) {
+                $cw = Wallet::firstOrCreate(
+                    ['user_id' => $service->cliente_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                if ($cw->saldo_pendente >= $service->valor) {
+                    $cw->decrement('saldo_pendente', $service->valor);
+                }
+                if ($valorCliente > 0) {
+                    $cw->increment('saldo', $valorCliente);
+                    WalletLog::create([
+                        'user_id'   => $service->cliente_id,
+                        'wallet_id' => $cw->id,
+                        'valor'     => $valorCliente,
+                        'tipo'      => 'reembolso_parcial_disputa',
+                        'descricao' => "Reembolso parcial (" . (100 - $this->percentualFreelancer) . "%) — disputa: {$service->titulo}",
+                    ]);
+                }
+            }
+
+            $service->update([
+                'status'              => 'completed',
+                'is_payment_released' => true,
+                'payment_released_at' => now(),
+            ]);
+        });
 
         $fmtFl = number_format($valorFreelancer, 0, ',', '.');
         $fmtCl = number_format($valorCliente, 0, ',', '.');
@@ -291,26 +295,28 @@ class DisputeAdmin extends Component
 
         $before = ['status' => $service->status];
 
-        // Devolver escrow ao cliente
-        if ($service->valor && $service->cliente_id) {
-            $clientWallet = Wallet::firstOrCreate(
-                ['user_id' => $service->cliente_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            if ($clientWallet->saldo_pendente >= $service->valor) {
-                $clientWallet->decrement('saldo_pendente', $service->valor);
+        DB::transaction(function () use ($service) {
+            // Devolver escrow ao cliente
+            if ($service->valor && $service->cliente_id) {
+                $clientWallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->cliente_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                if ($clientWallet->saldo_pendente >= $service->valor) {
+                    $clientWallet->decrement('saldo_pendente', $service->valor);
+                }
+                $clientWallet->increment('saldo', $service->valor);
+                WalletLog::create([
+                    'user_id'   => $service->cliente_id,
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => $service->valor,
+                    'tipo'      => 'reembolso_disputa',
+                    'descricao' => 'Reembolso por decisão admin na disputa: ' . $service->titulo,
+                ]);
             }
-            $clientWallet->increment('saldo', $service->valor);
-            WalletLog::create([
-                'user_id'   => $service->cliente_id,
-                'wallet_id' => $clientWallet->id,
-                'valor'     => $service->valor,
-                'tipo'      => 'reembolso_disputa',
-                'descricao' => 'Reembolso por decisão admin na disputa: ' . $service->titulo,
-            ]);
-        }
 
-        $service->update(['status' => 'cancelled']);
+            $service->update(['status' => 'cancelled']);
+        });
 
         Notification::create([
             'user_id'    => $service->cliente_id,

@@ -257,40 +257,42 @@ class ProjectManager extends Component
             return;
         }
 
-        $service->update([
-            'status'               => 'completed',
-            'is_payment_released'  => true,
-            'payment_released_at'  => now(),
-        ]);
-
-        // Creditar valor líquido na carteira do freelancer
-        if ($service->valor_liquido && $service->valor_liquido > 0) {
-            $freelancerWallet = Wallet::firstOrCreate(
-                ['user_id' => $service->freelancer_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $freelancerWallet->increment('saldo', $service->valor_liquido);
-            WalletLog::create([
-                'user_id'   => $service->freelancer_id,
-                'wallet_id' => $freelancerWallet->id,
-                'valor'     => $service->valor_liquido,
-                'tipo'      => 'pagamento_projeto',
-                'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service) {
+            $service->update([
+                'status'               => 'completed',
+                'is_payment_released'  => true,
+                'payment_released_at'  => now(),
             ]);
 
-            // Libertar o escrow na carteira do cliente
-            $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
-            if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
-                $clientWallet->decrement('saldo_pendente', $service->valor);
+            // Creditar valor líquido na carteira do freelancer
+            if ($service->valor_liquido && $service->valor_liquido > 0) {
+                $freelancerWallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->freelancer_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $freelancerWallet->increment('saldo', $service->valor_liquido);
                 WalletLog::create([
-                    'user_id'   => $service->cliente_id,
-                    'wallet_id' => $clientWallet->id,
-                    'valor'     => 0,
-                    'tipo'      => 'escrow_liberado',
-                    'descricao' => 'Escrow liberado após aprovação do projeto: ' . $service->titulo,
+                    'user_id'   => $service->freelancer_id,
+                    'wallet_id' => $freelancerWallet->id,
+                    'valor'     => $service->valor_liquido,
+                    'tipo'      => 'pagamento_projeto',
+                    'descricao' => 'Pagamento recebido pelo projeto: ' . $service->titulo,
                 ]);
+
+                // Libertar o escrow na carteira do cliente
+                $clientWallet = Wallet::where('user_id', $service->cliente_id)->first();
+                if ($clientWallet && $clientWallet->saldo_pendente >= $service->valor) {
+                    $clientWallet->decrement('saldo_pendente', $service->valor);
+                    WalletLog::create([
+                        'user_id'   => $service->cliente_id,
+                        'wallet_id' => $clientWallet->id,
+                        'valor'     => 0,
+                        'tipo'      => 'escrow_liberado',
+                        'descricao' => 'Escrow liberado após aprovação do projeto: ' . $service->titulo,
+                    ]);
+                }
             }
-        }
+        });
 
         Notification::create([
             'user_id'    => $service->freelancer_id,
