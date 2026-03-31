@@ -28,6 +28,29 @@ class Settings extends Component
     public string $creatorPaymentRelease     = 'day_26';    // immediate | day_26
     public string $infoprodutoPaymentRelease = '7_days';    // immediate | 7_days | 14_days
 
+    // ── Saques ────────────────────────────────────────────────────────────────
+    public string $withdrawalProcessing      = 'manual';
+    public string $withdrawalMinAmount       = '20000';
+    public string $withdrawalLiquidityAlert  = '500000';
+    public array  $withdrawalMethods         = ['bank_transfer'];
+
+    // ── Notificações & Alertas (Admin) ────────────────────────────────────────
+    public array  $adminAlerts         = ['pending_withdrawals_24h','config_risk','change_history','help_tooltips'];
+    public array  $adminAlertChannels  = ['email','system'];
+
+    // ── Notificações (Usuários) ───────────────────────────────────────────────
+    public array  $userNotifications   = ['withdrawal_processed','value_retained','dispute','fee_change_notice'];
+
+    // ── Relatórios & Exportações ──────────────────────────────────────────────
+    public string $reportWithdrawalDaily   = '1';
+    public string $reportCommissionMonthly = '1';
+    public string $reportTax               = '0';
+    public string $reportEmail             = 'contabilidade@24horas.ao';
+    public array  $reportFormats           = ['csv','excel','pdf'];
+
+    // ── Dashboard Personalizado ───────────────────────────────────────────────
+    public array  $dashboardWidgets = ['top_freelancers','top_creators','top_products','withdrawal_heatmap'];
+
     public string $savedMsg = '';
     public string $errorMsg = '';
 
@@ -53,6 +76,24 @@ class Settings extends Component
         $this->withdrawalLiquidityAlert = PlatformSetting::get('withdrawal_liquidity_alert', '500000');
         $methods = PlatformSetting::get('withdrawal_methods', '["bank_transfer"]');
         $this->withdrawalMethods        = json_decode($methods, true) ?? ['bank_transfer'];
+
+        $adminAlerts = PlatformSetting::get('admin_alerts', '["pending_withdrawals_24h","config_risk","change_history","help_tooltips"]');
+        $this->adminAlerts        = json_decode($adminAlerts, true) ?? [];
+        $adminCh = PlatformSetting::get('admin_alert_channels', '["email","system"]');
+        $this->adminAlertChannels = json_decode($adminCh, true) ?? [];
+
+        $userN = PlatformSetting::get('user_notifications', '["withdrawal_processed","value_retained","dispute","fee_change_notice"]');
+        $this->userNotifications  = json_decode($userN, true) ?? [];
+
+        $this->reportWithdrawalDaily   = PlatformSetting::get('report_withdrawal_daily',   '1');
+        $this->reportCommissionMonthly = PlatformSetting::get('report_commission_monthly',  '1');
+        $this->reportTax               = PlatformSetting::get('report_tax',                '0');
+        $this->reportEmail             = PlatformSetting::get('report_email',               'contabilidade@24horas.ao');
+        $rf = PlatformSetting::get('report_formats', '["csv","excel","pdf"]');
+        $this->reportFormats           = json_decode($rf, true) ?? [];
+
+        $dw = PlatformSetting::get('dashboard_widgets', '["top_freelancers","top_creators","top_products","withdrawal_heatmap"]');
+        $this->dashboardWidgets        = json_decode($dw, true) ?? [];
     }
 
     public function save(): void
@@ -76,6 +117,20 @@ class Settings extends Component
             'withdrawalLiquidityAlert'     => 'required|in:500000,1000000',
             'withdrawalMethods'            => 'required|array|min:1',
             'withdrawalMethods.*'          => 'in:bank_transfer,visa,other',
+            'adminAlerts'                  => 'nullable|array',
+            'adminAlerts.*'               => 'in:pending_withdrawals_24h,suspicious_withdrawal,config_risk,change_history,help_tooltips',
+            'adminAlertChannels'           => 'required|array|min:1',
+            'adminAlertChannels.*'         => 'in:email,sms,system',
+            'userNotifications'            => 'nullable|array',
+            'userNotifications.*'          => 'in:withdrawal_processed,value_retained,dispute,weekly_earnings,fee_change_notice',
+            'reportWithdrawalDaily'        => 'in:0,1',
+            'reportCommissionMonthly'      => 'in:0,1',
+            'reportTax'                   => 'in:0,1',
+            'reportEmail'                  => 'nullable|email|max:150',
+            'reportFormats'                => 'nullable|array',
+            'reportFormats.*'              => 'in:csv,excel,pdf',
+            'dashboardWidgets'             => 'nullable|array',
+            'dashboardWidgets.*'           => 'in:top_freelancers,top_creators,top_products,withdrawal_heatmap',
         ]);
 
         PlatformSetting::set('site_name',        $this->siteName);
@@ -91,6 +146,15 @@ class Settings extends Component
         PlatformSetting::set('withdrawal_min_amount',      $this->withdrawalMinAmount);
         PlatformSetting::set('withdrawal_liquidity_alert', $this->withdrawalLiquidityAlert);
         PlatformSetting::set('withdrawal_methods',         json_encode($this->withdrawalMethods));
+        PlatformSetting::set('admin_alerts',               json_encode($this->adminAlerts ?? []));
+        PlatformSetting::set('admin_alert_channels',       json_encode($this->adminAlertChannels));
+        PlatformSetting::set('user_notifications',         json_encode($this->userNotifications ?? []));
+        PlatformSetting::set('report_withdrawal_daily',    $this->reportWithdrawalDaily);
+        PlatformSetting::set('report_commission_monthly',  $this->reportCommissionMonthly);
+        PlatformSetting::set('report_tax',                 $this->reportTax);
+        PlatformSetting::set('report_email',               $this->reportEmail ?? '');
+        PlatformSetting::set('report_formats',             json_encode($this->reportFormats ?? []));
+        PlatformSetting::set('dashboard_widgets',          json_encode($this->dashboardWidgets ?? []));
 
         // Logo upload
         if ($this->brandLogo) {

@@ -270,10 +270,182 @@
         </div>
     </div>
 
-    {{-- ── 4. Configurações Gerais ── --}}
+    {{-- ── 4. Notificações e Alertas ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-6 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">4. Notificações e Alertas</h2>
+            <p class="text-xs text-gray-400 mt-1">Configure os alertas para administradores e notificações automáticas para utilizadores.</p>
+        </div>
+
+        {{-- Alertas para o Admin --}}
+        <div class="mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Alertas para o Administrador</p>
+            <div class="flex flex-col gap-2">
+                @php
+                    $adminAlertOptions = [
+                        'pending_withdrawals_24h' => ['label' => 'Saques pendentes há mais de 24 horas',       'letter' => 'a'],
+                        'suspicious_withdrawal'   => ['label' => 'Tentativa de saque suspeita detectada',      'letter' => 'b'],
+                        'config_risk'             => ['label' => 'Alerta quando uma configuração pode causar problemas', 'letter' => 'c'],
+                        'change_history'          => ['label' => 'Histórico de alterações das configurações',  'letter' => 'd'],
+                        'help_tooltips'           => ['label' => 'Mensagens de ajuda explicando cada configuração', 'letter' => 'e'],
+                    ];
+                @endphp
+                @foreach($adminAlertOptions as $value => $opt)
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="adminAlerts" type="checkbox" value="{{ $value }}"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
+                    </span>
+                </label>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- Canal de alerta --}}
+        <div class="border-t border-gray-100 pt-5 mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Canal de Alerta</p>
+            <div class="flex flex-col gap-2">
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="adminAlertChannels" type="checkbox" value="email"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">a.</strong> E-mail</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="adminAlertChannels" type="checkbox" value="sms"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">b.</strong> SMS</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="adminAlertChannels" type="checkbox" value="system"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">c.</strong> Sistema (notificação interna)</span>
+                </label>
+            </div>
+            @error('adminAlertChannels') <p class="text-red-500 text-xs mt-1">Seleccione pelo menos um canal.</p> @enderror
+        </div>
+
+        {{-- Notificações para Utilizadores --}}
+        <div class="border-t border-gray-100 pt-5">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Notificações para Utilizadores</p>
+            <div class="flex flex-col gap-2">
+                @php
+                    $userNotifOptions = [
+                        'withdrawal_processed'  => ['label' => 'Notificar quando o saque for processado',       'letter' => 'a'],
+                        'value_retained'        => ['label' => 'Notificar quando o valor for retido',           'letter' => 'b'],
+                        'dispute'               => ['label' => 'Notificar quando houver uma disputa',           'letter' => 'c'],
+                        'weekly_earnings'       => ['label' => 'Resumo semanal dos ganhos',                     'letter' => 'd'],
+                        'fee_change_notice'     => ['label' => 'Aviso antes de alteração de taxas',             'letter' => 'e'],
+                    ];
+                @endphp
+                @foreach($userNotifOptions as $value => $opt)
+                <label class="flex items-center gap-3 cursor-pointer group">
+                    <input wire:model="userNotifications" type="checkbox" value="{{ $value }}"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
+                    </span>
+                </label>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- ── 5. Relatórios e Exportações ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-6 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">5. Relatórios e Exportações</h2>
+            <p class="text-xs text-gray-400 mt-1">Automatize o envio de relatórios financeiros e configure formatos e destinatários.</p>
+        </div>
+
+        {{-- Tipos de relatório --}}
+        <div class="mb-6">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Envio Automático de Relatórios</p>
+            <div class="flex flex-col gap-3">
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input wire:model="reportWithdrawalDaily" type="checkbox" value="1" true-value="1" false-value="0"
+                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                    <div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>a.</strong> Relatório de Saques</span>
+                        <p class="text-xs text-gray-400">Enviar diariamente por e-mail</p>
+                    </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input wire:model="reportCommissionMonthly" type="checkbox" value="1" true-value="1" false-value="0"
+                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                    <div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>b.</strong> Relatório de Comissões</span>
+                        <p class="text-xs text-gray-400">Enviar mensalmente por e-mail</p>
+                    </div>
+                </label>
+                <label class="flex items-start gap-3 cursor-pointer group">
+                    <input wire:model="reportTax" type="checkbox" value="1" true-value="1" false-value="0"
+                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                    <div>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>c.</strong> Relatório de Impostos</span>
+                        <p class="text-xs text-gray-400">Gerado e enviado automaticamente</p>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        {{-- Email destino --}}
+        <div class="border-t border-gray-100 pt-5 mb-6">
+            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wide mb-2">
+                d. Enviar Todos os Relatórios Para
+            </label>
+            <input wire:model="reportEmail" type="email" placeholder="contabilidade@24horas.ao"
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('reportEmail') border-red-400 @enderror">
+            @error('reportEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Formatos --}}
+        <div class="border-t border-gray-100 pt-5">
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Formatos de Exportação</p>
+            <div class="flex flex-wrap gap-4">
+                @foreach(['csv' => 'CSV', 'excel' => 'Excel (.xlsx)', 'pdf' => 'PDF'] as $val => $lbl)
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input wire:model="reportFormats" type="checkbox" value="{{ $val }}"
+                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">{{ $lbl }}</span>
+                </label>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- ── 6. Dashboard Personalizado ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-6 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">6. Dashboard Personalizado</h2>
+            <p class="text-xs text-gray-400 mt-1">Escolha quais widgets exibir no painel de controlo do administrador.</p>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            @php
+                $widgetOptions = [
+                    'top_freelancers'    => ['label' => 'Top 10 Freelancers por Faturamento',    'letter' => 'a'],
+                    'top_creators'       => ['label' => 'Top 10 Criadores por Assinantes',        'letter' => 'b'],
+                    'top_products'       => ['label' => 'Produtos mais vendidos (Infoprodutos)',   'letter' => 'c'],
+                    'withdrawal_heatmap' => ['label' => 'Mapa de calor de saques por região',     'letter' => 'd'],
+                ];
+            @endphp
+            @foreach($widgetOptions as $value => $opt)
+            <label class="flex items-center gap-3 cursor-pointer group">
+                <input wire:model="dashboardWidgets" type="checkbox" value="{{ $value }}"
+                    class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
+                <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                    <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
+                </span>
+            </label>
+            @endforeach
+        </div>
+    </div>
+
+    {{-- ── 7. Configurações Gerais ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
-            <h2 class="text-base font-semibold text-gray-800">4. Configurações Gerais</h2>
+            <h2 class="text-base font-semibold text-gray-800">7. Configurações Gerais</h2>
             <p class="text-xs text-gray-400 mt-1">E-mail da plataforma e modo de manutenção.</p>
         </div>
 
