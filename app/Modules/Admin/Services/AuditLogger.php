@@ -12,11 +12,13 @@ class AuditLogger
         ?string $entityType = null,
         ?int    $entityId   = null,
         ?array  $before     = null,
-        ?array  $after      = null
+        ?array  $after      = null,
+        string  $category   = 'operacoes'
     ): void {
         AuditLog::create([
             'user_id'     => auth()->id(),
             'action'      => $action,
+            'category'    => $category,
             'entity_type' => $entityType,
             'entity_id'   => $entityId,
             'description' => $description,
