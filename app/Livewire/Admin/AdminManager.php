@@ -288,7 +288,7 @@ class AdminManager extends Component
         $this->allowedIps              = $sec->allowed_ips
             ? implode("\n", json_decode($sec->allowed_ips, true) ?? [])
             : '';
-        $this->sessionTimeoutEnabled   = $sec->session_timeout_enabled ?? true;
+        $this->sessionTimeoutEnabled   = $sec->exists ? (bool) $sec->session_timeout_enabled : true;
         $this->sessionTimeoutMinutes   = $sec->session_timeout_minutes ?? 60;
         $this->forcePasswordChange     = (bool) $sec->force_password_change;
     }

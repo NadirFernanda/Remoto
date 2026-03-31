@@ -380,7 +380,7 @@
                                     <div class="text-xs text-gray-500 mt-0.5">Obrigar este administrador a activar 2FA no próximo login.</div>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                    <input type="checkbox" wire:model="twoFactorRequired" class="sr-only peer">
+                                    <input type="checkbox" wire:model.live="twoFactorRequired" class="sr-only peer">
                                     <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
                                 </label>
                             </div>
@@ -392,7 +392,7 @@
                                     <div class="text-xs text-gray-500 mt-0.5">Obrigar este admin a alterar a senha no próximo acesso.</div>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                    <input type="checkbox" wire:model="forcePasswordChange" class="sr-only peer">
+                                    <input type="checkbox" wire:model.live="forcePasswordChange" class="sr-only peer">
                                     <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
                                 </label>
                             </div>
@@ -405,7 +405,7 @@
                                         <div class="text-xs text-gray-500 mt-0.5">Encerrar sessão após inactividade.</div>
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                        <input type="checkbox" wire:model="sessionTimeoutEnabled" class="sr-only peer">
+                                        <input type="checkbox" wire:model.live="sessionTimeoutEnabled" class="sr-only peer">
                                         <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
                                     </label>
                                 </div>
@@ -426,7 +426,7 @@
                                         <div class="text-xs text-gray-500 mt-0.5">Permitir acesso apenas a partir dos IPs definidos.</div>
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                        <input type="checkbox" wire:model="ipRestriction" class="sr-only peer">
+                                        <input type="checkbox" wire:model.live="ipRestriction" class="sr-only peer">
                                         <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
                                     </label>
                                 </div>
