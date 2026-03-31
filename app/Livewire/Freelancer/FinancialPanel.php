@@ -53,18 +53,20 @@ class FinancialPanel extends Component
         }
 
         // Mover valor do saldo disponível para saldo_pendente (em análise)
-        // O dinheiro fica "reservado" mas visível como "em processamento" —
-        // não desaparece do saldo sem aviso ao utilizador.
-        $wallet->decrement('saldo', $this->valorSaque);
-        $wallet->increment('saldo_pendente', $this->valorSaque);
+        // Uso de transacção para garantir atomicidade: se WalletLog falhar,
+        // os decrements/increments são revertidos automaticamente.
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user) {
+            $wallet->decrement('saldo', $this->valorSaque);
+            $wallet->increment('saldo_pendente', $this->valorSaque);
 
-        WalletLog::create([
-            'user_id'   => $user->id,
-            'wallet_id' => $wallet->id,
-            'valor'     => -$this->valorSaque,
-            'tipo'      => 'saque_solicitado',
-            'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
-        ]);
+            WalletLog::create([
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$this->valorSaque,
+                'tipo'      => 'saque_solicitado',
+                'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
+            ]);
+        });
 
         $this->successMsg = "Saque de Kz " . number_format($this->valorSaque, 0, ',', '.') . " solicitado com sucesso. Será processado em até 2 dias úteis.";
         $this->valorSaque = 0;
