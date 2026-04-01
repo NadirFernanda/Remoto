@@ -17,13 +17,14 @@
     {{-- ─── Pipeline Tabs ───────────────────────────────────── --}}
     @php
         $tabs = [
-            ''            => 'Todos',
-            'published'   => 'Publicado',
-            'accepted'    => 'Proposta Aceita',
-            'in_progress' => 'Em Andamento',
-            'delivered'   => 'Aguard. Revisão',
-            'completed'   => 'Concluído',
-            'cancelled'   => 'Cancelado',
+            ''             => 'Todos',
+            'published'    => 'Publicado',
+            'negotiating'  => 'Em Negociação',
+            'accepted'     => 'Proposta Aceita',
+            'in_progress'  => 'Em Andamento',
+            'delivered'    => 'Aguard. Revisão',
+            'completed'    => 'Concluído',
+            'cancelled'    => 'Cancelado',
         ];
     @endphp
     <div class="flex gap-2 flex-wrap">
@@ -168,7 +169,7 @@
 
                         {{-- Action buttons --}}
                         <div class="flex flex-wrap gap-2">
-                            @if($selected->freelancer_id && $selected->status !== 'completed')
+                            @if(($selected->freelancer_id || $selected->status === 'negotiating') && $selected->status !== 'completed')
                                 <a href="{{ route('service.chat', $selected->id) }}" class="btn-outline text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>

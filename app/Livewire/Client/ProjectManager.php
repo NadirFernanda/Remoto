@@ -347,6 +347,7 @@ class ProjectManager extends Component
     {
         $statusLabels = [
             'published'    => 'Publicado',
+            'negotiating'  => 'Em Negociação',
             'accepted'     => 'Proposta Aceita',
             'in_progress'  => 'Em Andamento',
             'delivered'    => 'Aguardando Revisão',
