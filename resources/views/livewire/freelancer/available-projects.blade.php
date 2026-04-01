@@ -57,14 +57,17 @@
                         $createdAt = $project->created_at?->format('d/m/Y');
 
                         $statusLabels = [
-                            'published' => 'Publicado',
-                            'accepted' => 'Aceite',
-                            'in_progress' => 'Em andamento',
-                            'delivered' => 'Entregue',
-                            'completed' => 'Concluído',
-                            'cancelled' => 'Cancelado',
+                            'published'    => 'Publicado',
+                            'negotiating'  => 'Em Negociação',
+                            'accepted'     => 'Aceite',
+                            'in_progress'  => 'Em Andamento',
+                            'delivered'    => 'Entregue',
+                            'completed'    => 'Concluído',
+                            'cancelled'    => 'Cancelado',
+                            'em_moderacao' => 'Em Moderação',
+                            'draft'        => 'Rascunho',
                         ];
-                        $statusLabel = $statusLabels[$project->status] ?? ucfirst(str_replace('_', ' ', $project->status));
+                        $statusLabel = $statusLabels[$project->status] ?? $project->status;
                     @endphp
 
                     <div class="rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-cyan-100 hover:border-cyan-300 hover:shadow-2xl transition bg-white text-gray-900">

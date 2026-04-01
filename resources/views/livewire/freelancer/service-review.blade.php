@@ -58,15 +58,18 @@
                 <span class="font-semibold">Status:</span>
                 @php
                     $statusLabels = [
-                        'published' => 'Publicado',
-                        'accepted' => 'Aceite',
-                        'in_progress' => 'Em andamento',
-                        'delivered' => 'Entregue',
-                        'completed' => 'Concluído',
-                        'cancelled' => 'Cancelado',
+                        'published'    => 'Publicado',
+                        'negotiating'  => 'Em Negociação',
+                        'accepted'     => 'Aceite',
+                        'in_progress'  => 'Em Andamento',
+                        'delivered'    => 'Entregue',
+                        'completed'    => 'Concluído',
+                        'cancelled'    => 'Cancelado',
+                        'em_moderacao' => 'Em Moderação',
+                        'draft'        => 'Rascunho',
                     ];
                 @endphp
-                <span class="status-badge status-{{ $service->status }} ml-2">{{ $statusLabels[$service->status] ?? ucfirst($service->status) }}</span>
+                <span class="status-badge status-{{ $service->status }} ml-2">{{ $statusLabels[$service->status] ?? $service->status }}</span>
             </div>
         </div>
         @if(auth()->user() && $service->cliente_id !== auth()->id())
