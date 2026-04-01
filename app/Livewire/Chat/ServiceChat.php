@@ -22,9 +22,13 @@ class ServiceChat extends Component
     public $chatFile = null;
     public $chat_bloqueado = true;
 
-    // ── Inserir Valor modal ──────────────────────────────────────────────────
+    // ── Inserir Valor modal (cliente) ────────────────────────────────────────
     public $showValorModal = false;
     public $novoValorTotal = '';
+
+    // ── Propor Valor modal (freelancer) ──────────────────────────────────────
+    public $showProporValorModal = false;
+    public $valorProposto = '';
 
     public function mount(Service $service)
     {
@@ -98,6 +102,21 @@ class ServiceChat extends Component
     {
         return $this->isCliente
             && !$this->chat_bloqueado
+            && in_array($this->service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+    }
+
+    public function getMostrarBotaoFreelancerValorProperty(): bool
+    {
+        $user = auth()->user();
+        if (!$user || $this->chat_bloqueado) return false;
+
+        $isFreelancer = $user->id === $this->service->freelancer_id;
+        $isCandidate  = $this->service->candidates()
+            ->where('freelancer_id', $user->id)
+            ->whereIn('status', ['pending', 'proposal_sent', 'invited', 'chosen'])
+            ->exists();
+
+        return ($isFreelancer || $isCandidate)
             && in_array($this->service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
     }
 
@@ -307,6 +326,46 @@ class ServiceChat extends Component
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
         $this->dispatch('chat-file-cleared');
+    }
+
+    // ── Propor Valor (freelancer) ─────────────────────────────────────────────
+
+    public function abrirModalProporValor(): void
+    {
+        $this->resetErrorBag();
+        $this->valorProposto = '';
+        $this->showProporValorModal = true;
+    }
+
+    public function fecharModalProporValor(): void
+    {
+        $this->showProporValorModal = false;
+        $this->valorProposto = '';
+        $this->resetErrorBag();
+    }
+
+    public function enviarPropostaValor(): void
+    {
+        if (!$this->mostrarBotaoFreelancerValor) {
+            return;
+        }
+
+        $this->validate([
+            'valorProposto' => 'required|numeric|min:1',
+        ], [
+            'valorProposto.required' => 'Indique o valor que pretende propor.',
+            'valorProposto.numeric'  => 'O valor deve ser numérico.',
+            'valorProposto.min'      => 'O valor deve ser maior que zero.',
+        ]);
+
+        $valor    = number_format((float) $this->valorProposto, 2, ',', '.');
+        $mensagem = "💰 Proposta de valor: {$valor} Kz\nPode confirmar o pagamento usando o botão \"Inserir Valor\".";
+
+        app(ChatService::class)->send($this->service, auth()->user(), $mensagem);
+
+        $this->showProporValorModal = false;
+        $this->valorProposto       = '';
+        $this->dispatch('scroll-bottom');
     }
 
     public function render()
