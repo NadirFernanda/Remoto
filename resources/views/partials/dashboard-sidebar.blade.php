@@ -389,9 +389,29 @@
 
     @endif
 
-    {{-- ─── Logout ───────────────────────────────────────────── --}}
+    {{-- ─── Trocar Perfil + Logout ──────────────────────────── --}}
     <div class="mt-auto px-2 pb-4 pt-4">
         <div class="snav-divider mb-3 mx-0"></div>
+
+        {{-- Botão de troca de perfil (Cliente ↔ Freelancer) --}}
+        @if(optional(auth()->user())->canSwitchRole() && optional(auth()->user())->activeRole() !== 'admin')
+            <form method="POST" action="{{ route('switch.role') }}" class="mb-2">
+                @csrf
+                <button type="submit"
+                    class="snav-item w-full text-left font-semibold"
+                    style="margin:0; border-radius:0.625rem; color:#0ea5e9; background:rgba(14,165,233,.08);">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                    </svg>
+                    @if(optional(auth()->user())->activeRole() === 'freelancer')
+                        Mudar para Modo Cliente
+                    @else
+                        Mudar para Modo Freelancer
+                    @endif
+                </button>
+            </form>
+        @endif
+
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit"
