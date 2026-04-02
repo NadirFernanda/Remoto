@@ -154,7 +154,7 @@ class ReportsExportController extends Controller
             Service::with(['cliente:id,name', 'freelancer:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->whereNotNull('valor')
-                ->whereNotNull('freelancer_id')
+                ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
                 ->orderByDesc('created_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
