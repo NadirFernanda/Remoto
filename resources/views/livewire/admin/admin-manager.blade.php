@@ -189,7 +189,7 @@
          ═══════════════════════════════════════════════════════════════════ --}}
     @if($modalMode === 'create' || $modalMode === 'edit')
         <div class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-6 px-4">
-            <div wire:click.stop class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl">
+            <div wire:click.stop class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[92vh]">
 
                 {{-- Modal header --}}
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
@@ -228,7 +228,7 @@
                 </div>
 
                 {{-- Tab content --}}
-                <div class="p-6 space-y-5">
+                <div class="p-6 space-y-5 overflow-y-auto flex-1">
 
                     {{-- ── TAB: PERFIL ─────────────────────────────────────── --}}
                     @if($permTab === 'perfil')

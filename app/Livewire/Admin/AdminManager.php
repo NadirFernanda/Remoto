@@ -134,8 +134,7 @@ class AdminManager extends Component
             'phone'           => 'nullable|string|max:30',
             'cargo'           => 'nullable|string|max:100',
             'adminRole'       => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
-            'password'        => 'required|string|min:10|confirmed',
-            'passwordConfirm' => 'required',
+            'password'        => 'required|string|min:10|same:passwordConfirm',
         ], [], [
             'name'           => 'Nome',
             'email'          => 'E-mail de login',
@@ -195,7 +194,7 @@ class AdminManager extends Component
             'phone'          => 'nullable|string|max:30',
             'cargo'          => 'nullable|string|max:100',
             'adminRole'      => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
-            'password'       => 'nullable|string|min:10|confirmed',
+            'password'       => 'nullable|string|min:10|same:passwordConfirm',
         ]);
 
         $before = $admin->only(['name', 'email', 'admin_role', 'admin_cargo']);
