@@ -106,8 +106,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         }
         $newRole  = $user->switchableRole();
         session(['active_role' => $newRole]);
+        $label     = $newRole === 'freelancer' ? 'Freelancer' : 'Cliente';
         $dashboard = $newRole === 'freelancer' ? '/freelancer/dashboard' : '/cliente/dashboard';
-        return redirect($dashboard);
+        return redirect($dashboard)->with('mode_switched', "Você mudou para o Modo {$label}.");
     })->name('switch.role');
 
     // Global notifications

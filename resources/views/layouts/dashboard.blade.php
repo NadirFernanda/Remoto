@@ -77,7 +77,33 @@
             </div>
         @endif
 
-        {{-- Render header: prefer layout variables passed by Livewire, otherwise blade sections. --}}
+        {{-- ── Mode-switch animated toast ─────────────────────── --}}
+        @if(session('mode_switched'))
+        <div x-data="{ show: true }"
+             x-init="setTimeout(() => show = false, 4500)"
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             style="position:fixed;top:80px;left:50%;transform:translateX(-50%);z-index:9999;min-width:260px;max-width:400px;"
+             class="w-auto">
+            <div class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl border border-[#00baff]/30"
+                 style="background:linear-gradient(135deg,#0f1a2e 0%,#0a1628 100%);color:#f1f5f9;">
+                <span style="width:36px;height:36px;border-radius:10px;background:rgba(0,186,255,.18);border:1px solid rgba(0,186,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="18" height="18" fill="none" stroke="#00baff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                </span>
+                <span class="text-sm font-semibold" style="color:#f1f5f9;">{{ session('mode_switched') }}</span>
+                <button @click="show = false"
+                        style="margin-left:auto;background:none;border:none;cursor:pointer;color:#64748b;padding:2px;"
+                        aria-label="Fechar">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+        </div>
+        @endif
         @php
             $title = $dashboardTitle ?? null;
             $actions = $dashboardActions ?? null;
