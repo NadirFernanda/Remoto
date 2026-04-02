@@ -10,6 +10,7 @@ use App\Models\AdminSecurity;
 use App\Models\AdminNotificationPreference;
 use App\Modules\Admin\Services\AuditLogger;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -69,6 +70,12 @@ class AdminManager extends Component
 
     public function updatingSearch(): void    { $this->resetPage(); }
     public function updatingRoleFilter(): void { $this->resetPage(); }
+
+    // Quando o perfil de acesso muda, recarregar permissões padrão automaticamente
+    public function updatedAdminRole(string $value): void
+    {
+        $this->loadDefaultPermissions($value);
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // OPEN MODALS
@@ -155,33 +162,36 @@ class AdminManager extends Component
             }
         }
 
-        $admin = User::create([
-            'name'     => $this->name,
-            'email'    => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
-        $admin->role                   = 'admin';
-        $admin->admin_role             = $this->adminRole === 'master' ? null : $this->adminRole;
-        $admin->admin_corporate_email  = $this->corporateEmail ?: null;
-        $admin->admin_phone            = $this->phone ?: null;
-        $admin->admin_cargo            = $this->cargo ?: null;
-        $admin->email_verified_at      = now();
-        $admin->save();
+        DB::transaction(function () {
+            $admin = User::create([
+                'name'     => $this->name,
+                'email'    => $this->email,
+                'password' => Hash::make($this->password),
+            ]);
+            $admin->role                   = 'admin';
+            $admin->admin_role             = $this->adminRole === 'master' ? null : $this->adminRole;
+            $admin->admin_corporate_email  = $this->corporateEmail ?: null;
+            $admin->admin_phone            = $this->phone ?: null;
+            $admin->admin_cargo            = $this->cargo ?: null;
+            $admin->email_verified_at      = now();
+            $admin->save();
 
-        $this->savePermissions($admin->id);
-        $this->saveSecurity($admin->id);
-        $this->saveNotifications($admin->id);
+            $this->savePermissions($admin->id);
+            $this->saveSecurity($admin->id);
+            $this->saveNotifications($admin->id);
 
-        AuditLogger::log(
-            'admin_created',
-            "Novo administrador criado: {$admin->name} ({$admin->email}), cargo: {$this->cargo}, papel: {$this->adminRole}",
-            'User',
-            $admin->id,
-            category: 'operacoes'
-        );
+            AuditLogger::log(
+                'admin_created',
+                "Novo administrador criado: {$admin->name} ({$admin->email}), cargo: {$this->cargo}, papel: {$this->adminRole}",
+                'User',
+                $admin->id,
+                category: 'operacoes'
+            );
+        });
 
+        $createdName = $this->name;
         $this->closeModal();
-        session()->flash('success', "Administrador {$admin->name} criado com sucesso.");
+        session()->flash('success', "Administrador {$createdName} criado com sucesso.");
     }
 
     private function updateAdmin(): void
@@ -203,33 +213,36 @@ class AdminManager extends Component
 
         $before = $admin->only(['name', 'email', 'admin_role', 'admin_cargo']);
 
-        $admin->name                  = $this->name;
-        $admin->email                 = $this->email;
-        $admin->admin_corporate_email = $this->corporateEmail ?: null;
-        $admin->admin_phone           = $this->phone ?: null;
-        $admin->admin_cargo           = $this->cargo ?: null;
-        $admin->admin_role            = $this->adminRole === 'master' ? null : $this->adminRole;
-        if ($this->password) {
-            $admin->password = Hash::make($this->password);
-        }
-        $admin->save();
+        DB::transaction(function () use ($admin, $before) {
+            $admin->name                  = $this->name;
+            $admin->email                 = $this->email;
+            $admin->admin_corporate_email = $this->corporateEmail ?: null;
+            $admin->admin_phone           = $this->phone ?: null;
+            $admin->admin_cargo           = $this->cargo ?: null;
+            $admin->admin_role            = $this->adminRole === 'master' ? null : $this->adminRole;
+            if ($this->password) {
+                $admin->password = Hash::make($this->password);
+            }
+            $admin->save();
 
-        $this->savePermissions($admin->id);
-        $this->saveSecurity($admin->id);
-        $this->saveNotifications($admin->id);
+            $this->savePermissions($admin->id);
+            $this->saveSecurity($admin->id);
+            $this->saveNotifications($admin->id);
 
-        AuditLogger::log(
-            'admin_updated',
-            "Administrador actualizado: {$admin->name} ({$admin->email})",
-            'User',
-            $admin->id,
-            $before,
-            $admin->only(['name', 'email', 'admin_role', 'admin_cargo']),
-            category: 'operacoes'
-        );
+            AuditLogger::log(
+                'admin_updated',
+                "Administrador actualizado: {$admin->name} ({$admin->email})",
+                'User',
+                $admin->id,
+                $before,
+                $admin->only(['name', 'email', 'admin_role', 'admin_cargo']),
+                category: 'operacoes'
+            );
+        });
 
+        $updatedName = $this->name;
         $this->closeModal();
-        session()->flash('success', "Administrador {$admin->name} actualizado.");
+        session()->flash('success', "Administrador {$updatedName} actualizado.");
     }
 
     // ─────────────────────────────────────────────────────────────────────────
