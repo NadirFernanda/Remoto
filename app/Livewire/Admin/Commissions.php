@@ -40,7 +40,13 @@ class Commissions extends Component
 
         $totalPagamentos = $query->sum('valor');
         $logs = $query->paginate(50);
-        $total = round($totalPagamentos * 10 / 90, 2);
+
+        // pagamento_projeto = valor_liquido = valor * (1 - freelancerRate)
+        // comissão retida = valor * freelancerRate = valor_liquido * freelancerRate / (1 - freelancerRate)
+        $freelancerRate = \App\Services\FeeService::serviceFreelancerRate();
+        $clientRate     = \App\Services\FeeService::serviceClientRate();
+        $jobValue       = $freelancerRate < 1 ? round($totalPagamentos / (1 - $freelancerRate), 2) : 0;
+        $total = round($jobValue * ($freelancerRate + $clientRate), 2);
 
         return view('livewire.admin.commissions', compact('logs', 'total'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Comissões']);

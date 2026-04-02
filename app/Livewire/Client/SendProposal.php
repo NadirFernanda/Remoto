@@ -82,7 +82,7 @@ class SendProposal extends Component
             return;
         }
 
-        $fee = $this->value ? round($this->value * 0.10, 2) : 0;
+        $fee = $this->value ? round($this->value * \App\Services\FeeService::serviceFreelancerRate(), 2) : 0;
         $net = $this->value ? round($this->value - $fee, 2) : 0;
 
         // Criar o Service em modo negociação (canal de chat)

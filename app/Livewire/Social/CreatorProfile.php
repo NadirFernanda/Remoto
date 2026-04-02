@@ -102,7 +102,7 @@ class CreatorProfile extends Component
         }
 
         $price       = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
-        $platformFee = round($price * \App\Services\FeeService::SUBSCRIPTION_FEE_RATE, 2); // 25%
+        $platformFee = round($price * \App\Services\FeeService::subscriptionRate(), 2);
         $netAmount   = round($price - $platformFee, 2);
 
         // Check subscriber wallet (pre-check for early UX feedback)

@@ -23,16 +23,23 @@ class Wallet extends Component
 
     public function solicitarSaque()
     {
+        $minAmount = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 1000);
+        $feeFixed   = (float) \App\Models\PlatformSetting::get('withdraw_fee_fixed', 0);
+        $feePercent = (float) \App\Models\PlatformSetting::get('withdraw_fee_percent', 0);
+
         $this->validate([
-            'valor_saque' => 'required|numeric|min:1000',
+            'valor_saque' => ['required', 'numeric', 'min:' . $minAmount],
         ], [
-            'valor_saque.min' => 'O valor mínimo de saque é Kz 1.000.',
+            'valor_saque.min' => 'O valor mínimo de saque é Kz ' . number_format($minAmount, 0, ',', '.') . '.',
         ]);
+
+        $fee        = round($feeFixed + ($this->valor_saque * $feePercent / 100), 2);
+        $valorLiquidoSaque = round($this->valor_saque - $fee, 2);
 
         $user   = Auth::user();
         $wallet = WalletModel::firstOrCreate(
             ['user_id' => $user->id],
-            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => $minAmount, 'taxa_saque' => 0]
         );
 
         if ($wallet->saldo < $this->valor_saque) {
@@ -60,13 +67,13 @@ class Wallet extends Component
                 'wallet_id' => $wallet->id,
                 'valor'     => -$this->valor_saque,
                 'tipo'      => 'saque_solicitado',
-                'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz — a aguardar aprovação do admin.",
+                'descricao' => "Saque solicitado de " . number_format($this->valor_saque, 0, ',', '.') . " Kz — taxa " . number_format($fee, 2, ',', '.') . " Kz — valor líquido a receber: " . number_format($valorLiquidoSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
             ]);
         });
 
         $this->saldo_disponivel = $wallet->fresh()->saldo;
         $this->saldo_pendente   = $wallet->fresh()->saldo_pendente;
-        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado. Será processado em até 2 dias úteis.";
+        $this->mensagem = "Saque de " . number_format($this->valor_saque, 0, ',', '.') . " Kz solicitado. Taxa: " . number_format($fee, 2, ',', '.') . " Kz. Receberá: " . number_format($valorLiquidoSaque, 2, ',', '.') . " Kz em até 2 dias úteis.";
         $this->valor_saque = 0;
         session()->flash('success', $this->mensagem);
     }

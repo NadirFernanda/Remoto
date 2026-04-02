@@ -82,7 +82,7 @@ class ServiceChat extends Component
         $isDirect = $this->isDirectNegotiation;
         // Negociação directa: escrow ainda não foi cobrado → paga o valor total
         $extra = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
-        $taxa  = round($extra * 0.10, 2);
+        $taxa  = round($extra * \App\Services\FeeService::serviceClientRate(), 2);
         return [
             'atual'          => (float) $this->service->valor,
             'novo'           => $novo,
@@ -187,7 +187,7 @@ class ServiceChat extends Component
             $extra = round($novo - $atual, 2);
         }
 
-        $taxa          = round($extra * 0.10, 2);
+        $taxa          = round($extra * \App\Services\FeeService::serviceClientRate(), 2);
         $total_cliente = round($extra + $taxa, 2);
 
         $clientWallet = Wallet::firstOrCreate(
@@ -224,7 +224,7 @@ class ServiceChat extends Component
 
         // Actualizar serviço
         $service->valor         = $novo;
-        $service->valor_liquido = round($novo * 0.80, 2); // 80% = valor líquido para o freelancer (FeeService)
+        $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceFreelancerRate()), 2);
 
         if ($isDirect) {
             // Contratação directa (negotiating ou accepted+direct_invite):

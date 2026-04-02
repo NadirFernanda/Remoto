@@ -138,7 +138,7 @@ class ProjectManager extends Component
             : (float) ($service->valor ?? 0);
 
         if ($valorFinal > 0) {
-            $totalComTaxa = round($valorFinal * 1.10, 2); // valor + 10% taxa
+            $totalComTaxa = round($valorFinal * (1 + \App\Services\FeeService::serviceClientRate()), 2);
             $clientWalletCheck = Wallet::where('user_id', auth()->id())->first();
             if (!$clientWalletCheck || (float) $clientWalletCheck->saldo < $totalComTaxa) {
                 session()->flash('error', 'Saldo insuficiente. Necessita de Kz ' . number_format($totalComTaxa, 2, ',', '.') . ' para reter em escrow.');
@@ -164,8 +164,8 @@ class ProjectManager extends Component
             // Se o freelancer propôs um valor, usar esse como valor final do serviço
             if ($valorFinal > 0) {
                 $service->valor         = $valorFinal;
-                $service->taxa          = 10.0;
-                $service->valor_liquido = round($valorFinal * 0.80, 2); // 80% para o freelancer, 20% taxa plataforma (FeeService)
+                $service->taxa          = \App\Services\FeeService::serviceFreelancerRate() * 100;
+                $service->valor_liquido = round($valorFinal * (1 - \App\Services\FeeService::serviceFreelancerRate()), 2);
             }
 
             // Atualiza o projeto
@@ -175,7 +175,7 @@ class ProjectManager extends Component
 
             // Registar retenção em escrow na carteira do cliente (debit saldo + credit saldo_pendente)
             if ($service->valor && $service->valor > 0) {
-                $totalComTaxa = round($service->valor * 1.10, 2);
+                $totalComTaxa = round($service->valor * (1 + \App\Services\FeeService::serviceClientRate()), 2);
                 $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
                 $clientWallet->decrement('saldo', $totalComTaxa);           // débito real
                 $clientWallet->increment('saldo_pendente', $service->valor); // escrow líquido

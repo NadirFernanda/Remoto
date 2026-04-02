@@ -7,6 +7,8 @@ use Livewire\WithFileUploads;
 use App\Models\Service;
 use App\Models\ServiceAttachment;
 use App\Models\Notification;
+use App\Models\Wallet;
+use App\Models\WalletLog;
 use App\Notifications\ServiceDeliveredNotification;
 use Illuminate\Support\Facades\Storage;
 
@@ -57,8 +59,10 @@ class ServiceDelivery extends Component
         // Armazenar o ficheiro ANTES da transacção (I/O não é revertível por rollback)
         $path = $file->store("deliveries/{$this->service->id}", 'public');
 
+        $releaseMode = \App\Models\PlatformSetting::get('freelancer_payment_release', 'after_confirmation');
+
         try {
-            \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path) {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path, $releaseMode) {
                 // Guardar o ficheiro como anexo de entrega
                 ServiceAttachment::create([
                     'service_id' => $this->service->id,
@@ -71,17 +75,61 @@ class ServiceDelivery extends Component
 
                 // Guardar mensagem de entrega e mudar status
                 $this->service->delivery_message = $this->entrega_mensagem;
-                $this->service->status = 'delivered';
-                $this->service->save();
 
-                // Notificar o cliente (dentro da transacção)
-                Notification::create([
-                    'user_id'    => $this->service->cliente_id,
-                    'service_id' => $this->service->id,
-                    'type'       => 'delivery_submitted',
-                    'title'      => 'Entrega recebida',
-                    'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". Revise e aprove ou solicite revisão.',
-                ]);
+                if ($releaseMode === 'immediate') {
+                    // Pagamento imediato: marcar como concluído e creditar freelancer sem esperar confirmação do cliente
+                    $this->service->status              = 'completed';
+                    $this->service->is_payment_released = true;
+                    $this->service->payment_released_at = now();
+                    $this->service->save();
+
+                    if ($this->service->valor_liquido && $this->service->valor_liquido > 0) {
+                        $freelancerWallet = Wallet::firstOrCreate(
+                            ['user_id' => $this->service->freelancer_id],
+                            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                        );
+                        $freelancerWallet->increment('saldo', $this->service->valor_liquido);
+                        WalletLog::create([
+                            'user_id'   => $this->service->freelancer_id,
+                            'wallet_id' => $freelancerWallet->id,
+                            'valor'     => $this->service->valor_liquido,
+                            'tipo'      => 'pagamento_projeto',
+                            'descricao' => 'Pagamento automático recebido pelo projeto: ' . $this->service->titulo,
+                        ]);
+
+                        $clientWallet = Wallet::where('user_id', $this->service->cliente_id)->first();
+                        if ($clientWallet && $clientWallet->saldo_pendente >= $this->service->valor) {
+                            $clientWallet->decrement('saldo_pendente', $this->service->valor);
+                            WalletLog::create([
+                                'user_id'   => $this->service->cliente_id,
+                                'wallet_id' => $clientWallet->id,
+                                'valor'     => 0,
+                                'tipo'      => 'escrow_liberado',
+                                'descricao' => 'Escrow liberado automaticamente após entrega do projeto: ' . $this->service->titulo,
+                            ]);
+                        }
+                    }
+
+                    Notification::create([
+                        'user_id'    => $this->service->cliente_id,
+                        'service_id' => $this->service->id,
+                        'type'       => 'delivery_submitted',
+                        'title'      => 'Projeto entregue e concluído',
+                        'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". O pagamento foi liberado automaticamente.',
+                    ]);
+                } else {
+                    // Modo normal: aguardar confirmação do cliente
+                    $this->service->status = 'delivered';
+                    $this->service->save();
+
+                    Notification::create([
+                        'user_id'    => $this->service->cliente_id,
+                        'service_id' => $this->service->id,
+                        'type'       => 'delivery_submitted',
+                        'title'      => 'Entrega recebida',
+                        'message'    => 'O freelancer entregou o projeto "' . $this->service->titulo . '". Revise e aprove ou solicite revisão.',
+                    ]);
+                }
             });
         } catch (\Throwable $e) {
             // Limpar o ficheiro órfão se a transacção falhou
