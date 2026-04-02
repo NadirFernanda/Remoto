@@ -41,7 +41,7 @@ class ReportsExportController extends Controller
         $headers = ['Origem', 'Entradas (AOA)', 'Saídas (AOA)', 'Comissão (AOA)', 'Saldo (AOA)'];
 
         $grupos = [
-            'Freelancing' => [
+            'Freelances' => [
                 'entradas' => (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'escrow_retido')->sum('valor'),
                 'saidas'   => (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'saque_aprovado')->sum('valor'),
                 'comissao' => (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'pagamento_projeto')->sum('valor') * 10 / 90,
@@ -162,7 +162,7 @@ class ReportsExportController extends Controller
                     $rows[]  = [
                         $s->titulo ?? 'Projecto #' . $s->id,
                         $s->created_at->format('d/m/Y'),
-                        'Freelancing',
+                        'Freelances',
                         optional($s->cliente)->name    ?? '—',
                         optional($s->freelancer)->name ?? '—',
                         number_format($bruto,          2, ',', '.'),
@@ -202,7 +202,7 @@ class ReportsExportController extends Controller
                     $rows[] = [
                         'Assinatura Criador',
                         $sub->created_at->format('d/m/Y'),
-                        'Creator',
+                        'Criador',
                         optional($sub->subscriber)->name ?? '—',
                         optional($sub->creator)->name    ?? '—',
                         number_format((float)$sub->amount,       2, ',', '.'),

@@ -14,9 +14,9 @@
         {{-- Tipo --}}
         <select wire:model.live="tipo" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none">
             <option value="">Todos os tipos</option>
-            <option value="freelancing">Freelancing</option>
+            <option value="freelancing">Freelances</option>
             <option value="infoproduto">Infoprodutos</option>
-            <option value="creator">Creator</option>
+            <option value="creator">Criador</option>
         </select>
         {{-- Datas --}}
         <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />

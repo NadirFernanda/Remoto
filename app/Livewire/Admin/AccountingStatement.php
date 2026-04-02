@@ -65,7 +65,7 @@ class AccountingStatement extends Component
                     $rows->push([
                         'nome'           => $s->titulo ?? 'Projecto #' . $s->id,
                         'data'           => $s->created_at->format('d/m/Y'),
-                        'tipo'           => 'Freelancing',
+                        'tipo'           => 'Freelances',
                         'user_origem'    => optional($s->cliente)->name    ?? '—',
                         'user_destino'   => optional($s->freelancer)->name ?? '—',
                         'valor_bruto'    => $bruto,
@@ -107,7 +107,7 @@ class AccountingStatement extends Component
                     $rows->push([
                         'nome'           => 'Assinatura Criador',
                         'data'           => $sub->created_at->format('d/m/Y'),
-                        'tipo'           => 'Creator',
+                        'tipo'           => 'Criador',
                         'user_origem'    => optional($sub->subscriber)->name ?? '—',
                         'user_destino'   => optional($sub->creator)->name    ?? '—',
                         'valor_bruto'    => (float) $sub->amount,
