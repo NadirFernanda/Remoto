@@ -56,6 +56,7 @@ class AccountingStatement extends Component
             Service::with(['cliente:id,name', 'freelancer:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->whereNotNull('valor')
+                ->whereNotNull('freelancer_id')
                 ->orderByDesc('created_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
