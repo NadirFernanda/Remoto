@@ -52,10 +52,10 @@
                     <tr class="bg-gray-50 border-b border-gray-100">
                         <th class="py-3 px-5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Administrador</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Perfil / Cargo</th>
-                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">E-mail Corporativo</th>
-                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Contacto</th>
-                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Módulos com Acesso</th>
-                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Cadastrado em</th>
+                        <th class="hidden sm:table-cell py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">E-mail Corporativo</th>
+                        <th class="hidden sm:table-cell py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Contacto</th>
+                        <th class="hidden sm:table-cell py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Módulos com Acesso</th>
+                        <th class="hidden sm:table-cell py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Cadastrado em</th>
                         <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wide">Acções</th>
                     </tr>
                 </thead>
@@ -101,15 +101,15 @@
                                 @endif
                             </td>
                             {{-- Corporate email --}}
-                            <td class="py-3.5 px-4 text-gray-600">
+                            <td class="hidden sm:table-cell py-3.5 px-4 text-gray-600">
                                 {{ $admin->admin_corporate_email ?? '—' }}
                             </td>
                             {{-- Phone --}}
-                            <td class="py-3.5 px-4 text-gray-600">
+                            <td class="hidden sm:table-cell py-3.5 px-4 text-gray-600">
                                 {{ $admin->admin_phone ?? '—' }}
                             </td>
                             {{-- Module count badge --}}
-                            <td class="py-3.5 px-4">
+                            <td class="hidden sm:table-cell py-3.5 px-4">
                                 @if($isMaster)
                                     <span class="inline-flex items-center gap-1 text-xs bg-purple-50 text-purple-700 border border-purple-200 rounded-full px-2.5 py-0.5 font-medium">
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
@@ -122,7 +122,7 @@
                                 @endif
                             </td>
                             {{-- Created at --}}
-                            <td class="py-3.5 px-4 text-gray-500 text-xs">
+                            <td class="hidden sm:table-cell py-3.5 px-4 text-gray-500 text-xs">
                                 {{ $admin->created_at->format('d/m/Y') }}
                             </td>
                             {{-- Actions --}}
@@ -188,11 +188,11 @@
          MODAL: CREATE / EDIT ADMIN
          ═══════════════════════════════════════════════════════════════════ --}}
     @if($modalMode === 'create' || $modalMode === 'edit')
-        <div class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-6 px-4">
-            <div wire:click.stop class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[92vh]">
+        <div class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-0 sm:py-6 px-0 sm:px-4">
+            <div wire:click.stop class="bg-white rounded-none sm:rounded-2xl shadow-2xl w-full sm:max-w-2xl flex flex-col max-h-screen sm:max-h-[92vh]">
 
                 {{-- Modal header --}}
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <div class="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-100">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -217,18 +217,18 @@
                         'notificacoes'  => ['icon' => 'M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0', 'label' => 'Notificações'],
                     ] as $tab => $info)
                         <button wire:click="$set('permTab', '{{ $tab }}')"
-                            class="flex items-center gap-2 px-5 py-3.5 text-sm font-medium whitespace-nowrap transition border-b-2
+                            class="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3.5 text-sm font-medium whitespace-nowrap transition border-b-2
                                 {{ $permTab === $tab ? 'border-[#00baff] text-[#00baff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $info['icon'] }}"/>
                             </svg>
-                            {{ $info['label'] }}
+                            <span class="hidden sm:inline">{{ $info['label'] }}</span>
                         </button>
                     @endforeach
                 </div>
 
                 {{-- Tab content --}}
-                <div class="p-6 space-y-5 overflow-y-auto flex-1">
+                <div class="p-4 sm:p-6 space-y-5 overflow-y-auto flex-1">
 
                     {{-- ── TAB: PERFIL ─────────────────────────────────────── --}}
                     @if($permTab === 'perfil')
@@ -331,7 +331,7 @@
                                 <button wire:click="applyRoleDefaults" class="text-xs text-[#00baff] hover:underline font-medium">↺ Aplicar padrões do perfil</button>
                             </div>
                             <div class="space-y-2">
-                                <div class="grid grid-cols-12 gap-2 px-3 py-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wide bg-gray-50 rounded-lg">
+                                <div class="hidden sm:grid sm:grid-cols-12 gap-2 px-3 py-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wide bg-gray-50 rounded-lg">
                                     <div class="col-span-5">Módulo</div>
                                     <div class="col-span-7 grid grid-cols-4 text-center">
                                         <span>Sem acesso</span>
@@ -342,9 +342,9 @@
                                 </div>
                                 @foreach($modules as $modKey => $modLabel)
                                     @php $currentAccess = $permissions[$modKey] ?? 'none'; @endphp
-                                    <div class="grid grid-cols-12 gap-2 items-center px-3 py-2.5 rounded-xl border border-gray-100 hover:bg-gray-50/50 transition">
-                                        <div class="col-span-5 text-sm font-medium text-gray-700">{{ $modLabel }}</div>
-                                        <div class="col-span-7 grid grid-cols-4 gap-1">
+                                    <div class="flex flex-col sm:grid sm:grid-cols-12 gap-1 sm:gap-2 items-start sm:items-center px-3 py-2.5 rounded-xl border border-gray-100 hover:bg-gray-50/50 transition">
+                                        <div class="sm:col-span-5 text-sm font-medium text-gray-700">{{ $modLabel }}</div>
+                                        <div class="sm:col-span-7 grid grid-cols-4 gap-3 sm:gap-1 w-full">
                                             @foreach(['none' => 'bg-gray-200', 'read' => 'bg-blue-400', 'write' => 'bg-amber-400', 'full' => 'bg-emerald-500'] as $level => $color)
                                                 <label class="flex flex-col items-center cursor-pointer group">
                                                     <input type="radio" wire:model.live="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
@@ -487,7 +487,7 @@
                 </div>
 
                 {{-- Modal footer --}}
-                <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
+                <div class="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-none sm:rounded-b-2xl">
                     <button wire:click="closeModal"
                         class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                         Cancelar
