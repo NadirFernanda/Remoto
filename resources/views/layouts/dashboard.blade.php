@@ -83,12 +83,12 @@
              x-init="setTimeout(() => show = false, 4500)"
              x-show="show"
              x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-4"
+             x-transition:enter-start="opacity-0 -translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 translate-y-4"
-             style="position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:9999;min-width:260px;max-width:400px;"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             style="position:fixed;top:5.5rem;left:50%;transform:translateX(-50%);z-index:9999;min-width:260px;max-width:calc(100vw - 2rem);"
              class="w-auto">
             <div class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl border border-[#00baff]/30"
                  style="background:linear-gradient(135deg,#0f1a2e 0%,#0a1628 100%);color:#f1f5f9;">
