@@ -381,7 +381,7 @@
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
                                     <input type="checkbox" wire:model.live="twoFactorRequired" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
                                 </label>
                             </div>
 
@@ -393,7 +393,7 @@
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
                                     <input type="checkbox" wire:model.live="forcePasswordChange" class="sr-only peer">
-                                    <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
+                                    <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
                                 </label>
                             </div>
 
@@ -406,7 +406,7 @@
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
                                         <input type="checkbox" wire:model.live="sessionTimeoutEnabled" class="sr-only peer">
-                                        <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
+                                        <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
                                     </label>
                                 </div>
                                 @if($sessionTimeoutEnabled)
@@ -427,7 +427,7 @@
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
                                         <input type="checkbox" wire:model.live="ipRestriction" class="sr-only peer">
-                                        <div class="w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:w-5 after:h-5 after:bg-white after:rounded-full after:transition peer-checked:after:translate-x-5"></div>
+                                        <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
                                     </label>
                                 </div>
                                 @if($ipRestriction)
