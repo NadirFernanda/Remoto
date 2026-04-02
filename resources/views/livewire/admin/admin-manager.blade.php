@@ -379,10 +379,12 @@
                                     <div class="font-semibold text-sm text-gray-800">Autenticação 2 Factores (2FA)</div>
                                     <div class="text-xs text-gray-500 mt-0.5">Obrigar este administrador a activar 2FA no próximo login.</div>
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                    <input type="checkbox" wire:model.live="twoFactorRequired" class="sr-only peer">
-                                    <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
-                                </label>
+                                <button type="button" wire:click="$toggle('twoFactorRequired')"
+                                    class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
+                                    style="{{ $twoFactorRequired ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                    <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                                        style="{{ $twoFactorRequired ? 'left:22px' : 'left:2px' }}"></span>
+                                </button>
                             </div>
 
                             {{-- Force password change --}}
@@ -391,10 +393,12 @@
                                     <div class="font-semibold text-sm text-gray-800">Forçar Mudança de Senha</div>
                                     <div class="text-xs text-gray-500 mt-0.5">Obrigar este admin a alterar a senha no próximo acesso.</div>
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                    <input type="checkbox" wire:model.live="forcePasswordChange" class="sr-only peer">
-                                    <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
-                                </label>
+                                <button type="button" wire:click="$toggle('forcePasswordChange')"
+                                    class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
+                                    style="{{ $forcePasswordChange ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                    <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                                        style="{{ $forcePasswordChange ? 'left:22px' : 'left:2px' }}"></span>
+                                </button>
                             </div>
 
                             {{-- Session timeout --}}
@@ -404,10 +408,12 @@
                                         <div class="font-semibold text-sm text-gray-800">Tempo de Sessão</div>
                                         <div class="text-xs text-gray-500 mt-0.5">Encerrar sessão após inactividade.</div>
                                     </div>
-                                    <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                        <input type="checkbox" wire:model.live="sessionTimeoutEnabled" class="sr-only peer">
-                                        <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
-                                    </label>
+                                    <button type="button" wire:click="$toggle('sessionTimeoutEnabled')"
+                                        class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
+                                        style="{{ $sessionTimeoutEnabled ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                        <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                                            style="{{ $sessionTimeoutEnabled ? 'left:22px' : 'left:2px' }}"></span>
+                                    </button>
                                 </div>
                                 @if($sessionTimeoutEnabled)
                                     <div class="mt-3">
@@ -425,10 +431,12 @@
                                         <div class="font-semibold text-sm text-gray-800">Restrição por IP</div>
                                         <div class="text-xs text-gray-500 mt-0.5">Permitir acesso apenas a partir dos IPs definidos.</div>
                                     </div>
-                                    <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                                        <input type="checkbox" wire:model.live="ipRestriction" class="sr-only peer">
-                                        <div class="relative w-11 h-6 bg-gray-200 peer-checked:bg-[#00baff] rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:w-5 after:h-5 after:bg-white after:rounded-full after:shadow after:transition-transform peer-checked:after:translate-x-5"></div>
-                                    </label>
+                                    <button type="button" wire:click="$toggle('ipRestriction')"
+                                        class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
+                                        style="{{ $ipRestriction ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                        <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                                            style="{{ $ipRestriction ? 'left:22px' : 'left:2px' }}"></span>
+                                    </button>
                                 </div>
                                 @if($ipRestriction)
                                     <div class="mt-3">
