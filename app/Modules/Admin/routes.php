@@ -45,6 +45,7 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/relatorios/fluxo-caixa', \App\Livewire\Admin\CashFlow::class)->name('admin.reports.cashflow')->middleware('admin.module:financeiro');
     Route::get('/admin/relatorios/extrato-contabilidade', \App\Livewire\Admin\AccountingStatement::class)->name('admin.reports.accounting')->middleware('admin.module:financeiro');
     Route::get('/admin/relatorios/saques', \App\Livewire\Admin\WithdrawalReport::class)->name('admin.reports.withdrawals')->middleware('admin.module:financeiro');
+    Route::get('/admin/relatorios/servicos', \App\Livewire\Admin\ServicesReport::class)->name('admin.reports.services')->middleware('admin.module:financeiro');
 
     // Admin — Export reports (financeiro module)
     Route::get('/admin/relatorios/users/export', [UsersExportController::class, 'exportCsv'])->name('admin.reports.users.export')->middleware('admin.module:financeiro');
