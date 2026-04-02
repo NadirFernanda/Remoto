@@ -928,8 +928,8 @@
     action: '',
     get title() { return this.action==='projeto' ? 'Modo Cliente necessário' : 'Modo Freelancer necessário' },
     get desc()  { return this.action==='projeto'
-        ? 'Para publicar um projecto e contratar freelancers, precisa de estar no <strong style=\'color:#fff\'>Modo Cliente</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.'
-        : 'Para publicar conteúdo, posts e artigos, precisa de estar no <strong style=\'color:#fff\'>Modo Freelancer</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.' },
+        ? 'Para publicar um projecto e contratar freelancers, precisa de estar no <strong style=\'color:#0091cc\'>Modo Cliente</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.'
+        : 'Para publicar conteúdo, posts e artigos, precisa de estar no <strong style=\'color:#0091cc\'>Modo Freelancer</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.' },
     get targetMode() { return this.action==='projeto' ? 'Cliente' : 'Freelancer' }
 }"
     @open-role-switch-modal.window="show=true; action=$event.detail.action"
@@ -946,11 +946,11 @@
          x-transition:leave="transition ease-in duration-150"
          x-transition:leave-start="opacity-100 scale-100"
          x-transition:leave-end="opacity-0 scale-95"
-         style="position:relative;background:linear-gradient(160deg,#0f1a2e 0%,#0a1628 100%);border:1px solid rgba(255,255,255,.1);border-radius:1.25rem;padding:2rem;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(0,0,0,.6);">
+         style="position:relative;background:#ffffff;border:1px solid rgba(0,0,0,.08);border-radius:1.25rem;padding:2rem;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.22);">
 
         {{-- Close --}}
         <button @click="show=false"
-                style="position:absolute;top:.875rem;right:.875rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
+                style="position:absolute;top:.875rem;right:.875rem;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.1);color:#64748b;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
 
@@ -965,18 +965,18 @@
         </div>
 
         {{-- Title --}}
-        <h3 x-text="title" style="font-size:1.2rem;font-weight:800;color:#f1f5f9;margin:0 0 .5rem;line-height:1.3;"></h3>
+        <h3 x-text="title" style="font-size:1.2rem;font-weight:800;color:#1e293b;margin:0 0 .5rem;line-height:1.3;"></h3>
 
         {{-- Description --}}
-        <p x-html="desc" style="font-size:.875rem;color:#94a3b8;line-height:1.7;margin:0 0 1.375rem;"></p>
+        <p x-html="desc" style="font-size:.875rem;color:#475569;line-height:1.7;margin:0 0 1.375rem;"></p>
 
         {{-- Current → Target Mode indicator --}}
-        <div style="display:flex;align-items:center;justify-content:center;gap:.875rem;margin-bottom:1.375rem;padding:.8rem 1rem;background:rgba(255,255,255,.035);border-radius:.875rem;border:1px solid rgba(255,255,255,.07);">
+        <div style="display:flex;align-items:center;justify-content:center;gap:.875rem;margin-bottom:1.375rem;padding:.8rem 1rem;background:rgba(0,0,0,.03);border-radius:.875rem;border:1px solid rgba(0,0,0,.08);">
             <div style="text-align:center;">
                 <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo actual</div>
                 <span style="font-size:.8rem;font-weight:700;color:#fca5a5;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:.45rem;padding:.18rem .6rem;">{{ $currentRoleLabel }}</span>
             </div>
-            <svg width="18" height="18" fill="none" stroke="#334155" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            <svg width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             <div style="text-align:center;">
                 <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo necessário</div>
                 <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#86efac;background:rgba(0,186,255,.1);border:1px solid rgba(0,186,255,.22);border-radius:.45rem;padding:.18rem .6rem;"></span>
@@ -994,8 +994,8 @@
                 Mudar de Modo agora
             </button>
             <button type="button" @click="show=false"
-                    style="width:100%;padding:.6rem 1rem;border-radius:.75rem;background:transparent;color:#64748b;font-weight:600;font-size:.85rem;border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s;"
-                    onmouseover="this.style.background='rgba(255,255,255,.05)';this.style.color='#94a3b8'" onmouseout="this.style.background='transparent';this.style.color='#64748b'">
+                    style="width:100%;padding:.6rem 1rem;border-radius:.75rem;background:transparent;color:#64748b;font-weight:600;font-size:.85rem;border:1px solid rgba(0,0,0,.1);cursor:pointer;transition:all .15s;"
+                    onmouseover="this.style.background='rgba(0,0,0,.04)';this.style.color='#475569'" onmouseout="this.style.background='transparent';this.style.color='#64748b'">
                 Cancelar
             </button>
         </form>
