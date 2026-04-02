@@ -152,17 +152,17 @@ class ReportsExportController extends Controller
 
         if (in_array($tipo, ['', 'freelancing'])) {
             Service::with(['cliente:id,name', 'freelancer:id,name'])
-                ->whereBetween('created_at', [$start, $end])
+                ->whereBetween('updated_at', [$start, $end])
                 ->whereNotNull('valor')
                 ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
-                ->orderByDesc('created_at')
+                ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
                     $bruto   = (float)($s->valor ?? 0);
                     $liquido = (float)($s->valor_liquido ?? $bruto * 0.9);
                     $rows[]  = [
                         $s->titulo ?? 'Projecto #' . $s->id,
-                        $s->created_at->format('d/m/Y'),
+                        $s->updated_at->format('d/m/Y'),
                         'Freelances',
                         optional($s->cliente)->name    ?? '—',
                         optional($s->freelancer)->name ?? '—',

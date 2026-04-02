@@ -54,10 +54,10 @@ class AccountingStatement extends Component
         // ── Freelancing (Services) ────────────────────────────────────────
         if (in_array($this->tipo, ['', 'freelancing'])) {
             Service::with(['cliente:id,name', 'freelancer:id,name'])
-                ->whereBetween('created_at', [$start, $end])
+                ->whereBetween('updated_at', [$start, $end])
                 ->whereNotNull('valor')
                 ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
-                ->orderByDesc('created_at')
+                ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
                     $bruto     = (float) ($s->valor ?? 0);
@@ -65,7 +65,7 @@ class AccountingStatement extends Component
                     $comissao  = $bruto - $liquido;
                     $rows->push([
                         'nome'           => $s->titulo ?? 'Projecto #' . $s->id,
-                        'data'           => $s->created_at->format('d/m/Y'),
+                        'data'           => $s->updated_at->format('d/m/Y'),
                         'tipo'           => 'Freelances',
                         'user_origem'    => optional($s->cliente)->name    ?? '—',
                         'user_destino'   => optional($s->freelancer)->name ?? '—',
