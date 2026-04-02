@@ -480,11 +480,11 @@
 
                 {{-- Modal footer --}}
                 <div class="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-2xl">
-                    <button wire:click="closeModal" class="text-sm text-gray-500 hover:text-gray-700 font-medium transition">
+                    <button wire:click="closeModal"
+                        class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                         Cancelar
                     </button>
                     <div class="flex gap-3">
-                        {{-- Previous tab --}}
                         @php
                             $tabs  = ['perfil','permissoes','seguranca','notificacoes'];
                             $idx   = (int) array_search($permTab, $tabs);
@@ -499,13 +499,13 @@
                         @endif
                         @if(!$isLast)
                             <button wire:click="$set('permTab', '{{ $tabs[$idx + 1] }}')"
-                                class="inline-flex items-center gap-1.5 text-sm font-medium text-[#00baff] border border-[#00baff] hover:bg-sky-50 rounded-xl px-4 py-2.5 transition">
+                                class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                                 Próximo →
                             </button>
                         @endif
                         @if($permTab === 'notificacoes')
                             <button wire:click="saveAdmin" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-not-allowed"
-                                class="inline-flex items-center gap-2 bg-white border-2 border-slate-800 hover:bg-slate-100 text-slate-900 text-sm font-semibold px-6 py-2.5 rounded-xl transition">
+                                class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                                 <span wire:loading.remove wire:target="saveAdmin">
                                     {{ $modalMode === 'create' ? 'Criar Administrador' : 'Guardar Alterações' }}
                                 </span>
