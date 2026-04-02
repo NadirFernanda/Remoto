@@ -55,6 +55,7 @@ class AccountingStatement extends Component
         if (in_array($this->tipo, ['', 'freelancing'])) {
             Service::with(['cliente:id,name', 'freelancer:id,name'])
                 ->whereNotNull('valor')
+                ->where('valor', '>', 0)
                 ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
                 ->orderByDesc('updated_at')
                 ->get()

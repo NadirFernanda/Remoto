@@ -153,6 +153,7 @@ class ReportsExportController extends Controller
         if (in_array($tipo, ['', 'freelancing'])) {
             Service::with(['cliente:id,name', 'freelancer:id,name'])
                 ->whereNotNull('valor')
+                ->where('valor', '>', 0)
                 ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
                 ->orderByDesc('updated_at')
                 ->get()
