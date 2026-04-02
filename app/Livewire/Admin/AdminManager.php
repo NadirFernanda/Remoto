@@ -127,6 +127,8 @@ class AdminManager extends Component
 
     private function createAdmin(): void
     {
+        $this->permTab = 'perfil'; // navegar para o tab com os campos obrigatórios antes de validar
+
         $this->validate([
             'name'            => 'required|string|max:100',
             'email'           => 'required|email|unique:users,email',
@@ -186,6 +188,8 @@ class AdminManager extends Component
     {
         $admin = User::findOrFail($this->editingId);
         $this->guardNotSelf($this->editingId);
+
+        $this->permTab = 'perfil'; // navegar para o tab com os campos obrigatórios antes de validar
 
         $this->validate([
             'name'           => 'required|string|max:100',

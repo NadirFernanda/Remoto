@@ -347,7 +347,7 @@
                                         <div class="col-span-7 grid grid-cols-4 gap-1">
                                             @foreach(['none' => 'bg-gray-200', 'read' => 'bg-blue-400', 'write' => 'bg-amber-400', 'full' => 'bg-emerald-500'] as $level => $color)
                                                 <label class="flex flex-col items-center cursor-pointer group">
-                                                    <input type="radio" wire:model="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
+                                                    <input type="radio" wire:model.live="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
                                                     <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition
                                                         {{ $currentAccess === $level ? $color . ' border-transparent' : 'border-gray-300 group-hover:border-gray-400' }}">
                                                         @if($currentAccess === $level)
