@@ -103,6 +103,22 @@
 
                             @if($msg->conteudo)
                                 <p class="text-sm leading-relaxed whitespace-pre-wrap break-words">{{ $msg->conteudo }}</p>
+                                {{-- Inline pay button for proposal messages (client view only) --}}
+                                @if($mostrarBotaoValor && !$isMine)
+                                    @php
+                                        preg_match('/Proposta de valor: ([\.\d]+,\d{2}) Kz/', $msg->conteudo, $propostaMatch);
+                                    @endphp
+                                    @if(!empty($propostaMatch[1]))
+                                    <div class="mt-2 pt-2 border-t border-slate-200">
+                                        <button wire:click="abrirModalComValor('{{ $propostaMatch[1] }}')"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ff2d55] text-white shadow hover:opacity-90 transition active:scale-95"
+                                                title="Confirmar este valor e efectuar o pagamento">
+                                            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                            Aceitar & Pagar {{ $propostaMatch[1] }} Kz
+                                        </button>
+                                    </div>
+                                    @endif
+                                @endif
                             @endif
 
                             <span class="block text-right text-[10px] mt-1 {{ $isMine ? 'text-blue-100' : 'text-slate-400' }}">
@@ -348,7 +364,7 @@
                     <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
-                    <span>Taxa de plataforma (10%)</span>
+                    <span>Taxa de plataforma ({{ $bd['clientRatePercent'] }}%)</span>
                     <span style="font-weight:600;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span>
                 </div>
                 <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>

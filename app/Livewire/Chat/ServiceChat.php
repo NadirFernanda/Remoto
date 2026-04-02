@@ -78,19 +78,33 @@ class ServiceChat extends Component
     /** Breakdown do valor: para negociação directa é o valor total; para ajustes é a diferença */
     public function getExtraBreakdownProperty(): array
     {
-        $novo  = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
-        $isDirect = $this->isDirectNegotiation;
-        // Negociação directa: escrow ainda não foi cobrado → paga o valor total
+        $novo       = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
+        $isDirect   = $this->isDirectNegotiation;
+        $clientRate = \App\Services\FeeService::serviceClientRate();
         $extra = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
-        $taxa  = round($extra * \App\Services\FeeService::serviceClientRate(), 2);
+        $taxa  = round($extra * $clientRate, 2);
         return [
-            'atual'          => (float) $this->service->valor,
-            'novo'           => $novo,
-            'extra'          => $extra,
-            'taxa'           => $taxa,
-            'total_cliente'  => round($extra + $taxa, 2),
-            'is_negotiating' => $isDirect,
+            'atual'             => (float) $this->service->valor,
+            'novo'              => $novo,
+            'extra'             => $extra,
+            'taxa'              => $taxa,
+            'total_cliente'     => round($extra + $taxa, 2),
+            'is_negotiating'    => $isDirect,
+            'clientRatePercent' => round($clientRate * 100, 1),
         ];
+    }
+
+    /**
+     * Called by inline "Aceitar Proposta" buttons inside message bubbles.
+     * $valorFormatado is the number as it appears in the message, e.g. "50.000,00".
+     */
+    public function abrirModalComValor(string $valorFormatado): void
+    {
+        $this->resetErrorBag();
+        // Convert from pt_BR format ("50.000,00") to plain float string ("50000.00")
+        $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
+        $this->novoValorTotal = $plain;
+        $this->showValorModal = true;
     }
 
     public function getIsClienteProperty(): bool
