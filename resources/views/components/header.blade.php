@@ -674,7 +674,7 @@
         </div>
     </div>
 
-    <div x-show="open" x-transition class="px-4 pb-4 md:hidden">
+    <div x-show="open" x-transition class="px-4 pb-4 md:hidden" style="max-height:calc(100dvh - 4.5rem);overflow-y:auto;">
         <div class="mobile-menu-dropdown flex flex-col gap-1 bg-[#071422] border border-white/10 rounded-xl p-3 mt-2 shadow-xl">
             @guest
             <!-- Accordion: Contratar -->
