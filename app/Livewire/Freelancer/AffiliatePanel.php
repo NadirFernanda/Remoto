@@ -4,6 +4,7 @@ namespace App\Livewire\Freelancer;
 
 use App\Models\Referral;
 use App\Models\WalletLog;
+use App\Services\FeeService;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,8 @@ class AffiliatePanel extends Component
         $this->affiliateLink = $this->affiliateCode
             ? url('/register?ref=' . $this->affiliateCode)
             : '';
+
+        $this->comissaoPorAfiliado = FeeService::affiliateSignupCommission();
 
         $this->totalAfiliados = Referral::where('affiliate_id', $user->id)->count();
         $this->saldoDisponivel = (float) WalletLog::where('user_id', $user->id)

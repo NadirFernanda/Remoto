@@ -29,9 +29,16 @@
                 </div>
             @endif
 
-            <form method="POST" action="/register" novalidate onsubmit="return validateRegisterForm(event)">
+            <form method="POST" action="{{ url('/register') . (request('ref') ? '?ref=' . urlencode(request('ref')) : '') }}" novalidate onsubmit="return validateRegisterForm(event)">
                 @csrf
-                {{-- Role selector (2 perfis unificados) --}}
+
+                {{-- Badge: indica que o utilizador chegou via link de afiliado --}}
+                @if(request('ref'))
+                <div style="display:flex;align-items:center;gap:.6rem;background:#f0fbff;border:1px solid #bae6fd;border-radius:10px;padding:.6rem .875rem;margin-bottom:1rem;">
+                    <svg width="16" height="16" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                    <span style="font-size:.8rem;color:#0369a1;font-weight:600;">A registar com link de convite de afiliado</span>
+                </div>
+                @endif
                 <div class="pub-field" x-data="{ role: '{{ old('role', 'freelancer') }}' }">
                     <label style="display:block;margin-bottom:.6rem;font-weight:600;">Quero registar-me como:</label>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
