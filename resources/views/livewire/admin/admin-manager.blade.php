@@ -487,21 +487,23 @@
                         {{-- Previous tab --}}
                         @php
                             $tabs  = ['perfil','permissoes','seguranca','notificacoes'];
-                            $idx   = array_search($permTab, $tabs);
+                            $idx   = (int) array_search($permTab, $tabs);
+                            $isLast  = $permTab === 'notificacoes';
+                            $isFirst = $permTab === 'perfil';
                         @endphp
-                        @if($idx > 0)
+                        @if(!$isFirst)
                             <button wire:click="$set('permTab', '{{ $tabs[$idx - 1] }}')"
                                 class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                                 ← Anterior
                             </button>
                         @endif
-                        @if($idx < count($tabs) - 1)
+                        @if(!$isLast)
                             <button wire:click="$set('permTab', '{{ $tabs[$idx + 1] }}')"
                                 class="inline-flex items-center gap-1.5 text-sm font-medium text-[#00baff] border border-[#00baff] hover:bg-sky-50 rounded-xl px-4 py-2.5 transition">
                                 Próximo →
                             </button>
                         @endif
-                        @if($idx === count($tabs) - 1)
+                        @if($isLast)
                             <button wire:click="saveAdmin" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-not-allowed"
                                 class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition">
                                 <span wire:loading.remove wire:target="saveAdmin">
