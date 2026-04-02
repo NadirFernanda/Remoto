@@ -505,7 +505,7 @@
                         @endif
                         @if($permTab === 'notificacoes')
                             <button wire:click="saveAdmin" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-not-allowed"
-                                class="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition">
+                                class="inline-flex items-center gap-2 bg-white border-2 border-slate-800 hover:bg-slate-100 text-slate-900 text-sm font-semibold px-6 py-2.5 rounded-xl transition">
                                 <span wire:loading.remove wire:target="saveAdmin">
                                     {{ $modalMode === 'create' ? 'Criar Administrador' : 'Guardar Alterações' }}
                                 </span>
