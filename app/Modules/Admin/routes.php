@@ -9,27 +9,32 @@ use App\Modules\Admin\Controllers\ReportsExportController;
 use App\Modules\Admin\Services\ExchangeRateService;
 
 // ─── Admin Module Routes ──────────────────────────────────────────────────────
+// Base group: apenas verifica que o utilizador é admin (qualquer sub-role).
+// Cada rota/grupo aplica depois o seu próprio admin.module:X específico.
 
-Route::middleware(['web', 'auth', 'admin.module:gestor'])->group(function () {
-    // Exchange rate refresh API endpoint
+Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
+
+    // Dashboard — acessível a todos os admins
+    Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
+
+    // Exchange rate refresh (gestor+)
     Route::post('/refresh-aoa-rate', function (ExchangeRateService $svc) {
         $rate = $svc->refresh();
         return response()->json(['status' => 'ok', 'rate' => $rate]);
-    });
+    })->middleware('admin.module:gestor');
 
-    // Commercial contracts management
-    Route::resource('comercial', ContractController::class)->names('admin.comercial');
+    // Commercial contracts management (gestor+)
+    Route::resource('comercial', ContractController::class)->names('admin.comercial')->middleware('admin.module:gestor');
 
-    // Admin dashboards
-    Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
-    Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users');
-    Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services');
-    Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes');
-    Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit');
-    Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation');
-    Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds');
+    // Gestão de utilizadores e serviços (gestor+)
+    Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users')->middleware('admin.module:gestor');
+    Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services')->middleware('admin.module:gestor');
+    Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes')->middleware('admin.module:suporte');
+    Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit')->middleware('admin.module:audit');
+    Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation')->middleware('admin.module:gestor');
+    Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds')->middleware('admin.module:gestor');
 
-    // Admin — Financial management
+    // Admin — Financial management (financeiro+)
     Route::get('/admin/financeiro', \App\Livewire\Admin\Financial::class)->name('admin.financial')->middleware('admin.module:financeiro');
     Route::get('/admin/comissoes', \App\Livewire\Admin\Commissions::class)->name('admin.commissions')->middleware('admin.module:financeiro');
     Route::get('/admin/saques', \App\Livewire\Admin\Payouts::class)->name('admin.payouts')->middleware('admin.module:financeiro');
