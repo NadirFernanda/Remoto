@@ -27,6 +27,7 @@ class NotificationPanel extends Component
             ->update(['read' => true]);
 
         $this->notifications = Notification::where('user_id', $user->id)
+            ->with('user')
             ->orderByDesc('created_at')
             ->limit(50)
             ->get();

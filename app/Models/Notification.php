@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Notification extends Model
 {
@@ -21,12 +22,22 @@ class Notification extends Model
     }
 
     /**
-     * Resolve the destination URL for this notification,
-     * so clicking it takes the user to the right place.
+     * Resolve the destination URL for this notification.
+     *
+     * We check the RECIPIENT's role (not the sender's) because some types
+     * like proposal_received are sent to both freelancers (client sends
+     * direct invite) and clients (freelancer sends proposal), but the
+     * correct destination page differs per role.
      */
     public function getUrl(): string
     {
-        $sid = $this->service_id;
+        $sid  = $this->service_id;
+
+        // Determine the recipient's role from the DB user record.
+        // We use the stored user_id rather than Auth::user() so this works
+        // even when called outside of a web request (e.g. tests, artisan).
+        $recipientRole = $this->user?->role ?? (Auth::user()?->role ?? 'cliente');
+        $isFreelancer  = $recipientRole === 'freelancer';
 
         try {
             return match($this->type) {
@@ -35,32 +46,38 @@ class Notification extends Model
                 'revision_requested'   => $sid ? route('freelancer.service.delivery', $sid) : route('freelancer.projects'),
                 'project_started'      => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
                 'payment_adjustment'   => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
-                'delivery_approved'    => route('freelancer.wallet'),
+                'delivery_approved'    => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
                 'payment_released'     => route('freelancer.wallet'),
                 'saque_aprovado'       => route('freelancer.wallet'),
                 'saque_rejeitado'      => route('freelancer.wallet'),
                 'service_rejected'     => route('freelancer.proposals'),
-                'project_cancelled'    => route('freelancer.projects'),
+                'project_cancelled'    => $isFreelancer ? route('freelancer.projects') : route('client.projects'),
                 'novo_projeto'         => $sid ? route('freelancer.service.review', $sid) : route('freelancer.available-projects'),
                 'project_invite'       => route('freelancer.proposals'),
                 'direct_invite'        => route('freelancer.proposals'),
-                'nova_mensagem'        => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+                'nova_mensagem'        => $sid ? route('service.chat', $sid) : ($isFreelancer ? route('freelancer.projects') : route('client.projects')),
+
+                // ── proposal_received: sent to FREELANCER (client direct invite)
+                //    OR to CLIENT (freelancer sends proposal). Route differs per role.
+                'proposal_received'    => $isFreelancer
+                    ? ($sid ? route('service.chat', $sid) : route('freelancer.proposals'))
+                    : route('client.projects'),
 
                 // ── Client receives ──────────────────────────────────
-                'proposal_received'    => route('client.projects'),
                 'proposal_accepted'    => route('client.projects'),
                 'proposal_rejected'    => route('client.projects'),
-                'delivery_submitted'   => route('client.projects'),
+                'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
                 'refund_processed'     => route('client.refunds'),
                 'refund_approved'      => route('client.refunds'),
                 'refund_rejected'      => route('client.refunds'),
                 'moderation_requested' => $sid ? route('service.dispute', $sid) : route('admin.disputes'),
 
-                // ── Both sides (dispute) ─────────────────────────────
+                // ── Both sides (dispute / review) ────────────────────
                 'dispute_admin_reply'   => $sid ? route('service.dispute', $sid) : '#',
                 'dispute_opened'        => $sid ? route('service.dispute', $sid) : '#',
                 'dispute_opened_admin'  => route('admin.disputes'),
                 'dispute_resolved'      => $sid ? route('service.dispute', $sid) : '#',
+                'review_reminder'       => $sid ? route('service.review.leave', $sid) : '#',
 
                 default => '#',
             };
@@ -69,3 +86,4 @@ class Notification extends Model
         }
     }
 }
+

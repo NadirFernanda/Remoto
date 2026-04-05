@@ -26,6 +26,7 @@ class NotificationBell extends Component
             ->count();
 
         $this->recent = Notification::where('user_id', $user->id)
+            ->with('user')
             ->orderByDesc('created_at')
             ->limit(8)
             ->get()
