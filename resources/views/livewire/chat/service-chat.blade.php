@@ -408,9 +408,16 @@ if (Notification && Notification.permission !== 'granted') Notification.requestP
 // ── Real-time via Laravel Echo / Pusher ─────────────────────────────────────
 if (window.Echo) {
     const serviceId = {{ $service->id }};
+    const livewireComponentId = @js($this->getId());
     Echo.private(`chat.${serviceId}`)
         .listen('.MessageSent', () => {
-            $wire.$refresh();
+            const component = window.Livewire && window.Livewire.find
+                ? window.Livewire.find(livewireComponentId)
+                : null;
+
+            if (component && typeof component.$refresh === 'function') {
+                component.$refresh();
+            }
         });
 }
 </script>
