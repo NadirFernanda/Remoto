@@ -82,13 +82,13 @@ class ServiceChat extends Component
         $isDirect   = $this->isDirectNegotiation;
         $clientRate = \App\Services\FeeService::serviceClientRate();
         $extra = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
-        $taxa  = round($extra * $clientRate, 2);
+        $taxa  = 0.0;
         return [
             'atual'             => (float) $this->service->valor,
             'novo'              => $novo,
             'extra'             => $extra,
             'taxa'              => $taxa,
-            'total_cliente'     => round($extra + $taxa, 2),
+            'total_cliente'     => $extra,
             'is_negotiating'    => $isDirect,
             'clientRatePercent' => round($clientRate * 100, 1),
         ];
@@ -201,8 +201,8 @@ class ServiceChat extends Component
             $extra = round($novo - $atual, 2);
         }
 
-        $taxa          = round($extra * \App\Services\FeeService::serviceClientRate(), 2);
-        $total_cliente = round($extra + $taxa, 2);
+        $taxa          = 0.0;
+        $total_cliente = $extra;
 
         $clientWallet = Wallet::firstOrCreate(
             ['user_id' => auth()->id()],
@@ -225,8 +225,8 @@ class ServiceChat extends Component
         $clientWallet->increment('saldo_pendente', $extra);
 
         $logDescricao = $isDirect
-            ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)'
-            : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz + ' . number_format($taxa, 2, ',', '.') . ' Kz taxa)';
+            ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz)'
+            : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz)';
 
         WalletLog::create([
             'user_id'   => auth()->id(),
@@ -238,7 +238,7 @@ class ServiceChat extends Component
 
         // Actualizar serviço
         $service->valor         = $novo;
-        $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceFreelancerRate()), 2);
+        $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceClientRate()), 2);
 
         if ($isDirect) {
             // Contratação directa (negotiating ou accepted+direct_invite):

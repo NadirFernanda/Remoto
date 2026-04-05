@@ -23,7 +23,11 @@ class FeeService
 
     private static function rate(string $key, float $default): float
     {
-        return (float) PlatformSetting::get($key, $default * 100) / 100;
+        try {
+            return (float) PlatformSetting::get($key, $default * 100) / 100;
+        } catch (\Exception $e) {
+            return $default;
+        }
     }
 
     public static function serviceClientRate(): float
@@ -60,20 +64,20 @@ class FeeService
 
     /**
      * Modelo de taxas:
-     *  - O cliente paga o valor do projecto + taxa_cliente%.
-     *  - Na entrega o freelancer recebe (100 - taxa_freelancer)% do valor do projecto.
+     *  - O cliente paga exactamente o valor do projecto acordado (sem sobretaxa).
+     *  - A plataforma retém taxa_cliente% do valor como comissão.
+     *  - Na entrega o freelancer recebe (100 - taxa_cliente)% do valor do projecto.
      *
      * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
     public function calculateServiceFee(float $valor): array
     {
-        $clientRate    = self::serviceClientRate();
-        $freelancerRate = self::serviceFreelancerRate();
+        $clientRate = self::serviceClientRate();
 
-        $taxa_cliente  = round($valor * $clientRate, 2);
-        $total_cliente = round($valor + $taxa_cliente, 2);
-        $taxa          = round($valor * $freelancerRate, 2);
-        $valor_liquido = round($valor - $taxa, 2);
+        $taxa_cliente  = 0.0;                              // sem sobretaxa ao cliente
+        $total_cliente = (float) $valor;                   // cliente paga o valor acordado
+        $taxa          = round($valor * $clientRate, 2);   // 10% retidos pela plataforma
+        $valor_liquido = round($valor - $taxa, 2);         // freelancer recebe 90%
 
         return [
             'taxa_cliente'  => $taxa_cliente,

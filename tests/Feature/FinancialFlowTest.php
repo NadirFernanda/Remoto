@@ -257,10 +257,10 @@ class FinancialFlowTest extends TestCase
     {
         $fee = (new \App\Services\FeeService())->calculateServiceFee(50000);
 
-        $this->assertEquals(5000.0,  $fee['taxa_cliente']);   // 10% do cliente
-        $this->assertEquals(55000.0, $fee['total_cliente']);  // total pago pelo cliente
-        $this->assertEquals(10000.0, $fee['taxa']);            // 20% deduzido ao freelancer
-        $this->assertEquals(40000.0, $fee['valor_liquido']);   // 80% que o freelancer recebe
+        $this->assertEquals(0.0,      $fee['taxa_cliente']);   // sem sobretaxa ao cliente
+        $this->assertEquals(50000.0, $fee['total_cliente']);  // cliente paga o valor acordado
+        $this->assertEquals(5000.0,  $fee['taxa']);            // 10% retidos pela plataforma
+        $this->assertEquals(45000.0, $fee['valor_liquido']);   // 90% que o freelancer recebe
     }
 
     #[Test]

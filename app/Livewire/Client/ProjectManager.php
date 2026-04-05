@@ -138,7 +138,7 @@ class ProjectManager extends Component
             : (float) ($service->valor ?? 0);
 
         if ($valorFinal > 0) {
-            $totalComTaxa = round($valorFinal * (1 + \App\Services\FeeService::serviceClientRate()), 2);
+            $totalComTaxa = $valorFinal;
             $clientWalletCheck = Wallet::where('user_id', auth()->id())->first();
             if (!$clientWalletCheck || (float) $clientWalletCheck->saldo < $totalComTaxa) {
                 session()->flash('error', 'Saldo insuficiente. Necessita de Kz ' . number_format($totalComTaxa, 2, ',', '.') . ' para reter em escrow.');
@@ -164,8 +164,8 @@ class ProjectManager extends Component
             // Se o freelancer propôs um valor, usar esse como valor final do serviço
             if ($valorFinal > 0) {
                 $service->valor         = $valorFinal;
-                $service->taxa          = \App\Services\FeeService::serviceFreelancerRate() * 100;
-                $service->valor_liquido = round($valorFinal * (1 - \App\Services\FeeService::serviceFreelancerRate()), 2);
+                $service->taxa          = round($valorFinal * \App\Services\FeeService::serviceClientRate(), 2);
+                $service->valor_liquido = round($valorFinal * (1 - \App\Services\FeeService::serviceClientRate()), 2);
             }
 
             // Atualiza o projeto
@@ -175,14 +175,13 @@ class ProjectManager extends Component
 
             // Registar retenção em escrow na carteira do cliente (debit saldo + credit saldo_pendente)
             if ($service->valor && $service->valor > 0) {
-                $totalComTaxa = round($service->valor * (1 + \App\Services\FeeService::serviceClientRate()), 2);
                 $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
-                $clientWallet->decrement('saldo', $totalComTaxa);           // débito real
-                $clientWallet->increment('saldo_pendente', $service->valor); // escrow líquido
+                $clientWallet->decrement('saldo', $service->valor);          // débito real
+                $clientWallet->increment('saldo_pendente', $service->valor); // escrow
                 WalletLog::create([
                     'user_id'   => auth()->id(),
                     'wallet_id' => $clientWallet->id,
-                    'valor'     => -$totalComTaxa,
+                    'valor'     => -(float) $service->valor,
                     'tipo'      => 'escrow_retido',
                     'descricao' => 'Pagamento retido em escrow para o projeto: ' . $service->titulo,
                 ]);

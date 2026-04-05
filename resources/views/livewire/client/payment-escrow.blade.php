@@ -7,9 +7,9 @@
                 <span class="font-semibold">Valor do projeto</span>
                 <span class="font-bold">{{ number_format($valor, 2, ',', '.') }} Kz</span>
             </div>
-            <div class="flex justify-between mb-2">
-                <span class="text-gray-600 text-sm">Taxa de serviço (10%)</span>
-                <span class="text-yellow-600 font-semibold text-sm">+ {{ number_format($taxa_cliente, 2, ',', '.') }} Kz</span>
+            <div class="flex justify-between mb-1">
+                <span class="text-gray-500 text-xs">Comissão plataforma (10% já incluída)</span>
+                <span class="text-gray-400 text-xs">{{ number_format($taxa, 2, ',', '.') }} Kz retidos</span>
             </div>
             <div class="flex justify-between pt-2 border-t border-gray-200">
                 <span class="font-semibold">Total a pagar</span>
