@@ -47,8 +47,7 @@
                         default                                                                     => 'text-[#00baff]',
                     };
                 @endphp
-                <a href="{{ $notif['url'] }}"
-                   @click="$wire.markRead({{ $notif['id'] }})"
+                <a href="{{ route('notification.open', $notif['id']) }}"
                    class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition {{ $notif['read'] ? 'opacity-70' : '' }}">
                     <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full {{ $notif['read'] ? 'bg-gray-200' : 'bg-[#00baff]' }}"></span>
                     <div class="flex-1 min-w-0">

@@ -136,3 +136,9 @@ Route::middleware(['auth', 'verified', 'role:cliente'])->group(function () {
     Route::get('/cliente/perfil/editar', \App\Livewire\Client\Profile::class)->name('client.profile.edit');
     Route::get('/cliente/configuracoes', \App\Livewire\Client\Settings::class)->name('client.settings');
 });
+
+// ─── Notification redirect (open + mark-read in one HTTP request) ─────────────
+Route::middleware(['auth'])->get(
+    '/notificacao/{notification}/abrir',
+    \App\Http\Controllers\NotificationRedirectController::class
+)->name('notification.open');

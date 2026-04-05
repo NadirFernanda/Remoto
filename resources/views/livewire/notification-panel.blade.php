@@ -17,7 +17,7 @@
                     default                                                                                       => 'bg-gray-50 border-gray-100',
                 };
             @endphp
-            <a href="{{ $notification->getUrl() }}"
+            <a href="{{ route('notification.open', $notification->id) }}"
                class="flex items-start gap-3 px-4 py-3.5 rounded-xl border {{ $typeColor }} hover:opacity-80 transition {{ $notification->read ? 'opacity-70' : '' }}">
                 <span class="mt-2 w-2.5 h-2.5 flex-shrink-0 rounded-full {{ $dotColor }}"></span>
                 <div class="flex-1 min-w-0">
