@@ -23,15 +23,23 @@ class NotificationPanel extends Component
 
         $isFreelancerMode = $user->activeRole() === 'freelancer';
 
+        $freelancerOnly = ['novo_projeto','service_chosen','revision_requested','project_started',
+            'payment_adjustment','delivery_approved','payment_released','saque_aprovado',
+            'saque_rejeitado','service_rejected','project_invite','direct_invite'];
+        $clientOnly = ['refund_processed','refund_approved','refund_rejected',
+            'delivery_submitted','proposal_accepted','proposal_rejected'];
+
         // Mark all visible notifications as read
         Notification::where('user_id', $user->id)
             ->where('read', false)
-            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
+            ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
+            ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
             ->update(['read' => true]);
 
         $this->notifications = Notification::where('user_id', $user->id)
             ->with('user')
-            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
+            ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
+            ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
             ->orderByDesc('created_at')
             ->limit(50)
             ->get();

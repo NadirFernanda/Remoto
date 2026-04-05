@@ -24,7 +24,10 @@ class NotificationRedirectController extends Controller
         }
 
         $sid  = $notification->service_id;
-        $role = Auth::user()->role; // DB column — registered role
+        // Use activeRole (session-based) so a client switching to freelancer mode
+        // is still sent to the correct client pages when clicking client-only notifications.
+        $activeRole = Auth::user()->activeRole();
+        $role       = Auth::user()->role; // DB column — used for types that depend on who RECEIVED the notif
 
         $url = match ($notification->type) {
             // ── Freelancer-bound ─────────────────────────────────────────────
@@ -60,9 +63,10 @@ class NotificationRedirectController extends Controller
             'proposal_accepted'    => route('client.projects'),
             'proposal_rejected'    => route('client.projects'),
             'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
-            'refund_processed'     => route('client.refunds'),
-            'refund_approved'      => route('client.refunds'),
-            'refund_rejected'      => route('client.refunds'),
+            // Refund pages live under cliente/ — force client mode switch via session
+            'refund_processed'     => $this->clientRefundRedirect(),
+            'refund_approved'      => $this->clientRefundRedirect(),
+            'refund_rejected'      => $this->clientRefundRedirect(),
 
             // ── Dispute / shared ─────────────────────────────────────────────
             'moderation_requested' => $sid ? route('service.dispute', $sid) : route('dashboard'),
@@ -78,5 +82,18 @@ class NotificationRedirectController extends Controller
         };
 
         return redirect($url);
+    }
+
+    /**
+     * Redirect to the client refunds page, switching active role to 'cliente'
+     * if the user is currently in freelancer mode — prevents the role:cliente
+     * middleware from bouncing them to the dashboard.
+     */
+    private function clientRefundRedirect(): string
+    {
+        if (Auth::user()->activeRole() !== 'cliente') {
+            session(['active_role' => 'cliente']);
+        }
+        return route('client.refunds');
     }
 }
