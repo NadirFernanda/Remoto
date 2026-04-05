@@ -263,7 +263,7 @@
 
     {{-- Modal: Propor Valor (freelancer) --}}
     @if($showProporValorModal)
-    <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
+    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
          wire:click.self="fecharModalProporValor">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" wire:click.stop>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
@@ -311,7 +311,7 @@
     @php
         $bd = $this->extraBreakdown;
     @endphp
-    <div style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
+    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
          wire:click.self="fecharModalValor">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" wire:click.stop>
 
@@ -360,16 +360,12 @@
             @if($bd['extra'] > 0)
             <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
                 <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
-                    <span>{{ $bd['is_negotiating'] ? 'Valor para o freelancer' : 'Valor extra para o freelancer' }}</span>
+                    <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
                     <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
-                    <span>Taxa de plataforma ({{ $bd['clientRatePercent'] }}%)</span>
-                    <span style="font-weight:600;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span>
                 </div>
                 <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
                 <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
-                    <span>Total a pagar agora</span>
+                    <span>Total a pagar</span>
                     <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
                 </div>
             </div>
