@@ -115,6 +115,19 @@
                         </div>
 
                         <div class="mt-5 flex flex-col gap-2">
+                            @php $propCount = $proposalCounts[$project->id] ?? 0; $vagas = 6 - $propCount; @endphp
+                            {{-- Indicador de vagas --}}
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="flex gap-0.5">
+                                    @for($i = 0; $i < 6; $i++)
+                                        <div class="w-5 h-1.5 rounded-full {{ $i < $propCount ? 'bg-orange-400' : 'bg-gray-200' }}"></div>
+                                    @endfor
+                                </div>
+                                <span class="text-xs {{ $vagas <= 1 ? 'text-orange-500 font-bold' : 'text-gray-400' }}">
+                                    {{ $vagas }} vaga{{ $vagas !== 1 ? 's' : '' }} restante{{ $vagas !== 1 ? 's' : '' }}
+                                </span>
+                            </div>
+
                             @if(in_array($project->id, $myCandidacies))
                                 {{-- Já candidatado: mostrar badge + botão de chat --}}
                                 <div class="flex items-center justify-center gap-1 py-2 rounded-lg bg-green-50 border border-green-200 text-green-700 text-sm font-medium">

@@ -100,32 +100,48 @@ class AvailableProjects extends Component
             'proposalValue' => 'nullable|numeric|min:0',
         ]);
 
+        // Limite de 6 propostas — verificado dentro de um lock para evitar race conditions
+        $created = false;
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $user, &$created) {
+            // Re-verifica dentro do lock
+            $service->refresh();
+            if ($service->status !== 'published') {
+                session()->flash('error', 'Este projecto já não está disponível.');
+                return;
+            }
 
-        // Limite de 6 candidatos por projeto
-        if ($service->candidates()->count() >= 6) {
-            session()->flash('error', 'Este projeto já atingiu o limite de 6 candidatos.');
-            $this->proposalModal = false;
-            return redirect()->route('freelancer.dashboard');
-        }
+            $activeProposals = $service->candidates()
+                ->whereNotIn('status', ['rejected'])
+                ->lockForUpdate()
+                ->count();
 
-        // Cria candidatura com status de proposta, se ainda não existir
-        $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
-        if (!$candidate) {
-            $service->candidates()->create([
-                'freelancer_id' => $user->id,
-                'status' => 'proposal_sent',
-                'proposal_message' => $this->proposalMessage,
-                'proposal_value' => $this->proposalValue,
-            ]);
-        } else {
-            $candidate->status = 'proposal_sent';
-            $candidate->proposal_message = $this->proposalMessage;
-            $candidate->proposal_value = $this->proposalValue;
-            $candidate->save();
-        }
+            if ($activeProposals >= 6) {
+                session()->flash('error', 'Este projecto já atingiu o limite de 6 propostas.');
+                return;
+            }
 
-        session()->flash('success', 'Proposta enviada com sucesso!');
+            $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
+            if (!$candidate) {
+                $service->candidates()->create([
+                    'freelancer_id'    => $user->id,
+                    'status'           => 'proposal_sent',
+                    'proposal_message' => $this->proposalMessage,
+                    'proposal_value'   => $this->proposalValue,
+                ]);
+            } else {
+                $candidate->status           = 'proposal_sent';
+                $candidate->proposal_message = $this->proposalMessage;
+                $candidate->proposal_value   = $this->proposalValue;
+                $candidate->save();
+            }
+            $created = true;
+        });
+
         $this->proposalModal = false;
+
+        if ($created) {
+            session()->flash('success', 'Proposta enviada com sucesso!');
+        }
         return redirect()->route('freelancer.dashboard');
     }
 
@@ -135,10 +151,24 @@ class AvailableProjects extends Component
     {
         $userId = auth()->id();
 
+        // Projectos com 6+ propostas activas (não rejeitadas) estão fechados
+        $fullProjectIds = \App\Models\ServiceCandidate::selectRaw('service_id')
+            ->whereNotIn('status', ['rejected'])
+            ->groupBy('service_id')
+            ->havingRaw('COUNT(*) >= 6')
+            ->pluck('service_id');
+
+        // IDs de projectos onde este freelancer foi rejeitado
+        $rejectedProjectIds = \App\Models\ServiceCandidate::where('freelancer_id', $userId)
+            ->where('status', 'rejected')
+            ->pluck('service_id');
+
         $projects = Service::with('cliente')
             ->where('status', 'published')
             ->whereNull('freelancer_id')
             ->where('cliente_id', '!=', $userId)
+            ->whereNotIn('id', $fullProjectIds)
+            ->whereNotIn('id', $rejectedProjectIds)
             ->orderByDesc('created_at')
             ->paginate(12);
 
@@ -148,7 +178,15 @@ class AvailableProjects extends Component
             ->pluck('service_id')
             ->all();
 
-        return view('livewire.freelancer.available-projects', compact('projects', 'myCandidacies'))
+        // Count of active (non-rejected) proposals per project to show "X/6" indicator
+        $proposalCounts = ServiceCandidate::whereIn('service_id', $projects->pluck('id'))
+            ->whereNotIn('status', ['rejected'])
+            ->selectRaw('service_id, COUNT(*) as total')
+            ->groupBy('service_id')
+            ->pluck('total', 'service_id')
+            ->all();
+
+        return view('livewire.freelancer.available-projects', compact('projects', 'myCandidacies', 'proposalCounts'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Projectos Disponíveis']);
     }
 }
