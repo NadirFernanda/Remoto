@@ -21,13 +21,17 @@ class NotificationPanel extends Component
         $user = Auth::user();
         if (!$user) { $this->notifications = []; return; }
 
-        // Mark all as read when the panel page is opened
+        $isFreelancerMode = $user->activeRole() === 'freelancer';
+
+        // Mark all visible notifications as read
         Notification::where('user_id', $user->id)
             ->where('read', false)
+            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
             ->update(['read' => true]);
 
         $this->notifications = Notification::where('user_id', $user->id)
             ->with('user')
+            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
             ->orderByDesc('created_at')
             ->limit(50)
             ->get();

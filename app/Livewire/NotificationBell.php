@@ -21,12 +21,16 @@ class NotificationBell extends Component
         $user = Auth::user();
         if (!$user) return;
 
+        $isFreelancerMode = $user->activeRole() === 'freelancer';
+
         $this->unreadCount = Notification::where('user_id', $user->id)
             ->where('read', false)
+            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
             ->count();
 
         $this->recent = Notification::where('user_id', $user->id)
             ->with('user')
+            ->when(!$isFreelancerMode, fn($q) => $q->where('type', '!=', 'novo_projeto'))
             ->orderByDesc('created_at')
             ->limit(8)
             ->get()
