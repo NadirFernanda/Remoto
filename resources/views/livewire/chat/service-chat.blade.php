@@ -57,6 +57,7 @@
         <div
             id="chat-messages"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
+            wire:poll.3s
             x-data
             x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
@@ -404,21 +405,5 @@ window.addEventListener('livewire:update', function() {
     if (el) el.scrollTop = el.scrollHeight;
 });
 if (Notification && Notification.permission !== 'granted') Notification.requestPermission();
-
-// ── Real-time via Laravel Echo / Pusher ─────────────────────────────────────
-if (window.Echo) {
-    const serviceId = {{ $service->id }};
-    const livewireComponentId = @js($this->getId());
-    Echo.private(`chat.${serviceId}`)
-        .listen('.MessageSent', () => {
-            const component = window.Livewire && window.Livewire.find
-                ? window.Livewire.find(livewireComponentId)
-                : null;
-
-            if (component && typeof component.$refresh === 'function') {
-                component.$refresh();
-            }
-        });
-}
 </script>
 @endscript
