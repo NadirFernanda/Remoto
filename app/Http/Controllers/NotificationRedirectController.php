@@ -28,7 +28,7 @@ class NotificationRedirectController extends Controller
 
         $url = match ($notification->type) {
             // ── Freelancer-bound ─────────────────────────────────────────────
-            'novo_projeto'         => $sid ? route('freelancer.service.review', $sid)
+            'novo_projeto'         => $sid ? route('public.project.show', $sid)
                                            : route('freelancer.available-projects'),
             'service_chosen'       => $sid ? route('freelancer.service.delivery', $sid)
                                            : route('freelancer.projects'),
