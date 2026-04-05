@@ -364,15 +364,20 @@ class ServiceChat extends Component
             return;
         }
 
-        $this->validate([
-            'valorProposto' => 'required|numeric|min:1',
-        ], [
-            'valorProposto.required' => 'Indique o valor que pretende propor.',
-            'valorProposto.numeric'  => 'O valor deve ser numérico.',
-            'valorProposto.min'      => 'O valor deve ser maior que zero.',
-        ]);
+        $this->resetErrorBag('valorProposto');
 
-        $valor    = number_format((float) $this->valorProposto, 2, ',', '.');
+        $valorNumerico = $this->normalizarValorMonetario($this->valorProposto);
+        if ($valorNumerico === null) {
+            $this->addError('valorProposto', 'Indique um valor válido (ex.: 40000 ou 40.000,00).');
+            return;
+        }
+
+        if ($valorNumerico <= 0) {
+            $this->addError('valorProposto', 'O valor deve ser maior que zero.');
+            return;
+        }
+
+        $valor    = number_format($valorNumerico, 2, ',', '.');
         $mensagem = "💰 Proposta de valor: {$valor} Kz\nPode confirmar o pagamento usando o botão \"Inserir Valor\".";
 
         app(ChatService::class)->send($this->service, auth()->user(), $mensagem);
@@ -380,6 +385,48 @@ class ServiceChat extends Component
         $this->showProporValorModal = false;
         $this->valorProposto       = '';
         $this->dispatch('scroll-bottom');
+    }
+
+    private function normalizarValorMonetario(mixed $valor): ?float
+    {
+        $texto = trim((string) $valor);
+        if ($texto === '') {
+            return null;
+        }
+
+        // Remove tudo excepto dígitos e separadores monetários comuns.
+        $texto = preg_replace('/[^\d.,]/', '', $texto);
+        if ($texto === null || $texto === '') {
+            return null;
+        }
+
+        $temPonto = str_contains($texto, '.');
+        $temVirgula = str_contains($texto, ',');
+
+        if ($temPonto && $temVirgula) {
+            // Escolhe separador decimal pelo último símbolo digitado.
+            if (strrpos($texto, ',') > strrpos($texto, '.')) {
+                $texto = str_replace('.', '', $texto);   // ponto como milhar
+                $texto = str_replace(',', '.', $texto);  // vírgula como decimal
+            } else {
+                $texto = str_replace(',', '', $texto);   // vírgula como milhar
+            }
+        } elseif ($temVirgula) {
+            // "40.000,50" ou "40000,50" -> decimal pt_BR
+            $texto = str_replace('.', '', $texto);
+            $texto = str_replace(',', '.', $texto);
+        } elseif ($temPonto) {
+            // "40.000" (milhar) ou "40000.50" (decimal)
+            if (preg_match('/^\d{1,3}(\.\d{3})+$/', $texto)) {
+                $texto = str_replace('.', '', $texto);
+            }
+        }
+
+        if (!is_numeric($texto)) {
+            return null;
+        }
+
+        return (float) $texto;
     }
 
     public function render()

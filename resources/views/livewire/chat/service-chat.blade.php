@@ -277,9 +277,8 @@
             <div style="margin-bottom:.75rem;">
                 <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
                 <input wire:model="valorProposto"
-                       type="number"
-                       min="1"
-                       step="0.01"
+                      type="text"
+                      inputmode="decimal"
                        placeholder="Ex.: 50000"
                        style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
                        onfocus="this.style.borderColor='#10b981'"
