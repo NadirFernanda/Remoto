@@ -41,7 +41,7 @@ class Notification extends Model
                 'saque_rejeitado'      => route('freelancer.wallet'),
                 'service_rejected'     => route('freelancer.proposals'),
                 'project_cancelled'    => route('freelancer.projects'),
-                'novo_projeto'         => route('freelancer.available-projects'),
+                'novo_projeto'         => $sid ? route('freelancer.service.review', $sid) : route('freelancer.available-projects'),
                 'project_invite'       => route('freelancer.proposals'),
                 'direct_invite'        => route('freelancer.proposals'),
                 'nova_mensagem'        => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
