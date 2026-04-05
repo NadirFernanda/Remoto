@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Service;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Scans all services and repairs text columns that were stored with
@@ -57,8 +58,8 @@ class RepairTextEncoding extends Command
                 if ($changed) {
                     $fixed++;
                     if (!$dryRun) {
-                        // Bypass accessors/mutators with raw query update
-                        Service::withoutTimestamps()->where('id', $service->id)->update($updates);
+                        // Use DB::table to bypass accessors/mutators and avoid touching timestamps
+                        DB::table('services')->where('id', $service->id)->update($updates);
                     }
                 }
             }
