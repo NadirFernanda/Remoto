@@ -3,15 +3,11 @@
     <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="md:col-span-2 bg-white rounded-lg shadow p-6">
         <div class="mb-4">
-            <div class="flex justify-between mb-2">
+            <div class="flex justify-between py-2 border-b border-gray-200">
                 <span class="font-semibold">Valor do projeto</span>
                 <span class="font-bold">{{ number_format($valor, 2, ',', '.') }} Kz</span>
             </div>
-            <div class="flex justify-between mb-1">
-                <span class="text-gray-500 text-xs">Comissão plataforma (10% já incluída)</span>
-                <span class="text-gray-400 text-xs">{{ number_format($taxa, 2, ',', '.') }} Kz retidos</span>
-            </div>
-            <div class="flex justify-between pt-2 border-t border-gray-200">
+            <div class="flex justify-between pt-3">
                 <span class="font-semibold">Total a pagar</span>
                 <span class="font-bold text-cyan-700 text-lg">{{ number_format($valor_total, 2, ',', '.') }} Kz</span>
             </div>

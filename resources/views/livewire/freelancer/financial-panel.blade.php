@@ -1,7 +1,7 @@
 <div x-data="{ valorSaque: 0, saldo: {{ $wallet->saldo ?? 0 }} }">
 
     {{-- ── SALDO HEADER ────────────────────────────── --}}
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Saldo disponível</p>
             <p class="text-2xl font-bold text-green-600">Kz {{ number_format($wallet->saldo ?? 0, 2, ',', '.') }}</p>
@@ -15,12 +15,7 @@
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Ganhos no período</p>
             <p class="text-2xl font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</p>
-            <p class="text-xs text-gray-400 mt-1">bruto recebido</p>
-        </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
-            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Taxas cobradas</p>
-            <p class="text-2xl font-bold text-red-400">Kz {{ number_format($taxas, 2, ',', '.') }}</p>
-            <p class="text-xs text-gray-400 mt-1">comissão da plataforma</p>
+            <p class="text-xs text-gray-400 mt-1">recebido no período</p>
         </div>
     </div>
 
@@ -109,10 +104,6 @@
                     <span class="text-xs font-medium text-gray-600">Ganhos</span>
                     <span class="text-sm font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</span>
                 </div>
-                <div class="flex items-center justify-between p-3 rounded-xl bg-red-50">
-                    <span class="text-xs font-medium text-gray-600">Taxas <span class="text-gray-400">({{ $ganhos > 0 ? number_format($taxas / $ganhos * 100, 1) : 0 }}%)</span></span>
-                    <span class="text-sm font-bold text-red-500">Kz {{ number_format($taxas, 2, ',', '.') }}</span>
-                </div>
                 <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
                     <span class="text-xs font-medium text-gray-600">Saques</span>
                     <span class="text-sm font-bold text-gray-700">Kz {{ number_format($saques, 2, ',', '.') }}</span>
@@ -169,9 +160,10 @@
                 <tbody class="divide-y divide-gray-50">
                     @foreach($logs as $log)
                     @php
-                        $tipoCor   = match($log->tipo) { 'ganho','reembolso' => 'text-green-600', 'taxa' => 'text-red-400', default => 'text-gray-600' };
-                        $tipoLabel = match($log->tipo) { 'ganho'=>'Ganho','taxa'=>'Taxa','saque'=>'Saque','saque_solicitado'=>'Saque','reembolso'=>'Reembolso', default=>ucfirst(str_replace('_',' ',$log->tipo)) };
-                        $bgLabel   = match($log->tipo) { 'ganho'=>'bg-green-50 text-green-700','taxa'=>'bg-red-50 text-red-600','saque','saque_solicitado'=>'bg-gray-100 text-gray-600','reembolso'=>'bg-blue-50 text-blue-600', default=>'bg-gray-100 text-gray-500' };
+                        if ($log->tipo === 'taxa') continue;
+                        $tipoCor   = match($log->tipo) { 'ganho','reembolso' => 'text-green-600', default => 'text-gray-600' };
+                        $tipoLabel = match($log->tipo) { 'ganho'=>'Recebido','saque'=>'Saque','saque_solicitado'=>'Saque','reembolso'=>'Reembolso', default=>ucfirst(str_replace('_',' ',$log->tipo)) };
+                        $bgLabel   = match($log->tipo) { 'ganho'=>'bg-green-50 text-green-700','saque','saque_solicitado'=>'bg-gray-100 text-gray-600','reembolso'=>'bg-blue-50 text-blue-600', default=>'bg-gray-100 text-gray-500' };
                         $sinal     = in_array($log->tipo, ['ganho','reembolso']) ? '+' : '−';
                     @endphp
                     <tr>
