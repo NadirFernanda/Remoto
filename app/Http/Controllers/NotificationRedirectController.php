@@ -3,38 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationRedirectController extends Controller
 {
     /**
-     * Mark the notification as read and redirect to its destination.
+     * Mark the notification as read and redirect to its specific destination.
      *
-     * Using a real HTTP redirect guarantees the routing logic runs
-     * in a fresh PHP request — immune to opcode-cache staleness — and
-     * that the destination URL is resolved at click-time, not render-time.
+     * URL resolution is done HERE — not via Notification::getUrl() — so this
+     * always executes from fresh bytecode, fully immune to PHP OPcache staleness.
      */
-    public function __invoke(Request $request, Notification $notification)
+    public function __invoke(Notification $notification)
     {
-        // Security: only the owner can open their notifications
         if ($notification->user_id !== Auth::id()) {
             abort(403);
         }
 
-        // Mark read
         if (!$notification->read) {
             $notification->update(['read' => true]);
         }
 
-        $url = $notification->getUrl();
+        $sid  = $notification->service_id;
+        $role = Auth::user()->role; // DB column — registered role
 
-        // Fallback: if still unresolved send to role-appropriate dashboard
-        if ($url === '#' || empty($url)) {
-            $url = Auth::user()->activeRole() === 'freelancer'
+        $url = match ($notification->type) {
+            // ── Freelancer-bound ─────────────────────────────────────────────
+            'novo_projeto'         => $sid ? route('freelancer.service.review', $sid)
+                                           : route('freelancer.available-projects'),
+            'service_chosen'       => $sid ? route('freelancer.service.delivery', $sid)
+                                           : route('freelancer.projects'),
+            'revision_requested'   => $sid ? route('freelancer.service.delivery', $sid)
+                                           : route('freelancer.projects'),
+            'project_started'      => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+            'payment_adjustment'   => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+            'delivery_approved'    => $sid ? route('service.chat', $sid) : route('freelancer.projects'),
+            'payment_released'     => route('freelancer.wallet'),
+            'saque_aprovado'       => route('freelancer.wallet'),
+            'saque_rejeitado'      => route('freelancer.wallet'),
+            'service_rejected'     => route('freelancer.proposals'),
+            'project_invite'       => route('freelancer.proposals'),
+            'direct_invite'        => route('freelancer.proposals'),
+
+            // proposal_received: sent to FREELANCER (client invited) OR to CLIENT (freelancer proposed)
+            'proposal_received'    => $role === 'freelancer'
+                ? ($sid ? route('service.chat', $sid) : route('freelancer.proposals'))
+                : route('client.projects'),
+
+            // nova_mensagem: both roles use service chat
+            'nova_mensagem'        => $sid ? route('service.chat', $sid)
+                : ($role === 'freelancer' ? route('freelancer.projects') : route('client.projects')),
+
+            // project_cancelled: both roles
+            'project_cancelled'    => $role === 'freelancer' ? route('freelancer.projects') : route('client.projects'),
+
+            // ── Client-bound ─────────────────────────────────────────────────
+            'proposal_accepted'    => route('client.projects'),
+            'proposal_rejected'    => route('client.projects'),
+            'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
+            'refund_processed'     => route('client.refunds'),
+            'refund_approved'      => route('client.refunds'),
+            'refund_rejected'      => route('client.refunds'),
+
+            // ── Dispute / shared ─────────────────────────────────────────────
+            'moderation_requested' => $sid ? route('service.dispute', $sid) : route('dashboard'),
+            'dispute_admin_reply'  => $sid ? route('service.dispute', $sid) : route('dashboard'),
+            'dispute_opened'       => $sid ? route('service.dispute', $sid) : route('dashboard'),
+            'dispute_opened_admin' => route('admin.disputes'),
+            'dispute_resolved'     => $sid ? route('service.dispute', $sid) : route('dashboard'),
+            'review_reminder'      => $sid ? route('service.review.leave', $sid) : route('dashboard'),
+
+            default                => $role === 'freelancer'
                 ? route('freelancer.dashboard')
-                : route('client.dashboard');
-        }
+                : route('client.dashboard'),
+        };
 
         return redirect($url);
     }
