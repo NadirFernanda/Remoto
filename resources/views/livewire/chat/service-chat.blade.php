@@ -264,11 +264,11 @@
     {{-- Modal: Propor Valor (freelancer) --}}
     @if($showProporValorModal)
     <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
-         wire:click.self="fecharModalProporValor">
-        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" wire:click.stop>
+         @click.self="$wire.fecharModalProporValor()">
+        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" @click.stop>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                 <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
-                <button wire:click="fecharModalProporValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
+                <button type="button" wire:click="fecharModalProporValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
@@ -290,11 +290,11 @@
                 @enderror
             </div>
             <div style="display:flex;gap:.75rem;">
-                <button wire:click="fecharModalProporValor"
+                <button type="button" wire:click="fecharModalProporValor"
                         style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
                     Cancelar
                 </button>
-                <button wire:click="enviarPropostaValor"
+                <button type="button" wire:click="enviarPropostaValor"
                         wire:loading.attr="disabled"
                         wire:target="enviarPropostaValor"
                         style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#10b981;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(16,185,129,.35);">
@@ -312,15 +312,15 @@
         $bd = $this->extraBreakdown;
     @endphp
     <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
-         wire:click.self="fecharModalValor">
-        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" wire:click.stop>
+         @click.self="$wire.fecharModalValor()">
+        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" @click.stop>
 
             {{-- Modal header --}}
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                 <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
                     {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
                 </h3>
-                <button wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
+                <button type="button" wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
                     <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
@@ -373,11 +373,11 @@
 
             {{-- Actions --}}
             <div style="display:flex;gap:.75rem;">
-                <button wire:click="fecharModalValor"
+                <button type="button" wire:click="fecharModalValor"
                         style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
                     Cancelar
                 </button>
-                <button wire:click="pagarValorExtra"
+                <button type="button" wire:click="pagarValorExtra"
                         wire:loading.attr="disabled"
                         wire:target="pagarValorExtra"
                         style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
