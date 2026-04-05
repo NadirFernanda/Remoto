@@ -263,7 +263,7 @@
 
     {{-- Modal: Propor Valor (freelancer) --}}
     @if($showProporValorModal)
-    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
+    <div x-data style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
          @click.self="$wire.fecharModalProporValor()">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" @click.stop>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
@@ -311,7 +311,7 @@
     @php
         $bd = $this->extraBreakdown;
     @endphp
-    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
+    <div x-data style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);"
          @click.self="$wire.fecharModalValor()">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;" @click.stop>
 
