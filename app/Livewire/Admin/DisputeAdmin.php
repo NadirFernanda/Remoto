@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Dispute;
+use App\Models\Refund;
 use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
@@ -314,6 +315,15 @@ class DisputeAdmin extends Component
                     'descricao' => 'Reembolso por decisão admin na disputa: ' . $service->titulo,
                 ]);
             }
+
+            // Criar registo visível em /cliente/reembolsos
+            Refund::create([
+                'user_id'    => $service->cliente_id,
+                'service_id' => $service->id,
+                'reason'     => 'Disputa resolvida a favor do cliente',
+                'details'    => 'Reembolso de ' . number_format($service->valor, 0, ',', '.') . ' Kz creditado automaticamente por decisão administrativa.',
+                'status'     => 'approved',
+            ]);
 
             $service->update(['status' => 'cancelled']);
         });
