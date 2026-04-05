@@ -11,8 +11,12 @@ return new class extends Migration {
             // Altera a coluna briefing de json para text
             $table->text('briefing_tmp')->nullable();
         });
-        // Copia os dados existentes para a nova coluna
-        DB::statement('UPDATE services SET briefing_tmp = briefing::text');
+        // Copia os dados existentes para a nova coluna (compatível com PostgreSQL e SQLite)
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement('UPDATE services SET briefing_tmp = briefing::text');
+        } else {
+            DB::statement('UPDATE services SET briefing_tmp = CAST(briefing AS TEXT)');
+        }
         Schema::table('services', function (Blueprint $table) {
             $table->dropColumn('briefing');
         });

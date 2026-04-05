@@ -18,6 +18,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (DB::getDriverName() !== 'pgsql') {
+            return; // GIN indexes e cast jsonb são específicos do PostgreSQL
+        }
+
         // As colunas skills, languages e metrics podem ser do tipo json (não jsonb).
         // jsonb_path_ops requer jsonb — convertemos primeiro via USING cast.
         // O cast json::jsonb é seguro e sem perda de dados.
@@ -67,6 +71,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (DB::getDriverName() !== 'pgsql') {
+            return;
+        }
+
         DB::statement('DROP INDEX IF EXISTS idx_fp_skills_gin');
         DB::statement('DROP INDEX IF EXISTS idx_fp_languages_gin');
         DB::statement('DROP INDEX IF EXISTS idx_fp_metrics_gin');

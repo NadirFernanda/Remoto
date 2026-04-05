@@ -84,7 +84,8 @@ class AvailableProjects extends Component
         $service = Service::findOrFail($serviceId);
         $user = auth()->user();
         if (!$user || $user->id === $service->cliente_id) {
-            throw new \Exception('Ação não permitida. Você não pode enviar proposta para este serviço.');
+            session()->flash('error', 'Ação não permitida. Você não pode enviar proposta para este serviço.');
+            return;
         }
 
         $rateLimitKey = 'send-proposal:' . ($user->id ?? request()->ip());
