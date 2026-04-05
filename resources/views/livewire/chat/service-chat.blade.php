@@ -57,7 +57,6 @@
         <div
             id="chat-messages"
             class="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-slate-50"
-            wire:poll.3s
             x-data
             x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
