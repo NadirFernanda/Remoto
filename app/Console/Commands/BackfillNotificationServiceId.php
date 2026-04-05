@@ -57,7 +57,7 @@ class BackfillNotificationServiceId extends Command
                         continue;
                     }
 
-                    $this->line("  ID {$row->id} [{$row->type}] → service #{$sid}  ("{$row->message}")");
+                    $this->line("  ID {$row->id} [{$row->type}] -> service #{$sid}  \"{$row->message}\"");
 
                     $fixed++;
                     if (!$dryRun) {
