@@ -82,11 +82,11 @@
                     @if(!$isMine)
                         <img src="{{ $avatar }}" alt="{{ $name }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">
                     @endif
-                    <div class="max-w-[72%] min-w-0 flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}">
+                    <div class="max-w-[72%] flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}" style="min-width:0;max-width:72%;">
                         @if(!$isMine)
                             <span class="text-xs text-slate-400 mb-1 ml-1">{{ $name }}</span>
                         @endif
-                        <div class="relative overflow-hidden px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}">
+                        <div class="relative px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;">
 
                             @if($msg->anexo)
                                 @if($isImage)
@@ -94,15 +94,16 @@
                                         <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
                                     </a>
                                 @elseif($isAudio)
-                                    <audio controls class="w-full max-w-full mb-1 rounded-lg">
+                                    <audio controls style="width:100%;max-width:100%;display:block;" class="mb-1 rounded-lg">
                                         <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
                                     </audio>
                                 @else
                                     <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
-                                       class="chat-file-link flex items-center gap-2 mb-1 px-3 py-2 rounded-xl {{ $isMine ? 'bg-white/20 hover:bg-white/30' : 'bg-slate-100 hover:bg-slate-200' }} transition overflow-hidden">
-                                        <span class="text-2xl flex-shrink-0">&#128196;</span>
-                                        <span class="text-sm font-medium truncate min-w-0 flex-1">{{ $displayName }}</span>
-                                        <span class="text-xs opacity-60 uppercase flex-shrink-0">{{ strtoupper($ext) }}</span>
+                                       class="chat-file-link flex items-center gap-2 mb-1 px-3 py-2 rounded-xl {{ $isMine ? 'bg-white/20 hover:bg-white/30' : 'bg-slate-100 hover:bg-slate-200' }} transition"
+                                       style="overflow:hidden;min-width:0;display:flex;">
+                                        <span class="text-2xl" style="flex-shrink:0;">&#128196;</span>
+                                        <span class="text-sm font-medium" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;">{{ $displayName }}</span>
+                                        <span class="text-xs opacity-60 uppercase" style="flex-shrink:0;">{{ strtoupper($ext) }}</span>
                                     </a>
                                 @endif
                             @endif
