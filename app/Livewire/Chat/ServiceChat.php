@@ -106,6 +106,7 @@ class ServiceChat extends Component
         $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
         $this->novoValorTotal = $plain;
         $this->showValorModal = true;
+        $this->skipRender();
     }
 
     // ── Acções do modal ──────────────────────────────────────────────────────
@@ -136,6 +137,7 @@ class ServiceChat extends Component
         }
 
         $this->showValorModal = true;
+        $this->skipRender();
     }
 
     public function fecharModalValor(): void
