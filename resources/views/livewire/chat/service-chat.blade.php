@@ -1,8 +1,18 @@
-﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
-    <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
+﻿<style>
+@media (max-width: 640px) {
+    .chat-outer { padding: 0 !important; align-items: stretch !important; }
+    .chat-window { border-radius: 0 !important; height: 100dvh !important; max-height: 100dvh !important; min-height: 0 !important; }
+    .chat-header { flex-wrap: wrap; gap: .5rem !important; padding: .6rem .75rem !important; }
+    .chat-header-actions { display: flex; gap: .4rem; width: 100%; justify-content: flex-end; }
+    .chat-header-btn { font-size: .7rem !important; padding: .25rem .55rem !important; }
+    .chat-header > span { display: none !important; }
+}
+</style>
+<div class="chat-outer min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
+    <div class="chat-window w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
-        <div class="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-[#0ea5e9] to-[#0284c7] text-white shadow-sm flex-shrink-0">
+        <div class="chat-header flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-[#0ea5e9] to-[#0284c7] text-white shadow-sm flex-shrink-0">
             <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg font-bold">
                 {{ strtoupper(substr($service->titulo ?? 'S', 0, 1)) }}
             </div>
@@ -23,25 +33,31 @@
                 <span class="flex items-center gap-1 text-xs bg-white/20 rounded-full px-3 py-1"><span class="w-2 h-2 rounded-full bg-green-300 inline-block"></span> Activo</span>
             @endif
 
-            @if($mostrarBotaoValor)
-                <button wire:click="abrirModalValor"
-                        style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#ff2d55;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;flex-shrink:0;white-space:nowrap;box-shadow:0 2px 8px rgba(255,45,85,.45);"
-                        title="Inserir valor adicional acordado com o freelancer">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
-                    </svg>
-                    Inserir Valor
-                </button>
-            @endif
-            @if($mostrarBotaoFreelancerValor)
-                <button wire:click="abrirModalProporValor"
-                        style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#10b981;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;flex-shrink:0;white-space:nowrap;box-shadow:0 2px 8px rgba(16,185,129,.45);"
-                        title="Propor um valor ao cliente">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
-                    </svg>
-                    Propor Valor
-                </button>
+            @if($mostrarBotaoValor || $mostrarBotaoFreelancerValor)
+            <div class="chat-header-actions flex gap-2 flex-shrink-0">
+                @if($mostrarBotaoValor)
+                    <button @click="$wire.abrirModalValor()"
+                            class="chat-header-btn"
+                            style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#ff2d55;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(255,45,85,.45);"
+                            title="Inserir valor adicional acordado com o freelancer">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
+                        </svg>
+                        Inserir Valor
+                    </button>
+                @endif
+                @if($mostrarBotaoFreelancerValor)
+                    <button @click="$wire.abrirModalProporValor()"
+                            class="chat-header-btn"
+                            style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#10b981;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(16,185,129,.45);"
+                            title="Propor um valor ao cliente">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
+                        </svg>
+                        Propor Valor
+                    </button>
+                @endif
+            </div>
             @endif
         </div>
 
@@ -110,7 +126,7 @@
                                     @endphp
                                     @if(!empty($propostaMatch[1]))
                                     <div class="mt-2 pt-2 border-t border-slate-200">
-                                        <button wire:click="abrirModalComValor('{{ $propostaMatch[1] }}')"
+                                        <button @click="$wire.abrirModalComValor('{{ $propostaMatch[1] }}')"
                                                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ff2d55] text-white shadow hover:opacity-90 transition active:scale-95"
                                                 title="Confirmar este valor e efectuar o pagamento">
                                             <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
