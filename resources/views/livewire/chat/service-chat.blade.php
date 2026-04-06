@@ -184,7 +184,7 @@
 
                     <div class="flex-1 relative">
                         <input type="text"
-                               wire:model="mensagem"
+                               wire:model.defer="mensagem"
                                id="mensagemInput"
                                class="w-full bg-slate-100 rounded-full px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/40 placeholder-slate-400"
                                placeholder="Escreva uma mensagem...">
@@ -291,7 +291,7 @@
             </div>
             <div style="margin-bottom:.75rem;">
                 <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
-                <input wire:model="valorProposto"
+                                <input wire:model.defer="valorProposto"
                       type="text"
                       inputmode="decimal"
                        placeholder="Ex.: 50000"
@@ -357,7 +357,7 @@
                 <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                     {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
                 </label>
-                <input wire:model.live="novoValorTotal"
+                                <input wire:model.debounce.300ms="novoValorTotal"
                        type="number"
                        min="0"
                        step="0.01"
@@ -405,28 +405,3 @@
     </div>
 
 </div>
-@script
-<script>
-if (!window.__chatLivewireUpdateRegistered) {
-    let lastMsgCount = document.querySelectorAll('#chat-messages > div').length;
-
-    window.addEventListener('livewire:update', function() {
-        const msgs = document.querySelectorAll('#chat-messages > div');
-        if (msgs.length > lastMsgCount) {
-            const audio = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae6c2.mp3');
-            audio.play().catch(() => {});
-        }
-        lastMsgCount = msgs.length;
-
-        const el = document.getElementById('chat-messages');
-        if (el) el.scrollTop = el.scrollHeight;
-    });
-
-    if ('Notification' in window && Notification.permission !== 'granted') {
-        Notification.requestPermission();
-    }
-
-    window.__chatLivewireUpdateRegistered = true;
-}
-</script>
-@endscript
