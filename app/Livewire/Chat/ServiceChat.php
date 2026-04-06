@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Chat;
 
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
@@ -18,31 +19,32 @@ class ServiceChat extends Component
     use WithFileUploads;
 
     public Service $service;
-    public $mensagem = '';
+    public string $mensagem = '';
     public $chatFile = null;
-    public $chat_bloqueado = true;
+    public bool $chat_bloqueado = true;
+
+    // ── Calculados 1x em mount — não re-executam queries em cada render ──────
+    public bool $mostrarBotaoValor = false;
+    public bool $mostrarBotaoFreelancerValor = false;
+    public bool $isCliente = false;
 
     // ── Inserir Valor modal (cliente) ────────────────────────────────────────
-    public $showValorModal = false;
-    public $novoValorTotal = '';
+    public bool $showValorModal = false;
+    public string $novoValorTotal = '';
 
     // ── Propor Valor modal (freelancer) ──────────────────────────────────────
-    public $showProporValorModal = false;
-    public $valorProposto = '';
+    public bool $showProporValorModal = false;
+    public string $valorProposto = '';
 
-    public function mount(Service $service)
+    public function mount(Service $service): void
     {
         $this->service = $service;
-
         $user = auth()->user();
 
-        // Verifica se o utilizador tem acesso ao chat:
-        // - cliente dono do projeto
-        // - freelancer contratado
-        // - candidato com proposta enviada (pré-contratação)
-        $isOwner     = $user && $user->id === $service->cliente_id;
+        $isOwner      = $user && $user->id === $service->cliente_id;
         $isFreelancer = $user && $user->id === $service->freelancer_id;
-        $isCandidate  = $user && $service->candidates()->where('freelancer_id', $user->id)
+        $isCandidate  = $user && $service->candidates()
+            ->where('freelancer_id', $user->id)
             ->whereIn('status', ['pending', 'proposal_sent', 'invited', 'chosen'])
             ->exists();
 
@@ -50,44 +52,45 @@ class ServiceChat extends Component
             abort(403, 'Acesso não autorizado ao chat.');
         }
 
-        // Chat desbloqueado para negociação pré-contratação e fases activas.
-        // 'completed' está excluído: projeto concluído = chat em modo leitura.
         $this->chat_bloqueado = !in_array($service->status, [
-            'published', 'negotiating', 'accepted', 'in_progress', 'delivered'
+            'published', 'negotiating', 'accepted', 'in_progress', 'delivered',
         ]);
 
-        if (auth()->check()) {
-            app(ChatService::class)->markRead($service, auth()->user());
+        $this->isCliente = (bool) ($user && $user->id === $service->cliente_id);
+
+        $this->mostrarBotaoValor = $this->isCliente
+            && !$this->chat_bloqueado
+            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+
+        $this->mostrarBotaoFreelancerValor = !$this->isCliente
+            && !$this->chat_bloqueado
+            && ($isFreelancer || $isCandidate)
+            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+
+        if ($user) {
+            app(ChatService::class)->markRead($service, $user);
         }
     }
 
     // ── Computed helpers ─────────────────────────────────────────────────────
 
-    /**
-     * Verdadeiro quando o projecto ainda não teve o escrow cobrado.
-     * Cobre dois casos:
-     *   1. status = 'negotiating' (proposta directa enviada, cliente ainda não pagou)
-     *   2. status = 'accepted' + service_type = 'direct_invite' (freelancer aceitou mas cliente ainda não pagou)
-     */
     public function getIsDirectNegotiationProperty(): bool
     {
         return $this->service->status === 'negotiating'
             || ($this->service->status === 'accepted' && $this->service->service_type === 'direct_invite');
     }
 
-    /** Breakdown do valor: para negociação directa é o valor total; para ajustes é a diferença */
     public function getExtraBreakdownProperty(): array
     {
-        $novo       = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?? '0');
+        $novo       = (float) str_replace([' ', ','], ['', '.'], $this->novoValorTotal ?: '0');
         $isDirect   = $this->isDirectNegotiation;
         $clientRate = \App\Services\FeeService::serviceClientRate();
-        $extra = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
-        $taxa  = 0.0;
+        $extra      = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
         return [
             'atual'             => (float) $this->service->valor,
             'novo'              => $novo,
             'extra'             => $extra,
-            'taxa'              => $taxa,
+            'taxa'              => 0.0,
             'total_cliente'     => $extra,
             'is_negotiating'    => $isDirect,
             'clientRatePercent' => round($clientRate * 100, 1),
@@ -96,42 +99,13 @@ class ServiceChat extends Component
 
     /**
      * Called by inline "Aceitar Proposta" buttons inside message bubbles.
-     * $valorFormatado is the number as it appears in the message, e.g. "50.000,00".
      */
     public function abrirModalComValor(string $valorFormatado): void
     {
         $this->resetErrorBag();
-        // Convert from pt_BR format ("50.000,00") to plain float string ("50000.00")
         $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
         $this->novoValorTotal = $plain;
         $this->showValorModal = true;
-    }
-
-    public function getIsClienteProperty(): bool
-    {
-        return auth()->check() && auth()->id() === $this->service->cliente_id;
-    }
-
-    public function getMostrarBotaoValorProperty(): bool
-    {
-        return $this->isCliente
-            && !$this->chat_bloqueado
-            && in_array($this->service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
-    }
-
-    public function getMostrarBotaoFreelancerValorProperty(): bool
-    {
-        $user = auth()->user();
-        if (!$user || $this->chat_bloqueado) return false;
-
-        $isFreelancer = $user->id === $this->service->freelancer_id;
-        $isCandidate  = $this->service->candidates()
-            ->where('freelancer_id', $user->id)
-            ->whereIn('status', ['pending', 'proposal_sent', 'invited', 'chosen'])
-            ->exists();
-
-        return ($isFreelancer || $isCandidate)
-            && in_array($this->service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
     }
 
     // ── Acções do modal ──────────────────────────────────────────────────────
@@ -140,6 +114,7 @@ class ServiceChat extends Component
     {
         $this->resetErrorBag();
         $this->novoValorTotal = '';
+
 
         if ($this->isDirectNegotiation) {
             // Negociação directa (negotiating ou accepted+direct_invite):
@@ -168,6 +143,7 @@ class ServiceChat extends Component
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $this->resetErrorBag();
+        $this->skipRender();
     }
 
     public function pagarValorExtra(): void
@@ -349,6 +325,7 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->valorProposto = '';
         $this->showProporValorModal = true;
+        $this->skipRender();
     }
 
     public function fecharModalProporValor(): void
@@ -356,6 +333,7 @@ class ServiceChat extends Component
         $this->showProporValorModal = false;
         $this->valorProposto = '';
         $this->resetErrorBag();
+        $this->skipRender();
     }
 
     public function enviarPropostaValor(): void
@@ -429,15 +407,16 @@ class ServiceChat extends Component
         return (float) $texto;
     }
 
+    #[Computed]
+    public function messages()
+    {
+        return app(ChatService::class)->getMessages($this->service);
+    }
+
     public function render()
     {
-        $messages = app(ChatService::class)->getMessages($this->service);
-
-        return view('livewire.chat.service-chat', [
-            'messages'                    => $messages,
-            'mostrarBotaoValor'           => $this->mostrarBotaoValor,
-            'mostrarBotaoFreelancerValor' => $this->mostrarBotaoFreelancerValor,
-        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço']);
+        return view('livewire.chat.service-chat')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço']);
     }
 }
 

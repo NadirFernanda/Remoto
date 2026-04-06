@@ -61,7 +61,7 @@
             x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
-            @forelse($messages as $msg)
+            @forelse($this->messages as $msg)
                 @php
                     $isMine = $msg->user_id === auth()->id();
                     $name = $msg->user->name ?? 'Utilizador';
