@@ -79,15 +79,15 @@
                     $shortName = mb_strlen($displayName) > 36 ? mb_substr($displayName, 0, 33) . '…' : $displayName;
                 @endphp
                 @if($msg->conteudo || $msg->anexo)
-                <div wire:key="msg-{{ $msg->id }}" class="flex items-end gap-2 {{ $isMine ? 'justify-end' : 'justify-start' }}">
+                <div wire:key="msg-{{ $msg->id }}" style="display:flex;align-items:flex-end;gap:8px;width:100%;" class="{{ $isMine ? 'justify-end' : 'justify-start' }}">
                     @if(!$isMine)
                         <img src="{{ $avatar }}" alt="{{ $name }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">
                     @endif
-                    <div class="max-w-[72%] flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}" style="min-width:0;max-width:72%;">
+                    <div class="flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}" style="min-width:0;max-width:min(72%, calc(100vw - 110px));">
                         @if(!$isMine)
                             <span class="text-xs text-slate-400 mb-1 ml-1">{{ $name }}</span>
                         @endif
-                        <div class="relative px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;">
+                        <div class="relative px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
 
                             @if($msg->anexo)
                                 @if($isImage)
@@ -95,15 +95,15 @@
                                         <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
                                     </a>
                                 @elseif($isAudio)
-                                    <audio controls style="width:100%;max-width:100%;display:block;" class="mb-1 rounded-lg">
+                                    <audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg">
                                         <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
                                     </audio>
                                 @else
                                     <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
                                        title="{{ $displayName }}"
-                                       style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};">
+                                       style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};max-width:100%;overflow:hidden;box-sizing:border-box;">
                                         <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
-                                        <span style="font-size:.8rem;font-weight:600;white-space:nowrap;">{{ $shortName }}</span>
+                                        <span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">{{ $shortName }}</span>
                                         <span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">{{ strtoupper($ext) }}</span>
                                     </a>
                                 @endif
