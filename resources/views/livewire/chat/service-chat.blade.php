@@ -261,9 +261,12 @@
         </div>
     </div>
 
-    {{-- Modal: Propor Valor (freelancer) --}}
-    @if($showProporValorModal)
-    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
+        {{-- Modal: Propor Valor (freelancer) --}}
+        <div x-data="{ open: @entangle('showProporValorModal').live }"
+            x-show="open"
+            x-cloak
+            @keydown.escape.window="$wire.fecharModalProporValor()"
+            style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                 <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
@@ -302,14 +305,16 @@
             </div>
         </div>
     </div>
-    @endif
 
     {{-- Modal: Inserir Valor --}}
-    @if($showValorModal)
     @php
         $bd = $this->extraBreakdown;
     @endphp
-    <div style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
+    <div x-data="{ open: @entangle('showValorModal').live }"
+         x-show="open"
+         x-cloak
+         @keydown.escape.window="$wire.fecharModalValor()"
+         style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
 
             {{-- Modal header --}}
@@ -386,7 +391,6 @@
             </div>
         </div>
     </div>
-    @endif
 
 </div>
 @script
