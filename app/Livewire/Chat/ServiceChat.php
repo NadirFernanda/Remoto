@@ -106,6 +106,7 @@ class ServiceChat extends Component
         $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
         $this->novoValorTotal = $plain;
         $this->showValorModal = true;
+        $this->dispatch('open-modal-inserir-valor');
     }
 
     // ── Acções do modal ──────────────────────────────────────────────────────
@@ -136,6 +137,7 @@ class ServiceChat extends Component
         }
 
         $this->showValorModal = true;
+        $this->dispatch('open-modal-inserir-valor');
     }
 
     public function fecharModalValor(): void
@@ -143,6 +145,7 @@ class ServiceChat extends Component
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $this->resetErrorBag();
+        $this->dispatch('close-modal-inserir-valor');
         $this->skipRender();
     }
 
@@ -256,6 +259,7 @@ class ServiceChat extends Component
 
         $this->showValorModal = false;
         $this->novoValorTotal = '';
+        $this->dispatch('close-modal-inserir-valor');
         $successMsg = 'Pagamento de ' . number_format($total_cliente, 2, ',', '.') . ' Kz processado com sucesso!';
         if ($isDirect) {
             $successMsg .= ' O projecto está agora Em andamento.';
@@ -325,6 +329,7 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->valorProposto = '';
         $this->showProporValorModal = true;
+        $this->dispatch('open-modal-propor-valor');
         $this->skipRender();
     }
 
@@ -333,6 +338,7 @@ class ServiceChat extends Component
         $this->showProporValorModal = false;
         $this->valorProposto = '';
         $this->resetErrorBag();
+        $this->dispatch('close-modal-propor-valor');
         $this->skipRender();
     }
 
@@ -362,6 +368,7 @@ class ServiceChat extends Component
 
         $this->showProporValorModal = false;
         $this->valorProposto       = '';
+        $this->dispatch('close-modal-propor-valor');
         $this->dispatch('scroll-bottom');
     }
 
