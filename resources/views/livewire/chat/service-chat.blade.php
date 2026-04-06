@@ -24,9 +24,9 @@
             @endif
 
             @if($mostrarBotaoValor || $mostrarBotaoFreelancerValor)
-            <div class="chat-header-actions flex gap-2 flex-shrink-0" x-data="{}">
+            <div class="chat-header-actions flex gap-2 flex-shrink-0">
                 @if($mostrarBotaoValor)
-                    <button @click="$wire.abrirModalValor()"
+                    <button wire:click="abrirModalValor"
                             class="chat-header-btn"
                             style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#ff2d55;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(255,45,85,.45);"
                             title="Inserir valor adicional acordado com o freelancer">
@@ -37,7 +37,7 @@
                     </button>
                 @endif
                 @if($mostrarBotaoFreelancerValor)
-                    <button @click="$wire.abrirModalProporValor()"
+                    <button wire:click="abrirModalProporValor"
                             class="chat-header-btn"
                             style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#10b981;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(16,185,129,.45);"
                             title="Propor um valor ao cliente">
