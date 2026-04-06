@@ -1,4 +1,4 @@
-﻿<div wire:key="service-chat-{{ $service->id }}" class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
+﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
     <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
@@ -276,7 +276,7 @@
         {{-- Modal: Propor Valor (freelancer) --}}
         <div x-data
             wire:show="showProporValorModal"
-            wire:cloak
+            x-cloak
             @keydown.escape.window="$wire.fecharModalProporValor()"
             style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
@@ -324,7 +324,7 @@
     @endphp
         <div x-data
             wire:show="showValorModal"
-            wire:cloak
+            x-cloak
          @keydown.escape.window="$wire.fecharModalValor()"
          style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
