@@ -1,15 +1,4 @@
 ﻿<div class="chat-outer min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
-    <style>
-    @media (max-width: 640px) {
-        .chat-outer { padding: 0 !important; align-items: stretch !important; }
-        .chat-window { border-radius: 0 !important; height: 100dvh !important; max-height: 100dvh !important; min-height: 0 !important; }
-        .chat-header { flex-wrap: wrap; gap: .5rem !important; padding: .6rem .75rem !important; }
-        .chat-header-actions { display: flex; gap: .4rem; width: 100%; justify-content: flex-end; }
-        .chat-header-btn { font-size: .7rem !important; padding: .25rem .55rem !important; }
-        .chat-header > span { display: none !important; }
-        .chat-file-link { max-width: 100%; }
-    }
-    </style>
     <div class="chat-window w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
