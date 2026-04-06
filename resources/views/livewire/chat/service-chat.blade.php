@@ -24,7 +24,7 @@
             @endif
 
             @if($mostrarBotaoValor || $mostrarBotaoFreelancerValor)
-            <div class="chat-header-actions flex gap-2 flex-shrink-0">
+            <div class="chat-header-actions flex gap-2 flex-shrink-0" x-data="{}">
                 @if($mostrarBotaoValor)
                     <button @click="$wire.abrirModalValor()"
                             class="chat-header-btn"
