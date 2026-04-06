@@ -1,4 +1,4 @@
-﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
+﻿<div wire:key="service-chat-{{ $service->id }}" class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
     <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
@@ -209,52 +209,64 @@
 
                 @script
                 <script>
-                Alpine.data('chatInput', () => ({
-                    hasFile: false,
-                    fileName: '',
-                    uploading: false,
-                    init() {
-                        // wire is available via $wire magic in Alpine
-                    },
-                    handleFile(event) {
-                        const file = event.target.files[0];
-                        if (!file) return;
-                        this.uploading = true;
-                        this.fileName = file.name;
-                        this.$wire.upload('chatFile', file,
-                            () => { this.uploading = false; this.hasFile = true; },
-                            () => { this.uploading = false; this.hasFile = false; this.fileName = ''; },
-                            () => {}
-                        );
-                    },
-                    clear() {
-                        this.hasFile = false;
-                        this.fileName = '';
-                        this.uploading = false;
-                        if (this.$refs.fileInput) this.$refs.fileInput.value = '';
-                    }
-                }));
-
-                function toggleEmojiPicker() {
-                    const picker = document.getElementById('emoji-picker');
-                    picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
-                    if (picker.style.display === 'block' && !picker.hasChildNodes()) {
-                        const ep = document.createElement('emoji-picker');
-                        ep.addEventListener('emoji-click', e => {
-                            const input = document.getElementById('mensagemInput');
-                            input.value += e.detail.unicode;
-                            input.dispatchEvent(new Event('input', { bubbles: true }));
-                            picker.style.display = 'none';
-                        });
-                        picker.appendChild(ep);
-                    }
+                if (!window.__chatInputRegistered) {
+                    Alpine.data('chatInput', () => ({
+                        hasFile: false,
+                        fileName: '',
+                        uploading: false,
+                        init() {
+                            // wire is available via $wire magic in Alpine
+                        },
+                        handleFile(event) {
+                            const file = event.target.files[0];
+                            if (!file) return;
+                            this.uploading = true;
+                            this.fileName = file.name;
+                            this.$wire.upload('chatFile', file,
+                                () => { this.uploading = false; this.hasFile = true; },
+                                () => { this.uploading = false; this.hasFile = false; this.fileName = ''; },
+                                () => {}
+                            );
+                        },
+                        clear() {
+                            this.hasFile = false;
+                            this.fileName = '';
+                            this.uploading = false;
+                            if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                        }
+                    }));
+                    window.__chatInputRegistered = true;
                 }
-                document.addEventListener('click', function(e) {
-                    const picker = document.getElementById('emoji-picker');
-                    if (picker && !picker.contains(e.target) && !e.target.closest('[onclick="toggleEmojiPicker()"]')) {
-                        picker.style.display = 'none';
-                    }
-                });
+
+                if (!window.toggleEmojiPicker) {
+                    window.toggleEmojiPicker = function () {
+                        const picker = document.getElementById('emoji-picker');
+                        if (!picker) return;
+
+                        picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
+                        if (picker.style.display === 'block' && !picker.hasChildNodes()) {
+                            const ep = document.createElement('emoji-picker');
+                            ep.addEventListener('emoji-click', e => {
+                                const input = document.getElementById('mensagemInput');
+                                if (!input) return;
+                                input.value += e.detail.unicode;
+                                input.dispatchEvent(new Event('input', { bubbles: true }));
+                                picker.style.display = 'none';
+                            });
+                            picker.appendChild(ep);
+                        }
+                    };
+                }
+
+                if (!window.__chatEmojiCloseHandlerRegistered) {
+                    document.addEventListener('click', function(e) {
+                        const picker = document.getElementById('emoji-picker');
+                        if (picker && !picker.contains(e.target) && !e.target.closest('[onclick="toggleEmojiPicker()"]')) {
+                            picker.style.display = 'none';
+                        }
+                    });
+                    window.__chatEmojiCloseHandlerRegistered = true;
+                }
                 </script>
                 @endscript
             @endif
@@ -262,9 +274,9 @@
     </div>
 
         {{-- Modal: Propor Valor (freelancer) --}}
-        <div x-data="{ open: @entangle('showProporValorModal').live }"
-            x-show="open"
-            x-cloak
+        <div x-data
+            wire:show="showProporValorModal"
+            wire:cloak
             @keydown.escape.window="$wire.fecharModalProporValor()"
             style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
@@ -310,9 +322,9 @@
     @php
         $bd = $this->extraBreakdown;
     @endphp
-    <div x-data="{ open: @entangle('showValorModal').live }"
-         x-show="open"
-         x-cloak
+        <div x-data
+            wire:show="showValorModal"
+            wire:cloak
          @keydown.escape.window="$wire.fecharModalValor()"
          style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
@@ -395,17 +407,26 @@
 </div>
 @script
 <script>
-let lastMsgCount = document.querySelectorAll('#chat-messages > div').length;
-window.addEventListener('livewire:update', function() {
-    const msgs = document.querySelectorAll('#chat-messages > div');
-    if (msgs.length > lastMsgCount) {
-        const audio = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae6c2.mp3');
-        audio.play().catch(()=>{});
+if (!window.__chatLivewireUpdateRegistered) {
+    let lastMsgCount = document.querySelectorAll('#chat-messages > div').length;
+
+    window.addEventListener('livewire:update', function() {
+        const msgs = document.querySelectorAll('#chat-messages > div');
+        if (msgs.length > lastMsgCount) {
+            const audio = new Audio('https://cdn.pixabay.com/audio/2022/07/26/audio_124bfae6c2.mp3');
+            audio.play().catch(() => {});
+        }
+        lastMsgCount = msgs.length;
+
+        const el = document.getElementById('chat-messages');
+        if (el) el.scrollTop = el.scrollHeight;
+    });
+
+    if ('Notification' in window && Notification.permission !== 'granted') {
+        Notification.requestPermission();
     }
-    lastMsgCount = msgs.length;
-    const el = document.getElementById('chat-messages');
-    if (el) el.scrollTop = el.scrollHeight;
-});
-if (Notification && Notification.permission !== 'granted') Notification.requestPermission();
+
+    window.__chatLivewireUpdateRegistered = true;
+}
 </script>
 @endscript
