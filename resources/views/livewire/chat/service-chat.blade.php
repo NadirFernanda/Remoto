@@ -82,11 +82,11 @@
                     @if(!$isMine)
                         <img src="{{ $avatar }}" alt="{{ $name }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">
                     @endif
-                    <div class="max-w-[72%] flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}">
+                    <div class="max-w-[72%] min-w-0 flex flex-col {{ $isMine ? 'items-end' : 'items-start' }}">
                         @if(!$isMine)
                             <span class="text-xs text-slate-400 mb-1 ml-1">{{ $name }}</span>
                         @endif
-                        <div class="relative px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}">
+                        <div class="relative overflow-hidden px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}">
 
                             @if($msg->anexo)
                                 @if($isImage)
@@ -94,7 +94,7 @@
                                         <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
                                     </a>
                                 @elseif($isAudio)
-                                    <audio controls class="w-full max-w-xs mb-1 rounded-lg">
+                                    <audio controls class="w-full max-w-full mb-1 rounded-lg">
                                         <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
                                     </audio>
                                 @else
