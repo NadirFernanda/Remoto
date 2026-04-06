@@ -82,6 +82,7 @@ class ChatService
         return $service->messages()
             ->with('user')
             ->orderBy('created_at')
+            ->limit(300)
             ->get();
     }
 
