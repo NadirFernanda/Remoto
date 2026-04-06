@@ -1,14 +1,15 @@
-﻿<style>
-@media (max-width: 640px) {
-    .chat-outer { padding: 0 !important; align-items: stretch !important; }
-    .chat-window { border-radius: 0 !important; height: 100dvh !important; max-height: 100dvh !important; min-height: 0 !important; }
-    .chat-header { flex-wrap: wrap; gap: .5rem !important; padding: .6rem .75rem !important; }
-    .chat-header-actions { display: flex; gap: .4rem; width: 100%; justify-content: flex-end; }
-    .chat-header-btn { font-size: .7rem !important; padding: .25rem .55rem !important; }
-    .chat-header > span { display: none !important; }
-}
-</style>
-<div class="chat-outer min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
+﻿<div class="chat-outer min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
+    <style>
+    @media (max-width: 640px) {
+        .chat-outer { padding: 0 !important; align-items: stretch !important; }
+        .chat-window { border-radius: 0 !important; height: 100dvh !important; max-height: 100dvh !important; min-height: 0 !important; }
+        .chat-header { flex-wrap: wrap; gap: .5rem !important; padding: .6rem .75rem !important; }
+        .chat-header-actions { display: flex; gap: .4rem; width: 100%; justify-content: flex-end; }
+        .chat-header-btn { font-size: .7rem !important; padding: .25rem .55rem !important; }
+        .chat-header > span { display: none !important; }
+        .chat-file-link { max-width: 100%; }
+    }
+    </style>
     <div class="chat-window w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
@@ -109,10 +110,10 @@
                                     </audio>
                                 @else
                                     <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
-                                       class="flex items-center gap-2 mb-1 px-3 py-2 rounded-xl {{ $isMine ? 'bg-white/20 hover:bg-white/30' : 'bg-slate-100 hover:bg-slate-200' }} transition">
-                                        <span class="text-2xl">&#128196;</span>
-                                        <span class="text-sm font-medium truncate max-w-[200px]">{{ $displayName }}</span>
-                                        <span class="text-xs opacity-60 uppercase ml-auto">{{ strtoupper($ext) }}</span>
+                                       class="chat-file-link flex items-center gap-2 mb-1 px-3 py-2 rounded-xl {{ $isMine ? 'bg-white/20 hover:bg-white/30' : 'bg-slate-100 hover:bg-slate-200' }} transition overflow-hidden">
+                                        <span class="text-2xl flex-shrink-0">&#128196;</span>
+                                        <span class="text-sm font-medium truncate min-w-0 flex-1">{{ $displayName }}</span>
+                                        <span class="text-xs opacity-60 uppercase flex-shrink-0">{{ strtoupper($ext) }}</span>
                                     </a>
                                 @endif
                             @endif
