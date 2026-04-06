@@ -145,14 +145,33 @@
     white-space: nowrap;transition: background .17s;
 }
 .fsp-btn-view:hover { background: #e2e8f0;color: #0f172a; }
-.fsp-btn-hire {
-    background: #00baff;color: #fff;font-size: .73rem;font-weight: 700;
+.fsp-btn-hire { background: #00baff;color: #fff;font-size: .73rem;font-weight: 700;
     padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
     white-space: nowrap;border:none;cursor:pointer;transition: background .17s;
 }
 .fsp-btn-hire:hover { background: #0099d4; }
 .fsp-empty {
     grid-column: 1/-1;padding: 4rem 1rem;text-align: center;
+}
+
+/* ── Mobile responsive ──────────────────────────────────── */
+@media (max-width: 640px) {
+    .fl-hero { padding: 2.5rem 1rem 2rem; }
+    .fl-searchbar { flex-direction: column; gap: .5rem; }
+    .fl-searchbar input { padding: .75rem 1rem .75rem 2.6rem; font-size: .88rem; }
+    .fl-searchbar-icon { top: 1.35rem; }
+    .fl-searchbar-skill { width: 100%; flex-shrink: unset; }
+    .fl-body { padding: 1.25rem .875rem 2rem; }
+    .fsp-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .75rem; }
+    .fsp-card-body { padding: 28px 10px 10px; gap: 6px; }
+    .fsp-card-footer { flex-wrap: wrap; }
+    .fl-sortbar { flex-direction: column; align-items: flex-start; gap: .4rem; }
+    .fl-hero-stat strong { font-size: 1rem !important; }
+    .fl-hero-stats { gap: 1.25rem; margin-top: 1.2rem; }
+}
+@media (max-width: 400px) {
+    .fsp-grid { grid-template-columns: 1fr; }
+    .fsp-rate { font-size: .88rem; }
 }
 </style>
 
