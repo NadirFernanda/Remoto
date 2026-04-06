@@ -1,9 +1,4 @@
-﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2"
-     x-data="{ _showProporValorModal: false, _showValorModal: false }"
-     @open-modal-propor-valor.window="_showProporValorModal = true"
-     @close-modal-propor-valor.window="_showProporValorModal = false"
-     @open-modal-inserir-valor.window="_showValorModal = true"
-     @close-modal-inserir-valor.window="_showValorModal = false">
+﻿<div class="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center py-6 px-2">
     <div class="w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
@@ -278,8 +273,11 @@
         </div>
     </div>
 
+        {{-- Modal wrapper: estado gerido por @entangle (Alpine lê de Livewire reactively) --}}
+        <div x-data="{ showPropor: @entangle('showProporValorModal'), showValor: @entangle('showValorModal') }">
+
         {{-- Modal: Propor Valor (freelancer) --}}
-        <div x-show="_showProporValorModal"
+        <div x-show="showPropor"
             class="flex"
             style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
@@ -325,7 +323,7 @@
     @php
         $bd = $this->extraBreakdown;
     @endphp
-        <div x-show="_showValorModal"
+        <div x-show="showValor"
              class="flex"
              style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
@@ -405,4 +403,5 @@
         </div>
     </div>
 
+        </div>{{-- /modal wrapper x-data --}}
 </div>
