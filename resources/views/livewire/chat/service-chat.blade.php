@@ -76,6 +76,7 @@
                     $isImage = in_array($ext, ['jpg','jpeg','png','gif','bmp','webp']);
                     $isAudio = in_array($ext, ['mp3','wav','ogg','m4a','aac']);
                     $displayName = $msg->nome_original_anexo ?? $msg->anexo;
+                    $shortName = mb_strlen($displayName) > 36 ? mb_substr($displayName, 0, 33) . '…' : $displayName;
                 @endphp
                 @if($msg->conteudo || $msg->anexo)
                 <div wire:key="msg-{{ $msg->id }}" class="flex items-end gap-2 {{ $isMine ? 'justify-end' : 'justify-start' }}">
@@ -99,11 +100,11 @@
                                     </audio>
                                 @else
                                     <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
-                                       class="chat-file-link flex items-center gap-2 mb-1 px-3 py-2 rounded-xl {{ $isMine ? 'bg-white/20 hover:bg-white/30' : 'bg-slate-100 hover:bg-slate-200' }} transition"
-                                       style="overflow:hidden;min-width:0;display:flex;">
-                                        <span class="text-2xl" style="flex-shrink:0;">&#128196;</span>
-                                        <span class="text-sm font-medium" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;">{{ $displayName }}</span>
-                                        <span class="text-xs opacity-60 uppercase" style="flex-shrink:0;">{{ strtoupper($ext) }}</span>
+                                       title="{{ $displayName }}"
+                                       style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};">
+                                        <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
+                                        <span style="font-size:.8rem;font-weight:600;white-space:nowrap;">{{ $shortName }}</span>
+                                        <span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">{{ strtoupper($ext) }}</span>
                                     </a>
                                 @endif
                             @endif
