@@ -106,7 +106,6 @@ class ServiceChat extends Component
         $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
         $this->novoValorTotal = $plain;
         $this->showValorModal = true;
-        $this->skipRender();
     }
 
     // ── Acções do modal ──────────────────────────────────────────────────────
@@ -137,7 +136,6 @@ class ServiceChat extends Component
         }
 
         $this->showValorModal = true;
-        $this->skipRender();
     }
 
     public function fecharModalValor(): void
@@ -145,7 +143,6 @@ class ServiceChat extends Component
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $this->resetErrorBag();
-        $this->skipRender();
     }
 
     public function pagarValorExtra(): void
@@ -327,7 +324,6 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->valorProposto = '';
         $this->showProporValorModal = true;
-        $this->skipRender();
     }
 
     public function fecharModalProporValor(): void
@@ -335,7 +331,6 @@ class ServiceChat extends Component
         $this->showProporValorModal = false;
         $this->valorProposto = '';
         $this->resetErrorBag();
-        $this->skipRender();
     }
 
     public function enviarPropostaValor(): void
