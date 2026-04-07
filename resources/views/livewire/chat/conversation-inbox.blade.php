@@ -1,4 +1,4 @@
-<div class="space-y-5" wire:poll.15s>
+<div class="space-y-5" x-data x-init="setInterval(() => $wire.$refresh(), 30000)">
 
     {{-- ─── Header ──────────────────────────────────────── --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

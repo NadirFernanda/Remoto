@@ -1,4 +1,4 @@
-<div wire:poll.60s="refresh">
+<div x-data x-init="setInterval(() => $wire.refresh(), 60000)">
     <div class="mb-6">
         <h1 class="text-xl font-bold text-gray-900">Notificações</h1>
         <p class="text-sm text-gray-400 mt-0.5">Acompanhe todas as suas notificações</p>
