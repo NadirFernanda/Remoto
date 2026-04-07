@@ -282,12 +282,8 @@
     </div>
 
         {{-- Modal: Propor Valor (freelancer) --}}
-        {{-- Modal: Propor Valor (freelancer) --}}
-        <div x-data="{ open: false }"
-             x-show="open"
-             @open-propor-valor-modal.window="open = true"
-             @close-propor-valor-modal.window="open = false"
-             style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
+        @if($showProporValorModal)
+        <div style="display:flex;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
         <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                 <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
@@ -329,17 +325,14 @@
 
     {{-- Modal: Inserir Valor --}}
     @php
+        @endif
+
+    {{-- Modal: Inserir Valor --}}
+    @php
         $bd = $this->extraBreakdown;
     @endphp
-        <div x-data="{ open: false }"
-             x-show="open"
-             @open-valor-modal.window="open = true"
-             @close-valor-modal.window="open = false"
-             style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
-        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
-
-            {{-- Modal header --}}
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+        @if($showValorModal)
+        <div style="display:flexflex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                 <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
                     {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
                 </h3>
@@ -411,6 +404,6 @@
                 </button>
             </div>
         </div>
-    </div>
+        @endif
 
 </div>

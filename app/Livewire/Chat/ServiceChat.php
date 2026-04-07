@@ -106,8 +106,6 @@ class ServiceChat extends Component
         $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
         $this->novoValorTotal = $plain;
         $this->showValorModal = true;
-        $this->dispatch('open-valor-modal');
-        // no skipRender — need re-render to push novoValorTotal into the input
     }
 
     // ── Acções do modal ──────────────────────────────────────────────────────
@@ -138,7 +136,6 @@ class ServiceChat extends Component
         }
 
         $this->showValorModal = true;
-        $this->dispatch('open-valor-modal');
         // no skipRender — need re-render to push novoValorTotal into the input
     }
 
@@ -147,8 +144,6 @@ class ServiceChat extends Component
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $this->resetErrorBag();
-        $this->dispatch('close-valor-modal');
-        $this->skipRender();
     }
 
     public function pagarValorExtra(): void
@@ -265,7 +260,6 @@ class ServiceChat extends Component
         if ($isDirect) {
             $successMsg .= ' O projecto está agora Em andamento.';
         }
-        $this->dispatch('close-valor-modal');
         session()->flash('chat_success', $successMsg);
     }
 
@@ -331,8 +325,6 @@ class ServiceChat extends Component
         $this->resetErrorBag();
         $this->valorProposto = '';
         $this->showProporValorModal = true;
-        $this->dispatch('open-propor-valor-modal');
-        $this->skipRender();
     }
 
     public function fecharModalProporValor(): void
@@ -340,8 +332,6 @@ class ServiceChat extends Component
         $this->showProporValorModal = false;
         $this->valorProposto = '';
         $this->resetErrorBag();
-        $this->dispatch('close-propor-valor-modal');
-        $this->skipRender();
     }
 
     public function enviarPropostaValor(): void
