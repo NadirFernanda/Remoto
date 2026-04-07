@@ -284,124 +284,113 @@
         {{-- Modal: Propor Valor (freelancer) --}}
         @if($showProporValorModal)
         <div style="display:flex;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
-        <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
-                <button type="button" wire:click="fecharModalProporValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#166534;line-height:1.5;">
-                &#9432; O valor será enviado como mensagem no chat. O cliente poderá confirmar e efectuar o pagamento.
-            </div>
-            <div style="margin-bottom:.75rem;">
-                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
-                                <input wire:model.defer="valorProposto"
-                      type="text"
-                      inputmode="decimal"
-                       placeholder="Ex.: 50000"
-                       style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
-                       onfocus="this.style.borderColor='#10b981'"
-                       onblur="this.style.borderColor='#e2e8f0'">
-                @error('valorProposto')
-                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
-                @enderror
-            </div>
-            <div style="display:flex;gap:.75rem;">
-                <button type="button" wire:click="fecharModalProporValor"
-                        style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
-                    Cancelar
-                </button>
-                <button type="button" wire:click="enviarPropostaValor"
-                        wire:loading.attr="disabled"
-                        wire:target="enviarPropostaValor"
-                        style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#10b981;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(16,185,129,.35);">
-                    <span wire:loading.remove wire:target="enviarPropostaValor">Enviar Proposta</span>
-                    <span wire:loading wire:target="enviarPropostaValor">A enviar...</span>
-                </button>
+            <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                    <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
+                    <button type="button" wire:click="fecharModalProporValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#166534;line-height:1.5;">
+                    &#9432; O valor será enviado como mensagem no chat. O cliente poderá confirmar e efectuar o pagamento.
+                </div>
+                <div style="margin-bottom:.75rem;">
+                    <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
+                    <input wire:model.defer="valorProposto"
+                           type="text"
+                           inputmode="decimal"
+                           placeholder="Ex.: 50000"
+                           style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                           onfocus="this.style.borderColor='#10b981'"
+                           onblur="this.style.borderColor='#e2e8f0'">
+                    @error('valorProposto')
+                        <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div style="display:flex;gap:.75rem;">
+                    <button type="button" wire:click="fecharModalProporValor"
+                            style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                        Cancelar
+                    </button>
+                    <button type="button" wire:click="enviarPropostaValor"
+                            wire:loading.attr="disabled"
+                            wire:target="enviarPropostaValor"
+                            style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#10b981;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(16,185,129,.35);">
+                        <span wire:loading.remove wire:target="enviarPropostaValor">Enviar Proposta</span>
+                        <span wire:loading wire:target="enviarPropostaValor">A enviar...</span>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-
-    {{-- Modal: Inserir Valor --}}
-    @php
         @endif
 
-    {{-- Modal: Inserir Valor --}}
-    @php
-        $bd = $this->extraBreakdown;
-    @endphp
+        {{-- Modal: Inserir Valor --}}
+        @php $bd = $this->extraBreakdown; @endphp
         @if($showValorModal)
-        <div style="display:flexflex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
-                    {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
-                </h3>
-                <button type="button" wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-
-            {{-- Contexto: negociação directa --}}
-            @if($bd['is_negotiating'])
-                <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
-                    &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
+        <div style="display:flex;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
+            <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
+                    <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
+                        {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
+                    </h3>
+                    <button type="button" wire:click="fecharModalValor" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
                 </div>
-            @else
-                {{-- Valor actual (apenas para ajustes em projectos já iniciados) --}}
-                <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
-                    <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
-                    <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                @if($bd['is_negotiating'])
+                    <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
+                        &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
+                    </div>
+                @else
+                    <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                        <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
+                        <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                    </div>
+                @endif
+                <div style="margin-bottom:.75rem;">
+                    <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                        {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
+                    </label>
+                    <input wire:model.defer="novoValorTotal"
+                           type="number"
+                           min="0"
+                           step="0.01"
+                           placeholder="Ex.: 80000"
+                           style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                           onfocus="this.style.borderColor='#0ea5e9'"
+                           onblur="this.style.borderColor='#e2e8f0'">
+                    @error('novoValorTotal')
+                        <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                    @enderror
                 </div>
-            @endif
-
-            {{-- Input: valor --}}
-            <div style="margin-bottom:.75rem;">
-                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
-                    {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
-                </label>
-                <input wire:model.defer="novoValorTotal"
-                       type="number"
-                       min="0"
-                       step="0.01"
-                       placeholder="Ex.: 80000"
-                       style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
-                       onfocus="this.style.borderColor='#0ea5e9'"
-                       onblur="this.style.borderColor='#e2e8f0'">
-                @error('novoValorTotal')
-                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Breakdown table (live) --}}
-            @if($bd['extra'] > 0)
-            <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
-                <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
-                    <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
-                    <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                @if($bd['extra'] > 0)
+                <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                    <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
+                        <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
+                        <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                    </div>
+                    <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
+                    <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                        <span>Total a pagar</span>
+                        <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                    </div>
                 </div>
-                <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
-                <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
-                    <span>Total a pagar</span>
-                    <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                @endif
+                <div style="display:flex;gap:.75rem;">
+                    <button type="button" wire:click="fecharModalValor"
+                            style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                        Cancelar
+                    </button>
+                    <button type="button" wire:click="pagarValorExtra"
+                            wire:loading.attr="disabled"
+                            wire:target="pagarValorExtra"
+                            style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
+                        <span wire:loading.remove wire:target="pagarValorExtra">
+                            {{ $bd['is_negotiating'] ? 'Confirmar & Iniciar Projecto' : 'Confirmar Pagamento' }}
+                        </span>
+                        <span wire:loading wire:target="pagarValorExtra">A processar...</span>
+                    </button>
                 </div>
-            </div>
-            @endif
-
-            {{-- Actions --}}
-            <div style="display:flex;gap:.75rem;">
-                <button type="button" wire:click="fecharModalValor"
-                        style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
-                    Cancelar
-                </button>
-                <button type="button" wire:click="pagarValorExtra"
-                        wire:loading.attr="disabled"
-                        wire:target="pagarValorExtra"
-                        style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
-                    <span wire:loading.remove wire:target="pagarValorExtra">
-                        {{ $bd['is_negotiating'] ? 'Confirmar & Iniciar Projecto' : 'Confirmar Pagamento' }}
-                    </span>
-                    <span wire:loading wire:target="pagarValorExtra">A processar...</span>
-                </button>
             </div>
         </div>
         @endif
