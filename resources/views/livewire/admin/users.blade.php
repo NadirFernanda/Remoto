@@ -212,6 +212,13 @@
                     <td class="py-3 px-4 text-xs text-gray-500">{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="py-3 px-4">
                         <div class="flex items-center gap-1 flex-wrap">
+                            {{-- Ver documentos KYC --}}
+                            @if(isset($pendingSubmissionsByUser[$user->id]))
+                                <button wire:click="openKycReview({{ $pendingSubmissionsByUser[$user->id]->id }})"
+                                    class="px-2 py-1 text-xs bg-[#00baff]/10 text-[#00baff] border border-[#00baff]/30 rounded-lg hover:bg-[#00baff]/20 transition font-semibold">
+                                    📄 Ver docs
+                                </button>
+                            @endif
                             {{-- KYC --}}
                             @if(($user->kyc_status ?? 'pending') !== 'verified')
                                 <button wire:click="verifyKyc({{ $user->id }})"
