@@ -213,8 +213,8 @@
                     <td class="py-3 px-4">
                         <div class="flex items-center gap-1 flex-wrap">
                             {{-- Ver documentos KYC --}}
-                            @if(isset($pendingSubmissionsByUser[$user->id]))
-                                <button wire:click="openKycReview({{ $pendingSubmissionsByUser[$user->id]->id }})"
+                            @if(isset($allSubmissionsByUser[$user->id]))
+                                <button wire:click="openKycReview({{ $allSubmissionsByUser[$user->id]->id }})"
                                     class="px-2 py-1 text-xs bg-[#00baff]/10 text-[#00baff] border border-[#00baff]/30 rounded-lg hover:bg-[#00baff]/20 transition font-semibold">
                                     📄 Ver docs
                                 </button>

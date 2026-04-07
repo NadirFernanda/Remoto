@@ -172,12 +172,17 @@ class Users extends Component
 
         $pendingKyc = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count();
         $pendingSubmissions = KycSubmission::with('user')->where('status', 'pending')->latest()->get();
-        $pendingSubmissionsByUser = $pendingSubmissions->keyBy('user_id');
+        // Latest submission per user (any status) for the "Ver docs" button
+        $allSubmissionsByUser = KycSubmission::whereIn('id', function ($q) {
+                $q->selectRaw('MAX(id)')->from('kyc_submissions')->groupBy('user_id');
+            })
+            ->get()
+            ->keyBy('user_id');
         $reviewingSubmission = $this->reviewingSubmissionId
             ? KycSubmission::with('user')->find($this->reviewingSubmissionId)
             : null;
 
-        return view('livewire.admin.users', compact('users', 'pendingKyc', 'pendingSubmissions', 'pendingSubmissionsByUser', 'reviewingSubmission'))
+        return view('livewire.admin.users', compact('users', 'pendingKyc', 'pendingSubmissions', 'allSubmissionsByUser', 'reviewingSubmission'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Utilizadores']);
     }
 }
