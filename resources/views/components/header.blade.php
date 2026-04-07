@@ -410,12 +410,7 @@
                 <div style="display:flex;align-items:center;gap:.625rem;">
                     {{-- Ícone Mensagens + sino: apenas para não-admin --}}
                     @if(auth()->user()->activeRole() !== 'admin')
-                    <a href="{{ auth()->user()->activeRole() === 'freelancer' ? route('freelancer.dashboard') : route('client.dashboard') }}"
-                       title="Mensagens"
-                       style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e2e8f0;transition:background .15s,border-color .15s;text-decoration:none;"
-                       onmouseover="this.style.background='rgba(0,186,255,.13)';this.style.borderColor='rgba(0,186,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.borderColor='rgba(255,255,255,.08)'">
-                        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                    </a>
+                    <livewire:chat.chat-inbox-badge />
                     <livewire:notification-bell />
                     @endif
                     {{-- Publicar / Admin Menu --}}
@@ -647,6 +642,7 @@
                 <a href="/register" class="mobile-cta btn-primary">Registo</a>
             @else
                 @if(auth()->user()->activeRole() !== 'admin')
+                    <livewire:chat.chat-inbox-badge />
                     <livewire:notification-bell />
                 @endif
             @endguest
