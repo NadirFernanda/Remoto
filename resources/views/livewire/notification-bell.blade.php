@@ -1,4 +1,4 @@
-<div wire:poll.30s="refresh" x-data="{ open: false }" class="relative" @click.outside="open = false">
+<div x-data="{ open: false }" x-init="setInterval(() => $wire.refresh(), 60000)" class="relative" @click.outside="open = false">
 
     {{-- Bell button --}}
     <button @click="open = !open"

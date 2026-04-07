@@ -1,4 +1,4 @@
-<div wire:poll.15s class="relative inline-flex">
+<div x-data x-init="setInterval(() => $wire.$refresh(), 30000)" class="relative inline-flex">
     <a href="{{ route('chat.inbox') }}"
        title="Mensagens"
        style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:#e2e8f0;transition:background .15s,border-color .15s;text-decoration:none;"
