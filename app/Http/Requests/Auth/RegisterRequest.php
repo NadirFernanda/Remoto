@@ -14,7 +14,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => 'required|string|max:255',
+            'name'     => ['required', 'string', 'max:255', 'not_regex:/<[^>]*>/'],
             'email'    => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
             'role'     => 'required|in:freelancer,cliente',
@@ -26,6 +26,7 @@ class RegisterRequest extends FormRequest
         return [
             'name.required'      => 'O nome é obrigatório.',
             'name.max'           => 'O nome não pode ter mais de 255 caracteres.',
+            'name.not_regex'     => 'O nome não pode conter caracteres HTML.',
             'email.required'     => 'O e-mail é obrigatório.',
             'email.email'        => 'Introduza um endereço de e-mail válido.',
             'email.unique'       => 'Este e-mail já está registado.',

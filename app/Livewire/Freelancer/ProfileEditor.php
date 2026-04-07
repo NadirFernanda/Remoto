@@ -145,7 +145,7 @@ class ProfileEditor extends Component
         return [
             'profilePhoto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
             'coverPhoto'   => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:8192',
-            'name' => 'required|string|max:120',
+            'name' => ['required', 'string', 'max:120', 'not_regex:/<[^>]*>/'],
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',

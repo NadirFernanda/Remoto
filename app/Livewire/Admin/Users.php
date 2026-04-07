@@ -93,7 +93,7 @@ class Users extends Component
             $this->noDocsUserName = null;
         } else {
             $user = User::findOrFail($userId);
-            $this->noDocsUserName = $user->name;
+            $this->noDocsUserName = strip_tags($user->name);
             $this->reviewingSubmissionId = null;
         }
     }
