@@ -51,6 +51,23 @@
         </div>
     @endif
 
+    {{-- No-docs modal --}}
+    @if($noDocsUserName)
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center">
+                <div class="text-4xl mb-3">📂</div>
+                <h3 class="text-lg font-bold text-gray-800 mb-2">Sem documentação</h3>
+                <p class="text-gray-600 text-sm mb-5">
+                    O utilizador <strong>{{ $noDocsUserName }}</strong> ainda não submeteu nenhuma documentação de identidade.
+                </p>
+                <button wire:click="closeKycReview"
+                    class="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-lg transition text-sm">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    @endif
+
     {{-- KYC Review Modal --}}
     @if($reviewingSubmission)
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
@@ -213,15 +230,11 @@
                     <td class="py-3 px-4">
                         <div class="flex items-center gap-1 flex-wrap">
                             {{-- Ver documentos KYC --}}
-                            @if(isset($allSubmissionsByUser[$user->id]))
-                                <button wire:click="openKycReview({{ $allSubmissionsByUser[$user->id]->id }})"
+                            @if($user->role !== 'admin')
+                                <button wire:click="reviewUserKyc({{ $user->id }})"
                                     class="px-2 py-1 text-xs bg-[#00baff]/10 text-[#00baff] border border-[#00baff]/30 rounded-lg hover:bg-[#00baff]/20 transition font-semibold">
                                     📄 Ver docs
                                 </button>
-                            @elseif(($user->kyc_status ?? 'pending') === 'pending' && $user->role !== 'admin')
-                                <span class="px-2 py-1 text-xs text-gray-400 border border-dashed border-gray-200 rounded-lg">
-                                    sem docs
-                                </span>
                             @endif
                             {{-- KYC --}}
                             @if(($user->kyc_status ?? 'pending') !== 'verified')

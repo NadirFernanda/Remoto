@@ -22,6 +22,7 @@ class Users extends Component
     // KYC review modal
     public ?int $reviewingSubmissionId = null;
     public string $adminNotes = '';
+    public ?string $noDocsUserName = null;
 
     public function mount(): void
     {
@@ -83,16 +84,32 @@ class Users extends Component
         session()->flash('success', 'KYC rejeitado.');
     }
 
+    public function reviewUserKyc(int $userId): void
+    {
+        $submission = KycSubmission::where('user_id', $userId)->latest()->first();
+        if ($submission) {
+            $this->reviewingSubmissionId = $submission->id;
+            $this->adminNotes = '';
+            $this->noDocsUserName = null;
+        } else {
+            $user = User::findOrFail($userId);
+            $this->noDocsUserName = $user->name;
+            $this->reviewingSubmissionId = null;
+        }
+    }
+
     public function openKycReview(int $submissionId): void
     {
         $this->reviewingSubmissionId = $submissionId;
         $this->adminNotes = '';
+        $this->noDocsUserName = null;
     }
 
     public function closeKycReview(): void
     {
         $this->reviewingSubmissionId = null;
         $this->adminNotes = '';
+        $this->noDocsUserName = null;
     }
 
     public function approveKycSubmission(): void
