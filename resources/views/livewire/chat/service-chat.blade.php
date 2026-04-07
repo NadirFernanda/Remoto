@@ -296,7 +296,7 @@
                 </div>
                 <div style="margin-bottom:.75rem;">
                     <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
-                    <input wire:model.live="valorProposto"
+                    <input wire:model.blur="valorProposto"
                            type="text"
                            inputmode="decimal"
                            placeholder="Ex.: 50000"
@@ -351,7 +351,7 @@
                     <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
                         {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
                     </label>
-                    <input wire:model.live="novoValorTotal"
+                    <input wire:model.blur="novoValorTotal"
                            type="number"
                            min="0"
                            step="0.01"
