@@ -218,6 +218,10 @@
                                     class="px-2 py-1 text-xs bg-[#00baff]/10 text-[#00baff] border border-[#00baff]/30 rounded-lg hover:bg-[#00baff]/20 transition font-semibold">
                                     📄 Ver docs
                                 </button>
+                            @elseif(($user->kyc_status ?? 'pending') === 'pending' && $user->role !== 'admin')
+                                <span class="px-2 py-1 text-xs text-gray-400 border border-dashed border-gray-200 rounded-lg">
+                                    sem docs
+                                </span>
                             @endif
                             {{-- KYC --}}
                             @if(($user->kyc_status ?? 'pending') !== 'verified')
