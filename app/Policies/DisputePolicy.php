@@ -18,7 +18,7 @@ class DisputePolicy
     }
 
     /**
-     * Cliente ou freelancer aceite no serviço podem abrir disputa.
+     * Cliente ou freelancer associado ao serviço podem abrir disputa.
      */
     public function create(User $user, Service $service): bool
     {
@@ -26,6 +26,12 @@ class DisputePolicy
             return true;
         }
 
+        // Freelancer directo associado ao serviço
+        if ($user->id === $service->freelancer_id) {
+            return true;
+        }
+
+        // Freelancer candidato com proposta aceite
         return $service->candidates()
             ->where('freelancer_id', $user->id)
             ->where('status', 'accepted')

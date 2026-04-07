@@ -246,6 +246,58 @@ class ProjectManager extends Component
         session()->flash('success', 'Candidato rejeitado e notificado.');
     }
 
+    // ─── Confirmar Início de Projecto (proposta directa aceite) ────
+    public function confirmarInicio(int $serviceId): void
+    {
+        $service = Service::where('id', $serviceId)
+            ->where('cliente_id', auth()->id())
+            ->where('status', 'accepted')
+            ->firstOrFail();
+
+        if (!$service->freelancer_id) {
+            session()->flash('error', 'Nenhum freelancer associado a este projecto.');
+            return;
+        }
+
+        $valorFinal = (float) ($service->valor ?? 0);
+
+        if ($valorFinal > 0) {
+            $clientWallet = Wallet::where('user_id', auth()->id())->first();
+            if (!$clientWallet || (float) $clientWallet->saldo < $valorFinal) {
+                session()->flash('error', 'Saldo insuficiente. Necessita de Kz ' . number_format($valorFinal, 2, ',', '.') . ' para iniciar o projecto.');
+                return;
+            }
+        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $valorFinal) {
+            if ($valorFinal > 0) {
+                $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
+                $clientWallet->decrement('saldo', $valorFinal);
+                $clientWallet->increment('saldo_pendente', $valorFinal);
+                WalletLog::create([
+                    'user_id'   => auth()->id(),
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => -$valorFinal,
+                    'tipo'      => 'escrow_retido',
+                    'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
+                ]);
+            }
+
+            $service->update(['status' => 'in_progress']);
+
+            Notification::create([
+                'user_id'    => $service->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'project_started',
+                'title'      => 'Projecto iniciado!',
+                'message'    => 'O cliente confirmou o início do projecto "' . $service->titulo . '". Pode começar a trabalhar!',
+            ]);
+        });
+
+        session()->flash('success', 'Projecto iniciado! O freelancer foi notificado para começar.');
+        $this->selectedServiceId = $serviceId;
+    }
+
     // ─── Delivery approval ─────────────────────────────────
     public function approveDelivery(int $serviceId): void
     {

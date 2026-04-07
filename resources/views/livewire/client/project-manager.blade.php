@@ -185,6 +185,17 @@
                                     Sugestões
                                 </a>
                             @endif
+                            @if($selected->status === 'accepted' && $selected->freelancer_id)
+                                <button
+                                    wire:click="confirmarInicio({{ $selected->id }})"
+                                    wire:confirm="Confirma o início do projecto? O pagamento será retido em escrow até à aprovação da entrega."
+                                    class="btn-primary text-xs">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/>
+                                    </svg>
+                                    Iniciar Projecto
+                                </button>
+                            @endif
                             @if($selected->status === 'delivered')
                                 <button wire:click="approveDelivery({{ $selected->id }})" class="btn-primary text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -220,7 +231,7 @@
                                     Ver mensagem da moderação
                                 </a>
                             @endif
-                            @if($selected->freelancer_id && in_array($selected->status, ['in_progress','delivered']))
+                            @if($selected->freelancer_id && in_array($selected->status, ['accepted','in_progress','delivered']))
                                 <a href="{{ route('service.dispute', $selected->id) }}" class="btn-outline text-xs text-orange-600 border-orange-200 hover:bg-orange-50">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>

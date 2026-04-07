@@ -33,10 +33,10 @@
 
     {{-- Contadores de status --}}
     <div class="flex flex-wrap gap-2">
-        @foreach(['negotiating' => 'Em Negociação', 'in_progress' => 'Em Andamento', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
+        @foreach(['accepted' => 'Aceite', 'negotiating' => 'Em Negociação', 'in_progress' => 'Em Andamento', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border border-gray-200 text-gray-600">
                 <span class="w-2 h-2 rounded-full
-                    {{ $key === 'negotiating' ? 'bg-amber-400' : ($key === 'in_progress' ? 'bg-yellow-400' : ($key === 'delivered' ? 'bg-orange-400' : 'bg-green-400')) }}">
+                    {{ $key === 'accepted' ? 'bg-indigo-400' : ($key === 'negotiating' ? 'bg-amber-400' : ($key === 'in_progress' ? 'bg-yellow-400' : ($key === 'delivered' ? 'bg-orange-400' : 'bg-green-400'))) }}">
                 </span>
                 {{ $label }}: <span class="font-bold text-gray-800">{{ $statusCounts[$key] ?? 0 }}</span>
             </span>
@@ -100,14 +100,14 @@
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                                     Chat
                                 </a>
-                                @if($project->status === 'in_progress')
+                                @if(in_array($project->status, ['accepted', 'in_progress']))
                                     <a href="{{ route('freelancer.service.delivery', ['service' => $project->id]) }}"
                                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-600 hover:text-white text-xs font-semibold transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
                                         Entregar
                                     </a>
                                 @endif
-                                @if(in_array($project->status, ['in_progress', 'delivered']))
+                                @if(in_array($project->status, ['accepted', 'in_progress', 'delivered']))
                                     <a href="{{ route('service.dispute', ['service' => $project->id]) }}"
                                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white text-xs font-semibold transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
