@@ -151,6 +151,11 @@ class ServiceChat extends Component
 
     public function pagarValorExtra(): void
     {
+        if (!Auth::check()) {
+            $this->redirect(route('login'));
+            return;
+        }
+
         if (!$this->isCliente) {
             $this->addError('novoValorTotal', 'Apenas o cliente pode processar pagamentos.');
             return;
@@ -274,6 +279,11 @@ class ServiceChat extends Component
 
     public function enviarMensagem()
     {
+        if (!Auth::check()) {
+            $this->redirect(route('login'));
+            return;
+        }
+
         if ($this->chat_bloqueado) return;
 
         $mensagem = trim($this->mensagem ?? '');
@@ -342,6 +352,11 @@ class ServiceChat extends Component
 
     public function enviarPropostaValor(): void
     {
+        if (!Auth::check()) {
+            $this->redirect(route('login'));
+            return;
+        }
+
         if (!$this->mostrarBotaoFreelancerValor) {
             return;
         }
@@ -362,7 +377,13 @@ class ServiceChat extends Component
         $valor    = number_format($valorNumerico, 2, ',', '.');
         $mensagem = "💰 Proposta de valor: {$valor} Kz\nPode confirmar o pagamento usando o botão \"Inserir Valor\".";
 
-        app(ChatService::class)->send($this->service, auth()->user(), $mensagem);
+        try {
+            app(ChatService::class)->send($this->service, Auth::user(), $mensagem);
+        } catch (\Throwable $e) {
+            Log::error('enviarPropostaValor: falha ao enviar mensagem', ['error' => $e->getMessage()]);
+            $this->addError('valorProposto', 'Erro ao enviar proposta. Tente novamente.');
+            return;
+        }
 
         $this->showProporValorModal = false;
         $this->valorProposto       = '';
