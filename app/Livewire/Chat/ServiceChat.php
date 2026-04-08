@@ -272,11 +272,6 @@ class ServiceChat extends Component
         session()->flash('chat_success', $successMsg);
     }
 
-    public function updatedChatFile()
-    {
-        $this->skipRender();
-    }
-
     public function enviarMensagem()
     {
         if (!Auth::check()) {
