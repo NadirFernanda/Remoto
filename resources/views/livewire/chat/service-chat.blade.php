@@ -282,7 +282,8 @@
     </div>
 
         {{-- Modal: Propor Valor (freelancer) --}}
-        <div x-data="{ open: false }"
+        <div wire:key="modal-propor-valor"
+             x-data="{ open: false }"
              @open-propor-valor-modal.window="open = true"
              @close-propor-valor-modal.window="open = false"
              x-show="open" x-cloak
@@ -328,7 +329,8 @@
 
         {{-- Modal: Inserir Valor --}}
         @php $bd = $this->extraBreakdown; @endphp
-        <div x-data="{ open: false }"
+        <div wire:key="modal-inserir-valor"
+             x-data="{ open: false }"
              @open-valor-modal.window="open = true"
              @close-valor-modal.window="open = false"
              x-show="open" x-cloak
