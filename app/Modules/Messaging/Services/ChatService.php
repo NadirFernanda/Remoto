@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ChatService
@@ -33,7 +34,11 @@ class ChatService
             $original      = $file->getClientOriginalName();
             $safe          = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
             $filename      = time() . '_' . $safe;
-            $file->storeAs('anexos', $filename, 'public');
+            Storage::disk('public')->makeDirectory('anexos');
+            $stored = $file->storeAs('anexos', $filename, 'public');
+            if ($stored === false) {
+                Log::error('ChatService: falha ao guardar ficheiro', ['filename' => $filename]);
+            }
             $anexoFilename = $filename;
             $anexoOriginal = $original ?: $filename;
         }
@@ -48,7 +53,16 @@ class ChatService
         ChatRead::markRead($service->id, $sender->id);
 
         // Broadcast to all participants on the private chat channel
-        broadcast(new MessageSent($service, $message->load('user')));
+        try {
+            broadcast(new MessageSent($service, $message->load('user')));
+        } catch (\Throwable $e) {
+            Log::error('ChatService: broadcast falhou (Pusher inacessível?)', [
+                'service_id' => $service->id,
+                'message_id' => $message->id,
+                'error'      => $e->getMessage(),
+            ]);
+            // Broadcast failure must never abort message delivery
+        }
 
         // Notify the other participant
         $recipientId = null;
