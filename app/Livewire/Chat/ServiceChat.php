@@ -437,7 +437,8 @@ class ServiceChat extends Component
     public function render()
     {
         return view('livewire.chat.service-chat')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço']);
+            ->extends('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço'])
+            ->section('dashboard-content');
     }
 }
 
