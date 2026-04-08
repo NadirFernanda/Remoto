@@ -142,3 +142,10 @@ Route::middleware(['auth'])->get(
     '/notificacao/{notification}/abrir',
     \App\Http\Controllers\NotificationRedirectController::class
 )->name('notification.open');
+
+// ─── Header JSON endpoints (badge + bell — Alpine fetch, sem Livewire) ────────
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user/chat-badge',                   [\App\Http\Controllers\HeaderDataController::class, 'chatBadge'])->name('user.chat-badge');
+    Route::get('/user/notification-data',            [\App\Http\Controllers\HeaderDataController::class, 'notificationData'])->name('user.notification-data');
+    Route::post('/user/notifications/mark-all-read', [\App\Http\Controllers\HeaderDataController::class, 'markAllRead'])->name('user.notifications.mark-all-read');
+});

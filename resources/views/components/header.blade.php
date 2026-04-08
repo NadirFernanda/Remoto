@@ -410,8 +410,8 @@
                 <div style="display:flex;align-items:center;gap:.625rem;">
                     {{-- Ícone Mensagens + sino: apenas para não-admin --}}
                     @if(auth()->user()->activeRole() !== 'admin')
-                    <div wire:ignore><livewire:chat.chat-inbox-badge /></div>
-                    <div wire:ignore><livewire:notification-bell /></div>
+                    @include('partials.header-chat-badge')
+                    @include('partials.header-notification-bell')
                     @endif
                     {{-- Publicar / Admin Menu --}}
                     @if(auth()->user()->activeRole() === 'admin')
@@ -642,8 +642,8 @@
                 <a href="/register" class="mobile-cta btn-primary">Registo</a>
             @else
                 @if(auth()->user()->activeRole() !== 'admin')
-                    <div wire:ignore><livewire:chat.chat-inbox-badge /></div>
-                    <div wire:ignore><livewire:notification-bell /></div>
+                    @include('partials.header-chat-badge')
+                    @include('partials.header-notification-bell')
                 @endif
             @endguest
             @auth
