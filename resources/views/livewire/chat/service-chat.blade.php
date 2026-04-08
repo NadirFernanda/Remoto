@@ -302,7 +302,8 @@
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
                     <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
                     <button type="button"
-                            @click="open = false; $wire.fecharModalProporValor()"
+                            wire:click="fecharModalProporValor"
+                            @click="open = false"
                             style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
@@ -326,7 +327,8 @@
                     </div>
                     <div style="display:flex;gap:.75rem;">
                         <button type="button"
-                                @click="open = false; $wire.fecharModalProporValor()"
+                                wire:click="fecharModalProporValor"
+                                @click="open = false"
                                 style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
                             Cancelar
                         </button>
