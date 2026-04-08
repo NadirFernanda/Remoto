@@ -434,7 +434,7 @@ class ServiceChat extends Component
     }
 
     #[Computed]
-    public function messages()
+    public function chatMessages()
     {
         return app(ChatService::class)->getMessages($this->service);
     }
