@@ -37,7 +37,8 @@
                     </button>
                 @endif
                 @if($mostrarBotaoFreelancerValor)
-                    <button wire:click="abrirModalProporValor"
+                    <button type="button"
+                            @click="window.dispatchEvent(new CustomEvent('open-propor-valor-modal'))"
                             class="chat-header-btn"
                             style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#10b981;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(16,185,129,.45);"
                             title="Propor um valor ao cliente">
