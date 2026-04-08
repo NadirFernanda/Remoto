@@ -76,7 +76,7 @@
             x-init="$el.scrollTop = $el.scrollHeight"
             @scroll-bottom.window="$nextTick(() => { $el.scrollTop = $el.scrollHeight })"
         >
-            @forelse($this->chatMessages as $msg)
+            @forelse($messages as $msg)
                 @php
                     $isMine = $msg->user_id === auth()->id();
                     $name = $msg->user->name ?? 'Utilizador';
@@ -314,7 +314,7 @@
                 <form style="margin:0;" wire:submit="enviarPropostaValor">
                     <div style="margin-bottom:.75rem;">
                         <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
-                        <input wire:model.blur="valorProposto"
+                        <input wire:model="valorProposto"
                                type="text"
                                inputmode="decimal"
                                placeholder="Ex.: 50000"

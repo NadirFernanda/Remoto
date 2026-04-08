@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Chat;
 
-use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Service;
@@ -432,15 +431,11 @@ class ServiceChat extends Component
         return (float) $texto;
     }
 
-    #[Computed]
-    public function chatMessages()
-    {
-        return app(ChatService::class)->getMessages($this->service);
-    }
-
     public function render()
     {
-        return view('livewire.chat.service-chat')
+        return view('livewire.chat.service-chat', [
+            'messages' => app(ChatService::class)->getMessages($this->service),
+        ])
             ->extends('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço'])
             ->section('dashboard-content');
     }
