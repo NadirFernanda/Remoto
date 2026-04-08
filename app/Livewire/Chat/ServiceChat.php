@@ -202,65 +202,68 @@ class ServiceChat extends Component
         }
 
         // Processar débito, escrow, persistência E notificação dentro de uma transacção atómica
-        \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
-        // Re-adquire wallet com lock para prevenir race-condition
-        $clientWallet = \App\Models\Wallet::where('id', $clientWallet->id)->lockForUpdate()->firstOrFail();
-        $clientWallet->decrement('saldo', $total_cliente);
-        $clientWallet->increment('saldo_pendente', $extra);
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
+            // Re-adquire wallet com lock para prevenir race-condition
+            $clientWallet = \App\Models\Wallet::where('id', $clientWallet->id)->lockForUpdate()->firstOrFail();
+            $clientWallet->decrement('saldo', $total_cliente);
+            $clientWallet->increment('saldo_pendente', $extra);
 
-        $logDescricao = $isDirect
-            ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz)'
-            : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz)';
+            $logDescricao = $isDirect
+                ? 'Pagamento inicial em escrow — projecto "' . $service->titulo . '" (' . number_format($novo, 2, ',', '.') . ' Kz)'
+                : 'Ajuste de valor — projecto "' . $service->titulo . '" (+' . number_format($extra, 2, ',', '.') . ' Kz)';
 
-        WalletLog::create([
-            'user_id'   => auth()->id(),
-            'wallet_id' => $clientWallet->id,
-            'valor'     => -$total_cliente,
-            'tipo'      => $isDirect ? 'escrow_retido' : 'escrow_ajuste',
-            'descricao' => $logDescricao,
-        ]);
+            WalletLog::create([
+                'user_id'   => auth()->id(),
+                'wallet_id' => $clientWallet->id,
+                'valor'     => -$total_cliente,
+                'tipo'      => $isDirect ? 'escrow_retido' : 'escrow_ajuste',
+                'descricao' => $logDescricao,
+            ]);
 
-        // Actualizar serviço
-        $service->valor         = $novo;
-        $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceClientRate()), 2);
+            // Actualizar serviço
+            $service->valor         = $novo;
+            $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceClientRate()), 2);
 
-        if ($isDirect) {
-            // Contratação directa (negotiating ou accepted+direct_invite):
-            // após pagamento o projecto passa imediatamente para Em andamento
-            $service->status = 'in_progress';
-        } else {
-            $service->valor_ajuste      = $extra;
-            $service->valor_ajuste_taxa = $taxa;
-            $service->valor_ajuste_pago = true;
-        }
-
-        $service->save();
-
-        // Notificar freelancer (dentro da transacção para garantir atomicidade)
-        if ($service->freelancer_id) {
             if ($isDirect) {
-                $notifMsg   = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
-                $notifType  = 'project_started';
-                $notifTitle = 'Projecto iniciado';
+                $service->status = 'in_progress';
             } else {
-                $prazoTexto = $service->prazo
-                    ? ' Data de entrega acordada: ' . \Carbon\Carbon::parse($service->prazo)->format('d/m/Y') . '.'
-                    : '';
-                $notifMsg   = 'O cliente aceitou e pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.' . $prazoTexto;
-                $notifType  = 'payment_adjustment';
-                $notifTitle = 'Pagamento adicional recebido — proposta aceite';
+                $service->valor_ajuste      = $extra;
+                $service->valor_ajuste_taxa = $taxa;
+                $service->valor_ajuste_pago = true;
             }
 
-            Notification::create([
-                'user_id'    => $service->freelancer_id,
-                'service_id' => $service->id,
-                'type'       => $notifType,
-                'title'      => $notifTitle,
-                'message'    => $notifMsg,
-            ]);
-        }
+            $service->save();
 
-        }); // fim DB::transaction
+            if ($service->freelancer_id) {
+                if ($isDirect) {
+                    $notifMsg   = 'O cliente confirmou o valor de ' . number_format($novo, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.';
+                    $notifType  = 'project_started';
+                    $notifTitle = 'Projecto iniciado';
+                } else {
+                    $prazoTexto = $service->prazo
+                        ? ' Data de entrega acordada: ' . \Carbon\Carbon::parse($service->prazo)->format('d/m/Y') . '.'
+                        : '';
+                    $notifMsg   = 'O cliente aceitou e pagou um ajuste de ' . number_format($extra, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". Novo valor total: ' . number_format($novo, 2, ',', '.') . ' Kz.' . $prazoTexto;
+                    $notifType  = 'payment_adjustment';
+                    $notifTitle = 'Pagamento adicional recebido — proposta aceite';
+                }
+
+                Notification::create([
+                    'user_id'    => $service->freelancer_id,
+                    'service_id' => $service->id,
+                    'type'       => $notifType,
+                    'title'      => $notifTitle,
+                    'message'    => $notifMsg,
+                ]);
+            }
+
+            }); // fim DB::transaction
+        } catch (\Throwable $e) {
+            Log::error('pagarValorExtra: erro na transacção', ['error' => $e->getMessage()]);
+            $this->addError('novoValorTotal', 'Ocorreu um erro ao processar o pagamento: ' . $e->getMessage() . '. Por favor tente novamente ou contacte o suporte.');
+            return;
+        }
 
         $this->showValorModal = false;
         $this->novoValorTotal = '';
@@ -384,6 +387,7 @@ class ServiceChat extends Component
         $this->valorProposto       = '';
         $this->dispatch('close-propor-valor-modal');
         $this->dispatch('scroll-bottom');
+        session()->flash('chat_success', 'Proposta de ' . $valor . ' Kz enviada com sucesso! O cliente foi notificado.');
     }
 
     private function normalizarValorMonetario(mixed $valor): ?float
