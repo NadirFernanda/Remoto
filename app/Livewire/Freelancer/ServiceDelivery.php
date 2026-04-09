@@ -26,15 +26,11 @@ class ServiceDelivery extends Component
             abort(403);
         }
         // Mensagens de redirect contextuais (M-3)
-        if ($service->status === 'delivered') {
-            session()->flash('info', 'A entrega já foi submetida. Aguarda aprovação do cliente.');
-            return redirect()->route('freelancer.projects');
-        }
         if ($service->status === 'completed') {
-            session()->flash('info', 'Este projecto já foi concluído.');
+            session()->flash('info', 'Este projecto já foi concluído e o pagamento foi libertado.');
             return redirect()->route('freelancer.projects');
         }
-        if (!in_array($service->status, ['in_progress', 'accepted'])) {
+        if (!in_array($service->status, ['in_progress', 'accepted', 'delivered'])) {
             session()->flash('error', 'Este projecto não está disponível para entrega.');
             return redirect()->route('freelancer.projects');
         }

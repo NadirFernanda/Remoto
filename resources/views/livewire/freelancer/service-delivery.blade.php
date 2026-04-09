@@ -106,8 +106,14 @@
     {{-- ── Formulário de entrega ── --}}
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-cyan-500">📤</span> Submeter Entrega
+            <span class="text-cyan-500">📤</span> {{ $service->status === 'delivered' ? 'Re-entregar Serviço' : 'Submeter Entrega' }}
         </h3>
+        @if($service->status === 'delivered')
+        <div class="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg text-orange-700 text-sm">
+            <p class="font-semibold">⚠️ Este projecto já foi entregue e aguarda aprovação do cliente.</p>
+            <p class="mt-1">Se o cliente pediu revisões, pode submeter uma nova entrega abaixo. O pagamento só será libertado quando o cliente aprovar.</p>
+        </div>
+        @endif
         <form wire:submit.prevent="entregarServico" enctype="multipart/form-data">
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Ficheiro de entrega</label>

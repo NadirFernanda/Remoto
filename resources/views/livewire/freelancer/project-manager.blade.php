@@ -100,11 +100,11 @@
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                                     Chat
                                 </a>
-                                @if(in_array($project->status, ['accepted', 'in_progress']))
+                                @if(in_array($project->status, ['accepted', 'in_progress', 'delivered']))
                                     <a href="{{ route('freelancer.service.delivery', ['service' => $project->id]) }}"
-                                       class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-green-50 text-green-700 hover:bg-green-600 hover:text-white text-xs font-semibold transition-colors">
+                                       class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg {{ $project->status === 'delivered' ? 'bg-orange-50 text-orange-700 hover:bg-orange-600' : 'bg-green-50 text-green-700 hover:bg-green-600' }} hover:text-white text-xs font-semibold transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/></svg>
-                                        Entregar
+                                        {{ $project->status === 'delivered' ? 'Re-entregar' : 'Entregar' }}
                                     </a>
                                 @endif
                                 @if(in_array($project->status, ['accepted', 'in_progress', 'delivered']))
