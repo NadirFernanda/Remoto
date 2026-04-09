@@ -79,7 +79,7 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Verso do documento <span class="text-gray-400">(opcional)</span>
+                        Verso do documento <span class="text-red-500">*</span>
                     </label>
                     <input type="file" wire:model="documentBack" accept="image/*,.pdf"
                         class="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 file:font-semibold hover:file:bg-cyan-100">

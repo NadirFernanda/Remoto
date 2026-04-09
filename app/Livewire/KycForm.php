@@ -33,7 +33,7 @@ class KycForm extends Component
         return [
             'documentType'  => 'required|in:bi,passport,driving_license',
             'documentFront' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
-            'documentBack'  => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'documentBack'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
             'selfie'        => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
         ];
     }
