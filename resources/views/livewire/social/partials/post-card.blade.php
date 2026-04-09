@@ -16,12 +16,11 @@
     $isFollowing   = $authUser && !$isOwner
                      ? $authUser->following()->where('following_id', $post->user_id)->exists()
                      : false;
-    // Creator gating — só bloqueia posts com visibility = 'followers', nunca os públicos
-    $isCreatorPost = ($post->user->has_creator_profile ?? false);
-    $isSubscribed  = $isOwner
-                     || !$isCreatorPost
-                     || ($post->visibility ?? 'public') !== 'followers'
-                     || ($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
+    // Creator gating — bloqueia QUALQUER post com visibility = 'followers' para não-assinantes
+    // Não depende de has_creator_profile para evitar bypass quando a flag está a 0
+    $needsSubscription = ($post->visibility === 'followers')
+                         && !$isOwner
+                         && !($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
 @endphp
 
 <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" wire:key="post-{{ $post->id }}">
@@ -101,7 +100,7 @@
 
     {{-- ── Text content ─────────────────────────────────────────────────────── --}}
 
-    @if($isCreatorPost && !$isSubscribed)
+    @if($needsSubscription)
     {{-- ── PREVIEW BLOQUEADO: mostra pré-visualização desfocada + overlay de subscrição ── --}}
     <div class="relative mx-0 mb-0 overflow-hidden"
          x-data="{ showModal: false }">

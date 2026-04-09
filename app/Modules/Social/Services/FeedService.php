@@ -33,6 +33,18 @@ class FeedService
             // Visitantes só veem posts públicos na busca por hashtag
             if (!$user) {
                 $query->where('visibility', 'public');
+            } else {
+                // Autenticados: posts públicos + os seus próprios + os de criadores subscritos
+                $subscribedIds = $this->getSubscribedCreatorIds($user);
+                $userId = $user->id;
+                $query->where(function ($q) use ($userId, $subscribedIds) {
+                    $q->where('visibility', 'public')
+                      ->orWhere('user_id', $userId)
+                      ->orWhere(function ($q2) use ($subscribedIds) {
+                          $q2->where('visibility', 'followers')
+                             ->whereIn('user_id', $subscribedIds);
+                      });
+                });
             }
         } elseif ($myPostsOnly && $user) {
             $query->where('user_id', $user->id);
@@ -55,5 +67,15 @@ class FeedService
     public function isEmptyFeed(?User $user, string $hashtag, bool $bookmarkedOnly, bool $myPostsOnly): bool
     {
         return false;
+    }
+
+    /** IDs dos criadores que o utilizador subscreve activamente. */
+    private function getSubscribedCreatorIds(User $user): array
+    {
+        try {
+            return $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray();
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 }
