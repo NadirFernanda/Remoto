@@ -68,8 +68,14 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         Frente do documento <span class="text-red-500">*</span>
                     </label>
-                    <input type="file" wire:model="documentFront" accept="image/*,.pdf"
-                        class="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 file:font-semibold hover:file:bg-cyan-100">
+                    <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
+                        <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                            Escolher ficheiro
+                            <input type="file" wire:model="documentFront" accept="image/*,.pdf" class="hidden"
+                                   @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">
+                        </label>
+                        <span class="text-sm text-gray-500 truncate max-w-[180px]" x-text="nome"></span>
+                    </div>
                     <p class="text-xs text-gray-400 mt-1">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentFront') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                     @if($documentFront)
@@ -81,8 +87,14 @@
                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                         Verso do documento <span class="text-red-500">*</span>
                     </label>
-                    <input type="file" wire:model="documentBack" accept="image/*,.pdf"
-                        class="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 file:font-semibold hover:file:bg-cyan-100">
+                    <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
+                        <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                            Escolher ficheiro
+                            <input type="file" wire:model="documentBack" accept="image/*,.pdf" class="hidden"
+                                   @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">
+                        </label>
+                        <span class="text-sm text-gray-500 truncate max-w-[180px]" x-text="nome"></span>
+                    </div>
                     <p class="text-xs text-gray-400 mt-1">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentBack') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                     @if($documentBack)
@@ -95,8 +107,14 @@
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     Selfie com o documento <span class="text-gray-400">(opcional mas recomendado)</span>
                 </label>
-                <input type="file" wire:model="selfie" accept="image/*"
-                    class="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-cyan-50 file:text-cyan-700 file:font-semibold hover:file:bg-cyan-100">
+                <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
+                    <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                        Escolher ficheiro
+                        <input type="file" wire:model="selfie" accept="image/*" class="hidden"
+                               @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">
+                    </label>
+                    <span class="text-sm text-gray-500 truncate max-w-[180px]" x-text="nome"></span>
+                </div>
                 <p class="text-xs text-gray-400 mt-1">Foto segurando o documento ao lado do rosto · JPG ou PNG · máx. 10MB</p>
                 @error('selfie') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                 @if($selfie)
