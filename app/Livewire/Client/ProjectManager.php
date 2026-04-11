@@ -85,7 +85,7 @@ class ProjectManager extends Component
     public function uploadAttachment(): void
     {
         $this->validate([
-            'attachmentFile' => 'required|file|max:20480',
+            'attachmentFile' => 'required|file|max:20480|mimes:jpg,jpeg,png,gif,webp,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar',
         ]);
 
         $service = $this->loadSelectedService();
