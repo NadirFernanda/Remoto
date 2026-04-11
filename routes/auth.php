@@ -142,3 +142,4 @@ Route::get('/register', function () {
     return app(\App\Http\Controllers\Auth\RegisterController::class)->showFreelancerForm();
 })->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/register/client', [RegisterController::class, 'registerClient']);

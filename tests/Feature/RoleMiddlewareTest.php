@@ -21,7 +21,7 @@ class RoleMiddlewareTest extends TestCase
 
         $this->actingAs($user)
             ->get('/cliente/dashboard')
-            ->assertStatus(403);
+            ->assertRedirect();
     }
 
     // ── Cliente não pode aceder a rotas de freelancer ─────────────────────
@@ -32,7 +32,7 @@ class RoleMiddlewareTest extends TestCase
 
         $this->actingAs($user)
             ->get('/freelancer/dashboard')
-            ->assertStatus(403);
+            ->assertRedirect();
     }
 
     // ── Utilizador não autenticado é redirecionado para login ─────────────

@@ -62,7 +62,7 @@ class FinancialPanel extends Component
         // Mover valor do saldo disponível para saldo_pendente (em análise)
         // Uso de transacção para garantir atomicidade: se WalletLog falhar,
         // os decrements/increments são revertidos automaticamente.
-        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user) {
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $valorLiquidoSaque) {
             $wallet->decrement('saldo', $this->valorSaque);
             $wallet->increment('saldo_pendente', $this->valorSaque);
 

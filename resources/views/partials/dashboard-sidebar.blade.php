@@ -1,9 +1,11 @@
 @php
     $currentUrl  = request()->url();
     $currentPath = '/' . request()->path();
-    function sidebarActive(string $route): string {
-        try { $url = route($route); } catch (\Exception $e) { return ''; }
-        return request()->url() === $url ? 'active' : '';
+    if (!function_exists('sidebarActive')) {
+        function sidebarActive(string $route): string {
+            try { $url = route($route); } catch (\Exception $e) { return ''; }
+            return request()->url() === $url ? 'active' : '';
+        }
     }
 @endphp
 

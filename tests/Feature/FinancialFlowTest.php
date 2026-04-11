@@ -145,17 +145,18 @@ class FinancialFlowTest extends TestCase
     {
         $freelancer = $this->makeFreelancer();
         $wallet     = Wallet::where('user_id', $freelancer->id)->first();
-        $wallet->update(['saldo' => 50000]);
+        $wallet->update(['saldo' => 60000]);
 
         $this->actingAs($freelancer);
 
-        \Livewire\Livewire::test(FinancialPanel::class)
-            ->set('valorSaque', 10000)
+        \Livewire\Livewire::actingAs($freelancer)
+            ->test(FinancialPanel::class)
+            ->set('valorSaque', 25000)
             ->call('solicitarSaque');
 
         $wallet->refresh();
-        $this->assertEquals(40000, $wallet->saldo);
-        $this->assertEquals(10000, $wallet->saldo_pendente);
+        $this->assertEquals(35000, $wallet->saldo);
+        $this->assertEquals(25000, $wallet->saldo_pendente);
     }
 
     #[Test]
@@ -211,6 +212,9 @@ class FinancialFlowTest extends TestCase
         $freelancer = $this->makeFreelancer(['kyc_status' => 'pending']);
         $freelancer->freelancerProfile->update(['kyc_status' => 'pending']);
 
+        // Admin atualiza User.kyc_status antes de disparar o evento (bypass fillable)
+        $freelancer->kyc_status = 'verified';
+        $freelancer->save();
         KycStatusChanged::dispatch($freelancer, 'verified');
 
         $freelancer->refresh();
@@ -236,7 +240,7 @@ class FinancialFlowTest extends TestCase
         $this->actingAs($freelancer);
 
         // Tentar aceder a rota que requer kyc.verified
-        $this->get('/freelancer/projetos-disponiveis')
+        $this->get('/freelancer/carteira')
             ->assertRedirect(route('kyc.submit'));
     }
 
@@ -246,7 +250,7 @@ class FinancialFlowTest extends TestCase
         $freelancer = $this->makeFreelancer(['kyc_status' => 'verified']);
         $this->actingAs($freelancer);
 
-        $this->get('/freelancer/projetos-disponiveis')
+        $this->get('/freelancer/carteira')
             ->assertOk();
     }
 

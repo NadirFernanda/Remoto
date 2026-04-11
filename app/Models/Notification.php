@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Notification extends Model
 {
+    protected $table = 'user_notifications';
+
     protected $fillable = [
         'user_id', 'service_id', 'type', 'title', 'message', 'read'
     ];

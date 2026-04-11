@@ -249,9 +249,9 @@ class ProposalLimitTest extends TestCase
         Notification::create(['user_id' => $rejeitadoA->id, 'service_id' => $service->id, 'type' => 'service_rejected', 'title' => 'Não selecionado', 'message' => 'Infelizmente...']);
         Notification::create(['user_id' => $rejeitadoB->id, 'service_id' => $service->id, 'type' => 'service_rejected', 'title' => 'Não selecionado', 'message' => 'Infelizmente...']);
 
-        $this->assertDatabaseHas('notifications', ['user_id' => $escolhido->id,  'type' => 'service_chosen']);
-        $this->assertDatabaseHas('notifications', ['user_id' => $rejeitadoA->id, 'type' => 'service_rejected']);
-        $this->assertDatabaseHas('notifications', ['user_id' => $rejeitadoB->id, 'type' => 'service_rejected']);
+        $this->assertDatabaseHas('user_notifications', ['user_id' => $escolhido->id,  'type' => 'service_chosen']);
+        $this->assertDatabaseHas('user_notifications', ['user_id' => $rejeitadoA->id, 'type' => 'service_rejected']);
+        $this->assertDatabaseHas('user_notifications', ['user_id' => $rejeitadoB->id, 'type' => 'service_rejected']);
     }
 
     #[Test]

@@ -42,13 +42,13 @@ class KycMiddlewareTest extends TestCase
 
     public function test_approved_freelancer_can_access_wallet(): void
     {
-        $user = User::factory()->create(['role' => 'freelancer']);
-        FreelancerProfile::create(['user_id' => $user->id, 'kyc_status' => 'approved']);
+        $user = User::factory()->create(['role' => 'freelancer', 'kyc_status' => 'verified']);
+        FreelancerProfile::create(['user_id' => $user->id, 'kyc_status' => 'verified']);
 
         $response = $this->actingAs($user)->get('/freelancer/carteira');
 
-        // 200 ou renderização Livewire — só não deve redirecionar para KYC
-        $response->assertRedirectIsNot(route('kyc.submit'));
+        // Não deve redirecionar para KYC — deve aceder à carteira
+        $response->assertOk();
     }
 
     public function test_kyc_redirect_carries_warning_message(): void
@@ -66,6 +66,7 @@ class KycMiddlewareTest extends TestCase
 
         $response = $this->actingAs($user)->get('/cliente/dashboard');
 
-        $response->assertDontSee('kyc'); // cliente chega ao dashboard normalmente
+        // Cliente não deve ser redirecionado para KYC — acede ao dashboard normalmente
+        $response->assertOk();
     }
 }

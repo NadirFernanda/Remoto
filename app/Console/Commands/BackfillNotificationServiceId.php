@@ -45,7 +45,7 @@ class BackfillNotificationServiceId extends Command
             ->mapWithKeys(fn($s) => [mb_strtolower(trim($s->titulo)) => $s->id])
             ->all();
 
-        DB::table('notifications')
+        DB::table('user_notifications')
             ->whereNull('service_id')
             ->orderBy('id')
             ->chunkById(200, function ($rows) use ($dryRun, &$fixed, &$skipped, $titleMap) {
@@ -61,7 +61,7 @@ class BackfillNotificationServiceId extends Command
 
                     $fixed++;
                     if (!$dryRun) {
-                        DB::table('notifications')
+                        DB::table('user_notifications')
                             ->where('id', $row->id)
                             ->update(['service_id' => $sid]);
                     }
