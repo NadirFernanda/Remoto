@@ -195,13 +195,17 @@ class NotificationFilterTest extends TestCase
     #[Test]
     public function redirect_de_reembolso_troca_modo_para_cliente(): void
     {
-        // Utilizador com role freelancer mas em modo freelancer clica em notif de reembolso
-        $user    = $this->makeUser('cliente'); // role base is cliente
+        // Utilizador dual-role: role=cliente mas também tem perfil de freelancer
+        // Está actualmente em modo freelancer e clica numa notificação de reembolso.
+        $user = $this->makeUser('cliente');
+        $user->has_freelancer_profile = true; // legitimamente dual-role
+        $user->save();
+
         $service = $this->makeService($user);
         $notif   = $this->notif($user, 'refund_processed', $service->id);
 
         $this->actingAs($user);
-        session(['active_role' => 'freelancer']); // estava em modo freelancer
+        session(['active_role' => 'freelancer']); // modo freelancer activo (legítimo)
 
         $this->get(route('notification.open', $notif->id));
 
