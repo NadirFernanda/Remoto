@@ -187,8 +187,8 @@
     {{-- ═══════════════════════════════════════════════════════════════════════
          MODAL: CREATE / EDIT ADMIN
          ═══════════════════════════════════════════════════════════════════ --}}
-    @if($modalMode === 'create' || $modalMode === 'edit')
-        <div class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-0 sm:py-6 px-0 sm:px-4">
+    <div x-show="$wire.modalMode === 'create' || $wire.modalMode === 'edit'" x-cloak
+         class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-0 sm:py-6 px-0 sm:px-4">
             <div wire:click.stop class="bg-white rounded-none sm:rounded-2xl shadow-2xl w-full sm:max-w-2xl flex flex-col max-h-screen sm:max-h-[92vh]">
 
                 {{-- Modal header --}}
@@ -525,6 +525,6 @@
 
             </div>
         </div>
-    @endif
+    </div>
 
 </div>

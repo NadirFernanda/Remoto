@@ -11,6 +11,7 @@
     <link rel="icon" href="{{ asset('img/logo.png') }}" sizes="any">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <style>[x-cloak]{display:none!important}</style>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}">

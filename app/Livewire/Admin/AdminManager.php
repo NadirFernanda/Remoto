@@ -66,6 +66,9 @@ class AdminManager extends Component
         abort_if($user?->role !== 'admin', 403);
         abort_if($user->admin_role !== 'master' && $user->admin_role !== null, 403,
             'Apenas o Admin Master pode gerir administradores.');
+
+        // Pré-popular permissões para que o modal (sempre no DOM via x-show) já tenha dados
+        $this->loadDefaultPermissions('gestor');
     }
 
     public function updatingSearch(): void    { $this->resetPage(); }
