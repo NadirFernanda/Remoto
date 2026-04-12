@@ -219,53 +219,23 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Get the active role (session-based switch or DB role).
-     * Allows toggling between 'cliente' and 'freelancer' only when the user
-     * actually has a profile for the target role (has_freelancer_profile /
-     * has_cliente_profile). Admins and pure single-role users cannot inject
-     * an arbitrary session role to bypass the Role middleware.
+     * Allows toggling between 'cliente' and 'freelancer' without changing DB.
      */
     public function activeRole(): string
     {
-        $dbRole = $this->role;
-
-        // Admins are fixed — no session override allowed
-        if ($dbRole === 'admin') {
-            return $dbRole;
-        }
-
         $sessionRole = session('active_role');
         if ($sessionRole && in_array($sessionRole, ['cliente', 'freelancer', 'creator'])) {
-            // Build the set of roles this user is actually allowed to switch into
-            $permitted = [$dbRole]; // Always permit own DB role
-            if ($dbRole === 'freelancer' && $this->has_cliente_profile) {
-                $permitted[] = 'cliente';
-            } elseif ($dbRole === 'cliente' && $this->has_freelancer_profile) {
-                $permitted[] = 'freelancer';
-            } elseif ($dbRole === 'creator') {
-                // Creators can also act as clients or freelancer if profiles exist
-                if ($this->has_cliente_profile)    $permitted[] = 'cliente';
-                if ($this->has_freelancer_profile) $permitted[] = 'freelancer';
-            }
-
-            if (in_array($sessionRole, $permitted, true)) {
-                return $sessionRole;
-            }
+            return $sessionRole;
         }
-
-        return $dbRole;
+        return $this->role;
     }
 
     /**
-     * Check if the user can switch roles.
-     * Only users who have profiles for more than one role may switch.
+     * Check if the user can switch roles (not admin).
      */
     public function canSwitchRole(): bool
     {
-        if ($this->role === 'admin') return false;
-
-        return ($this->role === 'freelancer' && $this->has_cliente_profile)
-            || ($this->role === 'cliente'    && $this->has_freelancer_profile)
-            || ($this->role === 'creator'    && ($this->has_cliente_profile || $this->has_freelancer_profile));
+        return !in_array($this->role, ['admin']);
     }
 
     /**
