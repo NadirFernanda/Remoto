@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Service;
 use App\Models\Dispute;
 use App\Models\AuditLog;
+use Illuminate\Support\Facades\Cache;
 
 class Dashboard extends Component
 {
@@ -30,72 +31,71 @@ class Dashboard extends Component
 
     private function loadStats(): void
     {
-        $since = now()->subDays($this->period);
+        $period = $this->period;
+        $cacheKey = "admin_dashboard_stats_{$period}";
 
-        $totalServices   = Service::count() ?: 1;
-        $completedCount  = Service::where('status', 'completed')->count();
+        // Cache por 3 minutos — evita 20+ queries DB em cada mudança de período
+        $cached = Cache::remember($cacheKey, 180, function () use ($period) {
+            $since = now()->subDays($period);
 
-        // Funnel: registered → posted → hired → completed
-        $registered = User::where('role', 'cliente')->count();
-        $posted     = User::where('role', 'cliente')->has('servicesAsClient')->count();
-        $hired      = User::where('role', 'cliente')
-            ->whereHas('servicesAsClient', fn($q) => $q->whereNotNull('freelancer_id'))
-            ->count();
-        $completed  = User::where('role', 'cliente')
-            ->whereHas('servicesAsClient', fn($q) => $q->where('status', 'completed'))
-            ->count();
+            $totalServices  = Service::count() ?: 1;
+            $completedCount = Service::where('status', 'completed')->count();
 
-        $this->funnel = compact('registered', 'posted', 'hired', 'completed');
+            // Funnel: registered → posted → hired → completed
+            $registered = User::where('role', 'cliente')->count();
+            $posted     = User::where('role', 'cliente')->has('servicesAsClient')->count();
+            $hired      = User::where('role', 'cliente')
+                ->whereHas('servicesAsClient', fn($q) => $q->whereNotNull('freelancer_id'))
+                ->count();
+            $completed  = User::where('role', 'cliente')
+                ->whereHas('servicesAsClient', fn($q) => $q->where('status', 'completed'))
+                ->count();
 
-        // Revenue by day (last N days, simple array)
-        $this->revenueByDay = Service::whereIn('status', ['completed', 'delivered'])
-            ->where('updated_at', '>=', $since)
-            ->selectRaw('DATE(updated_at) as day, SUM(taxa) as total')
-            ->groupBy('day')
-            ->orderBy('day')
-            ->pluck('total', 'day')
-            ->toArray();
+            $funnel = compact('registered', 'posted', 'hired', 'completed');
 
-        $this->stats = [
-            // GMV
-            'gmv_total'      => Service::whereIn('status', ['completed', 'delivered'])->sum('valor'),
-            'gmv_period'     => Service::whereIn('status', ['completed', 'delivered'])
-                ->where('updated_at', '>=', $since)->sum('valor'),
-            // Projects
-            'projects_total'     => Service::count(),
-            'projects_active'    => Service::where('status', 'in_progress')->count(),
-            'projects_published' => Service::where('status', 'published')->count(),
-            'projects_delivered' => Service::where('status', 'delivered')->count(),
-            'projects_completed' => $completedCount,
-            'projects_cancelled' => Service::where('status', 'cancelled')->count(),
-            'projects_period'    => Service::where('created_at', '>=', $since)->count(),
-            // Conversion
-            'conversion_rate'    => round($completedCount / $totalServices * 100, 1),
-            // Revenue
-            'revenue_total'  => Service::whereIn('status', ['completed', 'delivered'])->sum('taxa'),
-            'revenue_period' => Service::whereIn('status', ['completed', 'delivered'])
-                ->where('updated_at', '>=', $since)->sum('taxa'),
-            // Users
-            'users_total'       => User::count(),
-            'users_new_period'  => User::where('created_at', '>=', $since)->count(),
-            'users_clients'     => User::where('role', 'cliente')->count(),
-            'users_freelancers' => User::where('role', 'freelancer')->count(),
-            'kyc_pending'       => User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count(),
-            'users_suspended'   => User::where('is_suspended', true)->count(),
-            // Disputes
-            'disputes_open'        => Dispute::where('status', 'aberta')->count(),
-            'disputes_mediation'   => Dispute::where('status', 'em_mediacao')->count(),
-            'moderacao_pendente'   => Service::where('status', 'em_moderacao')->count(),
-        ];
+            $revenueByDay = Service::whereIn('status', ['completed', 'delivered'])
+                ->where('updated_at', '>=', $since)
+                ->selectRaw('DATE(updated_at) as day, SUM(taxa) as total')
+                ->groupBy('day')
+                ->orderBy('day')
+                ->pluck('total', 'day')
+                ->toArray();
 
-        $this->recentLogs = AuditLog::with('user')
-            ->orderByDesc('created_at')
-            ->take(8)
-            ->get();
+            $stats = [
+                'gmv_total'          => Service::whereIn('status', ['completed', 'delivered'])->sum('valor'),
+                'gmv_period'         => Service::whereIn('status', ['completed', 'delivered'])->where('updated_at', '>=', $since)->sum('valor'),
+                'projects_total'     => Service::count(),
+                'projects_active'    => Service::where('status', 'in_progress')->count(),
+                'projects_published' => Service::where('status', 'published')->count(),
+                'projects_delivered' => Service::where('status', 'delivered')->count(),
+                'projects_completed' => $completedCount,
+                'projects_cancelled' => Service::where('status', 'cancelled')->count(),
+                'projects_period'    => Service::where('created_at', '>=', $since)->count(),
+                'conversion_rate'    => round($completedCount / $totalServices * 100, 1),
+                'revenue_total'      => Service::whereIn('status', ['completed', 'delivered'])->sum('taxa'),
+                'revenue_period'     => Service::whereIn('status', ['completed', 'delivered'])->where('updated_at', '>=', $since)->sum('taxa'),
+                'users_total'        => User::count(),
+                'users_new_period'   => User::where('created_at', '>=', $since)->count(),
+                'users_clients'      => User::where('role', 'cliente')->count(),
+                'users_freelancers'  => User::where('role', 'freelancer')->count(),
+                'kyc_pending'        => User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count(),
+                'users_suspended'    => User::where('is_suspended', true)->count(),
+                'disputes_open'      => Dispute::where('status', 'aberta')->count(),
+                'disputes_mediation' => Dispute::where('status', 'em_mediacao')->count(),
+                'moderacao_pendente' => Service::where('status', 'em_moderacao')->count(),
+            ];
 
-        $this->recentUsers = User::orderByDesc('created_at')
-            ->take(10)
-            ->get();
+            $recentLogs  = AuditLog::with('user')->orderByDesc('created_at')->take(8)->get();
+            $recentUsers = User::orderByDesc('created_at')->take(10)->get();
+
+            return compact('funnel', 'revenueByDay', 'stats', 'recentLogs', 'recentUsers');
+        });
+
+        $this->funnel       = $cached['funnel'];
+        $this->revenueByDay = $cached['revenueByDay'];
+        $this->stats        = $cached['stats'];
+        $this->recentLogs   = $cached['recentLogs'];
+        $this->recentUsers  = $cached['recentUsers'];
     }
 
     public function render()

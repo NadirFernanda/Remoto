@@ -308,14 +308,6 @@ class ServiceChat extends Component
                 $mensagem,
                 $this->chatFile
             );
-            Log::info('[CHAT DEBUG] Mensagem enviada', [
-                'id'                 => $msg->id,
-                'conteudo'           => $msg->conteudo,
-                'anexo'              => $msg->anexo,
-                'nome_original_anexo' => $msg->nome_original_anexo,
-                'user_id'            => $msg->user_id,
-                'created_at'         => $msg->created_at,
-            ]);
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
             $this->addError('mensagem', 'Erro ao enviar mensagem: ' . $e->getMessage());

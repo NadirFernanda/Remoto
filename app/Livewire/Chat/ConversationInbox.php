@@ -4,9 +4,9 @@ namespace App\Livewire\Chat;
 
 use Livewire\Component;
 use App\Models\Service;
-use App\Models\ChatRead;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ConversationInbox extends Component
 {
@@ -42,10 +42,27 @@ class ConversationInbox extends Component
                 ->limit(1)
         )->get();
 
-        // Calcular mensagens não lidas por conversa
+        // Calcular mensagens não lidas com 1 query JOIN em vez de N×2 queries
+        $serviceIds = $services->pluck('id')->all();
         $unreadCounts = [];
-        foreach ($services as $service) {
-            $unreadCounts[$service->id] = ChatRead::unreadCount($service->id, $user->id);
+        if (!empty($serviceIds)) {
+            $placeholders = implode(',', array_fill(0, count($serviceIds), '?'));
+            $rows = DB::select(
+                "SELECT m.service_id, COUNT(m.id) as unread
+                 FROM messages m
+                 LEFT JOIN chat_reads cr ON cr.service_id = m.service_id AND cr.user_id = ?
+                 WHERE m.service_id IN ({$placeholders})
+                   AND m.user_id != ?
+                   AND (cr.last_read_at IS NULL OR m.created_at > cr.last_read_at)
+                 GROUP BY m.service_id",
+                array_merge([$user->id], $serviceIds, [$user->id])
+            );
+            foreach ($rows as $row) {
+                $unreadCounts[$row->service_id] = (int) $row->unread;
+            }
+            foreach ($serviceIds as $sid) {
+                $unreadCounts[$sid] = $unreadCounts[$sid] ?? 0;
+            }
         }
 
         $totalUnread = array_sum($unreadCounts);

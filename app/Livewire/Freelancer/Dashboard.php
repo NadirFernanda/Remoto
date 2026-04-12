@@ -13,49 +13,57 @@ use App\Models\User;
 class Dashboard extends Component
 {
     use UserSessionTrait;
-     // Removed extra opening curly brace
+
     public $services;
     public $saldo_disponivel = 0;
     public $saldo_pendente = 0;
     public int $period = 7;
 
+    // Cached in mount() — not recalculated on every Livewire re-render
+    public int $kpi_projetos_concluidos = 0;
+    public string $affiliate_link = '';
+    public $referrals;
+
     public function mount()
     {
         $user = $this->getCurrentUser();
+
         $this->services = Service::where('freelancer_id', $user->id)
             ->whereIn('status', ['accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
             ->orderByDesc('created_at')
             ->get();
-        $this->saldo_disponivel = $user->wallet->saldo ?? 0;
-        $this->saldo_pendente = $user->wallet->saldo_pendente ?? 0;
+
+        // Load wallet in one query with eager-load instead of lazy property access
+        $wallet = $user->wallet()->first();
+        $this->saldo_disponivel = $wallet->saldo ?? 0;
+        $this->saldo_pendente   = $wallet->saldo_pendente ?? 0;
+
+        // Moved from render() — these don't change during page interaction
+        $this->kpi_projetos_concluidos = Service::where('freelancer_id', $user->id)
+            ->where('status', 'completed')
+            ->count();
+
+        $this->affiliate_link = $user->affiliate_code
+            ? url('/register?ref=' . $user->affiliate_code)
+            : url('/register');
+
+        $this->referrals = \App\Models\Referral::where('affiliate_id', $user->id)
+            ->with('user')
+            ->get();
     }
 
     public function render()
     {
-        $kpi_projetos_andamento = $this->services->count();
-        $user = $this->getCurrentUser();
-        $kpi_projetos_concluidos = Service::where('freelancer_id', $user->id)
-            ->where('status', 'completed')
-            ->count();
-
-        // Link de afiliado
-        $affiliate_link = $user->affiliate_code
-            ? url('/register?ref=' . $user->affiliate_code)
-            : url('/register');
-
-        // Indicações
-        $referrals = \App\Models\Referral::where('affiliate_id', $user->id)->with('user')->get();
-
         $period = $this->period;
         return view('livewire.freelancer.dashboard', [
-            'projects' => $this->services,
-            'saldo_pendente' => $this->saldo_pendente,
-            'kpi_total_recebido' => 0,
-            'kpi_projetos_concluidos' => $kpi_projetos_concluidos,
-            'kpi_projetos_andamento' => $kpi_projetos_andamento,
-            'affiliate_link' => $affiliate_link,
-            'referrals' => $referrals,
-            'period' => $period,
+            'projects'                => $this->services,
+            'saldo_pendente'          => $this->saldo_pendente,
+            'kpi_total_recebido'      => 0,
+            'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
+            'kpi_projetos_andamento'  => $this->services->count(),
+            'affiliate_link'          => $this->affiliate_link,
+            'referrals'               => $this->referrals,
+            'period'                  => $period,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Freelancer',
         ]);
