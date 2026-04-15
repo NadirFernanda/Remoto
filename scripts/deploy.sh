@@ -35,4 +35,7 @@ echo "🔁 A reiniciar serviços..."
 sudo systemctl restart php8.4-fpm 2>/dev/null || sudo systemctl restart php-fpm 2>/dev/null || true
 sudo systemctl reload nginx
 
+echo "🔥 A pré-aquecer cache (cold start prevention)..."
+php artisan cache:warm
+
 echo "✅ Deploy concluído com sucesso!"
