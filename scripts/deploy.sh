@@ -13,7 +13,7 @@ echo "📦 A instalar dependências PHP..."
 composer install --no-dev --optimize-autoloader
 
 echo "📦 A instalar e compilar assets..."
-npm ci
+npm install --prefer-offline
 npm run build
 
 echo "🔧 A limpar e RECONSTRUIR todos os caches..."
