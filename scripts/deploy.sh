@@ -17,25 +17,26 @@ npm install --prefer-offline
 npm run build
 
 echo "🔧 A limpar e RECONSTRUIR todos os caches..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan event:cache
+# Correr como www-data para evitar Permission denied em storage/framework/views/
+sudo -u www-data php artisan config:cache
+sudo -u www-data php artisan route:cache
+sudo -u www-data php artisan view:cache
+sudo -u www-data php artisan event:cache
 
 echo "🗑️  A limpar cache de aplicação (dados desatualizados após deploy)..."
-php artisan cache:clear
+sudo -u www-data php artisan cache:clear
 
 echo "🗄️  A correr migrações..."
-php artisan migrate --force
+sudo -u www-data php artisan migrate --force
 
 echo "🔁 A reiniciar workers..."
-php artisan queue:restart
+sudo -u www-data php artisan queue:restart
 
 echo "🔁 A reiniciar serviços..."
 sudo systemctl restart php8.4-fpm 2>/dev/null || sudo systemctl restart php-fpm 2>/dev/null || true
 sudo systemctl reload nginx
 
 echo "🔥 A pré-aquecer cache (cold start prevention)..."
-php artisan cache:warm
+sudo -u www-data php artisan cache:warm
 
 echo "✅ Deploy concluído com sucesso!"
