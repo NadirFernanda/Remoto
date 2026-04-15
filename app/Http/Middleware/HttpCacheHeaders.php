@@ -49,15 +49,22 @@ class HttpCacheHeaders
             return $response;
         }
 
-        // Não cachear requisições Livewire (mantém interactividade)
+        // Não cachear rotas internas do Livewire (upload, preview, etc.)
+        if (str_starts_with($request->getPathInfo(), '/livewire')) {
+            $response->headers->set('Cache-Control', 'no-store');
+            return $response;
+        }
+
+        // Não cachear requisições Livewire AJAX
         if ($request->header('X-Livewire')) {
             $response->headers->set('Cache-Control', 'no-store');
             return $response;
         }
 
-        // Não cachear se o utilizador estiver autenticado
-        if (auth()->check()) {
-            $response->headers->set('Cache-Control', 'private, no-store');
+        // Não cachear se houver sessão autenticada OU cookie de sessão presente
+        // (cobre o caso em que auth()->check() falha antes do middleware de sessão)
+        if (auth()->check() || $request->hasCookie(config('session.cookie'))) {
+            $response->headers->set('Cache-Control', 'no-store');
             return $response;
         }
 
@@ -67,9 +74,9 @@ class HttpCacheHeaders
                 'Cache-Control',
                 'public, max-age=60, s-maxage=180, stale-while-revalidate=60'
             );
-            $response->headers->set('Vary', 'Accept-Encoding, Accept-Language');
+            $response->headers->set('Vary', 'Accept-Encoding, Accept-Language, Cookie');
         } else {
-            $response->headers->set('Cache-Control', 'private, no-store');
+            $response->headers->set('Cache-Control', 'no-store');
         }
 
         return $response;
