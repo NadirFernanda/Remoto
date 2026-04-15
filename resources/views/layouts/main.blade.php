@@ -24,6 +24,15 @@
     @include('components.cookie-consent')
     @livewireScripts
     <script>
+        // Detecção de bfcache: quando o browser restaura uma página a partir do cache
+        // de navegação (back/forward), os snapshots Livewire já não existem no servidor.
+        // Forçar reload garante que o componente é inicializado de novo.
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+
         document.addEventListener('alpine:init', () => {
             Alpine.store('sidebar', {
                 open: false,

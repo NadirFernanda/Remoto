@@ -142,6 +142,7 @@ class ServiceChat extends Component
 
     public function fecharModalValor(): void
     {
+        $this->skipRender();
         $this->showValorModal = false;
         $this->novoValorTotal = '';
         $this->resetErrorBag();
@@ -325,6 +326,7 @@ class ServiceChat extends Component
 
     public function abrirModalProporValor(): void
     {
+        $this->skipRender();
         $this->resetErrorBag();
         $this->valorProposto = '';
         $this->showProporValorModal = true;
@@ -333,6 +335,7 @@ class ServiceChat extends Component
 
     public function fecharModalProporValor(): void
     {
+        $this->skipRender();
         $this->showProporValorModal = false;
         $this->valorProposto = '';
         $this->resetErrorBag();
@@ -431,5 +434,6 @@ class ServiceChat extends Component
             ->extends('layouts.dashboard', ['dashboardTitle' => 'Chat do Serviço'])
             ->section('dashboard-content');
     }
+
 }
 
