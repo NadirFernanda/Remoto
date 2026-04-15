@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Notification;
 
 class NotificationBell extends Component
@@ -22,6 +23,7 @@ class NotificationBell extends Component
         if (!$user) return;
 
         $isFreelancerMode = $user->activeRole() === 'freelancer';
+        $role             = $isFreelancerMode ? 'freelancer' : 'cliente';
 
         // Types that only make sense in one mode
         $freelancerOnly = ['novo_projeto','service_chosen','revision_requested','project_started',
@@ -30,11 +32,16 @@ class NotificationBell extends Component
         $clientOnly = ['refund_processed','refund_approved','refund_rejected',
             'delivery_submitted','proposal_accepted','proposal_rejected'];
 
-        $this->unreadCount = Notification::where('user_id', $user->id)
-            ->where('read', false)
-            ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
-            ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
-            ->count();
+        // Cache do count de não-lidas — 30 s (invalida ao marcar como lida)
+        $this->unreadCount = Cache::remember(
+            "notif_unread:{$user->id}:{$role}",
+            30,
+            fn () => Notification::where('user_id', $user->id)
+                ->where('read', false)
+                ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
+                ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
+                ->count()
+        );
 
         $this->recent = Notification::where('user_id', $user->id)
             ->with('user')
@@ -56,6 +63,15 @@ class NotificationBell extends Component
             ->toArray();
     }
 
+    /** Limpa o cache do contador ao marcar todas como lidas. */
+    private function forgetUnreadCache(): void
+    {
+        $user = Auth::user();
+        if (!$user) return;
+        Cache::forget("notif_unread:{$user->id}:freelancer");
+        Cache::forget("notif_unread:{$user->id}:cliente");
+    }
+
     public function markAllRead(): void
     {
         $user = Auth::user();
@@ -74,6 +90,7 @@ class NotificationBell extends Component
             ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
             ->update(['read' => true]);
 
+        $this->forgetUnreadCache();
         $this->refresh();
     }
 
@@ -86,6 +103,7 @@ class NotificationBell extends Component
             ->where('user_id', $user->id)
             ->update(['read' => true]);
 
+        $this->forgetUnreadCache();
         $this->refresh();
     }
 

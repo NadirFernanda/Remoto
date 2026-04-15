@@ -24,6 +24,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'kyc.verified' => \App\Http\Middleware\KycVerified::class,
         ]);
 
+        // Frente 2 — Delivery Cache: adiciona Cache-Control a páginas públicas
+        $middleware->web(append: [
+            \App\Http\Middleware\HttpCacheHeaders::class,
+        ]);
+
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);

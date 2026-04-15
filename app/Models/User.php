@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Models\CreatorSubscription;
 use Laravel\Sanctum\HasApiTokens;
@@ -76,8 +77,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function averageRating(): float
     {
-        $avg = $this->reviewsReceived()->avg('rating');
-        return $avg ? round($avg, 1) : 0;
+        return Cache::remember(
+            "user_avg_rating:{$this->id}",
+            600, // 10 minutos — invalida quando uma avaliação é submetida
+            fn () => (float) round($this->reviewsReceived()->avg('rating') ?? 0, 1)
+        );
     }
 
     public function servicesAsFreelancer()

@@ -22,6 +22,9 @@ php artisan route:cache
 php artisan view:cache
 php artisan event:cache
 
+echo "🗑️  A limpar cache de aplicação (dados desatualizados após deploy)..."
+php artisan cache:clear
+
 echo "🗄️  A correr migrações..."
 php artisan migrate --force
 

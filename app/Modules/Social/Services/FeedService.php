@@ -5,6 +5,7 @@ namespace App\Modules\Social\Services;
 use App\Models\SocialPost;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class FeedService
 {
@@ -18,6 +19,22 @@ class FeedService
         bool $myPostsOnly = false,
         int $perPage = 10
     ): LengthAwarePaginator {
+        // Feed de convidados (sem filtros): cacheável por página — 2 min
+        // Feeds autenticados têm contexto pessoal (likes, bookmarks) — não cacheamos
+        if (!$user && !$hashtag && !$bookmarkedOnly && !$myPostsOnly) {
+            $page = request()->integer('page', 1);
+            return Cache::remember("social_guest_feed_p{$page}", 120, function () use ($perPage) {
+                return SocialPost::with([
+                    'user.freelancerProfile',
+                    'media',
+                    'likes',
+                    'comments.user',
+                    'repost.user',
+                    'repost.media',
+                ])->active()->where('visibility', 'public')->latest()->paginate($perPage);
+            });
+        }
+
         $query = SocialPost::with([
             'user.freelancerProfile',
             'media',
@@ -69,13 +86,15 @@ class FeedService
         return false;
     }
 
-    /** IDs dos criadores que o utilizador subscreve activamente. */
+    /** IDs dos criadores que o utilizador subscreve activamente — cache 5 min. */
     private function getSubscribedCreatorIds(User $user): array
     {
-        try {
-            return $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray();
-        } catch (\Throwable $e) {
-            return [];
-        }
+        return Cache::remember("social_subscribed_ids:{$user->id}", 300, function () use ($user) {
+            try {
+                return $user->subscriptionsAsSubscriber()->active()->pluck('creator_id')->toArray();
+            } catch (\Throwable $e) {
+                return [];
+            }
+        });
     }
 }

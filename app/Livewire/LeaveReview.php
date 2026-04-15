@@ -8,6 +8,7 @@ use App\Models\Review;
 use App\Models\Service;
 use App\Events\ReviewSubmitted;
 use App\Notifications\ReviewReceivedNotification;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 
 class LeaveReview extends Component
@@ -81,6 +82,9 @@ class LeaveReview extends Component
             : route('client.dashboard');
         $this->targetUser->notify(new ReviewReceivedNotification($review, $user, $profileUrl));
         ReviewSubmitted::dispatch($review, $user, $this->targetUser);
+
+        // Invalidar cache da média de rating do utilizador avaliado
+        Cache::forget("user_avg_rating:{$this->targetUser->id}");
 
         $this->submitted = true;
         $this->alreadyReviewed = true;
