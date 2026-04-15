@@ -57,9 +57,10 @@ class PortfolioManager extends Component
             'featured'    => 'boolean',
         ];
 
-        if (in_array($this->tab, ['imagem', 'documento'])) {
-            $maxKb = $this->tab === 'imagem' ? 8192 : 20480;
-            $rules['file'] = ($this->editingId ? 'nullable' : 'required') . "|file|max:{$maxKb}";
+        if ($this->tab === 'imagem') {
+            $rules['file'] = ($this->editingId ? 'nullable' : 'required') . '|file|max:8192|mimes:jpg,jpeg,png,gif,webp,svg';
+        } elseif ($this->tab === 'documento') {
+            $rules['file'] = ($this->editingId ? 'nullable' : 'required') . '|file|max:20480|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip';
         }
 
         if ($this->tab === 'link') {

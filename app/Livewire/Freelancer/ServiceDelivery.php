@@ -46,7 +46,7 @@ class ServiceDelivery extends Component
     public function entregarServico()
     {
         $this->validate([
-            'entrega_arquivo'  => 'required|file|max:51200', // 50MB
+            'entrega_arquivo'  => 'required|file|max:51200|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,jpg,jpeg,png,gif,webp,mp4,webm,mov,avi,mp3,ogg,wav', // 50MB
             'entrega_mensagem' => 'nullable|string|max:2000',
         ]);
 

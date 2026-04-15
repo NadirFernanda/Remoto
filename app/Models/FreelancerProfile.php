@@ -9,7 +9,8 @@ class FreelancerProfile extends Model
     protected $fillable = [
         'user_id', 'headline', 'summary', 'hourly_rate', 'currency',
         'availability_status', 'skills', 'languages', 'metrics',
-        'kyc_status', 'onboarding_dismissed',
+        'onboarding_dismissed',
+        // kyc_status excluído do fillable — atribuir explicitamente via código (OWASP A03)
     ];
 
     protected $casts = [

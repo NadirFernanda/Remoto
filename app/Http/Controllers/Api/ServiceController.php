@@ -30,7 +30,12 @@ class ServiceController extends Controller
 
     public function show(Service $service): JsonResponse
     {
-        $service->load('cliente:id,name', 'freelancer:id,name', 'candidates.freelancer:id,name');
+        // Apenas serviços publicados são acessíveis publicamente (OWASP A01)
+        if ($service->status !== 'published') {
+            abort(404);
+        }
+
+        $service->load('cliente:id,name', 'freelancer:id,name');
 
         return response()->json($service);
     }
