@@ -25,12 +25,11 @@ class NotificationBell extends Component
         $isFreelancerMode = $user->activeRole() === 'freelancer';
         $role             = $isFreelancerMode ? 'freelancer' : 'cliente';
 
-        // Types that only make sense in one mode
+        // Types that only make sense in one mode (refund_* excluded — handled by target_role column)
         $freelancerOnly = ['novo_projeto','service_chosen','revision_requested','project_started',
             'payment_adjustment','delivery_approved','payment_released','saque_aprovado',
             'saque_rejeitado','service_rejected','project_invite','direct_invite'];
-        $clientOnly = ['refund_processed','refund_approved','refund_rejected',
-            'delivery_submitted','proposal_accepted','proposal_rejected'];
+        $clientOnly = ['delivery_submitted','proposal_accepted','proposal_rejected'];
 
         // Cache do count de não-lidas — 30 s (invalida ao marcar como lida)
         $this->unreadCount = Cache::remember(
@@ -40,6 +39,7 @@ class NotificationBell extends Component
                 ->where('read', false)
                 ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
                 ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
+                ->where(fn($q) => $q->whereNull('target_role')->orWhere('target_role', $role))
                 ->count()
         );
 
@@ -47,6 +47,7 @@ class NotificationBell extends Component
             ->with('user')
             ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
             ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
+            ->where(fn($q) => $q->whereNull('target_role')->orWhere('target_role', $role))
             ->orderByDesc('created_at')
             ->limit(8)
             ->get()
@@ -78,16 +79,17 @@ class NotificationBell extends Component
         if (!$user) return;
 
         $isFreelancerMode = $user->activeRole() === 'freelancer';
+        $role             = $isFreelancerMode ? 'freelancer' : 'cliente';
         $freelancerOnly = ['novo_projeto','service_chosen','revision_requested','project_started',
             'payment_adjustment','delivery_approved','payment_released','saque_aprovado',
             'saque_rejeitado','service_rejected','project_invite','direct_invite'];
-        $clientOnly = ['refund_processed','refund_approved','refund_rejected',
-            'delivery_submitted','proposal_accepted','proposal_rejected'];
+        $clientOnly = ['delivery_submitted','proposal_accepted','proposal_rejected'];
 
         Notification::where('user_id', $user->id)
             ->where('read', false)
             ->when(!$isFreelancerMode, fn($q) => $q->whereNotIn('type', $freelancerOnly))
             ->when($isFreelancerMode,  fn($q) => $q->whereNotIn('type', $clientOnly))
+            ->where(fn($q) => $q->whereNull('target_role')->orWhere('target_role', $role))
             ->update(['read' => true]);
 
         $this->forgetUnreadCache();

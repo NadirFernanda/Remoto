@@ -329,11 +329,12 @@ class DisputeAdmin extends Component
         });
 
         Notification::create([
-            'user_id'    => $service->cliente_id,
-            'service_id' => $service->id,
-            'type'       => 'refund_processed',
-            'title'      => 'Reembolso processado',
-            'message'    => 'A disputa no projecto "' . $service->titulo . '" foi resolvida a seu favor. ' . number_format($service->valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.',
+            'user_id'     => $service->cliente_id,
+            'service_id'  => $service->id,
+            'type'        => 'refund_processed',
+            'target_role' => 'cliente',
+            'title'       => 'Reembolso processado',
+            'message'     => 'A disputa no projecto "' . $service->titulo . '" foi resolvida a seu favor. ' . number_format($service->valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.',
         ]);
 
         Notification::create([

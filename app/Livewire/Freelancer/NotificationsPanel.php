@@ -12,8 +12,15 @@ class NotificationsPanel extends Component
 
     public function refresh(): void
     {
-        $this->unreadCount = Notification::where('user_id', Auth::id())
+        $user = Auth::user();
+        if (!$user) { $this->unreadCount = 0; return; }
+        $role = $user->activeRole();
+        $clientOnly = ['delivery_submitted','proposal_accepted','proposal_rejected'];
+
+        $this->unreadCount = Notification::where('user_id', $user->id)
             ->where('read', false)
+            ->when($role === 'freelancer', fn($q) => $q->whereNotIn('type', $clientOnly))
+            ->where(fn($q) => $q->whereNull('target_role')->orWhere('target_role', $role))
             ->count();
     }
 

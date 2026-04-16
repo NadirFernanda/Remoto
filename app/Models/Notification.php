@@ -10,7 +10,7 @@ class Notification extends Model
     protected $table = 'user_notifications';
 
     protected $fillable = [
-        'user_id', 'service_id', 'type', 'title', 'message', 'read'
+        'user_id', 'service_id', 'type', 'target_role', 'title', 'message', 'read'
     ];
 
     public function service()
@@ -69,9 +69,9 @@ class Notification extends Model
                 'proposal_accepted'    => route('client.projects'),
                 'proposal_rejected'    => route('client.projects'),
                 'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
-                'refund_processed'     => route('client.refunds'),
-                'refund_approved'      => route('client.refunds'),
-                'refund_rejected'      => route('client.refunds'),
+                'refund_processed'     => $this->target_role === 'freelancer' ? route('freelancer.wallet') : route('client.refunds'),
+                'refund_approved'      => $this->target_role === 'freelancer' ? route('freelancer.wallet') : route('client.refunds'),
+                'refund_rejected'      => $this->target_role === 'freelancer' ? route('freelancer.wallet') : route('client.refunds'),
                 'moderation_requested' => $sid ? route('service.dispute', $sid) : route('admin.disputes'),
 
                 // ── Both sides (dispute / review) ────────────────────

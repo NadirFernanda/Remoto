@@ -55,10 +55,11 @@ class RefundsAdminPanel extends Component
         });
 
         Notification::create([
-            'user_id' => $refund->user_id,
-            'type'    => 'refund_approved',
-            'title'   => 'Reembolso aprovado',
-            'message' => 'O seu pedido de reembolso foi aprovado' . ($valor > 0 ? ' e ' . number_format($valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.' : '.'),
+            'user_id'     => $refund->user_id,
+            'type'        => 'refund_approved',
+            'target_role' => $refund->user?->role,
+            'title'       => 'Reembolso aprovado',
+            'message'     => 'O seu pedido de reembolso foi aprovado' . ($valor > 0 ? ' e ' . number_format($valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.' : '.'),
         ]);
 
         session()->flash('success', 'Reembolso aprovado e cliente notificado.');
@@ -77,10 +78,11 @@ class RefundsAdminPanel extends Component
             $refund->update(['status' => 'rejeitado']);
 
             Notification::create([
-                'user_id' => $refund->user_id,
-                'type'    => 'refund_rejected',
-                'title'   => 'Reembolso rejeitado',
-                'message' => 'O seu pedido de reembolso foi rejeitado pelo admin.',
+                'user_id'     => $refund->user_id,
+                'type'        => 'refund_rejected',
+                'target_role' => $refund->user?->role,
+                'title'       => 'Reembolso rejeitado',
+                'message'     => 'O seu pedido de reembolso foi rejeitado pelo admin.',
             ]);
         });
 
