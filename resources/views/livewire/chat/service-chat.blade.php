@@ -170,78 +170,47 @@
                     @endif
                 </div>
             @else
-                <form wire:submit.prevent
-                      class="flex items-end gap-2"
-                      x-data="chatInput"
-                      x-on:chat-file-cleared.window="clear()"
-                      @submit.prevent="submit()">
-
-                    {{-- Attach button --}}
-                    <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
-                        <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
-                            <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                            <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                        </div>
-                        <input type="file" x-ref="fileInput"
-                               @change="handleFile($event)"
-                               style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
-                    </label>
-
-                    {{-- Upload progress --}}
-                    <div x-show="uploading" x-cloak class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
-
-                    {{-- File preview badge --}}
-                    <div x-show="hasFile" x-cloak
-                         class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
-                        <span>&#128204;</span>
-                        <span class="truncate" x-text="fileName"></span>
-                        <button type="button" @click="cancelFile()" class="ml-1 text-[#0284c7] hover:text-red-500 transition leading-none font-bold">&times;</button>
-                    </div>
-
-                    @error('chatFile')
-                        <div class="text-xs text-red-500 flex-shrink-0 max-w-[180px] truncate">{{ $message }}</div>
-                    @enderror
-                    <div x-show="uploadError" x-cloak class="text-xs text-red-500 flex-shrink-0 max-w-[180px] truncate" x-text="uploadError"></div>
-
-                    <div class="flex-1 relative">
-                        <input type="text"
-                               wire:model.defer="mensagem"
-                               id="mensagemInput"
-                               class="w-full bg-slate-100 rounded-full px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/40 placeholder-slate-400"
-                               placeholder="Escreva uma mensagem...">
-                        <button type="button"
-                                onclick="toggleEmojiPicker()"
-                                class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-yellow-400 transition text-lg leading-none">
-                            &#128522;
-                        </button>
-                    </div>
-
-                    <button type="submit"
-                        class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95">
-                        <svg class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                    </button>
-                </form>
-
-                <div id="emoji-picker" wire:ignore style="display:none; position:absolute; bottom:60px; right:0.5rem; z-index:1000; max-width:calc(100vw - 1rem);"></div>
-
-                @assets
-                <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
-                @endassets
-
-                @script
-                <script>
-                if (!window.__chatInputRegistered) {
-                    Alpine.data('chatInput', () => ({
+                {{-- sendUrl injected server-side so no $wire needed --}}
+                <div wire:ignore
+                     x-data="{
                         hasFile: false,
                         fileName: '',
                         uploading: false,
+                        sending: false,
                         uploadError: '',
+                        sendError: '',
                         pendingPath: '',
                         pendingOriginal: '',
-                        init() {},
+                        sendUrl: '{{ route('chat.send', $service) }}',
+                        uploadUrl: '{{ route('chat.upload.file') }}',
+                        csrf: document.querySelector('meta[name=csrf-token]')?.content ?? '',
                         submit() {
-                            this.$wire.enviarMensagem(this.pendingPath, this.pendingOriginal);
-                            this.clear();
+                            const input = document.getElementById('mensagemInput');
+                            const mensagem = input ? input.value.trim() : '';
+                            if (mensagem === '' && this.pendingPath === '') return;
+                            this.sending = true;
+                            this.sendError = '';
+                            const body = new FormData();
+                            if (mensagem) body.append('mensagem', mensagem);
+                            if (this.pendingPath) body.append('attachment_path', this.pendingPath);
+                            if (this.pendingOriginal) body.append('attachment_original', this.pendingOriginal);
+                            fetch(this.sendUrl, {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': this.csrf, 'Accept': 'application/json' },
+                                body,
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                this.sending = false;
+                                if (data.error) { this.sendError = data.error; return; }
+                                if (input) input.value = '';
+                                this.clear();
+                                appendChatMessage(data, true);
+                            })
+                            .catch(() => {
+                                this.sending = false;
+                                this.sendError = 'Erro ao enviar mensagem. Tente novamente.';
+                            });
                         },
                         handleFile(event) {
                             const file = event.target.files[0];
@@ -256,10 +225,9 @@
                             this.fileName = file.name;
                             const formData = new FormData();
                             formData.append('file', file);
-                            const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
-                            fetch('/chat/upload-file', {
+                            fetch(this.uploadUrl, {
                                 method: 'POST',
-                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                headers: { 'X-CSRF-TOKEN': this.csrf, 'Accept': 'application/json' },
                                 body: formData,
                             })
                             .then(r => r.json())
@@ -267,8 +235,7 @@
                                 this.uploading = false;
                                 if (data.error) {
                                     this.uploadError = data.error;
-                                    this.hasFile = false;
-                                    this.fileName = '';
+                                    this.hasFile = false; this.fileName = '';
                                     if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                                     return;
                                 }
@@ -278,38 +245,128 @@
                             })
                             .catch(() => {
                                 this.uploading = false;
-                                this.hasFile = false;
-                                this.fileName = '';
+                                this.hasFile = false; this.fileName = '';
                                 this.uploadError = 'Erro ao carregar ficheiro. Tente novamente.';
                                 if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                             });
                         },
                         cancelFile() {
-                            this.pendingPath = '';
-                            this.pendingOriginal = '';
-                            this.hasFile = false;
-                            this.fileName = '';
-                            this.uploadError = '';
+                            this.pendingPath = ''; this.pendingOriginal = '';
+                            this.hasFile = false; this.fileName = ''; this.uploadError = '';
                             if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                         },
                         clear() {
-                            this.pendingPath = '';
-                            this.pendingOriginal = '';
-                            this.hasFile = false;
-                            this.fileName = '';
-                            this.uploading = false;
-                            this.uploadError = '';
+                            this.pendingPath = ''; this.pendingOriginal = '';
+                            this.hasFile = false; this.fileName = '';
+                            this.uploading = false; this.uploadError = ''; this.sendError = '';
                             if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                         }
-                    }));
-                    window.__chatInputRegistered = true;
+                     }"
+                     class="flex flex-col gap-1">
+
+                    <div class="flex items-end gap-2">
+                        {{-- Attach button --}}
+                        <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
+                            <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
+                                <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                                <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            </div>
+                            <input type="file" x-ref="fileInput" @change="handleFile($event)"
+                                   style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
+                        </label>
+
+                        {{-- Upload progress --}}
+                        <div x-show="uploading" x-cloak class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
+
+                        {{-- File preview badge --}}
+                        <div x-show="hasFile" x-cloak
+                             class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
+                            <span>&#128204;</span>
+                            <span class="truncate" x-text="fileName"></span>
+                            <button type="button" @click="cancelFile()" class="ml-1 text-[#0284c7] hover:text-red-500 transition leading-none font-bold">&times;</button>
+                        </div>
+
+                        <div class="flex-1 relative">
+                            <input type="text"
+                                   id="mensagemInput"
+                                   @keydown.enter.prevent="submit()"
+                                   class="w-full bg-slate-100 rounded-full px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/40 placeholder-slate-400"
+                                   placeholder="Escreva uma mensagem...">
+                            <button type="button"
+                                    onclick="toggleEmojiPicker()"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-yellow-400 transition text-lg leading-none">
+                                &#128522;
+                            </button>
+                        </div>
+
+                        <button type="button" @click="submit()" :disabled="sending"
+                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95 disabled:opacity-60">
+                            <svg x-show="!sending" class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                            <svg x-show="sending" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                        </button>
+                    </div>
+
+                    {{-- Error messages --}}
+                    <div x-show="uploadError" x-cloak class="text-xs text-red-500 px-1" x-text="uploadError"></div>
+                    <div x-show="sendError" x-cloak class="text-xs text-red-500 px-1" x-text="sendError"></div>
+                </div>
+
+                <div id="emoji-picker" wire:ignore style="display:none; position:absolute; bottom:60px; right:0.5rem; z-index:1000; max-width:calc(100vw - 1rem);"></div>
+
+                @assets
+                <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
+                @endassets
+
+                @script
+                <script>
+                if (!window.appendChatMessage) {
+                    window.appendChatMessage = function(data, isMine) {
+                        const container = document.getElementById('chat-messages');
+                        if (!container) return;
+                        const storageBase = '{{ rtrim(asset('storage'), '/') }}/';
+                        let attachHtml = '';
+                        if (data.anexo) {
+                            const ext = (data.ext || '').toLowerCase();
+                            const name = data.nome_original || data.anexo;
+                            const short = name.length > 36 ? name.substring(0, 33) + '…' : name;
+                            const url = storageBase + 'anexos/' + data.anexo;
+                            if (data.is_image) {
+                                attachHtml = `<a href="${url}" target="_blank" class="block mb-1"><img src="${url}" alt="${short}" class="max-h-48 max-w-full rounded-xl shadow"></a>`;
+                            } else if (data.is_audio) {
+                                attachHtml = `<audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg"><source src="${url}"></audio>`;
+                            } else {
+                                const bg = isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9';
+                                attachHtml = `<a href="${url}" target="_blank" title="${name}" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:${bg};max-width:100%;overflow:hidden;box-sizing:border-box;"><span style="font-size:1.25rem;flex-shrink:0;">📄</span><span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${short}</span><span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">${data.ext}</span></a>`;
+                            }
+                        }
+                        const contentHtml = data.conteudo ? `<p class="text-sm leading-relaxed whitespace-pre-wrap break-words">${data.conteudo.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>` : '';
+                        const bubbleClass = isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100';
+                        const wrapClass  = isMine ? 'justify-end' : 'justify-start';
+                        const itemClass  = isMine ? 'items-end' : 'items-start';
+                        const avatarHtml = `<img src="${data.avatar}" alt="${data.name}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">`;
+                        const nameHtml   = !isMine ? `<span class="text-xs text-slate-400 mb-1 ml-1">${data.name}</span>` : '';
+                        const div = document.createElement('div');
+                        div.style.cssText = 'display:flex;align-items:flex-end;gap:8px;width:100%;';
+                        div.className = wrapClass;
+                        div.innerHTML = `
+                            ${!isMine ? avatarHtml : ''}
+                            <div class="flex flex-col ${itemClass}" style="min-width:0;max-width:min(72%, calc(100vw - 110px));">
+                                ${nameHtml}
+                                <div class="relative px-4 py-2.5 rounded-2xl shadow-sm ${bubbleClass}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
+                                    ${attachHtml}${contentHtml}
+                                    <span class="block text-right text-[10px] mt-1 ${isMine ? 'text-blue-100' : 'text-slate-400'}">${data.time}</span>
+                                </div>
+                            </div>
+                            ${isMine ? avatarHtml : ''}`;
+                        container.appendChild(div);
+                        container.scrollTop = container.scrollHeight;
+                    };
                 }
 
                 if (!window.toggleEmojiPicker) {
                     window.toggleEmojiPicker = function () {
                         const picker = document.getElementById('emoji-picker');
                         if (!picker) return;
-
                         picker.style.display = picker.style.display === 'none' ? 'block' : 'none';
                         if (picker.style.display === 'block' && !picker.hasChildNodes()) {
                             const ep = document.createElement('emoji-picker');
@@ -317,7 +374,6 @@
                                 const input = document.getElementById('mensagemInput');
                                 if (!input) return;
                                 input.value += e.detail.unicode;
-                                input.dispatchEvent(new Event('input', { bubbles: true }));
                                 picker.style.display = 'none';
                             });
                             picker.appendChild(ep);

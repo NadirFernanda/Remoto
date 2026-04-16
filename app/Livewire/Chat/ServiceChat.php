@@ -10,12 +10,10 @@ use App\Models\Notification;
 use App\Modules\Messaging\Services\ChatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\RateLimiter;
 
 class ServiceChat extends Component
 {
     public Service $service;
-    public string $mensagem = '';
     public bool $chat_bloqueado = true;
 
     // ── Calculados 1x em mount — não re-executam queries em cada render ──────
@@ -269,51 +267,6 @@ class ServiceChat extends Component
             $successMsg .= ' O projecto está agora Em andamento.';
         }
         session()->flash('chat_success', $successMsg);
-    }
-
-    public function enviarMensagem(string $attachPath = '', string $attachOriginal = '')
-    {
-        if (!Auth::check()) {
-            $this->redirect(route('login'));
-            return;
-        }
-
-        if ($this->chat_bloqueado) return;
-
-        $mensagem = trim($this->mensagem ?? '');
-        $attachPath = trim($attachPath);
-
-        if ($mensagem === '' && $attachPath === '') {
-            $this->skipRender();
-            return;
-        }
-
-        $rateLimitKey = 'chat-message:' . Auth::id();
-        if (RateLimiter::tooManyAttempts($rateLimitKey, 30)) {
-            $this->addError('mensagem', 'Enviou muitas mensagens. Aguarde um momento antes de continuar.');
-            return;
-        }
-        RateLimiter::hit($rateLimitKey, 60);
-
-        try {
-            $msg = app(ChatService::class)->send(
-                $this->service,
-                Auth::user(),
-                $mensagem,
-                null,
-                $attachPath ?: null,
-                $attachOriginal ?: null
-            );
-        } catch (\Throwable $e) {
-            Log::error('Chat message create exception: ' . $e->getMessage());
-            $this->addError('mensagem', 'Erro ao enviar mensagem: ' . $e->getMessage());
-            return;
-        }
-
-        $this->mensagem = '';
-        $this->dispatch('scroll-bottom');
-        $this->dispatch('message-sent');
-        $this->dispatch('chat-file-cleared');
     }
 
     // ── Propor Valor (freelancer) ─────────────────────────────────────────────
