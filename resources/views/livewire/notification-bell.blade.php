@@ -1,4 +1,21 @@
-<div x-data="{ open: false }" x-init="setInterval(() => $wire.refresh(), 60000)" class="relative" @click.outside="open = false">
+<div x-data="{ open: false }"
+     x-init="
+         setInterval(() => $wire.refresh(), 60000);
+         $watch('open', val => {
+             if (val) $nextTick(() => {
+                 const p = $refs.panel;
+                 if (!p) return;
+                 p.style.right = '0';
+                 p.style.left  = 'auto';
+                 const r = p.getBoundingClientRect();
+                 if (r.left < 8) {
+                     p.style.right = 'auto';
+                     p.style.left  = (-r.left + 8) + 'px';
+                 }
+             });
+         });
+     "
+     class="relative" @click.outside="open = false">
 
     {{-- Bell button --}}
     <button @click="open = !open"
@@ -22,7 +39,8 @@
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-1"
          x-cloak
-         class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+         x-ref="panel"
+         class="absolute right-0 mt-2 w-80 max-w-[calc(100vw-0.75rem)] bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
 
         {{-- Header --}}
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-50">
