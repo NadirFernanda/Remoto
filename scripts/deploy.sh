@@ -3,7 +3,6 @@
 # deploy.sh — Script de deploy para produção
 # Uso: bash scripts/deploy.sh
 #
-cd /var/www/24horas
 set -e
 
 echo "🔄 A fazer pull do repositório..."

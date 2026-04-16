@@ -88,7 +88,8 @@
                     $shortName = mb_strlen($displayName) > 36 ? mb_substr($displayName, 0, 33) . '…' : $displayName;
                 @endphp
                 @if($msg->conteudo || $msg->anexo)
-                <div wire:key="msg-{{ $msg->id }}" style="display:flex;align-items:flex-end;gap:8px;width:100%;" class="{{ $isMine ? 'justify-end' : 'justify-start' }}">
+                <div wire:key="msg-{{ $msg->id }}" style="display:flex;align-items:flex-end;gap:8px;width:100%;" class="{{ $isMine ? 'justify-end' : 'justify-start' }}"
+                     x-data="{ menuOpen: false, editing: false, editText: @js($msg->conteudo ?? '') }">
                     @if(!$isMine)
                         <img src="{{ $avatar }}" alt="{{ $name }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">
                     @endif
@@ -96,51 +97,101 @@
                         @if(!$isMine)
                             <span class="text-xs text-slate-400 mb-1 ml-1">{{ $name }}</span>
                         @endif
-                        <div class="relative px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
 
-                            @if($msg->anexo)
-                                @if($isImage)
-                                    <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank" class="block mb-1">
-                                        <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
-                                    </a>
-                                @elseif($isAudio)
-                                    <audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg">
-                                        <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
-                                    </audio>
-                                @else
-                                    <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
-                                       title="{{ $displayName }}"
-                                       style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};max-width:100%;overflow:hidden;box-sizing:border-box;">
-                                        <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
-                                        <span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">{{ $shortName }}</span>
-                                        <span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">{{ strtoupper($ext) }}</span>
-                                    </a>
-                                @endif
+                        {{-- Bubble + action menu wrapper --}}
+                        <div class="relative group flex items-end gap-1 {{ $isMine ? 'flex-row-reverse' : 'flex-row' }}">
+
+                            {{-- ⋮ menu button (só para o autor) --}}
+                            @if($isMine)
+                            <div class="relative flex-shrink-0 self-start mt-1">
+                                <button @click="menuOpen = !menuOpen" @click.outside="menuOpen = false"
+                                        class="opacity-0 group-hover:opacity-100 focus:opacity-100 transition w-6 h-6 rounded-full hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
+                                </button>
+                                <div x-show="menuOpen" x-cloak
+                                     class="absolute {{ $isMine ? 'right-0' : 'left-0' }} top-7 z-50 bg-white rounded-xl shadow-xl border border-slate-100 py-1 w-36 text-sm">
+                                    @if($msg->conteudo && !$msg->anexo)
+                                    <button @click="editing = true; menuOpen = false"
+                                            class="flex items-center gap-2 w-full px-3 py-2 hover:bg-slate-50 text-slate-700 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z"/></svg>
+                                        Editar
+                                    </button>
+                                    @endif
+                                    <button @click="deletarMensagem({{ $msg->id }}, $el.closest('[wire\\:key]')); menuOpen = false"
+                                            class="flex items-center gap-2 w-full px-3 py-2 hover:bg-red-50 text-red-500 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0a1 1 0 00-1-1h-4a1 1 0 00-1 1m-4 0h10"/></svg>
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
                             @endif
 
-                            @if($msg->conteudo)
-                                <p class="text-sm leading-relaxed whitespace-pre-wrap break-words">{{ $msg->conteudo }}</p>
-                                {{-- Inline pay button for proposal messages (client view only) --}}
-                                @if($mostrarBotaoValor && !$isMine)
-                                    @php
-                                        preg_match('/Proposta de valor: ([\.\d]+,\d{2}) Kz/', $msg->conteudo, $propostaMatch);
-                                    @endphp
-                                    @if(!empty($propostaMatch[1]))
-                                    <div class="mt-2 pt-2 border-t border-slate-200">
-                                        <button wire:click="abrirModalComValor('{{ $propostaMatch[1] }}')"
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ff2d55] text-white shadow hover:opacity-90 transition active:scale-95"
-                                                title="Confirmar este valor e efectuar o pagamento">
-                                            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                                            Aceitar & Pagar {{ $propostaMatch[1] }} Kz
-                                        </button>
-                                    </div>
+                            {{-- Bubble --}}
+                            <div class="px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
+
+                                @if($msg->anexo)
+                                    @if($isImage)
+                                        <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank" class="block mb-1">
+                                            <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
+                                        </a>
+                                    @elseif($isAudio)
+                                        <audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg">
+                                            <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
+                                        </audio>
+                                    @else
+                                        <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
+                                           title="{{ $displayName }}"
+                                           style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};max-width:100%;overflow:hidden;box-sizing:border-box;">
+                                            <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
+                                            <span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">{{ $shortName }}</span>
+                                            <span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">{{ strtoupper($ext) }}</span>
+                                        </a>
                                     @endif
                                 @endif
-                            @endif
 
-                            <span class="block text-right text-[10px] mt-1 {{ $isMine ? 'text-blue-100' : 'text-slate-400' }}">
-                                {{ $msg->created_at->format('H:i') }}
-                            </span>
+                                {{-- Modo visualização --}}
+                                <div x-show="!editing">
+                                    @if($msg->conteudo)
+                                        <p class="text-sm leading-relaxed whitespace-pre-wrap break-words">{{ $msg->conteudo }}</p>
+                                        {{-- Inline pay button for proposal messages (client view only) --}}
+                                        @if($mostrarBotaoValor && !$isMine)
+                                            @php
+                                                preg_match('/Proposta de valor: ([\.\d]+,\d{2}) Kz/', $msg->conteudo, $propostaMatch);
+                                            @endphp
+                                            @if(!empty($propostaMatch[1]))
+                                            <div class="mt-2 pt-2 border-t border-slate-200">
+                                                <button wire:click="abrirModalComValor('{{ $propostaMatch[1] }}')"
+                                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ff2d55] text-white shadow hover:opacity-90 transition active:scale-95"
+                                                        title="Confirmar este valor e efectuar o pagamento">
+                                                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                                    Aceitar & Pagar {{ $propostaMatch[1] }} Kz
+                                                </button>
+                                            </div>
+                                            @endif
+                                        @endif
+                                    @endif
+                                </div>
+
+                                {{-- Modo edição --}}
+                                <div x-show="editing" x-cloak class="flex flex-col gap-1.5">
+                                    <textarea x-model="editText" x-ref="editarea"
+                                              x-init="$watch('editing', v => { if(v) $nextTick(() => { $refs.editarea.focus(); $refs.editarea.setSelectionRange($refs.editarea.value.length, $refs.editarea.value.length); }) })"
+                                              rows="2"
+                                              class="w-full bg-white/20 text-white placeholder-blue-200 rounded-lg px-2 py-1 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-white/50 min-w-[180px]"
+                                              @keydown.enter.prevent="editarMensagem({{ $msg->id }}, editText, $el.closest('[wire\\:key]')); editing = false"
+                                              @keydown.escape="editing = false; editText = @js($msg->conteudo ?? '')"></textarea>
+                                    <div class="flex gap-1 justify-end">
+                                        <button @click="editing = false; editText = @js($msg->conteudo ?? '')"
+                                                class="px-2 py-0.5 rounded text-[11px] bg-white/20 hover:bg-white/30 text-white transition">Cancelar</button>
+                                        <button @click="editarMensagem({{ $msg->id }}, editText, $el.closest('[wire\\:key]')); editing = false"
+                                                class="px-2 py-0.5 rounded text-[11px] bg-white text-[#0ea5e9] font-semibold hover:bg-blue-50 transition">Guardar</button>
+                                    </div>
+                                </div>
+
+                                <span class="block text-right text-[10px] mt-1 {{ $isMine ? 'text-blue-100' : 'text-slate-400' }}">
+                                    {{ $msg->created_at->format('H:i') }}@if($msg->edited_at) <span class="opacity-70">(editado)</span>@endif
+                                </span>
+                            </div>
                         </div>
                     </div>
                     @if($isMine)
@@ -319,6 +370,48 @@
 
                 @once
                 <script>
+                const __chatCsrf = () => document.querySelector('meta[name=csrf-token]')?.content ?? '';
+
+                if (!window.editarMensagem) {
+                    window.editarMensagem = function(id, novoTexto, rowEl) {
+                        if (!novoTexto.trim()) return;
+                        fetch(`/chat/mensagem/${id}`, {
+                            method: 'PATCH',
+                            headers: { 'X-CSRF-TOKEN': __chatCsrf(), 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ conteudo: novoTexto.trim() }),
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.error || !rowEl) return;
+                            // Atualizar texto na bubble
+                            const p = rowEl.querySelector('p.text-sm');
+                            if (p) p.textContent = data.conteudo;
+                            // Mostrar "(editado)" no timestamp
+                            const ts = rowEl.querySelector('span.text-\\[10px\\]');
+                            if (ts && !ts.querySelector('.editado-tag')) {
+                                const tag = document.createElement('span');
+                                tag.className = 'editado-tag opacity-70';
+                                tag.textContent = ' (editado)';
+                                ts.appendChild(tag);
+                            }
+                        });
+                    };
+                }
+
+                if (!window.deletarMensagem) {
+                    window.deletarMensagem = function(id, rowEl) {
+                        if (!confirm('Eliminar esta mensagem?')) return;
+                        fetch(`/chat/mensagem/${id}`, {
+                            method: 'DELETE',
+                            headers: { 'X-CSRF-TOKEN': __chatCsrf(), 'Accept': 'application/json' },
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.ok && rowEl) rowEl.remove();
+                        });
+                    };
+                }
+
                 if (!window.appendChatMessage) {
                     window.appendChatMessage = function(data, isMine) {
                         const container = document.getElementById('chat-messages');
