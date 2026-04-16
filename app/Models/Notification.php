@@ -69,9 +69,9 @@ class Notification extends Model
                 'proposal_accepted'    => route('client.projects'),
                 'proposal_rejected'    => route('client.projects'),
                 'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
-                'refund_processed'     => route('refunds.mine'),
-                'refund_approved'      => route('refunds.mine'),
-                'refund_rejected'      => route('refunds.mine'),
+                'refund_processed'     => route('client.refunds'),
+                'refund_approved'      => route('client.refunds'),
+                'refund_rejected'      => route('client.refunds'),
                 'moderation_requested' => $sid ? route('service.dispute', $sid) : route('admin.disputes'),
 
                 // ── Both sides (dispute / review) ────────────────────

@@ -33,6 +33,4 @@ Route::middleware(['web', 'auth', 'verified', 'role:cliente'])->group(function (
 // Histórico de transações (cross-cutting: ambos os roles)
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/transacoes', [TransactionHistoryController::class, 'index'])->name('transactions.history');
-    // Rota de reembolsos sem restrição de role — usada em notificações para users dual-role
-    Route::get('/meus-reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('refunds.mine');
 });

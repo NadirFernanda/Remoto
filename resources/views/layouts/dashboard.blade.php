@@ -51,6 +51,7 @@
                         @if(in_array($requiredRole, ['cliente', 'freelancer']) && $__authUser && $__authUser->canSwitchRole())
                             <form method="POST" action="{{ route('switch.role') }}" class="mt-2 inline">
                                 @csrf
+                                <input type="hidden" name="redirect_after" value="{{ request()->getPathInfo() }}">
                                 <button type="submit" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg transition">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                                     Mudar para Modo {{ $requiredRole === 'cliente' ? 'Cliente' : 'Freelancer' }} agora

@@ -106,9 +106,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         }
         $newRole  = $user->switchableRole();
         session(['active_role' => $newRole]);
-        $label     = $newRole === 'freelancer' ? 'Freelancer' : 'Cliente';
-        $dashboard = $newRole === 'freelancer' ? '/freelancer/dashboard' : '/cliente/dashboard';
-        return redirect($dashboard)->with('mode_switched', "Você mudou para o Modo {$label}.");
+        $label    = $newRole === 'freelancer' ? 'Freelancer' : 'Cliente';
+        $after    = request('redirect_after');
+        // Only allow internal relative paths for security
+        $redirect = ($after && str_starts_with($after, '/') && !str_starts_with($after, '//')) ? $after : ($newRole === 'freelancer' ? '/freelancer/dashboard' : '/cliente/dashboard');
+        return redirect($redirect)->with('mode_switched', "Você mudou para o Modo {$label}.");
     })->name('switch.role');
 
     // Global notifications
