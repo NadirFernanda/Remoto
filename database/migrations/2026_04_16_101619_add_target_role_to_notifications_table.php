@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('user_notifications', function (Blueprint $table) {
             // null = show regardless of active role; 'cliente'|'freelancer' = only show in that mode
             $table->string('target_role', 20)->nullable()->after('type');
         });
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('notifications', function (Blueprint $table) {
+        Schema::table('user_notifications', function (Blueprint $table) {
             $table->dropColumn('target_role');
         });
     }
