@@ -1,5 +1,25 @@
 <div x-data="{ open: false }"
-     x-init="setInterval(() => $wire.refresh(), 60000)"
+     x-init="
+         setInterval(() => $wire.refresh(), 60000);
+         $watch('open', val => {
+             if (!val) return;
+             $nextTick(() => {
+                 const p = $refs.panel;
+                 if (!p) return;
+                 if (window.innerWidth < 640) {
+                     p.style.setProperty('position', 'fixed',  'important');
+                     p.style.setProperty('top',      '64px',   'important');
+                     p.style.setProperty('left',     '8px',    'important');
+                     p.style.setProperty('right',    '8px',    'important');
+                     p.style.setProperty('width',    'auto',   'important');
+                     p.style.setProperty('margin-top', '0',    'important');
+                 } else {
+                     ['position','top','left','right','width','margin-top']
+                         .forEach(k => p.style.removeProperty(k));
+                 }
+             });
+         });
+     "
      class="relative" @click.outside="open = false">
 
     {{-- Bell button --}}
@@ -25,6 +45,7 @@
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-1"
          x-cloak
+         x-ref="panel"
          class="notif-panel absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
 
         {{-- Header --}}
