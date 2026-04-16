@@ -317,7 +317,7 @@
                 <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js" type="module"></script>
                 @endassets
 
-                @script
+                @once
                 <script>
                 if (!window.appendChatMessage) {
                     window.appendChatMessage = function(data, isMine) {
@@ -391,7 +391,7 @@
                     window.__chatEmojiCloseHandlerRegistered = true;
                 }
                 </script>
-                @endscript
+                @endonce
             @endif
         </div>
     </div>
