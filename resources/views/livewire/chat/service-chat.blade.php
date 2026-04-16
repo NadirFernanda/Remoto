@@ -196,8 +196,9 @@
                     </div>
 
                     @error('chatFile')
-                        <div class="text-xs text-red-500 flex-shrink-0 max-w-[140px] truncate">{{ $message }}</div>
+                        <div class="text-xs text-red-500 flex-shrink-0 max-w-[180px] truncate">{{ $message }}</div>
                     @enderror
+                    <div x-show="uploadError" x-cloak class="text-xs text-red-500 flex-shrink-0 max-w-[180px] truncate" x-text="uploadError"></div>
 
                     <div class="flex-1 relative">
                         <input type="text"
@@ -231,17 +232,34 @@
                         hasFile: false,
                         fileName: '',
                         uploading: false,
-                        init() {
-                            // wire is available via $wire magic in Alpine
-                        },
+                        uploadError: '',
+                        init() {},
                         handleFile(event) {
                             const file = event.target.files[0];
                             if (!file) return;
+                            this.uploadError = '';
+                            // Client-side size check (10 MB)
+                            if (file.size > 10 * 1024 * 1024) {
+                                this.uploadError = 'Ficheiro demasiado grande (máx 10 MB).';
+                                if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                                return;
+                            }
                             this.uploading = true;
                             this.fileName = file.name;
                             this.$wire.upload('chatFile', file,
                                 () => { this.uploading = false; this.hasFile = true; },
-                                () => { this.uploading = false; this.hasFile = false; this.fileName = ''; },
+                                (error) => {
+                                    this.uploading = false;
+                                    this.hasFile = false;
+                                    this.fileName = '';
+                                    if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                                    const msg = (error && error.message) ? error.message : '';
+                                    if (msg.includes('413') || msg.includes('too large') || msg.includes('Entity Too Large')) {
+                                        this.uploadError = 'Ficheiro demasiado grande para o servidor (máx 10 MB).';
+                                    } else {
+                                        this.uploadError = 'Erro ao carregar ficheiro. Tente novamente.';
+                                    }
+                                },
                                 () => {}
                             );
                         },
@@ -249,6 +267,7 @@
                             this.hasFile = false;
                             this.fileName = '';
                             this.uploading = false;
+                            this.uploadError = '';
                             if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                         }
                     }));

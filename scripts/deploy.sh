@@ -29,7 +29,14 @@ sudo -u www-data php artisan cache:clear
 echo "🗄️  A correr migrações..."
 sudo -u www-data php artisan migrate --force
 
-echo "🔁 A reiniciar workers..."
+echo "� A garantir symlink de storage..."
+sudo -u www-data php artisan storage:link 2>/dev/null || true
+
+echo "📁 A garantir permissões em storage/app/livewire-tmp..."
+sudo -u www-data mkdir -p storage/app/livewire-tmp
+sudo chmod -R 775 storage bootstrap/cache
+
+echo "�🔁 A reiniciar workers..."
 sudo -u www-data php artisan queue:restart
 
 echo "🔁 A reiniciar serviços..."
