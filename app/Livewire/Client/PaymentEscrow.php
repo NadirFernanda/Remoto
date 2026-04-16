@@ -113,8 +113,8 @@ class PaymentEscrow extends Component
             $this->card_cvv    = '';
             $transactionId = $paymentResult['transaction_id'] ?? null;
         } elseif ($this->payment_method === 'paypal') {
-            // SIMULAÇÃO: PayPal aprovado automaticamente em modo de testes
-            $transactionId = 'PAYPAL-SIM-' . strtoupper(uniqid());
+            // Redireciona para o PayPalController que cria a order e envia para o PayPal
+            return redirect()->route('paypal.create');
         } elseif ($this->payment_method === 'express') {
             session()->flash('error', 'Pagamento Express ainda não está disponível. Por favor, escolha outro método.');
             return;

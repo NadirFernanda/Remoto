@@ -51,7 +51,13 @@
                     </div>
                 </div>
             @elseif($payment_method === 'paypal')
-                <div class="p-3 bg-blue-50 rounded text-blue-700">Será redireccionado para o PayPal para finalizar o pagamento.</div>
+                <div class="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="flex items-center gap-3 mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8"><path fill="#003087" d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.379 2.879.577 6.397-2.525 8.17-2.484 1.42-5.954 1.338-8.31.132l-.38 2.395c-.082.518.364.959.888.959H13.6c.524 0 .968-.382 1.05-.9l.894-5.67c.082-.518.526-.9 1.05-.9h.665c2.77 0 4.936-.69 5.983-3.645z"/></svg>
+                        <span class="font-semibold text-blue-800">Pagar com PayPal</span>
+                    </div>
+                    <p class="text-sm text-blue-700">Será redirecionado para o PayPal para completar o pagamento em segurança. Após a aprovação, o pedido será publicado automaticamente.</p>
+                </div>
             @elseif($payment_method === 'express')
                 <div class="p-3 bg-yellow-50 rounded text-yellow-700">Pagamento via Express: instruções aparecerão aqui.</div>
             @elseif($payment_method === 'bank')
