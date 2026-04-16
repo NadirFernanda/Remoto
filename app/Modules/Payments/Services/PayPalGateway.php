@@ -4,12 +4,12 @@ namespace App\Modules\Payments\Services;
 
 use PaypalServerSdkLib\PaypalServerSdkClientBuilder;
 use PaypalServerSdkLib\Authentication\ClientCredentialsAuthCredentialsBuilder;
-use PaypalServerSdkLib\Environment;
 use PaypalServerSdkLib\Models\Builders\OrderRequestBuilder;
 use PaypalServerSdkLib\Models\Builders\PurchaseUnitRequestBuilder;
 use PaypalServerSdkLib\Models\Builders\AmountWithBreakdownBuilder;
-use PaypalServerSdkLib\Models\Builders\ApplicationContextBuilder;
+use PaypalServerSdkLib\Models\Builders\OrderApplicationContextBuilder;
 use PaypalServerSdkLib\Models\CheckoutPaymentIntent;
+use PaypalServerSdkLib\Environment;
 
 /**
  * Gateway PayPal — integração real via PayPal REST API v2.
@@ -64,7 +64,7 @@ class PayPalGateway
                 ]
             )
             ->applicationContext(
-                ApplicationContextBuilder::init()
+                OrderApplicationContextBuilder::init()
                     ->returnUrl($returnUrl)
                     ->cancelUrl($cancelUrl)
                     ->build()
