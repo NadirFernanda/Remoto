@@ -19,18 +19,22 @@ class ChatService
      *
      * @throws \InvalidArgumentException when both content and file are empty
      */
-    public function send(Service $service, User $sender, string $content, ?UploadedFile $file = null): Message
+    public function send(Service $service, User $sender, string $content, ?UploadedFile $file = null, ?string $preUploadedPath = null, ?string $preUploadedOriginal = null): Message
     {
         $content = trim($content);
 
-        if ($content === '' && $file === null) {
+        if ($content === '' && $file === null && $preUploadedPath === null) {
             throw new \InvalidArgumentException('A mensagem não pode estar vazia.');
         }
 
         $anexoFilename = null;
         $anexoOriginal = null;
 
-        if ($file !== null) {
+        if ($preUploadedPath !== null) {
+            // File already stored by ChatFileUploadController — use path directly
+            $anexoFilename = $preUploadedPath;
+            $anexoOriginal = $preUploadedOriginal ?: $preUploadedPath;
+        } elseif ($file !== null) {
             $original      = $file->getClientOriginalName();
             $safe          = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
             $filename      = time() . '_' . $safe;

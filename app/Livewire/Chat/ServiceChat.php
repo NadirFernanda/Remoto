@@ -3,7 +3,6 @@
 namespace App\Livewire\Chat;
 
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
@@ -15,11 +14,10 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class ServiceChat extends Component
 {
-    use WithFileUploads;
-
     public Service $service;
     public string $mensagem = '';
-    public $chatFile = null;
+    public string $pendingAttachmentPath = '';
+    public string $pendingAttachmentOriginal = '';
     public bool $chat_bloqueado = true;
 
     // ── Calculados 1x em mount — não re-executam queries em cada render ──────
@@ -286,7 +284,7 @@ class ServiceChat extends Component
 
         $mensagem = trim($this->mensagem ?? '');
 
-        if ($mensagem === '' && !$this->chatFile) {
+        if ($mensagem === '' && $this->pendingAttachmentPath === '') {
             $this->skipRender();
             return;
         }
@@ -298,16 +296,14 @@ class ServiceChat extends Component
         }
         RateLimiter::hit($rateLimitKey, 60);
 
-        if ($this->chatFile) {
-            $this->validate(['chatFile' => 'nullable|file|max:51200']);
-        }
-
         try {
             $msg = app(ChatService::class)->send(
                 $this->service,
                 Auth::user(),
                 $mensagem,
-                $this->chatFile
+                null,
+                $this->pendingAttachmentPath ?: null,
+                $this->pendingAttachmentOriginal ?: null
             );
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
@@ -316,7 +312,8 @@ class ServiceChat extends Component
         }
 
         $this->mensagem = '';
-        $this->chatFile = null;
+        $this->pendingAttachmentPath = '';
+        $this->pendingAttachmentOriginal = '';
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
         $this->dispatch('chat-file-cleared');

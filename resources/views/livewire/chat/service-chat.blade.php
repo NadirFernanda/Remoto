@@ -193,6 +193,7 @@
                          class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
                         <span>&#128204;</span>
                         <span class="truncate" x-text="fileName"></span>
+                        <button type="button" @click="cancelFile()" class="ml-1 text-[#0284c7] hover:text-red-500 transition leading-none font-bold">&times;</button>
                     </div>
 
                     @error('chatFile')
@@ -246,22 +247,43 @@
                             }
                             this.uploading = true;
                             this.fileName = file.name;
-                            this.$wire.upload('chatFile', file,
-                                () => { this.uploading = false; this.hasFile = true; },
-                                (error) => {
-                                    this.uploading = false;
+                            const formData = new FormData();
+                            formData.append('file', file);
+                            const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+                            fetch('/chat/upload-file', {
+                                method: 'POST',
+                                headers: { 'X-CSRF-TOKEN': csrf, 'Accept': 'application/json' },
+                                body: formData,
+                            })
+                            .then(r => r.json())
+                            .then(data => {
+                                this.uploading = false;
+                                if (data.error) {
+                                    this.uploadError = data.error;
                                     this.hasFile = false;
                                     this.fileName = '';
                                     if (this.$refs.fileInput) this.$refs.fileInput.value = '';
-                                    const msg = (error && error.message) ? error.message : '';
-                                    if (msg.includes('413') || msg.includes('too large') || msg.includes('Entity Too Large')) {
-                                        this.uploadError = 'Ficheiro demasiado grande para o servidor (máx 10 MB).';
-                                    } else {
-                                        this.uploadError = 'Erro ao carregar ficheiro. Tente novamente.';
-                                    }
-                                },
-                                () => {}
-                            );
+                                    return;
+                                }
+                                this.$wire.set('pendingAttachmentPath', data.filename);
+                                this.$wire.set('pendingAttachmentOriginal', data.original);
+                                this.hasFile = true;
+                            })
+                            .catch(() => {
+                                this.uploading = false;
+                                this.hasFile = false;
+                                this.fileName = '';
+                                this.uploadError = 'Erro ao carregar ficheiro. Tente novamente.';
+                                if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                            });
+                        },
+                        cancelFile() {
+                            this.hasFile = false;
+                            this.fileName = '';
+                            this.uploadError = '';
+                            if (this.$refs.fileInput) this.$refs.fileInput.value = '';
+                            this.$wire.set('pendingAttachmentPath', '');
+                            this.$wire.set('pendingAttachmentOriginal', '');
                         },
                         clear() {
                             this.hasFile = false;
