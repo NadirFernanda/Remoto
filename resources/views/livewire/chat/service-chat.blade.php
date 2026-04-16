@@ -170,9 +170,11 @@
                     @endif
                 </div>
             @else
-                <form wire:submit="enviarMensagem" class="flex items-end gap-2"
+                <form wire:submit.prevent
+                      class="flex items-end gap-2"
                       x-data="chatInput"
-                      x-on:chat-file-cleared.window="clear()">
+                      x-on:chat-file-cleared.window="clear()"
+                      @submit.prevent="submit()">
 
                     {{-- Attach button --}}
                     <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
@@ -234,12 +236,17 @@
                         fileName: '',
                         uploading: false,
                         uploadError: '',
+                        pendingPath: '',
+                        pendingOriginal: '',
                         init() {},
+                        submit() {
+                            this.$wire.enviarMensagem(this.pendingPath, this.pendingOriginal);
+                            this.clear();
+                        },
                         handleFile(event) {
                             const file = event.target.files[0];
                             if (!file) return;
                             this.uploadError = '';
-                            // Client-side size check (10 MB)
                             if (file.size > 10 * 1024 * 1024) {
                                 this.uploadError = 'Ficheiro demasiado grande (máx 10 MB).';
                                 if (this.$refs.fileInput) this.$refs.fileInput.value = '';
@@ -265,8 +272,8 @@
                                     if (this.$refs.fileInput) this.$refs.fileInput.value = '';
                                     return;
                                 }
-                                this.$wire.set('pendingAttachmentPath', data.filename);
-                                this.$wire.set('pendingAttachmentOriginal', data.original);
+                                this.pendingPath = data.filename;
+                                this.pendingOriginal = data.original;
                                 this.hasFile = true;
                             })
                             .catch(() => {
@@ -278,14 +285,16 @@
                             });
                         },
                         cancelFile() {
+                            this.pendingPath = '';
+                            this.pendingOriginal = '';
                             this.hasFile = false;
                             this.fileName = '';
                             this.uploadError = '';
                             if (this.$refs.fileInput) this.$refs.fileInput.value = '';
-                            this.$wire.set('pendingAttachmentPath', '');
-                            this.$wire.set('pendingAttachmentOriginal', '');
                         },
                         clear() {
+                            this.pendingPath = '';
+                            this.pendingOriginal = '';
                             this.hasFile = false;
                             this.fileName = '';
                             this.uploading = false;

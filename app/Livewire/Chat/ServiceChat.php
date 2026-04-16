@@ -16,8 +16,6 @@ class ServiceChat extends Component
 {
     public Service $service;
     public string $mensagem = '';
-    public string $pendingAttachmentPath = '';
-    public string $pendingAttachmentOriginal = '';
     public bool $chat_bloqueado = true;
 
     // ── Calculados 1x em mount — não re-executam queries em cada render ──────
@@ -273,7 +271,7 @@ class ServiceChat extends Component
         session()->flash('chat_success', $successMsg);
     }
 
-    public function enviarMensagem()
+    public function enviarMensagem(string $attachPath = '', string $attachOriginal = '')
     {
         if (!Auth::check()) {
             $this->redirect(route('login'));
@@ -283,8 +281,9 @@ class ServiceChat extends Component
         if ($this->chat_bloqueado) return;
 
         $mensagem = trim($this->mensagem ?? '');
+        $attachPath = trim($attachPath);
 
-        if ($mensagem === '' && $this->pendingAttachmentPath === '') {
+        if ($mensagem === '' && $attachPath === '') {
             $this->skipRender();
             return;
         }
@@ -302,8 +301,8 @@ class ServiceChat extends Component
                 Auth::user(),
                 $mensagem,
                 null,
-                $this->pendingAttachmentPath ?: null,
-                $this->pendingAttachmentOriginal ?: null
+                $attachPath ?: null,
+                $attachOriginal ?: null
             );
         } catch (\Throwable $e) {
             Log::error('Chat message create exception: ' . $e->getMessage());
@@ -312,8 +311,6 @@ class ServiceChat extends Component
         }
 
         $this->mensagem = '';
-        $this->pendingAttachmentPath = '';
-        $this->pendingAttachmentOriginal = '';
         $this->dispatch('scroll-bottom');
         $this->dispatch('message-sent');
         $this->dispatch('chat-file-cleared');
