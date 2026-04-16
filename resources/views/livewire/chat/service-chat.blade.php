@@ -99,13 +99,18 @@
                         @endif
 
                         {{-- Bubble + action menu wrapper --}}
-                        <div class="relative group flex items-end gap-1 {{ $isMine ? 'flex-row-reverse' : 'flex-row' }}">
+                        <div class="relative flex items-end gap-1 {{ $isMine ? 'flex-row-reverse' : 'flex-row' }}"
+                             @mouseenter="$refs.menuBtn && ($refs.menuBtn.style.opacity='1')"
+                             @mouseleave="!menuOpen && $refs.menuBtn && ($refs.menuBtn.style.opacity='0')">
 
                             {{-- ⋮ menu button (só para o autor) --}}
                             @if($isMine)
                             <div class="relative flex-shrink-0 self-start mt-1">
-                                <button @click="menuOpen = !menuOpen" @click.outside="menuOpen = false"
-                                        class="opacity-0 group-hover:opacity-100 focus:opacity-100 transition w-6 h-6 rounded-full hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                                <button x-ref="menuBtn"
+                                        @click="menuOpen = !menuOpen"
+                                        @click.outside="menuOpen = false; !$event.target.closest('[x-ref=menuBtn]') && ($refs.menuBtn.style.opacity='0')"
+                                        style="opacity:0;transition:opacity .15s"
+                                        class="w-6 h-6 rounded-full hover:bg-slate-200 flex items-center justify-center text-slate-400 hover:text-slate-600">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg>
                                 </button>
                                 <div x-show="menuOpen" x-cloak
