@@ -15,7 +15,9 @@
     .pshow-actions form  { width: 100% !important; }
     .pshow-actions .pub-btn-primary,
     .pshow-actions .pub-btn-secondary { width: 100% !important; justify-content: center !important; }
-    .pshow-client-card  { flex-wrap: wrap; }
+    /* Card do cliente: botão desce para baixo do avatar+nome */
+    .pshow-client-name  { white-space: normal !important; }
+    .pshow-client-btn   { width: 100% !important; text-align: center !important; margin-top: .25rem; }
 }
 </style>
 @php
@@ -94,19 +96,20 @@
 
                     {{-- Card do cliente --}}
                     @if($service->cliente)
-                    <div style="display:flex;align-items:center;gap:.75rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:.875rem 1rem;margin-top:1.5rem;">
+                    <div class="pshow-client-card" style="display:flex;align-items:center;gap:.75rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:.875rem 1rem;margin-top:1.5rem;flex-wrap:wrap;">
                         <img src="{{ $service->cliente->avatarUrl() }}"
                              alt="{{ $service->cliente->name }}"
                              style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;"
                              onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                         <div style="min-width:0;flex:1;">
                             <p style="font-size:.8rem;color:#94a3b8;margin:0;">Publicado por</p>
-                            <p style="font-size:.9rem;font-weight:700;color:#0f172a;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $service->cliente->name }}</p>
+                            <p class="pshow-client-name" style="font-size:.9rem;font-weight:700;color:#0f172a;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $service->cliente->name }}</p>
                             @if($service->cliente->location)
                                 <p style="font-size:.75rem;color:#94a3b8;margin:0;">{{ $service->cliente->location }}</p>
                             @endif
                         </div>
                         <a href="{{ route('freelancer.show', $service->cliente) }}"
+                           class="pshow-client-btn"
                            style="flex-shrink:0;font-size:.8rem;font-weight:700;color:#00baff;text-decoration:none;border:1.5px solid #00baff;border-radius:8px;padding:.35rem .85rem;white-space:nowrap;"
                            onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
                             Ver perfil
