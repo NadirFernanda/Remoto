@@ -1,6 +1,23 @@
 @extends('layouts.main')
 
 @section('content')
+<style>
+@media (max-width: 600px) {
+    .pshow-card         { padding: 1rem !important; }
+    .pshow-header-row   { gap: .75rem !important; }
+    .pshow-avatar       { width: 56px !important; height: 56px !important; border-radius: 12px !important; }
+    .pshow-avatar-img   { max-width: 100% !important; border-radius: 10px !important; }
+    .pshow-title        { font-size: 1.15rem !important; overflow-wrap: break-word; word-break: break-word; }
+    .pshow-label        { min-width: 0 !important; display: block !important; margin-bottom: .1rem; }
+    .pshow-actions      { flex-direction: column; }
+    .pshow-actions a,
+    .pshow-actions button,
+    .pshow-actions form  { width: 100% !important; }
+    .pshow-actions .pub-btn-primary,
+    .pshow-actions .pub-btn-secondary { width: 100% !important; justify-content: center !important; }
+    .pshow-client-card  { flex-wrap: wrap; }
+}
+</style>
 @php
     $briefing = json_decode($service->briefing, true);
 
@@ -36,21 +53,21 @@
             Voltar aos projectos
         </a>
 
-        <div class="pub-card" style="padding:2rem;">
-            <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
+        <div class="pub-card pshow-card" style="padding:2rem;">
+            <div class="pshow-header-row" style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
                 {{-- Thumbnail --}}
                 @if(is_array($briefing) && !empty($briefing['thumbnail']) && file_exists(public_path('img/' . $briefing['thumbnail'])))
                     <img src="{{ asset('img/' . $briefing['thumbnail']) }}" alt="{{ $service->titulo }}"
                         style="width:100%;max-width:200px;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px;">
                 @else
-                    <div style="width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,rgba(0,186,255,.18),rgba(0,186,255,.06));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <div class="pshow-avatar" style="width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,rgba(0,186,255,.18),rgba(0,186,255,.06));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <span style="font-size:1.75rem;font-weight:900;color:#00baff;">{{ strtoupper(substr($service->titulo,0,1)) }}</span>
                     </div>
                 @endif
 
                 {{-- Conteúdo principal --}}
                 <div style="flex:1;min-width:0;">
-                    <h1 style="font-size:1.5rem;font-weight:900;color:#0f172a;margin:0 0 .5rem;line-height:1.25;">{{ $service->titulo }}</h1>
+                    <h1 class="pshow-title" style="font-size:1.5rem;font-weight:900;color:#0f172a;margin:0 0 .5rem;line-height:1.25;overflow-wrap:break-word;word-break:break-word;">{{ $service->titulo }}</h1>
 
                     <div class="pub-price" style="margin-bottom:1.25rem;">Kz {{ number_format($service->valor, 2, ',', '.') }}</div>
 
@@ -65,7 +82,7 @@
                                 @endphp
                                 @if(!empty($display))
                                 <div style="margin-bottom:.5rem;">
-                                    <strong style="color:#0f172a;min-width:160px;display:inline-block;">{{ $label }}:</strong>
+                                    <strong class="pshow-label" style="color:#0f172a;min-width:160px;display:inline-block;">{{ $label }}:</strong>
                                     {{ $display }}
                                 </div>
                                 @endif
@@ -98,7 +115,7 @@
                     @endif
 
                     {{-- Ações --}}
-                    <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem;">
+                    <div class="pshow-actions" style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem;">
                         @guest
                             <a href="{{ route('register') }}" class="pub-btn-primary">Criar conta para aceitar</a>
                             <a href="{{ route('login') }}" class="pub-btn-secondary">Já tenho conta</a>
