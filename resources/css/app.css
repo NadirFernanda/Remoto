@@ -815,6 +815,21 @@ body{
     .legal-page-content h2 { font-size: 1.15rem !important; }
 }
 
+/* ── Notification bell panel: fixed full-width on mobile ── */
+@media (max-width: 639px) {
+    .notif-panel {
+        position: fixed !important;
+        top: 64px !important;   /* altura aproximada do header */
+        left: 8px !important;
+        right: 8px !important;
+        width: auto !important;
+        max-height: calc(100dvh - 80px) !important;
+        overflow-y: auto !important;
+        border-radius: 16px !important;
+        margin-top: 0 !important;
+    }
+}
+
 /* ── Cookie consent: full-width on mobile ──────────────── */
 @media (max-width: 540px) {
     .cookie-banner { left: 0 !important; right: 0 !important; bottom: 0 !important;

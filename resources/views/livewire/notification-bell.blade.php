@@ -1,20 +1,5 @@
 <div x-data="{ open: false }"
-     x-init="
-         setInterval(() => $wire.refresh(), 60000);
-         $watch('open', val => {
-             if (val) $nextTick(() => {
-                 const p = $refs.panel;
-                 if (!p) return;
-                 p.style.right = '0';
-                 p.style.left  = 'auto';
-                 const r = p.getBoundingClientRect();
-                 if (r.left < 8) {
-                     p.style.right = 'auto';
-                     p.style.left  = (-r.left + 8) + 'px';
-                 }
-             });
-         });
-     "
+     x-init="setInterval(() => $wire.refresh(), 60000)"
      class="relative" @click.outside="open = false">
 
     {{-- Bell button --}}
@@ -32,6 +17,7 @@
     </button>
 
     {{-- Dropdown panel --}}
+    {{-- Desktop: absolute right-0. Mobile (<640px): fixed full-width, abaixo do header --}}
     <div x-show="open" x-transition:enter="transition ease-out duration-150"
          x-transition:enter-start="opacity-0 scale-95 translate-y-1"
          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
@@ -39,8 +25,7 @@
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-1"
          x-cloak
-         x-ref="panel"
-         class="absolute right-0 mt-2 w-80 max-w-[calc(100vw-0.75rem)] bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+         class="notif-panel absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
 
         {{-- Header --}}
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-50">
