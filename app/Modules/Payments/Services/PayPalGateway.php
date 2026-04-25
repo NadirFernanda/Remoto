@@ -28,16 +28,22 @@ class PayPalGateway
     {
         $cfg = config('services.paypal');
 
+        $clientId     = (string)($cfg['client_id'] ?? '');
+        $clientSecret = (string)($cfg['client_secret'] ?? '');
+
+        if ($clientId === '' || $clientSecret === '') {
+            throw new \RuntimeException(
+                'Credenciais PayPal não configuradas. Defina PAYPAL_CLIENT_ID e PAYPAL_CLIENT_SECRET no ficheiro .env.'
+            );
+        }
+
         $env = ($cfg['mode'] === 'live')
             ? Environment::PRODUCTION
             : Environment::SANDBOX;
 
         $this->client = PaypalServerSdkClientBuilder::init()
             ->clientCredentialsAuthCredentials(
-                ClientCredentialsAuthCredentialsBuilder::init(
-                    $cfg['client_id'],
-                    $cfg['client_secret']
-                )
+                ClientCredentialsAuthCredentialsBuilder::init($clientId, $clientSecret)
             )
             ->environment($env)
             ->build();

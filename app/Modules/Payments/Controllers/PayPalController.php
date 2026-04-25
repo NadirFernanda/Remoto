@@ -47,7 +47,14 @@ class PayPalController extends Controller
         $returnUrl = route('paypal.capture');
         $cancelUrl = route('paypal.cancel');
 
-        $gateway = new PayPalGateway();
+        try {
+            $gateway = new PayPalGateway();
+        } catch (\RuntimeException $e) {
+            \Log::error('PayPal não configurado', ['error' => $e->getMessage()]);
+            return redirect()->route('client.payment', ['service' => $order['service_id'] ?? null])
+                ->with('error', 'Pagamento via PayPal não está disponível de momento. Por favor, escolha outro método.');
+        }
+
         $result = $gateway->createOrder($valorPayPal, $returnUrl, $cancelUrl);
 
         if (!$result['success']) {
