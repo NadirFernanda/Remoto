@@ -61,11 +61,16 @@
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                         <div class="h-16 bg-gradient-to-br from-[#00baff]/30 via-blue-100/40 to-indigo-100/20"></div>
                         <div class="px-4 pb-4 -mt-7">
-                            <img src="{{ auth()->user()->avatarUrl() }}"
-                                 alt="{{ auth()->user()->name }}"
-                                 class="w-14 h-14 rounded-xl border-2 border-white shadow-md object-cover"
-                                 onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-                            <p class="mt-2 text-sm font-bold text-gray-900 leading-tight">{{ auth()->user()->name }}</p>
+                            <a href="{{ route('social.creator', auth()->user()) }}" class="inline-block group">
+                                <img src="{{ auth()->user()->avatarUrl() }}"
+                                     alt="{{ auth()->user()->name }}"
+                                     class="w-14 h-14 rounded-xl border-2 border-white shadow-md object-cover group-hover:ring-2 group-hover:ring-[#00baff]/40 transition"
+                                     onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                            </a>
+                            <a href="{{ route('social.creator', auth()->user()) }}"
+                               class="block mt-2 text-sm font-bold text-gray-900 leading-tight hover:text-[#00baff] transition">
+                                {{ auth()->user()->name }}
+                            </a>
                             @if(auth()->user()->freelancerProfile?->headline)
                                 <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ auth()->user()->freelancerProfile->headline }}</p>
                             @else
