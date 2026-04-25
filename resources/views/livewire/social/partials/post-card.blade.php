@@ -23,74 +23,83 @@
                          && !($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
 @endphp
 
-<article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" wire:key="post-{{ $post->id }}">
+<article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-200" wire:key="post-{{ $post->id }}">
 
     {{-- ── Creator header ──────────────────────────────────────────────────── --}}
-    <div class="flex items-center justify-between p-4">
-        <a href="{{ route('social.creator', $post->user) }}" class="flex items-center gap-3 group">
-            <img src="{{ $post->user->avatarUrl() }}"
-                 alt="{{ $post->user->name }}"
-                 class="w-10 h-10 rounded-full object-cover group-hover:ring-2 group-hover:ring-[#00baff]/40 transition"
-                 onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-            <div>
-                <p class="text-sm font-semibold text-gray-900 group-hover:text-[#00baff] transition leading-tight">
+    <div class="flex items-center justify-between px-4 pt-4 pb-3">
+        <a href="{{ route('social.creator', $post->user) }}" class="flex items-center gap-3 group min-w-0">
+            <div class="relative flex-shrink-0">
+                <img src="{{ $post->user->avatarUrl() }}"
+                     alt="{{ $post->user->name }}"
+                     class="w-11 h-11 rounded-full object-cover ring-2 ring-transparent group-hover:ring-[#00baff]/30 transition"
+                     onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+            </div>
+            <div class="min-w-0">
+                <p class="text-sm font-semibold text-gray-900 group-hover:text-[#00baff] transition leading-tight truncate">
                     {{ $post->user->name }}
                 </p>
                 @if($post->user->freelancerProfile?->headline)
-                    <p class="text-xs text-gray-400 leading-tight">{{ $post->user->freelancerProfile->headline }}</p>
+                    <p class="text-xs text-gray-400 leading-tight truncate">{{ $post->user->freelancerProfile->headline }}</p>
+                @else
+                    <p class="text-xs text-gray-400 leading-tight">{{ $post->created_at->diffForHumans() }}</p>
                 @endif
             </div>
         </a>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5 flex-shrink-0 ml-2">
             @auth
                 @if(!$isOwner)
                     <button wire:click="toggleFollow({{ $post->user_id }})"
-                        class="text-xs font-semibold px-3 py-1 rounded-lg border transition
+                        class="text-xs font-semibold px-3 py-1.5 rounded-full border transition
                             {{ $isFollowing ? 'border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400' : 'border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white' }}">
                         {{ $isFollowing ? 'A seguir' : '+ Seguir' }}
                     </button>
                 @endif
             @endauth
             @if(isset($post->visibility) && $post->visibility === 'followers')
-                <span class="inline-flex items-center gap-1 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
+                <span class="hidden sm:inline-flex items-center gap-1 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                     Assinantes
                 </span>
             @endif
-            <span class="text-xs text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
+            @if($post->user->freelancerProfile?->headline)
+                <span class="text-xs text-gray-400 hidden sm:inline">{{ $post->created_at->diffForHumans() }}</span>
+            @endif
             {{-- Options dropdown --}}
             <div x-data="{ open: false }" class="relative">
-                <button @click="open = !open" class="p-1.5 rounded-full hover:bg-gray-100 transition text-gray-400">
+                <button @click="open = !open" class="p-1.5 rounded-full hover:bg-gray-100 transition text-gray-400 hover:text-gray-600">
                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                         <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
                     </svg>
                 </button>
                 <div x-show="open" x-transition @click.away="open = false"
-                     class="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-lg w-48 z-10 py-1">
+                     class="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-xl w-48 z-10 py-1">
                     @if($isOwner)
                         <button wire:click="openEditPost({{ $post->id }})" @click="open = false"
-                            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                            class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>
                             Editar publicação
                         </button>
                         <button wire:click="deletePost({{ $post->id }})" @click="open = false"
-                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+                            class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
                             Eliminar publicação
                         </button>
                     @else
                         @auth
                             <button wire:click="openReportPost({{ $post->id }})" @click="open = false"
-                                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
                                 Denunciar publicação
                             </button>
                             <button wire:click="openReportUser({{ $post->user_id }})" @click="open = false"
-                                class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
                                 Denunciar utilizador
                             </button>
                         @endauth
                     @endif
                     <button
                         @click="navigator.clipboard.writeText('{{ url('/social') }}?post={{ $post->id }}'); open = false"
-                        class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition border-t border-gray-50 mt-1">
+                        class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition border-t border-gray-50 mt-1 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
                         Copiar link
                     </button>
                 </div>
