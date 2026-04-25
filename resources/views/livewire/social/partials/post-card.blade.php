@@ -1,5 +1,6 @@
 {{--
     Partial: livewire.social.partials.post-card
+    Layout: Instagram-style — header · media · actions · likes · caption · comments · timestamp
     Variables: $post (SocialPost with media, likes, comments.user, repost.user, repost.media)
     Context: inside a Livewire component with toggleLike, toggleBookmark, openComments,
              toggleFollow, deletePost, openReportPost, openReportUser, $commentingPostId
@@ -16,90 +17,108 @@
     $isFollowing   = $authUser && !$isOwner
                      ? $authUser->following()->where('following_id', $post->user_id)->exists()
                      : false;
-    // Creator gating — bloqueia QUALQUER post com visibility = 'followers' para não-assinantes
-    // Não depende de has_creator_profile para evitar bypass quando a flag está a 0
     $needsSubscription = ($post->visibility === 'followers')
                          && !$isOwner
                          && !($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
+    $isCreator = (bool)($post->user->has_creator_profile ?? false);
 @endphp
 
-<article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-200" wire:key="post-{{ $post->id }}">
+<article class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200" wire:key="post-{{ $post->id }}">
 
-    {{-- ── Creator header ──────────────────────────────────────────────────── --}}
-    <div class="flex items-center justify-between px-4 pt-4 pb-3">
-        <a href="{{ route('social.creator', $post->user) }}" class="flex items-center gap-3 group min-w-0">
-            <div class="relative flex-shrink-0">
-                <img src="{{ $post->user->avatarUrl() }}"
-                     alt="{{ $post->user->name }}"
-                     class="w-11 h-11 rounded-full object-cover ring-2 ring-transparent group-hover:ring-[#00baff]/30 transition"
-                     onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-            </div>
-            <div class="min-w-0">
-                <p class="text-sm font-semibold text-gray-900 group-hover:text-[#00baff] transition leading-tight truncate">
-                    {{ $post->user->name }}
-                </p>
-                @if($post->user->freelancerProfile?->headline)
-                    <p class="text-xs text-gray-400 leading-tight truncate">{{ $post->user->freelancerProfile->headline }}</p>
-                @else
-                    <p class="text-xs text-gray-400 leading-tight">{{ $post->created_at->diffForHumans() }}</p>
-                @endif
+    {{-- ══ HEADER ══════════════════════════════════════════════════════════════ --}}
+    <div class="flex items-center gap-3 px-4 py-3">
+
+        {{-- Avatar com ring de criador --}}
+        <a href="{{ route('social.creator', $post->user) }}" class="flex-shrink-0">
+            <div class="p-0.5 rounded-full {{ $isCreator ? 'bg-gradient-to-tr from-[#00baff] via-blue-400 to-violet-500' : 'bg-transparent' }}">
+                <div class="{{ $isCreator ? 'bg-white rounded-full p-0.5' : '' }}">
+                    <img src="{{ $post->user->avatarUrl() }}"
+                         alt="{{ $post->user->name }}"
+                         class="w-9 h-9 rounded-full object-cover block"
+                         onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                </div>
             </div>
         </a>
-        <div class="flex items-center gap-1.5 flex-shrink-0 ml-2">
-            @auth
-                @if(!$isOwner)
-                    <button wire:click="toggleFollow({{ $post->user_id }})"
-                        class="text-xs font-semibold px-3 py-1.5 rounded-full border transition
-                            {{ $isFollowing ? 'border-gray-200 text-gray-400 hover:border-red-200 hover:text-red-400' : 'border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white' }}">
-                        {{ $isFollowing ? 'A seguir' : '+ Seguir' }}
-                    </button>
-                @endif
-            @endauth
-            @if(isset($post->visibility) && $post->visibility === 'followers')
-                <span class="hidden sm:inline-flex items-center gap-1 text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
-                    Assinantes
-                </span>
-            @endif
-            @if($post->user->freelancerProfile?->headline)
-                <span class="text-xs text-gray-400 hidden sm:inline">{{ $post->created_at->diffForHumans() }}</span>
-            @endif
-            {{-- Options dropdown --}}
-            <div x-data="{ open: false }" class="relative">
-                <button @click="open = !open" class="p-1.5 rounded-full hover:bg-gray-100 transition text-gray-400 hover:text-gray-600">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
-                    </svg>
-                </button>
-                <div x-show="open" x-transition @click.away="open = false"
-                     class="absolute right-0 top-8 bg-white border border-gray-100 rounded-xl shadow-xl w-48 z-10 py-1">
-                    @if($isOwner)
-                        <button wire:click="openEditPost({{ $post->id }})" @click="open = false"
-                            class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition flex items-center gap-2">
-                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg>
-                            Editar publicação
+
+        {{-- Name + inline follow --}}
+        <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+                <a href="{{ route('social.creator', $post->user) }}"
+                   class="text-sm font-bold text-gray-900 hover:text-[#00baff] transition leading-tight">
+                    {{ $post->user->name }}
+                </a>
+                @auth
+                    @if(!$isOwner && !$isFollowing)
+                        <span class="text-gray-300 text-xs">·</span>
+                        <button wire:click="toggleFollow({{ $post->user_id }})"
+                            class="text-xs font-bold text-[#00baff] hover:text-[#009ad6] transition">
+                            Seguir
                         </button>
-                        <button wire:click="deletePost({{ $post->id }})" @click="open = false"
-                            class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
-                            Eliminar publicação
+                    @elseif(!$isOwner && $isFollowing)
+                        <span class="text-gray-300 text-xs">·</span>
+                        <button wire:click="toggleFollow({{ $post->user_id }})"
+                            class="text-xs font-medium text-gray-400 hover:text-red-400 transition">
+                            A seguir
                         </button>
-                    @else
-                        @auth
-                            <button wire:click="openReportPost({{ $post->id }})" @click="open = false"
-                                class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
-                                Denunciar publicação
-                            </button>
-                            <button wire:click="openReportUser({{ $post->user_id }})" @click="open = false"
-                                class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
-                                Denunciar utilizador
-                            </button>
-                        @endauth
                     @endif
-                    <button
-                        @click="navigator.clipboard.writeText('{{ url('/social') }}?post={{ $post->id }}'); open = false"
-                        class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition border-t border-gray-50 mt-1 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+                @endauth
+                @if($post->visibility === 'followers')
+                    <span class="inline-flex items-center gap-0.5 text-[10px] font-semibold text-amber-600 bg-amber-50 border border-amber-200 rounded-full px-1.5 py-0.5 leading-none">
+                        <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                        </svg>
+                        Assinantes
+                    </span>
+                @endif
+            </div>
+            @if($post->user->freelancerProfile?->headline)
+                <p class="text-[11px] text-gray-400 truncate leading-tight mt-0.5">{{ $post->user->freelancerProfile->headline }}</p>
+            @endif
+        </div>
+
+        {{-- Options ⋯ --}}
+        <div x-data="{ open: false }" class="relative flex-shrink-0">
+            <button @click="open = !open"
+                class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
+                </svg>
+            </button>
+            <div x-show="open" x-transition @click.away="open = false"
+                 class="absolute right-0 top-9 bg-white border border-gray-100 rounded-2xl shadow-2xl w-52 z-20 py-1.5 overflow-hidden">
+                @if($isOwner)
+                    <button wire:click="openEditPost({{ $post->id }})" @click="open = false"
+                        class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition flex items-center gap-3">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+                        </svg>
+                        Editar publicação
+                    </button>
+                    <button wire:click="deletePost({{ $post->id }})" @click="open = false"
+                        class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition flex items-center gap-3">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                        </svg>
+                        Eliminar publicação
+                    </button>
+                @else
+                    @auth
+                        <button wire:click="openReportPost({{ $post->id }})" @click="open = false"
+                            class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition">
+                            Denunciar publicação
+                        </button>
+                        <button wire:click="openReportUser({{ $post->user_id }})" @click="open = false"
+                            class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition">
+                                Denunciar utilizador
+                        </button>
+                    @endauth
+                @endif
+                <div class="border-t border-gray-50 mt-1 pt-1">
+                    <button @click="navigator.clipboard.writeText('{{ url('/social') }}?post={{ $post->id }}'); open = false"
+                        class="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition flex items-center gap-3">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
+                        </svg>
                         Copiar link
                     </button>
                 </div>
@@ -107,78 +126,68 @@
         </div>
     </div>
 
-    {{-- ── Text content ─────────────────────────────────────────────────────── --}}
-
+    {{-- ══ SUBSCRIPTION GATE ═══════════════════════════════════════════════════ --}}
     @if($needsSubscription)
-    {{-- ── PREVIEW BLOQUEADO: mostra pré-visualização desfocada + overlay de subscrição ── --}}
-    <div class="relative mx-0 mb-0 overflow-hidden"
-         x-data="{ showModal: false }">
+    <div x-data="{ showModal: false }">
 
-        {{-- Pré-visualização desfocada (texto + thumbnail) --}}
-        <div class="select-none pointer-events-none">
-            @if($post->content)
-                <div class="px-4 pb-3">
-                    <p class="text-sm text-gray-800 whitespace-pre-line leading-relaxed blur-sm">{!! Str::limit(strip_tags($post->content), 120) !!}...</p>
-                </div>
-            @endif
-            @php $firstMedia = $post->media->first(); @endphp
+        {{-- Blurred media preview --}}
+        @php $firstMedia = $post->media->first() ?? null; @endphp
+        <div class="relative w-full overflow-hidden bg-gray-900" style="min-height: 260px;">
             @if($firstMedia)
-                <div class="relative bg-gray-100 overflow-hidden" style="max-height:220px;">
-                    @if(in_array($firstMedia->type, ['image']))
-                        <img src="{{ $firstMedia->url() }}" class="w-full object-cover blur-md scale-105" style="max-height:220px;" alt="" loading="lazy">
-                    @elseif($firstMedia->type === 'video')
-                        @if($firstMedia->thumbnailUrl())
-                            <img src="{{ $firstMedia->thumbnailUrl() }}" class="w-full object-cover blur-md scale-105" style="max-height:220px;" alt="">
-                        @else
-                            <div class="w-full bg-gradient-to-br from-gray-800 to-gray-600 flex items-center justify-center" style="height:220px;">
-                                <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        @endif
-                    @elseif($firstMedia->type === 'audio')
-                        <div class="w-full bg-gradient-to-r from-[#00baff]/10 to-blue-50 flex items-center justify-center" style="height:80px;">
-                            <svg class="w-8 h-8 text-[#00baff]/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"/></svg>
-                        </div>
+                @if($firstMedia->type === 'image')
+                    <img src="{{ $firstMedia->url() }}" class="w-full object-cover blur-2xl scale-110 opacity-60" style="max-height:340px;" alt="" loading="lazy">
+                @elseif($firstMedia->type === 'video' && $firstMedia->thumbnailUrl())
+                    <img src="{{ $firstMedia->thumbnailUrl() }}" class="w-full object-cover blur-2xl scale-110 opacity-60" style="max-height:340px;" alt="">
+                @else
+                    <div class="w-full bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center" style="height:260px;">
+                        <svg class="w-20 h-20 text-white/10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                @endif
+            @else
+                <div class="w-full bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center" style="height:260px;">
+                    @if($post->content)
+                        <p class="text-sm text-gray-500 blur-sm px-6 text-center line-clamp-3">{{ Str::limit(strip_tags($post->content), 80) }}</p>
                     @endif
                 </div>
             @endif
-        </div>
 
-        {{-- Overlay clicável sobre a pré-visualização --}}
-        <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/60 to-transparent flex flex-col items-center justify-end pb-5 cursor-pointer"
-             @click="showModal = true">
-            <div class="flex flex-col items-center gap-2">
-                <div class="w-10 h-10 rounded-full bg-[#00baff]/10 border border-[#00baff]/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
-                    </svg>
+            {{-- Lock overlay --}}
+            <div class="absolute inset-0 flex flex-col items-center justify-end pb-8 cursor-pointer bg-gradient-to-t from-black/80 via-black/30 to-transparent"
+                 @click="showModal = true">
+                <div class="flex flex-col items-center gap-2">
+                    <div class="w-14 h-14 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center backdrop-blur-sm">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                        </svg>
+                    </div>
+                    <p class="text-sm font-semibold text-white drop-shadow">Clique para ver o conteúdo</p>
+                    <p class="text-xs text-white/70">Exclusivo para assinantes</p>
                 </div>
-                <span class="text-xs font-semibold text-gray-700">Clique para ver o conteúdo</span>
             </div>
         </div>
 
-        {{-- Modal de subscrição (Alpine) --}}
+        {{-- Subscription modal --}}
         <div x-show="showModal" x-cloak
-             style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.65);backdrop-filter:blur(4px);"
+             class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/60"
              @click.self="showModal = false">
-            <div style="background:#fff;border-radius:1.25rem;padding:2rem 1.75rem;max-width:380px;width:calc(100% - 2rem);box-shadow:0 24px 64px rgba(0,0,0,.25);text-align:center;">
-                <div style="width:56px;height:56px;background:#e0f7ff;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
-                    <svg style="width:28px;height:28px;color:#00baff;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-7 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00baff]/10 to-blue-100 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                     </svg>
                 </div>
-                <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin-bottom:.5rem;">Conteúdo exclusivo</h3>
-                <p style="font-size:.85rem;color:#64748b;margin-bottom:.25rem;">Este conteúdo é exclusivo para assinantes de</p>
-                <p style="font-size:.95rem;font-weight:700;color:#0f172a;margin-bottom:1.25rem;">{{ $post->user->name }}</p>
+                <h3 class="text-lg font-bold text-gray-900 mb-1">Conteúdo exclusivo</h3>
+                <p class="text-sm text-gray-500 mb-1">Para assinantes de</p>
+                <p class="text-base font-bold text-gray-900 mb-5">{{ $post->user->name }}</p>
                 <a href="{{ route('social.creator', $post->user) }}"
-                   style="display:inline-flex;align-items:center;gap:.5rem;background:#00baff;color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.75rem;text-decoration:none;margin-bottom:.75rem;">
-                    <svg style="width:16px;height:16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00baff] to-blue-500 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition w-full justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
                     </svg>
-                    Assinar por 3.000 Kz/mês
+                    Assinar — 3.000 Kz/mês
                 </a>
-                <br>
                 <button @click="showModal = false"
-                        style="font-size:.8rem;color:#94a3b8;background:none;border:none;cursor:pointer;margin-top:.25rem;">
+                    class="mt-3 text-xs text-gray-400 hover:text-gray-600 transition">
                     Fechar
                 </button>
             </div>
@@ -187,47 +196,52 @@
 
     @else
 
-    @if($post->content)
-        <div class="px-4 pb-3">
-            <p class="text-sm text-gray-800 whitespace-pre-line leading-relaxed">{!! $post->contentWithHashtags() !!}</p>
-        </div>
-    @endif
+    {{-- ══ MEDIA BLOCK — edge-to-edge ══════════════════════════════════════════ --}}
 
-    {{-- ── Media block ─────────────────────────────────────────────────────── --}}
-
-    {{-- IMAGES (new media table) --}}
+    {{-- IMAGES --}}
     @if(isset($post->type) && in_array($post->type, ['image', 'text']) && $post->media->where('type','image')->isNotEmpty())
         @php $imgs = $post->media->where('type','image')->values(); $count = $imgs->count(); @endphp
-        <div class="grid gap-0.5 {{ $count === 1 ? 'grid-cols-1' : ($count === 2 ? 'grid-cols-2' : 'grid-cols-3') }}">
-            @foreach($imgs->take(3) as $i => $img)
-                <div class="relative overflow-hidden bg-gray-100">
-                    <img src="{{ $img->url() }}"
-                         class="w-full h-auto object-contain {{ $count > 1 ? 'max-h-72' : '' }}"
-                         alt="Imagem {{ $i + 1 }}" loading="lazy">
-                    @if($i === 2 && $count > 3)
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <span class="text-white text-xl font-bold">+{{ $count - 3 }}</span>
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-        </div>
+        @if($count === 1)
+            <div class="w-full overflow-hidden bg-gray-50">
+                <img src="{{ $imgs[0]->url() }}"
+                     class="w-full object-cover"
+                     style="max-height: 600px;"
+                     alt="Imagem" loading="lazy">
+            </div>
+        @else
+            <div class="grid grid-cols-2 gap-0.5 overflow-hidden">
+                @foreach($imgs->take(4) as $i => $img)
+                    <div class="relative overflow-hidden bg-gray-100" style="aspect-ratio: 1 / 1;">
+                        <img src="{{ $img->url() }}"
+                             class="w-full h-full object-cover"
+                             alt="Imagem {{ $i + 1 }}" loading="lazy">
+                        @if($i === 3 && $count > 4)
+                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                <span class="text-white text-2xl font-bold">+{{ $count - 4 }}</span>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
 
     {{-- VIDEO --}}
     @elseif(isset($post->type) && $post->type === 'video' && $post->media->where('type','video')->isNotEmpty())
         @php $vid = $post->media->where('type','video')->first(); @endphp
-        <div class="bg-black">
-            <video controls preload="metadata" class="w-full h-auto max-h-[80vh] mx-auto block"
+        <div class="w-full bg-black overflow-hidden">
+            <video controls preload="metadata"
+                   class="w-full block"
+                   style="max-height: 70vh;"
                    poster="{{ $vid->thumbnailUrl() ?? '' }}">
                 <source src="{{ $vid->url() }}" type="{{ $vid->mime_type ?? 'video/mp4' }}">
             </video>
         </div>
-        @if($vid->original_name || $vid->file_size)
-            <div class="px-4 py-1.5 flex items-center gap-1.5 text-xs text-gray-400">
+        @if($vid->original_name)
+            <div class="px-4 pt-2 flex items-center gap-1.5 text-xs text-gray-400">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"/>
                 </svg>
-                {{ $vid->original_name ? Str::limit($vid->original_name, 40) : 'Vídeo' }}
+                {{ Str::limit($vid->original_name, 40) }}
                 @if($vid->file_size) · {{ $vid->formattedSize() }} @endif
             </div>
         @endif
@@ -235,19 +249,19 @@
     {{-- AUDIO --}}
     @elseif(isset($post->type) && $post->type === 'audio' && $post->media->where('type','audio')->isNotEmpty())
         @php $aud = $post->media->where('type','audio')->first(); @endphp
-        <div class="mx-4 mb-3 bg-gradient-to-r from-gray-50 to-blue-50/40 rounded-xl p-4">
+        <div class="mx-4 mb-1 bg-gradient-to-r from-[#00baff]/5 to-blue-50/40 border border-[#00baff]/10 rounded-2xl p-4">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
+                <div class="w-11 h-11 rounded-xl bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"/>
                     </svg>
                 </div>
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-800 truncate">
-                        {{ $aud->original_name ? Str::limit($aud->original_name, 40) : 'Áudio' }}
-                        @if($aud->file_size) <span class="text-gray-400 text-xs font-normal">· {{ $aud->formattedSize() }}</span> @endif
+                    <p class="text-sm font-semibold text-gray-800 truncate">
+                        {{ $aud->original_name ? Str::limit($aud->original_name, 40) : 'Audio' }}
+                        @if($aud->file_size) <span class="text-gray-400 text-xs font-normal">- {{ $aud->formattedSize() }}</span> @endif
                     </p>
-                    <audio controls class="w-full mt-1.5" style="height:32px;">
+                    <audio controls class="w-full mt-2" style="height:34px;">
                         <source src="{{ $aud->url() }}" type="{{ $aud->mime_type ?? 'audio/mpeg' }}">
                     </audio>
                 </div>
@@ -256,193 +270,227 @@
 
     {{-- LINK PREVIEW --}}
     @elseif(isset($post->type) && $post->type === 'link' && $post->link_url)
-        <div class="mx-4 mb-3">
+        <div class="mx-4 mb-1">
             <a href="{{ $post->link_url }}" target="_blank" rel="noopener noreferrer nofollow"
-               class="block border border-gray-100 rounded-xl overflow-hidden hover:border-[#00baff]/40 transition group">
+               class="block border border-gray-100 rounded-2xl overflow-hidden hover:border-[#00baff]/40 transition group">
                 @if($post->link_image)
-                    <img src="{{ $post->link_image }}" class="w-full max-h-48 object-cover" alt="" loading="lazy"
+                    <img src="{{ $post->link_image }}" class="w-full max-h-52 object-cover" alt="" loading="lazy"
                          onerror="this.parentElement.removeChild(this)">
                 @else
-                    <div class="w-full h-16 bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <div class="w-full h-20 bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
                         </svg>
                     </div>
                 @endif
-                <div class="px-4 py-3 bg-gray-50 group-hover:bg-blue-50/20 transition">
-                    <p class="text-sm font-semibold text-gray-800 truncate group-hover:text-[#00baff] transition">
+                <div class="px-4 py-3 bg-gray-50/80 group-hover:bg-blue-50/30 transition">
+                    <p class="text-sm font-bold text-gray-800 truncate group-hover:text-[#00baff] transition">
                         {{ $post->link_title ?: parse_url($post->link_url, PHP_URL_HOST) }}
                     </p>
                     @if($post->link_description)
                         <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ $post->link_description }}</p>
                     @endif
-                    <p class="text-xs text-[#00baff] mt-1 truncate">{{ $post->link_url }}</p>
+                    <p class="text-[10px] text-[#00baff] mt-1 truncate uppercase tracking-wide">{{ parse_url($post->link_url, PHP_URL_HOST) }}</p>
                 </div>
             </a>
         </div>
 
     {{-- REPOST --}}
     @elseif(isset($post->type) && $post->type === 'repost' && $post->repost)
-        <div class="mx-4 mb-3 border border-gray-100 rounded-xl overflow-hidden bg-gray-50/50">
-            <div class="flex items-center gap-2 px-3 pt-3 pb-2 border-b border-gray-100">
+        <div class="mx-4 mb-1 border border-gray-100 rounded-2xl overflow-hidden bg-gray-50/50">
+            <div class="flex items-center gap-2.5 px-3 py-2.5 border-b border-gray-100">
                 <img src="{{ $post->repost->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover"
                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                 <a href="{{ route('social.creator', $post->repost->user) }}"
-                   class="text-sm font-semibold text-gray-700 hover:text-[#00baff] transition">
+                   class="text-sm font-bold text-gray-800 hover:text-[#00baff] transition">
                     {{ $post->repost->user->name }}
                 </a>
                 <span class="text-xs text-gray-400 ml-auto">{{ $post->repost->created_at->diffForHumans() }}</span>
             </div>
             @if($post->repost->content)
-                <p class="px-3 py-2 text-sm text-gray-600 whitespace-pre-line line-clamp-4">{{ $post->repost->content }}</p>
+                <p class="px-3 py-2.5 text-sm text-gray-600 whitespace-pre-line line-clamp-4 leading-relaxed">{{ $post->repost->content }}</p>
             @endif
             @if($post->repost->media->isNotEmpty())
                 @php $rm = $post->repost->media->first(); @endphp
                 @if($rm->type === 'image')
-                    <img src="{{ $rm->url() }}" class="w-full max-h-40 object-cover" loading="lazy">
+                    <img src="{{ $rm->url() }}" class="w-full max-h-44 object-cover" loading="lazy">
                 @elseif($rm->type === 'video')
-                    <div class="bg-gray-900 flex items-center justify-center h-24 text-gray-400 text-xs gap-2">
+                    <div class="bg-gray-900 flex items-center justify-center gap-2 py-5 text-gray-400 text-xs">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"/>
                         </svg>
-                        Vídeo
+                        Video
                     </div>
                 @elseif($rm->type === 'audio')
                     <div class="bg-gray-50 px-3 py-2 flex items-center gap-2 text-gray-500 text-xs">
                         <svg class="w-4 h-4 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75"/>
                         </svg>
-                        {{ $rm->original_name ?? 'Áudio' }}
+                        {{ $rm->original_name ?? 'Audio' }}
                     </div>
                 @endif
             @endif
         </div>
 
-    {{-- LEGACY images (backward compat with posts predating media table) --}}
+    {{-- LEGACY images --}}
     @elseif($post->images->isNotEmpty())
         @php $imgs = $post->images; $count = $imgs->count(); @endphp
-        <div class="grid gap-0.5 {{ $count === 1 ? 'grid-cols-1' : ($count === 2 ? 'grid-cols-2' : 'grid-cols-3') }}">
-            @foreach($imgs->take(3) as $i => $img)
-                <div class="relative overflow-hidden bg-gray-100">
-                    <img src="{{ Storage::url($img->path) }}"
-                         class="w-full object-cover {{ $count === 1 ? 'max-h-96' : 'aspect-square' }}"
-                         alt="Imagem {{ $i + 1 }}" loading="lazy">
-                    @if($i === 2 && $count > 3)
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <span class="text-white text-xl font-bold">+{{ $count - 3 }}</span>
-                        </div>
-                    @endif
-                </div>
-            @endforeach
-        </div>
-    @endif
-
-    @endif
-    {{-- end creator gate --}}
-
-    {{-- ── Actions bar ──────────────────────────────────────────────────────── --}}
-    <div class="px-4 py-3 border-t border-gray-50 flex items-center gap-1 flex-wrap">
-
-        {{-- Like --}}
-        @auth
-            <button wire:click="toggleLike({{ $post->id }})"
-                class="flex items-center gap-1.5 text-sm px-2 py-1 rounded-lg transition {{ $isLiked ? 'text-red-500 bg-red-50' : 'text-gray-400 hover:text-red-500 hover:bg-red-50/50' }}">
-                <svg class="w-5 h-5" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                </svg>
-                <span>{{ $likesCount }}</span>
-            </button>
+        @if($count === 1)
+            <div class="w-full overflow-hidden bg-gray-50">
+                <img src="{{ Storage::url($imgs[0]->path) }}"
+                     class="w-full object-cover"
+                     style="max-height: 600px;"
+                     alt="Imagem" loading="lazy">
+            </div>
         @else
-            <span class="flex items-center gap-1.5 text-sm text-gray-400 px-2 py-1">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-                </svg>
-                {{ $likesCount }}
-            </span>
-        @endauth
+            <div class="grid grid-cols-2 gap-0.5 overflow-hidden">
+                @foreach($imgs->take(4) as $i => $img)
+                    <div class="relative overflow-hidden bg-gray-100" style="aspect-ratio: 1 / 1;">
+                        <img src="{{ Storage::url($img->path) }}"
+                             class="w-full h-full object-cover"
+                             alt="Imagem {{ $i + 1 }}" loading="lazy">
+                        @if($i === 3 && $count > 4)
+                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                                <span class="text-white text-2xl font-bold">+{{ $count - 4 }}</span>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    @endif
 
-        {{-- Comment --}}
-        <button wire:click="openComments({{ $post->id }})"
-            class="flex items-center gap-1.5 text-sm px-2 py-1 rounded-lg transition {{ $showComments ? 'text-[#00baff] bg-blue-50' : 'text-gray-400 hover:text-[#00baff] hover:bg-blue-50/50' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a.375.375 0 01.265-.109c.84-.049 1.67-.12 2.485-.21 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"/>
-            </svg>
-            <span>{{ $commentsCount }}</span>
-        </button>
+    @endif {{-- end subscription gate --}}
 
-        {{-- Repost --}}
-        @auth
-            @if(!$isOwner && ($post->type ?? 'text') !== 'repost')
-                <a href="{{ route('social.create') }}?repost_id={{ $post->id }}"
-                   class="flex items-center gap-1.5 text-sm px-2 py-1 rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50/50 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
+    {{-- ══ ACTIONS BAR — icons only, no pills ══════════════════════════════════ --}}
+    <div class="flex items-center px-3 pt-2.5 pb-1">
+        <div class="flex items-center gap-4 flex-1">
+
+            {{-- Heart --}}
+            @auth
+                <button wire:click="toggleLike({{ $post->id }})"
+                    class="outline-none transition-transform active:scale-125 {{ $isLiked ? 'text-red-500' : 'text-gray-800 hover:text-red-400' }}">
+                    <svg class="w-6 h-6" fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
                     </svg>
-                    @if($repostsCount > 0)<span>{{ $repostsCount }}</span>@endif
-                </a>
-            @endif
-        @endauth
+                </button>
+            @else
+                <span class="text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+                    </svg>
+                </span>
+            @endauth
 
-        {{-- Bookmark --}}
+            {{-- Comment bubble --}}
+            <button wire:click="openComments({{ $post->id }})"
+                class="outline-none {{ $showComments ? 'text-[#00baff]' : 'text-gray-800 hover:text-[#00baff]' }} transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/>
+                </svg>
+            </button>
+
+            {{-- Share / Repost --}}
+            @auth
+                @if(!$isOwner && ($post->type ?? 'text') !== 'repost')
+                    <a href="{{ route('social.create') }}?repost_id={{ $post->id }}"
+                       class="text-gray-800 hover:text-green-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                        </svg>
+                    </a>
+                @endif
+            @endauth
+        </div>
+
+        {{-- Bookmark — right side --}}
         @auth
             <button wire:click="toggleBookmark({{ $post->id }})"
-                class="flex items-center gap-1 text-sm px-2 py-1 rounded-lg transition {{ $isBookmarked ? 'text-[#00baff] bg-blue-50' : 'text-gray-400 hover:text-[#00baff] hover:bg-blue-50/50' }}"
+                class="outline-none {{ $isBookmarked ? 'text-[#00baff]' : 'text-gray-800 hover:text-[#00baff]' }} transition"
                 title="{{ $isBookmarked ? 'Remover dos guardados' : 'Guardar' }}">
-                <svg class="w-5 h-5" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <svg class="w-6 h-6" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/>
                 </svg>
             </button>
         @endauth
-
-        {{-- Follow (right side) --}}
-        @auth
-            @if(!$isOwner)
-                <button wire:click="toggleFollow({{ $post->user_id }})"
-                    class="ml-auto text-xs font-semibold px-3 py-1.5 rounded-lg border transition
-                        {{ $isFollowing ? 'border-gray-200 text-gray-500 hover:border-red-200 hover:text-red-500' : 'border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white' }}">
-                    {{ $isFollowing ? 'A seguir' : '+ Seguir' }}
-                </button>
-            @endif
-        @endauth
-
     </div>
 
-    {{-- ── Comments section ────────────────────────────────────────────────── --}}
-    @if($showComments)
-        <div class="border-t border-gray-50 px-4 py-3 space-y-3 bg-gray-50/50">
-            @forelse($post->comments as $comment)
-                <div class="flex gap-2">
-                    <img src="{{ $comment->user->avatarUrl() }}" alt="{{ $comment->user->name }}"
-                         class="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                         onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-                    <div class="flex-1 bg-white rounded-xl px-3 py-2 shadow-sm">
-                        <p class="text-xs font-semibold text-gray-800">{{ $comment->user->name }}</p>
-                        <p class="text-xs text-gray-600 mt-0.5 whitespace-pre-line">{{ $comment->content }}</p>
-                    </div>
-                </div>
-            @empty
-                <p class="text-xs text-gray-400 text-center py-1">Seja o primeiro a comentar!</p>
-            @endforelse
-
-            @auth
-                <div class="flex gap-2 pt-1">
-                    <img src="{{ auth()->user()->avatarUrl() }}" alt=""
-                         class="w-7 h-7 rounded-full object-cover flex-shrink-0"
-                         onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-                    <div class="flex-1 flex gap-2">
-                        <input wire:model="commentText" type="text"
-                               placeholder="Escreva um comentário..."
-                               wire:keydown.enter="submitComment"
-                               class="flex-1 border border-gray-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-[#00baff]/40">
-                        <button wire:click="submitComment"
-                            class="px-3 py-1.5 bg-[#00baff] text-white text-xs font-semibold rounded-xl hover:bg-[#009ad6] transition">
-                            Enviar
-                        </button>
-                    </div>
-                </div>
-                @error('commentText') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
-            @endauth
+    {{-- ══ LIKES COUNT ═════════════════════════════════════════════════════════ --}}
+    @if($likesCount > 0)
+        <div class="px-4 pb-1">
+            <p class="text-sm font-bold text-gray-900">
+                {{ number_format($likesCount) }} {{ $likesCount === 1 ? 'gosto' : 'gostos' }}
+            </p>
         </div>
     @endif
+
+    {{-- ══ CAPTION — username bold + text inline (Instagram style) ════════════ --}}
+    @if($post->content && !$needsSubscription)
+        <div class="px-4 pb-1" x-data="{ expanded: false }">
+            <p class="text-sm text-gray-800 leading-relaxed" x-bind:class="expanded ? '' : 'line-clamp-3'">
+                <a href="{{ route('social.creator', $post->user) }}"
+                   class="font-bold text-gray-900 hover:underline mr-1.5">{{ $post->user->name }}</a>{!! $post->contentWithHashtags() !!}
+            </p>
+            <button x-show="!expanded"
+                @click="expanded = true"
+                x-init="$nextTick(() => { const p = $el.previousElementSibling; if (p.scrollHeight <= p.clientHeight + 2) $el.style.display='none'; })"
+                class="text-xs text-gray-400 hover:text-gray-600 transition mt-0.5">
+                mais
+            </button>
+        </div>
+    @endif
+
+    {{-- ══ VIEW ALL COMMENTS ═══════════════════════════════════════════════════ --}}
+    @if($commentsCount > 0 && !$showComments)
+        <button wire:click="openComments({{ $post->id }})"
+            class="px-4 pb-1 text-sm text-gray-400 hover:text-gray-600 transition block">
+            Ver todos os {{ $commentsCount }} {{ $commentsCount === 1 ? 'comentario' : 'comentarios' }}
+        </button>
+    @endif
+
+    {{-- ══ COMMENTS ════════════════════════════════════════════════════════════ --}}
+    @if($showComments)
+        <div class="px-4 pb-1 space-y-2">
+            @forelse($post->comments as $comment)
+                <div class="flex gap-2.5">
+                    <img src="{{ $comment->user->avatarUrl() }}" alt="{{ $comment->user->name }}"
+                         class="w-7 h-7 rounded-full object-cover flex-shrink-0 mt-0.5"
+                         onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                    <p class="text-sm text-gray-800 leading-snug flex-1">
+                        <a href="#" class="font-bold text-gray-900 hover:underline mr-1">{{ $comment->user->name }}</a>{{ $comment->content }}
+                    </p>
+                </div>
+            @empty
+                <p class="text-xs text-gray-400 py-1">Seja o primeiro a comentar!</p>
+            @endforelse
+        </div>
+    @endif
+
+    {{-- ══ TIMESTAMP ════════════════════════════════════════════════════════════ --}}
+    <div class="px-4 pb-2 mt-0.5">
+        <time class="text-[10px] text-gray-400 uppercase tracking-wider"
+              datetime="{{ $post->created_at->toIso8601String() }}">
+            {{ $post->created_at->diffForHumans() }}
+        </time>
+    </div>
+
+    {{-- ══ INLINE COMMENT INPUT — Instagram style ══════════════════════════════ --}}
+    @auth
+        <div class="border-t border-gray-100 flex items-center gap-3 px-4 py-2.5">
+            <img src="{{ auth()->user()->avatarUrl() }}" alt=""
+                 class="w-7 h-7 rounded-full object-cover flex-shrink-0"
+                 onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+            <input wire:model="commentText"
+                   type="text"
+                   placeholder="Adicionar comentario..."
+                   wire:keydown.enter="submitComment"
+                   class="flex-1 text-sm text-gray-800 bg-transparent placeholder-gray-400 focus:outline-none py-1">
+            <button wire:click="submitComment"
+                class="text-sm font-bold text-[#00baff] hover:text-[#009ad6] transition flex-shrink-0">
+                Publicar
+            </button>
+        </div>
+        @error('commentText') <p class="px-4 pb-2 text-red-500 text-xs">{{ $message }}</p> @enderror
+    @endauth
 
 </article>
