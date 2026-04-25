@@ -9,6 +9,7 @@ use App\Modules\Social\Services\FeedService;
 use App\Modules\Social\Services\PostService;
 use App\Modules\Social\Services\SocialInteractionService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,7 +59,25 @@ class Feed extends Component
             $subscribedCreatorIds = [];
         }
 
-        return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds'))
+        $trendingHashtags = Cache::remember('social_trending_hashtags', 1800, function () {
+            $contents = SocialPost::active()
+                ->where('visibility', 'public')
+                ->latest()
+                ->limit(200)
+                ->pluck('content');
+            $counts = [];
+            foreach ($contents as $content) {
+                preg_match_all('/#([a-zA-Z0-9\x{00C0}-\x{024F}_]+)/u', $content ?? '', $m);
+                foreach ($m[1] as $tag) {
+                    $key = mb_strtolower($tag);
+                    $counts[$key] = ($counts[$key] ?? 0) + 1;
+                }
+            }
+            arsort($counts);
+            return array_slice(array_keys($counts), 0, 12);
+        });
+
+        return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds', 'trendingHashtags'))
             ->layout('layouts.public', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
     }
 

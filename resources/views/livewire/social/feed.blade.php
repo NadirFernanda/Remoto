@@ -297,12 +297,14 @@
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
                         <h3 class="text-sm font-bold text-gray-900 mb-3">Tópicos populares</h3>
                         <div class="flex flex-wrap gap-2">
-                            @foreach(['design', 'programacao', 'marketing', 'fotografia', 'videos', 'copywriting', 'branding', 'freelance'] as $tag)
+                            @forelse($trendingHashtags as $tag)
                             <a href="{{ route('social.feed', ['hashtag' => $tag]) }}"
                                class="inline-block px-3 py-1 rounded-full text-xs font-semibold transition {{ $hashtag === $tag ? 'bg-[#00baff] text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-[#00baff]/10 hover:text-[#00baff]' }}">
                                 #{{ $tag }}
                             </a>
-                            @endforeach
+                            @empty
+                            <p class="text-xs text-gray-400">Nenhum tópico ainda.</p>
+                            @endforelse
                         </div>
                     </div>
 
