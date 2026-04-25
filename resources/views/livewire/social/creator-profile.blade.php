@@ -84,10 +84,12 @@
                             </button>
                         @endif
                     @else
-                        <a href="{{ route('social.create') }}"
-                           class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition text-center">
-                            + Nova publicação
-                        </a>
+                        @if(in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
+                            <a href="{{ route('social.create') }}"
+                               class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition text-center">
+                                + Nova publicação
+                            </a>
+                        @endif
                     @endif
                 @else
                     <a href="{{ route('login') }}"
