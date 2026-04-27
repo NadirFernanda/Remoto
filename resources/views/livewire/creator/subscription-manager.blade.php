@@ -270,23 +270,16 @@
                 @error('valorSaqueAssin') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
-            @if(!$podeRealizarSaque)
             <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-5 flex items-start gap-2">
                 <svg class="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 <p class="text-xs text-red-700 font-medium">
-                    O próximo saque estará disponível em <strong>{{ $diasParaProximoSaque }} dia{{ $diasParaProximoSaque == 1 ? '' : 's' }}</strong>.<br>
+                    @if(!$podeRealizarSaque)
+                        O próximo saque estará disponível em <strong>{{ $diasParaProximoSaque }} dia{{ $diasParaProximoSaque == 1 ? '' : 's' }}</strong>.<br>
+                    @endif
                     Os saques de assinaturas são permitidos <strong>a cada 22 dias</strong>.
-                </p>
-            </div>
-            @else
-            <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-5">
-                <p class="text-xs text-amber-700 font-medium">
-                    <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    Saques de assinaturas são permitidos <strong>a cada 22 dias</strong>.
                     O processamento ocorre em até 2 dias úteis após aprovação.
                 </p>
             </div>
-            @endif
 
             <div class="flex gap-3">
                 <button wire:click="solicitarSaqueAssin" wire:loading.attr="disabled"
