@@ -62,7 +62,7 @@ class NotificationRedirectController extends Controller
             // ── Client-bound ─────────────────────────────────────────────────
             'proposal_accepted'    => route('client.projects'),
             'proposal_rejected'    => route('client.projects'),
-            'delivery_submitted'   => $sid ? route('service.chat', $sid) : route('client.projects'),
+            'delivery_submitted'   => route('client.projects'),
             // Refund pages live under cliente/ — force client mode switch via session
             'refund_processed'     => $this->clientRefundRedirect(),
             'refund_approved'      => $this->clientRefundRedirect(),

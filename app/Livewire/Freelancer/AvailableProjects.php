@@ -4,6 +4,7 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Notification;
 use App\Models\Service;
 use App\Models\ServiceCandidate;
 use Illuminate\Support\Facades\RateLimiter;
@@ -49,6 +50,15 @@ class AvailableProjects extends Component
             $candidate->proposal_message = $this->proposalMessage;
             $candidate->proposal_value = $this->proposalValue;
             $candidate->save();
+
+            // Notificar o cliente que o freelancer aceitou o convite
+            Notification::create([
+                'user_id'    => $service->cliente_id,
+                'service_id' => $service->id,
+                'type'       => 'proposal_received',
+                'title'      => 'Freelancer aceitou o convite',
+                'message'    => $user->name . ' aceitou o seu convite para o projecto "' . $service->titulo . '".',
+            ]);
         }
 
         session()->flash('success', 'Candidatura registrada com sucesso!');
@@ -136,6 +146,15 @@ class AvailableProjects extends Component
                 $candidate->save();
             }
             $created = true;
+
+            // Notificar o cliente que recebeu uma nova proposta
+            Notification::create([
+                'user_id'    => $service->cliente_id,
+                'service_id' => $service->id,
+                'type'       => 'proposal_received',
+                'title'      => 'Nova proposta recebida',
+                'message'    => $user->name . ' enviou uma proposta para o seu projecto "' . $service->titulo . '".',
+            ]);
         });
 
         $this->proposalModal = false;
