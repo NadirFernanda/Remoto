@@ -125,7 +125,7 @@
                 $doneMilestones  = $selected->milestones->where('completed', true)->count();
                 $totalMilestones = $selected->milestones->count();
             @endphp
-            <div class="flex-1 min-w-0 space-y-4" x-data="{ tab: '{{ in_array($selected->status, ['published','accepted']) ? 'proposals' : 'milestones' }}' }">
+            <div class="flex-1 min-w-0 space-y-4" x-data="{ tab: '{{ in_array($selected->status, ['published','accepted']) ? 'proposals' : ($selected->status === 'delivered' ? 'entrega' : 'milestones') }}' }">
 
                 {{-- Back on mobile --}}
                 <button wire:click="$set('selectedServiceId', null)" class="lg:hidden btn-outline text-xs flex items-center gap-1">
@@ -281,6 +281,13 @@
                             @endif
                         </button>
                         @endif
+                        @if(in_array($selected->status, ['delivered','completed']))
+                        <button @click="tab = 'entrega'"
+                            :class="tab === 'entrega' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            class="px-5 py-3 text-sm transition whitespace-nowrap font-semibold">
+                            📦 Entrega
+                        </button>
+                        @endif
                         <button @click="tab = 'milestones'"
                             :class="tab === 'milestones' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap">
@@ -410,6 +417,77 @@
                     </div>
                     @endif
 
+                    {{-- ─── ENTREGA TAB ─────────────────────────── --}}
+                    @if(in_array($selected->status, ['delivered','completed']))
+                    <div x-show="tab === 'entrega'" class="p-5 space-y-4">
+                        @php
+                            $deliveryFiles = $selected->attachments->filter(fn($a) => str_starts_with($a->path, 'deliveries/'));
+                        @endphp
+
+                        {{-- Delivery message --}}
+                        @if($selected->delivery_message)
+                        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
+                            <p class="text-xs font-semibold text-blue-600 mb-2 flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                Mensagem do freelancer
+                            </p>
+                            <p class="text-sm text-gray-800 leading-relaxed whitespace-pre-line">{{ $selected->delivery_message }}</p>
+                        </div>
+                        @endif
+
+                        {{-- Delivery files --}}
+                        @if($deliveryFiles->isNotEmpty())
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">Ficheiro(s) entregue(s)</p>
+                            <div class="space-y-2">
+                                @foreach($deliveryFiles as $att)
+                                @php
+                                    $ext = strtolower(pathinfo($att->filename, PATHINFO_EXTENSION));
+                                    $isImg = in_array($ext, ['jpg','jpeg','png','gif','webp','bmp']);
+                                @endphp
+                                <div class="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-4">
+                                    <div class="w-10 h-10 rounded-xl bg-[#00baff]/10 flex items-center justify-center flex-shrink-0 text-xl">
+                                        @if($isImg) 🖼️ @else 📄 @endif
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-gray-800 truncate">{{ $att->filename }}</p>
+                                        <p class="text-xs text-gray-400 mt-0.5">{{ number_format($att->size / 1024, 1) }} KB · Entregue {{ $att->created_at->diffForHumans() }}</p>
+                                    </div>
+                                    <a href="{{ Storage::url($att->path) }}" target="_blank"
+                                        class="btn-primary text-xs flex-shrink-0">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                                        Descarregar
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+
+                        @if(!$selected->delivery_message && $deliveryFiles->isEmpty())
+                            <p class="text-sm text-gray-400 text-center py-8">Nenhum conteúdo de entrega encontrado.</p>
+                        @endif
+
+                        {{-- Action buttons reminder --}}
+                        @if($selected->status === 'delivered')
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold text-amber-800">Reviu a entrega?</p>
+                                <p class="text-xs text-amber-600 mt-0.5">Aprove para libertar o pagamento ao freelancer, ou solicite uma revisão.</p>
+                            </div>
+                            <div class="flex gap-2 flex-shrink-0">
+                                <button wire:click="requestRevision({{ $selected->id }})" class="btn-outline text-xs text-amber-700 border-amber-300 hover:bg-amber-100">
+                                    Solicitar Revisão
+                                </button>
+                                <button wire:click="approveDelivery({{ $selected->id }})" class="btn-primary text-xs">
+                                    Libertar Pagamento
+                                </button>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+
                     {{-- ─── MILESTONES TAB ──────────────────────── --}}
                     <div x-show="tab === 'milestones'" class="p-5 space-y-4">
 
@@ -513,7 +591,7 @@
 
                         {{-- List --}}
                         <div class="space-y-2">
-                            @forelse($selected->attachments as $att)
+                            @forelse($selected->attachments->filter(fn($a) => !str_starts_with($a->path, 'deliveries/')) as $att)
                                 <div class="flex items-center gap-3 bg-gray-50 rounded-[10px] border border-gray-100 p-3">
                                     <div class="w-8 h-8 rounded-lg bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
                                         <svg class="w-4 h-4 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
