@@ -8,7 +8,7 @@
     @endif
 
     {{-- ── 0. Meu Perfil ── --}}
-    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+    <div id="meu-perfil" class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
             <h2 class="text-base font-semibold text-gray-800">Meu Perfil</h2>
             <p class="text-xs text-gray-400 mt-1">Actualize o seu nome, e-mail e senha de acesso.</p>
