@@ -16,6 +16,7 @@ class AffiliatePanel extends Component
     public int $totalAfiliados = 0;
     public float $comissaoPorAfiliado = 200;
     public $history = [];
+    public $referrals = [];
 
     public function mount()
     {
@@ -35,20 +36,30 @@ class AffiliatePanel extends Component
         $logs = WalletLog::where('user_id', $user->id)
             ->where('tipo', 'comissao_afiliado')
             ->orderByDesc('created_at')
-            ->take(10)
             ->get();
 
         $this->history = $logs->map(function ($log) {
             return [
                 'created_at' => $log->created_at,
-                'amount' => $log->valor,
+                'amount'     => $log->valor,
                 'description' => $log->descricao ?? 'Comissão de afiliado',
             ];
         })->toArray();
+
+        $this->referrals = Referral::with('user')
+            ->where('affiliate_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(fn($r) => [
+                'name'       => $r->user->name ?? 'Utilizador',
+                'email'      => $r->user->email ?? '—',
+                'created_at' => $r->created_at,
+            ])->toArray();
     }
 
     public function render()
     {
-        return view('livewire.freelancer.affiliate-panel');
+        return view('livewire.freelancer.affiliate-panel')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Programa de Afiliados']);
     }
 }

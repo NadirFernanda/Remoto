@@ -12,7 +12,7 @@
                     'service_chosen', 'delivery_approved', 'payment_released', 'saque_aprovado', 'refund_approved' => 'bg-green-50 border-green-100',
                     'service_rejected', 'saque_rejeitado', 'refund_rejected', 'project_cancelled'                => 'bg-red-50 border-red-100',
                     'revision_requested', 'dispute_admin_reply', 'dispute_resolved'                              => 'bg-yellow-50 border-yellow-100',
-                    'novo_projeto', 'proposal_received', 'delivery_submitted', 'project_invite', 'direct_invite' => 'bg-blue-50 border-blue-100',
+                    'novo_projeto', 'proposal_received', 'delivery_submitted', 'project_invite', 'direct_invite', 'support_ticket_new', 'support_ticket_reply' => 'bg-blue-50 border-blue-100',
                     'nova_mensagem'                                                                               => 'bg-purple-50 border-purple-100',
                     default                                                                                       => 'bg-gray-50 border-gray-100',
                 };

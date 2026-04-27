@@ -30,6 +30,7 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users')->middleware('admin.module:gestor');
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services')->middleware('admin.module:gestor');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes')->middleware('admin.module:suporte');
+    Route::get('/admin/suporte', \App\Livewire\Admin\AdminSupportTickets::class)->name('admin.support')->middleware('admin.module:suporte');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit')->middleware('admin.module:audit');
     Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation')->middleware('admin.module:gestor');
     Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds')->middleware('admin.module:gestor');

@@ -38,7 +38,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
         },
         dotColor(type) {
             const green  = ['service_chosen','delivery_approved','payment_released','saque_aprovado'];
-            const blue   = ['novo_projeto','proposal_received','delivery_submitted'];
+            const blue   = ['novo_projeto','proposal_received','delivery_submitted','support_ticket_new','support_ticket_reply'];
             const red    = ['service_rejected','saque_rejeitado','refund_rejected'];
             const yellow = ['revision_requested','dispute_admin_reply','dispute_resolved'];
             const purple = ['nova_mensagem','direct_invite','project_invite'];

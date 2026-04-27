@@ -76,6 +76,10 @@ class NotificationRedirectController extends Controller
             'dispute_resolved'     => $sid ? route('service.dispute', $sid) : route('dashboard'),
             'review_reminder'      => $sid ? route('service.review.leave', $sid) : route('dashboard'),
 
+            // ── Support Tickets ───────────────────────────────────────────────
+            'support_ticket_new'   => route('admin.support'),
+            'support_ticket_reply' => $role === 'freelancer' ? route('freelancer.support') : route('client.support'),
+
             default                => $role === 'freelancer'
                 ? route('freelancer.dashboard')
                 : route('client.dashboard'),

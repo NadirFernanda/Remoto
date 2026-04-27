@@ -129,6 +129,7 @@ Route::middleware(['auth', 'verified', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/perfil/editar',      \App\Livewire\Freelancer\ProfileEditor::class)->name('freelancer.profile.edit');
     Route::get('/freelancer/portfolio',          \App\Livewire\Freelancer\PortfolioManager::class)->name('freelancer.portfolio');
     Route::get('/freelancer/onboarding',         \App\Livewire\Freelancer\Onboarding::class)->name('freelancer.onboarding');
+    Route::get('/freelancer/suporte',            \App\Livewire\SupportTickets::class)->name('freelancer.support');
 });
 
 // ─── Client Core ─────────────────────────────────────────────────────────────
@@ -137,6 +138,7 @@ Route::middleware(['auth', 'verified', 'role:cliente'])->group(function () {
     Route::get('/cliente/perfil',        \App\Livewire\Client\Profile::class)->name('client.profile');
     Route::get('/cliente/perfil/editar', \App\Livewire\Client\Profile::class)->name('client.profile.edit');
     Route::get('/cliente/configuracoes', \App\Livewire\Client\Settings::class)->name('client.settings');
+    Route::get('/cliente/suporte',       \App\Livewire\SupportTickets::class)->name('client.support');
 });
 
 // ─── Notification redirect (open + mark-read in one HTTP request) ─────────────
