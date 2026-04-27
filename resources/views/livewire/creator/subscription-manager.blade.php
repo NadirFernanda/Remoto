@@ -20,12 +20,36 @@
     {{-- ── KPI Cards ────────────────────────────────────────────────────────── --}}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.85rem;margin-bottom:1.75rem;">
 
-        {{-- Saldo Disponível --}}
+        {{-- Saldo Disponível + Saque --}}
         <div style="background:linear-gradient(135deg,#0575e6 0%,#00baff 100%);border-radius:16px;padding:1.25rem 1.35rem;position:relative;overflow:hidden;">
             <div style="position:absolute;top:-18px;right:-18px;width:80px;height:80px;background:rgba(255,255,255,.08);border-radius:50%;"></div>
             <p style="font-size:.65rem;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.07em;margin:0 0 .5rem;">Saldo Disponível</p>
-            <p style="font-size:1.55rem;font-weight:900;color:#fff;margin:0;line-height:1.1;">{{ money_aoa($saldoDisponivel, false) }}</p>
-            <p style="font-size:.7rem;color:rgba(255,255,255,.7);margin:.35rem 0 0;">valor líquido acumulado</p>
+            <p style="font-size:1.55rem;font-weight:900;color:#fff;margin:0;line-height:1.1;">{{ money_aoa($saldoAssinDisponivel, false) }}</p>
+            <p style="font-size:.7rem;color:rgba(255,255,255,.7);margin:.35rem 0 0;">disponível para saque</p>
+
+            {{-- Botão de saque --}}
+            <div style="margin-top:.85rem;">
+                @if($pendenteSaqueAssin)
+                    <span style="display:inline-flex;align-items:center;gap:6px;padding:.3rem .75rem;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:.72rem;font-weight:700;">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Saque pendente
+                    </span>
+                @elseif(!$podeRealizarSaque)
+                    <span style="display:inline-flex;align-items:center;gap:6px;padding:.3rem .75rem;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;font-size:.72rem;font-weight:700;">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Disponível em {{ $diasParaProximoSaque }} dia(s)
+                    </span>
+                @else
+                    <button wire:click="abrirSaqueAssin"
+                        style="display:inline-flex;align-items:center;gap:6px;padding:.3rem .75rem;border-radius:8px;background:rgba(255,255,255,.2);color:#fff;font-size:.72rem;font-weight:700;border:none;cursor:pointer;transition:background .2s;"
+                        onmouseover="this.style.background='rgba(255,255,255,.3)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">
+                        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        Solicitar Saque
+                    </button>
+                @endif
+            </div>
+            <p style="font-size:.62rem;color:rgba(255,255,255,.55);margin:.3rem 0 0;">Saques permitidos a cada 22 dias</p>
+
             <div style="position:absolute;bottom:1rem;right:1rem;">
                 <svg width="22" height="22" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -212,4 +236,60 @@
     </div>
 
     </div>
+
+    {{-- Modal: Saque das Assinaturas --}}
+    @if($showSaqueModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="fecharSaqueAssin">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-gray-900">Saque de Assinaturas</h3>
+                    <p class="text-xs text-gray-500">Disponível: <strong class="text-blue-600">Kz {{ number_format($saldoAssinDisponivel, 2, ',', '.') }}</strong></p>
+                </div>
+            </div>
+
+            @if($saqueMsg)
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
+                {{ $saqueMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+                {{ $saqueMsg }}
+            </div>
+            @endif
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Valor a sacar (Kz)</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-2.5 text-sm text-gray-400 font-medium">Kz</span>
+                    <input type="number" wire:model="valorSaqueAssin"
+                        min="1000" step="100" max="{{ $saldoAssinDisponivel }}"
+                        class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
+                        placeholder="0">
+                </div>
+                @error('valorSaqueAssin') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-5">
+                <p class="text-xs text-amber-700 font-medium">
+                    <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    Saques de assinaturas são permitidos <strong>a cada 22 dias</strong>.
+                    O processamento ocorre em até 2 dias úteis após aprovação.
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <button wire:click="solicitarSaqueAssin" wire:loading.attr="disabled"
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-[#00baff] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                    <span wire:loading.remove wire:target="solicitarSaqueAssin">Confirmar Saque</span>
+                    <span wire:loading wire:target="solicitarSaqueAssin">A processar...</span>
+                </button>
+                <button wire:click="fecharSaqueAssin" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-xl transition">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
 </div>

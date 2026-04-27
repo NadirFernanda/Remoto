@@ -29,7 +29,33 @@
             <h1 class="text-xl font-bold text-gray-900">Os Meus Projectos</h1>
             <p class="text-sm text-gray-500">Acompanhe o estado e actue sobre os seus projectos activos.</p>
         </div>
+        <div class="flex items-center gap-3 flex-wrap">
+            <div class="text-right">
+                <div class="text-xs text-gray-400 font-medium uppercase tracking-wide">Ganhos disponíveis</div>
+                <div class="text-lg font-bold text-green-600">Kz {{ number_format($saldoProjetosDisponivel, 2, ',', '.') }}</div>
+            </div>
+            @if($sakePendenteProjectos)
+                <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-200 cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Saque pendente
+                </span>
+            @else
+                <button wire:click="abrirSaqueProjectos"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-violet-500 to-purple-600 hover:opacity-90 text-white transition shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Solicitar Saque
+                </button>
+            @endif
+        </div>
     </div>
+
+    {{-- Mensagem de feedback do saque --}}
+    @if($saqueMsg)
+    <div class="px-4 py-3 rounded-xl text-sm font-medium border
+        {{ $saqueMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+        {{ $saqueMsg }}
+    </div>
+    @endif
 
     {{-- Contadores de status --}}
     <div class="flex flex-wrap gap-2">
@@ -155,5 +181,49 @@
             </div>
         @endif
     </div>
+
+    {{-- Modal: Saque dos Projectos --}}
+    @if($showSaqueModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="fecharSaqueProjectos">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-violet-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-gray-900">Saque dos Projectos</h3>
+                    <p class="text-xs text-gray-500">Disponível: <strong class="text-violet-600">Kz {{ number_format($saldoProjetosDisponivel, 2, ',', '.') }}</strong></p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Valor a sacar (Kz)</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-2.5 text-sm text-gray-400 font-medium">Kz</span>
+                    <input type="number" wire:model="valorSaqueProjetos"
+                        min="1000" step="100" max="{{ $saldoProjetosDisponivel }}"
+                        class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-violet-200 focus:border-violet-400"
+                        placeholder="0">
+                </div>
+                @error('valorSaqueProjetos') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <p class="text-xs text-gray-400 mb-5">
+                Apenas ganhos de projectos com estado <strong>Concluído</strong> estão disponíveis. O processamento ocorre em até 2 dias úteis.
+            </p>
+
+            <div class="flex gap-3">
+                <button wire:click="solicitarSaqueProjectos" wire:loading.attr="disabled"
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                    <span wire:loading.remove wire:target="solicitarSaqueProjectos">Confirmar Saque</span>
+                    <span wire:loading wire:target="solicitarSaqueProjectos">A processar...</span>
+                </button>
+                <button wire:click="fecharSaqueProjectos" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-xl transition">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
 
 </div>

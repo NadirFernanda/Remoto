@@ -35,8 +35,9 @@
     {{-- Wallet summary --}}
     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-8 flex flex-wrap gap-6 items-center">
         <div>
-            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Saldo disponível</div>
-            <div class="text-2xl font-bold text-green-600">Kz {{ number_format($wallet->saldo ?? 0, 2, ',', '.') }}</div>
+            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Ganhos da loja</div>
+            <div class="text-2xl font-bold text-green-600">Kz {{ number_format($saldoLojaDisponivel, 2, ',', '.') }}</div>
+            <div class="text-xs text-gray-400 mt-0.5">disponível para saque</div>
         </div>
         <div class="text-gray-200 hidden sm:block">|</div>
         <div>
@@ -53,12 +54,70 @@
             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Preço mínimo</div>
             <div class="text-lg font-semibold text-gray-700">5.000 Kz</div>
         </div>
-        <a href="{{ route('loja.index') }}" target="_blank"
-            class="ml-auto flex items-center gap-1.5 text-sm text-[#00baff] hover:underline">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            Ver Loja pública
-        </a>
+        <div class="flex items-center gap-3 ml-auto flex-wrap">
+            <a href="{{ route('loja.index') }}" target="_blank"
+                class="flex items-center gap-1.5 text-sm text-[#00baff] hover:underline">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                Ver Loja pública
+            </a>
+            @if($sakePendenteLoja)
+                <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-amber-50 text-amber-700 border border-amber-200 cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Saque pendente
+                </span>
+            @else
+                <button wire:click="abrirSaqueLoja"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white transition shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Solicitar Saque
+                </button>
+            @endif
+        </div>
     </div>
+
+    {{-- Modal: Saque da Loja --}}
+    @if($showSaqueModal)
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="fecharSaqueLoja">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
+            <div class="flex items-center gap-3 mb-5">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-gray-900">Saque da Loja</h3>
+                    <p class="text-xs text-gray-500">Disponível: <strong class="text-green-600">Kz {{ number_format($saldoLojaDisponivel, 2, ',', '.') }}</strong></p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Valor a sacar (Kz)</label>
+                <div class="relative">
+                    <span class="absolute left-3 top-2.5 text-sm text-gray-400 font-medium">Kz</span>
+                    <input type="number" wire:model="valorSaqueLoja"
+                        min="1000" step="100" max="{{ $saldoLojaDisponivel }}"
+                        class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
+                        placeholder="0">
+                </div>
+                @error('valorSaqueLoja') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <p class="text-xs text-gray-400 mb-5">
+                O processamento ocorre em até 2 dias úteis após aprovação do administrador.
+            </p>
+
+            <div class="flex gap-3">
+                <button wire:click="solicitarSaqueLoja" wire:loading.attr="disabled"
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                    <span wire:loading.remove wire:target="solicitarSaqueLoja">Confirmar Saque</span>
+                    <span wire:loading wire:target="solicitarSaqueLoja">A processar...</span>
+                </button>
+                <button wire:click="fecharSaqueLoja" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-xl transition">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
 
     {{-- Product form --}}
     @if($showForm)

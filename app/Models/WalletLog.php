@@ -13,6 +13,7 @@ class WalletLog extends Model
         'wallet_id',
         'valor',
         'tipo',
+        'fonte',
         'descricao',
     ];
 

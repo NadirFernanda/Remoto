@@ -36,6 +36,12 @@ class Loja extends Component
     public ?int $sponsoring = null;
     public int  $dias       = 3;
 
+    // ─── Saque (Loja) ───────────────────────────────────────────────
+    public bool  $showSaqueModal  = false;
+    public float $valorSaqueLoja  = 0;
+    public string $saqueMsg       = '';
+    public string $saqueMsgType   = 'success';
+
     // ─────────────────────────────────────────────────────────────────
 
     public function openCreate(): void
@@ -229,6 +235,87 @@ class Loja extends Component
         $this->arquivo     = null;
     }
 
+    public function abrirSaqueLoja(): void
+    {
+        $this->saqueMsg    = '';
+        $this->saqueMsgType = 'success';
+        $this->showSaqueModal = true;
+    }
+
+    public function fecharSaqueLoja(): void
+    {
+        $this->showSaqueModal = false;
+        $this->valorSaqueLoja = 0;
+        $this->saqueMsg = '';
+    }
+
+    public function solicitarSaqueLoja(): void
+    {
+        $user = auth()->user();
+
+        $totalGanhoLoja = \App\Models\InfoprodutoCompra::whereHas('infoproduto', fn($q) => $q->where('freelancer_id', $user->id))
+            ->sum('valor_freelancer');
+
+        $totalSacadoLoja = \App\Models\WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->where('fonte', 'loja')
+            ->sum(\Illuminate\Support\Facades\DB::raw('ABS(valor)'));
+
+        $saldoDisponivel = max(0, $totalGanhoLoja - $totalSacadoLoja);
+
+        $minAmount = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 1000);
+
+        $this->validate([
+            'valorSaqueLoja' => ['required', 'numeric', 'min:' . $minAmount],
+        ], [
+            'valorSaqueLoja.min' => 'O valor mínimo de saque é Kz ' . number_format($minAmount, 0, ',', '.') . '.',
+        ]);
+
+        if ($this->valorSaqueLoja > $saldoDisponivel) {
+            $this->addError('valorSaqueLoja', 'Saldo da loja insuficiente. Disponível: Kz ' . number_format($saldoDisponivel, 0, ',', '.') . '.');
+            return;
+        }
+
+        $jaPendente = \App\Models\WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->where('fonte', 'loja')
+            ->exists();
+
+        if ($jaPendente) {
+            $this->addError('valorSaqueLoja', 'Já tem um saque pendente da Loja. Aguarde a aprovação.');
+            return;
+        }
+
+        $feeFixed   = (float) \App\Models\PlatformSetting::get('withdraw_fee_fixed', 0);
+        $feePercent = (float) \App\Models\PlatformSetting::get('withdraw_fee_percent', 0);
+        $fee        = round($feeFixed + ($this->valorSaqueLoja * $feePercent / 100), 2);
+        $liquido    = round($this->valorSaqueLoja - $fee, 2);
+
+        $wallet = \App\Models\Wallet::firstOrCreate(
+            ['user_id' => $user->id],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => $minAmount, 'taxa_saque' => 0]
+        );
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $liquido) {
+            \App\Models\WalletLog::create([
+                'user_id'   => $user->id,
+                'wallet_id' => $wallet->id,
+                'valor'     => -$this->valorSaqueLoja,
+                'tipo'      => 'saque_solicitado',
+                'fonte'     => 'loja',
+                'descricao' => 'Saque da Loja solicitado: Kz ' . number_format($this->valorSaqueLoja, 0, ',', '.') . ' — taxa: Kz ' . number_format($fee, 2, ',', '.') . ' — a receber: Kz ' . number_format($liquido, 2, ',', '.') . ' — aguarda aprovação.',
+            ]);
+        });
+
+        $this->saqueMsg    = 'Saque de Kz ' . number_format($this->valorSaqueLoja, 0, ',', '.') . ' solicitado! Receberá Kz ' . number_format($liquido, 0, ',', '.') . ' em até 2 dias úteis.';
+        $this->saqueMsgType = 'success';
+        $this->valorSaqueLoja = 0;
+        $this->showSaqueModal = false;
+        $this->feedback     = $this->saqueMsg;
+        $this->feedbackType = 'success';
+        $this->resetErrorBag('valorSaqueLoja');
+    }
+
     public function render()
     {
         $user    = auth()->user();
@@ -237,9 +324,23 @@ class Loja extends Component
             ->orderByDesc('created_at')
             ->get();
 
+        $totalGanhoLoja = \App\Models\InfoprodutoCompra::whereHas('infoproduto', fn($q) => $q->where('freelancer_id', $user->id))
+            ->sum('valor_freelancer');
+        $totalSacadoLoja = \App\Models\WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->where('fonte', 'loja')
+            ->sum(\Illuminate\Support\Facades\DB::raw('ABS(valor)'));
+        $saldoLojaDisponivel = max(0, $totalGanhoLoja - $totalSacadoLoja);
+        $sakePendenteLoja    = \App\Models\WalletLog::where('user_id', $user->id)
+            ->where('tipo', 'saque_solicitado')
+            ->where('fonte', 'loja')
+            ->exists();
+
         return view('livewire.freelancer.loja', [
-            'produtos' => $produtos,
-            'wallet'   => $user->wallet,
+            'produtos'            => $produtos,
+            'wallet'              => $user->wallet,
+            'saldoLojaDisponivel' => $saldoLojaDisponivel,
+            'sakePendenteLoja'    => $sakePendenteLoja,
         ])->layout('layouts.dashboard', ['dashboardTitle' => 'Minha Loja']);
     }
 }
