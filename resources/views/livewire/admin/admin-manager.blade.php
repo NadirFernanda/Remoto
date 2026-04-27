@@ -235,7 +235,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <div class="sm:col-span-2">
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Nome Completo *</label>
-                                <input wire:model="name" type="text" placeholder="Ex: Mariana Costa"
+                                <input wire:model="name" type="text" placeholder="Ex: Mariana Costa" required
                                     class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
                                 @error('name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>

@@ -139,15 +139,20 @@ class AdminManager extends Component
     {
         $this->permTab = 'perfil'; // navegar para o tab com os campos obrigatórios antes de validar
 
+        $this->name = trim($this->name);
+
         $this->validate([
-            'name'            => 'required|string|max:100',
+            'name'            => 'required|string|min:2|max:100',
             'email'           => 'required|email|unique:users,email',
             'corporateEmail'  => 'nullable|email|max:150',
             'phone'           => 'nullable|string|max:30',
             'cargo'           => 'nullable|string|max:100',
             'adminRole'       => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
             'password'        => 'required|string|min:10|same:passwordConfirm',
-        ], [], [
+        ], [
+            'name.required' => 'O nome do administrador é obrigatório.',
+            'name.min'      => 'O nome deve ter pelo menos 2 caracteres.',
+        ], [
             'name'           => 'Nome',
             'email'          => 'E-mail de login',
             'password'       => 'Senha',
@@ -204,14 +209,19 @@ class AdminManager extends Component
 
         $this->permTab = 'perfil'; // navegar para o tab com os campos obrigatórios antes de validar
 
+        $this->name = trim($this->name);
+
         $this->validate([
-            'name'           => 'required|string|max:100',
+            'name'           => 'required|string|min:2|max:100',
             'email'          => ['required', 'email', Rule::unique('users', 'email')->ignore($this->editingId)],
             'corporateEmail' => 'nullable|email|max:150',
             'phone'          => 'nullable|string|max:30',
             'cargo'          => 'nullable|string|max:100',
             'adminRole'      => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
             'password'       => 'nullable|string|min:10|same:passwordConfirm',
+        ], [
+            'name.required' => 'O nome do administrador é obrigatório.',
+            'name.min'      => 'O nome deve ter pelo menos 2 caracteres.',
         ]);
 
         $before = $admin->only(['name', 'email', 'admin_role', 'admin_cargo']);
