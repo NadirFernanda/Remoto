@@ -5,7 +5,9 @@ namespace App\Livewire\Admin;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\PlatformSetting;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class Settings extends Component
 {
@@ -54,9 +56,20 @@ class Settings extends Component
     public string $savedMsg = '';
     public string $errorMsg = '';
 
+    // ── Perfil pessoal do admin ───────────────────────────────────────────────
+    public string $profileName            = '';
+    public string $profileEmail           = '';
+    public string $profilePassword        = '';
+    public string $profilePasswordConfirm = '';
+    public string $profileMsg             = '';
+    public string $profileMsgType         = 'success';
+
     public function mount(): void
     {
         abort_if(auth()->user()?->role !== 'admin', 403);
+
+        $this->profileName  = auth()->user()->name;
+        $this->profileEmail = auth()->user()->email;
 
         $this->siteName        = PlatformSetting::get('site_name', config('app.name', ''));
         $this->siteEmail       = PlatformSetting::get('site_email', config('mail.from.address', ''));
@@ -94,6 +107,40 @@ class Settings extends Component
 
         $dw = PlatformSetting::get('dashboard_widgets', '["top_freelancers","top_creators","top_products","withdrawal_heatmap"]');
         $this->dashboardWidgets        = json_decode($dw, true) ?? [];
+    }
+
+    public function saveProfile(): void
+    {
+        $this->profileMsg = '';
+        $user = auth()->user();
+
+        $this->profileName  = trim($this->profileName);
+        $this->profileEmail = trim($this->profileEmail);
+
+        $this->validate([
+            'profileName'            => 'required|string|min:2|max:100',
+            'profileEmail'           => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($user->id)],
+            'profilePassword'        => 'nullable|string|min:10|same:profilePasswordConfirm',
+        ], [
+            'profileName.required'   => 'O nome é obrigatório.',
+            'profileName.min'        => 'O nome deve ter pelo menos 2 caracteres.',
+            'profileEmail.required'  => 'O e-mail é obrigatório.',
+            'profileEmail.unique'    => 'Este e-mail já está em uso.',
+            'profilePassword.min'    => 'A senha deve ter pelo menos 10 caracteres.',
+            'profilePassword.same'   => 'As senhas não coincidem.',
+        ]);
+
+        $user->name  = $this->profileName;
+        $user->email = $this->profileEmail;
+        if ($this->profilePassword) {
+            $user->password = Hash::make($this->profilePassword);
+        }
+        $user->save();
+
+        $this->profilePassword        = '';
+        $this->profilePasswordConfirm = '';
+        $this->profileMsg             = 'Perfil actualizado com sucesso.';
+        $this->profileMsgType         = 'success';
     }
 
     public function save(): void

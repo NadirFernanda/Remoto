@@ -7,6 +7,54 @@
         <div class="p-4 bg-red-50 border border-red-200 text-red-700 rounded-2xl text-sm">{{ $errorMsg }}</div>
     @endif
 
+    {{-- ── 0. Meu Perfil ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-5 pb-3 border-b border-gray-100">
+            <h2 class="text-base font-semibold text-gray-800">Meu Perfil</h2>
+            <p class="text-xs text-gray-400 mt-1">Actualize o seu nome, e-mail e senha de acesso.</p>
+        </div>
+
+        @if($profileMsg)
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
+                {{ $profileMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+                {{ $profileMsg }}
+            </div>
+        @endif
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div class="sm:col-span-2">
+                <label class="block text-xs font-medium text-gray-500 mb-1">Nome completo <span class="text-red-500">*</span></label>
+                <input wire:model="profileName" type="text" required placeholder="O seu nome real"
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profileName') border-red-400 @enderror">
+                @error('profileName') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">E-mail de acesso <span class="text-red-500">*</span></label>
+                <input wire:model="profileEmail" type="email" required
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profileEmail') border-red-400 @enderror">
+                @error('profileEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div></div>
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Nova senha <span class="text-gray-400">(deixe em branco para manter)</span></label>
+                <input wire:model="profilePassword" type="password" placeholder="mínimo 10 caracteres"
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profilePassword') border-red-400 @enderror">
+                @error('profilePassword') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Confirmar nova senha</label>
+                <input wire:model="profilePasswordConfirm" type="password" placeholder="repetir senha"
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            </div>
+        </div>
+
+        <button wire:click="saveProfile" wire:loading.attr="disabled"
+            class="px-5 py-2 bg-gradient-to-r from-[#00baff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+            <span wire:loading.remove wire:target="saveProfile">Guardar Perfil</span>
+            <span wire:loading wire:target="saveProfile">A guardar...</span>
+        </button>
+    </div>
+
     {{-- ── 1. Configurações de Marca e Comunicação ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
