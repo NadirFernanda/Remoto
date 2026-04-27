@@ -137,6 +137,9 @@ class Settings extends Component
         }
         $user->save();
 
+        // Re-autenticar para a sessão reflectir o novo nome imediatamente
+        \Illuminate\Support\Facades\Auth::setUser($user->fresh());
+
         $this->profilePassword        = '';
         $this->profilePasswordConfirm = '';
         $this->profileMsg             = 'Perfil actualizado com sucesso.';
