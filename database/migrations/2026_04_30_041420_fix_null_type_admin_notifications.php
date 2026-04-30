@@ -12,13 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Notificações sem type são sempre mensagens de admin enviadas antes do fix.
-        // Marcar como admin_message e atribuir sender_name genérico se ainda NULL.
+        // Notificações sem type (NULL ou string vazia) são mensagens de admin
+        // enviadas antes do fix. Actualizar para admin_message.
         DB::table('user_notifications')
-            ->whereNull('type')
+            ->where(function ($q) {
+                $q->whereNull('type')->orWhere('type', '');
+            })
             ->update([
                 'type'        => 'admin_message',
-                'sender_name' => DB::raw("COALESCE(sender_name, 'Administração')"),
+                'sender_name' => DB::raw("COALESCE(NULLIF(sender_name, ''), 'Administração')"),
             ]);
     }
 

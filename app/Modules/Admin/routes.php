@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Modules\Admin\Controllers\ContractController;
+use App\Modules\Admin\Controllers\AdminReceiptController;
 use App\Modules\Admin\Controllers\UsersExportController;
 use App\Modules\Admin\Controllers\FinancialExportController;
 use App\Modules\Admin\Controllers\AuditExportController;
@@ -25,6 +26,12 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
 
     // Commercial contracts management (gestor+)
     Route::resource('comercial', ContractController::class)->names('admin.comercial')->middleware('admin.module:gestor');
+
+    // Recibos administrativos (gestor+)
+    Route::resource('/admin/recibos', AdminReceiptController::class)
+        ->names('admin.recibos')
+        ->only(['index', 'create', 'store', 'show', 'destroy'])
+        ->middleware('admin.module:gestor');
 
     // Gestão de utilizadores e serviços (gestor+)
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users')->middleware('admin.module:gestor');
