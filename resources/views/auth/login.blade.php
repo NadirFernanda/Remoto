@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div style="flex:1;background-image:linear-gradient(135deg,rgba(0,86,210,.82) 0%,rgba(10,18,40,.93) 100%),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=900&fit=crop&auto=format&q=80');background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;font-family:'Inter',system-ui,sans-serif;">
+<div id="login-bg" style="background-image:linear-gradient(135deg,rgba(0,86,210,.82) 0%,rgba(10,18,40,.93) 100%),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=900&fit=crop&auto=format&q=80');background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;font-family:'Inter',system-ui,sans-serif;">
 
     <a href="/" style="display:inline-block;margin-bottom:1.5rem;">
         <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(0,186,255,.6));">
@@ -85,5 +85,14 @@ function validateLoginForm(e) {
     if(!pw.value){pe.textContent='Preencha a palavra-passe.';pe.style.display='block';pw.style.borderColor='#dc2626';ok=false;}
     return ok;
 }
+(function(){
+    function fixH(){
+        var el=document.getElementById('login-bg');
+        var sc=document.getElementById('page-scroll');
+        if(el&&sc) el.style.minHeight=sc.clientHeight+'px';
+    }
+    fixH();
+    window.addEventListener('resize',fixH);
+})();
 </script>
 @endsection
