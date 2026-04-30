@@ -3,7 +3,6 @@
     {{-- Header --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-            <h1 class="text-xl font-bold text-gray-900">Tickets de Suporte</h1>
             <p class="text-sm text-gray-500">Gerencie os pedidos de suporte dos utilizadores.</p>
         </div>
         <div class="flex gap-2 flex-wrap">
