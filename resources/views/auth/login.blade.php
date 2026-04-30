@@ -124,43 +124,10 @@
 </div>
 
 <style>
-@media (max-width: 768px) {
+@@media (max-width: 768px) {
     .login-hero-col { display: none !important; }
 }
 </style>
-
-<script>
-function validateLoginForm(event) {
-    let valid = true;
-    const email = document.getElementById('login-email');
-    const password = document.getElementById('login-password');
-    const emailError = document.getElementById('email-error');
-    const passwordError = document.getElementById('password-error');
-    emailError.style.display = 'none';
-    passwordError.style.display = 'none';
-    email.style.borderColor = '';
-    password.style.borderColor = '';
-    if (!email.value) {
-        emailError.textContent = 'Preencha o e-mail.';
-        emailError.style.display = 'block';
-        email.style.borderColor = '#dc2626';
-        valid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
-        emailError.textContent = 'Introduza um e-mail válido.';
-        emailError.style.display = 'block';
-        email.style.borderColor = '#dc2626';
-        valid = false;
-    }
-    if (!password.value) {
-        passwordError.textContent = 'Preencha a palavra-passe.';
-        passwordError.style.display = 'block';
-        password.style.borderColor = '#dc2626';
-        valid = false;
-    }
-    return valid;
-}
-</script>
-@endsection
 
 <script>
 function validateLoginForm(event) {
