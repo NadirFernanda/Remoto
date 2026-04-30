@@ -115,6 +115,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Global notifications
     Route::get('/notificacoes', \App\Livewire\NotificationPanel::class)->name('notifications');
+    Route::get('/notificacao/{notification}/ver', function (\App\Models\Notification $notification) {
+        if ($notification->user_id !== auth()->id()) abort(403);
+        if (!$notification->read) $notification->update(['read' => true]);
+        return view('notifications.show', compact('notification'));
+    })->name('notification.show');
 
     // KYC
     Route::get('/kyc', \App\Livewire\KycForm::class)->name('kyc.submit');

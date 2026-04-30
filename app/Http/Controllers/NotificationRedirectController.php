@@ -81,9 +81,7 @@ class NotificationRedirectController extends Controller
             'support_ticket_reply' => $role === 'freelancer' ? route('freelancer.support') : route('client.support'),
 
             // ── Admin messages ────────────────────────────────────────────────
-            'admin_message'        => $role === 'freelancer'
-                ? route('freelancer.notifications')
-                : route('notifications'),
+            'admin_message'        => route('notification.show', $notification->id),
 
             default                => $role === 'freelancer'
                 ? route('freelancer.notifications')

@@ -82,7 +82,7 @@ class Notification extends Model
                 'review_reminder'       => $sid ? route('service.review.leave', $sid) : '#',
 
                 // ── Admin message ─────────────────────────────────────
-                'admin_message'        => $isFreelancer ? route('freelancer.notifications') : route('notifications'),
+                'admin_message'        => route('notification.show', $this->id),
 
                 default => '#',
             };
