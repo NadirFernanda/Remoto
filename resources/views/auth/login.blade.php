@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div style="display:flex;min-height:calc(100vh - 70px);font-family:'Inter',system-ui,sans-serif;">
+<div class="login-wrap" style="display:flex;min-height:calc(100vh - 70px);font-family:'Inter',system-ui,sans-serif;">
 
     {{-- COLUNA ESQUERDA — imagem + branding --}}
     <div style="flex:0 0 55%;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:3rem;background:#0f172a;"
@@ -72,7 +72,7 @@
     </div>
 
     {{-- COLUNA DIREITA — formulário --}}
-    <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#f8fafc;padding:2.5rem 2rem;">
+    <div class="login-form-col" style="flex:1;display:flex;align-items:center;justify-content:center;background:#f8fafc;padding:2.5rem 2rem;">
         <div style="width:100%;max-width:420px;">
 
             <div style="text-align:center;margin-bottom:2rem;">
@@ -126,6 +126,27 @@
 <style>
 @@media (max-width: 768px) {
     .login-hero-col { display: none !important; }
+    .login-wrap {
+        background-image: linear-gradient(135deg,rgba(0,112,255,.75) 0%,rgba(15,23,42,.92) 100%),
+                          url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&h=1200&fit=crop&auto=format&q=80');
+        background-size: cover;
+        background-position: center;
+        align-items: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+    }
+    .login-form-col {
+        background: transparent !important;
+    }
+    .login-form-col .pub-auth-card {
+        background: rgba(255,255,255,0.97) !important;
+    }
+    .login-form-col h1 {
+        color: #fff !important;
+    }
+    .login-form-col > div > p {
+        color: rgba(255,255,255,0.75) !important;
+    }
 }
 </style>
 
