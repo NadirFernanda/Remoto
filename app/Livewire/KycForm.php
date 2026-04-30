@@ -85,6 +85,6 @@ class KycForm extends Component
     public function render()
     {
         return view('livewire.kyc-form')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Verificação de Identidade (KYC)']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
