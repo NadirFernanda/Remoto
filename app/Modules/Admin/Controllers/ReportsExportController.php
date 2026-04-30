@@ -336,4 +336,143 @@ class ReportsExportController extends Controller
             ['Content-Type' => 'text/html; charset=UTF-8']
         );
     }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // D) FACTURAÇÃO GENÉRICA (Projectos + Infoprodutos + Assinaturas)
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private function genericBillingRows(Request $request): array
+    {
+        [$start, $end] = $this->range($request);
+        $tipo = $request->get('tipo', '');
+
+        $headers = [
+            'Nº Factura', 'Data', 'Tipo de Serviço', 'Descrição',
+            'Cliente / Comprador', 'Email do Cliente',
+            'Prestador / Criador',
+            'Valor Bruto (AOA)', 'Comissão Plataforma (AOA)', 'Valor Líquido (AOA)',
+            'Estado',
+        ];
+        $rows = [$headers];
+        $seq  = 1;
+
+        // Mapeamento de prefixo por tipo
+        $prefixMap = ['projetos' => 'PRJ', 'infoprodutos' => 'INF', 'assinaturas' => 'ASS'];
+        $fatNum = function (string $t, int &$s) use ($prefixMap): string {
+            $prefix = $prefixMap[$t] ?? 'FAT';
+            return $prefix . '-' . now()->year . '-' . str_pad($s++, 5, '0', STR_PAD_LEFT);
+        };
+
+        // ── Meus Projectos ────────────────────────────────────────────────
+        if (in_array($tipo, ['', 'projetos'])) {
+            Service::with(['cliente:id,name,email', 'freelancer:id,name'])
+                ->whereNotNull('valor')
+                ->where('valor', '>', 0)
+                ->whereBetween('updated_at', [$start, $end])
+                ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
+                ->orderByDesc('updated_at')
+                ->get()
+                ->each(function ($s) use (&$rows, &$seq, $fatNum) {
+                    $bruto   = (float) ($s->valor ?? 0);
+                    $liquido = (float) ($s->valor_liquido ?? $bruto * 0.9);
+                    $rows[]  = [
+                        $fatNum('projetos', $seq),
+                        $s->updated_at->format('d/m/Y'),
+                        'Meus Projectos',
+                        $s->titulo ?? 'Projecto #' . $s->id,
+                        optional($s->cliente)->name  ?? '—',
+                        optional($s->cliente)->email ?? '—',
+                        optional($s->freelancer)->name ?? '—',
+                        number_format($bruto,          2, ',', '.'),
+                        number_format($bruto - $liquido, 2, ',', '.'),
+                        number_format($liquido,         2, ',', '.'),
+                        ucfirst($s->status ?? '—'),
+                    ];
+                });
+        }
+
+        // ── Infoprodutos ──────────────────────────────────────────────────
+        if (in_array($tipo, ['', 'infoprodutos'])) {
+            InfoprodutoCompra::with(['infoproduto:id,titulo,user_id', 'comprador:id,name,email', 'infoproduto.user:id,name'])
+                ->whereBetween('created_at', [$start, $end])
+                ->orderByDesc('created_at')
+                ->get()
+                ->each(function ($c) use (&$rows, &$seq, $fatNum) {
+                    $rows[] = [
+                        $fatNum('infoprodutos', $seq),
+                        $c->created_at->format('d/m/Y'),
+                        'Infoprodutos',
+                        optional($c->infoproduto)->titulo ?? 'Infoproduto #' . $c->infoproduto_id,
+                        optional($c->comprador)->name  ?? '—',
+                        optional($c->comprador)->email ?? '—',
+                        optional(optional($c->infoproduto)->user)->name ?? '—',
+                        number_format((float) $c->valor_pago,          2, ',', '.'),
+                        number_format((float) $c->comissao_plataforma, 2, ',', '.'),
+                        number_format((float) $c->valor_freelancer,    2, ',', '.'),
+                        'Concluído',
+                    ];
+                });
+        }
+
+        // ── Assinaturas ───────────────────────────────────────────────────
+        if (in_array($tipo, ['', 'assinaturas'])) {
+            CreatorSubscription::with(['subscriber:id,name,email', 'creator:id,name'])
+                ->whereBetween('created_at', [$start, $end])
+                ->orderByDesc('created_at')
+                ->get()
+                ->each(function ($sub) use (&$rows, &$seq, $fatNum) {
+                    $rows[] = [
+                        $fatNum('assinaturas', $seq),
+                        $sub->created_at->format('d/m/Y'),
+                        'Assinaturas',
+                        'Assinatura Criador — ' . (optional($sub->creator)->name ?? '#' . $sub->creator_id),
+                        optional($sub->subscriber)->name  ?? '—',
+                        optional($sub->subscriber)->email ?? '—',
+                        optional($sub->creator)->name ?? '—',
+                        number_format((float) $sub->amount,       2, ',', '.'),
+                        number_format((float) $sub->platform_fee, 2, ',', '.'),
+                        number_format((float) $sub->net_amount,   2, ',', '.'),
+                        ucfirst($sub->status ?? 'active'),
+                    ];
+                });
+        }
+
+        return $rows;
+    }
+
+    public function genericBillingCsv(Request $request)
+    {
+        $rows     = $this->genericBillingRows($request);
+        $filename = 'facturacao_generica_' . now()->format('Ymd_His') . '.csv';
+
+        return response()->stream(function () use ($rows) {
+            $h = fopen('php://output', 'w');
+            fwrite($h, "\xEF\xBB\xBF"); // BOM para UTF-8 no Excel
+            foreach ($rows as $row) { fputcsv($h, $row, ';'); }
+            fclose($h);
+        }, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
+
+    public function genericBillingExcel(Request $request)
+    {
+        $rows     = $this->genericBillingRows($request);
+        $filename = 'facturacao_generica_' . now()->format('Ymd_His') . '.xls';
+        [$start, $end] = $this->range($request);
+
+        $html  = view('admin.exports.generic-billing-excel', [
+            'rows'    => array_slice($rows, 1),
+            'headers' => $rows[0],
+            'start'   => $start,
+            'end'     => $end,
+        ])->render();
+
+        return response($html, 200, [
+            'Content-Type'        => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
 }
+

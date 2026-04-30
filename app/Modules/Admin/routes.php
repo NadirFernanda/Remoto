@@ -76,6 +76,11 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/relatorios/saques/csv', [ReportsExportController::class, 'withdrawalsCsv'])->name('admin.reports.withdrawals.csv')->middleware('admin.module:financeiro');
     Route::get('/admin/relatorios/saques/pdf', [ReportsExportController::class, 'withdrawalsPdf'])->name('admin.reports.withdrawals.pdf')->middleware('admin.module:financeiro');
 
+    // Admin — Facturação Genérica (Projectos + Infoprodutos + Assinaturas)
+    Route::get('/admin/facturacao', \App\Livewire\Admin\GenericBilling::class)->name('admin.facturacao')->middleware('admin.module:financeiro');
+    Route::get('/admin/facturacao/csv',   [ReportsExportController::class, 'genericBillingCsv'])->name('admin.facturacao.csv')->middleware('admin.module:financeiro');
+    Route::get('/admin/facturacao/excel', [ReportsExportController::class, 'genericBillingExcel'])->name('admin.facturacao.excel')->middleware('admin.module:financeiro');
+
     // Admin — Support
     Route::get('/admin/notificacoes-massa', \App\Livewire\Admin\MassNotifications::class)->name('admin.notifications.mass')->middleware('admin.module:suporte');
 
