@@ -41,7 +41,7 @@
         <input type="text"
                wire:model.debounce.350ms="search"
                placeholder="Pesquisar por projecto..."
-               class="w-full pl-10 pr-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0052cc]/30 bg-white shadow-sm">
+               class="w-full pl-10 pr-4 py-3 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 bg-white shadow-sm">
     </div>
 
     {{-- ─── Lista de conversas ──────────────────────────────── --}}
@@ -82,7 +82,7 @@
             <a href="{{ route('service.chat', $service->id) }}"
                class="flex items-center gap-4 p-4 bg-white rounded-2xl border transition-all group
                    {{ $unread > 0
-                       ? 'border-[#0052cc]/30 shadow-sm shadow-blue-100 hover:shadow-md hover:shadow-blue-100'
+                       ? 'border-[#00baff]/30 shadow-sm shadow-blue-100 hover:shadow-md hover:shadow-blue-100'
                        : 'border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
 
                 {{-- Avatar com badge não lidas --}}
@@ -90,7 +90,7 @@
                     <img src="{{ $other?->avatarUrl() ?? asset('img/default-avatar.svg') }}"
                          alt="{{ $other?->name ?? 'Utilizador' }}"
                          class="w-13 h-13 w-[52px] h-[52px] rounded-xl object-cover ring-2
-                             {{ $unread > 0 ? 'ring-[#0052cc]/30' : 'ring-gray-100' }}">
+                             {{ $unread > 0 ? 'ring-[#00baff]/30' : 'ring-gray-100' }}">
                     @if($unread > 0)
                         <span class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold leading-none">
                             {{ $unread > 9 ? '9+' : $unread }}
@@ -101,7 +101,7 @@
                 {{-- Conteúdo --}}
                 <div class="flex-1 min-w-0">
                     <div class="flex items-start justify-between gap-2 mb-0.5">
-                        <p class="text-sm font-bold text-gray-900 truncate group-hover:text-[#0052cc] transition-colors">
+                        <p class="text-sm font-bold text-gray-900 truncate group-hover:text-[#00baff] transition-colors">
                             {{ $other?->name ?? 'Utilizador removido' }}
                         </p>
                         <span class="text-[11px] text-gray-400 flex-shrink-0 mt-0.5">
@@ -136,7 +136,7 @@
                 </div>
 
                 {{-- Seta --}}
-                <svg class="w-4 h-4 text-gray-300 flex-shrink-0 group-hover:text-[#0052cc] transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-gray-300 flex-shrink-0 group-hover:text-[#00baff] transition-colors" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/>
                 </svg>
             </a>
