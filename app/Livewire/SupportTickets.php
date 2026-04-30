@@ -149,6 +149,6 @@ class SupportTickets extends Component
             : null;
 
         return view('livewire.support-tickets', compact('tickets', 'selected'))
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Suporte']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

@@ -1,11 +1,12 @@
-<div class="space-y-6">
+<div class="max-w-5xl mx-auto space-y-6">
 
-    {{-- Header --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    {{-- Gradient Header --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <p class="text-sm text-gray-500">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>
+            <h2 class="text-2xl font-extrabold">Suporte</h2>
+            <p class="text-sm text-white/75 mt-1">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>
         </div>
-        <button wire:click="openForm" class="btn-primary self-start">
+        <button wire:click="openForm" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-white/15 border border-white/30 hover:bg-white/25 text-white transition self-start">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>
