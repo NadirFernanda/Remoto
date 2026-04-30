@@ -6,7 +6,7 @@
 <div class="max-w-4xl mx-auto space-y-6" x-data="{ tab: 'received' }">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#0052cc] to-[#0a1228] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <div>
                 <h2 class="text-2xl font-extrabold">Avaliações</h2>
@@ -46,14 +46,14 @@
     {{-- ─── Tabs ─────────────────────────────────────────────── --}}
     <div class="flex gap-2">
         <button @click="tab = 'received'"
-            :class="tab === 'received' ? 'bg-[#0052cc] text-white border-[#0052cc] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
+            :class="tab === 'received' ? 'bg-[#00baff] text-white border-[#00baff] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition">
             Recebidas
             <span :class="tab === 'received' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'"
                   class="px-1.5 py-0.5 rounded-full text-[10px] font-bold">{{ $reviewsReceived->count() }}</span>
         </button>
         <button @click="tab = 'given'"
-            :class="tab === 'given' ? 'bg-[#0052cc] text-white border-[#0052cc] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
+            :class="tab === 'given' ? 'bg-[#00baff] text-white border-[#00baff] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition">
             Feitas
             <span :class="tab === 'given' ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600'"
