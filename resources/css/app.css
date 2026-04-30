@@ -10,13 +10,13 @@ html, body {
      SCROLL PROGRESS BAR (no header)
 ============================= */
 .scroll-progress-bar {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    top: 0;
     left: 0;
-    height: 2px;
+    height: 3px;
     background: linear-gradient(90deg, #00baff, #0070ff);
     transition: width .1s linear;
-    z-index: 10;
+    z-index: 9999;
     border-radius: 0 2px 2px 0;
 }
 
