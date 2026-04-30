@@ -159,7 +159,7 @@ class SubscriptionManager extends Component
             'pendenteSaqueAssin',
             'podeRealizarSaque',
             'diasParaProximoSaque',
-        ))->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Assinaturas']);
+        ))->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 
     // ─── Saque das Assinaturas ───────────────────────────────────────────────
