@@ -106,9 +106,24 @@
     {{-- ── Formulário de entrega ── --}}
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-cyan-500">📤</span> {{ $service->status === 'delivered' ? 'Re-entregar Serviço' : 'Submeter Entrega' }}
+            <span class="text-cyan-500">📤</span>
+            @if($service->status === 'revision_requested')
+                Re-entregar Serviço (Revisão Pedida)
+            @elseif($service->status === 'delivered')
+                Re-entregar Serviço
+            @else
+                Submeter Entrega
+            @endif
         </h3>
-        @if($service->status === 'delivered')
+        @if($service->status === 'revision_requested')
+        <div class="mb-4 p-3 bg-red-50 border border-red-300 rounded-lg text-red-700 text-sm flex items-start gap-2">
+            <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/></svg>
+            <div>
+                <p class="font-semibold">O cliente pediu revisão!</p>
+                <p class="mt-1">Reveja os comentários do cliente, faça as correcções necessárias e submeta uma nova versão abaixo.</p>
+            </div>
+        </div>
+        @elseif($service->status === 'delivered')
         <div class="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg text-orange-700 text-sm">
             <p class="font-semibold">⚠️ Este projecto já foi entregue e aguarda aprovação do cliente.</p>
             <p class="mt-1">Se o cliente pediu revisões, pode submeter uma nova entrega abaixo. O pagamento só será libertado quando o cliente aprovar.</p>
@@ -132,7 +147,9 @@
                 wire:loading.attr="disabled"
                 wire:target="entregarServico"
                 class="w-full bg-cyan-500 hover:bg-cyan-600 disabled:opacity-60 text-white font-bold py-3 rounded-lg transition-all duration-150">
-                <span wire:loading.remove wire:target="entregarServico">Entregar serviço</span>
+                <span wire:loading.remove wire:target="entregarServico">
+                    {{ in_array($service->status, ['revision_requested', 'delivered']) ? 'Re-entregar serviço' : 'Entregar serviço' }}
+                </span>
                 <span wire:loading wire:target="entregarServico">A enviar...</span>
             </button>
         </form>

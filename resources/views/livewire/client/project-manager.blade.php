@@ -197,6 +197,12 @@
                                     Iniciar Projecto
                                 </button>
                             @endif
+                            @if($selected->status === 'revision_requested')
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
+                                    <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                                    Revisão pedida — aguardando nova entrega
+                                </span>
+                            @endif
                             @if($selected->status === 'delivered')
                                 <button wire:click="approveDelivery({{ $selected->id }})" class="btn-primary text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -470,7 +476,15 @@
                         @endif
 
                         {{-- Action buttons reminder --}}
-                        @if($selected->status === 'delivered')
+                        @if($selected->status === 'revision_requested')
+                        <div class="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full bg-red-400 animate-pulse flex-shrink-0"></span>
+                            <div>
+                                <p class="text-sm font-semibold text-red-700">Revisão solicitada</p>
+                                <p class="text-xs text-red-500 mt-0.5">Aguardando nova entrega do freelancer. Receberá uma notificação quando estiver pronto.</p>
+                            </div>
+                        </div>
+                        @elseif($selected->status === 'delivered')
                         <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                             <div class="flex-1">
                                 <p class="text-sm font-semibold text-amber-800">Reviu a entrega?</p>
