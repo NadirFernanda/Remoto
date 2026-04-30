@@ -1,21 +1,17 @@
-﻿<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-red-50/30 pb-16">
+﻿<div class="max-w-3xl mx-auto space-y-6">
 
-    {{-- ── Gradient Header ── --}}
-    <div class="bg-gradient-to-r from-red-600 via-rose-600 to-red-500 px-6 py-8 shadow-lg shadow-red-200/40">
-        <div class="max-w-2xl mx-auto flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold text-white leading-tight">Cancelar Pedido</h1>
-                <p class="text-red-100 text-sm mt-0.5">Reveja os detalhes antes de confirmar</p>
-            </div>
+    {{-- Gradient Header --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/>
+            </svg>
+        </div>
+        <div>
+            <h2 class="text-2xl font-extrabold">Cancelar Pedido</h2>
+            <p class="text-sm text-white/75 mt-1">Reveja os detalhes antes de confirmar</p>
         </div>
     </div>
-
-    <div class="max-w-2xl mx-auto px-4 pt-6 space-y-4">
 
         {{-- Flash messages --}}
         @if(session('error'))
@@ -220,5 +216,4 @@
             if (form) form.addEventListener('submit', submitEditTitle);
         });
         </script>
-    </div>
 </div>
