@@ -15,6 +15,8 @@
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}">
+    <!-- Barra de progresso de scroll — fora do header para evitar backdrop-filter stacking context -->
+    <div x-data="{progress:0}" x-init="window.addEventListener('scroll',()=>{var max=document.documentElement.scrollHeight-window.innerHeight;progress=max>0?Math.round(window.scrollY/max*100):0;})" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
     @include('components.header')
     <main class="@yield('main-padding', 'pt-[70px]') flex-1" style="@yield('main-style', '')">
         @include('components.flash-messages')

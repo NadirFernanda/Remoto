@@ -1,12 +1,8 @@
-<header x-data="{open:false, scrolled:false, progress:0}" x-init="
+<header x-data="{open:false, scrolled:false}" x-init="
     scrolled = window.location.pathname !== '/';
     window.addEventListener('scroll', ()=>{
         scrolled = window.location.pathname !== '/' || window.scrollY > 30;
-        var max = document.documentElement.scrollHeight - window.innerHeight;
-        progress = max > 0 ? Math.round(window.scrollY / max * 100) : 0;
     })" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full">
-    <!-- Barra de progresso de scroll -->
-    <div class="scroll-progress-bar" :style="'width:' + progress + '%'"></div>
     <div class="header-container px-4">
 
         <!-- Esquerda: Logo + Nav agrupados -->
