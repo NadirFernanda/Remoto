@@ -1,28 +1,17 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-white border-b border-slate-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold text-slate-800 leading-tight">Minha Loja</h1>
-                    <p class="text-sm text-slate-500">Gerencie e venda os seus infoprodutos digitais</p>
-                </div>
-            </div>
-            <button wire:click="openCreate"
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00baff] to-blue-600 hover:opacity-90 text-white text-sm font-semibold transition shadow-md shadow-sky-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                Novo Infoproduto
-            </button>
+    <div class="bg-gradient-to-r from-[#00baff] to-blue-600 rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-extrabold">Minha Loja</h1>
+            <p class="text-sm text-white/75 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
         </div>
+        <button wire:click="openCreate"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 border border-white/30 hover:bg-white/25 text-white text-sm font-semibold transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+            Novo Infoproduto
+        </button>
     </div>
-
-    <div class="max-w-6xl mx-auto px-6 pt-8">
 
     {{-- Feedback --}}
     @if($feedback)
@@ -33,7 +22,7 @@
     @endif
 
     {{-- Wallet summary --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 mb-8 flex flex-wrap gap-6 items-center">
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-6 items-center">
         <div>
             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Ganhos da loja</div>
             <div class="text-2xl font-bold text-green-600">Kz {{ number_format($saldoLojaDisponivel, 2, ',', '.') }}</div>
@@ -248,7 +237,7 @@
     @else
     <div class="grid grid-cols-1 gap-5">
         @foreach($produtos as $produto)
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div class="flex flex-col sm:flex-row">
                 {{-- Cover --}}
                 @if($produto->capa_path)
@@ -348,8 +337,6 @@
         @endforeach
     </div>
     @endif
-
-    </div>
 
 {{-- ═══ SPONSOR MODAL ═══════════════════════════════════════════════════════ --}}
 @if($showSponsorModal)
