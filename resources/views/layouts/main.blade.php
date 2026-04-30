@@ -14,16 +14,25 @@
     <style>[x-cloak]{display:none!important}</style>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
-<body class="site-theme min-h-screen flex flex-col {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}">
-    <!-- Barra de progresso de scroll — position:fixed acima de tudo, fora do header -->
-    <div x-data="{progress:0}" x-init="window.addEventListener('scroll',()=>{var max=document.documentElement.scrollHeight-window.innerHeight;progress=max>0?Math.round(window.scrollY/max*100):0;})" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
+<body class="site-theme overflow-hidden {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh">
+    <!-- Barra de progresso de scroll — fixed no topo absoluto do viewport -->
+    <div x-data="{progress:0}" x-init="
+        var sc = document.getElementById('page-scroll');
+        if(sc) sc.addEventListener('scroll', function(){
+            var max = sc.scrollHeight - sc.clientHeight;
+            progress = max > 0 ? Math.round(sc.scrollTop / max * 100) : 0;
+        });
+    " class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
     @include('components.header')
-    <main class="@yield('main-padding', 'pt-[70px]') flex-1" style="@yield('main-style', '')">
-        @include('components.flash-messages')
-        @yield('content')
-    </main>
-    @include('components.footer')
-    @include('components.cookie-consent')
+    <!-- Container de scroll: começa exactamente abaixo do header -->
+    <div id="page-scroll" style="position:fixed;top:70px;left:0;right:0;bottom:0;overflow-y:scroll;overflow-x:hidden;display:flex;flex-direction:column;">
+        <main class="@yield('main-padding', 'pt-0') flex-1" style="@yield('main-style', '')">
+            @include('components.flash-messages')
+            @yield('content')
+        </main>
+        @include('components.footer')
+        @include('components.cookie-consent')
+    </div>
     @livewireScripts
     <script>
         // Detecção de bfcache: quando o browser restaura uma página a partir do cache
