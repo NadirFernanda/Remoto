@@ -17,14 +17,15 @@
     {{-- ─── Pipeline Tabs ───────────────────────────────────── --}}
     @php
         $tabs = [
-            ''             => 'Todos',
-            'published'    => 'Publicado',
-            'negotiating'  => 'Em Negociação',
-            'accepted'     => 'Proposta Aceita',
-            'in_progress'  => 'Em Andamento',
-            'delivered'    => 'Aguard. Revisão',
-            'completed'    => 'Concluído',
-            'cancelled'    => 'Cancelado',
+            ''                   => 'Todos',
+            'published'          => 'Publicado',
+            'negotiating'        => 'Em Negociação',
+            'accepted'           => 'Proposta Aceita',
+            'in_progress'        => 'Em Andamento',
+            'delivered'          => 'Aguard. Revisão',
+            'revision_requested' => 'Revisão Pedida',
+            'completed'          => 'Concluído',
+            'cancelled'          => 'Cancelado',
         ];
     @endphp
     <div class="flex gap-2 flex-wrap">

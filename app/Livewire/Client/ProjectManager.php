@@ -365,17 +365,17 @@ class ProjectManager extends Component
             return;
         }
 
-        $service->update(['status' => 'in_progress']);
+        $service->update(['status' => 'revision_requested']);
 
         \App\Models\Notification::create([
             'user_id'    => $service->freelancer_id,
             'service_id' => $service->id,
             'type'       => 'revision_requested',
-            'title'      => 'Revisão solicitada',
-            'message'    => 'O cliente solicitou revisão no projeto "' . $service->titulo . '".',
+            'title'      => 'Revisão solicitada — Re-entre com a entrega',
+            'message'    => 'O cliente solicitou revisão no projeto "' . $service->titulo . '". Por favor submeta uma nova entrega.',
         ]);
 
-        session()->flash('success', 'Revisão solicitada. O freelancer foi notificado.');
+        session()->flash('success', 'Revisão solicitada. O freelancer foi notificado e deve re-entregar.');
     }
 
     // ─── Helpers ───────────────────────────────────────────

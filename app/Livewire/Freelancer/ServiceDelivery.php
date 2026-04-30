@@ -30,12 +30,12 @@ class ServiceDelivery extends Component
             session()->flash('info', 'Este projecto já foi concluído e o pagamento foi libertado.');
             return redirect()->route('freelancer.projects');
         }
-        if (!in_array($service->status, ['in_progress', 'accepted', 'delivered'])) {
+        if (!in_array($service->status, ['in_progress', 'accepted', 'delivered', 'revision_requested'])) {
             session()->flash('error', 'Este projecto não está disponível para entrega.');
             return redirect()->route('freelancer.projects');
         }
         // Bloquear accepted sem pagamento (direct_invite não pago)
-        if ($service->status === 'accepted' && (float) $service->valor === 0.0) {
+        if (in_array($service->status, ['accepted', 'revision_requested']) && (float) $service->valor === 0.0) {
             session()->flash('error', 'O cliente ainda não confirmou o pagamento deste projecto.');
             return redirect()->route('freelancer.projects');
         }
