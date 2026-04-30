@@ -78,7 +78,7 @@ class Feed extends Component
         });
 
         return view('livewire.social.feed', compact('posts', 'isEmpty', 'subscribedCreatorIds', 'trendingHashtags'))
-            ->layout('layouts.public', ['title' => $this->hashtag ? '#' . $this->hashtag : 'Feed Social']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 
     // ── Toggle like ───────────────────────────────────────────────────────────
