@@ -62,10 +62,12 @@ class MassNotifications extends Component
 
         foreach ($users as $user) {
             \App\Models\Notification::create([
-                'user_id' => $user->id,
-                'title'   => $this->titulo,
-                'message' => $this->mensagem,
-                'read'    => false,
+                'user_id'     => $user->id,
+                'type'        => 'admin_message',
+                'title'       => $this->titulo,
+                'message'     => $this->mensagem,
+                'sender_name' => auth()->user()->name,
+                'read'        => false,
             ]);
             $count++;
         }

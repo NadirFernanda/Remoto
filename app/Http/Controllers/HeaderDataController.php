@@ -50,13 +50,14 @@ class HeaderDataController extends Controller
             ->limit(8)
             ->get()
             ->map(fn ($n) => [
-                'id'         => $n->id,
-                'title'      => $n->title ?? '',
-                'message'    => $n->message,
-                'type'       => $n->type,
-                'read'       => (bool) $n->read,
-                'url'        => route('notification.open', $n->id),
-                'created_at' => $n->created_at->diffForHumans(),
+                'id'          => $n->id,
+                'title'       => $n->title ?? '',
+                'message'     => $n->message,
+                'type'        => $n->type,
+                'read'        => (bool) $n->read,
+                'sender_name' => $n->sender_name,
+                'url'         => route('notification.open', $n->id),
+                'created_at'  => $n->created_at->diffForHumans(),
             ])
             ->values()
             ->toArray();

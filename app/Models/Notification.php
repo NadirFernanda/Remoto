@@ -10,7 +10,7 @@ class Notification extends Model
     protected $table = 'user_notifications';
 
     protected $fillable = [
-        'user_id', 'service_id', 'type', 'target_role', 'title', 'message', 'read'
+        'user_id', 'service_id', 'type', 'target_role', 'title', 'message', 'sender_name', 'read'
     ];
 
     public function service()
@@ -80,6 +80,9 @@ class Notification extends Model
                 'dispute_opened_admin'  => route('admin.disputes'),
                 'dispute_resolved'      => $sid ? route('service.dispute', $sid) : '#',
                 'review_reminder'       => $sid ? route('service.review.leave', $sid) : '#',
+
+                // ── Admin message ─────────────────────────────────────
+                'admin_message'        => $isFreelancer ? route('freelancer.notifications') : route('notifications'),
 
                 default => '#',
             };

@@ -115,6 +115,9 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
                     <div class="flex-1 min-w-0">
                         <p x-show="notif.title" x-text="notif.title"
                            class="text-xs font-semibold text-gray-800 truncate"></p>
+                        <p x-show="notif.sender_name"
+                           x-text="'Admin: ' + notif.sender_name"
+                           class="text-[10px] font-medium text-[#0070ff] mb-0.5"></p>
                         <p x-text="notif.message"
                            class="text-xs text-gray-600 leading-snug line-clamp-2 mt-0.5"></p>
                         <p x-text="notif.created_at"
