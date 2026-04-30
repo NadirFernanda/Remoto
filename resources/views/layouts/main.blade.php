@@ -14,7 +14,7 @@
     <style>[x-cloak]{display:none!important}</style>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
-<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;">
+<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
     <!-- Barra de progresso de scroll — fixed no topo absoluto do viewport -->
     <div x-data="{progress:0}" x-init="(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){let m=sc.scrollHeight-sc.clientHeight;progress=m>0?Math.round(sc.scrollTop/m*100):0;})})()" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
     @include('components.header')

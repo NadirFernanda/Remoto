@@ -1,4 +1,4 @@
-﻿@extends('layouts.main')
+@extends('layouts.main')
 
 @section('content')
 
@@ -225,7 +225,7 @@
             <div class="hp-benefits-text">
                 <p class="hp-label">Por que nós</p>
                 <h2 class="hp-title">Trabalhe com<br>segurança e confiança</h2>
-                <p style="color:#64748b; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
+                <p style="color:#94a3b8; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
                 <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
             </div>
             <div class="hp-benefit-list">
@@ -409,19 +409,19 @@
         <div class="hp-comunidade-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:3rem;text-align:center;">
             <div>
                 <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+500</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Criadores activos</p>
+                <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Criadores activos</p>
             </div>
             <div>
                 <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">+10 mil</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publicações mensais</p>
+                <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publicações mensais</p>
             </div>
             <div>
                 <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">3.000 KZS</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
+                <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
             </div>
             <div>
                 <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">75%</p>
-                <p style="color:#64748b;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
+                <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
             </div>
         </div>
 
