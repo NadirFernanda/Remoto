@@ -20,7 +20,7 @@
     @include('components.header')
     <!-- Container de scroll: ocupa exactamente o espaço que resta após o header -->
     <div id="page-scroll" style="flex:1;min-height:0;overflow-y:scroll;overflow-x:hidden;display:flex;flex-direction:column;">
-        <main class="@yield('main-padding', 'pt-0') flex-1" style="@yield('main-style', '')">
+        <main class="@yield('main-padding', 'pt-0') flex-1" style="display:flex;flex-direction:column;@yield('main-style', '')">
             @include('components.flash-messages')
             @yield('content')
         </main>
