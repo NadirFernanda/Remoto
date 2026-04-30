@@ -178,7 +178,7 @@ class MyPosts extends Component
             'saldoPublicacoesDisponivel' => $saldoPublicacoesDisponivel,
             'sakePendentePublicacoes'    => $sakePendentePublicacoes,
         ])->layout('layouts.dashboard', [
-            'title' => 'Minhas Publicações',
+            'dashboardTitle' => '',
         ]);
     }
 }
