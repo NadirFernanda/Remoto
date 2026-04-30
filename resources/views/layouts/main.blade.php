@@ -14,18 +14,12 @@
     <style>[x-cloak]{display:none!important}</style>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
-<body class="site-theme overflow-hidden {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh">
+<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;">
     <!-- Barra de progresso de scroll — fixed no topo absoluto do viewport -->
-    <div x-data="{progress:0}" x-init="
-        var sc = document.getElementById('page-scroll');
-        if(sc) sc.addEventListener('scroll', function(){
-            var max = sc.scrollHeight - sc.clientHeight;
-            progress = max > 0 ? Math.round(sc.scrollTop / max * 100) : 0;
-        });
-    " class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
+    <div x-data="{progress:0}" x-init="(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){let m=sc.scrollHeight-sc.clientHeight;progress=m>0?Math.round(sc.scrollTop/m*100):0;})})()" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
     @include('components.header')
-    <!-- Container de scroll: começa exactamente abaixo do header -->
-    <div id="page-scroll" style="position:fixed;top:70px;left:0;right:0;bottom:0;overflow-y:scroll;overflow-x:hidden;display:flex;flex-direction:column;">
+    <!-- Container de scroll: ocupa exactamente o espaço que resta após o header -->
+    <div id="page-scroll" style="flex:1;min-height:0;overflow-y:scroll;overflow-x:hidden;display:flex;flex-direction:column;">
         <main class="@yield('main-padding', 'pt-0') flex-1" style="@yield('main-style', '')">
             @include('components.flash-messages')
             @yield('content')
