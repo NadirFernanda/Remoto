@@ -438,6 +438,6 @@ class ProjectManager extends Component
 
         return view('livewire.client.project-manager', compact(
             'projects', 'selected', 'statusLabels', 'pipeline', 'candidates', 'hasReview'
-        ))->layout('layouts.dashboard', ['dashboardTitle' => 'Os meus Projectos']);
+        ))->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
