@@ -3,7 +3,6 @@
     {{-- Header --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-            <h1 class="text-xl font-bold text-gray-900">Suporte</h1>
             <p class="text-sm text-gray-500">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>
         </div>
         <button wire:click="openForm" class="btn-primary self-start">
