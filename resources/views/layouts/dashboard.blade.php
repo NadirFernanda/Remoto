@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('main-padding', 'pt-[70px]')
+@section('main-padding', 'pt-0')
 @section('main-style', 'background:#f9fafb')
 
 @section('content')

@@ -1,8 +1,11 @@
 <header x-data="{open:false, scrolled:false}" x-init="
     scrolled = window.location.pathname !== '/';
-    window.addEventListener('scroll', ()=>{
-        scrolled = window.location.pathname !== '/' || window.scrollY > 30;
-    })" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full">
+    $nextTick(()=>{
+        var sc = document.getElementById('page-scroll');
+        if(sc) sc.addEventListener('scroll', ()=>{
+            scrolled = window.location.pathname !== '/' || sc.scrollTop > 30;
+        });
+    });" :class="{'scrolled': scrolled}" class="site-header fixed top-0 left-0 z-50 w-full">
     <div class="header-container px-4">
 
         <!-- Esquerda: Logo + Nav agrupados -->
