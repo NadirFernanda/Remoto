@@ -1,22 +1,22 @@
-<div class="min-h-screen bg-gray-50">
+﻿<div class="space-y-6">
 
-    {{-- ══ Hero banner ═══════════════════════════════════════════════════════ --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#005f8a] py-12">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <h1 class="text-3xl font-bold text-white mb-2">Loja de Infoprodutos</h1>
-            <p class="text-white/80 text-base mb-6">E-books, áudios, literatura digital e muito mais dos melhores freelancers</p>
-            <div class="max-w-lg mx-auto">
-                <div class="relative">
-                    <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input wire:model.live.debounce.400ms="busca" type="text"
-                        class="w-full pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-white/50"
-                        placeholder="Buscar e-books, áudios, literatura...">
-                </div>
+    {{-- Gradient Header --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <div class="mb-4">
+            <h2 class="text-2xl font-extrabold">Loja de Infoprodutos</h2>
+            <p class="text-sm text-white/75 mt-1">E-books, áudios, literatura digital e muito mais dos melhores freelancers</p>
+        </div>
+        <div class="max-w-lg">
+            <div class="relative">
+                <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input wire:model.live.debounce.400ms="busca" type="text"
+                    class="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    placeholder="Buscar e-books, áudios, literatura...">
             </div>
         </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 py-8">
+    <div>
 
         {{-- Feedback --}}
         @if(session('success_loja'))
