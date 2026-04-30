@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-blue-600 rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold">Minha Loja</h1>
             <p class="text-sm text-white/75 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
@@ -214,7 +214,7 @@
 
         <div class="flex items-center gap-3 mt-6">
             <button wire:click="saveProduto" wire:loading.attr="disabled"
-                class="px-5 py-2.5 bg-gradient-to-r from-[#00baff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                class="px-5 py-2.5 bg-gradient-to-r from-[#00baff] to-[#0095cc] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
             </button>

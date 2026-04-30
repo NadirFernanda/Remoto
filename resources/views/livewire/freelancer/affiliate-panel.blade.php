@@ -1,7 +1,8 @@
 <div class="space-y-6">
-    <div>
-        <h2 class="text-2xl font-bold text-slate-900">Programa de Afiliado</h2>
-        <p class="text-sm text-slate-500 mt-1">Módulo da secção MONETIZAÇÃO com ganhos por link de afiliado.</p>
+    {{-- ── Hero Header ── --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Programa de Afiliado</h2>
+        <p class="text-sm text-white/75 mt-1">Ganhe comissões por cada freelancer ou cliente que se registe pelo seu link</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

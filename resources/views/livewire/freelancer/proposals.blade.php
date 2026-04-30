@@ -12,7 +12,7 @@
     @endif
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#0052cc] to-[#0a1228] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Propostas Recebidas</h2>
             <p class="text-sm text-white/75 mt-1">Convites directos de clientes para trabalhar em projectos</p>

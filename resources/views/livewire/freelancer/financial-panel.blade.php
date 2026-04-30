@@ -1,5 +1,11 @@
 <div x-data="{ valorSaque: 0, saldo: {{ $wallet->saldo ?? 0 }} }">
 
+    {{-- ── Hero Header ── --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white mb-6">
+        <h2 class="text-2xl font-extrabold">Painel Financeiro</h2>
+        <p class="text-sm text-white/75 mt-1">Saldo, saques e histórico das suas transacções</p>
+    </div>
+
     {{-- ── SALDO HEADER ────────────────────────────── --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
