@@ -499,8 +499,6 @@ body{
     .hp-hero-inner { gap: 1.5rem; }
     .hp-ctas { flex-direction: column; align-items: flex-start; gap: .75rem; }
     .hp-btn { width: 100%; max-width: 340px; justify-content: center; text-align: center; }
-    /* Reduce main padding-top to fit smaller mobile header */
-    main { padding-top: 3.5rem !important; }
     /* Reduce section vertical padding on mobile */
     .hp-section { padding: 3rem 1.25rem; }
     /* CTA section buttons centred on mobile */
