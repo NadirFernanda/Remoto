@@ -150,6 +150,6 @@ class PortfolioManager extends Component
         return view('livewire.freelancer.portfolio-manager', [
             'items'      => $items,
             'categories' => self::$categories,
-        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Portfólio']);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

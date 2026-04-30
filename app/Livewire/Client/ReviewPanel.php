@@ -32,6 +32,6 @@ class ReviewPanel extends Component
     public function render()
     {
         return view('livewire.client.review-panel')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Avaliações']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

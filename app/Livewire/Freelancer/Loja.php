@@ -341,6 +341,6 @@ class Loja extends Component
             'wallet'              => $user->wallet,
             'saldoLojaDisponivel' => $saldoLojaDisponivel,
             'sakePendenteLoja'    => $sakePendenteLoja,
-        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Minha Loja']);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

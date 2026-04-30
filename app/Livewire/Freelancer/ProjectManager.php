@@ -149,7 +149,7 @@ class ProjectManager extends Component
             'saldoProjetosDisponivel' => $saldoProjetosDisponivel,
             'sakePendenteProjectos'  => $sakePendenteProjectos,
         ])->layout('layouts.dashboard', [
-            'dashboardTitle' => 'Meus Projetos',
+            'dashboardTitle' => '',
         ]);
     }
 }

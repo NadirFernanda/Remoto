@@ -71,6 +71,6 @@ class ConversationInbox extends Component
             'services'     => $services,
             'unreadCounts' => $unreadCounts,
             'totalUnread'  => $totalUnread,
-        ])->layout('layouts.dashboard', ['dashboardTitle' => 'Mensagens']);
+        ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

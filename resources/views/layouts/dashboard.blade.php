@@ -141,7 +141,10 @@
         @endif
 
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
-            <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{!! $title ?? trim($__env->yieldContent('dashboard-title')) ?? 'Painel' !!}</h1>
+            @php $renderedTitle = $title ?? trim($__env->yieldContent('dashboard-title')) ?? ''; @endphp
+            @if($renderedTitle)
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{!! $renderedTitle !!}</h1>
+            @endif
             <div class="flex items-center gap-3 flex-wrap">
                 @if(!empty($actions))
                     {!! $actions !!}

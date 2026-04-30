@@ -184,6 +184,6 @@ class Proposals extends Component
         ];
 
         return view('livewire.freelancer.proposals', compact('proposals', 'counts'))
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Propostas recebidas']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

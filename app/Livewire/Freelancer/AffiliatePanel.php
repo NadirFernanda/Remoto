@@ -60,6 +60,6 @@ class AffiliatePanel extends Component
     public function render()
     {
         return view('livewire.freelancer.affiliate-panel')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Programa de Afiliados']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
