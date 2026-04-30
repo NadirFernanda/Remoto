@@ -1,7 +1,15 @@
-<div x-data="{ tab: @entangle('postType') }">
+<div class="max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
+
+    {{-- Header --}}
+    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+        <h2 class="text-2xl font-extrabold">Nova Publicação</h2>
+        <p class="text-sm text-white/75 mt-1">Partilhe conteúdo com a comunidade 24Horas</p>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
 
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg text-sm font-medium">{{ session('success') }}</div>
+        <div class="p-3 bg-green-100 text-green-700 rounded-lg text-sm font-medium">{{ session('success') }}</div>
     @endif
 
     {{-- Type tabs --}}
@@ -249,5 +257,7 @@
         </div>
 
     </form>
+
+    </div>
 </div>
 

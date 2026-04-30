@@ -142,6 +142,6 @@ class CreatePost extends Component
     public function render()
     {
         return view('livewire.social.create-post')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Nova Publicação']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
