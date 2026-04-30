@@ -93,6 +93,19 @@
                         </svg>
                     </div>
                 </a>
+
+                {{-- Gerar Factura: disponível após pagamento --}}
+                @if($order->valor && in_array($order->status, ['in_progress','em_andamento','em andamento','delivered','completed','concluido','cancelled','cancelado']))
+                <div class="flex justify-end -mt-1 mb-1 pr-1">
+                    <a href="{{ route('client.receipt.download', $order->id) }}" target="_blank"
+                       class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-600 hover:text-white transition-colors">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Gerar Factura
+                    </a>
+                </div>
+                @endif
             @empty
                 <div class="bg-white rounded-2xl p-12 text-center border border-dashed border-gray-200">
                     <div class="w-16 h-16 rounded-2xl bg-cyan-50 flex items-center justify-center mx-auto mb-4">

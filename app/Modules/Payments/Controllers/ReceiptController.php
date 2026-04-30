@@ -16,15 +16,18 @@ class ReceiptController extends Controller
     {
         $user = Auth::user();
 
-        // Apenas o cliente ou o freelancer do serviço pode ver o recibo
+        // Apenas o cliente ou o freelancer do serviço pode ver a factura
         if ($service->cliente_id !== $user->id && $service->freelancer_id !== $user->id) {
-            abort(403, 'Acesso não autorizado a este recibo.');
+            abort(403, 'Acesso não autorizado a esta factura.');
         }
 
-        // Só serviços concluídos ou cancelados têm recibo válido
-        if (!in_array($service->status, ['completed', 'cancelled', 'delivered'])) {
-            return redirect()->back()->with('error', 'Recibo disponível apenas para serviços concluídos ou cancelados.');
+        // Disponível assim que o cliente efectuou o pagamento (escrow bloqueado)
+        $paid = ['in_progress', 'em_andamento', 'em andamento', 'delivered', 'completed', 'concluido', 'cancelled', 'cancelado'];
+        if (!in_array($service->status, $paid)) {
+            return redirect()->back()->with('error', 'Factura disponível apenas após o pagamento ter sido efectuado.');
         }
+
+        $service->loadMissing('freelancer');
 
         return response()
             ->view('livewire.client.receipt-pdf', compact('service', 'user'))
