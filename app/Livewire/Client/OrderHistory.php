@@ -21,6 +21,6 @@ class OrderHistory extends Component
     public function render()
     {
         return view('livewire.client.order-history')
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Meus Pedidos']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
