@@ -239,7 +239,7 @@ body{
 .action-row .btn-eq svg{ width:18px; height:18px; flex-shrink:0; }
 .action-row .btn-eq.btn-primary{ background: #00baff; color:#021018; box-shadow:0 8px 22px rgba(0,186,255,0.06); border:none; }
 .action-row .btn-eq.btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,186,255,0.12); }
-.action-row .btn-eq:focus{ outline-offset:3px; outline:3px solid rgba(0,186,255,0.12); }
+.action-row .btn-eq:focus-visible{ outline-offset:3px; outline:3px solid rgba(0,186,255,0.12); }
 
 /* Make action-row wrap on very small screens */
 @media (max-width:480px){ .action-row{ flex-wrap:wrap; } }
@@ -329,7 +329,7 @@ body{
 .action-row .btn-eq.btn-outline{ background:transparent; border:1px solid rgba(0,186,255,0.12); color:var(--accent-v); box-shadow:none; }
 .action-row .btn-eq svg{ margin-right:.5rem; width:18px; height:18px; flex-shrink:0; }
 .action-row .btn-eq:hover{ transform: translateY(-2px); box-shadow:0 12px 30px rgba(0,186,255,0.10); }
-.action-row .btn-eq:focus{ outline: 3px solid rgba(0,186,255,0.12); outline-offset:3px; }
+.action-row .btn-eq:focus-visible{ outline: 3px solid rgba(0,186,255,0.12); outline-offset:3px; }
 
 /* When many buttons exist, limit to 3 equal columns and shrink others visually while keeping one row */
 .action-row.multi-compact > *{ flex: 0 1 auto; min-width:120px; }
@@ -372,9 +372,10 @@ body{
 }
 .orders-table td.no-card .action-row{ margin:0 !important; }
 
-/* Buttons and links focus */
-.btn:focus, a:focus {
-    outline: 3px solid rgba(var(--accent-v-rgb,56,230,212),0.18);
+/* Focus: visível apenas para navegação por teclado (não ao clicar com rato) */
+*:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; }
+.btn:focus-visible, a:focus-visible {
+    outline: 3px solid rgba(0,186,255,0.45);
     outline-offset: 2px;
 }
 /* Header: sem sombra excessiva mas com separador sutil */
