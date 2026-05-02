@@ -22,7 +22,7 @@
                 @csrf
                 <div class="pub-field">
                     <label for="login-email">E-mail</label>
-                    <input type="email" name="email" id="login-email" class="pub-input" placeholder="seu@email.com" value="{{ old('email') }}" required autofocus style="{{ $errors->has('email') ? 'border-color:#dc2626;' : '' }}">
+                    <input type="email" name="email" id="login-email" class="pub-input" placeholder="seu@email.com" value="{{ old('email') }}" required autofocus style="color:#1e293b;background:#f8fafc;{{ $errors->has('email') ? 'border-color:#dc2626;' : '' }}">
                     <div id="email-error" class="pub-field-error" style="{{ $errors->has('email') ? 'display:block;' : 'display:none;' }}">{{ $errors->first('email') }}</div>
                 </div>
                 <div class="pub-field">
@@ -30,7 +30,7 @@
                         <label for="login-password" style="margin-bottom:0;">Palavra-passe</label>
                         <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#0070ff;font-weight:600;text-decoration:none;">Esqueci a palavra-passe</a>
                     </div>
-                    <input type="password" name="password" id="login-password" class="pub-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required style="{{ $errors->has('password') ? 'border-color:#dc2626;' : '' }}">
+                    <input type="password" name="password" id="login-password" class="pub-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required style="color:#1e293b;background:#f8fafc;{{ $errors->has('password') ? 'border-color:#dc2626;' : '' }}">
                     <div id="password-error" class="pub-field-error" style="{{ $errors->has('password') ? 'display:block;' : 'display:none;' }}">{{ $errors->first('password') }}</div>
                 </div>
                 <button type="submit" class="pub-btn-primary" style="width:100%;padding:.85rem;font-size:1rem;margin-top:.5rem;border-radius:10px;">Entrar</button>
