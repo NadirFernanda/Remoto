@@ -22,9 +22,10 @@ class ReceiptController extends Controller
         }
 
         // Disponível assim que o cliente efectuou o pagamento (escrow bloqueado)
-        $paid = ['in_progress', 'em_andamento', 'em andamento', 'delivered', 'completed', 'concluido', 'cancelled', 'cancelado'];
+        // 'published' = pagamento retido; os restantes = fases subsequentes
+        $paid = ['published', 'accepted', 'negotiating', 'in_progress', 'em_andamento', 'em andamento', 'delivered', 'revision_requested', 'completed', 'concluido', 'cancelled', 'cancelado'];
         if (!in_array($service->status, $paid)) {
-            return redirect()->back()->with('error', 'Factura disponível apenas após o pagamento ter sido efectuado.');
+            return redirect()->back()->with('error', 'Comprovativo disponível apenas após o pagamento ter sido efectuado.');
         }
 
         $service->loadMissing('freelancer');
