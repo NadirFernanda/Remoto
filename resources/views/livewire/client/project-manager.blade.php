@@ -409,12 +409,12 @@
                                                 </a>
                                                 <button
                                                     wire:click="escolherFreelancer({{ $selected->id }}, {{ $fl->id }})"
-                                                    wire:confirm="Confirma a escolha de {{ $fl->name }} para este projecto? Os outros candidatos serão notificados."
+                                                    wire:confirm="Confirma a contratação de {{ $fl->name }} para este projecto? Os outros candidatos serão notificados."
                                                     class="btn-primary text-xs flex-1 justify-center min-w-[80px]">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                                     </svg>
-                                                    Aceitar
+                                                    Contratar
                                                 </button>
                                                 <button
                                                     wire:click="rejeitarFreelancer({{ $selected->id }}, {{ $fl->id }})"
