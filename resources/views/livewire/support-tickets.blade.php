@@ -33,7 +33,7 @@
         {{-- Category --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Categoria *</label>
-            <select wire:model="category" class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            <select wire:model="category" class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
                 <option value="">Selecione uma categoria</option>
                 <option value="pagamento">💳 Pagamento</option>
                 <option value="projecto">📁 Projecto</option>
@@ -65,7 +65,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">ID do Usuário (para verificação rápida)</label>
             <input wire:model="userProvidedId" type="text" placeholder="Seu ID de usuário (opcional)"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             @error('userProvidedId') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -73,7 +73,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Email de Contato (opcional)</label>
             <input wire:model="contactEmail" type="email" placeholder="Email alternativo para contato"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             @error('contactEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -81,7 +81,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Telefone de Contato (opcional)</label>
             <input wire:model="contactPhone" type="text" placeholder="Telefone para contato urgente"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             @error('contactPhone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -89,7 +89,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Assunto *</label>
             <input wire:model="subject" type="text" placeholder="Descreva brevemente o problema"
-                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             @error('subject') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -97,7 +97,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Descrição detalhada *</label>
             <textarea wire:model="message" rows="5" placeholder="Descreva o problema com o máximo de detalhe possível..."
-                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
             @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 

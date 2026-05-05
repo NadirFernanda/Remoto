@@ -35,17 +35,17 @@
         <div class="relative flex-1 min-w-[200px]">
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <input wire:model.live.debounce.400ms="search" type="text" placeholder="Pesquisar por assunto ou utilizador..."
-                class="w-full pl-9 pr-3 py-2 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full pl-9 pr-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
         </div>
         {{-- Status --}}
-        <select wire:model.live="statusFilter" class="rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="statusFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             <option value="">Todos os estados</option>
             <option value="aberto">Abertos</option>
             <option value="em_andamento">Em Andamento</option>
             <option value="fechado">Fechados</option>
         </select>
         {{-- Category --}}
-        <select wire:model.live="categoryFilter" class="rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="categoryFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             <option value="">Todas as categorias</option>
             <option value="pagamento">Pagamento</option>
             <option value="projecto">Projecto</option>
@@ -54,7 +54,7 @@
             <option value="outro">Outro</option>
         </select>
         {{-- Priority --}}
-        <select wire:model.live="priorityFilter" class="rounded-xl border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="priorityFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
             <option value="">Todas as prioridades</option>
             <option value="urgente">🔴 Urgente</option>
             <option value="alta">🟡 Alta</option>
@@ -240,7 +240,7 @@
             <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
                 <p class="text-sm font-semibold text-gray-700">Responder como Suporte</p>
                 <textarea wire:model="replyMessage" rows="4" placeholder="Escreva a sua resposta ao utilizador..."
-                    class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                    class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
                 @error('replyMessage') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
                 <div class="flex items-center gap-3">
                     <button wire:click="sendReply" class="btn-primary">
