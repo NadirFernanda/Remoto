@@ -96,10 +96,10 @@
                 </div>
                 <div class="flex items-center gap-2 mt-1">
                     <img src="{{ $ticket->user->avatarUrl() }}" class="w-4 h-4 rounded-full object-cover">
-                    <p class="text-xs text-gray-500 truncate">{{ $ticket->user->name }}</p>
-                    <span class="text-xs text-gray-400">· {{ \App\Models\SupportTicket::categoryLabel($ticket->category) }}</span>
+                    <p class="text-xs text-gray-600 truncate">{{ $ticket->user->name }}</p>
+                    <span class="text-xs text-gray-500">· {{ \App\Models\SupportTicket::categoryLabel($ticket->category) }}</span>
                 </div>
-                <p class="text-xs text-gray-400 mt-1">{{ $ticket->updated_at->diffForHumans() }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ $ticket->updated_at->diffForHumans() }}</p>
             </button>
             @empty
                 <div class="bg-white rounded-2xl border border-gray-200 p-8 text-center">
@@ -144,13 +144,42 @@
                         <div class="flex items-center gap-2 mt-1 flex-wrap">
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $sc2 }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $pc2 }}">{{ \App\Models\SupportTicket::priorityLabel($selected->priority) }}</span>
-                            <span class="text-xs text-gray-400">{{ \App\Models\SupportTicket::categoryLabel($selected->category) }}</span>
+                            <span class="text-xs text-gray-500">{{ \App\Models\SupportTicket::categoryLabel($selected->category) }}</span>
                         </div>
-                        <div class="flex items-center gap-2 mt-2">
+                        <div class="flex items-start gap-3 mt-2 flex-wrap">
                             <img src="{{ $selected->user->avatarUrl() }}" class="w-5 h-5 rounded-full object-cover">
-                            <span class="text-sm text-gray-700 font-medium">{{ $selected->user->name }}</span>
-                            <span class="text-xs text-gray-400">{{ $selected->user->email }}</span>
+                            <div>
+                                <p class="text-sm text-gray-700 font-medium">{{ $selected->user->name }}</p>
+                                <p class="text-xs text-gray-500">{{ $selected->user->email }}</p>
+                            </div>
                         </div>
+
+                        @if($selected->user->wallet)
+                        <div class="mt-4 grid gap-3 sm:grid-cols-3">
+                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
+                                <div class="text-gray-500">Saldo atual</div>
+                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saldo, 0, ',', '.') }} Kz</div>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
+                                <div class="text-gray-500">Saldo pendente</div>
+                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saldo_pendente, 0, ',', '.') }} Kz</div>
+                            </div>
+                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
+                                <div class="text-gray-500">Mínimo saque</div>
+                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saque_minimo, 0, ',', '.') }} Kz</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 flex flex-col sm:flex-row gap-2">
+                            <a href="{{ route('admin.user.wallet.history', $selected->user) }}" class="inline-flex items-center justify-center rounded-xl border border-[#00baff] bg-[#00baff]/10 px-4 py-2 text-sm font-semibold text-[#0072d8] hover:bg-[#00baff]/20 transition">
+                                Ver movimentos da carteira
+                            </a>
+                            <a href="{{ route('admin.wallet.adjustment') }}" class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+                                Ajuste de saldo admin
+                            </a>
+                        </div>
+                        @endif
+
                         @if($selected->user_provided_id || $selected->contact_email || $selected->contact_phone)
                         <div class="mt-2 text-xs text-gray-500">
                             @if($selected->user_provided_id)
@@ -184,8 +213,8 @@
                     <div class="flex items-center gap-2 mb-2">
                         <img src="{{ $selected->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover">
                         <span class="text-sm font-semibold text-gray-800">{{ $selected->user->name }}</span>
-                        <span class="text-xs text-gray-400">· {{ $selected->created_at->diffForHumans() }}</span>
-                        <span class="text-xs text-gray-400 ml-auto">{{ $selected->created_at->format('d/m/Y H:i') }}</span>
+                        <span class="text-xs text-gray-500">· {{ $selected->created_at->diffForHumans() }}</span>
+                        <span class="text-xs text-gray-500 ml-auto">{{ $selected->created_at->format('d/m/Y H:i') }}</span>
                     </div>
                     <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{{ $selected->message }}</p>
                 </div>
@@ -199,8 +228,8 @@
                         <span class="text-sm font-semibold {{ $isAdmin ? 'text-blue-800' : 'text-gray-800' }}">
                             {{ $isAdmin ? '🛡 Suporte · ' . $reply->user->name : $reply->user->name }}
                         </span>
-                        <span class="text-xs text-gray-400">· {{ $reply->created_at->diffForHumans() }}</span>
-                        <span class="text-xs text-gray-400 ml-auto">{{ $reply->created_at->format('d/m/Y H:i') }}</span>
+                        <span class="text-xs text-gray-500">· {{ $reply->created_at->diffForHumans() }}</span>
+                        <span class="text-xs text-gray-500 ml-auto">{{ $reply->created_at->format('d/m/Y H:i') }}</span>
                     </div>
                     <p class="text-sm {{ $isAdmin ? 'text-blue-900' : 'text-gray-700' }} leading-relaxed whitespace-pre-line">{{ $reply->message }}</p>
                 </div>

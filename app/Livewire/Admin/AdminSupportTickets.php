@@ -92,7 +92,7 @@ class AdminSupportTickets extends Component
 
     public function render()
     {
-        $query = SupportTicket::with(['user', 'latestReply'])
+        $query = SupportTicket::with(['user.wallet', 'latestReply'])
             ->orderByRaw("CASE status WHEN 'aberto' THEN 0 WHEN 'em_andamento' THEN 1 ELSE 2 END")
             ->orderByRaw("CASE priority WHEN 'urgente' THEN 0 WHEN 'alta' THEN 1 ELSE 2 END")
             ->orderByDesc('updated_at');
@@ -117,7 +117,7 @@ class AdminSupportTickets extends Component
         $tickets = $query->paginate(15);
 
         $selected = $this->selectedTicketId
-            ? SupportTicket::with(['user', 'replies.user'])->find($this->selectedTicketId)
+            ? SupportTicket::with(['user.wallet', 'replies.user'])->find($this->selectedTicketId)
             : null;
 
         $counts = [
