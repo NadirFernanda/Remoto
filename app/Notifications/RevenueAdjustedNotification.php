@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class RevenueAdjustedNotification extends Notification implements ShouldQueue
 {
@@ -18,27 +18,22 @@ class RevenueAdjustedNotification extends Notification implements ShouldQueue
 
     public function via($notifiable): array
     {
-        return ['mail', 'database'];
-    }
-
-    public function toDatabase($notifiable): array
-    {
-        return [
-            'amount' => $this->amount,
-            'reason' => $this->reason,
-            'message' => 'Sua receita foi ajustada em Kz ' . number_format($this->amount, 2, ',', '.') . '. Motivo: ' . $this->reason,
-        ];
+        // Apenas email — a in-app é criada directamente em HandleRevenueAdjusted
+        return ['mail'];
     }
 
     public function toMail($notifiable): MailMessage
     {
+        $sinal    = $this->amount >= 0 ? '+' : '';
+        $valorFmt = $sinal . number_format($this->amount, 0, ',', '.') . ' Kz';
+
         return (new MailMessage)
-            ->subject('Ajuste na sua receita')
+            ->subject('Ajuste na tua receita')
             ->greeting('Olá ' . $notifiable->name . ',')
-            ->line('Sua receita foi ajustada pelo administrador.')
-            ->line('**Valor ajustado:** Kz ' . number_format($this->amount, 2, ',', '.'))
+            ->line('A tua receita foi ajustada pelo administrador da plataforma.')
+            ->line('**Valor ajustado:** ' . $valorFmt)
             ->line('**Motivo:** ' . $this->reason)
-            ->action('Ver Perfil', url('/freelancer/profile'))
-            ->line('Se tiver dúvidas, entre em contato com o suporte.');
+            ->action('Ver painel financeiro', route('freelancer.financial'))
+            ->line('Se tiveres dúvidas, entra em contacto com o suporte.');
     }
 }

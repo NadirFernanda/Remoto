@@ -27,13 +27,16 @@ class RecalculateRevenueJob implements ShouldQueue, ShouldBeUnique
     public int $tries   = 3;
     public int $timeout = 60;
 
-    // Tipos de WalletLog que representam rendimento real do freelancer
+    // Tipos de WalletLog que representam rendimento real do freelancer (apenas positivos)
     private const REVENUE_TIPOS = [
         'ganho_servico',               // pagamento libertado pelo cliente (ServiceEscrowController)
         'reembolso_parcial_freelancer',// freelancer retém parte num reembolso parcial
         'comissao_afiliado',           // comissão por referência
-        'ajuste_admin',                // crédito manual do admin (filtramos valor > 0 abaixo)
+        'ajuste_admin',                // crédito manual do admin na carteira (valor > 0)
     ];
+
+    // Ajustes explícitos de receita feitos pelo admin (podem ser positivos ou negativos)
+    private const REVENUE_ADJUSTMENT_TIPO = 'ajuste_receita_admin';
 
     public function __construct(
         private readonly User $user
@@ -53,25 +56,31 @@ class RecalculateRevenueJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        // Soma de todos os créditos de rendimento (colunas: valor, tipo — não amount/type)
-        $receitaBruta = WalletLog::where('user_id', $this->user->id)
+        // Rendimento bruto (apenas positivos — ganhos reais)
+        $receitaBruta = (float) WalletLog::where('user_id', $this->user->id)
             ->whereIn('tipo', self::REVENUE_TIPOS)
             ->where('valor', '>', 0)
             ->sum('valor');
 
-        // Subtrai chargebacks (dinheiro congelado após estorno bancário)
-        $chargebacks = WalletLog::where('user_id', $this->user->id)
-            ->where('tipo', 'chargeback_congelado')
-            ->sum('valor'); // valor é negativo neste tipo, então sum() já é negativo
+        // Ajustes manuais de receita pelo admin (podem ser positivos ou negativos)
+        $ajustesAdmin = (float) WalletLog::where('user_id', $this->user->id)
+            ->where('tipo', self::REVENUE_ADJUSTMENT_TIPO)
+            ->sum('valor');
 
-        $receitaLiquida = (float)$receitaBruta + (float)$chargebacks; // chargebacks é negativo
+        // Chargebacks (valor negativo, já foi congelado da carteira)
+        $chargebacks = (float) WalletLog::where('user_id', $this->user->id)
+            ->where('tipo', 'chargeback_congelado')
+            ->sum('valor');
+
+        $receitaLiquida = $receitaBruta + $ajustesAdmin + $chargebacks;
 
         $profile = FreelancerProfile::where('user_id', $this->user->id)->first();
 
         if ($profile) {
             $metrics                   = $profile->metrics ?? [];
             $metrics['receita_total']  = round(max(0, $receitaLiquida), 2);
-            $metrics['receita_bruta']  = round((float)$receitaBruta, 2);
+            $metrics['receita_bruta']  = round($receitaBruta, 2);
+            $metrics['ajustes_admin']  = round($ajustesAdmin, 2);
             $profile->update(['metrics' => $metrics]);
         }
     }

@@ -110,7 +110,6 @@ class WalletAdjustment extends Component
                 );
             });
         } elseif ($this->adjustmentType === 'revenue') {
-            // Ajuste na receita
             if ($user->role !== 'freelancer') {
                 $this->addError('userId', 'Ajustes de receita só podem ser feitos para freelancers.');
                 return;
@@ -122,21 +121,34 @@ class WalletAdjustment extends Component
                 return;
             }
 
-            $metrics = $profile->metrics ?? [];
-            $currentRevenue = $metrics['receita_total'] ?? 0;
-            $newRevenue = $currentRevenue + $this->amount; // amount pode ser negativo
-            $metrics['receita_total'] = max(0, $newRevenue); // não permitir negativo
-            $profile->update(['metrics' => $metrics]);
+            DB::transaction(function () use ($user, $admin, $abs, $isCredit, $profile) {
+                // Cria WalletLog com tipo específico para que o RecalculateRevenueJob
+                // inclua este ajuste nos cálculos futuros e não o sobrescreva
+                $wallet = Wallet::firstOrCreate(
+                    ['user_id' => $user->id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
 
-            // Log
-            AuditLogger::log(
-                'ajuste_admin_revenue',
-                "Ajuste de receita de {$this->amount} Kz para {$user->name} (ID: {$user->id}). Motivo: {$this->reason}",
-                'FreelancerProfile',
-                $profile->id
-            );
+                WalletLog::create([
+                    'user_id'   => $user->id,
+                    'wallet_id' => $wallet->id,
+                    'valor'     => $isCredit ? $abs : -$abs,
+                    'tipo'      => 'ajuste_receita_admin',
+                    'fonte'     => 'geral',
+                    'descricao' => "Ajuste de receita por {$admin->name}: {$this->reason}",
+                ]);
 
-            // Disparar evento
+                // Recalcula métricas imediatamente para reflectir o ajuste
+                \App\Jobs\RecalculateRevenueJob::dispatch($user)->onQueue('default');
+
+                AuditLogger::log(
+                    'ajuste_admin_revenue',
+                    ($isCredit ? 'Aumento' : 'Redução') . " de receita de {$abs} Kz para {$user->name} (ID: {$user->id}). Motivo: {$this->reason}",
+                    'FreelancerProfile',
+                    $profile->id
+                );
+            });
+
             RevenueAdjusted::dispatch($user, $this->amount, $this->reason);
         }
 
