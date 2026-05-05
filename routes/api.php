@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Modules\Payments\Controllers\PayPalWebhookController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ProposalController;
 use App\Http\Controllers\Api\ProfileController;
@@ -20,6 +21,10 @@ use App\Http\Controllers\Api\NotificationController;
 | Obtain a token:  POST /api/auth/login  →  { token, user }
 | Use in requests: Authorization: Bearer <token>
 */
+
+// ─── PayPal Webhooks (sem auth, sem CSRF — verificação por assinatura PayPal) ─
+Route::post('/paypal/webhook', [PayPalWebhookController::class, 'handle'])
+    ->name('paypal.webhook');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
 

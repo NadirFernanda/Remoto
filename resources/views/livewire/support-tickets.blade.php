@@ -61,6 +61,30 @@
             </div>
         </div>
 
+        {{-- User Provided ID --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">ID do Usuário (para verificação rápida)</label>
+            <input wire:model="userProvidedId" type="text" placeholder="Seu ID de usuário (opcional)"
+                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            @error('userProvidedId') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Contact Email --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email de Contato (opcional)</label>
+            <input wire:model="contactEmail" type="email" placeholder="Email alternativo para contato"
+                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            @error('contactEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
+        {{-- Contact Phone --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Telefone de Contato (opcional)</label>
+            <input wire:model="contactPhone" type="text" placeholder="Telefone para contato urgente"
+                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            @error('contactPhone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+        </div>
+
         {{-- Subject --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Assunto *</label>

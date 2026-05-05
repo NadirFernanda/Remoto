@@ -69,6 +69,9 @@ class Service extends Model
         'valor_ajuste',
         'valor_ajuste_taxa',
         'valor_ajuste_pago',
+        'transaction_id',
+        'payment_status',
+        'paypal_order_id',
     ];
 
     public function cliente()

@@ -7,6 +7,7 @@ use App\Modules\Payments\Controllers\TransactionHistoryController;
 use App\Modules\Payments\Controllers\FinanceHistoryExportController;
 use App\Modules\Payments\Controllers\ReceiptController;
 use App\Modules\Payments\Controllers\PayPalController;
+use App\Modules\Payments\Controllers\PayPalWebhookController;
 
 // ─── Payments Module Routes ───────────────────────────────────────────────────
 
@@ -42,3 +43,4 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/pagamento/paypal/retorno', [PayPalController::class, 'capture'])->name('paypal.capture');
     Route::get('/pagamento/paypal/cancelar', [PayPalController::class, 'cancel'])->name('paypal.cancel');
 });
+

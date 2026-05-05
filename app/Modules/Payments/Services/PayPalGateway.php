@@ -109,6 +109,83 @@ class PayPalGateway
     }
 
     /**
+     * Obtém o status actual de uma PayPal Order.
+     * Útil para verificar se a ordem expirou antes de tentar capturar.
+     *
+     * @return array{success: bool, status: string|null, message: string}
+     */
+    public function getOrderStatus(string $orderId): array
+    {
+        try {
+            $response = $this->client->getOrdersController()->showOrderDetails([
+                'id' => $orderId,
+            ]);
+            $order = $response->getResult();
+            return [
+                'success' => true,
+                'status'  => $order->getStatus(),
+                'message' => 'OK',
+            ];
+        } catch (\Throwable $e) {
+            \Log::warning('PayPal getOrderStatus falhou', ['order_id' => $orderId, 'error' => $e->getMessage()]);
+            return [
+                'success' => false,
+                'status'  => null,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Verifica a assinatura de um webhook PayPal via API de notificações.
+     * Recomendado pelo PayPal para garantir que o evento é legítimo.
+     *
+     * @param array  $headers   Headers HTTP do request (chave => valor)
+     * @param string $body      Payload raw do request
+     * @param string $webhookId ID do webhook configurado no PayPal Developer Portal
+     */
+    public function verifyWebhookSignature(array $headers, string $body, string $webhookId): bool
+    {
+        try {
+            $cfg          = config('services.paypal');
+            $clientId     = $cfg['client_id'] ?? '';
+            $clientSecret = $cfg['client_secret'] ?? '';
+            $mode         = ($cfg['mode'] ?? 'sandbox') === 'live' ? 'live' : 'sandbox';
+            $apiBase      = $mode === 'live'
+                ? 'https://api-m.paypal.com'
+                : 'https://api-m.sandbox.paypal.com';
+
+            // Obter access token
+            $tokenResp = \Illuminate\Support\Facades\Http::withBasicAuth($clientId, $clientSecret)
+                ->asForm()
+                ->post("{$apiBase}/v1/oauth2/token", ['grant_type' => 'client_credentials']);
+
+            if (!$tokenResp->successful()) {
+                \Log::error('PayPal webhook: falha a obter access token');
+                return false;
+            }
+
+            $accessToken = $tokenResp->json('access_token');
+
+            $verifyResp = \Illuminate\Support\Facades\Http::withToken($accessToken)
+                ->post("{$apiBase}/v1/notifications/verify-webhook-signature", [
+                    'auth_algo'         => $headers['PAYPAL-AUTH-ALGO'] ?? $headers['paypal-auth-algo'] ?? '',
+                    'cert_url'          => $headers['PAYPAL-CERT-URL'] ?? $headers['paypal-cert-url'] ?? '',
+                    'transmission_id'   => $headers['PAYPAL-TRANSMISSION-ID'] ?? $headers['paypal-transmission-id'] ?? '',
+                    'transmission_sig'  => $headers['PAYPAL-TRANSMISSION-SIG'] ?? $headers['paypal-transmission-sig'] ?? '',
+                    'transmission_time' => $headers['PAYPAL-TRANSMISSION-TIME'] ?? $headers['paypal-transmission-time'] ?? '',
+                    'webhook_id'        => $webhookId,
+                    'webhook_event'     => json_decode($body, true),
+                ]);
+
+            return $verifyResp->json('verification_status') === 'SUCCESS';
+        } catch (\Throwable $e) {
+            \Log::error('PayPal webhook signature verification falhou', ['error' => $e->getMessage()]);
+            return false;
+        }
+    }
+
+    /**
      * Captura uma PayPal Order depois da aprovação do utilizador.
      *
      * @return array{success: bool, transaction_id: string|null, message: string}

@@ -16,6 +16,10 @@ class Refund extends Model
         'details',
         'status',
         'evidence_paths',
+        'valor_reembolso',
+        'proposta_cliente',
+        'proposta_freelancer',
+        'resposta_freelancer',
     ];
 
     public function service()

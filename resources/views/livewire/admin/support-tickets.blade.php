@@ -151,6 +151,19 @@
                             <span class="text-sm text-gray-700 font-medium">{{ $selected->user->name }}</span>
                             <span class="text-xs text-gray-400">{{ $selected->user->email }}</span>
                         </div>
+                        @if($selected->user_provided_id || $selected->contact_email || $selected->contact_phone)
+                        <div class="mt-2 text-xs text-gray-500">
+                            @if($selected->user_provided_id)
+                            <div>ID fornecido: <span class="font-medium">{{ $selected->user_provided_id }}</span></div>
+                            @endif
+                            @if($selected->contact_email)
+                            <div>Email contato: <span class="font-medium">{{ $selected->contact_email }}</span></div>
+                            @endif
+                            @if($selected->contact_phone)
+                            <div>Telefone contato: <span class="font-medium">{{ $selected->contact_phone }}</span></div>
+                            @endif
+                        </div>
+                        @endif
                     </div>
                     {{-- Status changer --}}
                     <div class="flex items-center gap-2 flex-shrink-0">

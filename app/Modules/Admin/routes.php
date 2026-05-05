@@ -48,6 +48,7 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/saques', \App\Livewire\Admin\Payouts::class)->name('admin.payouts')->middleware('admin.module:financeiro');
     Route::get('/admin/categorias', \App\Livewire\Admin\Categories::class)->name('admin.categories')->middleware('admin.module:financeiro');
     Route::get('/admin/taxas', \App\Livewire\Admin\Fees::class)->name('admin.fees')->middleware('admin.module:financeiro');
+    Route::get('/admin/ajuste-saldo', \App\Livewire\Admin\WalletAdjustment::class)->name('admin.wallet.adjustment')->middleware('admin.module:financeiro');
 
     // Admin — Relatórios
     Route::get('/admin/relatorios/fluxo-caixa', \App\Livewire\Admin\CashFlow::class)->name('admin.reports.cashflow')->middleware('admin.module:financeiro');

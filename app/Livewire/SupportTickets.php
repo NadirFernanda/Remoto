@@ -24,6 +24,9 @@ class SupportTickets extends Component
     public string $subject = '';
     public string $message = '';
     public string $priority = 'normal';
+    public string $userProvidedId = '';
+    public string $contactEmail = '';
+    public string $contactPhone = '';
 
     // View ticket
     public ?int $selectedTicketId = null;
@@ -31,7 +34,7 @@ class SupportTickets extends Component
 
     public function openForm(): void
     {
-        $this->reset(['category', 'subject', 'message', 'priority']);
+        $this->reset(['category', 'subject', 'message', 'priority', 'userProvidedId', 'contactEmail', 'contactPhone']);
         $this->showForm    = true;
         $this->selectedTicketId = null;
     }
@@ -51,12 +54,16 @@ class SupportTickets extends Component
             'subject'  => 'required|string|min:5|max:120',
             'message'  => 'required|string|min:20|max:3000',
             'priority' => 'required|in:normal,alta,urgente',
+            'userProvidedId' => 'nullable|string|max:50',
+            'contactEmail' => 'nullable|email|max:255',
+            'contactPhone' => 'nullable|string|max:20',
         ], [
             'category.required' => 'Selecione uma categoria.',
             'subject.required'  => 'Indique o assunto do ticket.',
             'subject.min'       => 'O assunto deve ter pelo menos 5 caracteres.',
             'message.required'  => 'Descreva o problema.',
             'message.min'       => 'Descreva com pelo menos 20 caracteres.',
+            'contactEmail.email' => 'Email de contato inválido.',
         ]);
 
         $ticket = SupportTicket::create([
@@ -66,6 +73,9 @@ class SupportTickets extends Component
             'message'  => $this->message,
             'priority' => $this->priority,
             'status'   => 'aberto',
+            'user_provided_id' => $this->userProvidedId ?: null,
+            'contact_email' => $this->contactEmail ?: null,
+            'contact_phone' => $this->contactPhone ?: null,
         ]);
 
         // Notify all admins
@@ -79,7 +89,7 @@ class SupportTickets extends Component
             ]);
         }
 
-        $this->reset(['category', 'subject', 'message', 'priority']);
+        $this->reset(['category', 'subject', 'message', 'priority', 'userProvidedId', 'contactEmail', 'contactPhone']);
         $this->showForm = false;
         $this->selectedTicketId = $ticket->id;
         session()->flash('success', 'Ticket enviado com sucesso! Responderemos em breve.');

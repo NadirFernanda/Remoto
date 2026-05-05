@@ -3,76 +3,124 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use App\Models\Notification;
 use App\Models\Refund;
 use App\Models\Wallet;
 use App\Models\WalletLog;
-use App\Models\Notification;
+use App\Modules\Admin\Services\AuditLogger;
+use Illuminate\Support\Facades\DB;
 
 class RefundsAdminPanel extends Component
 {
-    public $status = '';
-    public $search = '';
+    public string $status = '';
+    public string $search = '';
+
+    // Aprovação parcial: guarda o valor editado por refund ID
+    public array $valoresReembolso = [];
 
     public function mount(): void
     {
         abort_if(auth()->user()?->role !== 'admin', 403);
     }
 
-    public function approve($id)
+    public function approve(int $id): void
     {
-        $refund = Refund::with('service')->find($id);
-        if (!$refund) return;
+        DB::transaction(function () use ($id) {
+            $refund = Refund::with('service')->where('id', $id)->lockForUpdate()->firstOrFail();
 
-        if ($refund->status === 'aprovado') {
-            session()->flash('info', 'Este reembolso já foi processado.');
-            return;
-        }
+            if ($refund->status === 'aprovado') {
+                session()->flash('info', 'Este reembolso já foi processado.');
+                return;
+            }
 
-        $service = $refund->service;
-        $valor   = $service ? ($service->valor ?? 0) : 0;
+            $service     = $refund->service;
+            $valorTotal  = $service ? (float)($service->valor ?? 0) : 0;
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($refund, $valor, $service) {
-            $locked = Refund::where('id', $refund->id)->lockForUpdate()->firstOrFail();
-            if ($locked->status === 'aprovado') return;
+            // Admin pode definir valor parcial via input; padrão = valor total
+            $valorInput  = isset($this->valoresReembolso[$id])
+                ? (float) $this->valoresReembolso[$id]
+                : $valorTotal;
 
-            $locked->status = 'aprovado';
-            $locked->save();
+            $valorFinal = max(0, min($valorInput, $valorTotal));
 
-            if ($valor > 0) {
+            $refund->valor_reembolso = $valorFinal;
+            $refund->status          = 'aprovado';
+            $refund->save();
+
+            if ($valorFinal > 0) {
                 $wallet = Wallet::firstOrCreate(
                     ['user_id' => $refund->user_id],
                     ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
                 );
-                $wallet->increment('saldo', $valor);
+                $wallet->increment('saldo', $valorFinal);
+
                 WalletLog::create([
                     'user_id'   => $refund->user_id,
                     'wallet_id' => $wallet->id,
-                    'valor'     => $valor,
+                    'valor'     => $valorFinal,
                     'tipo'      => 'reembolso_aprovado',
-                    'descricao' => 'Reembolso aprovado pelo admin' . ($service ? ' — projeto: ' . $service->titulo : '') . '.',
+                    'fonte'     => 'projetos',
+                    'descricao' => 'Reembolso aprovado pelo admin'
+                        . ($service ? " — projeto: {$service->titulo}" : '')
+                        . ($valorFinal < $valorTotal ? " (parcial: {$valorFinal} de {$valorTotal} Kz)" : '')
+                        . '.',
                 ]);
+
+                // Se parcial, devolver o restante ao freelancer (se existir)
+                if ($valorFinal < $valorTotal && $service?->freelancer_id) {
+                    $restante = $valorTotal - $valorFinal;
+                    $freelancerWallet = Wallet::firstOrCreate(['user_id' => $service->freelancer_id]);
+                    $freelancerWallet->increment('saldo', $restante);
+
+                    WalletLog::create([
+                        'user_id'   => $service->freelancer_id,
+                        'wallet_id' => $freelancerWallet->id,
+                        'valor'     => $restante,
+                        'tipo'      => 'reembolso_parcial_freelancer',
+                        'fonte'     => 'projetos',
+                        'descricao' => "Compensação de reembolso parcial — cliente recebeu {$valorFinal} Kz, freelancer retém {$restante} Kz do projeto {$service->titulo}.",
+                    ]);
+
+                    Notification::create([
+                        'user_id' => $service->freelancer_id,
+                        'type'    => 'reembolso_parcial',
+                        'title'   => 'Reembolso parcial processado',
+                        'message' => "O cliente recebeu reembolso de {$valorFinal} Kz no projeto \"{$service->titulo}\". O teu saldo foi creditado com {$restante} Kz.",
+                    ]);
+                }
             }
+
+            AuditLogger::log(
+                'reembolso_aprovado',
+                "Reembolso #{$id} aprovado — valor: {$valorFinal} Kz",
+                'Refund',
+                $id
+            );
         });
+
+        $refund = Refund::find($id);
+        $valor  = $refund?->valor_reembolso ?? 0;
 
         Notification::create([
             'user_id'     => $refund->user_id,
             'type'        => 'refund_approved',
             'target_role' => $refund->user?->role,
             'title'       => 'Reembolso aprovado',
-            'message'     => 'O seu pedido de reembolso foi aprovado' . ($valor > 0 ? ' e ' . number_format($valor, 0, ',', '.') . ' Kz foram creditados na sua carteira.' : '.'),
+            'message'     => $valor > 0
+                ? "O teu reembolso de " . number_format($valor, 0, ',', '.') . " Kz foi aprovado e creditado na tua carteira."
+                : 'O teu pedido de reembolso foi aprovado.',
         ]);
 
         session()->flash('success', 'Reembolso aprovado e cliente notificado.');
     }
 
-    public function reject($id)
+    public function reject(int $id): void
     {
-        // BUG-05 fix: add lockForUpdate + transaction (mirroring approve())
-        \Illuminate\Support\Facades\DB::transaction(function () use ($id) {
+        DB::transaction(function () use ($id) {
             $refund = Refund::where('id', $id)->lockForUpdate()->firstOrFail();
 
             if ($refund->status === 'rejeitado') {
-                return; // idempotency guard
+                return;
             }
 
             $refund->update(['status' => 'rejeitado']);
@@ -82,8 +130,10 @@ class RefundsAdminPanel extends Component
                 'type'        => 'refund_rejected',
                 'target_role' => $refund->user?->role,
                 'title'       => 'Reembolso rejeitado',
-                'message'     => 'O seu pedido de reembolso foi rejeitado pelo admin.',
+                'message'     => 'O teu pedido de reembolso foi rejeitado pelo admin.',
             ]);
+
+            AuditLogger::log('reembolso_rejeitado', "Reembolso #{$id} rejeitado", 'Refund', $id);
         });
 
         session()->flash('success', 'Reembolso rejeitado e cliente notificado.');
@@ -91,11 +141,21 @@ class RefundsAdminPanel extends Component
 
     public function render()
     {
-        $refunds = Refund::query()
+        $refunds = Refund::with(['user', 'service'])
             ->when($this->status, fn($q) => $q->where('status', $this->status))
-            ->when($this->search, fn($q) => $q->where('reason', 'like', '%'.$this->search.'%'))
+            ->when($this->search, fn($q) => $q->where('reason', 'like', '%' . $this->search . '%'))
             ->orderByDesc('created_at')
             ->paginate(15);
+
+        // Pré-preencher valoresReembolso com os valores totais dos serviços
+        foreach ($refunds as $refund) {
+            if (!isset($this->valoresReembolso[$refund->id])) {
+                $this->valoresReembolso[$refund->id] = $refund->valor_reembolso
+                    ?? $refund->service?->valor
+                    ?? 0;
+            }
+        }
+
         return view('livewire.admin.refunds-admin-panel', compact('refunds'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Painel de Reembolsos']);
     }
