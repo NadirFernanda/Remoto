@@ -20,5 +20,8 @@ class LogPaymentReceived implements ShouldQueue
             'Service',
             $event->service->id
         );
+
+        // Recalcular receita do freelancer
+        \App\Jobs\RecalculateRevenueJob::dispatch($event->freelancer)->onQueue('default');
     }
 }

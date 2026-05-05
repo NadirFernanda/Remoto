@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\PaymentReceived::class => [
             \App\Listeners\LogPaymentReceived::class,
         ],
+        \App\Events\PaymentFailed::class => [
+            \App\Listeners\HandlePaymentFailure::class,
+        ],
 
         // ── Ciclo de vida do serviço ───────────────────────────────
         \App\Events\ServiceCompleted::class => [
@@ -44,6 +47,11 @@ class EventServiceProvider extends ServiceProvider
         // ── Afiliados ──────────────────────────────────────────────
         \App\Events\AffiliateCommissionEarned::class => [
             \App\Listeners\CreditAffiliateCommission::class,
+        ],
+
+        // ── Receita ────────────────────────────────────────────────
+        \App\Events\RevenueAdjusted::class => [
+            \App\Listeners\HandleRevenueAdjusted::class,
         ],
 
         // ── KYC ────────────────────────────────────────────────────

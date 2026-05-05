@@ -13,6 +13,23 @@
         @endforeach
     </div>
 
+    {{-- ─── Alertas ────────────────────────────────────────────── --}}
+    @if(!empty($alerts))
+        <div class="mb-6 space-y-3">
+            @foreach($alerts as $alert)
+                <div class="rounded-xl p-4 border {{ $alert['type'] === 'danger' ? 'bg-red-50 border-red-200 text-red-800' : ($alert['type'] === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-800' : 'bg-green-50 border-green-200 text-green-800') }}">
+                    <p class="text-sm font-medium">
+                        @if(isset($alert['variation']))
+                            {{ str_replace('{:.1f}', number_format($alert['variation'], 1), $alert['message']) }}
+                        @else
+                            {{ $alert['message'] }}
+                        @endif
+                    </p>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     {{-- ─── KPI cards ──────────────────────────────────────────── --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-2xl border border-gray-200 p-5">

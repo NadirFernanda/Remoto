@@ -51,6 +51,52 @@ class Financial extends Component
 
         $receitaTotal = $receitaFreelancing + $receitaCreator + $receitaInfoprodutos;
 
+        // ── Alertas de Variações Anômalas ────────────────────────────────
+        $alerts = [];
+
+        // Comparar com período anterior
+        $previousStart = match ($this->period) {
+            'week'  => $start->copy()->subWeek(),
+            'month' => $start->copy()->subMonth(),
+            'year'  => $start->copy()->subYear(),
+            default => $start->copy()->subMonth(),
+        };
+        $previousEnd = $start->copy()->subSecond();
+
+        $previousReceitaFreelancing = (float) WalletLog::whereBetween('created_at', [$previousStart, $previousEnd])
+            ->where('tipo', 'pagamento_projeto')
+            ->sum('valor') * 10 / 90;
+        $previousReceitaCreator = (float) CreatorSubscription::whereBetween('created_at', [$previousStart, $previousEnd])
+            ->sum('platform_fee');
+        $previousReceitaInfoprodutos = (float) InfoprodutoCompra::whereBetween('created_at', [$previousStart, $previousEnd])
+            ->sum('comissao_plataforma');
+        $previousReceitaTotal = $previousReceitaFreelancing + $previousReceitaCreator + $previousReceitaInfoprodutos;
+
+        if ($previousReceitaTotal > 0) {
+            $variation = (($receitaTotal - $previousReceitaTotal) / $previousReceitaTotal) * 100;
+            if ($variation < -50) {
+                $alerts[] = [
+                    'type' => 'danger',
+                    'message' => "Receita caiu {:.1f}% em comparação com o período anterior ({$this->period}). Verifique possíveis problemas.",
+                    'variation' => $variation
+                ];
+            } elseif ($variation > 100) {
+                $alerts[] = [
+                    'type' => 'success',
+                    'message' => "Receita aumentou {:.1f}% em comparação com o período anterior ({$this->period}). Excelente desempenho!",
+                    'variation' => $variation
+                ];
+            }
+        }
+
+        // Alerta se receita abaixo de threshold (ex: 10000 Kz)
+        if ($receitaTotal < 10000) {
+            $alerts[] = [
+                'type' => 'warning',
+                'message' => 'Receita total está abaixo do threshold mínimo de 10.000 Kz. Monitore de perto.'
+            ];
+        }
+
         // ── Retenção (Escrow / Pagamento em garantia) ──────────────────────
         $escrowRetidoTotal   = (float) WalletLog::where('tipo', 'escrow_retido')->sum('valor');
         $escrowLiberadoTotal = (float) WalletLog::where('tipo', 'escrow_liberado')->sum('valor');
@@ -76,6 +122,7 @@ class Financial extends Component
             'escrowEmRetencao',
             'escrowRetidoPeriodo',
             'escrowLiberadoPeriodo',
+            'alerts',
         ))->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão Financeira']);
     }
 }

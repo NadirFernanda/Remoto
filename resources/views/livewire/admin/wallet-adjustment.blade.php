@@ -50,8 +50,17 @@
             </div>
         @endif
 
-        {{-- Valor --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {{-- Tipo de Ajuste --}}
+        <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Tipo de Ajuste</label>
+            <select
+                wire:model="adjustmentType"
+                class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]"
+            >
+                <option value="wallet">Carteira (Saldo Disponível)</option>
+                <option value="revenue">Receita (Total Ganho)</option>
+            </select>
+        </div>
             <div>
                 <label class="block text-sm font-medium text-slate-700 mb-1">
                     Valor (positivo = crédito, negativo = débito)

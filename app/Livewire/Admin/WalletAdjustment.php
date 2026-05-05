@@ -6,7 +6,9 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletLog;
+use App\Models\FreelancerProfile;
 use App\Modules\Admin\Services\AuditLogger;
+use App\Events\RevenueAdjusted;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,12 +17,13 @@ class WalletAdjustment extends Component
 {
     use WithPagination;
 
-    public string $searchUser  = '';
-    public ?int   $userId      = null;
-    public string $userName    = '';
-    public float  $amount      = 0;
-    public string $reason      = '';
-    public string $periodFilter = 'month';
+    public string $searchUser     = '';
+    public ?int   $userId         = null;
+    public string $userName       = '';
+    public float  $amount         = 0;
+    public string $reason         = '';
+    public string $periodFilter   = 'month';
+    public string $adjustmentType = 'wallet'; // 'wallet' or 'revenue'
 
     public function mount(): void
     {
@@ -36,10 +39,11 @@ class WalletAdjustment extends Component
 
     public function clearUser(): void
     {
-        $this->userId   = null;
-        $this->userName = '';
-        $this->amount   = 0;
-        $this->reason   = '';
+        $this->userId         = null;
+        $this->userName       = '';
+        $this->amount         = 0;
+        $this->reason         = '';
+        $this->adjustmentType = 'wallet';
     }
 
     public function applyAdjustment(): void
@@ -48,6 +52,7 @@ class WalletAdjustment extends Component
             'userId' => 'required|exists:users,id',
             'amount' => 'required|numeric|not_in:0',
             'reason' => 'required|string|min:10|max:500',
+            'adjustmentType' => 'required|in:wallet,revenue',
         ], [
             'amount.not_in'  => 'O valor não pode ser zero.',
             'reason.min'     => 'O motivo deve ter pelo menos 10 caracteres.',
@@ -58,53 +63,85 @@ class WalletAdjustment extends Component
         $abs   = abs($this->amount);
         $isCredit = $this->amount > 0;
 
-        DB::transaction(function () use ($user, $admin, $abs, $isCredit) {
-            $wallet = Wallet::firstOrCreate(
-                ['user_id' => $user->id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-            );
-            $wallet = Wallet::where('id', $wallet->id)->lockForUpdate()->first();
+        if ($this->adjustmentType === 'wallet') {
+            // Lógica existente para wallet
+            DB::transaction(function () use ($user, $admin, $abs, $isCredit) {
+                $wallet = Wallet::firstOrCreate(
+                    ['user_id' => $user->id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                $wallet = Wallet::where('id', $wallet->id)->lockForUpdate()->first();
 
-            if (!$isCredit && $wallet->saldo < $abs) {
-                $this->addError('amount', 'Saldo insuficiente para debitar este valor.');
+                if (!$isCredit && $wallet->saldo < $abs) {
+                    $this->addError('amount', 'Saldo insuficiente para debitar este valor.');
+                    return;
+                }
+
+                if ($isCredit) {
+                    $wallet->increment('saldo', $abs);
+                } else {
+                    $wallet->decrement('saldo', $abs);
+                }
+
+                WalletLog::create([
+                    'user_id'   => $user->id,
+                    'wallet_id' => $wallet->id,
+                    'valor'     => $isCredit ? $abs : -$abs,
+                    'tipo'      => 'ajuste_admin',
+                    'fonte'     => 'geral',
+                    'descricao' => "Ajuste manual por {$admin->name}: {$this->reason}",
+                ]);
+
+                Notification::create([
+                    'user_id' => $user->id,
+                    'type'    => 'ajuste_admin',
+                    'title'   => $isCredit ? 'Crédito adicionado' : 'Débito aplicado',
+                    'message' => ($isCredit
+                        ? 'O admin creditou ' . number_format($abs, 0, ',', '.') . ' Kz na tua carteira.'
+                        : 'O admin debitou ' . number_format($abs, 0, ',', '.') . ' Kz da tua carteira.')
+                        . ' Motivo: ' . $this->reason,
+                ]);
+
+                AuditLogger::log(
+                    'ajuste_admin_wallet',
+                    ($isCredit ? 'Crédito' : 'Débito') . " de {$abs} Kz na carteira de {$user->name} (ID: {$user->id}). Motivo: {$this->reason}",
+                    'Wallet',
+                    $wallet->id
+                );
+            });
+        } elseif ($this->adjustmentType === 'revenue') {
+            // Ajuste na receita
+            if ($user->role !== 'freelancer') {
+                $this->addError('userId', 'Ajustes de receita só podem ser feitos para freelancers.');
                 return;
             }
 
-            if ($isCredit) {
-                $wallet->increment('saldo', $abs);
-            } else {
-                $wallet->decrement('saldo', $abs);
+            $profile = FreelancerProfile::where('user_id', $user->id)->first();
+            if (!$profile) {
+                $this->addError('userId', 'Perfil de freelancer não encontrado.');
+                return;
             }
 
-            WalletLog::create([
-                'user_id'   => $user->id,
-                'wallet_id' => $wallet->id,
-                'valor'     => $isCredit ? $abs : -$abs,
-                'tipo'      => 'ajuste_admin',
-                'fonte'     => 'geral',
-                'descricao' => "Ajuste manual por {$admin->name}: {$this->reason}",
-            ]);
+            $metrics = $profile->metrics ?? [];
+            $currentRevenue = $metrics['receita_total'] ?? 0;
+            $newRevenue = $currentRevenue + $this->amount; // amount pode ser negativo
+            $metrics['receita_total'] = max(0, $newRevenue); // não permitir negativo
+            $profile->update(['metrics' => $metrics]);
 
-            Notification::create([
-                'user_id' => $user->id,
-                'type'    => 'ajuste_admin',
-                'title'   => $isCredit ? 'Crédito adicionado' : 'Débito aplicado',
-                'message' => ($isCredit
-                    ? 'O admin creditou ' . number_format($abs, 0, ',', '.') . ' Kz na tua carteira.'
-                    : 'O admin debitou ' . number_format($abs, 0, ',', '.') . ' Kz da tua carteira.')
-                    . ' Motivo: ' . $this->reason,
-            ]);
-
+            // Log
             AuditLogger::log(
-                'ajuste_admin_wallet',
-                ($isCredit ? 'Crédito' : 'Débito') . " de {$abs} Kz na carteira de {$user->name} (ID: {$user->id}). Motivo: {$this->reason}",
-                'Wallet',
-                $wallet->id
+                'ajuste_admin_revenue',
+                "Ajuste de receita de {$this->amount} Kz para {$user->name} (ID: {$user->id}). Motivo: {$this->reason}",
+                'FreelancerProfile',
+                $profile->id
             );
-        });
+
+            // Disparar evento
+            RevenueAdjusted::dispatch($user, $this->amount, $this->reason);
+        }
 
         if ($this->getErrorBag()->isEmpty()) {
-            $this->reset(['amount', 'reason', 'userId', 'userName']);
+            $this->reset(['amount', 'reason', 'userId', 'userName', 'adjustmentType']);
             session()->flash('success', 'Ajuste aplicado e utilizador notificado.');
         }
     }

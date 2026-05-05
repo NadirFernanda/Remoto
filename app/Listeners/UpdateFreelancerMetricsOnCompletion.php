@@ -28,5 +28,8 @@ class UpdateFreelancerMetricsOnCompletion implements ShouldQueue
             'Service',
             $event->service->id
         );
+
+        // Recalcular receita do freelancer após conclusão
+        \App\Jobs\RecalculateRevenueJob::dispatch($event->freelancer)->onQueue('default');
     }
 }

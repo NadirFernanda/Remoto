@@ -2,6 +2,7 @@
 
 return [
     App\Providers\AppServiceProvider::class,
+    App\Providers\EventServiceProvider::class,
 
     // ─── Module Service Providers ─────────────────────────────────────────────
     App\Modules\Marketplace\MarketplaceServiceProvider::class,
