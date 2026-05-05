@@ -154,35 +154,3 @@
 
     <div class="mt-4">{{ $logs->links() }}</div>
 </div>
-
-    <div class="rounded-2xl border border-gray-200 overflow-x-auto">
-        <table class="min-w-full text-sm">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Data</th>
-                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Utilizador</th>
-                    <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Tipo</th>
-                    <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase">Valor</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse($logs as $log)
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
-                        <td class="py-3 px-4 text-sm text-gray-700">{{ $log->user->name ?? '—' }}</td>
-                        <td class="py-3 px-4 text-sm text-gray-500">{{ ucfirst($log->tipo) }}</td>
-                        <td class="py-3 px-4 text-sm text-right {{ $log->valor >= 0 ? 'text-green-600' : 'text-red-500' }}">
-                            {{ money_aoa($log->valor) }}
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="py-10 text-center text-sm text-gray-400">Sem movimentações para o período seleccionado.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
-
-    <div class="mt-4">{{ $logs->links() }}</div>
-</div>
