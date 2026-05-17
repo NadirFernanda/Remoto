@@ -63,10 +63,10 @@
                         $isSubbed = in_array($creator->id, $subscribedCreatorIds);
                         $catLabel = \App\Models\CreatorProfile::categories()[$profile?->category ?? ''] ?? null;
                     @endphp
-                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:border-[#0055ff]/30 transition group">
+                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
 
                         {{-- Cover photo --}}
-                        <div class="relative h-24 bg-gradient-to-br from-[#00c8ff]/10 to-[#e0f7fa]">
+                        <div class="relative h-24" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
                             @if($profile?->cover_photo)
                                 <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->cover_photo) }}"
                                      alt="capa"
