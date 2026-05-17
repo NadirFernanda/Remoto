@@ -410,7 +410,7 @@
                     {{-- Notificação dropdown (admin) --}}
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open"
-                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:600;font-size:.8rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
                                 onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                             Notificação
@@ -456,7 +456,7 @@
                     {{-- Menu Admin dropdown --}}
                     <div x-data="{open:false}" class="relative">
                         <button @click="open = !open"
-                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:600;font-size:.8rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
                                 onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
                             Menu Admin
@@ -545,7 +545,7 @@
                     {{-- Não-admin: Publicar Projecto + Conteúdo --}}
                     <div x-data="{open:false, role:'{{ auth()->user()->activeRole() }}'}" class="relative">
                         <button @click="open = !open"
-                                style="display:flex;align-items:center;gap:.4rem;padding:.45rem .95rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.84rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:600;font-size:.8rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
                                 onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
                             Publicar
