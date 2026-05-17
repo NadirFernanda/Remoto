@@ -412,7 +412,7 @@ body{
 .hp-section { padding: 5rem 1.5rem; }
 .hp-section--white  { background: #0d1424; }
 .hp-section--gray   { background: #080d1a; }
-.hp-section--blue   { background: #00baff; }
+.hp-section--blue   { background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%); }
 
 /* section typography */
 .hp-label    { color: #00baff; font-weight: 700; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .4rem; }
