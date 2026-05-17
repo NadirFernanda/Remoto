@@ -6,7 +6,7 @@
     <title>Página não encontrada — 24 Horas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="{{ asset('img/logo.png') }}" sizes="any">
+    <link rel="icon" href="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" sizes="any">
     @vite(['resources/css/app.css'])
     <style>
         body { margin:0; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#021018; font-family:'Inter',system-ui,sans-serif; padding:1.5rem; }

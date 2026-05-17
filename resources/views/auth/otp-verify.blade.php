@@ -6,7 +6,7 @@
         <div class="pub-auth-card" style="text-align:center;">
             {{-- Logo --}}
             <a href="/" style="display:inline-block;margin-bottom:1.5rem;">
-                <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
+                <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
             </a>
 
             {{-- Ícone de e-mail --}}

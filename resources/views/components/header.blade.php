@@ -4,7 +4,7 @@
         <!-- Esquerda: Logo + Nav agrupados -->
         <div style="display:flex;align-items:center;gap:0;flex-shrink:0;">
             <a href="/" class="flex items-center" aria-label="24 Horas" style="margin-right:1.5rem;">
-                <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="site-logo">
+                <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" class="site-logo">
             </a>
 
             @guest

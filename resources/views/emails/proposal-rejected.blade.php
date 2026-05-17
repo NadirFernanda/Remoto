@@ -13,7 +13,7 @@
                 {{-- Header --}}
                 <tr>
                     <td style="background:#0f172a;padding:32px 40px;text-align:center;">
-                        <img src="{{ asset('img/logo.png') }}" alt="{{ config('app.name') }}" style="height:48px;object-fit:contain;">
+                        <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="{{ config('app.name') }}" style="height:48px;object-fit:contain;">
                     </td>
                 </tr>
                 {{-- Body --}}

@@ -4,7 +4,7 @@
         <!-- Primeira linha: Marca -->
         <div class="hp-footer-brand">
             <a href="/" class="hp-footer-brand-logo" aria-label="24 Horas">
-                <img src="{{ asset('img/logo.png') }}" alt="24 Horas" class="hp-footer-logo">
+                <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" class="hp-footer-logo">
             </a>
             <p>A plataforma mais rápida para conectar clientes e freelancers. Segurança, agilidade e qualidade em cada projecto.</p>
             <div class="hp-footer-social">

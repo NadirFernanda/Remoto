@@ -7,7 +7,7 @@
             {{-- Logo + título --}}
             <div style="text-align:center;margin-bottom:1.75rem;">
                 <a href="/" style="display:inline-block;margin-bottom:1.25rem;">
-                    <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:56px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
+                    <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" style="height:56px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(0,186,255,.35));">
                 </a>
                 <h1 id="titulo-registo" class="pub-auth-title">Criar conta como Freelancer</h1>
                 <p class="pub-auth-sub">Preencha os dados para começar</p>

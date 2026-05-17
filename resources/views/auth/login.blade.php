@@ -4,7 +4,7 @@
 <div id="login-bg" style="flex:1;min-height:100vh;background-image:linear-gradient(135deg,rgba(0,86,210,.82) 0%,rgba(10,18,40,.93) 100%),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=900&fit=crop&auto=format&q=80');background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;font-family:'Inter',system-ui,sans-serif;">
 
     <a href="/" style="display:inline-block;margin-bottom:1.5rem;">
-        <img src="{{ asset('img/logo.png') }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(0,186,255,.6));">
+        <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(0,186,255,.6));">
     </a>
 
     <div style="text-align:center;margin-bottom:1.75rem;">
