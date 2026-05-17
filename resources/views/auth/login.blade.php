@@ -1,98 +1,314 @@
 @extends('layouts.main')
 
 @section('content')
-<div id="login-bg" style="flex:1;min-height:100vh;background-image:linear-gradient(135deg,rgba(0,86,210,.82) 0%,rgba(10,18,40,.93) 100%),url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=900&fit=crop&auto=format&q=80');background-size:cover;background-position:center;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem 1rem;font-family:'Inter',system-ui,sans-serif;">
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
 
-    <a href="/" style="display:inline-block;margin-bottom:1.5rem;">
-        <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas" style="height:52px;object-fit:contain;filter:drop-shadow(0 0 16px rgba(0,186,255,.6));">
-    </a>
+    .login-wrap {
+        min-height: calc(100vh - 72px);
+        display: flex;
+    }
 
-    <div style="text-align:center;margin-bottom:1.75rem;">
-        <h1 style="font-size:1.75rem;font-weight:800;color:#fff;margin:0 0 .35rem;">Bem-vindo de volta</h1>
-        <p style="color:rgba(255,255,255,.7);font-size:.95rem;margin:0;">Aceda a sua conta 24 Horas</p>
-    </div>
+    /* ── LEFT PANEL ── */
+    .login-left {
+        flex: 0 0 50%;
+        max-width: 560px;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 3rem 4rem;
+    }
+    .login-logo { height: 56px; object-fit: contain; margin-bottom: 2rem; }
 
-    <div style="width:100%;max-width:440px;">
+    .login-headline { font-size: 1.85rem; font-weight: 900; color: #0a0f1e; line-height: 1.18; margin-bottom: .65rem; }
+    .login-headline .grad {
+        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .login-sub { color: #64748b; font-size: .95rem; line-height: 1.65; margin-bottom: 2rem; }
+    .login-sub span { color: #0055ff; font-weight: 700; }
+
+    .login-alert-error { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; padding: .75rem 1rem; color: #dc2626; font-size: .875rem; margin-bottom: 1.25rem; }
+    .login-alert-ok    { background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: .75rem 1rem; color: #16a34a; font-size: .875rem; margin-bottom: 1.25rem; }
+
+    .lf-group { position: relative; margin-bottom: 1rem; }
+    .lf-icon  { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; }
+    .lf-input {
+        width: 100%;
+        padding: .88rem 1rem .88rem 2.8rem;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: .95rem;
+        color: #1e293b;
+        background: #f8fafc;
+        outline: none;
+        transition: border-color .18s, box-shadow .18s;
+        font-family: inherit;
+    }
+    .lf-input:focus { border-color: #0055ff; box-shadow: 0 0 0 3px rgba(0,80,255,.12); background: #fff; }
+    .lf-input.has-error { border-color: #dc2626; }
+    .lf-eye  { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 0; }
+    .lf-error { color: #dc2626; font-size: .78rem; margin-top: .3rem; display: none; }
+    .lf-error.show { display: block; }
+
+    .lf-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .lf-remember { display: flex; align-items: center; gap: .5rem; font-size: .875rem; color: #64748b; cursor: pointer; }
+    .lf-remember input { width: 15px; height: 15px; accent-color: #0055ff; }
+    .lf-forgot { font-size: .875rem; color: #0055ff; font-weight: 600; text-decoration: none; }
+    .lf-forgot:hover { text-decoration: underline; }
+
+    .lf-submit {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+        color: #fff;
+        font-weight: 800;
+        font-size: 1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        letter-spacing: .01em;
+        box-shadow: 0 6px 24px rgba(0,80,255,.3);
+        transition: opacity .15s, transform .15s;
+        font-family: inherit;
+    }
+    .lf-submit:hover { opacity: .88; transform: translateY(-1px); }
+
+    .lf-register { text-align: center; margin-top: 1.75rem; font-size: .875rem; color: #94a3b8; }
+    .lf-register a { color: #0055ff; font-weight: 700; text-decoration: none; }
+    .lf-register a:hover { text-decoration: underline; }
+
+    /* ── RIGHT PANEL ── */
+    .login-right {
+        flex: 1;
+        background: linear-gradient(135deg, #060e24 0%, #0d2258 45%, #071540 100%);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    /* world map dots overlay */
+    .lr-map {
+        position: absolute;
+        inset: 0;
+        opacity: .07;
+        background-image: radial-gradient(circle, #4af 1px, transparent 1px);
+        background-size: 28px 28px;
+    }
+
+    /* big decorative rings */
+    .lr-ring {
+        position: absolute;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 2.5px solid rgba(0, 120, 255, .45);
+    }
+    .lr-ring-1 { width: 520px; height: 520px; }
+    .lr-ring-2 { width: 380px; height: 380px; border-width: 1.5px; border-color: rgba(0,90,255,.25); }
+
+    /* radial glow */
+    .lr-glow {
+        position: absolute;
+        width: 480px;
+        height: 480px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(0,100,255,.28) 0%, transparent 68%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    /* person photo */
+    .lr-person {
+        position: relative;
+        z-index: 3;
+        height: 90%;
+        max-height: 680px;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+    }
+
+    /* security badge */
+    .lr-badge {
+        position: absolute;
+        right: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        text-align: center;
+        background: rgba(5, 30, 100, .65);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(100, 160, 255, .28);
+        border-radius: 18px;
+        padding: 1.25rem 1.1rem;
+        min-width: 120px;
+    }
+    .lr-badge-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0055ff, #0033cc);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto .75rem;
+    }
+    .lr-badge-title { color: #fff; font-weight: 800; font-size: .95rem; margin-bottom: .35rem; }
+    .lr-badge-sub   { color: rgba(255,255,255,.65); font-size: .72rem; line-height: 1.5; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+        .login-wrap { flex-direction: column; }
+        .login-left { flex: unset; max-width: 100%; padding: 2.5rem 1.75rem; }
+        .login-right { min-height: 260px; }
+        .lr-person { height: 260px; max-height: 260px; object-position: top; }
+        .lr-badge { right: 1rem; padding: .75rem; }
+        .lr-ring-1 { width: 280px; height: 280px; }
+        .lr-ring-2 { width: 200px; height: 200px; }
+    }
+</style>
+
+<div class="login-wrap">
+
+    {{-- ─── LEFT: form ─────────────────────────────────────────────────── --}}
+    <div class="login-left">
+
+        <a href="/">
+            <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}"
+                 alt="24 Horas" class="login-logo">
+        </a>
+
+        <h1 class="login-headline">
+            GESTÃO <span class="grad">INTELIGENTE.</span><br>
+            RESULTADOS <span class="grad">REAIS.</span>
+        </h1>
+
+        <p class="login-sub">
+            A plataforma completa para impulsionar<br>
+            sua empresa, <span>24 horas</span> por dia.
+        </p>
+
+        @if($errors->any())
+            <div class="login-alert-error">{{ $errors->first() }}</div>
+        @endif
         @if(session('status'))
-            <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:.75rem 1rem;color:#16a34a;font-size:.875rem;margin-bottom:1.25rem;text-align:center;">{{ session('status') }}</div>
+            <div class="login-alert-ok">{{ session('status') }}</div>
         @endif
 
-        <div style="background:rgba(255,255,255,.97);border-radius:20px;padding:2.25rem 2rem;box-shadow:0 20px 60px rgba(0,0,0,.3);">
-            <form method="POST" action="/login" novalidate onsubmit="return validateLoginForm(event)">
-                @csrf
-                <div class="pub-field">
-                    <label for="login-email">E-mail</label>
-                    <input type="email" name="email" id="login-email" class="pub-input" placeholder="seu@email.com" value="{{ old('email') }}" required autofocus style="color:#1e293b;background:#f8fafc;{{ $errors->has('email') ? 'border-color:#dc2626;' : '' }}">
-                    <div id="email-error" class="pub-field-error" style="{{ $errors->has('email') ? 'display:block;' : 'display:none;' }}">{{ $errors->first('email') }}</div>
-                </div>
-                <div class="pub-field">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
-                        <label for="login-password" style="margin-bottom:0;">Palavra-passe</label>
-                        <a href="{{ route('password.request') }}" style="font-size:.8rem;color:#0070ff;font-weight:600;text-decoration:none;">Esqueci a palavra-passe</a>
-                    </div>
-                    <input type="password" name="password" id="login-password" class="pub-input" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required style="color:#1e293b;background:#f8fafc;{{ $errors->has('password') ? 'border-color:#dc2626;' : '' }}">
-                    <div id="password-error" class="pub-field-error" style="{{ $errors->has('password') ? 'display:block;' : 'display:none;' }}">{{ $errors->first('password') }}</div>
-                </div>
-                <button type="submit" class="pub-btn-primary" style="width:100%;padding:.85rem;font-size:1rem;margin-top:.5rem;border-radius:10px;">Entrar</button>
-            </form>
-            <p style="text-align:center;margin-top:1.25rem;font-size:.875rem;color:#64748b;margin-bottom:0;">
-                Nao tem conta? <a href="/register" style="color:#0070ff;font-weight:700;text-decoration:none;">Criar conta gratuita</a>
-            </p>
-        </div>
-    </div>
+        <form method="POST" action="/login" novalidate id="login-form">
+            @csrf
 
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;">
-        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:14px;padding:.75rem 1.25rem;text-align:center;">
-            <div style="font-size:1.3rem;font-weight:800;color:#00baff;">+5 000</div>
-            <div style="font-size:.75rem;color:rgba(255,255,255,.65);margin-top:.15rem;">Freelancers</div>
-        </div>
-        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:14px;padding:.75rem 1.25rem;text-align:center;">
-            <div style="font-size:1.3rem;font-weight:800;color:#00baff;">+12 000</div>
-            <div style="font-size:.75rem;color:rgba(255,255,255,.65);margin-top:.15rem;">Projectos</div>
-        </div>
-        <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:14px;padding:.75rem 1.25rem;text-align:center;">
-            <div style="font-size:1.3rem;font-weight:800;color:#00baff;">98%</div>
-            <div style="font-size:.75rem;color:rgba(255,255,255,.65);margin-top:.15rem;">Satisfacao</div>
-        </div>
-    </div>
-
-    <div style="margin-top:1.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1rem 1.4rem;max-width:440px;width:100%;">
-        <div style="display:flex;gap:.15rem;margin-bottom:.4rem;">
-            <svg style="width:13px;height:13px;fill:#f59e0b;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg style="width:13px;height:13px;fill:#f59e0b;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg style="width:13px;height:13px;fill:#f59e0b;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg style="width:13px;height:13px;fill:#f59e0b;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-            <svg style="width:13px;height:13px;fill:#f59e0b;" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-        </div>
-        <p style="color:rgba(255,255,255,.85);font-size:.85rem;line-height:1.55;margin:0 0 .6rem;font-style:italic;">"Consegui os meus primeiros clientes em menos de uma semana. A plataforma e intuitiva e o suporte e excelente."</p>
-        <div style="display:flex;align-items:center;gap:.6rem;">
-            <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#00baff,#0070ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.75rem;flex-shrink:0;">M</div>
-            <div>
-                <div style="color:#fff;font-size:.78rem;font-weight:600;">Marcos Oliveira</div>
-                <div style="color:rgba(255,255,255,.5);font-size:.7rem;">Dev Full Stack - Luanda</div>
+            {{-- Email / username --}}
+            <div class="lf-group">
+                <span class="lf-icon">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                </span>
+                <input type="text" name="email" id="lf-email"
+                       class="lf-input {{ $errors->has('email') ? 'has-error' : '' }}"
+                       placeholder="Usuário ou e-mail"
+                       value="{{ old('email') }}" required autofocus>
+                <p class="lf-error {{ $errors->has('email') ? 'show' : '' }}" id="lf-email-err">
+                    {{ $errors->first('email') }}
+                </p>
             </div>
+
+            {{-- Password --}}
+            <div class="lf-group">
+                <span class="lf-icon">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="3" y="11" width="18" height="11" rx="2"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M7 11V7a5 5 0 0110 0v4"/>
+                    </svg>
+                </span>
+                <input type="password" name="password" id="lf-pw"
+                       class="lf-input {{ $errors->has('password') ? 'has-error' : '' }}"
+                       placeholder="Palavra-passe"
+                       style="padding-right:2.8rem;"
+                       required>
+                <button type="button" class="lf-eye" onclick="togglePw()" aria-label="Mostrar/ocultar senha">
+                    <svg id="eye-show" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <svg id="eye-hide" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+                    </svg>
+                </button>
+                <p class="lf-error {{ $errors->has('password') ? 'show' : '' }}" id="lf-pw-err">
+                    {{ $errors->first('password') }}
+                </p>
+            </div>
+
+            {{-- Remember + Forgot --}}
+            <div class="lf-row">
+                <label class="lf-remember">
+                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                    Lembrar-me
+                </label>
+                <a href="{{ route('password.request') }}" class="lf-forgot">Esqueceu sua senha?</a>
+            </div>
+
+            <button type="submit" class="lf-submit">Entrar</button>
+        </form>
+
+        <p class="lf-register">
+            — Ainda não tem uma conta? <a href="/register">Cadastre-se</a> —
+        </p>
+
+    </div>
+
+    {{-- ─── RIGHT: visual ───────────────────────────────────────────────── --}}
+    <div class="login-right">
+
+        <div class="lr-map"></div>
+        <div class="lr-ring lr-ring-1"></div>
+        <div class="lr-ring lr-ring-2"></div>
+        <div class="lr-glow"></div>
+
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=700&h=900&fit=crop&crop=top&auto=format&q=82"
+             alt="Profissional" class="lr-person">
+
+        <div class="lr-badge">
+            <div class="lr-badge-icon">
+                <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                </svg>
+            </div>
+            <p class="lr-badge-title">Segurança</p>
+            <p class="lr-badge-sub">Seus dados protegidos<br>com tecnologia de<br>ponta</p>
         </div>
+
     </div>
 
 </div>
 
 <script>
-function validateLoginForm(e) {
-    var ok=true,em=document.getElementById('login-email'),pw=document.getElementById('login-password'),ee=document.getElementById('email-error'),pe=document.getElementById('password-error');
-    ee.style.display='none';pe.style.display='none';em.style.borderColor='';pw.style.borderColor='';
-    if(!em.value){ee.textContent='Preencha o e-mail.';ee.style.display='block';em.style.borderColor='#dc2626';ok=false;}
-    else if(!/^\S+@\S+\.\S+$/.test(em.value)){ee.textContent='E-mail invalido.';ee.style.display='block';em.style.borderColor='#dc2626';ok=false;}
-    if(!pw.value){pe.textContent='Preencha a palavra-passe.';pe.style.display='block';pw.style.borderColor='#dc2626';ok=false;}
-    return ok;
-}
-(function(){
-    function fixH(){
-        var el=document.getElementById('login-bg');
-        var sc=document.getElementById('page-scroll');
-        if(el&&sc) el.style.minHeight=sc.clientHeight+'px';
+function togglePw() {
+    var inp = document.getElementById('lf-pw');
+    var show = document.getElementById('eye-show');
+    var hide = document.getElementById('eye-hide');
+    if (inp.type === 'password') {
+        inp.type = 'text';
+        show.style.display = 'none';
+        hide.style.display = 'block';
+    } else {
+        inp.type = 'password';
+        show.style.display = 'block';
+        hide.style.display = 'none';
     }
-    fixH();
-    window.addEventListener('resize',fixH);
-})();
+}
 </script>
 @endsection
