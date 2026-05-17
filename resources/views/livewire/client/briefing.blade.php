@@ -13,7 +13,7 @@
             <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all
-                        {{ $step >= $n ? 'bg-[#00baff] text-white' : 'bg-gray-200 text-gray-500' }}">
+                        {{ $step >= $n ? 'bg-[#0055ff] text-white' : 'bg-gray-200 text-gray-500' }}">
                         @if($step > $n)
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                         @else
@@ -23,7 +23,7 @@
                     <span class="text-sm font-medium {{ $step >= $n ? 'text-gray-800' : 'text-gray-400' }}">{{ $label }}</span>
                 </div>
                 @if(!$loop->last)
-                    <div class="flex-1 h-0.5 mx-3 {{ $step > $n ? 'bg-[#00baff]' : 'bg-gray-200' }}"></div>
+                    <div class="flex-1 h-0.5 mx-3 {{ $step > $n ? 'bg-[#0055ff]' : 'bg-gray-200' }}"></div>
                 @endif
             </div>
         @endforeach
@@ -69,11 +69,11 @@
                 <button type="button"
                         wire:click="$set('business_type1', '{{ $cat }}')"
                         class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer
-                               {{ $selected ? 'border-[#00baff] bg-[#e8f9ff] shadow-md' : 'border-gray-100 bg-white hover:border-[#00baff] hover:bg-[#f0fbff]' }}">
-                    <div class="w-10 h-10 text-[#00baff]">
+                               {{ $selected ? 'border-[#0055ff] bg-[#e8f9ff] shadow-md' : 'border-gray-100 bg-white hover:border-[#0055ff] hover:bg-[#f0fbff]' }}">
+                    <div class="w-10 h-10 text-[#0055ff]">
                         {!! $meta['icon'] !!}
                     </div>
-                    <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-[#00baff]' : 'text-gray-600' }}">{{ $meta['short'] }}</span>
+                    <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-[#0055ff]' : 'text-gray-600' }}">{{ $meta['short'] }}</span>
                 </button>
             @endforeach
         </div>
@@ -97,7 +97,7 @@
 
         <div class="flex justify-end mt-4">
             <button type="button" wire:click="goToStep2"
-                    class="bg-[#00baff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
+                    class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
                 Continuar →
             </button>
         </div>
@@ -143,11 +143,11 @@
         @if(!empty($currentTemplate))
         <div class="lg:col-span-1 space-y-4">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                <p class="text-xs font-bold text-[#00baff] uppercase tracking-wide mb-3">📋 Perguntas guia</p>
+                <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide mb-3">📋 Perguntas guia</p>
                 <ul class="space-y-2.5">
                     @foreach($currentTemplate['questions'] ?? [] as $q)
                         <li class="flex items-start gap-2 text-xs text-gray-600">
-                            <span class="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full bg-cyan-100 text-[#00baff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
+                            <span class="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full bg-cyan-100 text-[#0055ff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
                             {{ $q }}
                         </li>
                     @endforeach
@@ -169,7 +169,7 @@
             ← Voltar
         </button>
         <button type="button" wire:click="goToStep3"
-                class="bg-[#00baff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
+                class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
             Gerar descrição →
         </button>
     </div>
@@ -217,7 +217,7 @@
             </button>
             <button type="button" wire:click="submitBriefing"
                     wire:loading.attr="disabled"
-                    class="bg-[#00baff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm disabled:opacity-60">
+                    class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm disabled:opacity-60">
                 <span wire:loading.remove>✓ Publicar pedido</span>
                 <span wire:loading>A publicar...</span>
             </button>

@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Gestão de Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o progresso, milestones e entregas dos seus projectos.</p>
@@ -34,8 +34,8 @@
                 wire:click="$set('statusFilter', '{{ $val }}')"
                 class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition
                     {{ $statusFilter === $val
-                        ? 'bg-[#00baff] text-white border-[#00baff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}"
+                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}"
             >
                 {{ $label }}
                 @if($val && ($pipeline[$val] ?? 0))
@@ -82,7 +82,7 @@
                 <button
                     wire:click="selectService({{ $project->id }})"
                     class="w-full text-left bg-white rounded-2xl border p-4 transition
-                        {{ $isSelected ? 'border-[#00baff] ring-1 ring-[#00baff]/30 shadow-sm' : 'border-gray-200 hover:border-[#00baff]/40 hover:shadow-sm' }}"
+                        {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}"
                 >
                     <div class="flex items-start justify-between gap-2">
                         <p class="text-sm font-semibold text-gray-800 line-clamp-1 flex-1">{{ $project->titulo }}</p>
@@ -100,7 +100,7 @@
                                 <span>{{ $total > 0 ? round($done/$total*100) : 0 }}%</span>
                             </div>
                             <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-[#00baff] rounded-full transition-all" style="width: {{ $total > 0 ? round($done/$total*100) : 0 }}%"></div>
+                                <div class="h-full bg-[#0055ff] rounded-full transition-all" style="width: {{ $total > 0 ? round($done/$total*100) : 0 }}%"></div>
                             </div>
                         </div>
                     @endif
@@ -267,7 +267,7 @@
                                 <div class="flex items-center flex-shrink-0">
                                     <div class="flex flex-col items-center gap-1">
                                         <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold
-                                            {{ $active ? 'bg-[#00baff] text-white' : 'bg-gray-100 text-gray-400' }}">
+                                            {{ $active ? 'bg-[#0055ff] text-white' : 'bg-gray-100 text-gray-400' }}">
                                             @if($active && $i < $currentStep)
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                                             @else
@@ -277,7 +277,7 @@
                                         <span class="text-xs text-gray-500 whitespace-nowrap">{{ $stepLabels[$i] }}</span>
                                     </div>
                                     @if($i < count($statusSteps) - 1)
-                                        <div class="h-0.5 w-8 sm:w-12 mx-1 mb-4 {{ $active && $currentStep > $i ? 'bg-[#00baff]' : 'bg-gray-200' }}"></div>
+                                        <div class="h-0.5 w-8 sm:w-12 mx-1 mb-4 {{ $active && $currentStep > $i ? 'bg-[#0055ff]' : 'bg-gray-200' }}"></div>
                                     @endif
                                 </div>
                             @endforeach
@@ -290,23 +290,23 @@
                     <div class="flex border-b border-gray-100 overflow-x-auto">
                         @if(in_array($selected->status, ['published', 'accepted']))
                         <button @click="tab = 'proposals'"
-                            :class="tab === 'proposals' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            :class="tab === 'proposals' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Propostas
                             @if($candidates->count() > 0)
-                                <span class="ml-1 text-xs px-1.5 py-0.5 rounded-full bg-[#00baff]/10 text-[#00baff]">{{ $candidates->whereIn('status', ['pending','proposal_sent','invited'])->count() }}</span>
+                                <span class="ml-1 text-xs px-1.5 py-0.5 rounded-full bg-[#0055ff]/10 text-[#0055ff]">{{ $candidates->whereIn('status', ['pending','proposal_sent','invited'])->count() }}</span>
                             @endif
                         </button>
                         @endif
                         @if(in_array($selected->status, ['delivered','completed']))
                         <button @click="tab = 'entrega'"
-                            :class="tab === 'entrega' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            :class="tab === 'entrega' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap font-semibold">
                             📦 Entrega
                         </button>
                         @endif
                         <button @click="tab = 'milestones'"
-                            :class="tab === 'milestones' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            :class="tab === 'milestones' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Marcos
                             @if($totalMilestones > 0)
@@ -314,7 +314,7 @@
                             @endif
                         </button>
                         <button @click="tab = 'attachments'"
-                            :class="tab === 'attachments' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            :class="tab === 'attachments' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Anexos
                             @if($selected->attachments->count() > 0)
@@ -322,7 +322,7 @@
                             @endif
                         </button>
                         <button @click="tab = 'briefing'"
-                            :class="tab === 'briefing' ? 'border-b-2 border-[#00baff] text-[#00baff] font-medium' : 'text-gray-500 hover:text-gray-700'"
+                            :class="tab === 'briefing' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap">
                             Briefing
                         </button>
@@ -364,11 +364,11 @@
                                             <div class="flex items-center gap-3 flex-1 min-w-0">
                                                 <a href="{{ route('freelancer.show', $fl->id) }}" target="_blank">
                                                     <img src="{{ $fl->avatarUrl() }}" alt="{{ $fl->name }}"
-                                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-[#00baff]/20 flex-shrink-0">
+                                                        class="w-10 h-10 rounded-full object-cover ring-2 ring-[#0055ff]/20 flex-shrink-0">
                                                 </a>
                                                 <div class="min-w-0">
                                                     <a href="{{ route('freelancer.show', $fl->id) }}" target="_blank"
-                                                        class="text-sm font-semibold text-gray-900 hover:text-[#00baff] truncate block">
+                                                        class="text-sm font-semibold text-gray-900 hover:text-[#0055ff] truncate block">
                                                         {{ $fl->name }}
                                                     </a>
                                                     @if($fp?->headline)
@@ -385,7 +385,7 @@
                                         @if($candidate->proposal_value)
                                             <div class="flex items-center gap-2">
                                                 <span class="text-xs text-gray-500">Valor proposto:</span>
-                                                <span class="text-sm font-bold text-[#00baff]">{{ number_format($candidate->proposal_value, 2) }} Kz</span>
+                                                <span class="text-sm font-bold text-[#0055ff]">{{ number_format($candidate->proposal_value, 2) }} Kz</span>
                                             </div>
                                         @endif
 
@@ -463,7 +463,7 @@
                                     $isImg = in_array($ext, ['jpg','jpeg','png','gif','webp','bmp']);
                                 @endphp
                                 <div class="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-4">
-                                    <div class="w-10 h-10 rounded-xl bg-[#00baff]/10 flex items-center justify-center flex-shrink-0 text-xl">
+                                    <div class="w-10 h-10 rounded-xl bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0 text-xl">
                                         @if($isImg) 🖼️ @else 📄 @endif
                                     </div>
                                     <div class="flex-1 min-w-0">
@@ -524,7 +524,7 @@
                                     <span>{{ $doneMilestones }}/{{ $totalMilestones }} ({{ round($doneMilestones/$totalMilestones*100) }}%)</span>
                                 </div>
                                 <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-[#00baff] to-[#0099d6] rounded-full transition-all"
+                                    <div class="h-full bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-full transition-all"
                                          style="width: {{ round($doneMilestones/$totalMilestones*100) }}%"></div>
                                 </div>
                             </div>
@@ -537,7 +537,7 @@
                                     {{ $milestone->completed ? 'bg-green-50 border-green-100' : 'bg-gray-50 border-gray-100' }}">
                                     <button wire:click="toggleMilestone({{ $milestone->id }})"
                                         class="mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition
-                                            {{ $milestone->completed ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-[#00baff]' }}">
+                                            {{ $milestone->completed ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-[#0055ff]' }}">
                                         @if($milestone->completed)
                                             <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
@@ -588,12 +588,12 @@
                             </button>
                             <div x-show="open" x-transition class="space-y-3">
                                 <input wire:model="milestoneTitle" type="text" placeholder="Título do marco *"
-                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                                 @error('milestoneTitle') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
                                 <input wire:model="milestoneDate" type="date"
-                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                                 <textarea wire:model="milestoneDesc" rows="2" placeholder="Descrição (opcional)"
-                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                                    class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                                 <div class="flex gap-2">
                                     <button wire:click="addMilestone" class="btn-primary text-xs">Guardar Marco</button>
                                     <button @click="open = false" class="btn-outline text-xs">Cancelar</button>
@@ -618,8 +618,8 @@
                         <div class="space-y-2">
                             @forelse($selected->attachments->filter(fn($a) => !str_starts_with($a->path, 'deliveries/')) as $att)
                                 <div class="flex items-center gap-3 bg-gray-50 rounded-[10px] border border-gray-100 p-3">
-                                    <div class="w-8 h-8 rounded-lg bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <div class="w-8 h-8 rounded-lg bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 002.112 2.13"/>
                                         </svg>
                                     </div>
@@ -629,7 +629,7 @@
                                     </div>
                                     <div class="flex items-center gap-2 flex-shrink-0">
                                         <a href="{{ Storage::url($att->path) }}" target="_blank"
-                                            class="text-xs text-[#00baff] hover:underline">Baixar</a>
+                                            class="text-xs text-[#0055ff] hover:underline">Baixar</a>
                                         <button wire:click="deleteAttachment({{ $att->id }})"
                                             wire:confirm="Remover este ficheiro?"
                                             class="text-gray-300 hover:text-red-400 transition">

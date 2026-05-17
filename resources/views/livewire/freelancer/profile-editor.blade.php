@@ -14,7 +14,7 @@
         {{-- Foto de capa + foto de perfil --}}
         <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
             {{-- Banner de capa --}}
-            <div class="relative h-48 bg-gradient-to-r from-[#00baff] to-[#6a5acd]"
+            <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
                  @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
 
                 {{-- Overlay escuro ao hover sobre todo o banner --}}
@@ -67,7 +67,7 @@
                                  alt="Foto de perfil">
                         </div>
                         <label for="pe-photo-input"
-                               class="absolute bottom-0 right-0 bg-[#00baff] hover:bg-[#009ad6] text-white rounded-full p-1.5 cursor-pointer shadow transition"
+                               class="absolute bottom-0 right-0 bg-[#0055ff] hover:bg-[#009ad6] text-white rounded-full p-1.5 cursor-pointer shadow transition"
                                title="Alterar foto de perfil">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
@@ -152,7 +152,7 @@
                 <div class="flex items-center gap-3 mt-1">
                     <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $kycClass }}">{{ $kycLabel }}</span>
                     @if(($kyc_status ?? 'pending') !== 'verified')
-                        <a href="{{ route('kyc.submit') }}" class="text-sm text-[#00baff] hover:underline">Verificar identidade →</a>
+                        <a href="{{ route('kyc.submit') }}" class="text-sm text-[#0055ff] hover:underline">Verificar identidade →</a>
                     @endif
                 </div>
             </div>
@@ -202,7 +202,7 @@
                 <p class="text-xs text-gray-500 mt-0.5">Adicione trabalhos, certificações e estudos de caso no gestor de portfólio.</p>
             </div>
             <a href="{{ route('freelancer.portfolio') }}"
-               class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2 rounded-lg transition flex-shrink-0">
+               class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2 rounded-lg transition flex-shrink-0">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0l-4-4m4 4l-4 4"/>
                 </svg>
@@ -218,7 +218,7 @@
                 </div>
             @endif
             <div class="flex gap-3 items-center">
-                <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Guardar perfil">
+                <button type="submit" wire:loading.attr="disabled" class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] disabled:opacity-60 text-white font-semibold px-5 py-2 rounded-lg transition" aria-label="Guardar perfil">
                     <span wire:loading.remove wire:target="saveProfile">
                         @include('components.icon', ['name' => 'save', 'class' => 'h-4 w-4'])
                         Guardar perfil
@@ -241,13 +241,13 @@
     <div class="mt-8">
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
                 Histórico Profissional
             </h3>
             <button type="button" wire:click="openExpForm()"
-                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00baff] hover:text-[#009ad6] transition">
+                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0055ff] hover:text-[#009ad6] transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -268,9 +268,9 @@
                         $fim    = $exp['atual'] ? 'Actualmente' : trim(($meses[$exp['mes_fim'] ?? 0] ?? '') . ' ' . ($exp['ano_fim'] ?? ''));
                         $periodo = $inicio || $fim ? trim("$inicio – $fim") : '';
                     @endphp
-                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#00baff]/40 transition group">
+                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#0055ff]/40 transition group">
                         <div class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                             </svg>
                         </div>
@@ -286,7 +286,7 @@
                         </div>
                         <div class="flex-shrink-0 flex gap-2 opacity-0 group-hover:opacity-100 transition">
                             <button type="button" wire:click="openExpForm({{ $exp['id'] }})"
-                                    class="p-1.5 text-gray-400 hover:text-[#00baff] transition" title="Editar">
+                                    class="p-1.5 text-gray-400 hover:text-[#0055ff] transition" title="Editar">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                                 </svg>
@@ -311,14 +311,14 @@
     <div class="mt-8">
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
-                <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
                 </svg>
                 Educação
             </h3>
             <button type="button" wire:click="openEduForm()"
-                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#00baff] hover:text-[#009ad6] transition">
+                    class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0055ff] hover:text-[#009ad6] transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -336,7 +336,7 @@
                     @php
                         $periodo = trim(($edu['ano_inicio'] ?? '') . ($edu['ano_fim'] || $edu['atual'] ? ' – ' . ($edu['atual'] ? 'A frequentar' : $edu['ano_fim']) : ''));
                     @endphp
-                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#00baff]/40 transition group">
+                    <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#0055ff]/40 transition group">
                         <div class="flex-shrink-0 w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
                             <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
@@ -354,7 +354,7 @@
                         </div>
                         <div class="flex-shrink-0 flex gap-2 opacity-0 group-hover:opacity-100 transition">
                             <button type="button" wire:click="openEduForm({{ $edu['id'] }})"
-                                    class="p-1.5 text-gray-400 hover:text-[#00baff] transition" title="Editar">
+                                    class="p-1.5 text-gray-400 hover:text-[#0055ff] transition" title="Editar">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                                 </svg>
@@ -445,7 +445,7 @@
                     </div>
                     {{-- Actualmente --}}
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" id="exp-atual" wire:model="expForm.atual" class="w-4 h-4 accent-[#00baff]">
+                        <input type="checkbox" id="exp-atual" wire:model="expForm.atual" class="w-4 h-4 accent-[#0055ff]">
                         <label for="exp-atual" class="text-sm text-gray-700">Trabalho aqui actualmente</label>
                     </div>
                     {{-- Descrição --}}
@@ -458,7 +458,7 @@
                 <div class="px-6 py-4 border-t flex justify-end gap-3">
                     <button type="button" wire:click="closeExpForm" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancelar</button>
                     <button type="button" wire:click="saveExperience" wire:loading.attr="disabled"
-                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#0055ff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
                         <span wire:loading.remove wire:target="saveExperience">Guardar</span>
                         <span wire:loading wire:target="saveExperience" class="flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
@@ -525,7 +525,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" id="edu-atual" wire:model="eduForm.atual" class="w-4 h-4 accent-[#00baff]">
+                        <input type="checkbox" id="edu-atual" wire:model="eduForm.atual" class="w-4 h-4 accent-[#0055ff]">
                         <label for="edu-atual" class="text-sm text-gray-700">A frequentar actualmente</label>
                     </div>
                     <div>
@@ -537,7 +537,7 @@
                 <div class="px-6 py-4 border-t flex justify-end gap-3">
                     <button type="button" wire:click="closeEduForm" class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancelar</button>
                     <button type="button" wire:click="saveEducation" wire:loading.attr="disabled"
-                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#00baff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
+                            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-[#0055ff] hover:bg-[#009ad6] disabled:opacity-60 rounded-lg transition">
                         <span wire:loading.remove wire:target="saveEducation">Guardar</span>
                         <span wire:loading wire:target="saveEducation" class="flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>

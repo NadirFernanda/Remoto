@@ -10,11 +10,11 @@
         <div class="flex-1">
             <input wire:model.live.debounce.300ms="search" type="text"
                 placeholder="Pesquisar categoria..."
-                class="w-full sm:max-w-xs border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full sm:max-w-xs border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
         </div>
         @if(!$showForm)
             <button wire:click="openCreate"
-                class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold text-sm shadow transition">
+                class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold text-sm shadow transition">
                 <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2v12M2 8h12" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
                 Nova Categoria
             </button>
@@ -23,7 +23,7 @@
 
     {{-- Create / Edit Form --}}
     @if($showForm)
-        <div class="bg-white rounded-2xl border border-[#00baff]/40 p-6 shadow-sm">
+        <div class="bg-white rounded-2xl border border-[#0055ff]/40 p-6 shadow-sm">
             <h3 class="text-sm font-semibold text-gray-700 mb-4">
                 {{ $editId ? 'Editar Categoria' : 'Nova Categoria' }}
             </h3>
@@ -31,32 +31,32 @@
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">Nome <span class="text-red-400">*</span></label>
                     <input wire:model="name" type="text" maxlength="100"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('name') border-red-400 @enderror"
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('name') border-red-400 @enderror"
                         placeholder="Ex: Design Gráfico">
                     @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">Ícone (emoji)</label>
                     <input wire:model="icon" type="text" maxlength="20"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]"
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
                         placeholder="🎨">
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs text-gray-500 mb-1">Descrição</label>
                     <input wire:model="description" type="text" maxlength="255"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]"
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
                         placeholder="Breve descrição da categoria...">
                 </div>
                 <div>
                     <label class="block text-xs text-gray-500 mb-1">Ordenação</label>
                     <input wire:model="sort_order" type="number" min="0"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                     <p class="text-xs text-gray-400 mt-0.5">Menor número → aparece primeiro.</p>
                 </div>
                 <div class="flex items-center gap-3 mt-5">
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input wire:model="active" type="checkbox" class="sr-only peer">
-                        <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#00baff]"></div>
+                        <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#0055ff]"></div>
                         <span class="ml-2 text-sm text-gray-600">Activa</span>
                     </label>
                 </div>
@@ -78,7 +78,7 @@
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         <table class="min-w-full text-sm">
             <thead>
-                <tr class="bg-[#f4fbfd] text-[#00baff] uppercase text-xs tracking-wider">
+                <tr class="bg-[#f4fbfd] text-[#0055ff] uppercase text-xs tracking-wider">
                     <th class="py-3 px-5 text-left font-semibold">Categoria</th>
                     <th class="py-3 px-5 text-left font-semibold">Descrição</th>
                     <th class="py-3 px-5 text-center font-semibold">Ordem</th>

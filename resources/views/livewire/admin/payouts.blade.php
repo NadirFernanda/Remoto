@@ -3,13 +3,13 @@
     <div class="flex flex-wrap gap-3 mb-5">
         <input wire:model.live.debounce.400ms="search" type="text"
             placeholder="Pesquisar utilizador..."
-            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-56 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-56 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
         @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $label)
             <button wire:click="$set('period', '{{ $val }}')"
                 class="px-3 py-1.5 rounded-[10px] text-xs border transition
                     {{ $period === $val
-                        ? 'bg-[#00baff] text-white border-[#00baff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach

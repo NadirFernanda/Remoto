@@ -17,13 +17,13 @@
     <div class="pub-card" style="max-width:42rem;width:100%;padding:2rem;margin:0 auto 2rem;">
 
         <div class="mb-4 flex items-center gap-3">
-            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00baff,#0077cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
+            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00c8ff,#0033cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
             <div>
                 <div class="font-bold text-lg text-[#222]">{{ $service->titulo }}</div>
             </div>
         </div>
         <div class="mb-4">
-            <span class="font-semibold text-[#00baff]">Briefing:</span>
+            <span class="font-semibold text-[#0055ff]">Briefing:</span>
             @php
                 $labels = [
                     'title' => 'Título',

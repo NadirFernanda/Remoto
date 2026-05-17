@@ -1,7 +1,7 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Suporte</h2>
             <p class="text-sm text-white/75 mt-1">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>
@@ -33,7 +33,7 @@
         {{-- Category --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Categoria *</label>
-            <select wire:model="category" class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            <select wire:model="category" class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 <option value="">Selecione uma categoria</option>
                 <option value="pagamento">💳 Pagamento</option>
                 <option value="projecto">📁 Projecto</option>
@@ -65,7 +65,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">ID do Usuário (para verificação rápida)</label>
             <input wire:model="userProvidedId" type="text" placeholder="Seu ID de usuário (opcional)"
-                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             @error('userProvidedId') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -73,7 +73,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Email de Contato (opcional)</label>
             <input wire:model="contactEmail" type="email" placeholder="Email alternativo para contato"
-                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             @error('contactEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -81,7 +81,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Telefone de Contato (opcional)</label>
             <input wire:model="contactPhone" type="text" placeholder="Telefone para contato urgente"
-                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             @error('contactPhone') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -89,7 +89,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Assunto *</label>
             <input wire:model="subject" type="text" placeholder="Descreva brevemente o problema"
-                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             @error('subject') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -97,7 +97,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Descrição detalhada *</label>
             <textarea wire:model="message" rows="5" placeholder="Descreva o problema com o máximo de detalhe possível..."
-                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
             @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -122,7 +122,7 @@
                 @foreach(['' => 'Todos', 'aberto' => 'Abertos', 'em_andamento' => 'Em Andamento', 'fechado' => 'Fechados'] as $val => $label)
                 <button wire:click="$set('statusFilter', '{{ $val }}')"
                     class="px-3 py-1 rounded-full text-xs font-medium border transition
-                        {{ $statusFilter === $val ? 'bg-[#00baff] text-white border-[#00baff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#00baff]' }}">
+                        {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#0055ff]' }}">
                     {{ $label }}
                 </button>
                 @endforeach
@@ -145,7 +145,7 @@
             @endphp
             <button wire:click="selectTicket({{ $ticket->id }})"
                 class="w-full text-left bg-white rounded-2xl border p-4 transition
-                    {{ $isSelected ? 'border-[#00baff] ring-1 ring-[#00baff]/30 shadow-sm' : 'border-gray-200 hover:border-[#00baff]/40 hover:shadow-sm' }}">
+                    {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
                 <div class="flex items-start justify-between gap-2 mb-1">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2 h-2 rounded-full flex-shrink-0 {{ $priorityDot }}"></span>
@@ -240,7 +240,7 @@
             @if($selected->status !== 'fechado')
             <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
                 <textarea wire:model="replyMessage" rows="4" placeholder="Escreva a sua resposta ou informação adicional..."
-                    class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                    class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                 @error('replyMessage') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
                 <button wire:click="sendReply" class="btn-primary text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
@@ -252,7 +252,7 @@
                 Este ticket está fechado. Envie uma mensagem para reabri-lo automaticamente.
                 <div class="mt-3">
                     <textarea wire:model="replyMessage" rows="3" placeholder="Escreva uma mensagem para reabrir..."
-                        class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                        class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                     @error('replyMessage') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     <button wire:click="sendReply" class="btn-outline text-xs mt-2">Reabrir e Enviar</button>
                 </div>

@@ -1,5 +1,5 @@
 <div class="max-w-6xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Projetos Disponiveis</h2>
         <p class="text-sm text-white/90 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
     </div>

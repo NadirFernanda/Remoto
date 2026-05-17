@@ -30,7 +30,7 @@
 
         {{-- Avatar com ring de criador --}}
         <a href="{{ route('social.creator', $post->user) }}" class="flex-shrink-0">
-            <div class="p-0.5 rounded-full {{ $isCreator ? 'bg-gradient-to-tr from-[#00baff] via-blue-400 to-violet-500' : 'bg-transparent' }}">
+            <div class="p-0.5 rounded-full {{ $isCreator ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-transparent' }}">
                 <div class="{{ $isCreator ? 'bg-white rounded-full p-0.5' : '' }}">
                     <img src="{{ $post->user->avatarUrl() }}"
                          alt="{{ $post->user->name }}"
@@ -44,14 +44,14 @@
         <div class="flex-1 min-w-0">
             <div class="flex items-center gap-1.5 flex-wrap">
                 <a href="{{ route('social.creator', $post->user) }}"
-                   class="text-sm font-bold text-gray-900 hover:text-[#00baff] transition leading-tight">
+                   class="text-sm font-bold text-gray-900 hover:text-[#0055ff] transition leading-tight">
                     {{ $post->user->name }}
                 </a>
                 @auth
                     @if(!$isOwner && !$isFollowing)
                         <span class="text-gray-300 text-xs">·</span>
                         <button wire:click="toggleFollow({{ $post->user_id }})"
-                            class="text-xs font-bold text-[#00baff] hover:text-[#009ad6] transition">
+                            class="text-xs font-bold text-[#0055ff] hover:text-[#009ad6] transition">
                             Seguir
                         </button>
                     @elseif(!$isOwner && $isFollowing)
@@ -171,8 +171,8 @@
              class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/60"
              @click.self="showModal = false">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-7 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00baff]/10 to-blue-100 flex items-center justify-center">
-                    <svg class="w-7 h-7 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00c8ff]/10 to-blue-100 flex items-center justify-center">
+                    <svg class="w-7 h-7 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                     </svg>
                 </div>
@@ -180,7 +180,7 @@
                 <p class="text-sm text-gray-500 mb-1">Para assinantes de</p>
                 <p class="text-base font-bold text-gray-900 mb-5">{{ $post->user->name }}</p>
                 <a href="{{ route('social.creator', $post->user) }}"
-                   class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00baff] to-blue-500 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition w-full justify-center">
+                   class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-blue-500 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition w-full justify-center">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
                     </svg>
@@ -249,10 +249,10 @@
     {{-- AUDIO --}}
     @elseif(isset($post->type) && $post->type === 'audio' && $post->media->where('type','audio')->isNotEmpty())
         @php $aud = $post->media->where('type','audio')->first(); @endphp
-        <div class="mx-4 mb-1 bg-gradient-to-r from-[#00baff]/5 to-blue-50/40 border border-[#00baff]/10 rounded-2xl p-4">
+        <div class="mx-4 mb-1 bg-gradient-to-r from-[#00c8ff]/5 to-blue-50/40 border border-[#0055ff]/10 rounded-2xl p-4">
             <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <div class="w-11 h-11 rounded-xl bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"/>
                     </svg>
                 </div>
@@ -272,7 +272,7 @@
     @elseif(isset($post->type) && $post->type === 'link' && $post->link_url)
         <div class="mx-4 mb-1">
             <a href="{{ $post->link_url }}" target="_blank" rel="noopener noreferrer nofollow"
-               class="block border border-gray-100 rounded-2xl overflow-hidden hover:border-[#00baff]/40 transition group">
+               class="block border border-gray-100 rounded-2xl overflow-hidden hover:border-[#0055ff]/40 transition group">
                 @if($post->link_image)
                     <img src="{{ $post->link_image }}" class="w-full max-h-52 object-cover" alt="" loading="lazy"
                          onerror="this.parentElement.removeChild(this)">
@@ -284,13 +284,13 @@
                     </div>
                 @endif
                 <div class="px-4 py-3 bg-gray-50/80 group-hover:bg-blue-50/30 transition">
-                    <p class="text-sm font-bold text-gray-800 truncate group-hover:text-[#00baff] transition">
+                    <p class="text-sm font-bold text-gray-800 truncate group-hover:text-[#0055ff] transition">
                         {{ $post->link_title ?: parse_url($post->link_url, PHP_URL_HOST) }}
                     </p>
                     @if($post->link_description)
                         <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ $post->link_description }}</p>
                     @endif
-                    <p class="text-[10px] text-[#00baff] mt-1 truncate uppercase tracking-wide">{{ parse_url($post->link_url, PHP_URL_HOST) }}</p>
+                    <p class="text-[10px] text-[#0055ff] mt-1 truncate uppercase tracking-wide">{{ parse_url($post->link_url, PHP_URL_HOST) }}</p>
                 </div>
             </a>
         </div>
@@ -302,7 +302,7 @@
                 <img src="{{ $post->repost->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover"
                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                 <a href="{{ route('social.creator', $post->repost->user) }}"
-                   class="text-sm font-bold text-gray-800 hover:text-[#00baff] transition">
+                   class="text-sm font-bold text-gray-800 hover:text-[#0055ff] transition">
                     {{ $post->repost->user->name }}
                 </a>
                 <span class="text-xs text-gray-400 ml-auto">{{ $post->repost->created_at->diffForHumans() }}</span>
@@ -323,7 +323,7 @@
                     </div>
                 @elseif($rm->type === 'audio')
                     <div class="bg-gray-50 px-3 py-2 flex items-center gap-2 text-gray-500 text-xs">
-                        <svg class="w-4 h-4 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75"/>
                         </svg>
                         {{ $rm->original_name ?? 'Audio' }}
@@ -384,7 +384,7 @@
 
             {{-- Comment bubble --}}
             <button wire:click="openComments({{ $post->id }})"
-                class="outline-none {{ $showComments ? 'text-[#00baff]' : 'text-gray-800 hover:text-[#00baff]' }} transition">
+                class="outline-none {{ $showComments ? 'text-[#0055ff]' : 'text-gray-800 hover:text-[#0055ff]' }} transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z"/>
                 </svg>
@@ -406,7 +406,7 @@
         {{-- Bookmark — right side --}}
         @auth
             <button wire:click="toggleBookmark({{ $post->id }})"
-                class="outline-none {{ $isBookmarked ? 'text-[#00baff]' : 'text-gray-800 hover:text-[#00baff]' }} transition"
+                class="outline-none {{ $isBookmarked ? 'text-[#0055ff]' : 'text-gray-800 hover:text-[#0055ff]' }} transition"
                 title="{{ $isBookmarked ? 'Remover dos guardados' : 'Guardar' }}">
                 <svg class="w-6 h-6" fill="{{ $isBookmarked ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"/>
@@ -486,7 +486,7 @@
                    wire:keydown.enter="submitComment"
                    class="flex-1 text-sm text-gray-800 bg-transparent placeholder-gray-400 focus:outline-none py-1">
             <button wire:click="submitComment"
-                class="text-sm font-bold text-[#00baff] hover:text-[#009ad6] transition flex-shrink-0">
+                class="text-sm font-bold text-[#0055ff] hover:text-[#009ad6] transition flex-shrink-0">
                 Publicar
             </button>
         </div>

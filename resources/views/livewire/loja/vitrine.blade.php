@@ -1,7 +1,7 @@
-﻿<div class="space-y-6">
+<div class="space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <div class="mb-4">
             <h2 class="text-2xl font-extrabold">Loja de Infoprodutos</h2>
             <p class="text-sm text-white/75 mt-1">E-books, áudios, literatura digital e muito mais dos melhores freelancers</p>
@@ -34,7 +34,7 @@
         <div class="flex flex-wrap gap-3 mb-8 items-center">
             <div>
                 <label class="text-xs text-gray-500 block mb-1">Categoria</label>
-                <select wire:model.live="tipo" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#00baff]">
+                <select wire:model.live="tipo" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#0055ff]">
                     <option value="">Todos</option>
                     <option value="ebook">E-book</option>
                     <option value="audio">Áudio</option>
@@ -44,7 +44,7 @@
             </div>
             <div>
                 <label class="text-xs text-gray-500 block mb-1">Ordenar</label>
-                <select wire:model.live="ordenar" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#00baff]">
+                <select wire:model.live="ordenar" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#0055ff]">
                     <option value="recente">Mais recentes</option>
                     <option value="mais_vendidos">Mais vendidos</option>
                     <option value="preco_asc">Menor preço</option>
@@ -73,14 +73,14 @@
                 class="group bg-white rounded-2xl border shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col {{ $isPatrocinado ? 'ring-2 ring-amber-300' : '' }}">
 
                 {{-- Cover --}}
-                <div class="relative h-44 bg-gradient-to-br from-[#00baff]/10 to-[#00baff]/20 overflow-hidden">
+                <div class="relative h-44 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-16 h-16 text-[#00baff]/30" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+                            <svg class="w-16 h-16 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
                         </div>
@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="p-4 flex flex-col flex-1">
-                    <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-1 group-hover:text-[#00baff] transition-colors">
+                    <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-1 group-hover:text-[#0055ff] transition-colors">
                         {{ $produto->titulo }}
                     </h3>
 

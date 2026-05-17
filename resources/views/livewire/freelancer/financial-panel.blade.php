@@ -1,7 +1,7 @@
 <div x-data="{ valorSaque: 0, saldo: {{ $wallet->saldo ?? 0 }} }">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white mb-6">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-6">
         <h2 class="text-2xl font-extrabold">Painel Financeiro</h2>
         <p class="text-sm text-white/75 mt-1">Saldo, saques e histórico das suas transacções</p>
     </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1 uppercase tracking-wide font-medium">Ganhos no período</p>
-            <p class="text-2xl font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</p>
+            <p class="text-2xl font-bold text-[#0055ff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</p>
             <p class="text-xs text-gray-400 mt-1">recebido no período</p>
         </div>
     </div>
@@ -59,7 +59,7 @@
                             min="1"
                             step="100"
                             placeholder="1000"
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#00baff] focus:ring-1 focus:ring-[#00baff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
+                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>
                     @error('valorSaque')
@@ -82,7 +82,7 @@
                 <button
                     type="submit"
                     wire:loading.attr="disabled"
-                    class="w-full py-3 rounded-xl bg-[#00baff] hover:bg-[#009de0] text-white font-semibold text-sm transition disabled:opacity-60 flex items-center justify-center gap-2">
+                    class="w-full py-3 rounded-xl bg-[#0055ff] hover:bg-[#009de0] text-white font-semibold text-sm transition disabled:opacity-60 flex items-center justify-center gap-2">
                     <span wire:loading.remove>Solicitar saque</span>
                     <span wire:loading class="flex items-center gap-2">
                         <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
@@ -98,7 +98,7 @@
         <div class="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col gap-5">
             <div>
                 <h2 class="text-base font-bold text-gray-800 mb-1">Resumo do período</h2>
-                <select wire:model.live="period" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff] outline-none">
+                <select wire:model.live="period" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff] outline-none">
                     <option value="month">Este mês</option>
                     <option value="last_month">Mês anterior</option>
                     <option value="quarter">Últimos 3 meses</option>
@@ -108,7 +108,7 @@
             <div class="space-y-3">
                 <div class="flex items-center justify-between p-3 rounded-xl bg-blue-50">
                     <span class="text-xs font-medium text-gray-600">Ganhos</span>
-                    <span class="text-sm font-bold text-[#00baff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</span>
+                    <span class="text-sm font-bold text-[#0055ff]">Kz {{ number_format($ganhos, 2, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
                     <span class="text-xs font-medium text-gray-600">Saques</span>

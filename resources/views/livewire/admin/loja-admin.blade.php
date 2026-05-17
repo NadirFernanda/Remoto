@@ -4,7 +4,7 @@
     <div class="bg-white border-b border-slate-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00c8ff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h11M7 13L5.4 5M9 21a1 1 0 102 0 1 1 0 00-2 0m8 0a1 1 0 102 0 1 1 0 00-2 0"/>
                     </svg>
@@ -21,7 +21,7 @@
                     Dashboard
                 </a>
                 <a href="{{ route('loja.index') }}" target="_blank"
-                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00baff] to-blue-600 hover:opacity-90 text-white text-sm font-medium transition-all duration-150 shadow-md shadow-sky-200">
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00c8ff] to-blue-600 hover:opacity-90 text-white text-sm font-medium transition-all duration-150 shadow-md shadow-sky-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     Ver Loja
                 </a>

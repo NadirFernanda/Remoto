@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Configurações da Conta</h2>
         <p class="text-sm text-white/90 mt-1">Gerencie preferências de notificação e segurança da conta.</p>
     </div>
@@ -23,7 +23,7 @@
 
             <div class="mt-4">
                 <label class="block text-sm font-semibold text-slate-700 mb-2">E-mails de novos projectos</label>
-                <select wire:model="notify_new_project_email" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]">
+                <select wire:model="notify_new_project_email" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#0055ff]/40 focus:border-[#0055ff]">
                     <option value="1">Activado</option>
                     <option value="0">Desactivado</option>
                 </select>

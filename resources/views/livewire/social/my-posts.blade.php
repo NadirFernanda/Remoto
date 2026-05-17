@@ -14,7 +14,7 @@
     @endif
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
             <div>
                 <h2 class="text-2xl font-extrabold">Minhas Publicações</h2>
@@ -60,7 +60,7 @@
             @foreach(['all' => 'Todas', 'active' => 'Activas', 'archived' => 'Arquivadas'] as $val => $label)
                 <button wire:click="$set('filter', '{{ $val }}')"
                     class="px-4 py-1.5 rounded-xl text-sm font-semibold transition
-                        {{ $filter === $val ? 'bg-[#00baff] text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
+                        {{ $filter === $val ? 'bg-[#0055ff] text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
                     {{ $label }}
                 </button>
             @endforeach
@@ -92,7 +92,7 @@
                     @if($firstMedia && $post->type === 'image')
                         <img src="{{ Storage::url($firstMedia->path) }}" class="w-11 h-11 object-cover" loading="lazy">
                     @else
-                        <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             {!! $icon !!}
                         </svg>
                     @endif
@@ -134,7 +134,7 @@
                 <div class="flex-shrink-0 flex items-center gap-2">
                     <button wire:click="toggleStatus({{ $post->id }})"
                             title="{{ $isActive ? 'Arquivar' : 'Reactivar' }}"
-                            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-[#00baff] hover:text-[#00baff] transition-all bg-white">
+                            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-[#0055ff] hover:text-[#0055ff] transition-all bg-white">
                         @if($isActive)
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                         @else
@@ -168,7 +168,7 @@
                 <p class="text-base font-bold text-gray-600">Ainda não tens publicações</p>
                 <p class="text-sm text-gray-400 mt-1 mb-4">Começa a criar conteúdo para o teu público</p>
                 <a href="{{ route('social.create') }}"
-                   class="inline-flex items-center gap-1.5 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                   class="inline-flex items-center gap-1.5 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
                     + Nova publicação
                 </a>
             </div>

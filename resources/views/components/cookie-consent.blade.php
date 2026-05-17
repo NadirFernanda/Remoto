@@ -35,7 +35,7 @@
 >
     <div class="max-w-4xl mx-auto rounded-xl border border-white/10 bg-[#021018]/95 backdrop-blur-md shadow-2xl px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <!-- Icon -->
-        <div class="shrink-0 text-[#00baff] text-2xl" aria-hidden="true">🍪</div>
+        <div class="shrink-0 text-[#0055ff] text-2xl" aria-hidden="true">🍪</div>
 
         <!-- Text -->
         <div class="flex-1 text-sm text-gray-300 leading-relaxed">
@@ -45,7 +45,7 @@
             A sua privacidade é protegida nos termos da
             <strong class="text-white">Lei n.º&nbsp;22/11 (LGPD Angola)</strong>
             e do <strong class="text-white">RGPD</strong>.
-            <a href="{{ route('legal.privacy') }}" class="text-[#00baff] hover:underline ml-1" target="_blank" rel="noopener">
+            <a href="{{ route('legal.privacy') }}" class="text-[#0055ff] hover:underline ml-1" target="_blank" rel="noopener">
                 Política de Privacidade
             </a>
         </div>
@@ -60,7 +60,7 @@
             </button>
             <button
                 @click="accept()"
-                class="px-4 py-2 rounded-lg bg-[#00baff] hover:bg-[#00a8e6] text-[#021018] font-semibold text-sm transition"
+                class="px-4 py-2 rounded-lg bg-[#0055ff] hover:bg-[#00a8e6] text-[#021018] font-semibold text-sm transition"
             >
                 Aceitar todos
             </button>

@@ -31,14 +31,14 @@
     @endif
 
     {{-- Project briefing context --}}
-    <div class="bg-[#00baff]/5 border border-[#00baff]/20 rounded-2xl p-4 flex gap-3 items-start">
-        <div class="w-8 h-8 rounded-lg bg-[#00baff]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-            <svg class="w-4 h-4 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+    <div class="bg-[#0055ff]/5 border border-[#0055ff]/20 rounded-2xl p-4 flex gap-3 items-start">
+        <div class="w-8 h-8 rounded-lg bg-[#0055ff]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"/>
             </svg>
         </div>
         <div>
-            <p class="text-xs text-[#0099d6] font-semibold uppercase tracking-wide">Como funciona o matching</p>
+            <p class="text-xs text-[#0033cc] font-semibold uppercase tracking-wide">Como funciona o matching</p>
             <p class="text-sm text-gray-600 mt-0.5">
                 Os freelancers são classificados por compatibilidade de skills com o briefing do projecto,
                 disponibilidade, avaliação, portfólio e histórico de colaboração consigo.
@@ -78,14 +78,14 @@
 
                     {{-- Match score bar --}}
                     <div class="h-1 bg-gray-100">
-                        <div class="h-full bg-gradient-to-r from-[#00baff] to-[#0099d6] transition-all" style="width: {{ $pct }}%"></div>
+                        <div class="h-full bg-gradient-to-r from-[#00c8ff] to-[#0033cc] transition-all" style="width: {{ $pct }}%"></div>
                     </div>
 
                     <div class="p-5 flex flex-col gap-3 flex-1">
 
                         {{-- Match score badge --}}
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-semibold text-[#0099d6] flex items-center gap-1">
+                            <span class="text-xs font-semibold text-[#0033cc] flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                                 </svg>
@@ -99,11 +99,11 @@
                             <a href="{{ route('freelancer.show', $fl->id) }}" class="relative flex-shrink-0">
                                 <img src="{{ $fl->avatarUrl() }}" alt="{{ $fl->name }}"
                                     width="48" height="48" loading="lazy"
-                                    class="w-12 h-12 rounded-full object-cover ring-2 ring-[#00baff]/20">
+                                    class="w-12 h-12 rounded-full object-cover ring-2 ring-[#0055ff]/20">
                             </a>
                             <div class="flex-1 min-w-0">
                                 <a href="{{ route('freelancer.show', $fl->id) }}"
-                                    class="text-sm font-semibold text-gray-900 hover:text-[#00baff] transition truncate block">
+                                    class="text-sm font-semibold text-gray-900 hover:text-[#0055ff] transition truncate block">
                                     {{ $fl->name }}
                                 </a>
                                 @if($fp && $fp->headline)
@@ -138,7 +138,7 @@
                                 <p class="text-xs text-gray-500 mb-1.5 font-medium">Skills compatíveis:</p>
                                 <div class="flex flex-wrap gap-1.5">
                                     @foreach(array_slice($item['skill_matches'], 0, 5) as $matchSkill)
-                                        <span class="text-xs bg-[#00baff]/15 text-[#0088bb] px-2.5 py-0.5 rounded-full font-semibold ring-1 ring-[#00baff]/20">
+                                        <span class="text-xs bg-[#0055ff]/15 text-[#0088bb] px-2.5 py-0.5 rounded-full font-semibold ring-1 ring-[#0055ff]/20">
                                             {{ $matchSkill }}
                                         </span>
                                     @endforeach
@@ -180,7 +180,7 @@
         @if($hasMore)
             <div class="flex justify-center">
                 <button wire:click="loadMore" class="btn-outline">
-                    <div wire:loading wire:target="loadMore" class="w-4 h-4 border-2 border-[#00baff] border-t-transparent rounded-full animate-spin"></div>
+                    <div wire:loading wire:target="loadMore" class="w-4 h-4 border-2 border-[#0055ff] border-t-transparent rounded-full animate-spin"></div>
                     <span wire:loading.remove wire:target="loadMore">Ver mais sugestões</span>
                 </button>
             </div>
@@ -188,7 +188,7 @@
 
         {{-- Browse all --}}
         <div class="text-center">
-            <a href="{{ route('freelancers.index') }}" class="text-sm text-[#00baff] hover:underline">
+            <a href="{{ route('freelancers.index') }}" class="text-sm text-[#0055ff] hover:underline">
                 Ver todos os freelancers disponíveis →
             </a>
         </div>

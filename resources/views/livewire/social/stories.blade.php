@@ -79,8 +79,8 @@
                     @if(auth()->user()->activeRole() === 'freelancer')
                         <div class="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer"
                              wire:click="$set('createModal', true)">
-                            <div class="w-14 h-14 rounded-full border-2 border-dashed border-gray-300 hover:border-[#00baff] flex items-center justify-center transition bg-gray-50 hover:bg-blue-50/30">
-                                <svg class="w-6 h-6 text-gray-400 hover:text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <div class="w-14 h-14 rounded-full border-2 border-dashed border-gray-300 hover:border-[#0055ff] flex items-center justify-center transition bg-gray-50 hover:bg-blue-50/30">
+                                <svg class="w-6 h-6 text-gray-400 hover:text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                                 </svg>
                             </div>
@@ -93,7 +93,7 @@
                 <template x-for="(group, gIdx) in groups" :key="group.user_id">
                     <div class="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer"
                          @click="openGroup(gIdx)">
-                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 bg-gradient-to-br from-[#00baff] to-purple-500'"
+                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 bg-gradient-to-br from-[#00c8ff] to-purple-500'"
                              class="w-14 h-14 rounded-full">
                             <img :src="group.avatar" :alt="group.name"
                                  class="w-full h-full rounded-full object-cover border-2 border-white"
@@ -181,25 +181,25 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                             Ficheiro <span class="font-normal text-gray-400">(imagem ou vídeo · máx. 50 MB)</span>
                         </label>
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#00baff]/60 hover:bg-blue-50/20 transition">
+                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#0055ff]/60 hover:bg-blue-50/20 transition">
                             <svg class="w-8 h-8 text-gray-300 mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775"/>
                             </svg>
                             @if($storyFile)
-                                <p class="text-xs text-[#00baff] font-medium">{{ $storyFile->getClientOriginalName() }}</p>
+                                <p class="text-xs text-[#0055ff] font-medium">{{ $storyFile->getClientOriginalName() }}</p>
                             @else
                                 <p class="text-xs text-gray-400">Clique para selecionar</p>
                             @endif
                             <input type="file" wire:model="storyFile" accept="image/*,video/*" class="hidden">
                         </label>
                         @error('storyFile') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        <div wire:loading wire:target="storyFile" class="mt-1 text-xs text-[#00baff]">A processar...</div>
+                        <div wire:loading wire:target="storyFile" class="mt-1 text-xs text-[#0055ff]">A processar...</div>
                     </div>
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Legenda (opcional)</label>
                         <input wire:model="storyCaption" type="text" placeholder="Escreva uma legenda..."
-                               class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                               class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40"
                                maxlength="300">
                         @error('storyCaption') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
@@ -207,7 +207,7 @@
 
                 <div class="flex gap-3 mt-5">
                     <button wire:click="publishStory"
-                        class="flex-1 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold py-2.5 rounded-xl transition"
+                        class="flex-1 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold py-2.5 rounded-xl transition"
                         wire:loading.attr="disabled" wire:loading.class="opacity-70">
                         <span wire:loading.remove wire:target="publishStory">Publicar Story</span>
                         <span wire:loading wire:target="publishStory">A publicar...</span>

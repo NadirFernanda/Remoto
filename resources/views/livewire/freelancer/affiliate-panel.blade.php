@@ -1,6 +1,6 @@
 <div class="space-y-6">
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Programa de Afiliado</h2>
         <p class="text-sm text-white/75 mt-1">Ganhe comissões por cada freelancer ou cliente que se registe pelo seu link</p>
     </div>
@@ -33,7 +33,7 @@
                 <input id="affiliateLink" type="text" class="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-sm" value="{{ $affiliateLink }}" readonly>
                 <button
                     x-on:click="navigator.clipboard.writeText(document.getElementById('affiliateLink').value); copied = true; setTimeout(() => copied = false, 2000)"
-                    class="px-4 py-2 bg-[#00baff] text-white rounded-lg hover:bg-[#029ed9] transition text-sm font-semibold">
+                    class="px-4 py-2 bg-[#0055ff] text-white rounded-lg hover:bg-[#029ed9] transition text-sm font-semibold">
                     Copiar link
                 </button>
             </div>

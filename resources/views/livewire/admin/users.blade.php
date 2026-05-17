@@ -39,7 +39,7 @@
                                 <td class="py-2 px-4 text-gray-500">{{ $sub->created_at->format('d/m/Y H:i') }}</td>
                                 <td class="py-2 px-4">
                                     <button wire:click="openKycReview({{ $sub->id }})"
-                                        class="px-3 py-1 text-xs bg-[#00baff] text-white rounded-lg hover:bg-[#009ad6] transition font-semibold">
+                                        class="px-3 py-1 text-xs bg-[#0055ff] text-white rounded-lg hover:bg-[#009ad6] transition font-semibold">
                                         Rever documentos
                                     </button>
                                 </td>
@@ -145,14 +145,14 @@
     <div class="flex flex-wrap gap-3 mb-5">
         <input wire:model.live.debounce.300ms="search" type="text"
             placeholder="Pesquisar nome ou email..."
-            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
-        <select wire:model.live="roleFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+            class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
+        <select wire:model.live="roleFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todos os tipos</option>
             <option value="admin">Admin</option>
             <option value="freelancer">Freelancer</option>
             <option value="cliente">Cliente</option>
         </select>
-        <select wire:model.live="kycFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="kycFilter" class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todos KYC</option>
             <option value="pending">KYC Pendente</option>
             <option value="verified">KYC Verificado</option>
@@ -192,14 +192,14 @@
                     <td class="py-3 px-4">
                         <span class="px-2 py-0.5 rounded-full text-xs font-semibold
                             {{ $user->role === 'admin' ? 'bg-purple-100 text-purple-700' :
-                               ($user->role === 'freelancer' ? 'bg-[#00baff]/10 text-[#00baff]' : 'bg-green-100 text-green-700') }}">
+                               ($user->role === 'freelancer' ? 'bg-[#0055ff]/10 text-[#0055ff]' : 'bg-green-100 text-green-700') }}">
                             {{ ucfirst($user->role) }}
                         </span>
                     </td>
                     <td class="py-3 px-4">
                         @if($user->role === 'admin')
                             <select wire:change="setAdminRole({{ $user->id }}, $event.target.value)"
-                                class="border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#00baff]/30">
+                                class="border border-gray-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30">
                                 <option value="" {{ is_null($user->admin_role) ? 'selected' : '' }}>Master (padrão)</option>
                                 <option value="master"     {{ $user->admin_role === 'master'     ? 'selected' : '' }}>Master</option>
                                 <option value="gestor"     {{ $user->admin_role === 'gestor'     ? 'selected' : '' }}>Gestor</option>
@@ -232,7 +232,7 @@
                             {{-- Ver documentos KYC --}}
                             @if($user->role !== 'admin')
                                 <button wire:click="reviewUserKyc({{ $user->id }})"
-                                    class="px-2 py-1 text-xs bg-[#00baff]/10 text-[#00baff] border border-[#00baff]/30 rounded-lg hover:bg-[#00baff]/20 transition font-semibold">
+                                    class="px-2 py-1 text-xs bg-[#0055ff]/10 text-[#0055ff] border border-[#0055ff]/30 rounded-lg hover:bg-[#0055ff]/20 transition font-semibold">
                                     📄 Ver docs
                                 </button>
                             @endif

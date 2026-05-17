@@ -7,12 +7,12 @@
             @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $lbl)
                 <button wire:click="$set('period', '{{ $val }}')"
                     class="px-3 py-1.5 rounded-[10px] text-xs border transition
-                        {{ $period === $val ? 'bg-[#00baff] text-white border-[#00baff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        {{ $period === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                     {{ $lbl }}</button>
             @endforeach
         </div>
         {{-- Status --}}
-        <select wire:model.live="status" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none">
+        <select wire:model.live="status" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none">
             <option value="">Todos os status</option>
             <option value="saque_solicitado">Pendentes</option>
             <option value="saque_aprovado">Aprovados</option>
@@ -20,15 +20,15 @@
         </select>
         {{-- Pesquisa --}}
         <input type="text" wire:model.live.debounce.300ms="search" placeholder="Nome ou email…"
-            class="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none w-48" />
+            class="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none w-48" />
         {{-- Datas --}}
-        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
         <span class="text-xs text-gray-400">a</span>
-        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
         {{-- Export --}}
         <div class="flex items-center gap-2 ml-auto">
             <a href="{{ route('admin.reports.withdrawals.csv', ['period' => $period, 'status' => $status, 'search' => $search, 'date_start' => $dateStart, 'date_end' => $dateEnd]) }}"
-               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border border-gray-200 bg-white text-gray-600 hover:border-[#00baff] hover:text-[#00baff] transition">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border border-gray-200 bg-white text-gray-600 hover:border-[#0055ff] hover:text-[#0055ff] transition">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 CSV
             </a>

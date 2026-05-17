@@ -22,7 +22,7 @@
 
         {{-- Type filter --}}
         <select wire:model="filterType"
-            class="text-xs border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#00baff]/30">
+            class="text-xs border border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30">
             <option value="">Todos os tipos</option>
             <option value="post">Posts</option>
             <option value="user">Utilizadores</option>
@@ -65,7 +65,7 @@
                         <td class="py-3">
                             <div class="flex items-center gap-2">
                                 <button wire:click="viewReport({{ $report->id }})"
-                                    class="text-xs text-[#00baff] hover:underline font-medium">
+                                    class="text-xs text-[#0055ff] hover:underline font-medium">
                                     Rever
                                 </button>
                                 @if($report->status === 'pendente')
@@ -207,7 +207,7 @@
                 <div class="mb-4">
                     <label class="block text-xs font-semibold text-gray-600 mb-1">Nota interna</label>
                     <textarea wire:model="adminNote" rows="3"
-                        class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                        class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40"
                         placeholder="Observações internas..."></textarea>
                 </div>
 

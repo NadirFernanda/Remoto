@@ -3,7 +3,7 @@
     <div class="space-y-2">
         @forelse($notifications->take(3) as $notification)
             <a href="{{ $notification->getUrl() }}" class="flex items-start gap-3 px-4 py-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-cyan-50 hover:border-cyan-200 transition">
-                <span class="mt-1 w-2 h-2 rounded-full flex-shrink-0 {{ $notification->read ? 'bg-gray-300' : 'bg-[#00baff]' }}"></span>
+                <span class="mt-1 w-2 h-2 rounded-full flex-shrink-0 {{ $notification->read ? 'bg-gray-300' : 'bg-[#0055ff]' }}"></span>
                 <div class="flex-1 min-w-0">
                     <p class="text-sm text-gray-800 leading-snug">{{ $notification->message }}</p>
                     <p class="text-xs text-gray-400 mt-0.5">{{ $notification->created_at->format('d/m/Y H:i') }}</p>

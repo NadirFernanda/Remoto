@@ -19,7 +19,7 @@
                 </label>
                 <div class="flex items-center gap-2">
                     <input wire:model="serviceClientFeeRate" type="number" step="0.1" min="0" max="100"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('serviceClientFeeRate') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('serviceClientFeeRate') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">%</span>
                 </div>
                 @error('serviceClientFeeRate') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -31,7 +31,7 @@
                 </label>
                 <div class="flex items-center gap-2">
                     <input wire:model="serviceFreelancerFeeRate" type="number" step="0.1" min="0" max="100"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('serviceFreelancerFeeRate') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('serviceFreelancerFeeRate') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">%</span>
                 </div>
                 @error('serviceFreelancerFeeRate') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -53,7 +53,7 @@
                 <label class="block text-xs text-gray-500 mb-1">Comissão da Plataforma (%)</label>
                 <div class="flex items-center gap-2">
                     <input wire:model="lojaFeeRate" type="number" step="0.1" min="0" max="100"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('lojaFeeRate') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('lojaFeeRate') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">%</span>
                 </div>
                 @error('lojaFeeRate') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -62,7 +62,7 @@
                 <label class="block text-xs text-gray-500 mb-1">Custo de Destaque (Patrocínio) por Dia (AOA)</label>
                 <div class="flex items-center gap-2">
                     <input wire:model="patrocinioDiario" type="number" step="1" min="0"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('patrocinioDiario') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('patrocinioDiario') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">Kz/dia</span>
                 </div>
                 @error('patrocinioDiario') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -83,7 +83,7 @@
             <label class="block text-xs text-gray-500 mb-1">Comissão da Plataforma (%)</label>
             <div class="flex items-center gap-2">
                 <input wire:model="subscriptionFeeRate" type="number" step="0.1" min="0" max="100"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('subscriptionFeeRate') border-red-400 @enderror">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('subscriptionFeeRate') border-red-400 @enderror">
                 <span class="text-gray-500 text-sm font-medium">%</span>
             </div>
             @error('subscriptionFeeRate') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -98,7 +98,7 @@
             <label class="block text-xs text-gray-500 mb-1">Comissão por Registo (AOA)</label>
             <div class="flex items-center gap-2">
                 <input wire:model="affiliateSignupCommission" type="number" step="1" min="0"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('affiliateSignupCommission') border-red-400 @enderror">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('affiliateSignupCommission') border-red-400 @enderror">
                 <span class="text-gray-500 text-sm font-medium">Kz</span>
             </div>
             @error('affiliateSignupCommission') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -114,7 +114,7 @@
                 <label class="block text-xs text-gray-500 mb-1">Taxa Fixa por Saque (AOA)</label>
                 <div class="flex items-center gap-2">
                     <input wire:model="withdrawFeeFixed" type="number" step="0.01" min="0"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('withdrawFeeFixed') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('withdrawFeeFixed') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">Kz</span>
                 </div>
                 @error('withdrawFeeFixed') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -123,7 +123,7 @@
                 <label class="block text-xs text-gray-500 mb-1">Taxa Percentual por Saque (%)</label>
                 <div class="flex items-center gap-2">
                     <input wire:model="withdrawFeePercent" type="number" step="0.01" min="0" max="100"
-                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('withdrawFeePercent') border-red-400 @enderror">
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('withdrawFeePercent') border-red-400 @enderror">
                     <span class="text-gray-500 text-sm font-medium">%</span>
                 </div>
                 @error('withdrawFeePercent') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror

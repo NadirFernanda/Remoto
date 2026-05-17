@@ -35,17 +35,17 @@
         <div class="relative flex-1 min-w-[200px]">
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             <input wire:model.live.debounce.400ms="search" type="text" placeholder="Pesquisar por assunto ou utilizador..."
-                class="w-full pl-9 pr-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full pl-9 pr-3 py-2 rounded-xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
         </div>
         {{-- Status --}}
-        <select wire:model.live="statusFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="statusFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todos os estados</option>
             <option value="aberto">Abertos</option>
             <option value="em_andamento">Em Andamento</option>
             <option value="fechado">Fechados</option>
         </select>
         {{-- Category --}}
-        <select wire:model.live="categoryFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="categoryFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todas as categorias</option>
             <option value="pagamento">Pagamento</option>
             <option value="projecto">Projecto</option>
@@ -54,7 +54,7 @@
             <option value="outro">Outro</option>
         </select>
         {{-- Priority --}}
-        <select wire:model.live="priorityFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+        <select wire:model.live="priorityFilter" class="rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todas as prioridades</option>
             <option value="urgente">🔴 Urgente</option>
             <option value="alta">🟡 Alta</option>
@@ -84,7 +84,7 @@
             @endphp
             <button wire:click="selectTicket({{ $ticket->id }})"
                 class="w-full text-left bg-white rounded-2xl border p-4 transition
-                    {{ $isSelected ? 'border-[#00baff] ring-1 ring-[#00baff]/30 shadow-sm' : 'border-gray-200 hover:border-[#00baff]/40 hover:shadow-sm' }}">
+                    {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
                 <div class="flex items-center justify-between gap-2 mb-1">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2 h-2 rounded-full flex-shrink-0 {{ $dot }}"></span>
@@ -171,7 +171,7 @@
                         </div>
 
                         <div class="mt-3 flex flex-col sm:flex-row gap-2">
-                            <a href="{{ route('admin.user.wallet.history', $selected->user) }}" class="inline-flex items-center justify-center rounded-xl border border-[#00baff] bg-[#00baff]/10 px-4 py-2 text-sm font-semibold text-[#0072d8] hover:bg-[#00baff]/20 transition">
+                            <a href="{{ route('admin.user.wallet.history', $selected->user) }}" class="inline-flex items-center justify-center rounded-xl border border-[#0055ff] bg-[#0055ff]/10 px-4 py-2 text-sm font-semibold text-[#0072d8] hover:bg-[#0055ff]/20 transition">
                                 Ver movimentos da carteira
                             </a>
                             <a href="{{ route('admin.wallet.adjustment') }}" class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
@@ -196,7 +196,7 @@
                     </div>
                     {{-- Status changer --}}
                     <div class="flex items-center gap-2 flex-shrink-0">
-                        <select wire:model="newStatus" class="rounded-xl border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                        <select wire:model="newStatus" class="rounded-xl border border-gray-200 px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                             <option value="aberto">Aberto</option>
                             <option value="em_andamento">Em Andamento</option>
                             <option value="fechado">Fechado</option>
@@ -240,7 +240,7 @@
             <div class="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
                 <p class="text-sm font-semibold text-gray-700">Responder como Suporte</p>
                 <textarea wire:model="replyMessage" rows="4" placeholder="Escreva a sua resposta ao utilizador..."
-                    class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                    class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                 @error('replyMessage') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror
                 <div class="flex items-center gap-3">
                     <button wire:click="sendReply" class="btn-primary">

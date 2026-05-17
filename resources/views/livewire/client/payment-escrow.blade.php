@@ -6,7 +6,7 @@
             <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all
-                        {{ $n < 3 ? 'bg-[#00baff] text-white' : 'bg-[#00baff] text-white' }}">
+                        {{ $n < 3 ? 'bg-[#0055ff] text-white' : 'bg-[#0055ff] text-white' }}">
                         @if($n < 3)
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
@@ -18,7 +18,7 @@
                     <span class="text-sm font-medium text-gray-800">{{ $label }}</span>
                 </div>
                 @if(!$loop->last)
-                    <div class="flex-1 h-0.5 mx-3 bg-[#00baff]"></div>
+                    <div class="flex-1 h-0.5 mx-3 bg-[#0055ff]"></div>
                 @endif
             </div>
         @endforeach
@@ -65,8 +65,8 @@
                         <button type="button" wire:click="$set('payment_method', '{{ $key }}')"
                                 class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all
                                     {{ $payment_method === $key
-                                        ? 'border-[#00baff] bg-[#e8f9ff] text-[#00baff]'
-                                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#00baff] hover:bg-[#f0fbff] hover:text-[#00baff]' }}">
+                                        ? 'border-[#0055ff] bg-[#e8f9ff] text-[#0055ff]'
+                                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff] hover:bg-[#f0fbff] hover:text-[#0055ff]' }}">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 {!! $method['icon'] !!}
                             </svg>
@@ -83,7 +83,7 @@
                 @if($payment_method === 'card')
                 <div class="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
                     <div class="flex items-center gap-2 mb-1">
-                        <svg class="w-4 h-4 text-[#00baff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                         </svg>
                         <h3 class="text-sm font-bold text-gray-700">Dados do cartão</h3>
@@ -94,7 +94,7 @@
                             Nome no cartão <span class="text-red-500">*</span>
                         </label>
                         <input type="text" wire:model.defer="card_name"
-                               class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#00baff] focus:border-transparent outline-none transition @error('card_name') border-red-400 @enderror"
+                               class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-[#0055ff] focus:border-transparent outline-none transition @error('card_name') border-red-400 @enderror"
                                placeholder="Como está impresso no cartão"
                                autocomplete="cc-name">
                         @error('card_name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -106,7 +106,7 @@
                         </label>
                         <div class="relative">
                             <input type="text" wire:model.defer="card_number" maxlength="19"
-                                   class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono tracking-widest focus:ring-2 focus:ring-[#00baff] focus:border-transparent outline-none transition @error('card_number') border-red-400 @enderror"
+                                   class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono tracking-widest focus:ring-2 focus:ring-[#0055ff] focus:border-transparent outline-none transition @error('card_number') border-red-400 @enderror"
                                    placeholder="0000 0000 0000 0000"
                                    autocomplete="cc-number">
                             <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
@@ -123,7 +123,7 @@
                                 Validade <span class="text-red-500">*</span>
                             </label>
                             <input type="text" wire:model.defer="card_expiry" maxlength="5"
-                                   class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-[#00baff] focus:border-transparent outline-none transition @error('card_expiry') border-red-400 @enderror"
+                                   class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-[#0055ff] focus:border-transparent outline-none transition @error('card_expiry') border-red-400 @enderror"
                                    placeholder="MM/AA"
                                    autocomplete="cc-exp">
                             @error('card_expiry') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -134,7 +134,7 @@
                             </label>
                             <div class="relative">
                                 <input type="text" wire:model.defer="card_cvv" maxlength="4"
-                                       class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-[#00baff] focus:border-transparent outline-none transition @error('card_cvv') border-red-400 @enderror"
+                                       class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-[#0055ff] focus:border-transparent outline-none transition @error('card_cvv') border-red-400 @enderror"
                                        placeholder="123"
                                        autocomplete="cc-csc">
                                 <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300">
@@ -206,7 +206,7 @@
                 @if(!in_array($payment_method, ['express', 'bank']))
                 <button type="submit"
                         wire:loading.attr="disabled"
-                        class="w-full bg-[#00baff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 text-base">
+                        class="w-full bg-[#0055ff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 text-base">
                     <span wire:loading.remove wire:target="confirmPayment">
                         @if($payment_method === 'paypal')
                             Continuar para PayPal
@@ -250,7 +250,7 @@
 
             {{-- Resumo financeiro --}}
             <div class="bg-white rounded-2xl border border-gray-100 p-5">
-                <p class="text-xs font-bold text-[#00baff] uppercase tracking-wide mb-4">Resumo financeiro</p>
+                <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide mb-4">Resumo financeiro</p>
 
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
@@ -263,7 +263,7 @@
                     </div>
                     <div class="border-t border-gray-100 pt-3 flex justify-between items-center">
                         <span class="text-sm font-bold text-gray-700">Total a pagar</span>
-                        <span class="text-lg font-bold text-[#00baff]">{{ number_format($valor_total, 0, ',', '.') }} Kz</span>
+                        <span class="text-lg font-bold text-[#0055ff]">{{ number_format($valor_total, 0, ',', '.') }} Kz</span>
                     </div>
                     <div class="bg-green-50 border border-green-100 rounded-xl px-3 py-2 flex justify-between items-center">
                         <span class="text-xs text-green-700">Freelancer recebe</span>

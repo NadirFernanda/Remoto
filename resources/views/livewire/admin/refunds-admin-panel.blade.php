@@ -1,5 +1,5 @@
 <div class="max-w-6xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
             <h2 class="text-2xl font-extrabold">Painel de Reembolsos</h2>
             <p class="text-sm text-white/90 mt-1">Acompanhe pedidos, estados e aprovacoes. Pode aprovar reembolsos parciais.</p>
@@ -80,7 +80,7 @@
                         <td class="p-3">{{ $refund->created_at->format('d/m/Y H:i') }}</td>
                         <td class="p-3">
                             @if($refund->proof)
-                                <a href="{{ asset('storage/'.$refund->proof) }}" target="_blank" class="text-[#00baff] hover:underline text-xs">Ver ficheiro</a>
+                                <a href="{{ asset('storage/'.$refund->proof) }}" target="_blank" class="text-[#0055ff] hover:underline text-xs">Ver ficheiro</a>
                             @else
                                 -
                             @endif

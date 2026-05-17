@@ -7,7 +7,7 @@
     <div class="space-y-2">
         @forelse($notifications as $notification)
             @php
-                $dotColor = $notification->read ? 'bg-gray-200' : 'bg-[#00baff]';
+                $dotColor = $notification->read ? 'bg-gray-200' : 'bg-[#0055ff]';
                 $typeColor = match($notification->type) {
                     'service_chosen', 'delivery_approved', 'payment_released', 'saque_aprovado', 'refund_approved' => 'bg-green-50 border-green-100',
                     'service_rejected', 'saque_rejeitado', 'refund_rejected', 'project_cancelled'                => 'bg-red-50 border-red-100',

@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Nova Publicação</h2>
         <p class="text-sm text-white/75 mt-1">Partilhe conteúdo com a comunidade 24Horas</p>
     </div>
@@ -23,7 +23,7 @@
             ['type' => 'repost', 'icon' => 'M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3', 'label' => 'Repost'],
         ] as $t)
             <button type="button" wire:click="setType('{{ $t['type'] }}')"
-                :class="tab === '{{ $t['type'] }}' ? 'bg-white text-[#00baff] shadow-sm' : 'text-gray-500 hover:text-gray-700'"
+                :class="tab === '{{ $t['type'] }}' ? 'bg-white text-[#0055ff] shadow-sm' : 'text-gray-500 hover:text-gray-700'"
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap flex-shrink-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{{ $t['icon'] }}"/>
@@ -44,7 +44,7 @@
                 @endif
             </label>
             <textarea wire:model.live="content" rows="4"
-                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40"
                 placeholder="{{ $postType === 'text' ? 'Partilhe as suas conquistas, dicas, novidades... Use #hashtags para categorizar!' : ($postType === 'repost' ? 'O que acha desta publicação?' : 'Escreva uma legenda ou contexto...') }}"></textarea>
             @error('content') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             <p class="text-xs text-gray-400 mt-1">{{ strlen($content) }}/{{ $postType === 'repost' ? '1000' : '3000' }} caracteres</p>
@@ -56,7 +56,7 @@
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                     Imagens <span class="font-normal text-gray-400">(máx. 5 · 8 MB cada)</span>
                 </label>
-                <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#00baff]/60 hover:bg-blue-50/20 transition">
+                <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#0055ff]/60 hover:bg-blue-50/20 transition">
                     <svg class="w-8 h-8 text-gray-300 mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.338-2.32 5.75 5.75 0 011.423 7.55A4.5 4.5 0 0117.25 19.5H6.75z"/>
                     </svg>
@@ -65,7 +65,7 @@
                 </label>
                 @error('photos') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 @error('photos.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                <div wire:loading wire:target="photos" class="mt-2 text-xs text-[#00baff]">A processar imagens...</div>
+                <div wire:loading wire:target="photos" class="mt-2 text-xs text-[#0055ff]">A processar imagens...</div>
                 @if(count($photos))
                     <div class="grid grid-cols-5 gap-2 mt-3">
                         @foreach($photos as $i => $photo)
@@ -87,7 +87,7 @@
                     Vídeo <span class="font-normal text-gray-400">(MP4, WebM, MOV · máx. 200 MB)</span>
                 </label>
                 @if(!$video)
-                    <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#00baff]/60 hover:bg-blue-50/20 transition">
+                    <label class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#0055ff]/60 hover:bg-blue-50/20 transition">
                         <svg class="w-10 h-10 text-gray-300 mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"/>
                         </svg>
@@ -102,7 +102,7 @@
                     </div>
                 @endif
                 @error('video') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                <div wire:loading wire:target="video" class="mt-2 text-xs text-[#00baff]">
+                <div wire:loading wire:target="video" class="mt-2 text-xs text-[#0055ff]">
                     A carregar vídeo... Ficheiros grandes podem demorar alguns segundos.
                 </div>
             </div>
@@ -115,7 +115,7 @@
                     Áudio <span class="font-normal text-gray-400">(MP3, M4A, OGG, WAV · máx. 50 MB)</span>
                 </label>
                 @if(!$audio)
-                    <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#00baff]/60 hover:bg-blue-50/20 transition">
+                    <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-[#0055ff]/60 hover:bg-blue-50/20 transition">
                         <svg class="w-9 h-9 text-gray-300 mb-1" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009 15.553z"/>
                         </svg>
@@ -124,8 +124,8 @@
                     </label>
                 @else
                     <div class="bg-gradient-to-r from-gray-50 to-blue-50/40 rounded-xl p-4 flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-[#00baff]/10 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <div class="w-10 h-10 rounded-full bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163z"/>
                             </svg>
                         </div>
@@ -140,7 +140,7 @@
                     </div>
                 @endif
                 @error('audio') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                <div wire:loading wire:target="audio" class="mt-2 text-xs text-[#00baff]">A carregar áudio...</div>
+                <div wire:loading wire:target="audio" class="mt-2 text-xs text-[#0055ff]">A carregar áudio...</div>
             </div>
         @endif
 
@@ -150,18 +150,18 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">URL *</label>
                     <input wire:model="linkUrl" type="url" placeholder="https://..."
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40">
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40">
                     @error('linkUrl') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Título do link (opcional)</label>
                     <input wire:model="linkTitle" type="text" placeholder="Ex: O meu novo artigo sobre design..."
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40">
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">URL de imagem de capa (opcional)</label>
                     <input wire:model="linkImage" type="url" placeholder="https://... (imagem da pré-visualização)"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40">
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40">
                 </div>
                 {{-- Live preview --}}
                 @if($linkUrl)
@@ -172,7 +172,7 @@
                         <div class="p-3">
                             <p class="text-sm font-semibold text-gray-800 truncate">{{ $linkTitle ?: $linkUrl }}</p>
                             @if($content) <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ $content }}</p> @endif
-                            <p class="text-xs text-[#00baff] mt-1 truncate">{{ $linkUrl }}</p>
+                            <p class="text-xs text-[#0055ff] mt-1 truncate">{{ $linkUrl }}</p>
                         </div>
                     </div>
                 @endif
@@ -226,14 +226,14 @@
             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Visibilidade</label>
             <div class="flex flex-col gap-2">
                 <label class="flex items-start gap-2.5 cursor-pointer group">
-                    <input type="radio" wire:model="visibility" value="public" class="text-[#00baff] mt-0.5">
+                    <input type="radio" wire:model="visibility" value="public" class="text-[#0055ff] mt-0.5">
                     <div>
                         <span class="text-sm font-medium text-gray-800">Público — qualquer pessoa pode ver</span>
                         <p class="text-xs text-gray-400 mt-0.5">Aparece no feed de todos os utilizadores da plataforma.</p>
                     </div>
                 </label>
                 <label class="flex items-start gap-2.5 cursor-pointer group">
-                    <input type="radio" wire:model="visibility" value="followers" class="text-[#00baff] mt-0.5">
+                    <input type="radio" wire:model="visibility" value="followers" class="text-[#0055ff] mt-0.5">
                     <div>
                         <span class="text-sm font-medium text-gray-800">Apenas assinantes</span>
                         <p class="text-xs text-gray-400 mt-0.5">Só quem paga a tua subscrição mensal pode ver este conteúdo.</p>
@@ -245,7 +245,7 @@
         {{-- Submit --}}
         <div class="flex gap-3 pt-2">
             <button type="submit"
-                class="flex-1 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-semibold py-3 rounded-xl transition"
+                class="flex-1 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold py-3 rounded-xl transition"
                 wire:loading.attr="disabled" wire:loading.class="opacity-70 cursor-not-allowed">
                 <span wire:loading.remove wire:target="save">Publicar</span>
                 <span wire:loading wire:target="save">A publicar...</span>

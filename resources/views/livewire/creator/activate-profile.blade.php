@@ -1,6 +1,6 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Ativar Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Ative perfis adicionais para aceder a mais funcionalidades.</p>
     </div>
@@ -13,8 +13,8 @@
 
     {{-- Header --}}
     <div class="text-center mb-10">
-        <div class="w-16 h-16 bg-[#00baff]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <div class="w-16 h-16 bg-[#0055ff]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
         </div>
@@ -29,7 +29,7 @@
         {{-- Creator activation form --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 bg-gradient-to-br from-[#00baff] to-purple-500 rounded-xl flex items-center justify-center">
+                <div class="w-10 h-10 bg-gradient-to-br from-[#00c8ff] to-purple-500 rounded-xl flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                     </svg>
@@ -51,7 +51,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Categoria do conteúdo *</label>
                     <select wire:model="category"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/40">
+                        class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40">
                         @foreach($categories as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
                         @endforeach
@@ -62,14 +62,14 @@
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Bio do Criador</label>
                     <textarea wire:model="bio" rows="3"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40"
                         placeholder="Apresente-se ao seu público. O que vai partilhar? Quem é?"></textarea>
                     @error('bio') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     <p class="text-xs text-gray-400 mt-1">{{ strlen($bio) }}/600 caracteres</p>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-[#00baff] to-cyan-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
+                    class="w-full bg-gradient-to-r from-[#00c8ff] to-cyan-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
                     wire:loading.attr="disabled" wire:loading.class="opacity-70">
                     <span wire:loading.remove>Ativar Perfil de Criador</span>
                     <span wire:loading>A ativar...</span>
@@ -80,7 +80,7 @@
     @elseif($targetProfile === 'freelancer')
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center">
             <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                <svg class="w-7 h-7 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <svg class="w-7 h-7 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
             </div>
@@ -91,7 +91,7 @@
             </p>
             <form wire:submit.prevent="activate">
                 <button type="submit"
-                    class="bg-[#00baff] text-white font-bold px-8 py-3 rounded-xl hover:bg-[#009ad6] transition"
+                    class="bg-[#0055ff] text-white font-bold px-8 py-3 rounded-xl hover:bg-[#009ad6] transition"
                     wire:loading.attr="disabled">
                     <span wire:loading.remove>Ativar Perfil Freelancer</span>
                     <span wire:loading>A ativar...</span>

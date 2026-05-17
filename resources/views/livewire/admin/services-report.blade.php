@@ -7,12 +7,12 @@
             @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $lbl)
                 <button wire:click="$set('period', '{{ $val }}')"
                     class="px-3 py-1.5 rounded-[10px] text-xs border transition
-                        {{ $period === $val ? 'bg-[#00baff] text-white border-[#00baff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        {{ $period === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                     {{ $lbl }}</button>
             @endforeach
         </div>
         {{-- Status --}}
-        <select wire:model.live="status" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none">
+        <select wire:model.live="status" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none">
             <option value="">Todos os status</option>
             @foreach($statusLabels as $val => $lbl)
                 <option value="{{ $val }}">{{ $lbl }}</option>
@@ -20,11 +20,11 @@
         </select>
         {{-- Pesquisa --}}
         <input type="text" wire:model.live.debounce.300ms="search" placeholder="Título, cliente ou freelancer…"
-            class="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none w-56" />
+            class="border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none w-56" />
         {{-- Datas --}}
-        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
         <span class="text-xs text-gray-400">a</span>
-        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
     </div>
 
     {{-- ─── Resumo por status ────────────────────────────────────────── --}}

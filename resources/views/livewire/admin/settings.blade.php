@@ -25,31 +25,31 @@
             <div class="sm:col-span-2">
                 <label class="block text-xs font-medium text-gray-500 mb-1">Nome completo <span class="text-red-500">*</span></label>
                 <input wire:model="profileName" type="text" required placeholder="O seu nome real"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profileName') border-red-400 @enderror">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('profileName') border-red-400 @enderror">
                 @error('profileName') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">E-mail de acesso <span class="text-red-500">*</span></label>
                 <input wire:model="profileEmail" type="email" required
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profileEmail') border-red-400 @enderror">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('profileEmail') border-red-400 @enderror">
                 @error('profileEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div></div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">Nova senha <span class="text-gray-400">(deixe em branco para manter)</span></label>
                 <input wire:model="profilePassword" type="password" placeholder="mínimo 10 caracteres"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('profilePassword') border-red-400 @enderror">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('profilePassword') border-red-400 @enderror">
                 @error('profilePassword') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">Confirmar nova senha</label>
                 <input wire:model="profilePasswordConfirm" type="password" placeholder="repetir senha"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
         </div>
 
         <button wire:click="saveProfile" wire:loading.attr="disabled"
-            class="px-5 py-2 bg-gradient-to-r from-[#00baff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+            class="px-5 py-2 bg-gradient-to-r from-[#00c8ff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
             <span wire:loading.remove wire:target="saveProfile">Guardar Perfil</span>
             <span wire:loading wire:target="saveProfile">A guardar...</span>
         </button>
@@ -68,7 +68,7 @@
                 a. Nome da Plataforma
             </label>
             <input wire:model="siteName" type="text" placeholder="ex. 24Horas Remoto"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('siteName') border-red-400 @enderror">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('siteName') border-red-400 @enderror">
             @error('siteName') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -78,7 +78,7 @@
                 b. Saldo Mínimo da Carteira Digital (Kz)
             </label>
             <input wire:model="walletMinBalance" type="number" min="0" step="1" placeholder="0"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('walletMinBalance') border-red-400 @enderror">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('walletMinBalance') border-red-400 @enderror">
             <p class="text-xs text-gray-400 mt-1">Saldo mínimo exigido para operações na carteira digital.</p>
             @error('walletMinBalance') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -100,13 +100,13 @@
             @if($brandLogo)
                 <div class="mb-2 flex items-center gap-3">
                     <img src="{{ $brandLogo->temporaryUrl() }}" alt="Pré-visualização"
-                        class="h-12 w-auto object-contain border border-[#00baff]/40 rounded-lg p-1 bg-gray-50">
-                    <span class="text-xs text-[#00baff]">Pré-visualização — será guardada ao clicar em Guardar</span>
+                        class="h-12 w-auto object-contain border border-[#0055ff]/40 rounded-lg p-1 bg-gray-50">
+                    <span class="text-xs text-[#0055ff]">Pré-visualização — será guardada ao clicar em Guardar</span>
                 </div>
             @endif
 
             <input wire:model="brandLogo" type="file" accept="image/*"
-                class="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#00baff]/10 file:text-[#00baff] hover:file:bg-[#00baff]/20 cursor-pointer">
+                class="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-[#0055ff]/10 file:text-[#0055ff] hover:file:bg-[#0055ff]/20 cursor-pointer">
             <p class="text-xs text-gray-400 mt-1">Formatos aceites: JPG, PNG, SVG, WEBP. Máximo 2 MB.</p>
             @error('brandLogo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -117,7 +117,7 @@
                 d. E-mail de Suporte Financeiro
             </label>
             <input wire:model="financialSupportEmail" type="email" placeholder="financeiro@24horasremoto.ao"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('financialSupportEmail') border-red-400 @enderror">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('financialSupportEmail') border-red-400 @enderror">
             <p class="text-xs text-gray-400 mt-1">Exibido em comprovativos e extractos de pagamento.</p>
             @error('financialSupportEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -129,7 +129,7 @@
             </label>
             <textarea wire:model="receiptText" rows="3"
                 placeholder="Pagamento processado pela 24Horas Remoto."
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none @error('receiptText') border-red-400 @enderror"></textarea>
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none @error('receiptText') border-red-400 @enderror"></textarea>
             <p class="text-xs text-gray-400 mt-1">Rodapé exibido em comprovativos e extractos de pagamento. Máximo 500 caracteres.</p>
             @error('receiptText') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -149,13 +149,13 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="freelancerPaymentRelease" type="radio" value="immediate"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediata</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Imediata</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="freelancerPaymentRelease" type="radio" value="after_confirmation"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Apenas após a confirmação do contratante</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Apenas após a confirmação do contratante</span>
                 </label>
             </div>
             @error('freelancerPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -168,13 +168,13 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="creatorPaymentRelease" type="radio" value="immediate"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediata</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Imediata</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="creatorPaymentRelease" type="radio" value="day_26"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após o dia 26 de cada mês</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Após o dia 26 de cada mês</span>
                 </label>
             </div>
             @error('creatorPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -187,18 +187,18 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="infoprodutoPaymentRelease" type="radio" value="immediate"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Imediato</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Imediato</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="infoprodutoPaymentRelease" type="radio" value="7_days"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após 7 dias</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Após 7 dias</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="infoprodutoPaymentRelease" type="radio" value="14_days"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">Após 14 dias</span>
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">Após 14 dias</span>
                 </label>
             </div>
             @error('infoprodutoPaymentRelease') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
@@ -218,15 +218,15 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalProcessing" type="radio" value="automatic"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">a.</strong> Processar Automaticamente
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalProcessing" type="radio" value="manual"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">b.</strong> Processar Manualmente
                     </span>
                 </label>
@@ -240,22 +240,22 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMinAmount" type="radio" value="20000"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">a.</strong> 20.000,00 Kz
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMinAmount" type="radio" value="60000"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">b.</strong> 60.000,00 Kz
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMinAmount" type="radio" value="0"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">c.</strong> Sem limite mínimo
                     </span>
                 </label>
@@ -270,15 +270,15 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalLiquidityAlert" type="radio" value="500000"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">a.</strong> Alerta a partir de 500.000,00 Kz pendentes
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalLiquidityAlert" type="radio" value="1000000"
-                        class="w-4 h-4 accent-[#00baff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">b.</strong> Alerta a partir de 1.000.000,00 Kz pendentes
                     </span>
                 </label>
@@ -293,22 +293,22 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMethods" type="checkbox" value="bank_transfer"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">a.</strong> Transferência Bancária
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMethods" type="checkbox" value="visa"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">b.</strong> Gateway de Pagamento — VISA
                     </span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="withdrawalMethods" type="checkbox" value="other"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">c.</strong> Outro
                     </span>
                 </label>
@@ -341,8 +341,8 @@
                 @foreach($adminAlertOptions as $value => $opt)
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="adminAlerts" type="checkbox" value="{{ $value }}"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
                     </span>
                 </label>
@@ -356,18 +356,18 @@
             <div class="flex flex-col gap-2">
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="adminAlertChannels" type="checkbox" value="email"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">a.</strong> E-mail</span>
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong class="font-medium">a.</strong> E-mail</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="adminAlertChannels" type="checkbox" value="sms"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">b.</strong> SMS</span>
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong class="font-medium">b.</strong> SMS</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="adminAlertChannels" type="checkbox" value="system"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors"><strong class="font-medium">c.</strong> Sistema (notificação interna)</span>
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong class="font-medium">c.</strong> Sistema (notificação interna)</span>
                 </label>
             </div>
             @error('adminAlertChannels') <p class="text-red-500 text-xs mt-1">Seleccione pelo menos um canal.</p> @enderror
@@ -389,8 +389,8 @@
                 @foreach($userNotifOptions as $value => $opt)
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input wire:model="userNotifications" type="checkbox" value="{{ $value }}"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                         <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
                     </span>
                 </label>
@@ -412,25 +412,25 @@
             <div class="flex flex-col gap-3">
                 <label class="flex items-start gap-3 cursor-pointer group">
                     <input wire:model="reportWithdrawalDaily" type="checkbox" value="1" true-value="1" false-value="0"
-                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                        class="w-4 h-4 mt-0.5 accent-[#0055ff] rounded cursor-pointer">
                     <div>
-                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>a.</strong> Relatório de Saques</span>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong>a.</strong> Relatório de Saques</span>
                         <p class="text-xs text-gray-400">Enviar diariamente por e-mail</p>
                     </div>
                 </label>
                 <label class="flex items-start gap-3 cursor-pointer group">
                     <input wire:model="reportCommissionMonthly" type="checkbox" value="1" true-value="1" false-value="0"
-                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                        class="w-4 h-4 mt-0.5 accent-[#0055ff] rounded cursor-pointer">
                     <div>
-                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>b.</strong> Relatório de Comissões</span>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong>b.</strong> Relatório de Comissões</span>
                         <p class="text-xs text-gray-400">Enviar mensalmente por e-mail</p>
                     </div>
                 </label>
                 <label class="flex items-start gap-3 cursor-pointer group">
                     <input wire:model="reportTax" type="checkbox" value="1" true-value="1" false-value="0"
-                        class="w-4 h-4 mt-0.5 accent-[#00baff] rounded cursor-pointer">
+                        class="w-4 h-4 mt-0.5 accent-[#0055ff] rounded cursor-pointer">
                     <div>
-                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#00baff] transition-colors"><strong>c.</strong> Relatório de Impostos</span>
+                        <span class="text-sm font-medium text-gray-700 group-hover:text-[#0055ff] transition-colors"><strong>c.</strong> Relatório de Impostos</span>
                         <p class="text-xs text-gray-400">Gerado e enviado automaticamente</p>
                     </div>
                 </label>
@@ -443,7 +443,7 @@
                 d. Enviar Todos os Relatórios Para
             </label>
             <input wire:model="reportEmail" type="email" placeholder="contabilidade@24horas.ao"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('reportEmail') border-red-400 @enderror">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('reportEmail') border-red-400 @enderror">
             @error('reportEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
@@ -454,8 +454,8 @@
                 @foreach(['csv' => 'CSV', 'excel' => 'Excel (.xlsx)', 'pdf' => 'PDF'] as $val => $lbl)
                 <label class="flex items-center gap-2 cursor-pointer group">
                     <input wire:model="reportFormats" type="checkbox" value="{{ $val }}"
-                        class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">{{ $lbl }}</span>
+                        class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">{{ $lbl }}</span>
                 </label>
                 @endforeach
             </div>
@@ -481,8 +481,8 @@
             @foreach($widgetOptions as $value => $opt)
             <label class="flex items-center gap-3 cursor-pointer group">
                 <input wire:model="dashboardWidgets" type="checkbox" value="{{ $value }}"
-                    class="w-4 h-4 accent-[#00baff] rounded cursor-pointer">
-                <span class="text-sm text-gray-700 group-hover:text-[#00baff] transition-colors">
+                    class="w-4 h-4 accent-[#0055ff] rounded cursor-pointer">
+                <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
                     <strong class="font-medium">{{ $opt['letter'] }}.</strong> {{ $opt['label'] }}
                 </span>
             </label>
@@ -500,14 +500,14 @@
         <div class="mb-4">
             <label class="block text-xs font-medium text-gray-500 mb-1">E-mail da Plataforma</label>
             <input wire:model="siteEmail" type="email"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('siteEmail') border-red-400 @enderror">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('siteEmail') border-red-400 @enderror">
             @error('siteEmail') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         <div class="mb-0">
             <label class="block text-xs font-medium text-gray-500 mb-1">Modo de Manutenção</label>
             <select wire:model="maintenanceMode"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 <option value="0">Desactivado</option>
                 <option value="1">Activado</option>
             </select>

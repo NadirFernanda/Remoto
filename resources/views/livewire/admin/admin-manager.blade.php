@@ -21,7 +21,7 @@
             <p class="text-slate-300 text-sm mt-0.5">Cadastre, edite e defina permissões de cada administrador da plataforma.</p>
         </div>
         <button wire:click="openCreate"
-            class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009edf] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition">
+            class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009edf] text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Novo Administrador
         </button>
@@ -32,9 +32,9 @@
         <div class="relative flex-1">
             <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="m21 21-4.35-4.35"/></svg>
             <input wire:model.live.debounce.300ms="search" type="text" placeholder="Pesquisar por nome, e-mail ou cargo…"
-                class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
         </div>
-        <select wire:model.live="roleFilter" class="rounded-xl border border-gray-200 text-sm px-3 py-2.5 focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+        <select wire:model.live="roleFilter" class="rounded-xl border border-gray-200 text-sm px-3 py-2.5 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
             <option value="">Todos os perfis</option>
             <option value="master">Admin Master</option>
             <option value="financeiro">Diretor Financeiro</option>
@@ -129,7 +129,7 @@
                             <td class="py-3.5 px-4">
                                 <div class="flex items-center justify-end gap-2">
                                     <button wire:click="openEdit({{ $admin->id }})"
-                                        class="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-[#00baff] hover:bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 transition">
+                                        class="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-[#0055ff] hover:bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 transition">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 012.828 2.828L11.414 16H9v-2.586z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18"/></svg>
                                         Editar
                                     </button>
@@ -218,7 +218,7 @@
                     ] as $tab => $info)
                         <button wire:click="$set('permTab', '{{ $tab }}')"
                             class="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3.5 text-sm font-medium whitespace-nowrap transition border-b-2
-                                {{ $permTab === $tab ? 'border-[#00baff] text-[#00baff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                                {{ $permTab === $tab ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $info['icon'] }}"/>
                             </svg>
@@ -236,35 +236,35 @@
                             <div class="sm:col-span-2">
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Nome Completo *</label>
                                 <input wire:model="name" type="text" placeholder="Ex: Mariana Costa" required
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('name') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">E-mail de Login *</label>
                                 <input wire:model="email" type="email" placeholder="login@plataforma.com"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">E-mail Corporativo</label>
                                 <input wire:model="corporateEmail" type="email" placeholder="nome@24horas.ao"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('corporateEmail') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Contacto / Telefone</label>
                                 <input wire:model="phone" type="text" placeholder="+244 9XX XXX XXX"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('phone') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Cargo / Função</label>
                                 <input wire:model="cargo" type="text" placeholder="Ex: Diretor Financeiro"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('cargo') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
 
@@ -304,13 +304,13 @@
                                     Senha {{ $modalMode === 'edit' ? '(deixe em branco para manter)' : '*' }}
                                 </label>
                                 <input wire:model="password" type="password" placeholder="Mínimo 10 caracteres"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Confirmar Senha {{ $modalMode === 'create' ? '*' : '' }}</label>
                                 <input wire:model="passwordConfirm" type="password" placeholder="Repita a senha"
-                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                    class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('passwordConfirm') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
                         </div>
@@ -328,7 +328,7 @@
                         @else
                             <div class="flex items-center justify-between mb-4">
                                 <p class="text-sm text-gray-600">Configure o nível de acesso por módulo. <span class="font-medium text-gray-800">Perfil: {{ $adminRole }}</span></p>
-                                <button wire:click="applyRoleDefaults" class="text-xs text-[#00baff] hover:underline font-medium">↺ Aplicar padrões do perfil</button>
+                                <button wire:click="applyRoleDefaults" class="text-xs text-[#0055ff] hover:underline font-medium">↺ Aplicar padrões do perfil</button>
                             </div>
                             <div class="space-y-2">
                                 <div class="hidden sm:grid sm:grid-cols-12 gap-2 px-3 py-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wide bg-gray-50 rounded-lg">
@@ -381,7 +381,7 @@
                                 </div>
                                 <button type="button" wire:click="$toggle('twoFactorRequired')"
                                     class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
-                                    style="{{ $twoFactorRequired ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                    style="{{ $twoFactorRequired ? 'background:#0055ff' : 'background:#d1d5db' }}">
                                     <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
                                         style="{{ $twoFactorRequired ? 'left:22px' : 'left:2px' }}"></span>
                                 </button>
@@ -395,7 +395,7 @@
                                 </div>
                                 <button type="button" wire:click="$toggle('forcePasswordChange')"
                                     class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
-                                    style="{{ $forcePasswordChange ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                    style="{{ $forcePasswordChange ? 'background:#0055ff' : 'background:#d1d5db' }}">
                                     <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
                                         style="{{ $forcePasswordChange ? 'left:22px' : 'left:2px' }}"></span>
                                 </button>
@@ -410,7 +410,7 @@
                                     </div>
                                     <button type="button" wire:click="$toggle('sessionTimeoutEnabled')"
                                         class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
-                                        style="{{ $sessionTimeoutEnabled ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                        style="{{ $sessionTimeoutEnabled ? 'background:#0055ff' : 'background:#d1d5db' }}">
                                         <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
                                             style="{{ $sessionTimeoutEnabled ? 'left:22px' : 'left:2px' }}"></span>
                                     </button>
@@ -419,7 +419,7 @@
                                     <div class="mt-3">
                                         <label class="text-xs text-gray-600 font-medium">Minutos de inactividade</label>
                                         <input wire:model="sessionTimeoutMinutes" type="number" min="5" max="480"
-                                            class="mt-1.5 w-32 rounded-xl border border-gray-200 px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none">
+                                            class="mt-1.5 w-32 rounded-xl border border-gray-200 px-3 py-2 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                     </div>
                                 @endif
                             </div>
@@ -433,7 +433,7 @@
                                     </div>
                                     <button type="button" wire:click="$toggle('ipRestriction')"
                                         class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
-                                        style="{{ $ipRestriction ? 'background:#00baff' : 'background:#d1d5db' }}">
+                                        style="{{ $ipRestriction ? 'background:#0055ff' : 'background:#d1d5db' }}">
                                         <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
                                             style="{{ $ipRestriction ? 'left:22px' : 'left:2px' }}"></span>
                                     </button>
@@ -442,7 +442,7 @@
                                     <div class="mt-3">
                                         <label class="text-xs text-gray-600 font-medium">IPs Permitidos (um por linha ou separados por vírgula)</label>
                                         <textarea wire:model="allowedIps" rows="3" placeholder="192.168.1.1&#10;10.0.0.1"
-                                            class="mt-1.5 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] outline-none resize-none"></textarea>
+                                            class="mt-1.5 w-full rounded-xl border border-gray-200 px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none resize-none"></textarea>
                                     </div>
                                 @endif
                             </div>
@@ -465,7 +465,7 @@
                                 <label class="flex items-center justify-between p-3.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50/50 transition">
                                     <span class="text-sm text-gray-700">{{ $label }}</span>
                                     <input type="checkbox" wire:model="{{ $prop }}"
-                                        class="w-4 h-4 rounded border-gray-300 text-[#00baff] accent-[#00baff]">
+                                        class="w-4 h-4 rounded border-gray-300 text-[#0055ff] accent-[#0055ff]">
                                 </label>
                             @endforeach
 
@@ -474,8 +474,8 @@
                                 <div class="flex gap-3 flex-wrap">
                                     @foreach(['email' => 'E-mail', 'system' => 'Painel', 'both' => 'Ambos'] as $val => $lbl)
                                         <label class="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl border transition
-                                            {{ $notifyChannel === $val ? 'border-[#00baff] bg-sky-50' : 'border-gray-200 hover:bg-gray-50' }}">
-                                            <input type="radio" wire:model="notifyChannel" value="{{ $val }}" class="accent-[#00baff]">
+                                            {{ $notifyChannel === $val ? 'border-[#0055ff] bg-sky-50' : 'border-gray-200 hover:bg-gray-50' }}">
+                                            <input type="radio" wire:model="notifyChannel" value="{{ $val }}" class="accent-[#0055ff]">
                                             <span class="text-sm text-gray-700">{{ $lbl }}</span>
                                         </label>
                                     @endforeach

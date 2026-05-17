@@ -15,8 +15,8 @@
             <button wire:click="$set('categoryFilter', '{{ $val }}')"
                 class="px-4 py-1.5 rounded-full text-xs font-medium border transition-colors
                     {{ $categoryFilter === $val
-                        ? 'bg-[#00baff] border-[#00baff] text-white'
-                        : 'bg-white border-gray-200 text-gray-600 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        ? 'bg-[#0055ff] border-[#0055ff] text-white'
+                        : 'bg-white border-gray-200 text-gray-600 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach
@@ -34,7 +34,7 @@
                     </svg>
                     <input wire:model.live.debounce.400ms="search" type="text"
                         placeholder="Pesquisar descrição..."
-                        class="w-full pl-9 pr-3 border border-gray-200 rounded-[10px] py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                        class="w-full pl-9 pr-3 border border-gray-200 rounded-[10px] py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
             <div>
                 <label class="block text-xs text-gray-400 mb-1">Acção</label>
                 <select wire:model.live="actionFilter"
-                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                     <option value="">Todas as acções</option>
                     @foreach($actions as $action)
                         <option value="{{ $action }}">{{ str_replace('_', ' ', ucfirst($action)) }}</option>
@@ -54,7 +54,7 @@
             <div>
                 <label class="block text-xs text-gray-400 mb-1">Entidade</label>
                 <select wire:model.live="entityFilter"
-                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                     <option value="">Todas as entidades</option>
                     @foreach($entities as $entity)
                         <option value="{{ $entity }}">{{ $entity }}</option>
@@ -66,12 +66,12 @@
             <div>
                 <label class="block text-xs text-gray-400 mb-1">De</label>
                 <input wire:model.live="dateFrom" type="date"
-                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-gray-400 mb-1">Até</label>
                 <input wire:model.live="dateTo" type="date"
-                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
 
             {{-- Clear --}}
@@ -181,7 +181,7 @@
                         <td class="py-3 px-4">
                             @if($log->before || $log->after)
                                 <button wire:click="toggleExpand({{ $log->id }})"
-                                    class="text-xs text-[#00baff] hover:underline">
+                                    class="text-xs text-[#0055ff] hover:underline">
                                     {{ $expandedId === $log->id ? '▲ Fechar' : '▼ Ver' }}
                                 </button>
                             @endif

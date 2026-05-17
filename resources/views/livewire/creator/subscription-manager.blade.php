@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
             <div>
                 <h2 class="text-2xl font-extrabold">Assinaturas</h2>
@@ -77,7 +77,7 @@
                 @foreach($years as $yr)
                     <button wire:click="$set('selectedYear', {{ $yr }})"
                         class="px-3 py-1 rounded-lg text-xs font-bold border transition
-                            {{ $selectedYear == $yr ? 'bg-[#00baff]/10 border-[#00baff] text-[#00baff]' : 'border-gray-200 text-gray-500 hover:border-gray-300' }}">
+                            {{ $selectedYear == $yr ? 'bg-[#0055ff]/10 border-[#0055ff] text-[#0055ff]' : 'border-gray-200 text-gray-500 hover:border-gray-300' }}">
                         {{ $yr }}
                     </button>
                 @endforeach
@@ -91,10 +91,10 @@
                 <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end"
                      title="{{ $data['label'] }}: {{ $data['new'] }} novas assinaturas">
                     @if($data['new'] > 0)
-                        <span class="text-xs font-bold text-[#00baff]">{{ $data['new'] }}</span>
+                        <span class="text-xs font-bold text-[#0055ff]">{{ $data['new'] }}</span>
                     @endif
                     <div class="w-full rounded-t-md transition-all"
-                         style="height:{{ max(3, $pct) }}%;background:{{ $data['new'] > 0 ? 'linear-gradient(180deg,#00baff,#0095cc)' : '#f1f5f9' }}"></div>
+                         style="height:{{ max(3, $pct) }}%;background:{{ $data['new'] > 0 ? 'linear-gradient(180deg,#00c8ff,#0033cc)' : '#f1f5f9' }}"></div>
                 </div>
             @endforeach
         </div>
@@ -165,7 +165,7 @@
         @forelse($recentSubscribers as $sub)
             @php $subscriber = $sub->subscriber; @endphp
             <div class="flex items-center gap-3 px-6 py-3.5 hover:bg-gray-50/60 transition-colors">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#00baff] to-[#0095cc] flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#00c8ff] to-[#0033cc] flex items-center justify-center flex-shrink-0 overflow-hidden">
                     @if($subscriber?->profile_photo)
                         <img src="{{ $subscriber->avatarUrl() }}" class="w-9 h-9 object-cover" loading="lazy">
                     @else
@@ -177,7 +177,7 @@
                     <p class="text-xs text-gray-400 mt-0.5">Desde {{ $sub->starts_at->format('d/m/Y') }}</p>
                 </div>
                 <div class="text-right flex-shrink-0">
-                    <p class="text-sm font-bold text-[#00baff]">{{ money_aoa($sub->net_amount, false) }}</p>
+                    <p class="text-sm font-bold text-[#0055ff]">{{ money_aoa($sub->net_amount, false) }}</p>
                     <p class="text-xs text-gray-400 mt-0.5">Expira {{ $sub->expires_at->format('d/m/Y') }}</p>
                 </div>
             </div>
@@ -237,7 +237,7 @@
             <div class="flex gap-3">
                 <button wire:click="solicitarSaqueAssin" wire:loading.attr="disabled"
                     @if(!$podeRealizarSaque) disabled @endif
-                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#00baff] to-[#0095cc] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#00c8ff] to-[#0033cc] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed">
                     <span wire:loading.remove wire:target="solicitarSaqueAssin">
                         @if(!$podeRealizarSaque)
                             Disponível em {{ $diasParaProximoSaque }} dia{{ $diasParaProximoSaque == 1 ? '' : 's' }}

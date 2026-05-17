@@ -12,14 +12,14 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,186,255,.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,80,255,.18) 0%, transparent 70%);
     pointer-events: none;
 }
 .fl-hero-eyebrow {
     display: inline-flex;align-items: center;gap: .4rem;
-    background: rgba(0,186,255,.12);border: 1px solid rgba(0,186,255,.3);
+    background: rgba(0,80,255,.12);border: 1px solid rgba(0,80,255,.3);
     border-radius: 30px;padding: .3rem .9rem;
-    font-size: .7rem;font-weight: 700;color: #00baff;
+    font-size: .7rem;font-weight: 700;color: #0055ff;
     letter-spacing: .06em;text-transform: uppercase;margin-bottom: .9rem;
 }
 .fl-hero h1 {
@@ -46,7 +46,7 @@
     transition: border .2s,background .2s;
 }
 .fl-searchbar input::placeholder { color: rgba(255,255,255,.38); }
-.fl-searchbar input:focus { border-color: #00baff;background: rgba(255,255,255,.13); }
+.fl-searchbar input:focus { border-color: #0055ff;background: rgba(255,255,255,.13); }
 .fl-searchbar-skill {
     padding: .875rem .9rem;
     border-radius: 12px;border: 1.5px solid rgba(255,255,255,.12);
@@ -54,7 +54,7 @@
     color: #fff;font-size: .85rem;outline: none;
     transition: border .2s;width: 180px;flex-shrink:0;
 }
-.fl-searchbar-skill:focus { border-color: #00baff; }
+.fl-searchbar-skill:focus { border-color: #0055ff; }
 .fl-searchbar-skill option { color: #0f172a; background: #fff; }
 .fl-hero-stats {
     display: flex;justify-content: center;gap: 2.25rem;
@@ -87,12 +87,12 @@
     transition: box-shadow .22s,border-color .22s,transform .22s;cursor: pointer;
 }
 .fsp-card:hover {
-    box-shadow: 0 10px 32px rgba(0,186,255,.14);
+    box-shadow: 0 10px 32px rgba(0,80,255,.14);
     border-color: #ade8ff;transform: translateY(-3px);
 }
 .fsp-card-cover {
     height: 70px;flex-shrink: 0;position: relative;
-    background: linear-gradient(120deg, #0575e6 0%, #00baff 100%);
+    background: linear-gradient(120deg, #0575e6 0%, #0055ff 100%);
 }
 .fsp-card-avatar {
     position: absolute;bottom: -22px;left: 15px;z-index: 1;
@@ -121,7 +121,7 @@
     display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     line-height: 1.2;
 }
-.fsp-card-name:hover { color: #00baff; }
+.fsp-card-name:hover { color: #0055ff; }
 .fsp-card-headline {
     font-size: .73rem;color: #64748b;margin: 0;
     white-space: nowrap;overflow: hidden;text-overflow: ellipsis;line-height: 1.3;
@@ -145,7 +145,7 @@
     white-space: nowrap;transition: background .17s;
 }
 .fsp-btn-view:hover { background: #e2e8f0;color: #0f172a; }
-.fsp-btn-hire { background: #00baff;color: #fff;font-size: .73rem;font-weight: 700;
+.fsp-btn-hire { background: #0055ff;color: #fff;font-size: .73rem;font-weight: 700;
     padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
     white-space: nowrap;border:none;cursor:pointer;transition: background .17s;
 }
@@ -222,8 +222,8 @@
         </p>
         <div wire:loading.flex style="align-items:center;gap:.5rem;font-size:.82rem;color:#94a3b8;">
             <svg class="animate-spin" width="16" height="16" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#00baff" stroke-width="4"/>
-                <path class="opacity-75" fill="#00baff" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#0055ff" stroke-width="4"/>
+                <path class="opacity-75" fill="#0055ff" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
             </svg>
             A filtrar…
         </div>

@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Patrocinio de Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Destaque o seu perfil com patrocinio.</p>
     </div>
@@ -21,7 +21,7 @@
                 </span>
             </div>
             <div>
-                <button wire:click="solicitarPatrocinio" class="px-4 py-2 rounded-xl bg-[#00baff] text-white font-semibold hover:bg-[#009ad6] transition" @if($status === 'em análise' || $status === 'aprovado') disabled @endif>
+                <button wire:click="solicitarPatrocinio" class="px-4 py-2 rounded-xl bg-[#0055ff] text-white font-semibold hover:bg-[#009ad6] transition" @if($status === 'em análise' || $status === 'aprovado') disabled @endif>
                     Solicitar patrocinio
                 </button>
                 @if($feedback)

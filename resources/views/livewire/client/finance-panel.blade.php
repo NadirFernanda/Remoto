@@ -4,7 +4,7 @@
             <h2 class="text-lg font-bold text-slate-900">Resumo Financeiro</h2>
             <p class="text-sm text-slate-500">Visao geral do seu saldo e ultimos movimentos.</p>
         </div>
-        <a href="#" class="text-[#00baff] hover:underline font-semibold text-sm">Ver extrato completo</a>
+        <a href="#" class="text-[#0055ff] hover:underline font-semibold text-sm">Ver extrato completo</a>
     </div>
 
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-6">

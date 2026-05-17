@@ -27,8 +27,8 @@
             <button wire:click="$set('statusFilter', '{{ $val }}')"
                 class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition
                     {{ $statusFilter === $val
-                        ? 'bg-[#00baff] text-white border-[#00baff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach
@@ -39,8 +39,8 @@
         <div class="{{ $selected ? 'hidden lg:block' : '' }} lg:w-80 w-full flex-shrink-0 space-y-2">
             @forelse($disputes as $d)
             <button wire:click="select({{ $d->id }})"
-                class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#00baff]/40 transition
-                    {{ $selectedId === $d->id ? 'border-[#00baff] ring-1 ring-[#00baff]/20' : 'border-gray-200' }}"
+                class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#0055ff]/40 transition
+                    {{ $selectedId === $d->id ? 'border-[#0055ff] ring-1 ring-[#0055ff]/20' : 'border-gray-200' }}"
             >
                 <div class="flex items-center justify-between gap-2">
                     <span class="font-medium text-sm text-gray-800 truncate flex-1">{{ $d->service->titulo ?? 'Serviço #'.$d->service_id }}</span>
@@ -195,7 +195,7 @@
                 <div>
                     <textarea wire:model.defer="replyMessage" rows="3"
                         placeholder="Escreva uma mensagem para as partes..."
-                        class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                        class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                     <button wire:click="sendReply" class="mt-2 btn-primary text-xs">Enviar mensagem</button>
                 </div>
 
@@ -206,7 +206,7 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Alterar status da disputa</label>
                         <select wire:model.defer="newStatus"
-                            class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                            class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                             <option value="aberta">Aberta</option>
                             <option value="em_mediacao">Em mediação</option>
                             <option value="resolvida">Resolvida</option>
@@ -217,7 +217,7 @@
                         <label class="block text-xs font-semibold text-gray-600 mb-1">Nota administrativa (visível às partes)</label>
                         <textarea wire:model.defer="adminNote" rows="2"
                             placeholder="Resolução, instruções..."
-                            class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none"></textarea>
+                            class="w-full rounded-[10px] border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none"></textarea>
                     </div>
                 </div>
                 <button wire:click="saveChanges" class="btn-primary text-sm">Guardar alterações</button>

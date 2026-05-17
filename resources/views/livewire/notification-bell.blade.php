@@ -52,7 +52,7 @@
         <div class="flex items-center justify-between px-4 py-3 border-b border-gray-50">
             <span class="text-sm font-bold text-gray-800">Notificações</span>
             @if($unreadCount > 0)
-                <button wire:click="markAllRead" class="text-xs text-[#00baff] hover:underline font-medium">
+                <button wire:click="markAllRead" class="text-xs text-[#0055ff] hover:underline font-medium">
                     Marcar todas como lidas
                 </button>
             @endif
@@ -68,12 +68,12 @@
                         'service_rejected', 'saque_rejeitado', 'refund_rejected'                    => 'text-red-400',
                         'revision_requested', 'dispute_admin_reply', 'dispute_resolved'             => 'text-yellow-500',
                         'nova_mensagem', 'direct_invite', 'project_invite'                          => 'text-purple-500',
-                        default                                                                     => 'text-[#00baff]',
+                        default                                                                     => 'text-[#0055ff]',
                     };
                 @endphp
                 <a href="{{ route('notification.open', $notif['id']) }}"
                    class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition {{ $notif['read'] ? 'opacity-70' : '' }}">
-                    <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full {{ $notif['read'] ? 'bg-gray-200' : 'bg-[#00baff]' }}"></span>
+                    <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full {{ $notif['read'] ? 'bg-gray-200' : 'bg-[#0055ff]' }}"></span>
                     <div class="flex-1 min-w-0">
                         @if(!empty($notif['title']))
                             <p class="text-xs font-semibold text-gray-800 truncate">{{ $notif['title'] }}</p>
@@ -96,11 +96,11 @@
         <div class="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
             @auth
                 @if(auth()->user()->activeRole() === 'freelancer')
-                    <a href="{{ route('freelancer.notifications') }}" class="block text-center text-xs text-[#00baff] font-medium hover:underline">
+                    <a href="{{ route('freelancer.notifications') }}" class="block text-center text-xs text-[#0055ff] font-medium hover:underline">
                         Ver todas as notificações
                     </a>
                 @else
-                    <a href="{{ route('notifications') }}" class="block text-center text-xs text-[#00baff] font-medium hover:underline">
+                    <a href="{{ route('notifications') }}" class="block text-center text-xs text-[#0055ff] font-medium hover:underline">
                         Ver todas as notificações
                     </a>
                 @endif

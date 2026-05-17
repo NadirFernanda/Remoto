@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Meu Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Atualize os seus dados pessoais e preferencias.</p>
     </div>
@@ -20,7 +20,7 @@
     {{-- Foto de capa + foto de perfil --}}
     <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
         {{-- Banner de capa --}}
-        <div class="relative h-48 bg-gradient-to-r from-[#00baff] to-[#6a5acd]"
+        <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
              @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
             <label for="cp-cover-input"
                    class="absolute bottom-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer transition"
@@ -52,7 +52,7 @@
                              alt="Foto de perfil">
                     </div>
                     <label for="cp-photo-input"
-                           class="absolute bottom-0 right-0 bg-[#00baff] hover:bg-[#009ad6] text-white rounded-full p-1.5 cursor-pointer shadow transition"
+                           class="absolute bottom-0 right-0 bg-[#0055ff] hover:bg-[#009ad6] text-white rounded-full p-1.5 cursor-pointer shadow transition"
                            title="Alterar foto de perfil">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>

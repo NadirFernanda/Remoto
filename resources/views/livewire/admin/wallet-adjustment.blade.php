@@ -1,6 +1,6 @@
 <div class="max-w-5xl mx-auto space-y-6">
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
             <h2 class="text-2xl font-extrabold">Ajuste Manual de Saldo</h2>
             <p class="text-sm text-white/90 mt-1">Credita ou debita a carteira de qualquer utilizador. Toda a acção fica registada na auditoria.</p>
@@ -27,7 +27,7 @@
                     wire:model.debounce.400ms="searchUser"
                     type="text"
                     placeholder="Nome ou email..."
-                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]"
+                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]"
                 />
                 @if ($searchUser && $users->count())
                     <div class="border border-gray-200 rounded-xl divide-y divide-gray-100 shadow-sm">
@@ -55,7 +55,7 @@
             <label class="block text-sm font-medium text-slate-700 mb-1">Tipo de Ajuste</label>
             <select
                 wire:model="adjustmentType"
-                class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]"
+                class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]"
             >
                 <option value="wallet">Carteira (Saldo Disponível)</option>
                 <option value="revenue">Receita (Total Ganho)</option>
@@ -70,7 +70,7 @@
                     type="number"
                     step="0.01"
                     placeholder="ex: 5000 ou -2000"
-                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff] @error('amount') border-red-400 @enderror"
+                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff] @error('amount') border-red-400 @enderror"
                 />
                 @error('amount') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
@@ -97,7 +97,7 @@
                 wire:model="reason"
                 rows="3"
                 placeholder="Descreve o motivo do ajuste de forma clara. Ex: Compensação por falha técnica no pagamento #1234."
-                class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff] @error('reason') border-red-400 @enderror"
+                class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff] @error('reason') border-red-400 @enderror"
             ></textarea>
             @error('reason') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -105,7 +105,7 @@
         <button
             wire:click="applyAdjustment"
             wire:loading.attr="disabled"
-            class="bg-[#00baff] hover:bg-[#0095cc] disabled:opacity-60 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition"
+            class="bg-[#0055ff] hover:bg-[#0033cc] disabled:opacity-60 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition"
         >
             <span wire:loading.remove>Aplicar Ajuste</span>
             <span wire:loading>A processar...</span>

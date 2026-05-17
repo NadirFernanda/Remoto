@@ -7,25 +7,25 @@
             @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $lbl)
                 <button wire:click="$set('period', '{{ $val }}')"
                     class="px-3 py-1.5 rounded-[10px] text-xs border transition
-                        {{ $period === $val ? 'bg-[#00baff] text-white border-[#00baff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        {{ $period === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                     {{ $lbl }}</button>
             @endforeach
         </div>
         {{-- Tipo --}}
-        <select wire:model.live="tipo" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none">
+        <select wire:model.live="tipo" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none">
             <option value="">Todos os tipos</option>
             <option value="freelancing">Freelances</option>
             <option value="infoproduto">Infoprodutos</option>
             <option value="creator">Criador</option>
         </select>
         {{-- Datas --}}
-        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateStart" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
         <span class="text-xs text-gray-400">a</span>
-        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#00baff] focus:outline-none" />
+        <input type="date" wire:model.live="dateEnd" class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0055ff] focus:outline-none" />
         {{-- Export --}}
         <div class="flex items-center gap-2 ml-auto">
             <a href="{{ route('admin.reports.accounting.csv', ['period' => $period, 'tipo' => $tipo, 'date_start' => $dateStart, 'date_end' => $dateEnd]) }}"
-               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border border-gray-200 bg-white text-gray-600 hover:border-[#00baff] hover:text-[#00baff] transition">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs border border-gray-200 bg-white text-gray-600 hover:border-[#0055ff] hover:text-[#0055ff] transition">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 CSV
             </a>
@@ -50,7 +50,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-4">
             <p class="text-xs text-gray-500 mb-1">Comissões Total</p>
-            <p class="text-lg font-bold text-[#00baff]">{{ money_aoa($totalComissao) }}</p>
+            <p class="text-lg font-bold text-[#0055ff]">{{ money_aoa($totalComissao) }}</p>
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-4">
             <p class="text-xs text-gray-500 mb-1">Valor Líquido Total</p>
@@ -91,7 +91,7 @@
                         <td class="py-2.5 px-3 text-xs text-gray-700">{{ $row['user_origem'] }}</td>
                         <td class="py-2.5 px-3 text-xs text-gray-700">{{ $row['user_destino'] }}</td>
                         <td class="py-2.5 px-3 text-xs text-right text-gray-800 font-medium">{{ money_aoa($row['valor_bruto']) }}</td>
-                        <td class="py-2.5 px-3 text-xs text-right text-[#00baff]">{{ money_aoa($row['comissao']) }}</td>
+                        <td class="py-2.5 px-3 text-xs text-right text-[#0055ff]">{{ money_aoa($row['comissao']) }}</td>
                         <td class="py-2.5 px-3 text-xs text-right text-green-600 font-medium">{{ money_aoa($row['valor_liquido']) }}</td>
                         <td class="py-2.5 px-3 text-xs text-gray-500">{{ $row['status'] }}</td>
                     </tr>
@@ -105,7 +105,7 @@
                 <tr class="bg-gray-50 font-semibold border-t-2 border-gray-300">
                     <td colspan="5" class="py-2.5 px-3 text-xs text-gray-600 uppercase">Total (página)</td>
                     <td class="py-2.5 px-3 text-xs text-right text-gray-800">{{ money_aoa($paginated->sum('valor_bruto')) }}</td>
-                    <td class="py-2.5 px-3 text-xs text-right text-[#00baff]">{{ money_aoa($paginated->sum('comissao')) }}</td>
+                    <td class="py-2.5 px-3 text-xs text-right text-[#0055ff]">{{ money_aoa($paginated->sum('comissao')) }}</td>
                     <td class="py-2.5 px-3 text-xs text-right text-green-600">{{ money_aoa($paginated->sum('valor_liquido')) }}</td>
                     <td></td>
                 </tr>

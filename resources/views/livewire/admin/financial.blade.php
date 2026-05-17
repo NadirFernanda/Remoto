@@ -6,8 +6,8 @@
             <button wire:click="$set('period', '{{ $val }}')"
                 class="px-3 py-1.5 rounded-[10px] text-xs border transition
                     {{ $period === $val
-                        ? 'bg-[#00baff] text-white border-[#00baff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff] hover:text-[#00baff]' }}">
+                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
+                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach
@@ -42,7 +42,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-gray-200 p-5">
             <p class="text-xs text-gray-500 mb-1">Comissões</p>
-            <p class="text-2xl font-bold text-[#00baff]">{{ money_aoa($totalComissoes) }}</p>
+            <p class="text-2xl font-bold text-[#0055ff]">{{ money_aoa($totalComissoes) }}</p>
         </div>
     </div>
 

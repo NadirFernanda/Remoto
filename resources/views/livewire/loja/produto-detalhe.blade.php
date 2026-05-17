@@ -19,14 +19,14 @@
         <div class="flex flex-col md:flex-row">
 
             {{-- Cover image --}}
-            <div class="md:w-72 h-56 md:h-auto flex-shrink-0 bg-gradient-to-br from-[#00baff]/10 to-[#00baff]/30">
+            <div class="md:w-72 h-56 md:h-auto flex-shrink-0 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/30">
                 @if($produto->capa_path)
                     <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                         alt="{{ $produto->titulo }}"
                         class="w-full h-full object-cover">
                 @else
                     <div class="w-full h-full flex items-center justify-center">
-                        <svg class="w-24 h-24 text-[#00baff]/30" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
+                        <svg class="w-24 h-24 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
                     </div>
@@ -37,7 +37,7 @@
             <div class="flex-1 p-6 md:p-8">
                 {{-- Badges --}}
                 <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-[#00baff]/10 text-[#00baff]">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-[#0055ff]/10 text-[#0055ff]">
                         {{ $produto->tipoLabel() }}
                     </span>
                     @if($patrocinado)
@@ -53,11 +53,11 @@
                 {{-- Freelancer info --}}
                 <div class="flex items-center gap-2 mb-5">
                     <img src="{{ $produto->freelancer->avatarUrl() }}"
-                        class="w-8 h-8 rounded-full object-cover ring-2 ring-[#00baff]/20"
+                        class="w-8 h-8 rounded-full object-cover ring-2 ring-[#0055ff]/20"
                         onerror="this.src='/img/default-avatar.svg'">
                     <div>
                         <a href="{{ route('freelancer.show', $produto->freelancer) }}"
-                            class="text-sm font-medium text-gray-700 hover:text-[#00baff] transition">
+                            class="text-sm font-medium text-gray-700 hover:text-[#0055ff] transition">
                             {{ $produto->freelancer->name }}
                         </a>
                         <p class="text-xs text-gray-400">Freelancer</p>
@@ -81,7 +81,7 @@
                                 Produto adquirido
                             </span>
                             <button wire:click="downloadArquivo"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#00baff] text-white rounded-xl text-sm font-semibold hover:bg-[#009ad6] transition">
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0055ff] text-white rounded-xl text-sm font-semibold hover:bg-[#009ad6] transition">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                 Fazer Download
                             </button>
@@ -92,17 +92,17 @@
                         <div class="sm:ml-auto flex flex-col items-start sm:items-end gap-2">
                             @if(!$confirmando)
                             <button wire:click="$set('confirmando', true)"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00baff] text-white rounded-xl font-semibold text-sm hover:bg-[#009ad6] transition shadow">
+                                class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0055ff] text-white rounded-xl font-semibold text-sm hover:bg-[#009ad6] transition shadow">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                 Comprar agora
                             </button>
                             @else
-                            <div class="bg-white border-2 border-[#00baff] rounded-xl p-4 text-sm">
+                            <div class="bg-white border-2 border-[#0055ff] rounded-xl p-4 text-sm">
                                 <p class="font-medium text-gray-900 mb-1">Confirmar compra?</p>
                                 <p class="text-gray-500 mb-3">Será debitado <strong>Kz {{ number_format($produto->preco, 0, ',', '.') }}</strong> da sua carteira.</p>
                                 <div class="flex gap-2">
                                     <button wire:click="comprar"
-                                        class="px-4 py-2 bg-[#00baff] text-white rounded-lg font-medium text-xs hover:bg-[#009ad6] transition">
+                                        class="px-4 py-2 bg-[#0055ff] text-white rounded-lg font-medium text-xs hover:bg-[#009ad6] transition">
                                         Confirmar
                                     </button>
                                     <button wire:click="$set('confirmando', false)"
@@ -117,7 +117,7 @@
                     @else
                     <div class="sm:ml-auto">
                         <a href="{{ route('login') }}"
-                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#00baff] text-white rounded-xl font-semibold text-sm hover:bg-[#009ad6] transition shadow">
+                            class="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0055ff] text-white rounded-xl font-semibold text-sm hover:bg-[#009ad6] transition shadow">
                             Entrar para comprar
                         </a>
                     </div>

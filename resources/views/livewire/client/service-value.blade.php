@@ -6,7 +6,7 @@
             <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all
-                        {{ $n < 2 ? 'bg-[#00baff] text-white' : ($n === 2 ? 'bg-[#00baff] text-white' : 'bg-gray-200 text-gray-500') }}">
+                        {{ $n < 2 ? 'bg-[#0055ff] text-white' : ($n === 2 ? 'bg-[#0055ff] text-white' : 'bg-gray-200 text-gray-500') }}">
                         @if($n < 2)
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
@@ -18,7 +18,7 @@
                     <span class="text-sm font-medium {{ $n <= 2 ? 'text-gray-800' : 'text-gray-400' }}">{{ $label }}</span>
                 </div>
                 @if(!$loop->last)
-                    <div class="flex-1 h-0.5 mx-3 {{ $n < 2 ? 'bg-[#00baff]' : 'bg-gray-200' }}"></div>
+                    <div class="flex-1 h-0.5 mx-3 {{ $n < 2 ? 'bg-[#0055ff]' : 'bg-gray-200' }}"></div>
                 @endif
             </div>
         @endforeach
@@ -60,7 +60,7 @@
                                 wire:model.live.debounce.300ms="valor"
                                 min="10000"
                                 step="500"
-                                class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl pl-10 pr-4 py-3.5 text-base font-semibold focus:ring-2 focus:ring-[#00baff] focus:border-transparent outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
+                                class="w-full bg-white text-gray-800 border border-gray-300 rounded-xl pl-10 pr-4 py-3.5 text-base font-semibold focus:ring-2 focus:ring-[#0055ff] focus:border-transparent outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
                                 placeholder="10.000"
                             >
                         </div>
@@ -137,7 +137,7 @@
 
                     {{-- Info box --}}
                     <div class="bg-[#e8f9ff] border border-[#b3ecff] rounded-2xl px-4 py-3 flex gap-3 items-start mb-6">
-                        <svg class="w-4 h-4 text-[#00baff] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <svg class="w-4 h-4 text-[#0055ff] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <p class="text-xs text-[#0077aa]">
@@ -147,7 +147,7 @@
 
                     <button type="submit"
                             wire:loading.attr="disabled"
-                            class="w-full bg-[#00baff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+                            class="w-full bg-[#0055ff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
                         <span wire:loading.remove>
                             Continuar para pagamento
                             <svg class="w-4 h-4 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -172,7 +172,7 @@
 
             {{-- Resumo do pedido --}}
             <div class="bg-white rounded-2xl border border-gray-100 p-5">
-                <p class="text-xs font-bold text-[#00baff] uppercase tracking-wide mb-4">Resumo do pedido</p>
+                <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide mb-4">Resumo do pedido</p>
 
                 @php
                     $order = session('client_order', []);

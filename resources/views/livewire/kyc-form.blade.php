@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Verificação de Identidade (KYC)</h2>
         <p class="text-sm text-white/75 mt-1">Envie os seus documentos para activar todas as funcionalidades da plataforma</p>
     </div>
@@ -137,7 +137,7 @@
             </div>
 
             <button type="submit" wire:loading.attr="disabled"
-                class="inline-flex items-center gap-2 bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-6 py-2.5 rounded-lg transition disabled:opacity-60">
+                class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold px-6 py-2.5 rounded-lg transition disabled:opacity-60">
                 <span wire:loading.remove>Enviar documentos para verificação</span>
                 <span wire:loading>A enviar...</span>
             </button>

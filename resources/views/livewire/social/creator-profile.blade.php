@@ -4,7 +4,7 @@
     <div class="sticky top-[70px] z-30 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-3">
             <a href="{{ route('social.feed') }}"
-               class="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-[#00baff] transition group flex-shrink-0">
+               class="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-[#0055ff] transition group flex-shrink-0">
                 <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
                 </svg>
@@ -18,7 +18,7 @@
                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                 <span class="text-sm font-bold text-gray-900 truncate">{{ $creator->name }}</span>
                 @if($creator->has_creator_profile)
-                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-[#00baff] bg-[#00baff]/10 rounded-full px-2 py-0.5 flex-shrink-0">
+                    <span class="inline-flex items-center gap-1 text-[10px] font-bold text-[#0055ff] bg-[#0055ff]/10 rounded-full px-2 py-0.5 flex-shrink-0">
                         <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                         Criador
                     </span>
@@ -28,7 +28,7 @@
             @auth
                 @if(auth()->id() === $creator->id && in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
                     <a href="{{ route('social.create') }}"
-                       class="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#00baff] hover:bg-[#009ad6] text-white text-xs font-bold px-4 py-2 rounded-full transition shadow-sm">
+                       class="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#0055ff] hover:bg-[#009ad6] text-white text-xs font-bold px-4 py-2 rounded-full transition shadow-sm">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                         </svg>
@@ -54,7 +54,7 @@
         <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-6">
 
             {{-- Cover --}}
-            <div class="h-36 sm:h-48 bg-gradient-to-br from-[#00baff]/40 via-blue-200/30 to-indigo-200/20 relative">
+            <div class="h-36 sm:h-48 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
                 {{-- decorative circles --}}
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
                 <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
@@ -64,7 +64,7 @@
                 {{-- Avatar overlapping cover --}}
                 <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
                     <div class="relative flex-shrink-0">
-                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? 'bg-gradient-to-tr from-[#00baff] via-blue-400 to-violet-500' : 'bg-white shadow-md' }}">
+                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-white shadow-md' }}">
                             <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-xl' : '' }}">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         @if($creator->has_creator_profile)
-                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#00baff] rounded-full flex items-center justify-center shadow-md border-2 border-white">
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#0055ff] rounded-full flex items-center justify-center shadow-md border-2 border-white">
                                 <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                             </div>
                         @endif
@@ -110,7 +110,7 @@
                                     class="px-5 py-2 text-sm font-bold rounded-xl border-2 transition
                                         {{ $isFollowing
                                             ? 'border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-600'
-                                            : 'border-[#00baff] bg-[#00baff] text-white hover:bg-[#009ad6] hover:border-[#009ad6]' }}">
+                                            : 'border-[#0055ff] bg-[#0055ff] text-white hover:bg-[#009ad6] hover:border-[#009ad6]' }}">
                                     {{ $isFollowing ? 'A seguir ✓' : 'Seguir' }}
                                 </button>
                                 @if($creator->has_creator_profile)
@@ -137,7 +137,7 @@
                             @else
                                 @if(in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
                                     <a href="{{ route('social.create') }}"
-                                       class="px-5 py-2 text-sm font-bold rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition inline-flex items-center gap-1.5">
+                                       class="px-5 py-2 text-sm font-bold rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition inline-flex items-center gap-1.5">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                                         Nova publicação
                                     </a>
@@ -145,7 +145,7 @@
                             @endif
                         @else
                             <a href="{{ route('login') }}"
-                               class="px-5 py-2 text-sm font-bold rounded-xl border-2 border-[#00baff] text-[#00baff] hover:bg-[#00baff] hover:text-white transition">
+                               class="px-5 py-2 text-sm font-bold rounded-xl border-2 border-[#0055ff] text-[#0055ff] hover:bg-[#0055ff] hover:text-white transition">
                                 Seguir
                             </a>
                             @if($creator->role === 'freelancer' || $creator->has_freelancer_profile)
@@ -183,7 +183,7 @@
                     @if($creator->freelancerProfile?->skills)
                         <div class="mt-3 flex flex-wrap gap-1.5">
                             @foreach(array_slice($creator->freelancerProfile->skills, 0, 10) as $skill)
-                                <span class="text-xs bg-[#00baff]/8 text-[#00baff] border border-[#00baff]/20 px-2.5 py-1 rounded-full font-medium">{{ $skill }}</span>
+                                <span class="text-xs bg-[#0055ff]/8 text-[#0055ff] border border-[#0055ff]/20 px-2.5 py-1 rounded-full font-medium">{{ $skill }}</span>
                             @endforeach
                         </div>
                     @endif
@@ -203,7 +203,7 @@
                 @auth
                     @if(auth()->id() === $creator->id && in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
                         <a href="{{ route('social.create') }}"
-                           class="inline-flex items-center gap-2 mt-4 bg-[#00baff] hover:bg-[#009ad6] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
+                           class="inline-flex items-center gap-2 mt-4 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition shadow-sm">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                             Criar primeira publicação
                         </a>
@@ -265,7 +265,7 @@
                                     </div>
                                 @else
                                     {{-- Text-only post --}}
-                                    <div class="w-full h-full bg-gradient-to-br from-[#00baff]/10 to-blue-50 flex items-center justify-center p-3">
+                                    <div class="w-full h-full bg-gradient-to-br from-[#00c8ff]/10 to-blue-50 flex items-center justify-center p-3">
                                         <p class="text-xs text-gray-500 line-clamp-4 text-center leading-relaxed">{{ Str::limit(strip_tags($post->content ?? ''), 80) }}</p>
                                     </div>
                                 @endif
@@ -327,7 +327,7 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-4">Descreva o motivo da sua denúncia.</p>
                 <textarea wire:model="reportReason" rows="4"
-                    class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00baff]/40"
+                    class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40"
                     placeholder="Ex: Conteúdo inapropriado, spam..."></textarea>
                 @error('reportReason') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 <div class="flex gap-3 mt-4">

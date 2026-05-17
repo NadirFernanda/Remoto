@@ -18,7 +18,7 @@
         <div class="mb-4">
             <label class="block text-xs text-gray-500 mb-1">Destinatários</label>
             <select wire:model.live="target"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 <option value="all">Todos os utilizadores activos</option>
                 <option value="freelancers">Apenas Freelancers</option>
                 <option value="clients">Apenas Clientes</option>
@@ -30,7 +30,7 @@
             <div class="mb-4">
                 <label class="block text-xs text-gray-500 mb-1">Pesquisar utilizador</label>
                 <input wire:model.live.debounce.300ms="userQuery" type="text"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]"
+                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
                     placeholder="Nome, email ou ID">
 
                 @if(!empty($userMatches))
@@ -51,7 +51,7 @@
         <div class="mb-4">
             <label class="block text-xs text-gray-500 mb-1">Título <span class="text-red-400">*</span></label>
             <input wire:model="titulo" type="text" maxlength="120"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] @error('titulo') border-red-400 @enderror"
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('titulo') border-red-400 @enderror"
                 placeholder="Ex: Nova funcionalidade disponível">
             @error('titulo') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -60,7 +60,7 @@
         <div class="mb-5">
             <label class="block text-xs text-gray-500 mb-1">Mensagem <span class="text-red-400">*</span></label>
             <textarea wire:model="mensagem" rows="4" maxlength="1000"
-                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] resize-none @error('mensagem') border-red-400 @enderror"
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] resize-none @error('mensagem') border-red-400 @enderror"
                 placeholder="Corpo da notificação..."></textarea>
             @error('mensagem') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>

@@ -11,13 +11,13 @@
                 type="search"
                 wire:model.live.debounce.400ms="query"
                 placeholder="Procurar criadores por nome ou bio..."
-                class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]"
+                class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
             >
         </div>
 
         {{-- Category filter --}}
         <select wire:model.live="category"
-            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] bg-white">
+            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] bg-white">
             <option value="">Todas as Categorias</option>
             @foreach($categories as $key => $label)
                 <option value="{{ $key }}">{{ $label }}</option>
@@ -26,7 +26,7 @@
 
         {{-- Sort --}}
         <select wire:model.live="sort"
-            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff] bg-white">
+            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] bg-white">
             <option value="populares">Mais Populares</option>
             <option value="novos">Mais Recentes</option>
             <option value="preco_asc">Menor Preço</option>
@@ -36,7 +36,7 @@
 
     {{-- Loading indicator --}}
     <div wire:loading.flex class="justify-center py-6">
-        <svg class="w-6 h-6 animate-spin text-[#00baff]" fill="none" viewBox="0 0 24 24">
+        <svg class="w-6 h-6 animate-spin text-[#0055ff]" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
         </svg>
@@ -63,10 +63,10 @@
                         $isSubbed = in_array($creator->id, $subscribedCreatorIds);
                         $catLabel = \App\Models\CreatorProfile::categories()[$profile?->category ?? ''] ?? null;
                     @endphp
-                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:border-[#00baff]/30 transition group">
+                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md hover:border-[#0055ff]/30 transition group">
 
                         {{-- Cover photo --}}
-                        <div class="relative h-24 bg-gradient-to-br from-[#00baff]/10 to-[#e0f7fa]">
+                        <div class="relative h-24 bg-gradient-to-br from-[#00c8ff]/10 to-[#e0f7fa]">
                             @if($profile?->cover_photo)
                                 <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->cover_photo) }}"
                                      alt="capa"
@@ -87,7 +87,7 @@
                                 <div class="min-w-0">
                                     <p class="font-semibold text-sm text-gray-900 truncate">{{ $creator->name }}</p>
                                     @if($catLabel)
-                                        <span class="inline-block text-xs text-[#00baff] bg-[#e0f7fa] rounded-full px-2 py-0.5 mt-0.5">{{ $catLabel }}</span>
+                                        <span class="inline-block text-xs text-[#0055ff] bg-[#e0f7fa] rounded-full px-2 py-0.5 mt-0.5">{{ $catLabel }}</span>
                                     @endif
                                 </div>
                                 @if($isSubbed)
@@ -109,7 +109,7 @@
                                     {{ number_format($profile?->total_subscribers ?? 0) }} assinantes
                                 </span>
                                 <span class="flex items-center gap-1 font-medium text-gray-700">
-                                    <svg class="w-3.5 h-3.5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                     Kz 3.000/mês
@@ -119,7 +119,7 @@
                             {{-- Actions --}}
                             <div class="mt-4 flex gap-2">
                                 <a href="{{ route('social.creator', $creator) }}"
-                                   class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl border border-gray-200 text-gray-600 hover:border-[#00baff] hover:text-[#00baff] transition">
+                                   class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl border border-gray-200 text-gray-600 hover:border-[#0055ff] hover:text-[#0055ff] transition">
                                     Ver perfil
                                 </a>
                                 @auth
@@ -132,14 +132,14 @@
                                         </a>
                                     @else
                                         <a href="{{ route('social.creator', $creator) }}"
-                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition">
+                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition">
                                             Assinar
                                         </a>
                                     @endif
                                 @endauth
                                 @guest
                                     <a href="{{ route('login') }}"
-                                       class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#00baff] text-white hover:bg-[#009ad6] transition">
+                                       class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition">
                                         Assinar
                                     </a>
                                 @endguest

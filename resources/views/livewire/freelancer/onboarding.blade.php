@@ -1,13 +1,13 @@
 @if(isset($steps))
-<div class="bg-white border border-[#00baff]/30 rounded-2xl shadow-sm mb-6 overflow-hidden">
-    <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#00baff]/10 to-transparent">
+<div class="bg-white border border-[#0055ff]/30 rounded-2xl shadow-sm mb-6 overflow-hidden">
+    <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#00c8ff]/10 to-transparent">
         <div>
             <h2 class="font-semibold text-gray-800">Configure a sua conta</h2>
             <p class="text-sm text-gray-500">Complete os passos para começar a receber projectos</p>
         </div>
         <div class="flex items-center gap-3">
             <div class="text-right">
-                <span class="text-2xl font-bold text-[#00baff]">{{ $completed }}</span>
+                <span class="text-2xl font-bold text-[#0055ff]">{{ $completed }}</span>
                 <span class="text-gray-400 text-sm">/{{ $total }}</span>
             </div>
             <button wire:click="dismiss" class="text-gray-400 hover:text-gray-600" title="Fechar">
@@ -20,7 +20,7 @@
 
     {{-- Progress bar --}}
     <div class="h-1 bg-gray-100">
-        <div class="h-1 bg-[#00baff] transition-all duration-500"
+        <div class="h-1 bg-[#0055ff] transition-all duration-500"
              style="width: {{ round($completed / $total * 100) }}%"></div>
     </div>
 
@@ -30,7 +30,7 @@
            class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition group {{ $step['done'] ? 'opacity-60' : '' }}">
             {{-- Status icon --}}
             <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
-                {{ $step['done'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400 group-hover:bg-[#00baff]/10 group-hover:text-[#00baff]' }}">
+                {{ $step['done'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400 group-hover:bg-[#0055ff]/10 group-hover:text-[#0055ff]' }}">
                 @if($step['done'])
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
@@ -52,7 +52,7 @@
             </div>
 
             @if(!$step['done'])
-            <svg class="w-4 h-4 text-gray-300 group-hover:text-[#00baff] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-gray-300 group-hover:text-[#0055ff] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
             </svg>
             @endif

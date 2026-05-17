@@ -49,7 +49,7 @@
     {{-- Styled label — clicking it opens the native file picker (browser behaviour, no JS) --}}
     <label
         for="{{ $uid }}"
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/5 active:scale-95 transition text-sm font-medium cursor-pointer"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#0055ff] text-[#0055ff] bg-white hover:bg-[#0055ff]/5 active:scale-95 transition text-sm font-medium cursor-pointer"
     >
         <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
@@ -59,7 +59,7 @@
 
     {{-- Upload spinner --}}
     @if($loadingTarget)
-        <div wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center gap-1.5 text-xs text-[#00baff]">
+        <div wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center gap-1.5 text-xs text-[#0055ff]">
             <svg class="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
@@ -93,14 +93,14 @@
                 {{-- Generic file (PDF, DOCX, etc.) --}}
                 <template x-if="!f.isImg && !f.isAudio">
                     <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border border-gray-200">
-                        <svg class="w-9 h-9 text-[#00baff] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg class="w-9 h-9 text-[#0055ff] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                         </svg>
                         <div class="flex-1 min-w-0">
                             <p class="text-sm font-medium text-gray-800 truncate" x-text="f.name"></p>
                             <p class="text-xs text-gray-400" x-text="f.sizeLabel"></p>
                         </div>
-                        <span class="text-xs font-bold bg-[#00baff]/10 text-[#00baff] px-2 py-0.5 rounded-full" x-text="f.ext"></span>
+                        <span class="text-xs font-bold bg-[#0055ff]/10 text-[#0055ff] px-2 py-0.5 rounded-full" x-text="f.ext"></span>
                     </div>
                 </template>
             </div>

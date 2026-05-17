@@ -15,14 +15,14 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,186,255,.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,80,255,.18) 0%, transparent 70%);
     pointer-events: none;
 }
 .fsp-hero-eyebrow {
     display: inline-flex;align-items: center;gap: .4rem;
-    background: rgba(0,186,255,.12);border: 1px solid rgba(0,186,255,.3);
+    background: rgba(0,80,255,.12);border: 1px solid rgba(0,80,255,.3);
     border-radius: 30px;padding: .3rem .9rem;
-    font-size: .7rem;font-weight: 700;color: #00baff;
+    font-size: .7rem;font-weight: 700;color: #0055ff;
     letter-spacing: .06em;text-transform: uppercase;margin-bottom: .9rem;
 }
 .fsp-hero h1 {
@@ -50,7 +50,7 @@
     transition: border .2s,background .2s;
 }
 .fsp-searchbar input::placeholder { color: rgba(255,255,255,.38); }
-.fsp-searchbar input:focus { border-color: #00baff;background: rgba(255,255,255,.13); }
+.fsp-searchbar input:focus { border-color: #0055ff;background: rgba(255,255,255,.13); }
 /* Hero stats */
 .fsp-hero-stats {
     display: flex;justify-content: center;gap: 2.25rem;
@@ -94,7 +94,7 @@
     font-size: .8rem;color: #334155;background: #f8fafc;outline: none;
     transition: border .2s,background .2s;box-sizing: border-box;
 }
-.fsp-input:focus, .fsp-select:focus { border-color: #00baff;background: #fff; }
+.fsp-input:focus, .fsp-select:focus { border-color: #0055ff;background: #fff; }
 
 /* ── Sort bar ────────────────────────────────────────── */
 .fsp-sortbar {
@@ -110,8 +110,8 @@
     border: 1.5px solid #e2e8f0;color: #64748b;background: #fff;
     cursor: pointer;transition: all .17s;white-space: nowrap;
 }
-.fsp-sort-pill:hover { border-color: #00baff;color: #00baff; }
-.fsp-sort-pill.active { background: #00baff;color: #fff;border-color: #00baff; }
+.fsp-sort-pill:hover { border-color: #0055ff;color: #0055ff; }
+.fsp-sort-pill.active { background: #0055ff;color: #fff;border-color: #0055ff; }
 
 /* ── Cards grid ──────────────────────────────────────── */
 .fsp-grid {
@@ -126,12 +126,12 @@
     transition: box-shadow .22s,border-color .22s,transform .22s;cursor: pointer;
 }
 .fsp-card:hover {
-    box-shadow: 0 10px 32px rgba(0,186,255,.14);
+    box-shadow: 0 10px 32px rgba(0,80,255,.14);
     border-color: #ade8ff;transform: translateY(-3px);
 }
 .fsp-card-cover {
     height: 70px;flex-shrink: 0;position: relative;
-    background: linear-gradient(120deg, #0575e6 0%, #00baff 100%);
+    background: linear-gradient(120deg, #0575e6 0%, #0055ff 100%);
 }
 .fsp-card-avatar {
     position: absolute;bottom: -22px;left: 15px;z-index: 1;
@@ -160,7 +160,7 @@
     display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     line-height: 1.2;
 }
-.fsp-card-name:hover { color: #00baff; }
+.fsp-card-name:hover { color: #0055ff; }
 .fsp-card-headline {
     font-size: .73rem;color: #64748b;margin: 0;
     white-space: nowrap;overflow: hidden;text-overflow: ellipsis;line-height: 1.3;
@@ -179,7 +179,7 @@
 .fsp-rate { font-size: .98rem;font-weight: 900;color: #0f172a; }
 .fsp-rate-unit { font-size: .66rem;color: #94a3b8;font-weight: 400; }
 .fsp-btn-view {
-    background: #00baff;color: #fff;font-size: .73rem;font-weight: 700;
+    background: #0055ff;color: #fff;font-size: .73rem;font-weight: 700;
     padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
     white-space: nowrap;transition: background .17s;
 }
@@ -231,7 +231,7 @@
                 <h3>Filtros</h3>
                 @if($skill || $language || $availability || $minRating > 0)
                     <button wire:click="$set('skill',''); $set('language',''); $set('availability',''); $set('minRating',0); $set('minRate',0); $set('maxRate',999999)"
-                            style="font-size:.7rem;color:#00baff;font-weight:700;background:none;border:none;cursor:pointer;padding:0;">
+                            style="font-size:.7rem;color:#0055ff;font-weight:700;background:none;border:none;cursor:pointer;padding:0;">
                         Limpar
                     </button>
                 @endif
@@ -263,7 +263,7 @@
                     @foreach(['' => ['Qualquer',''], 'available' => ['Disponível','#22c55e'], 'busy' => ['Ocupado','#eab308'], 'unavailable' => ['Férias','#94a3b8']] as $val => [$label, $color])
                         <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
                             <input type="radio" wire:model.live="availability" value="{{ $val }}"
-                                   style="accent-color:#00baff;width:14px;height:14px;flex-shrink:0;">
+                                   style="accent-color:#0055ff;width:14px;height:14px;flex-shrink:0;">
                             @if($color)
                                 <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{{ $color }};flex-shrink:0;"></span>
                             @endif
@@ -279,7 +279,7 @@
                     @foreach(['0'=>'Qualquer','3'=>'3★ ou mais','4'=>'4★ ou mais','4.5'=>'4.5★ ou mais','5'=>'Apenas 5★'] as $val => $label)
                         <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
                             <input type="radio" wire:model.live="minRating" value="{{ $val }}"
-                                   style="accent-color:#00baff;width:14px;height:14px;">
+                                   style="accent-color:#0055ff;width:14px;height:14px;">
                             {{ $label }}
                         </label>
                     @endforeach
@@ -318,8 +318,8 @@
         {{-- Loading indicator --}}
         <div wire:loading.flex style="justify-content:center;align-items:center;gap:.6rem;padding:1.5rem 0;">
             <svg class="animate-spin" width="20" height="20" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#00baff" stroke-width="4"/>
-                <path class="opacity-75" fill="#00baff" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="#0055ff" stroke-width="4"/>
+                <path class="opacity-75" fill="#0055ff" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
             </svg>
             <span style="font-size:.8rem;color:#94a3b8;">A filtrar…</span>
         </div>

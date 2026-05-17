@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center text-white/90 hover:text-white text-sm font-semibold mb-3">
             &larr; Voltar ao dashboard
         </a>
@@ -26,7 +26,7 @@
 
             <div class="mt-4">
                 <label class="block text-sm font-semibold text-slate-700 mb-2">E-mails de novos projectos</label>
-                <select wire:model="notify_new_project_email" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#00baff]/40 focus:border-[#00baff]">
+                <select wire:model="notify_new_project_email" class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-[#0055ff]/40 focus:border-[#0055ff]">
                     <option value="1">Activado</option>
                     <option value="0">Desactivado</option>
                 </select>

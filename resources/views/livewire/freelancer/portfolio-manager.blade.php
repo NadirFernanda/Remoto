@@ -11,7 +11,7 @@ $categoryIcons = [
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold">Meu Portfólio</h1>
             <p class="text-sm text-white/75 mt-1">Apresente os seus trabalhos, certificações e estudos de caso</p>
@@ -50,7 +50,7 @@ $categoryIcons = [
             <button wire:click="$set('tab', '{{ $key }}')"
                     type="button"
                     class="px-3 py-1.5 rounded-full text-sm font-medium border transition
-                        {{ $tab === $key ? 'bg-[#00baff] text-white border-[#00baff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#00baff]' }}">
+                        {{ $tab === $key ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]' }}">
                 {{ $label }}
             </button>
             @endforeach
@@ -59,7 +59,7 @@ $categoryIcons = [
         <form wire:submit.prevent="save" class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Título *</label>
-                <input wire:model.defer="title" type="text" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]" placeholder="Ex: Redesign de identidade visual">
+                <input wire:model.defer="title" type="text" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff]" placeholder="Ex: Redesign de identidade visual">
                 @error('title') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -83,7 +83,7 @@ $categoryIcons = [
             @if($tab === 'link')
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">URL *</label>
-                <input wire:model.defer="external_url" type="url" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]" placeholder="https://...">
+                <input wire:model.defer="external_url" type="url" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff]" placeholder="https://...">
                 @error('external_url') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             @endif
@@ -92,12 +92,12 @@ $categoryIcons = [
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Emitido por *</label>
-                    <input wire:model.defer="issuer" type="text" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]" placeholder="Ex: Google, Coursera, Udemy">
+                    <input wire:model.defer="issuer" type="text" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff]" placeholder="Ex: Google, Coursera, Udemy">
                     @error('issuer') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Ano de emissão</label>
-                    <input wire:model.defer="issued_year" type="number" min="1990" max="{{ date('Y') }}" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]" placeholder="{{ date('Y') }}">
+                    <input wire:model.defer="issued_year" type="number" min="1990" max="{{ date('Y') }}" class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff]" placeholder="{{ date('Y') }}">
                     @error('issued_year') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -108,13 +108,13 @@ $categoryIcons = [
                     {{ $tab === 'estudo_de_caso' ? 'Descrição do caso (contexto, desafio, solução, resultado)' : 'Descrição' }}
                 </label>
                 <textarea wire:model.defer="description" rows="{{ $tab === 'estudo_de_caso' ? 6 : 3 }}"
-                    class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#00baff]"
+                    class="block w-full border rounded-lg px-3 py-2 text-sm focus:ring-1 focus:ring-[#0055ff]"
                     placeholder="{{ $tab === 'estudo_de_caso' ? 'Descreva o projecto: contexto, desafio enfrentado, solução desenvolvida e resultados obtidos...' : 'Descrição opcional' }}"></textarea>
                 @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
-                <input wire:model.defer="featured" type="checkbox" class="rounded text-[#00baff]">
+                <input wire:model.defer="featured" type="checkbox" class="rounded text-[#0055ff]">
                 Destacar este item no meu perfil
             </label>
 
@@ -145,12 +145,12 @@ $categoryIcons = [
             @if(isset($items[$catKey]) && $items[$catKey]->count())
             <div class="mb-8">
                 <div class="flex items-center gap-2 mb-3">
-                    <svg class="w-5 h-5 text-[#00baff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="{{ $categoryIcons[$catKey] }}"/>
                     </svg>
                     <h2 class="font-semibold text-gray-800">{{ $catLabel }}</h2>
                     <span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{{ $items[$catKey]->count() }}</span>
-                    <button wire:click="openForm('{{ $catKey }}')" class="ml-auto text-xs text-[#00baff] hover:underline">+ Adicionar</button>
+                    <button wire:click="openForm('{{ $catKey }}')" class="ml-auto text-xs text-[#0055ff] hover:underline">+ Adicionar</button>
                 </div>
 
                 @if($catKey === 'imagem')
@@ -187,7 +187,7 @@ $categoryIcons = [
                         @endif
                         <div class="font-medium text-gray-800">{{ $item->title }}</div>
                         @if($catKey === 'certificacao' && $item->issuer)
-                            <div class="text-sm text-[#00baff] mt-0.5">{{ $item->issuer }}{{ $item->issued_year ? ' · '.$item->issued_year : '' }}</div>
+                            <div class="text-sm text-[#0055ff] mt-0.5">{{ $item->issuer }}{{ $item->issued_year ? ' · '.$item->issued_year : '' }}</div>
                         @endif
                         @if($item->description)
                             <p class="text-sm text-gray-600 mt-2 whitespace-pre-line">{{ $item->description }}</p>
@@ -201,20 +201,20 @@ $categoryIcons = [
                 <div class="space-y-2">
                     @foreach($items[$catKey] as $item)
                     <div class="bg-white border rounded-xl p-4 shadow-sm flex items-start gap-3">
-                        <svg class="w-5 h-5 text-[#00baff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-[#0055ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $categoryIcons[$catKey] }}"/>
                         </svg>
                         <div class="flex-1 min-w-0">
                             <div class="font-medium text-sm text-gray-800">{{ $item->title }}</div>
                             @if($item->external_url)
                                 <a href="{{ $item->external_url }}" target="_blank" rel="noopener noreferrer"
-                                   class="text-xs text-[#00baff] hover:underline truncate block mt-0.5">
+                                   class="text-xs text-[#0055ff] hover:underline truncate block mt-0.5">
                                     {{ $item->external_url }}
                                 </a>
                             @endif
                             @if($item->media_path)
                                 <a href="{{ asset('storage/' . $item->media_path) }}" target="_blank"
-                                   class="text-xs text-[#00baff] hover:underline mt-0.5 inline-flex items-center gap-1">
+                                   class="text-xs text-[#0055ff] hover:underline mt-0.5 inline-flex items-center gap-1">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                     Ver ficheiro
                                 </a>

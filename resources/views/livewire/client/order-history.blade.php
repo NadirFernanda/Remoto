@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
         {{-- Gradient Header --}}
-        <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-extrabold">Meus Pedidos</h2>
                 <p class="text-sm text-white/75 mt-1">Acompanhe o estado dos seus projectos</p>
@@ -21,7 +21,7 @@
         @endphp
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
             <div class="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
-                <div class="text-2xl font-bold text-[#00baff]">{{ $total }}</div>
+                <div class="text-2xl font-bold text-[#0055ff]">{{ $total }}</div>
                 <div class="text-xs text-gray-400 mt-1">Total</div>
             </div>
             <div class="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
@@ -41,7 +41,7 @@
                     $s = $order->status;
                     if ($s === 'published') {
                         $badge = ['label' => 'Publicado',    'color' => 'bg-cyan-50 text-cyan-700 border-cyan-200'];
-                        $dot   = 'bg-[#00baff]';
+                        $dot   = 'bg-[#0055ff]';
                     } elseif (in_array($s, ['em_andamento','em andamento','in_progress'])) {
                         $badge = ['label' => 'Em andamento', 'color' => 'bg-yellow-50 text-yellow-700 border-yellow-200'];
                         $dot   = 'bg-yellow-400';
@@ -67,7 +67,7 @@
 
                     {{-- Title + date --}}
                     <div class="flex-1 min-w-0">
-                        <div class="text-gray-800 font-semibold truncate group-hover:text-[#00baff] transition-colors">
+                        <div class="text-gray-800 font-semibold truncate group-hover:text-[#0055ff] transition-colors">
                             {{ $order->titulo ?? 'Sem título' }}
                         </div>
                         <div class="text-xs text-gray-400 mt-0.5 flex items-center gap-1.5">
@@ -87,7 +87,7 @@
                             <span class="w-1.5 h-1.5 rounded-full {{ $dot }}"></span>
                             {{ $badge['label'] }}
                         </span>
-                        <svg class="w-4 h-4 text-gray-300 group-hover:text-[#00baff] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 text-gray-300 group-hover:text-[#0055ff] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </div>
@@ -108,7 +108,7 @@
             @empty
                 <div class="bg-white rounded-2xl p-12 text-center border border-dashed border-gray-200">
                     <div class="w-16 h-16 rounded-2xl bg-cyan-50 flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-[#00baff]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 text-[#0055ff]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
@@ -116,7 +116,7 @@
                     <p class="text-gray-400 text-sm mt-1">Os seus projectos aparecerão aqui após a criação</p>
                     <a href="{{ route('client.briefing') }}"
                        class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90"
-                       style="background: #00baff;">
+                       style="background: #0055ff;">
                         Criar primeiro pedido
                     </a>
                 </div>

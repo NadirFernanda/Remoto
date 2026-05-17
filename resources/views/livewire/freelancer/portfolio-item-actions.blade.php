@@ -1,6 +1,6 @@
 <div class="flex items-center gap-3 mt-3 pt-2 border-t border-gray-100">
     <button wire:click="openForm('{{ $item->category }}', {{ $item->id }})"
-            class="text-xs text-gray-500 hover:text-[#00baff] flex items-center gap-1">
+            class="text-xs text-gray-500 hover:text-[#0055ff] flex items-center gap-1">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
         </svg>
