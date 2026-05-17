@@ -396,7 +396,7 @@
             @guest
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link">Registo</a>
-                <a href="{{ route('client.projects') }}" class="ml-2 px-4 py-2 rounded-lg bg-[#ff2d55] text-white font-bold shadow hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
+                <a href="{{ route('client.projects') }}" class="ml-2 px-3 py-1.5 text-sm rounded-lg bg-[#ff2d55] text-white font-semibold hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
             @else
                 {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
                 <div style="display:flex;align-items:center;gap:.625rem;">
