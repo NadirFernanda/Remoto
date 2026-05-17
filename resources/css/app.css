@@ -423,11 +423,11 @@ body{
 
 /* buttons */
 .hp-btn { display: inline-block; padding: .9rem 2rem; border-radius: 10px; font-weight: 800; font-size: 1rem; text-decoration: none; cursor: pointer; transition: transform .15s, box-shadow .15s, background .15s; }
-.hp-btn-primary          { background: #00baff; color: #fff; }
-.hp-btn-primary:hover    { background: #0099dd; transform: translateY(-1px); }
-.hp-btn-secondary        { background: transparent; color: #00baff; border: 2px solid #00baff; }
-.hp-btn-secondary:hover  { background: #00baff; color: #fff; }
-.hp-btn-white            { background: #ffffff; color: #00baff; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
+.hp-btn-primary          { background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%); color: #fff; }
+.hp-btn-primary:hover    { background: linear-gradient(135deg, #00d8ff 0%, #0066ff 60%, #0044dd 100%); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,80,255,.35); }
+.hp-btn-secondary        { background: transparent; color: #0055ff; border: 2px solid #0055ff; }
+.hp-btn-secondary:hover  { background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%); color: #fff; border-color: transparent; }
+.hp-btn-white            { background: #ffffff; color: #0044cc; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
 .hp-btn-white:hover      { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.2); }
 .hp-btn-outline-white    { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.65); }
 .hp-btn-outline-white:hover { background: rgba(255,255,255,.12); }
