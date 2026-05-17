@@ -85,57 +85,24 @@
     /* ── RIGHT PANEL ── */
     .login-right {
         flex: 1;
-        background: linear-gradient(135deg, #060e24 0%, #0d2258 45%, #071540 100%);
         position: relative;
         overflow: hidden;
+        min-height: 400px;
+        background: linear-gradient(135deg, #060e24 0%, #0d2258 45%, #071540 100%);
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         justify-content: center;
     }
 
-    /* world map dots overlay */
-    .lr-map {
-        position: absolute;
-        inset: 0;
-        opacity: .07;
-        background-image: radial-gradient(circle, #4af 1px, transparent 1px);
-        background-size: 28px 28px;
-    }
-
-    /* big decorative rings */
-    .lr-ring {
-        position: absolute;
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 2.5px solid rgba(0, 120, 255, .45);
-    }
-    .lr-ring-1 { width: 520px; height: 520px; }
-    .lr-ring-2 { width: 380px; height: 380px; border-width: 1.5px; border-color: rgba(0,90,255,.25); }
-
-    /* radial glow */
-    .lr-glow {
-        position: absolute;
-        width: 480px;
-        height: 480px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(0,100,255,.28) 0%, transparent 68%);
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-    }
-
-    /* person photo */
+    /* person photo — altura total, largura natural centrada */
     .lr-person {
         position: relative;
-        z-index: 3;
-        height: 90%;
-        max-height: 680px;
+        height: 100%;
+        width: auto;
         object-fit: cover;
-        object-position: top center;
+        object-position: center top;
         display: block;
+        z-index: 1;
     }
 
     /* security badge */
@@ -171,11 +138,9 @@
     @media (max-width: 768px) {
         .login-wrap { flex-direction: column; }
         .login-left { flex: unset; max-width: 100%; padding: 2.5rem 1.75rem; }
-        .login-right { min-height: 260px; }
-        .lr-person { height: 260px; max-height: 260px; object-position: top; }
+        .login-right { min-height: 300px; height: 300px; }
+        .lr-person { height: 100%; width: auto; }
         .lr-badge { right: 1rem; padding: .75rem; }
-        .lr-ring-1 { width: 280px; height: 280px; }
-        .lr-ring-2 { width: 200px; height: 200px; }
     }
 </style>
 
@@ -273,10 +238,6 @@
     {{-- ─── RIGHT: visual ───────────────────────────────────────────────── --}}
     <div class="login-right">
 
-        <div class="lr-map"></div>
-        <div class="lr-ring lr-ring-1"></div>
-        <div class="lr-ring lr-ring-2"></div>
-        <div class="lr-glow"></div>
 
         <img src="{{ asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg')) }}"
              alt="Profissional" class="lr-person">
