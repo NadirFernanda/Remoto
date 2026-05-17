@@ -43,15 +43,8 @@ class PayPalController extends Controller
         $returnUrl = route('paypal.capture');
         $cancelUrl = route('paypal.cancel');
 
-        try {
-            $gateway = new PayPalGateway();
-        } catch (\RuntimeException $e) {
-            \Log::error('PayPal não configurado', ['error' => $e->getMessage()]);
-            return redirect()->route('client.payment', ['service' => $serviceId])
-                ->with('error', 'Pagamento via PayPal não está disponível de momento. Por favor, escolha outro método.');
-        }
-
-        $result = $gateway->createOrder($valorPayPal, $returnUrl, $cancelUrl);
+        $gateway = PayPalGateway::make();
+        $result  = $gateway->createOrder($valorPayPal, $returnUrl, $cancelUrl);
 
         if (!$result['success']) {
             return redirect()->route('client.payment', ['service' => $serviceId])
@@ -115,17 +108,12 @@ class PayPalController extends Controller
         }
 
         // ── Verificar se a ordem PayPal não expirou ──────────────────────────
-        try {
-            $gateway     = new PayPalGateway();
-            $statusCheck = $gateway->getOrderStatus($orderId);
+        $gateway     = PayPalGateway::make();
+        $statusCheck = $gateway->getOrderStatus($orderId);
 
-            if ($statusCheck['success'] && !in_array($statusCheck['status'], ['APPROVED', 'COMPLETED', 'CREATED'])) {
-                return redirect()->route('client.payment')
-                    ->with('error', 'O pagamento expirou ou foi cancelado. Por favor, inicia um novo pagamento.');
-            }
-        } catch (\RuntimeException $e) {
+        if ($statusCheck['success'] && !in_array($statusCheck['status'], ['APPROVED', 'COMPLETED', 'CREATED'])) {
             return redirect()->route('client.payment')
-                ->with('error', 'Pagamento via PayPal não está disponível de momento.');
+                ->with('error', 'O pagamento expirou ou foi cancelado. Por favor, inicia um novo pagamento.');
         }
 
         // ── Captura com protecção contra race condition ───────────────────────
@@ -151,8 +139,7 @@ class PayPalController extends Controller
                 }
 
                 // Captura no PayPal
-                $gateway = new PayPalGateway();
-                $result  = $gateway->captureOrder($orderId);
+                $result = PayPalGateway::make()->captureOrder($orderId);
 
                 if (!$result['success']) {
                     if ($existing) {
@@ -238,6 +225,22 @@ class PayPalController extends Controller
 
         return redirect()->route('client.orders')
             ->with('success', 'Pagamento via PayPal realizado e pedido publicado com sucesso!');
+    }
+
+    /**
+     * Página de aprovação fictícia — apenas activa quando PAYPAL_MODE=fake.
+     * Mostra botões "Aprovar" e "Cancelar" para simular o fluxo PayPal localmente.
+     */
+    public function fakeApprove(Request $request)
+    {
+        abort_if(config('services.paypal.mode') !== 'fake' && !empty(config('services.paypal.client_id')), 404);
+
+        return view('payments.paypal-fake-approve', [
+            'token'      => $request->query('token'),
+            'amount'     => $request->query('amount'),
+            'return_url' => $request->query('return_url'),
+            'cancel_url' => $request->query('cancel_url'),
+        ]);
     }
 
     /**

@@ -42,5 +42,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/pagamento/paypal/criar', [PayPalController::class, 'create'])->name('paypal.create');
     Route::get('/pagamento/paypal/retorno', [PayPalController::class, 'capture'])->name('paypal.capture');
     Route::get('/pagamento/paypal/cancelar', [PayPalController::class, 'cancel'])->name('paypal.cancel');
+    // Página de aprovação local — apenas activa com PAYPAL_MODE=fake
+    Route::get('/pagamento/paypal/simular', [PayPalController::class, 'fakeApprove'])->name('paypal.fake.approve');
 });
 

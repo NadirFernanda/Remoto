@@ -21,6 +21,22 @@ use PaypalServerSdkLib\Environment;
  */
 class PayPalGateway
 {
+    /**
+     * Devolve FakePayPalGateway em modo de teste, PayPalGateway em produção/sandbox real.
+     */
+    public static function make(): self|FakePayPalGateway
+    {
+        $cfg = config('services.paypal');
+        $mode = $cfg['mode'] ?? 'sandbox';
+
+        if ($mode === 'fake' || empty($cfg['client_id']) || empty($cfg['client_secret'])) {
+            return new FakePayPalGateway();
+        }
+
+        return new self();
+    }
+
+
     private $client;
     private string $currency;
 
