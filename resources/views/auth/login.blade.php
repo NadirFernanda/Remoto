@@ -278,7 +278,7 @@
         <div class="lr-ring lr-ring-2"></div>
         <div class="lr-glow"></div>
 
-        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=700&h=900&fit=crop&crop=top&auto=format&q=82"
+        <img src="{{ asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg')) }}"
              alt="Profissional" class="lr-person">
 
         <div class="lr-badge">
