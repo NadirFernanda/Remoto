@@ -14,14 +14,14 @@
 {{-- ─── User profile card ───────────────────────────────────── --}}
 @if(auth()->check())
 @php $u = auth()->user(); @endphp
-<div class="px-4 pt-3 pb-3 border-b border-gray-100">
+<div class="px-4 pt-3 pb-3 border-b border-white/8">
     <div class="flex items-center gap-3">
         <img src="{{ $u->avatarUrl() }}" alt="{{ $u->name }}"
-            class="w-10 h-10 rounded-full object-cover ring-2 ring-[#00baff]/20 flex-shrink-0"
+            class="w-10 h-10 rounded-full object-cover ring-2 ring-[#0055ff]/30 flex-shrink-0"
             onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
         <div class="min-w-0">
-            <p class="text-sm text-gray-800 truncate leading-tight" style="max-width:160px">{{ $u->name }}</p>
-            <p class="text-xs text-gray-400 truncate leading-tight" style="max-width:160px">{{ $u->email }}</p>
+            <p class="text-sm text-gray-100 truncate leading-tight" style="max-width:160px">{{ $u->name }}</p>
+            <p class="text-xs text-slate-400 truncate leading-tight" style="max-width:160px">{{ $u->email }}</p>
             @php $sidebarRole = optional(auth()->user())->activeRole() ?? 'cliente'; @endphp
             <p class="text-xs font-semibold mt-0.5" style="color:#00baff;">
                 @if($sidebarRole === 'freelancer') Freelancer / Criador
@@ -43,12 +43,12 @@
 
     {{-- Affiliate code (não exibido para administradores) --}}
     @if($u->role !== 'admin' && !empty($u->affiliate_code))
-        <div class="mt-3 flex items-center gap-1.5 bg-gray-50 rounded-lg px-3 py-2">
-            <svg class="w-3.5 h-3.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <div class="mt-3 flex items-center gap-1.5 rounded-lg px-3 py-2" style="background:rgba(255,255,255,.06)">
+            <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 015.656 0l-4 4a4 4 0 01-5.656-5.656l1.1-1.1"/>
             </svg>
-            <span id="sidebarAffiliate" class="text-xs text-gray-500 font-mono flex-1 select-all">{{ $u->affiliate_code }}</span>
+            <span id="sidebarAffiliate" class="text-xs text-slate-400 font-mono flex-1 select-all">{{ $u->affiliate_code }}</span>
             <button x-data
                 x-on:click="navigator.clipboard.writeText('{{ $u->affiliate_code }}');$el.textContent='✓'"
                 class="text-xs text-[#00baff] hover:text-[#009ad6] transition font-medium">
@@ -92,19 +92,19 @@
         padding: 0.5rem 1rem;
         border-radius: 0.625rem;
         font-size: 0.8125rem;
-        color: #444;
+        color: #94a3b8;
         text-decoration: none;
         transition: background 0.15s, color 0.15s;
         margin: 0 0.5rem;
     }
     .snav-item:hover {
-        background: #f3f4f6;
-        color: #111;
+        background: rgba(255,255,255,.06);
+        color: #f1f5f9;
     }
     .snav-item.snav-active {
-        background: #e8f7ff;
-        color: #00baff;
-        font-weight: 500;
+        background: rgba(0,85,255,.15);
+        color: #60a5fa;
+        font-weight: 600;
     }
     .snav-item svg { flex-shrink: 0; opacity: 0.7; }
     .snav-item.snav-active svg { opacity: 1; }
@@ -113,12 +113,12 @@
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #9ca3af;
+        color: #475569;
         padding: 0.75rem 1.5rem 0.25rem;
     }
     .snav-divider {
         height: 1px;
-        background: #f3f4f6;
+        background: rgba(255,255,255,.07);
         margin: 0.5rem 1rem;
     }
 </style>

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('main-padding', 'pt-0')
-@section('main-style', 'background:#f9fafb')
+@section('main-style', 'background:#0d1424')
 
 @section('content')
 <div x-data="{ desktopCollapsed: false }"
@@ -123,8 +123,8 @@
         @if(!$isMainDashboard)
             <div class="mb-3" id="dash-back-btn" style="display:none;">
                 <a href="javascript:history.back()"
-                   class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-800 font-medium transition group">
-                    <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-700 transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                   class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white font-medium transition group">
+                    <svg class="w-4 h-4 text-slate-500 group-hover:text-white transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
                     Voltar
@@ -143,7 +143,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
             @php $renderedTitle = $title ?? trim($__env->yieldContent('dashboard-title')) ?? ''; @endphp
             @if($renderedTitle)
-            <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{!! $renderedTitle !!}</h1>
+            <h1 class="text-xl sm:text-2xl font-bold text-gray-100">{!! $renderedTitle !!}</h1>
             @endif
             <div class="flex items-center gap-3 flex-wrap">
                 @if(!empty($actions))
