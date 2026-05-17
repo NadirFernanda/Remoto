@@ -68,6 +68,6 @@ class ProdutoDetalhe extends Component
         return view('livewire.loja.produto-detalhe', [
             'jaComprado'  => $jaComprado,
             'patrocinado' => $patrocinado,
-        ])->layout('layouts.app');
+        ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
