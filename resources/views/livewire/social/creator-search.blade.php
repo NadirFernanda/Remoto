@@ -11,13 +11,13 @@
                 type="search"
                 wire:model.live.debounce.400ms="query"
                 placeholder="Procurar criadores por nome ou bio..."
-                class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-gray-800 bg-white border border-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
             >
         </div>
 
         {{-- Category filter --}}
         <select wire:model.live="category"
-            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] bg-white">
+            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todas as Categorias</option>
             @foreach($categories as $key => $label)
                 <option value="{{ $key }}">{{ $label }}</option>
@@ -26,7 +26,7 @@
 
         {{-- Sort --}}
         <select wire:model.live="sort"
-            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] bg-white">
+            class="px-3 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="populares">Mais Populares</option>
             <option value="novos">Mais Recentes</option>
             <option value="preco_asc">Menor Preço</option>
