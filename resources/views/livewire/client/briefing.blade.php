@@ -83,7 +83,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Descreva o tipo de serviço</label>
                 <input type="text" wire:model.defer="business_type1_outro"
-                       class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
+                       class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
                        placeholder="Ex: Tradução de contratos jurídicos">
             </div>
         @endif
@@ -118,7 +118,7 @@
                         Título do pedido <span class="text-red-500">*</span>
                     </label>
                     <input type="text" wire:model.defer="title1" maxlength="100"
-                           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none @error('title1') border-red-400 @enderror"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none @error('title1') border-red-400 @enderror"
                            placeholder="Ex: Site institucional para empresa de consultoria">
                     @error('title1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
@@ -131,7 +131,7 @@
                         <p class="text-xs text-gray-400 mb-2">Exemplo: <em>{{ $currentTemplate['example'] }}</em></p>
                     @endif
                     <textarea wire:model.defer="necessity1" rows="6" maxlength="2000"
-                              class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none @error('necessity1') border-red-400 @enderror"
+                              class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none @error('necessity1') border-red-400 @enderror"
                               placeholder="Descreva o que precisa, objectivos, funcionalidades desejadas..."></textarea>
                     @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
@@ -199,7 +199,7 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Descrição completa <span class="text-gray-400 font-normal">(editável)</span></label>
                 <textarea wire:model="generated_description" rows="8"
-                          class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none bg-gray-50"></textarea>
+                          class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none"></textarea>
                 @error('generated_description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
         </div>
