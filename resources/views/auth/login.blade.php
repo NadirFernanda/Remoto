@@ -88,21 +88,10 @@
         position: relative;
         overflow: hidden;
         min-height: 400px;
-        background: linear-gradient(135deg, #060e24 0%, #0d2258 45%, #071540 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* person photo — altura total, largura natural centrada */
-    .lr-person {
-        position: relative;
-        height: 100%;
-        width: auto;
-        object-fit: cover;
-        object-position: center top;
-        display: block;
-        z-index: 1;
+        background-color: #060e24;
+        background-size: cover;
+        background-position: center 15%;
+        background-repeat: no-repeat;
     }
 
     /* security badge */
@@ -139,7 +128,6 @@
         .login-wrap { flex-direction: column; }
         .login-left { flex: unset; max-width: 100%; padding: 2.5rem 1.75rem; }
         .login-right { min-height: 300px; height: 300px; }
-        .lr-person { height: 100%; width: auto; }
         .lr-badge { right: 1rem; padding: .75rem; }
     }
 </style>
@@ -236,11 +224,9 @@
     </div>
 
     {{-- ─── RIGHT: visual ───────────────────────────────────────────────── --}}
-    <div class="login-right">
+    <div class="login-right"
+         style="background-image: url('{{ asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg')) }}');">
 
-
-        <img src="{{ asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg')) }}"
-             alt="Profissional" class="lr-person">
 
         <div class="lr-badge">
             <div class="lr-badge-icon">
