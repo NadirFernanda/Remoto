@@ -3,136 +3,74 @@
 @section('content')
 
 {{-- ============================
-     HERO — CARROSSEL
+     HERO — CARROSSEL DE BANNERS
 ============================== --}}
+@php
+    $banners = [
+        ['src' => asset('img/banner1.png') . '?v=' . filemtime(public_path('img/banner1.png')), 'alt' => '24 Horas — Banner 1'],
+        ['src' => asset('img/banner2.png') . '?v=' . filemtime(public_path('img/banner2.png')), 'alt' => '24 Horas — Banner 2'],
+        ['src' => asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')), 'alt' => '24 Horas — Banner 3'],
+    ];
+@endphp
+
 <section class="hp-hero"
     x-data="{
         slide: 0,
-        total: 3,
+        total: {{ count($banners) }},
         timer: null,
         start(){ this.timer = setInterval(() => { this.slide = (this.slide + 1) % this.total }, 5000) },
         stop(){ clearInterval(this.timer) },
-        go(n){ this.slide = n; this.stop(); this.start() }
+        go(n){ this.slide = n; this.stop(); this.start() },
+        prev(){ this.go((this.slide - 1 + this.total) % this.total) },
+        next(){ this.go((this.slide + 1) % this.total) }
     }"
     x-init="start()"
     @mouseenter="stop()"
     @mouseleave="start()">
 
-        {{-- Imagens de fundo em crossfade (overlay azul forte acima delas) --}}
+    {{-- Imagem de referência invisível — define a altura do contentor --}}
+    <img class="hp-banner-ref"
+         src="{{ $banners[0]['src'] }}"
+         alt=""
+         aria-hidden="true">
 
-    <div class="hp-hero-bg" :class="slide===0 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru1.jpg'); background-position:center 30%;"></div>
-    <div class="hp-hero-bg" :class="slide===1 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru2.jpg'); background-position:center 55%; transform:scale(1.05);"></div>
-    <div class="hp-hero-bg" :class="slide===2 ? 'hp-bg-active' : ''" style="background-image:url('/img/heru3.jpg'); background-position:center 40%;"></div>
-    <div class="hp-hero-overlay"></div>
-
-    {{-- Slide 1 --}}
-    <div class="hp-hero-slide" x-show="slide===0">
-        <div class="hp-hero-inner">
-            <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Contrate os melhores<br>freelancers para<br><span class="hp-hero-accent">qualquer projecto</span></h1>
-                <ul class="hp-hero-bullets">
-                    <li>N.º 1 marketplace freelance de Angola</li>
-                    <li>Qualquer serviço que precisar</li>
-                    <li>Receba propostas em minutos, gratuitamente</li>
-                    <li>Pague só quando estiver 100% satisfeito</li>
-                </ul>
-                <div class="hp-ctas">
-                    <a href="/register" class="hp-btn hp-btn-white">Contratar Freelancer</a>
-                    <a href="/register" class="hp-btn hp-btn-outline-white">Ganhar Dinheiro como Freelancer</a>
-                </div>
-            </div>
-            <div class="hp-hero-card">
-                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
-                    <div class="hp-hero-card-avatar">A</div>
-                    <div>
-                        <div class="hp-hero-card-stars">★★★★★</div>
-                        <div class="hp-hero-card-name">Ana Souza</div>
-                        <div class="hp-hero-card-role">Designer UI/UX</div>
-                    </div>
-                </div>
-                <p class="hp-hero-card-quote">"Projecto entregue antes do prazo, comunicação excelente e resultado profissional."</p>
-                <div class="hp-hero-card-tag">
-                    <span class="hp-hero-card-tag-label">Design de App</span>
-                    <span class="hp-hero-card-tag-price">Kz 85.000</span>
-                </div>
-            </div>
+    {{-- Slides --}}
+    @foreach($banners as $i => $banner)
+        <div class="hp-banner-slide" :class="slide === {{ $i }} ? 'hp-banner-active' : ''">
+            <img src="{{ $banner['src'] }}"
+                 alt="{{ $banner['alt'] }}"
+                 @if($i === 0) fetchpriority="high" @else loading="lazy" @endif>
         </div>
-    </div>
+    @endforeach
 
-    {{-- Slide 2 --}}
-    <div class="hp-hero-slide" x-show="slide===1" style="display:none;">
-        <div class="hp-hero-inner">
-            <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Ganhe dinheiro a fazer<br>o que <span class="hp-hero-accent">ama</span></h1>
-                <ul class="hp-hero-bullets">
-                    <li>Crie o seu perfil gratuito em minutos</li>
-                    <li>Aceda a milhares de projectos todos os dias</li>
-                    <li>Defina o seu preço e horários</li>
-                    <li>Receba pagamentos seguros e rápidos</li>
-                </ul>
-                <div class="hp-ctas">
-                    <a href="/register" class="hp-btn hp-btn-white">Começar como Freelancer</a>
-                    <a href="{{ route('public.projects') }}" class="hp-btn hp-btn-outline-white">Ver projectos disponíveis</a>
-                </div>
-            </div>
-            <div class="hp-hero-card">
-                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
-                    <div class="hp-hero-card-avatar" style="background:#c7f7e0;color:#059669;">M</div>
-                    <div>
-                        <div class="hp-hero-card-stars">★★★★★</div>
-                        <div class="hp-hero-card-name">Marcos Oliveira</div>
-                        <div class="hp-hero-card-role">Dev Full Stack</div>
-                    </div>
-                </div>
-                <p class="hp-hero-card-quote">"Encontrei projectos incríveis logo na primeira semana. A plataforma é simples e o pagamento é seguro."</p>
-                <div class="hp-hero-card-tag">
-                    <span class="hp-hero-card-tag-label">Sistema Web</span>
-                    <span class="hp-hero-card-tag-price">Kz 240.000</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Seta anterior --}}
+    <button class="hp-banner-arrow hp-banner-arrow--prev"
+            @click="prev()"
+            aria-label="Banner anterior">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
 
-    {{-- Slide 3 --}}
-    <div class="hp-hero-slide" x-show="slide===2" style="display:none;">
-        <div class="hp-hero-inner">
-            <div class="hp-hero-text">
-                <h1 class="hp-hero-title">Tudo que o seu negócio<br>precisa, num <span class="hp-hero-accent">só lugar</span></h1>
-                <ul class="hp-hero-bullets">
-                    <li>Design, Dev, Marketing, Redação e muito mais</li>
-                    <li>+5.000 profissionais verificados activos</li>
-                    <li>Sistema de custódia: pague com segurança</li>
-                    <li>Suporte dedicado 24 horas por dia</li>
-                </ul>
-                <div class="hp-ctas">
-                    <a href="/register" class="hp-btn hp-btn-white">Publicar projecto gratuito</a>
-                    <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-outline-white">Explorar freelancers</a>
-                </div>
-            </div>
-            <div class="hp-hero-card">
-                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
-                    <div class="hp-hero-card-avatar" style="background:#fde8ff;color:#9333ea;">C</div>
-                    <div>
-                        <div class="hp-hero-card-stars">★★★★★</div>
-                        <div class="hp-hero-card-name">Carla Ferreira</div>
-                        <div class="hp-hero-card-role">Marketing Digital</div>
-                    </div>
-                </div>
-                <p class="hp-hero-card-quote">"Minha campanha teve 3× mais resultados. Profissional incrível, contratada em menos de 2 horas!"</p>
-                <div class="hp-hero-card-tag">
-                    <span class="hp-hero-card-tag-label">Campanha Ads</span>
-                    <span class="hp-hero-card-tag-price">Kz 120.000</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Seta seguinte --}}
+    <button class="hp-banner-arrow hp-banner-arrow--next"
+            @click="next()"
+            aria-label="Próximo banner">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+    </button>
 
     {{-- Dots --}}
     <div class="hp-hero-dots">
-        <button @click="go(0)" :class="slide===0 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 1"></button>
-        <button @click="go(1)" :class="slide===1 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 2"></button>
-        <button @click="go(2)" :class="slide===2 ? 'hp-dot-active' : ''" class="hp-hero-dot" aria-label="Slide 3"></button>
+        @foreach($banners as $i => $banner)
+            <button @click="go({{ $i }})"
+                    :class="slide === {{ $i }} ? 'hp-dot-active' : ''"
+                    class="hp-hero-dot"
+                    aria-label="Banner {{ $i + 1 }}"></button>
+        @endforeach
     </div>
+
 </section>
 
 {{-- ============================
@@ -293,7 +231,7 @@
 <section class="hp-comunidade-section" style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
 
     {{-- Imagem de fundo --}}
-    <div style="position:absolute;inset:0;background-image:url('/img/heru3.jpg');background-size:cover;background-position:center 40%;"></div>
+    <div style="position:absolute;inset:0;background-image:url('{{ asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')) }}');background-size:cover;background-position:center top;"></div>
 
     {{-- Overlay escuro (mantém a cor #0a0f1e) --}}
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
