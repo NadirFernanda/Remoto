@@ -7,9 +7,9 @@
 ============================== --}}
 @php
     $banners = [
-        ['src' => asset('img/banner1.png') . '?v=' . filemtime(public_path('img/banner1.png')), 'alt' => '24 Horas — Banner 1'],
-        ['src' => asset('img/banner2.png') . '?v=' . filemtime(public_path('img/banner2.png')), 'alt' => '24 Horas — Banner 2'],
-        ['src' => asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')), 'alt' => '24 Horas — Banner 3'],
+        ['webp' => asset('img/banner1.webp') . '?v=' . filemtime(public_path('img/banner1.webp')), 'png' => asset('img/banner1.png') . '?v=' . filemtime(public_path('img/banner1.png')), 'alt' => '24 Horas — Banner 1'],
+        ['webp' => asset('img/banner2.webp') . '?v=' . filemtime(public_path('img/banner2.webp')), 'png' => asset('img/banner2.png') . '?v=' . filemtime(public_path('img/banner2.png')), 'alt' => '24 Horas — Banner 2'],
+        ['webp' => asset('img/banner3.webp') . '?v=' . filemtime(public_path('img/banner3.webp')), 'png' => asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')), 'alt' => '24 Horas — Banner 3'],
     ];
 @endphp
 
@@ -30,16 +30,19 @@
 
     {{-- Imagem de referência invisível — define a altura do contentor --}}
     <img class="hp-banner-ref"
-         src="{{ $banners[0]['src'] }}"
+         src="{{ $banners[0]['webp'] }}"
          alt=""
          aria-hidden="true">
 
     {{-- Slides --}}
     @foreach($banners as $i => $banner)
         <div class="hp-banner-slide" :class="slide === {{ $i }} ? 'hp-banner-active' : ''">
-            <img src="{{ $banner['src'] }}"
-                 alt="{{ $banner['alt'] }}"
-                 @if($i === 0) fetchpriority="high" @else loading="lazy" @endif>
+            <picture>
+                <source srcset="{{ $banner['webp'] }}" type="image/webp">
+                <img src="{{ $banner['png'] }}"
+                     alt="{{ $banner['alt'] }}"
+                     @if($i === 0) fetchpriority="high" @else loading="lazy" @endif>
+            </picture>
         </div>
     @endforeach
 

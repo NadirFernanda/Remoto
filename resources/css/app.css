@@ -442,6 +442,7 @@ body{
 /* Slides em crossfade */
 .hp-banner-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.9s ease-in-out; }
 .hp-banner-slide.hp-banner-active { opacity: 1; }
+.hp-banner-slide picture { display: block; width: 100%; height: 100%; }
 .hp-banner-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
 
 /* Setas de navegação */
