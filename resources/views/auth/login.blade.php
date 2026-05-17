@@ -20,8 +20,6 @@
         justify-content: center;
         padding: 3rem 4rem;
     }
-    .login-logo { height: 56px; object-fit: contain; margin-bottom: 2rem; }
-
     .login-headline { font-size: 1.85rem; font-weight: 900; color: #0a0f1e; line-height: 1.18; margin-bottom: .65rem; }
     .login-headline .grad {
         background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
@@ -136,11 +134,6 @@
 
     {{-- ─── LEFT: form ─────────────────────────────────────────────────── --}}
     <div class="login-left">
-
-        <a href="/">
-            <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}"
-                 alt="24 Horas" class="login-logo">
-        </a>
 
         <h1 class="login-headline">
             GESTÃO <span class="grad">INTELIGENTE.</span><br>
