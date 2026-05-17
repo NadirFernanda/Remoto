@@ -1,22 +1,21 @@
 <div class="max-w-3xl mx-auto" x-data x-init="setInterval(() => $wire.refresh(), 60000)">
 
-    {{-- ─── Header ─────────────────────────────────────────────────────── --}}
-    <div class="flex items-center justify-between mb-6">
+    {{-- ─── Gradient Header Card ───────────────────────────────────────── --}}
+    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-            <h1 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+            <h2 class="text-2xl font-extrabold flex items-center gap-2">
                 Notificações
                 @if($notifications->where('read', false)->count() > 0)
-                    <span class="inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold text-white"
-                          style="background:linear-gradient(135deg,#00c8ff,#0055ff);">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold bg-white/20 border border-white/30">
                         {{ $notifications->where('read', false)->count() }}
                     </span>
                 @endif
-            </h1>
-            <p class="text-sm text-gray-400 mt-0.5">Acompanhe todas as suas actualizações</p>
+            </h2>
+            <p class="text-sm text-white/75 mt-1">Acompanhe todas as suas actualizações em tempo real.</p>
         </div>
-        <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">Auto-actualiza a cada minuto</span>
-            <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+        <div class="flex items-center gap-2 text-white/70 text-xs">
+            <div class="w-1.5 h-1.5 rounded-full bg-green-300 animate-pulse"></div>
+            Auto-actualiza a cada minuto
         </div>
     </div>
 
