@@ -23,10 +23,10 @@ class ServiceValue extends Component
     }
 
 
-    public function updatedValor($value)
+    public function updatedValor($value): void
     {
-        $this->valor = (float)$value;
-        $this->valor_liquido = $this->valor - ($this->valor * $this->taxa / 100);
+        $this->valor        = max(0, (float) $value);
+        $this->valor_liquido = round($this->valor - ($this->valor * $this->taxa / 100), 2);
     }
 
 
