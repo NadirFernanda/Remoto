@@ -43,6 +43,11 @@ class Infoproduto extends Model
         return $this->belongsTo(User::class, 'freelancer_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'freelancer_id');
+    }
+
     public function patrocinios()
     {
         return $this->hasMany(InfoprodutoPatrocinio::class);
