@@ -15,7 +15,7 @@
     @endif
 
     {{-- ── HEADER ─────────────────────────────────────────────────────────── --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-gradient-to-r from-slate-900 to-slate-700 rounded-2xl text-white">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl text-white" style="background:linear-gradient(135deg,#0055ff 0%,#0033cc 100%)">
         <div>
             <h1 class="text-xl font-bold tracking-tight">Gestão de Administradores</h1>
             <p class="text-slate-300 text-sm mt-0.5">Cadastre, edite e defina permissões de cada administrador da plataforma.</p>
