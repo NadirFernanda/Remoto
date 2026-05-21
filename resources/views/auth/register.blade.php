@@ -137,6 +137,9 @@
         pointer-events: none;
     }
 
+    .rr-logo { margin-bottom: 1.75rem; }
+    .rr-logo img { height: 48px; object-fit: contain; filter: brightness(0) invert(1); }
+
     .rr-badge {
         display: inline-flex; align-items: center; gap: .5rem;
         background: rgba(0,85,255,.15); border: 1px solid rgba(0,150,255,.25);
@@ -343,6 +346,10 @@
     <div class="reg-right">
 
         <div class="reg-right-content">
+
+            <div class="rr-logo">
+                <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas">
+            </div>
 
             <div class="rr-badge">
                 <span class="rr-badge-dot"></span>
