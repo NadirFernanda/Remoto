@@ -1,5 +1,16 @@
 <div x-data="{ confirmDelete: null }" class="space-y-6">
 
+    {{-- Render error diagnostics --}}
+    @if($renderError)
+        <div class="flex items-start gap-3 p-4 bg-red-900/30 border border-red-500/40 rounded-2xl text-sm text-red-300">
+            <svg class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            <div>
+                <div class="font-semibold text-red-300 mb-1">Erro ao carregar administradores</div>
+                <code class="text-xs text-red-400 break-all">{{ $renderError }}</code>
+            </div>
+        </div>
+    @endif
+
     {{-- Flash --}}
     @if(session('success'))
         <div class="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-2xl text-sm text-green-800">

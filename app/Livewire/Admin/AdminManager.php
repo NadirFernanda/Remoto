@@ -449,20 +449,30 @@ class AdminManager extends Component
         $this->resetErrorBag();
     }
 
+    public string $renderError = '';
+
     public function render()
     {
-        $admins = User::where('role', 'admin')
-            ->when($this->search, fn($q) => $q->where(function ($q) {
-                $q->where('name',  'like', "%{$this->search}%")
-                  ->orWhere('email', 'like', "%{$this->search}%")
-                  ->orWhere('admin_corporate_email', 'like', "%{$this->search}%")
-                  ->orWhere('admin_cargo', 'like', "%{$this->search}%");
-            }))
-            ->when($this->roleFilter, fn($q) => $q->where('admin_role', $this->roleFilter === 'master' ? null : $this->roleFilter))
-            ->with(['adminPermissions', 'adminSecurity'])
-            ->orderByRaw("CASE WHEN admin_role IS NULL THEN 0 ELSE 1 END")
-            ->orderBy('name')
-            ->paginate(15);
+        try {
+            $admins = User::where('role', 'admin')
+                ->when($this->search, fn($q) => $q->where(function ($q) {
+                    $q->where('name',  'like', "%{$this->search}%")
+                      ->orWhere('email', 'like', "%{$this->search}%")
+                      ->orWhere('admin_corporate_email', 'like', "%{$this->search}%")
+                      ->orWhere('admin_cargo', 'like', "%{$this->search}%");
+                }))
+                ->when($this->roleFilter, fn($q) => $q->where('admin_role', $this->roleFilter === 'master' ? null : $this->roleFilter))
+                ->with(['adminPermissions', 'adminSecurity'])
+                ->orderByRaw("CASE WHEN admin_role IS NULL THEN 0 ELSE 1 END")
+                ->orderBy('name')
+                ->paginate(15);
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('AdminManager render error: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+            $this->renderError = $e->getMessage();
+            $admins = new \Illuminate\Pagination\LengthAwarePaginator(collect(), 0, 15);
+        }
 
         $modules = AdminPermission::MODULES;
 
