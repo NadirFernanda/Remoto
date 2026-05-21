@@ -113,18 +113,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 3rem 2.5rem 3rem 3rem;
-        max-width: 55%;
-    }
-    .reg-right-img {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        top: 0;
-        width: 52%;
-        background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
+        padding: 3rem 3.5rem;
     }
     /* blue glow orb */
     .reg-right::before {
@@ -334,11 +323,7 @@
     {{-- ─── RIGHT: visual ──────────────────────────────────────────────── --}}
     <div class="reg-right">
 
-        {{-- Woman image positioned right --}}
-        <div class="reg-right-img"
-             style="background-image: url('{{ asset('img/Assets_feminino_cadastro.png') . '?v=' . filemtime(public_path('img/Assets_feminino_cadastro.png')) }}');"></div>
-
-        <div class="reg-right-content">
+        <div class="reg-right-content" style="max-width:100%;padding:3rem 3.5rem;">
 
             <div class="rr-logo">
                 <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas">
