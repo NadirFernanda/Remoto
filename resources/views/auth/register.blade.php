@@ -16,8 +16,8 @@
         background: #fff;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: 3rem 3.5rem;
+        justify-content: flex-start;
+        padding: 3.5rem 3.5rem 3rem;
         overflow-y: auto;
     }
     .reg-headline { font-size: 1.6rem; font-weight: 900; color: #0a0f1e; line-height: 1.2; margin-bottom: .4rem; }
@@ -103,13 +103,13 @@
         overflow: hidden;
         background: linear-gradient(160deg, #0a1628 0%, #060e24 60%, #0a1035 100%);
         display: flex;
-        align-items: center;
+        align-items: flex-start;
     }
     .reg-right-content {
         width: 100%;
         position: relative;
         z-index: 2;
-        padding: 3rem 3.5rem;
+        padding: 3.5rem 3.5rem 3rem;
     }
     /* blue glow orbs */
     .reg-right::before {
