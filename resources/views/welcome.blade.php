@@ -234,7 +234,8 @@
 <section class="hp-comunidade-section" style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
 
     {{-- Imagem de fundo --}}
-    <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060d1f 0%,#0a1628 50%,#06101e 100%);"></div>
+    <div style="position:absolute;inset:0;background-image:url('{{ asset('img/login.jpeg') }}');background-size:cover;background-position:center 20%;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,14,36,.92) 0%,rgba(10,22,40,.88) 50%,rgba(6,16,30,.93) 100%);"></div>
 
     {{-- Overlay escuro (mantém a cor #0a0f1e) --}}
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
