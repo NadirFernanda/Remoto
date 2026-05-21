@@ -379,8 +379,8 @@
                     <img src="{{ asset('img/default-avatar.svg') }}" alt="">
                 </div>
                 <p class="rr-stats-text">
-                    <span>+5.000</span> freelancers activos<br>
-                    <span>+2.000</span> projectos publicados
+                    <span>+{{ number_format($totalFreelancers, 0, ',', '.') }}</span> freelancers activos<br>
+                    <span>+{{ number_format($totalServicos, 0, ',', '.') }}</span> serviços publicados
                 </p>
             </div>
 
