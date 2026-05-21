@@ -7,27 +7,27 @@
     .reg-wrap {
         min-height: calc(100vh - 72px);
         display: flex;
+        align-items: stretch;
     }
 
     /* ── LEFT PANEL ── */
     .reg-left {
         flex: 0 0 50%;
-        max-width: 560px;
         background: #fff;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 2.5rem 4rem;
+        padding: 3rem 3.5rem;
         overflow-y: auto;
     }
-    .reg-headline { font-size: 1.65rem; font-weight: 900; color: #0a0f1e; line-height: 1.2; margin-bottom: .4rem; }
+    .reg-headline { font-size: 1.6rem; font-weight: 900; color: #0a0f1e; line-height: 1.2; margin-bottom: .4rem; }
     .reg-headline .grad {
         background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .reg-sub { color: #64748b; font-size: .9rem; margin-bottom: 1.5rem; }
+    .reg-sub { color: #64748b; font-size: .88rem; margin-bottom: 1.25rem; }
 
     /* role selector */
     .reg-role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: 1.25rem; }
@@ -101,80 +101,99 @@
         flex: 1;
         position: relative;
         overflow: hidden;
-        min-height: 400px;
-        background: #060e24;
+        background: linear-gradient(160deg, #0a1628 0%, #060e24 60%, #0a1035 100%);
         display: flex;
-        align-items: stretch;
+        align-items: center;
     }
     .reg-right-content {
-        flex: 1;
+        width: 100%;
         position: relative;
         z-index: 2;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
         padding: 3rem 3.5rem;
     }
-    /* blue glow orb */
+    /* blue glow orbs */
     .reg-right::before {
         content: '';
         position: absolute;
-        top: 10%;
-        right: 30%;
-        width: 320px;
-        height: 320px;
-        background: radial-gradient(circle, rgba(0,80,255,.25) 0%, transparent 70%);
+        top: -10%;
+        left: 20%;
+        width: 380px;
+        height: 380px;
+        background: radial-gradient(circle, rgba(0,85,255,.18) 0%, transparent 70%);
         border-radius: 50%;
         z-index: 1;
+        pointer-events: none;
+    }
+    .reg-right::after {
+        content: '';
+        position: absolute;
+        bottom: -5%;
+        right: 10%;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(0,200,255,.12) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 1;
+        pointer-events: none;
     }
 
-    .rr-logo { margin-bottom: 2rem; }
-    .rr-logo img { height: 52px; object-fit: contain; filter: brightness(0) invert(1); }
+    .rr-badge {
+        display: inline-flex; align-items: center; gap: .5rem;
+        background: rgba(0,85,255,.15); border: 1px solid rgba(0,150,255,.25);
+        border-radius: 50px; padding: .4rem .9rem;
+        font-size: .75rem; font-weight: 700; color: #60c8ff;
+        letter-spacing: .05em; text-transform: uppercase;
+        margin-bottom: 1.25rem;
+    }
+    .rr-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #00c8ff; }
 
-    .rr-headline { font-size: 1.7rem; font-weight: 900; color: #fff; line-height: 1.22; margin-bottom: .75rem; }
+    .rr-headline { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1.18; margin-bottom: .75rem; }
     .rr-headline .rr-accent {
         background: linear-gradient(135deg, #00c8ff 0%, #0055ff 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .rr-desc { font-size: .88rem; color: rgba(255,255,255,.65); line-height: 1.65; margin-bottom: 2rem; }
+    .rr-desc { font-size: .9rem; color: rgba(255,255,255,.55); line-height: 1.7; margin-bottom: 2rem; }
 
-    .rr-features { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
-    .rr-feature { display: flex; align-items: flex-start; gap: .85rem; }
+    .rr-features { display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 2rem; }
+    .rr-feature { display: flex; align-items: flex-start; gap: 1rem; }
     .rr-feature-icon {
-        width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-        background: rgba(0,80,255,.2); border: 1px solid rgba(0,80,255,.3);
+        width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+        background: rgba(0,85,255,.18); border: 1px solid rgba(0,150,255,.25);
         display: flex; align-items: center; justify-content: center;
     }
-    .rr-feature-title { font-size: .875rem; font-weight: 700; color: #f1f5f9; margin-bottom: .15rem; }
-    .rr-feature-text  { font-size: .78rem; color: rgba(255,255,255,.55); line-height: 1.5; }
+    .rr-feature-title { font-size: .9rem; font-weight: 700; color: #f1f5f9; margin-bottom: .2rem; }
+    .rr-feature-text  { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.55; }
+
+    .rr-divider { border: none; border-top: 1px solid rgba(255,255,255,.08); margin: 1.5rem 0; }
 
     .rr-stats {
-        display: flex; align-items: center; gap: .875rem;
-        background: rgba(255,255,255,.07);
-        border: 1px solid rgba(255,255,255,.1);
-        border-radius: 14px; padding: .75rem 1rem;
+        display: flex; align-items: center; gap: 1rem;
+        background: rgba(255,255,255,.05);
+        border: 1px solid rgba(255,255,255,.09);
+        border-radius: 16px; padding: .9rem 1.1rem;
     }
     .rr-stats-avatars { display: flex; }
     .rr-stats-avatars img {
-        width: 30px; height: 30px; border-radius: 50%; border: 2px solid #060e24;
-        object-fit: cover; margin-left: -8px;
+        width: 32px; height: 32px; border-radius: 50%; border: 2px solid #060e24;
+        object-fit: cover; margin-left: -9px;
     }
     .rr-stats-avatars img:first-child { margin-left: 0; }
-    .rr-stats-text { font-size: .8rem; color: rgba(255,255,255,.8); font-weight: 600; line-height: 1.4; }
+    .rr-stats-text { font-size: .82rem; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.45; }
     .rr-stats-text span { color: #00c8ff; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
         .reg-wrap { flex-direction: column; }
-        .reg-left { flex: unset; max-width: 100%; padding: 2rem 1.75rem; }
-        .reg-right { min-height: 260px; }
-        .reg-right-content { max-width: 60%; padding: 2rem 1.5rem; }
+        .reg-left  { flex: unset; padding: 2.5rem 2rem; }
+        .reg-right { min-height: 320px; }
+        .reg-right-content { padding: 2.5rem 2rem; }
+        .rr-headline { font-size: 1.6rem; }
     }
     @media (max-width: 600px) {
-        .reg-right-content { max-width: 100%; }
-        .reg-right-img { display: none; }
+        .reg-left { padding: 2rem 1.5rem; }
+        .reg-right-content { padding: 2rem 1.5rem; }
         .rr-headline { font-size: 1.35rem; }
     }
 </style>
@@ -323,10 +342,11 @@
     {{-- ─── RIGHT: visual ──────────────────────────────────────────────── --}}
     <div class="reg-right">
 
-        <div class="reg-right-content" style="max-width:100%;padding:3rem 3.5rem;">
+        <div class="reg-right-content">
 
-            <div class="rr-logo">
-                <img src="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" alt="24 Horas">
+            <div class="rr-badge">
+                <span class="rr-badge-dot"></span>
+                Plataforma #1 em Angola
             </div>
 
             <h2 class="rr-headline">
@@ -334,23 +354,23 @@
                 a <span class="rr-accent">oportunidades reais.</span>
             </h2>
 
-            <p class="rr-desc">A plataforma completa para impulsionar<br>sua carreira, seus projectos e seus resultados.</p>
+            <p class="rr-desc">A plataforma completa para impulsionar sua carreira, seus projectos e seus resultados — disponível 24 horas.</p>
 
             <div class="rr-features">
                 <div class="rr-feature">
                     <div class="rr-feature-icon">
-                        <svg width="17" height="17" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
+                        <svg width="18" height="18" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                         </svg>
                     </div>
                     <div>
                         <p class="rr-feature-title">Seguro e confiável</p>
-                        <p class="rr-feature-text">Seus dados protegidos com tecnologia de ponta.</p>
+                        <p class="rr-feature-text">Pagamentos protegidos por escrow. Os seus dados nunca são partilhados.</p>
                     </div>
                 </div>
                 <div class="rr-feature">
                     <div class="rr-feature-icon">
-                        <svg width="17" height="17" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
+                        <svg width="18" height="18" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
                     </div>
@@ -361,7 +381,7 @@
                 </div>
                 <div class="rr-feature">
                     <div class="rr-feature-icon">
-                        <svg width="17" height="17" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
+                        <svg width="18" height="18" fill="none" stroke="#00c8ff" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
                     </div>
@@ -371,6 +391,8 @@
                     </div>
                 </div>
             </div>
+
+            <hr class="rr-divider">
 
             <div class="rr-stats">
                 <div class="rr-stats-avatars">
