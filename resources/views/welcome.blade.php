@@ -234,7 +234,7 @@
 <section class="hp-comunidade-section" style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
 
     {{-- Imagem de fundo --}}
-    <div style="position:absolute;inset:0;background-image:url('{{ asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')) }}');background-size:cover;background-position:center top;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,#060d1f 0%,#0a1628 50%,#06101e 100%);"></div>
 
     {{-- Overlay escuro (mantém a cor #0a0f1e) --}}
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
