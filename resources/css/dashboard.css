@@ -254,6 +254,10 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main .bg-white:not(input):not(select):not(textarea):not(button) {
     background-color: #131f35 !important;
 }
+/* Botões usados como cards (ticket list, etc.) — exclui btn-primary e btn-outline */
+.dash-main button.bg-white:not(.btn-primary):not(.btn-outline):not([class*="bg-["]) {
+    background-color: #131f35 !important;
+}
 .dash-main .bg-gray-50:not(input):not(select):not(textarea) {
     background-color: rgba(255,255,255,.04) !important;
 }
@@ -264,6 +268,8 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main .bg-slate-100 { background-color: rgba(255,255,255,.07) !important; }
 .dash-main .bg-neutral-50  { background-color: rgba(255,255,255,.04) !important; }
 .dash-main .bg-neutral-100 { background-color: rgba(255,255,255,.07) !important; }
+/* Respostas de admin no suporte (bg-blue-50) */
+.dash-main .bg-blue-50 { background-color: rgba(0,85,255,.10) !important; }
 
 /* ── Badges brancos ─────────────────────────────────── */
 /* Converte badges bg-white em dark glass */
