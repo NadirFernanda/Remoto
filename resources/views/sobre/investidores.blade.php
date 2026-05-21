@@ -19,15 +19,15 @@
             <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-6">Métricas chave</h2>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
                 <div class="bg-[#f0f9ff] rounded-2xl p-8 border border-[#bae6fd]">
-                    <div class="text-3xl font-black text-[#00baff]">+5k</div>
+                    <div class="text-3xl font-black text-[#00baff]">{{ \App\Services\PlatformStatsService::format($totalUsers) }}</div>
                     <div class="text-[#64748b] text-base mt-2">Utilizadores registados</div>
                 </div>
                 <div class="bg-[#f0f9ff] rounded-2xl p-8 border border-[#bae6fd]">
-                    <div class="text-3xl font-black text-[#00baff]">+1.2k</div>
-                    <div class="text-[#64748b] text-base mt-2">Projectos publicados</div>
+                    <div class="text-3xl font-black text-[#00baff]">{{ \App\Services\PlatformStatsService::format($totalServicos) }}</div>
+                    <div class="text-[#64748b] text-base mt-2">Serviços publicados</div>
                 </div>
                 <div class="bg-[#f0f9ff] rounded-2xl p-8 border border-[#bae6fd]">
-                    <div class="text-3xl font-black text-[#00baff]">92%</div>
+                    <div class="text-3xl font-black text-[#00baff]">{{ $satisfacao > 0 ? $satisfacao . '%' : 'N/D' }}</div>
                     <div class="text-[#64748b] text-base mt-2">Taxa de satisfação</div>
                 </div>
             </div>

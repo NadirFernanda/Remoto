@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\User;
-use App\Models\Service;
+use App\Services\PlatformStatsService;
 use App\Events\AffiliateCommissionEarned;
 
 class RegisterController extends Controller
@@ -49,10 +49,7 @@ class RegisterController extends Controller
 
     public function showFreelancerForm()
     {
-        return view('auth.register', [
-            'totalFreelancers' => User::where('role', 'freelancer')->count(),
-            'totalServicos'    => Service::count(),
-        ]);
+        return view('auth.register', PlatformStatsService::get());
     }
 
     public function register(RegisterRequest $request)

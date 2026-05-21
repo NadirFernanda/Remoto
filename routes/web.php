@@ -22,7 +22,7 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     }
-    return view('welcome');
+    return view('welcome', \App\Services\PlatformStatsService::get());
 })->name('home');
 
 // ─── Dashboard (role-based redirect) ─────────────────────────────────────────
@@ -46,7 +46,7 @@ Route::prefix('sobre')->name('sobre.')->group(function () {
     Route::get('/sobre-nos',     fn() => view('sobre.sobre-nos'))->name('sobre-nos');
     Route::get('/como-funciona', fn() => view('sobre.como-funciona'))->name('como-funciona');
     Route::get('/seguranca',     fn() => view('sobre.seguranca'))->name('seguranca');
-    Route::get('/investidores',  fn() => view('sobre.investidores'))->name('investidores');
+    Route::get('/investidores',  fn() => view('sobre.investidores', \App\Services\PlatformStatsService::get()))->name('investidores');
     Route::get('/mapa-do-site',  fn() => view('sobre.mapa-do-site'))->name('mapa-do-site');
     Route::get('/historias',     fn() => view('sobre.historias'))->name('historias');
     Route::get('/noticias',      fn() => view('sobre.noticias'))->name('noticias');
