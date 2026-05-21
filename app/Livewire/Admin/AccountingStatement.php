@@ -79,7 +79,7 @@ class AccountingStatement extends Component
 
         // ── Infoprodutos ──────────────────────────────────────────────────
         if (in_array($this->tipo, ['', 'infoproduto'])) {
-            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name', 'infoproduto.user:id,name'])
+            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name', 'infoproduto.freelancer:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->orderByDesc('created_at')
                 ->get()
@@ -89,7 +89,7 @@ class AccountingStatement extends Component
                         'data'           => $c->created_at->format('d/m/Y'),
                         'tipo'           => 'Infoproduto',
                         'user_origem'    => optional($c->comprador)->name                            ?? '—',
-                        'user_destino'   => optional(optional($c->infoproduto)->user)->name          ?? '—',
+                        'user_destino'   => optional(optional($c->infoproduto)->freelancer)->name     ?? '—',
                         'valor_bruto'    => (float) $c->valor_pago,
                         'comissao'       => (float) $c->comissao_plataforma,
                         'valor_liquido'  => (float) $c->valor_freelancer,
