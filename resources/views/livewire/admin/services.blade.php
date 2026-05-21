@@ -28,9 +28,15 @@
                 <select wire:model.live="statusFilter"
                     class="px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400 transition text-slate-700 min-w-[180px]">
                     <option value="">Todos os status</option>
+                    <option value="draft">Rascunho</option>
+                    <option value="payment_pending">Pagamento Pendente</option>
                     <option value="published">Publicado</option>
-                    <option value="in_progress">Em andamento</option>
+                    <option value="negotiating">Em Negociação</option>
+                    <option value="accepted">Aceite</option>
+                    <option value="in_progress">Em Andamento</option>
+                    <option value="em_moderacao">Em Moderação</option>
                     <option value="delivered">Entregue</option>
+                    <option value="completed">Concluído</option>
                     <option value="cancelled">Cancelado</option>
                 </select>
             </div>
@@ -62,15 +68,27 @@
                             <td class="py-3 px-4 text-slate-600">{{ $service->cliente->name ?? '—' }}</td>
                             <td class="py-3 px-4">
                                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-                                    {{ $service->status === 'delivered' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                                       ($service->status === 'in_progress' ? 'bg-sky-50 text-sky-700 border border-sky-200' :
-                                       ($service->status === 'cancelled' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-amber-50 text-amber-700 border border-amber-200')) }}">
                                     {{ match($service->status) {
-                                        'published' => 'Publicado',
-                                        'in_progress' => 'Em andamento',
-                                        'delivered' => 'Entregue',
-                                        'cancelled' => 'Cancelado',
-                                        default => $service->status
+                                        'completed', 'delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+                                        'in_progress', 'accepted' => 'bg-sky-50 text-sky-700 border border-sky-200',
+                                        'cancelled' => 'bg-red-50 text-red-700 border border-red-200',
+                                        'negotiating' => 'bg-violet-50 text-violet-700 border border-violet-200',
+                                        'em_moderacao', 'payment_pending' => 'bg-orange-50 text-orange-700 border border-orange-200',
+                                        'draft' => 'bg-slate-100 text-slate-500 border border-slate-200',
+                                        default => 'bg-amber-50 text-amber-700 border border-amber-200',
+                                    } }}">
+                                    {{ match($service->status) {
+                                        'draft'           => 'Rascunho',
+                                        'payment_pending' => 'Pagamento Pendente',
+                                        'published'       => 'Publicado',
+                                        'negotiating'     => 'Em Negociação',
+                                        'accepted'        => 'Aceite',
+                                        'in_progress'     => 'Em Andamento',
+                                        'em_moderacao'    => 'Em Moderação',
+                                        'delivered'       => 'Entregue',
+                                        'completed'       => 'Concluído',
+                                        'cancelled'       => 'Cancelado',
+                                        default           => $service->status,
                                     } }}
                                 </span>
                             </td>
