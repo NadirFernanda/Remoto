@@ -353,7 +353,7 @@
 
             <div class="rr-badge">
                 <span class="rr-badge-dot"></span>
-                Plataforma #1 em Angola
+                Plataforma Nº 1 em Angola
             </div>
 
             <h2 class="rr-headline">
