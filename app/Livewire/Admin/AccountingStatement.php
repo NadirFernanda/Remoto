@@ -79,7 +79,7 @@ class AccountingStatement extends Component
 
         // ── Infoprodutos ──────────────────────────────────────────────────
         if (in_array($this->tipo, ['', 'infoproduto'])) {
-            InfoprodutoCompra::with(['infoproduto:id,titulo,user_id', 'comprador:id,name', 'infoproduto.user:id,name'])
+            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name', 'infoproduto.user:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->orderByDesc('created_at')
                 ->get()

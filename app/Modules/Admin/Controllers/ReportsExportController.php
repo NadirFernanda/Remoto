@@ -175,7 +175,7 @@ class ReportsExportController extends Controller
         }
 
         if (in_array($tipo, ['', 'infoproduto'])) {
-            InfoprodutoCompra::with(['infoproduto:id,titulo,user_id', 'comprador:id,name', 'infoproduto.user:id,name'])
+            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name', 'infoproduto.user:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->orderByDesc('created_at')
                 ->get()
@@ -393,7 +393,7 @@ class ReportsExportController extends Controller
 
         // ── Infoprodutos ──────────────────────────────────────────────────
         if (in_array($tipo, ['', 'infoprodutos'])) {
-            InfoprodutoCompra::with(['infoproduto:id,titulo,user_id', 'comprador:id,name,email', 'infoproduto.user:id,name'])
+            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name,email', 'infoproduto.user:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->orderByDesc('created_at')
                 ->get()

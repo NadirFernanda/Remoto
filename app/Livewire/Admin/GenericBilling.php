@@ -95,7 +95,7 @@ class GenericBilling extends Component
 
         // ── Infoprodutos ──────────────────────────────────────────────────
         if (in_array($this->tipo, ['', 'infoprodutos'])) {
-            InfoprodutoCompra::with(['infoproduto:id,titulo,user_id', 'comprador:id,name,email', 'infoproduto.user:id,name'])
+            InfoprodutoCompra::with(['infoproduto:id,titulo,freelancer_id', 'comprador:id,name,email', 'infoproduto.user:id,name'])
                 ->whereBetween('created_at', [$start, $end])
                 ->orderByDesc('created_at')
                 ->get()
