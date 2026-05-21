@@ -245,41 +245,76 @@
 .header-container::before, .header-container::after,
 main::before, main::after { display: none !important; content: none !important; }
 
-/* ─────────────────────────────────────────────────────
-   DARK THEME: card & text overrides for .dash-main
-   ───────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   DARK THEME — cobertura total do .dash-main
+   ═══════════════════════════════════════════════════════ */
 
-/* Card backgrounds */
-.dash-main div.bg-white       { background-color: #131f35 !important; }
-.dash-main div.bg-gray-50     { background-color: rgba(255,255,255,.04) !important; }
-.dash-main div.bg-gray-100    { background-color: rgba(255,255,255,.07) !important; }
+/* ── Backgrounds ────────────────────────────────────── */
+/* Cobre div, section, article, aside, li, a, tr, td, span etc. */
+.dash-main .bg-white:not(input):not(select):not(textarea):not(button) {
+    background-color: #131f35 !important;
+}
+.dash-main .bg-gray-50:not(input):not(select):not(textarea) {
+    background-color: rgba(255,255,255,.04) !important;
+}
+.dash-main .bg-gray-100:not(input):not(select):not(textarea) {
+    background-color: rgba(255,255,255,.07) !important;
+}
+.dash-main .bg-slate-50  { background-color: rgba(255,255,255,.04) !important; }
+.dash-main .bg-slate-100 { background-color: rgba(255,255,255,.07) !important; }
+.dash-main .bg-neutral-50  { background-color: rgba(255,255,255,.04) !important; }
+.dash-main .bg-neutral-100 { background-color: rgba(255,255,255,.07) !important; }
 
-/* Card borders */
-.dash-main .border-gray-100   { border-color: rgba(255,255,255,.07) !important; }
-.dash-main .border-gray-200   { border-color: rgba(255,255,255,.09) !important; }
+/* ── Badges brancos ─────────────────────────────────── */
+/* Converte badges bg-white em dark glass */
+.dash-main span.bg-white,
+.dash-main a.bg-white {
+    background-color: rgba(255,255,255,.08) !important;
+    color: #e2e8f0 !important;
+}
+
+/* ── Borders ────────────────────────────────────────── */
+.dash-main .border-gray-100,
+.dash-main .border-gray-200,
+.dash-main .border-slate-100,
+.dash-main .border-slate-200 { border-color: rgba(255,255,255,.09) !important; }
 .dash-main .divide-gray-100 > * + *,
-.dash-main .divide-gray-200 > * + * { border-color: rgba(255,255,255,.07) !important; }
+.dash-main .divide-gray-200 > * + *,
+.dash-main .divide-slate-100 > * + * { border-color: rgba(255,255,255,.07) !important; }
 
-/* Text colours */
-.dash-main .text-gray-900     { color: #f1f5f9 !important; }
-.dash-main .text-gray-800     { color: #e2e8f0 !important; }
-.dash-main .text-gray-700     { color: #cbd5e1 !important; }
-.dash-main .text-gray-600     { color: #94a3b8 !important; }
-.dash-main .text-gray-500     { color: #64748b !important; }
-.dash-main .text-gray-400     { color: #475569 !important; }
+/* ── Text ───────────────────────────────────────────── */
+.dash-main .text-gray-900,
+.dash-main .text-slate-900 { color: #f1f5f9 !important; }
+.dash-main .text-gray-800,
+.dash-main .text-slate-800 { color: #e2e8f0 !important; }
+.dash-main .text-gray-700,
+.dash-main .text-slate-700 { color: #cbd5e1 !important; }
+.dash-main .text-gray-600,
+.dash-main .text-slate-600 { color: #94a3b8 !important; }
+.dash-main .text-gray-500,
+.dash-main .text-slate-500 { color: #64748b !important; }
+.dash-main .text-gray-400,
+.dash-main .text-slate-400 { color: #4e5f78 !important; }
 
-/* Headings */
-.dash-main h1, .dash-main h2, .dash-main h3,
-.dash-main h4, .dashboard-title { color: #f1f5f9 !important; }
+/* ── Headings ───────────────────────────────────────── */
+.dash-main h1, .dash-main h2, .dash-main h3, .dash-main h4,
+.dashboard-title { color: #f1f5f9 !important; }
 
-/* Table text */
-.orders-table td               { color: #cbd5e1; }
-.orders-table thead th         { color: #94a3b8; }
+/* ── Tables ─────────────────────────────────────────── */
+.orders-table td,
 .action-label, .project-title,
 .project-excerpt, .project-meta { color: #cbd5e1; }
+.orders-table thead th          { color: #94a3b8; }
+/* Zebra e hover em tabelas Tailwind */
+.dash-main table tbody tr { background-color: transparent !important; }
+.dash-main table tbody tr.bg-white,
+.dash-main table tbody tr:nth-child(even).bg-gray-50 {
+    background-color: rgba(255,255,255,.03) !important;
+}
+.dash-main table td, .dash-main table th { color: #cbd5e1; }
 
-/* Form inputs — dark styled */
-.dash-main input:not([type=radio]):not([type=checkbox]):not([type=submit]),
+/* ── Form inputs ────────────────────────────────────── */
+.dash-main input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=range]),
 .dash-main select,
 .dash-main textarea {
     background-color: #1a2740 !important;
@@ -287,11 +322,19 @@ main::before, main::after { display: none !important; content: none !important; 
     border-color: rgba(255,255,255,.12) !important;
 }
 .dash-main input::placeholder,
-.dash-main textarea::placeholder { color: #475569 !important; }
+.dash-main textarea::placeholder { color: #3d5175 !important; }
+.dash-main select option { background-color: #1a2740; color: #e2e8f0; }
 
-/* Shadows adjust for dark bg */
-.dash-main .shadow-sm { box-shadow: 0 1px 4px rgba(0,0,0,.5) !important; }
-.dash-main .shadow    { box-shadow: 0 2px 10px rgba(0,0,0,.6) !important; }
+/* ── Shadows ────────────────────────────────────────── */
+.dash-main .shadow-sm { box-shadow: 0 1px 4px rgba(0,0,0,.45) !important; }
+.dash-main .shadow    { box-shadow: 0 2px 10px rgba(0,0,0,.55) !important; }
+.dash-main .shadow-md { box-shadow: 0 4px 16px rgba(0,0,0,.6) !important; }
+
+/* ── Scrollbars (webkit) ────────────────────────────── */
+.dash-main ::-webkit-scrollbar       { width: 6px; height: 6px; }
+.dash-main ::-webkit-scrollbar-track { background: rgba(255,255,255,.03); }
+.dash-main ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+.dash-main ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
 /* =====================================================
    ADDITIONAL MOBILE RESPONSIVE FIXES
