@@ -1,4 +1,13 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16"
+    x-data="{
+        selected: [],
+        toggleAll(checked, ids) {
+            this.selected = checked ? [...ids] : [];
+        },
+        bulkUrl() {
+            return '{{ route('admin.services.receipts.bulk') }}?ids=' + this.selected.join(',');
+        }
+    }">
 
     {{-- ── Header ── --}}
     <div class="bg-white border-b border-slate-100 shadow-sm">
@@ -42,6 +51,28 @@
             </div>
         </div>
 
+        {{-- Bulk action bar --}}
+        <div x-show="selected.length > 0"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl px-5 py-3.5 mb-4 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
+            <span class="text-white text-sm font-semibold" x-text="selected.length + ' serviço(s) seleccionado(s)'"></span>
+            <div class="flex items-center gap-3">
+                <button @click="selected = []"
+                    class="text-white/70 hover:text-white text-xs font-medium transition">
+                    Limpar
+                </button>
+                <a :href="bulkUrl()" target="_blank"
+                    class="inline-flex items-center gap-2 bg-white text-[#0055ff] text-sm font-bold px-4 py-2 rounded-xl hover:bg-sky-50 transition shadow">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                    </svg>
+                    Imprimir Recibos Seleccionados
+                </a>
+            </div>
+        </div>
+
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
                 <span class="text-sm font-semibold text-slate-700">Lista de serviços</span>
@@ -52,17 +83,27 @@
                 <table class="min-w-full text-sm">
                     <thead>
                         <tr class="bg-slate-50/80">
+                            <th class="py-3.5 px-4 w-10">
+                                <input type="checkbox"
+                                    class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer"
+                                    @change="toggleAll($event.target.checked, [{{ $services->pluck('id')->implode(',') }}])">
+                            </th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">ID</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Título</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Cliente</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Taxa</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Criado em</th>
+                            <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Recibo</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
                         @forelse($services as $service)
-                        <tr class="hover:bg-sky-50/30 transition-colors">
+                        <tr class="hover:bg-sky-50/30 transition-colors" :class="selected.includes({{ $service->id }}) ? 'bg-sky-50/60' : ''">
+                            <td class="py-3 px-4">
+                                <input type="checkbox" :value="{{ $service->id }}" x-model="selected"
+                                    class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer">
+                            </td>
                             <td class="py-3 px-4 text-slate-400">#{{ $service->id }}</td>
                             <td class="py-3 px-4 font-medium text-slate-800">{{ $service->titulo }}</td>
                             <td class="py-3 px-4 text-slate-600">{{ $service->cliente->name ?? '—' }}</td>
@@ -94,10 +135,26 @@
                             </td>
                             <td class="py-3 px-4 text-slate-700">{{ money_aoa($service->taxa ?? 0) }}</td>
                             <td class="py-3 px-4 text-slate-500">{{ $service->created_at->format('d/m/Y H:i') }}</td>
+                            <td class="py-3 px-4">
+                                @php
+                                    $paid = ['published','accepted','negotiating','in_progress','em_andamento','em andamento','delivered','revision_requested','completed','concluido','cancelled','cancelado'];
+                                @endphp
+                                @if(in_array($service->status, $paid))
+                                    <a href="{{ route('admin.service.receipt', $service) }}" target="_blank"
+                                        class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 hover:text-sky-800 transition-colors">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                                        </svg>
+                                        Ver
+                                    </a>
+                                @else
+                                    <span class="text-xs text-slate-300">—</span>
+                                @endif
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="py-10 text-center text-slate-400">Nenhum serviço encontrado.</td>
+                            <td colspan="8" class="py-10 text-center text-slate-400">Nenhum serviço encontrado.</td>
                         </tr>
                         @endforelse
                     </tbody>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\AdminReceipt;
+use App\Models\Service;
 
 class AdminReceiptController extends Controller
 {
@@ -62,5 +63,25 @@ class AdminReceiptController extends Controller
         $recibo->delete();
 
         return redirect()->route('admin.recibos.index')->with('success', 'Recibo eliminado.');
+    }
+
+    public function serviceReceipt(Service $service)
+    {
+        $service->loadMissing('cliente', 'freelancer');
+        $user = $service->cliente;
+
+        return response()
+            ->view('livewire.client.receipt-pdf', compact('service', 'user'))
+            ->header('Content-Type', 'text/html; charset=UTF-8');
+    }
+
+    public function bulkReceipts(Request $request)
+    {
+        $ids      = array_filter(explode(',', $request->input('ids', '')));
+        $services = Service::with('cliente', 'freelancer')
+            ->whereIn('id', $ids)
+            ->get();
+
+        return view('admin.receipts.bulk-print', compact('services'));
     }
 }

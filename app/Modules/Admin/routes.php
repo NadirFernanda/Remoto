@@ -94,6 +94,14 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     // Admin — Manage Administrators (master only)
     Route::get('/admin/administradores', \App\Livewire\Admin\AdminManager::class)->name('admin.managers')->middleware('admin.module:admin-manager');
 
+    // Admin — Recibos de serviços de clientes (visualizar/imprimir)
+    Route::get('/admin/servico/{service}/recibo', [AdminReceiptController::class, 'serviceReceipt'])
+        ->name('admin.service.receipt')
+        ->middleware('admin.module:gestor');
+    Route::get('/admin/servicos/recibos-bulk', [AdminReceiptController::class, 'bulkReceipts'])
+        ->name('admin.services.receipts.bulk')
+        ->middleware('admin.module:gestor');
+
     // Admin — Download infoproduto file for moderation review
     Route::get('/admin/loja/download/{id}', function (int $id) {
         $produto = \App\Models\Infoproduto::findOrFail($id);
