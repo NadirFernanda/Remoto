@@ -91,7 +91,7 @@
                         <div class="w-10 h-10 {{ $selected ? 'text-[#0055ff]' : 'text-[#00c8ff]' }} transition-colors">
                             {!! $meta['icon'] !!}
                         </div>
-                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-sky-700' : 'text-slate-700' }}">{{ $meta['short'] }}</span>
+                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-[#0033cc]' : 'text-[#0055ff]' }}">{{ $meta['short'] }}</span>
                     </button>
                 @endforeach
             </div>
