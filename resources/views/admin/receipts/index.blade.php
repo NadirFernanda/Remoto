@@ -14,7 +14,13 @@
 {{-- ══════════════════════════════════════════════════════
      SECÇÃO 1 — Comprovativos de Pagamento Escrow
 ══════════════════════════════════════════════════════ --}}
-<div class="mb-8">
+<div class="mb-8"
+    x-data="{
+        selected: [],
+        toggleAll(checked, ids) { this.selected = checked ? [...ids] : []; },
+        bulkUrl() { return '{{ route('admin.services.receipts.bulk') }}?ids=' + this.selected.join(','); }
+    }">
+
     <div class="flex items-center justify-between mb-4">
         <div>
             <h2 class="text-base font-bold text-gray-800">Comprovativos de Pagamento (Escrow)</h2>
@@ -33,6 +39,27 @@
         </div>
     </form>
 
+    {{-- Barra de acção em lote --}}
+    <div x-show="selected.length > 0"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-2"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl px-5 py-3.5 mb-3 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
+        <span class="text-white text-sm font-semibold" x-text="selected.length + ' comprovativo(s) seleccionado(s)'"></span>
+        <div class="flex items-center gap-3">
+            <button @click="selected = []" class="text-white/70 hover:text-white text-xs font-medium transition">
+                Limpar
+            </button>
+            <a :href="bulkUrl()" target="_blank"
+                class="inline-flex items-center gap-2 bg-white text-[#0055ff] text-sm font-bold px-4 py-2 rounded-xl hover:bg-sky-50 transition shadow">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                Imprimir Seleccionados
+            </a>
+        </div>
+    </div>
+
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         @if($services->isEmpty())
             <div class="py-10 text-center text-gray-400 text-sm">
@@ -47,25 +74,34 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-50 border-b border-gray-100">
                     <tr>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Ordem</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Título</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Cliente</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Freelancer</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Valor</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Estado</th>
-                        <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Data</th>
-                        <th class="px-5 py-3"></th>
+                        <th class="py-3 px-4 w-10">
+                            <input type="checkbox"
+                                class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer"
+                                @change="toggleAll($event.target.checked, [{{ $services->pluck('id')->implode(',') }}])">
+                        </th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Ordem</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Título</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Cliente</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Freelancer</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Valor</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Estado</th>
+                        <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Data</th>
+                        <th class="px-4 py-3"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @foreach($services as $service)
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="px-5 py-3 text-gray-400 whitespace-nowrap">#{{ $service->id }}</td>
-                        <td class="px-5 py-3 font-medium text-gray-800 max-w-[200px] truncate">{{ $service->titulo }}</td>
-                        <td class="px-5 py-3 text-gray-600 whitespace-nowrap">{{ $service->cliente?->name ?? '—' }}</td>
-                        <td class="px-5 py-3 text-gray-600 whitespace-nowrap">{{ $service->freelancer?->name ?? '—' }}</td>
-                        <td class="px-5 py-3 font-semibold text-gray-800 whitespace-nowrap">{{ money_aoa($service->valor ?? 0) }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">
+                    <tr class="hover:bg-sky-50/30 transition-colors" :class="selected.includes({{ $service->id }}) ? 'bg-sky-50/60' : ''">
+                        <td class="py-3 px-4">
+                            <input type="checkbox" :value="{{ $service->id }}" x-model="selected"
+                                class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer">
+                        </td>
+                        <td class="px-4 py-3 text-gray-400 whitespace-nowrap">#{{ $service->id }}</td>
+                        <td class="px-4 py-3 font-medium text-gray-800 max-w-[200px] truncate">{{ $service->titulo }}</td>
+                        <td class="px-4 py-3 text-gray-600 whitespace-nowrap">{{ $service->cliente?->name ?? '—' }}</td>
+                        <td class="px-4 py-3 text-gray-600 whitespace-nowrap">{{ $service->freelancer?->name ?? '—' }}</td>
+                        <td class="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{{ money_aoa($service->valor ?? 0) }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
                                 {{ match($service->status) {
                                     'completed','concluido','delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
@@ -85,15 +121,15 @@
                                 } }}
                             </span>
                         </td>
-                        <td class="px-5 py-3 text-gray-500 whitespace-nowrap">{{ $service->created_at->format('d/m/Y') }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">
+                        <td class="px-4 py-3 text-gray-500 whitespace-nowrap">{{ $service->created_at->format('d/m/Y') }}</td>
+                        <td class="px-4 py-3 whitespace-nowrap">
                             <a href="{{ route('admin.service.receipt', $service) }}" target="_blank"
                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white whitespace-nowrap"
                                style="background:linear-gradient(135deg,#0070ff,#00baff);">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                                 </svg>
-                                Ver Comprovativo
+                                Ver
                             </a>
                         </td>
                     </tr>
