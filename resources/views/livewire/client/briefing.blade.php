@@ -88,7 +88,7 @@
                             {{ $selected
                                 ? 'border-sky-400 bg-gradient-to-br from-sky-50 to-blue-50 shadow-md shadow-sky-100'
                                 : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/60' }}">
-                        <div class="w-10 h-10 {{ $selected ? 'text-sky-600' : 'text-slate-600' }} transition-colors">
+                        <div class="w-10 h-10 {{ $selected ? 'text-[#0055ff]' : 'text-[#00c8ff]' }} transition-colors">
                             {!! $meta['icon'] !!}
                         </div>
                         <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-sky-700' : 'text-slate-700' }}">{{ $meta['short'] }}</span>
