@@ -42,10 +42,10 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: #00baff;
+    background: linear-gradient(135deg, #00c8ff 0%, #0055ff 100%);
     color: #fff;
     border: none;
-    box-shadow: 0 4px 16px rgba(0,186,255,.35);
+    box-shadow: 0 4px 16px rgba(0,85,255,.30);
     align-items: center;
     justify-content: center;
     cursor: pointer;
