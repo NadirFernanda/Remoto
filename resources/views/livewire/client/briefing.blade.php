@@ -87,11 +87,11 @@
                         class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer
                             {{ $selected
                                 ? 'border-sky-400 bg-gradient-to-br from-sky-50 to-blue-50 shadow-md shadow-sky-100'
-                                : 'border-slate-100 bg-slate-50/50 hover:border-sky-300 hover:bg-sky-50/60' }}">
-                        <div class="w-10 h-10 {{ $selected ? 'text-sky-600' : 'text-slate-500' }} transition-colors">
+                                : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/60' }}">
+                        <div class="w-10 h-10 {{ $selected ? 'text-sky-600' : 'text-slate-600' }} transition-colors">
                             {!! $meta['icon'] !!}
                         </div>
-                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-sky-700' : 'text-slate-600' }}">{{ $meta['short'] }}</span>
+                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-sky-700' : 'text-slate-700' }}">{{ $meta['short'] }}</span>
                     </button>
                 @endforeach
             </div>
