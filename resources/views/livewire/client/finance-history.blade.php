@@ -1,5 +1,16 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
 
+    {{-- Voltar --}}
+    <div class="mb-4">
+        <a href="{{ route('client.dashboard') }}"
+            class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-sky-600 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Voltar
+        </a>
+    </div>
+
     {{-- Header --}}
     <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
