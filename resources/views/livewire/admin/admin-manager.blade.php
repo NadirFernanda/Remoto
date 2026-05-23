@@ -1,4 +1,4 @@
-﻿<div x-data="{ confirmDelete: null }" class="space-y-6">
+<div x-data="{ confirmDelete: null }" class="space-y-6">
 
     {{-- Render error diagnostics --}}
     @if($renderError)
