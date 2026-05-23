@@ -477,6 +477,7 @@ class AdminManager extends Component
         $modules = AdminPermission::MODULES;
 
         return view('livewire.admin.admin-manager', compact('admins', 'modules'))
-            ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Administradores']);
+            ->extends('layouts.dashboard', ['dashboardTitle' => 'Gestão de Administradores'])
+            ->section('dashboard-content');
     }
 }
