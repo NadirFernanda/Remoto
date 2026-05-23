@@ -1,4 +1,4 @@
-<div>
+﻿<div>
     {{-- ─── Filtros ─────────────────────────────────────────────────── --}}
     <div class="flex flex-wrap items-end gap-3 mb-6">
         {{-- Período rápido --}}
@@ -35,7 +35,7 @@
                 $cor = match($val) {
                     'completed'   => 'bg-green-50 border-green-200 text-green-700',
                     'in_progress' => 'bg-blue-50 border-blue-200 text-blue-700',
-                    'delivered'   => 'bg-cyan-50 border-cyan-200 text-cyan-700',
+                    'delivered'   => 'bg-sky-50 border-sky-200 text-sky-700',
                     'cancelled'   => 'bg-red-50 border-red-200 text-red-700',
                     'published'   => 'bg-yellow-50 border-yellow-200 text-yellow-700',
                     default       => 'bg-gray-50 border-gray-200 text-gray-600',
@@ -82,7 +82,7 @@
                         $badgeCor = match($s->status) {
                             'completed'   => 'bg-green-100 text-green-700',
                             'in_progress' => 'bg-blue-100 text-blue-700',
-                            'delivered'   => 'bg-cyan-100 text-cyan-700',
+                            'delivered'   => 'bg-sky-100 text-sky-700',
                             'cancelled'   => 'bg-red-100 text-red-700',
                             'published'   => 'bg-yellow-100 text-yellow-700',
                             'accepted'    => 'bg-indigo-100 text-indigo-700',

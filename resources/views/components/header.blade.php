@@ -1,4 +1,4 @@
-<header x-data="{open:false, scrolled:false}" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
+﻿<header x-data="{open:false, scrolled:false}" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
     <div class="header-container px-4">
 
         <!-- Esquerda: Logo + Nav agrupados -->
@@ -692,7 +692,7 @@
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Benguela</a>
                     <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" class="nav-link text-sm flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Huambo</a>
-                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-cyan-400 flex items-center gap-2">
+                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-sky-400 flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver todos os freelancers</a>
                 </div>
             </div>
@@ -709,7 +709,7 @@
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Concursos activos</a>
                     <a href="{{ route('freelancers.search') }}" class="nav-link text-sm flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>Explorar categorias</a>
-                    <a href="{{ route('public.projects') }}" class="nav-link text-sm text-cyan-400 flex items-center gap-2">
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm text-sky-400 flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver mais trabalhos</a>
                 </div>
             </div>
@@ -888,7 +888,7 @@
                     <div class="border-t border-white/10 my-1"></div>
                     <form method="POST" action="{{ route('switch.role') }}">
                         @csrf
-                        <button type="submit" class="nav-link text-left w-full flex items-center gap-2 text-cyan-400">
+                        <button type="submit" class="nav-link text-left w-full flex items-center gap-2 text-sky-400">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                             {{ auth()->user()->activeRole() === 'freelancer' ? 'Mudar para Modo Cliente' : 'Mudar para Modo Freelancer' }}
                         </button>

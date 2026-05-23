@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto">
+﻿<div class="max-w-4xl mx-auto">
 
     {{-- ─── Progress bar ───────────────────────────────────────────── --}}
     <div class="flex items-center gap-2 mb-8">
@@ -206,7 +206,7 @@
                 @if(!in_array($payment_method, ['express', 'bank']))
                 <button type="submit"
                         wire:loading.attr="disabled"
-                        class="w-full bg-[#0055ff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 text-base">
+                        class="w-full bg-[#0055ff] hover:bg-sky-500 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-sm flex items-center justify-center gap-2 text-base">
                     <span wire:loading.remove wire:target="confirmPayment">
                         @if($payment_method === 'paypal')
                             Continuar para PayPal

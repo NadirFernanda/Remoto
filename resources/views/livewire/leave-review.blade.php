@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50">
+﻿<div class="min-h-screen bg-gray-50">
     <div class="max-w-xl mx-auto px-4 py-10">
         <h1 class="text-2xl font-bold text-gray-900 mb-2">Avaliar projecto</h1>
         <p class="text-gray-500 mb-6">{{ $service->titulo }}</p>
@@ -53,7 +53,7 @@
                 <div class="mb-6">
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Comentário (opcional)</label>
                     <textarea wire:model.defer="comment" rows="4"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none resize-none"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-sky-300 focus:outline-none resize-none"
                         placeholder="Descreva a sua experiência..."></textarea>
                     @error('comment') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>

@@ -1,5 +1,5 @@
-<div class="container mx-auto px-4 py-8 max-w-xl">
-    <h2 class="text-xl font-bold text-cyan-600 mb-4">Entrega do Serviço</h2>
+﻿<div class="container mx-auto px-4 py-8 max-w-xl">
+    <h2 class="text-xl font-bold text-sky-600 mb-4">Entrega do Serviço</h2>
 
     {{-- ── Resumo do projecto ── --}}
     @php
@@ -17,9 +17,9 @@
             'marketplace'   => 'Marketplace',
         ];
     @endphp
-    <div class="bg-white rounded-lg shadow p-6 mb-6 border-l-4 border-cyan-400">
+    <div class="bg-white rounded-lg shadow p-6 mb-6 border-l-4 border-sky-400">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-cyan-500">📋</span> Resumo do Projecto
+            <span class="text-sky-500">📋</span> Resumo do Projecto
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
 
@@ -34,7 +34,7 @@
                     @if($service->status === 'in_progress') bg-yellow-100 text-yellow-700
                     @elseif($service->status === 'delivered')  bg-blue-100  text-blue-700
                     @elseif($service->status === 'completed')  bg-green-100 text-green-700
-                    @elseif($service->status === 'accepted')   bg-cyan-100  text-cyan-700
+                    @elseif($service->status === 'accepted')   bg-sky-100  text-sky-700
                     @else bg-gray-100 text-gray-600 @endif">
                     {{ $statusLabels[$service->status] ?? ucfirst($service->status) }}
                 </span>
@@ -97,7 +97,7 @@
         {{-- Acesso rápido ao chat --}}
         <div class="mt-4 pt-4 border-t border-gray-100 flex justify-end">
             <a href="{{ route('service.chat', $service->id) }}"
-               class="inline-flex items-center gap-1 text-xs text-cyan-600 hover:text-cyan-800 font-semibold">
+               class="inline-flex items-center gap-1 text-xs text-sky-600 hover:text-sky-800 font-semibold">
                 💬 Ir para o chat do projecto
             </a>
         </div>
@@ -106,7 +106,7 @@
     {{-- ── Formulário de entrega ── --}}
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-cyan-500">📤</span>
+            <span class="text-sky-500">📤</span>
             @if($service->status === 'revision_requested')
                 Re-entregar Serviço (Revisão Pedida)
             @elseif($service->status === 'delivered')
@@ -139,14 +139,14 @@
             <div class="mb-4">
                 <label class="block font-semibold mb-2">Mensagem (opcional)</label>
                 <textarea wire:model.defer="entrega_mensagem" rows="4"
-                    class="w-full border border-cyan-500 rounded px-3 py-2 focus:ring-2 focus:ring-cyan-500 focus:outline-none resize-y"
+                    class="w-full border border-sky-500 rounded px-3 py-2 focus:ring-2 focus:ring-sky-500 focus:outline-none resize-y"
                     placeholder="Descreva o que foi feito, instruções de uso, versões entregues..."></textarea>
                 @error('entrega_mensagem') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
             <button type="submit"
                 wire:loading.attr="disabled"
                 wire:target="entregarServico"
-                class="w-full bg-cyan-500 hover:bg-cyan-600 disabled:opacity-60 text-white font-bold py-3 rounded-lg transition-all duration-150">
+                class="w-full bg-sky-500 hover:bg-sky-600 disabled:opacity-60 text-white font-bold py-3 rounded-lg transition-all duration-150">
                 <span wire:loading.remove wire:target="entregarServico">
                     {{ in_array($service->status, ['revision_requested', 'delivered']) ? 'Re-entregar serviço' : 'Entregar serviço' }}
                 </span>

@@ -1,4 +1,4 @@
-<div class="container mx-auto py-10 px-2 flex justify-center items-center min-h-[80vh] bg-gradient-to-b from-[#f8fcff] to-[#eaf6fa]">
+﻿<div class="container mx-auto py-10 px-2 flex justify-center items-center min-h-[80vh] bg-gradient-to-b from-[#f8fcff] to-[#eaf6fa]">
     @if(session('error'))
         <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
             {{ session('error') }}
@@ -45,7 +45,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             @if(auth()->user() && $service->cliente_id === auth()->id())
                 <div>
-                    <span class="font-semibold">Valor:</span> <span class="text-cyan-700 font-bold">{{ number_format($service->valor, 2, ',', '.') }} Kz</span>
+                    <span class="font-semibold">Valor:</span> <span class="text-sky-700 font-bold">{{ number_format($service->valor, 2, ',', '.') }} Kz</span>
                 </div>
                 <div>
                     <span class="font-semibold">Taxa:</span> <span class="text-yellow-600 font-bold">{{ number_format($service->taxa, 2, ',', '.') }}%</span>

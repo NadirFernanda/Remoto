@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto space-y-6">
+﻿<div class="max-w-5xl mx-auto space-y-6">
 
     <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Ativar Perfil</h2>
@@ -69,7 +69,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-[#00c8ff] to-cyan-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
+                    class="w-full bg-gradient-to-r from-[#00c8ff] to-sky-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
                     wire:loading.attr="disabled" wire:loading.class="opacity-70">
                     <span wire:loading.remove>Ativar Perfil de Criador</span>
                     <span wire:loading>A ativar...</span>

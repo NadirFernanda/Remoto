@@ -1,4 +1,4 @@
-<div x-data="{ confirmDelete: null }" class="space-y-6">
+﻿<div x-data="{ confirmDelete: null }" class="space-y-6">
 
     {{-- Render error diagnostics --}}
     @if($renderError)
@@ -79,7 +79,7 @@
                                 'financeiro' => 'bg-emerald-100 text-emerald-800',
                                 'gestor'     => 'bg-blue-100 text-blue-800',
                                 'suporte'    => 'bg-orange-100 text-orange-800',
-                                'analista'   => 'bg-cyan-100 text-cyan-800',
+                                'analista'   => 'bg-sky-100 text-sky-800',
                             ];
                             $roleKey   = $admin->admin_role ?? 'master';
                             $roleClass = $roleColors[$roleKey] ?? 'bg-gray-100 text-gray-700';
@@ -295,7 +295,7 @@
                                                 'emerald' => 'border-emerald-300 bg-emerald-50 ring-emerald-400',
                                                 'blue'    => 'border-blue-300 bg-blue-50 ring-blue-400',
                                                 'orange'  => 'border-orange-300 bg-orange-50 ring-orange-400',
-                                                'cyan'    => 'border-cyan-300 bg-cyan-50 ring-cyan-400',
+                                                'cyan'    => 'border-sky-300 bg-sky-50 ring-sky-400',
                                             ];
                                             $activeClass  = $adminRole === $roleVal ? 'ring-2 ' . $colorMap[$info['color']] : 'border-gray-200 bg-white hover:bg-gray-50';
                                         @endphp

@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto space-y-6">
+﻿<div class="max-w-3xl mx-auto space-y-6">
 
     {{-- Header --}}
     <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
@@ -78,7 +78,7 @@
                         Frente do documento <span class="text-red-500">*</span>
                     </label>
                     <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
-                        <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                        <label class="cursor-pointer inline-flex items-center gap-2 bg-sky-50 text-sky-700 font-semibold px-4 py-2 rounded-lg hover:bg-sky-100 transition text-sm whitespace-nowrap">
                             Escolher ficheiro
                             <input type="file" wire:model="documentFront" accept="image/*,.pdf" class="hidden"
                                    @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">
@@ -97,7 +97,7 @@
                         Verso do documento <span class="text-red-500">*</span>
                     </label>
                     <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
-                        <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                        <label class="cursor-pointer inline-flex items-center gap-2 bg-sky-50 text-sky-700 font-semibold px-4 py-2 rounded-lg hover:bg-sky-100 transition text-sm whitespace-nowrap">
                             Escolher ficheiro
                             <input type="file" wire:model="documentBack" accept="image/*,.pdf" class="hidden"
                                    @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">
@@ -117,7 +117,7 @@
                     Selfie com o documento <span class="text-gray-400">(opcional mas recomendado)</span>
                 </label>
                 <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" class="flex items-center gap-3">
-                    <label class="cursor-pointer inline-flex items-center gap-2 bg-cyan-50 text-cyan-700 font-semibold px-4 py-2 rounded-lg hover:bg-cyan-100 transition text-sm whitespace-nowrap">
+                    <label class="cursor-pointer inline-flex items-center gap-2 bg-sky-50 text-sky-700 font-semibold px-4 py-2 rounded-lg hover:bg-sky-100 transition text-sm whitespace-nowrap">
                         Escolher ficheiro
                         <input type="file" wire:model="selfie" accept="image/*" class="hidden"
                                @change="nome = $event.target.files[0]?.name ?? 'Nenhum ficheiro selecionado'">

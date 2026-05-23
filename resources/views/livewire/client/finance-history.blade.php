@@ -1,5 +1,5 @@
-<div class="p-6">
-    <h2 class="text-2xl font-bold text-cyan-700 mb-6">Histórico de Transações</h2>
+﻿<div class="p-6">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Histórico de Transações</h2>
 
     <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-6 gap-4">
         <form class="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">

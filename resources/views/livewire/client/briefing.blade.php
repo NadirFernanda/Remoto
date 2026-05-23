@@ -1,4 +1,4 @@
-<div>
+﻿<div>
 
     {{-- Header --}}
     <div class="flex items-center gap-4 mb-6">
@@ -83,7 +83,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Descreva o tipo de serviço</label>
                 <input type="text" wire:model.defer="business_type1_outro"
-                       class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none"
+                       class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none"
                        placeholder="Ex: Tradução de contratos jurídicos">
             </div>
         @endif
@@ -97,7 +97,7 @@
 
         <div class="flex justify-end mt-4">
             <button type="button" wire:click="goToStep2"
-                    class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
+                    class="bg-[#0055ff] hover:bg-sky-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
                 Continuar →
             </button>
         </div>
@@ -118,7 +118,7 @@
                         Título do pedido <span class="text-red-500">*</span>
                     </label>
                     <input type="text" wire:model.defer="title1" maxlength="100"
-                           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none @error('title1') border-red-400 @enderror"
+                           class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none @error('title1') border-red-400 @enderror"
                            placeholder="Ex: Site institucional para empresa de consultoria">
                     @error('title1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
@@ -131,7 +131,7 @@
                         <p class="text-xs text-gray-400 mb-2">Exemplo: <em>{{ $currentTemplate['example'] }}</em></p>
                     @endif
                     <textarea wire:model.defer="necessity1" rows="6" maxlength="2000"
-                              class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none @error('necessity1') border-red-400 @enderror"
+                              class="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm text-gray-800 bg-white focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none resize-none @error('necessity1') border-red-400 @enderror"
                               placeholder="Descreva o que precisa, objectivos, funcionalidades desejadas..."></textarea>
                     @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
@@ -147,7 +147,7 @@
                 <ul class="space-y-2.5">
                     @foreach($currentTemplate['questions'] ?? [] as $q)
                         <li class="flex items-start gap-2 text-xs text-gray-600">
-                            <span class="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full bg-cyan-100 text-[#0055ff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
+                            <span class="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full bg-sky-100 text-[#0055ff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
                             {{ $q }}
                         </li>
                     @endforeach
@@ -169,7 +169,7 @@
             ← Voltar
         </button>
         <button type="button" wire:click="goToStep3"
-                class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
+                class="bg-[#0055ff] hover:bg-sky-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm">
             Gerar descrição →
         </button>
     </div>
@@ -199,13 +199,13 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Descrição completa <span class="text-gray-400 font-normal">(editável)</span></label>
                 <textarea wire:model="generated_description" rows="8"
-                          class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:ring-2 focus:ring-cyan-400 focus:border-transparent outline-none resize-none"></textarea>
+                          class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 bg-gray-50 focus:ring-2 focus:ring-sky-400 focus:border-transparent outline-none resize-none"></textarea>
                 @error('generated_description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
         </div>
 
-        <div class="bg-cyan-50 border border-cyan-200 rounded-2xl p-4 mb-6">
-            <p class="text-sm text-cyan-800">
+        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4 mb-6">
+            <p class="text-sm text-sky-800">
                 <strong>O que acontece a seguir?</strong> Após submeter, poderá definir o orçamento e o pedido será publicado para que freelancers enviem propostas.
             </p>
         </div>
@@ -217,7 +217,7 @@
             </button>
             <button type="button" wire:click="submitBriefing"
                     wire:loading.attr="disabled"
-                    class="bg-[#0055ff] hover:bg-cyan-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm disabled:opacity-60">
+                    class="bg-[#0055ff] hover:bg-sky-500 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-sm disabled:opacity-60">
                 <span wire:loading.remove>✓ Publicar pedido</span>
                 <span wire:loading>A publicar...</span>
             </button>

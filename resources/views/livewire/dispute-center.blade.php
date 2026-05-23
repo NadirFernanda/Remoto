@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50">
+﻿<div class="min-h-screen bg-gray-50">
     <div class="max-w-2xl mx-auto px-4 py-10">
         <h1 class="text-2xl font-bold text-gray-900 mb-1">Central de Disputas</h1>
         <p class="text-gray-500 mb-6 text-sm">Projecto: <span class="font-semibold text-gray-700">{{ $service->titulo }}</span></p>
@@ -17,7 +17,7 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Motivo</label>
-                    <select wire:model.defer="reason" class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none">
+                    <select wire:model.defer="reason" class="w-full border border-gray-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-sky-300 focus:outline-none">
                         <option value="">Selecione um motivo</option>
                         <option value="atraso">Atraso na entrega</option>
                         <option value="qualidade">Qualidade insuficiente</option>
@@ -30,7 +30,7 @@
                 <div class="mb-5">
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Descrição do problema</label>
                     <textarea wire:model.defer="description" rows="5"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none resize-none"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-sky-300 focus:outline-none resize-none"
                         placeholder="Descreva detalhadamente o problema..."></textarea>
                     @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 </div>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="divide-y divide-gray-50 max-h-80 overflow-y-auto">
                     @forelse($messages as $msg)
-                        <div class="px-5 py-4 {{ $msg->user_id === auth()->id() ? 'bg-cyan-50/50' : '' }}">
+                        <div class="px-5 py-4 {{ $msg->user_id === auth()->id() ? 'bg-sky-50/50' : '' }}">
                             <div class="flex items-center gap-2 mb-1">
                                 <span class="font-semibold text-sm text-gray-800">{{ $msg->user->name }}</span>
                                 @if($msg->user->role === 'admin')
@@ -102,7 +102,7 @@
             @if(!in_array($dispute->status, ['resolvida', 'encerrada']))
                 <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
                     <textarea wire:model.defer="newMessage" rows="3"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-cyan-300 focus:outline-none resize-none mb-3"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-sky-300 focus:outline-none resize-none mb-3"
                         placeholder="Escreva uma mensagem..."></textarea>
                     @error('newMessage') <span class="text-red-500 text-sm block mb-2">{{ $message }}</span> @enderror
                     <button wire:click="sendMessage" wire:loading.attr="disabled"

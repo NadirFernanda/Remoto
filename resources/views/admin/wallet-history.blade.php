@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+﻿@extends('layouts.dashboard')
 
 @section('dashboard-title', 'Movimentos de Carteira')
 
@@ -20,24 +20,24 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="rounded-2xl shadow-lg border border-cyan-100 bg-white p-6 transition hover:border-cyan-300">
+        <div class="rounded-2xl shadow-lg border border-sky-100 bg-white p-6 transition hover:border-sky-300">
             <p class="text-sm font-medium text-gray-500">Saldo Atual</p>
             <p class="mt-4 text-3xl font-bold text-gray-900">{{ number_format($wallet?->saldo ?? 0, 0, ',', '.') }} Kz</p>
             <p class="mt-2 text-sm text-gray-500">Disponível para levantamento ou pagamento.</p>
         </div>
-        <div class="rounded-2xl shadow-lg border border-cyan-100 bg-white p-6 transition hover:border-cyan-300">
+        <div class="rounded-2xl shadow-lg border border-sky-100 bg-white p-6 transition hover:border-sky-300">
             <p class="text-sm font-medium text-gray-500">Saldo Pendente</p>
             <p class="mt-4 text-3xl font-bold text-gray-900">{{ number_format($wallet?->saldo_pendente ?? 0, 0, ',', '.') }} Kz</p>
             <p class="mt-2 text-sm text-gray-500">Valores em processamento ou retenção.</p>
         </div>
-        <div class="rounded-2xl shadow-lg border border-cyan-100 bg-white p-6 transition hover:border-cyan-300">
+        <div class="rounded-2xl shadow-lg border border-sky-100 bg-white p-6 transition hover:border-sky-300">
             <p class="text-sm font-medium text-gray-500">Mínimo de Saque</p>
             <p class="mt-4 text-3xl font-bold text-gray-900">{{ number_format($wallet?->saque_minimo ?? 0, 0, ',', '.') }} Kz</p>
             <p class="mt-2 text-sm text-gray-500">Limite mínimo para solicitação de saque.</p>
         </div>
     </div>
 
-    <div class="rounded-2xl shadow-lg border border-cyan-100 bg-white overflow-hidden">
+    <div class="rounded-2xl shadow-lg border border-sky-100 bg-white overflow-hidden">
         <div class="flex flex-col gap-4 border-b border-gray-100 bg-gray-50 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <p class="text-xs font-semibold uppercase tracking-[0.24em] text-gray-500">Extrato</p>

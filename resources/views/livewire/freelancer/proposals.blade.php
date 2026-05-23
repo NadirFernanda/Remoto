@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto space-y-6">
+﻿<div class="max-w-5xl mx-auto space-y-6">
 
     {{-- Flash messages --}}
     @if(session('success'))
@@ -115,7 +115,7 @@
                             <div class="flex gap-2 flex-wrap">
                                 @if($proposal->status === 'pending')
                                     <button wire:click="openChat({{ $proposal->id }})"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 text-cyan-700 hover:bg-cyan-600 hover:text-white text-xs font-semibold transition-colors">
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 text-sky-700 hover:bg-sky-600 hover:text-white text-xs font-semibold transition-colors">
                                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                                         Negociar
                                     </button>

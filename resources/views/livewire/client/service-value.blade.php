@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto">
+﻿<div class="max-w-4xl mx-auto">
 
     {{-- ─── Progress bar ───────────────────────────────────────────── --}}
     <div class="flex items-center gap-2 mb-8">
@@ -147,7 +147,7 @@
 
                     <button type="submit"
                             wire:loading.attr="disabled"
-                            class="w-full bg-[#0055ff] hover:bg-cyan-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
+                            class="w-full bg-[#0055ff] hover:bg-sky-500 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2">
                         <span wire:loading.remove>
                             Continuar para pagamento
                             <svg class="w-4 h-4 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">

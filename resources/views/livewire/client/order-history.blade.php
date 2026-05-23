@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto space-y-6">
+﻿<div class="max-w-4xl mx-auto space-y-6">
 
         {{-- Gradient Header --}}
         <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -40,7 +40,7 @@
                 @php
                     $s = $order->status;
                     if ($s === 'published') {
-                        $badge = ['label' => 'Publicado',    'color' => 'bg-cyan-50 text-cyan-700 border-cyan-200'];
+                        $badge = ['label' => 'Publicado',    'color' => 'bg-sky-50 text-sky-700 border-sky-200'];
                         $dot   = 'bg-[#0055ff]';
                     } elseif (in_array($s, ['em_andamento','em andamento','in_progress'])) {
                         $badge = ['label' => 'Em andamento', 'color' => 'bg-yellow-50 text-yellow-700 border-yellow-200'];
@@ -58,7 +58,7 @@
                 @endphp
 
                 <a href="{{ route('client.service.cancel', $order->id) }}"
-                   class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-cyan-100 hover:-translate-y-0.5">
+                   class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-sky-100 hover:-translate-y-0.5">
 
                     {{-- Number badge --}}
                     <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-50 border border-gray-100">
@@ -107,7 +107,7 @@
                 @endif
             @empty
                 <div class="bg-white rounded-2xl p-12 text-center border border-dashed border-gray-200">
-                    <div class="w-16 h-16 rounded-2xl bg-cyan-50 flex items-center justify-center mx-auto mb-4">
+                    <div class="w-16 h-16 rounded-2xl bg-sky-50 flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-[#0055ff]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
