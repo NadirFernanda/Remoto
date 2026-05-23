@@ -12,13 +12,32 @@ use App\Models\User;
 
 class AdminReceiptController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $receipts = AdminReceipt::with('creator', 'user')
             ->orderByDesc('created_at')
             ->paginate(15);
 
-        return view('admin.receipts.index', compact('receipts'));
+        $paid = ['published', 'accepted', 'negotiating', 'in_progress', 'em_andamento',
+                 'em andamento', 'delivered', 'revision_requested', 'completed', 'concluido',
+                 'cancelled', 'cancelado'];
+
+        $serviceSearch = $request->input('sq', '');
+
+        $servicesQuery = Service::with('cliente', 'freelancer')
+            ->whereIn('status', $paid)
+            ->orderByDesc('created_at');
+
+        if ($serviceSearch) {
+            $servicesQuery->where(function ($q) use ($serviceSearch) {
+                $q->where('titulo', 'like', "%{$serviceSearch}%")
+                  ->orWhereHas('cliente', fn($q) => $q->where('name', 'like', "%{$serviceSearch}%"));
+            });
+        }
+
+        $services = $servicesQuery->paginate(10, ['*'], 'sp');
+
+        return view('admin.receipts.index', compact('receipts', 'services', 'serviceSearch'));
     }
 
     public function create()
