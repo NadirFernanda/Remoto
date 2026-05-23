@@ -10,10 +10,13 @@ class AdminReceipt extends Model
     protected $table = 'admin_receipts';
 
     protected $fillable = [
+        'user_id',
+        'valor',
         'receipt_number',
         'nome',
         'nif',
         'telefone',
+        'email',
         'endereco',
         'start_date',
         'end_date',
@@ -30,6 +33,11 @@ class AdminReceipt extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**

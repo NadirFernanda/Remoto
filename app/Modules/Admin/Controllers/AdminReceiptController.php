@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\AdminReceipt;
 use App\Models\Service;
+use App\Models\User;
 
 class AdminReceiptController extends Controller
 {
     public function index()
     {
-        $receipts = AdminReceipt::with('creator')
+        $receipts = AdminReceipt::with('creator', 'user')
             ->orderByDesc('created_at')
             ->paginate(15);
 
@@ -22,15 +23,19 @@ class AdminReceiptController extends Controller
 
     public function create()
     {
-        return view('admin.receipts.create');
+        $users = User::orderBy('name')->get(['id', 'name', 'email']);
+        return view('admin.receipts.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
+            'user_id'    => 'nullable|exists:users,id',
+            'valor'      => 'nullable|numeric|min:0',
             'nome'       => 'nullable|string|max:255',
             'nif'        => 'nullable|string|max:50',
             'telefone'   => 'nullable|string|max:30',
+            'email'      => 'nullable|email|max:255',
             'endereco'   => 'nullable|string|max:500',
             'start_date' => 'nullable|date',
             'end_date'   => 'nullable|date|after_or_equal:start_date',
@@ -38,10 +43,20 @@ class AdminReceiptController extends Controller
             'documento'  => 'nullable|file|mimes:pdf|max:8192',
         ]);
 
+        // Auto-fill from selected user if not manually overridden
+        if (!empty($data['user_id'])) {
+            $user = User::find($data['user_id']);
+            if ($user) {
+                $data['nome']  = $data['nome']  ?: $user->name;
+                $data['email'] = $data['email'] ?: $user->email;
+            }
+        }
+
         if ($request->hasFile('documento')) {
             $data['document_path'] = $request->file('documento')->store('recibos-admin', 'public');
         }
 
+        unset($data['documento']);
         $data['receipt_number'] = AdminReceipt::generateNumber();
         $data['created_by']     = Auth::id();
 
@@ -52,6 +67,7 @@ class AdminReceiptController extends Controller
 
     public function show(AdminReceipt $recibo)
     {
+        $recibo->loadMissing('user', 'creator');
         return view('admin.receipts.show', compact('recibo'));
     }
 

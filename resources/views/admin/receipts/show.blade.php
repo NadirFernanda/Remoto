@@ -59,8 +59,24 @@
         </div>
     </div>
 
+    {{-- Utilizador vinculado --}}
+    @if($recibo->user)
+    <div style="padding:1rem 2.5rem;background:#eff6ff;border-bottom:1px solid #dbeafe;">
+        <p style="font-size:.65rem;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Utilizador da Plataforma</p>
+        <div style="display:flex;align-items:center;gap:.75rem;">
+            <div style="width:2rem;height:2rem;border-radius:50%;background:linear-gradient(135deg,#0070ff,#00baff);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">
+                {{ strtoupper(substr($recibo->user->name, 0, 1)) }}
+            </div>
+            <div>
+                <div style="font-size:.9rem;font-weight:600;color:#1e3a8a;">{{ $recibo->user->name }}</div>
+                <div style="font-size:.75rem;color:#3b82f6;">{{ $recibo->user->email }}</div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Dados do cliente --}}
-    @if($recibo->nome || $recibo->nif || $recibo->telefone || $recibo->endereco)
+    @if($recibo->nome || $recibo->nif || $recibo->telefone || $recibo->email || $recibo->endereco)
     <div style="padding:1.5rem 2.5rem;border-bottom:1px solid #f1f5f9;">
         <p style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem;">Dados do Cliente</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem 2rem;">
@@ -82,12 +98,28 @@
                 <div style="font-size:.9rem;font-weight:600;color:#1e293b;">{{ $recibo->telefone }}</div>
             </div>
             @endif
-            @if($recibo->endereco)
+            @if($recibo->email)
             <div>
+                <div style="font-size:.7rem;color:#94a3b8;">E-mail</div>
+                <div style="font-size:.9rem;font-weight:600;color:#1e293b;">{{ $recibo->email }}</div>
+            </div>
+            @endif
+            @if($recibo->endereco)
+            <div style="grid-column:span 2;">
                 <div style="font-size:.7rem;color:#94a3b8;">Endereço</div>
                 <div style="font-size:.9rem;font-weight:600;color:#1e293b;">{{ $recibo->endereco }}</div>
             </div>
             @endif
+        </div>
+    </div>
+    @endif
+
+    {{-- Valor --}}
+    @if($recibo->valor !== null)
+    <div style="padding:1.25rem 2.5rem;border-bottom:1px solid #f1f5f9;background:#f0fdf4;">
+        <p style="font-size:.65rem;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Valor</p>
+        <div style="font-size:1.5rem;font-weight:800;color:#15803d;letter-spacing:-.02em;">
+            {{ money_aoa($recibo->valor) }}
         </div>
     </div>
     @endif

@@ -34,26 +34,55 @@
             <a href="{{ route('admin.recibos.create') }}" class="mt-3 inline-block text-sm font-semibold text-[#0070ff] hover:underline">Gerar o primeiro recibo</a>
         </div>
     @else
+        <div class="overflow-x-auto">
         <table class="w-full text-sm">
             <thead class="bg-gray-50 border-b border-gray-100">
                 <tr>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Número</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Nome</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">NIF</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Data</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Gerado por</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Número</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Utilizador</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Nome / NIF</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Valor</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Data</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Gerado por</th>
                     <th class="px-5 py-3"></th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
                 @foreach($receipts as $receipt)
                 <tr class="hover:bg-gray-50 transition">
-                    <td class="px-5 py-3 font-mono font-semibold text-[#0070ff]">{{ $receipt->receipt_number }}</td>
-                    <td class="px-5 py-3 text-gray-700">{{ $receipt->nome ?: '—' }}</td>
-                    <td class="px-5 py-3 text-gray-500">{{ $receipt->nif ?: '—' }}</td>
-                    <td class="px-5 py-3 text-gray-500">{{ $receipt->created_at->format('d/m/Y') }}</td>
+                    <td class="px-5 py-3 font-mono font-semibold text-[#0070ff] whitespace-nowrap">{{ $receipt->receipt_number }}</td>
+                    <td class="px-5 py-3">
+                        @if($receipt->user)
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                                    style="background:linear-gradient(135deg,#0070ff,#00baff);">
+                                    {{ strtoupper(substr($receipt->user->name, 0, 1)) }}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-xs font-medium text-gray-700 truncate max-w-[120px]">{{ $receipt->user->name }}</p>
+                                    <p class="text-xs text-gray-400 truncate max-w-[120px]">{{ $receipt->user->email }}</p>
+                                </div>
+                            </div>
+                        @else
+                            <span class="text-xs text-gray-300">—</span>
+                        @endif
+                    </td>
+                    <td class="px-5 py-3">
+                        <p class="text-gray-700">{{ $receipt->nome ?: '—' }}</p>
+                        @if($receipt->nif)
+                            <p class="text-xs text-gray-400">{{ $receipt->nif }}</p>
+                        @endif
+                    </td>
+                    <td class="px-5 py-3 font-semibold text-gray-800 whitespace-nowrap">
+                        @if($receipt->valor !== null)
+                            {{ money_aoa($receipt->valor) }}
+                        @else
+                            <span class="text-gray-300">—</span>
+                        @endif
+                    </td>
+                    <td class="px-5 py-3 text-gray-500 whitespace-nowrap">{{ $receipt->created_at->format('d/m/Y') }}</td>
                     <td class="px-5 py-3 text-gray-500">{{ $receipt->creator?->name ?? '—' }}</td>
-                    <td class="px-5 py-3 text-right">
+                    <td class="px-5 py-3 text-right whitespace-nowrap">
                         <a href="{{ route('admin.recibos.show', $receipt) }}"
                            class="inline-flex items-center gap-1 text-xs font-semibold text-[#0070ff] hover:underline">
                             Ver / Imprimir
@@ -63,6 +92,7 @@
                 @endforeach
             </tbody>
         </table>
+        </div>
         @if($receipts->hasPages())
         <div class="px-5 py-3 border-t border-gray-100">
             {{ $receipts->links() }}
