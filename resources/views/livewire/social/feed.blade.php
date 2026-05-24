@@ -245,8 +245,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800 group-hover:text-[#0055ff] transition">Criadores</p>
-                                    <p class="text-xs text-gray-400">Descubra talentos</p>
+                                    <p class="text-sm font-semibold text-gray-600 group-hover:text-gray-900 transition">Criadores</p>
+                                    <p class="text-xs text-gray-600 group-hover:text-gray-900 transition">Descubra talentos</p>
                                 </div>
                             </a>
                             <a href="{{ route('freelancers.search') }}"
@@ -257,20 +257,20 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition">Freelancers</p>
-                                    <p class="text-xs text-gray-400">Contratar profissionais</p>
+                                    <p class="text-sm font-semibold text-gray-600 group-hover:text-gray-900 transition">Freelancers</p>
+                                    <p class="text-xs text-gray-600 group-hover:text-gray-900 transition">Contratar profissionais</p>
                                 </div>
                             </a>
                             <a href="{{ route('dashboard') }}"
                                class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-gray-50 transition group">
-                                <div class="w-9 h-9 rounded-xl bg-violet-50 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4.5 h-4.5 text-violet-600" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="width:18px;height:18px;">
+                                <div class="w-9 h-9 rounded-xl bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4.5 h-4.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="width:18px;height:18px;">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/>
                                     </svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800 group-hover:text-violet-600 transition">Dashboard</p>
-                                    <p class="text-xs text-gray-400">Voltar ao painel</p>
+                                    <p class="text-sm font-semibold text-gray-600 group-hover:text-gray-900 transition">Dashboard</p>
+                                    <p class="text-xs text-gray-600 group-hover:text-gray-900 transition">Voltar ao painel</p>
                                 </div>
                             </a>
                         </div>
