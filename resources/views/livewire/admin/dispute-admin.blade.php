@@ -114,7 +114,7 @@
                                 ✓ Libertar → Freelancer
                             </button>
                             <button wire:click="toggleParcialForm"
-                                class="px-2 py-1 bg-purple-100 text-purple-700 border border-purple-300 rounded-lg hover:bg-purple-200 transition">
+                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
                                 ⚖ Liberar Parcial
                             </button>
                             <button wire:click="reembolsarCliente({{ $selected->service->id }})"
@@ -129,17 +129,17 @@
 
                     {{-- Formulário de Liberação Parcial --}}
                     @if($showParcialForm && !$selected->service->is_payment_released)
-                        <div class="mt-3 bg-purple-50 border border-purple-200 rounded-[10px] p-3">
-                            <p class="text-xs font-semibold text-purple-700 mb-2">⚖ Divisão Parcial do Pagamento</p>
+                        <div class="mt-3 bg-blue-50 border border-blue-200 rounded-[10px] p-3">
+                            <p class="text-xs font-semibold text-[#0055ff] mb-2">⚖ Divisão Parcial do Pagamento</p>
                             <p class="text-xs text-gray-500 mb-3">
                                 Valor total em escrow: <strong>{{ number_format($selected->service->valor, 0, ',', '.') }} Kz</strong>
                                 · Valor líquido freelancer (100%): <strong>{{ number_format($selected->service->valor_liquido ?? $selected->service->valor, 0, ',', '.') }} Kz</strong>
                             </p>
                             <div class="flex items-center gap-3 flex-wrap">
                                 <div class="flex items-center gap-2">
-                                    <label class="text-xs font-semibold text-purple-700 whitespace-nowrap">% para Freelancer:</label>
+                                    <label class="text-xs font-semibold text-[#0055ff] whitespace-nowrap">% para Freelancer:</label>
                                     <input wire:model.live="percentualFreelancer" type="number" min="1" max="99" step="1"
-                                        class="w-20 border border-purple-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:ring-2 focus:ring-purple-300">
+                                        class="w-20 border border-blue-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-300">
                                     <span class="text-xs text-gray-500">%</span>
                                 </div>
                                 <div class="text-xs text-gray-600 bg-white rounded-lg px-3 py-1.5 border border-gray-200">
@@ -158,7 +158,7 @@
                             <div class="flex gap-2 mt-3">
                                 <button wire:click="liberarParcial({{ $selected->service->id }})"
                                     wire:confirm="Confirmar divisão parcial? Esta acção não pode ser revertida."
-                                    class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg transition">
+                                    class="px-3 py-1.5 bg-[#0055ff] hover:bg-[#0033cc] text-white text-xs font-semibold rounded-lg transition">
                                     Confirmar Divisão
                                 </button>
                                 <button wire:click="toggleParcialForm"
@@ -181,7 +181,7 @@
                             <p class="text-xs font-semibold text-gray-700">
                                 {{ $msg->user->name }}
                                 @if($msg->user->role === 'admin')
-                                    <span class="ml-1 text-[10px] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded-full">Admin</span>
+                                    <span class="ml-1 text-[10px] bg-blue-100 text-[#0055ff] px-1.5 py-0.5 rounded-full">Admin</span>
                                 @endif
                             </p>
                             <p class="text-sm text-gray-800 bg-gray-100 rounded-xl px-3 py-2 mt-0.5 whitespace-pre-line">{{ $msg->message }}</p>

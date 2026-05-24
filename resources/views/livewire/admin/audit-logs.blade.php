@@ -160,7 +160,7 @@
                             @php
                                 $isExpanded = $expandedId === $log->id;
                                 $catMeta = match($log->category ?? 'operacoes') {
-                                    'financeiro' => ['bg' => 'bg-purple-50 text-purple-700 border border-purple-200',   'dot' => 'bg-purple-400'],
+                                    'financeiro' => ['bg' => 'bg-blue-50 text-[#0055ff] border border-blue-200',   'dot' => 'bg-[#0055ff]'],
                                     'suporte'    => ['bg' => 'bg-sky-50 text-sky-700 border border-sky-200',             'dot' => 'bg-sky-400'],
                                     'sistema'    => ['bg' => 'bg-amber-50 text-amber-700 border border-amber-200',       'dot' => 'bg-amber-400'],
                                     default      => ['bg' => 'bg-slate-100 text-slate-600 border border-slate-200',      'dot' => 'bg-slate-400'],

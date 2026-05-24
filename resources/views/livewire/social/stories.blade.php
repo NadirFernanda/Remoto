@@ -93,7 +93,7 @@
                 <template x-for="(group, gIdx) in groups" :key="group.user_id">
                     <div class="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer"
                          @click="openGroup(gIdx)">
-                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 bg-gradient-to-br from-[#00c8ff] to-purple-500'"
+                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 bg-gradient-to-br from-[#00c8ff] to-[#0055ff]'"
                              class="w-14 h-14 rounded-full">
                             <img :src="group.avatar" :alt="group.name"
                                  class="w-full h-full rounded-full object-cover border-2 border-white"

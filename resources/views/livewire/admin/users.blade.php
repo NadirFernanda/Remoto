@@ -222,7 +222,7 @@
                             default      => ucfirst($user->role),
                         };
                         $funcaoClasse = match($user->role) {
-                            'admin'      => 'bg-purple-100 text-purple-700',
+                            'admin'      => 'bg-blue-100 text-[#0055ff]',
                             'freelancer' => 'bg-[#0055ff]/10 text-[#0055ff]',
                             default      => 'bg-emerald-100 text-emerald-700',
                         };

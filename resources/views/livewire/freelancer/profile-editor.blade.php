@@ -337,8 +337,8 @@
                         $periodo = trim(($edu['ano_inicio'] ?? '') . ($edu['ano_fim'] || $edu['atual'] ? ' – ' . ($edu['atual'] ? 'A frequentar' : $edu['ano_fim']) : ''));
                     @endphp
                     <div class="flex gap-4 p-4 bg-white border border-gray-200 rounded-xl hover:border-[#0055ff]/40 transition group">
-                        <div class="flex-shrink-0 w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <div class="flex-shrink-0 w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"/>
                             </svg>
                         </div>

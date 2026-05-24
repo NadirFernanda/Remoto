@@ -55,10 +55,10 @@
                 <p class="text-xl font-bold text-blue-700">{{ money_aoa($receitaFreelancing) }}</p>
                 <p class="text-[11px] text-blue-400 mt-1">Comissões de projectos</p>
             </div>
-            <div class="rounded-xl bg-purple-50 border border-purple-100 p-4">
-                <p class="text-xs text-purple-500 font-medium mb-1 uppercase tracking-wide">Criador</p>
-                <p class="text-xl font-bold text-purple-700">{{ money_aoa($receitaCreator) }}</p>
-                <p class="text-[11px] text-purple-400 mt-1">Taxas de assinaturas</p>
+            <div class="rounded-xl bg-blue-50 border border-blue-100 p-4">
+                <p class="text-xs text-[#0055ff] font-medium mb-1 uppercase tracking-wide">Criador</p>
+                <p class="text-xl font-bold text-[#0055ff]">{{ money_aoa($receitaCreator) }}</p>
+                <p class="text-[11px] text-blue-400 mt-1">Taxas de assinaturas</p>
             </div>
             <div class="rounded-xl bg-orange-50 border border-orange-100 p-4">
                 <p class="text-xs text-orange-500 font-medium mb-1 uppercase tracking-wide">Infoprodutos</p>
@@ -85,7 +85,7 @@
                 <div class="bg-blue-500 h-full" style="width: {{ $pFreelancing }}%" title="Freelancing {{ $pFreelancing }}%"></div>
                 @endif
                 @if($pCreator > 0)
-                <div class="bg-purple-500 h-full" style="width: {{ $pCreator }}%" title="Criador {{ $pCreator }}%"></div>
+                <div class="bg-blue-500 h-full" style="width: {{ $pCreator }}%" title="Criador {{ $pCreator }}%"></div>
                 @endif
                 @if($pInfoprodutos > 0)
                 <div class="bg-orange-400 h-full" style="width: {{ $pInfoprodutos }}%" title="Infoprodutos {{ $pInfoprodutos }}%"></div>
@@ -93,7 +93,7 @@
             </div>
             <div class="flex gap-4 mt-2">
                 <span class="flex items-center gap-1 text-[11px] text-gray-500"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>Freelancing {{ $pFreelancing }}%</span>
-                <span class="flex items-center gap-1 text-[11px] text-gray-500"><span class="w-2.5 h-2.5 rounded-full bg-purple-500 inline-block"></span>Criador {{ $pCreator }}%</span>
+                <span class="flex items-center gap-1 text-[11px] text-gray-500"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>Criador {{ $pCreator }}%</span>
                 <span class="flex items-center gap-1 text-[11px] text-gray-500"><span class="w-2.5 h-2.5 rounded-full bg-orange-400 inline-block"></span>Infoprodutos {{ $pInfoprodutos }}%</span>
             </div>
         </div>

@@ -83,13 +83,13 @@
             </div>
 
             {{-- Receita Total --}}
-            <div class="group relative bg-white rounded-2xl border border-purple-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden p-5">
-                <div class="absolute top-0 right-0 w-20 h-20 bg-purple-50 rounded-full -translate-y-6 translate-x-6 group-hover:scale-110 transition-transform duration-300"></div>
+            <div class="group relative bg-white rounded-2xl border border-blue-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden p-5">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-blue-50 rounded-full -translate-y-6 translate-x-6 group-hover:scale-110 transition-transform duration-300"></div>
                 <div class="relative">
-                    <div class="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center mb-3">
-                        <svg style="width:18px;height:18px" class="text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
+                        <svg style="width:18px;height:18px" class="text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <div class="text-lg font-extrabold text-purple-700 leading-none">Kz {{ number_format($stats['receita_total'], 0, ',', '.') }}</div>
+                    <div class="text-lg font-extrabold text-[#0055ff] leading-none">Kz {{ number_format($stats['receita_total'], 0, ',', '.') }}</div>
                     <div class="text-xs text-slate-400 mt-1 font-medium">Receita (comissões)</div>
                 </div>
             </div>

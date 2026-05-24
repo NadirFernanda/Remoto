@@ -41,12 +41,12 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
             const blue   = ['novo_projeto','proposal_received','delivery_submitted','support_ticket_new','support_ticket_reply'];
             const red    = ['service_rejected','saque_rejeitado','refund_rejected'];
             const yellow = ['revision_requested','dispute_admin_reply','dispute_resolved'];
-            const purple = ['nova_mensagem','direct_invite','project_invite'];
+            const indigo = ['nova_mensagem','direct_invite','project_invite'];
             if (green.includes(type))  return '#22c55e';
             if (blue.includes(type))   return '#3b82f6';
             if (red.includes(type))    return '#f87171';
             if (yellow.includes(type)) return '#eab308';
-            if (purple.includes(type)) return '#a855f7';
+            if (indigo.includes(type)) return '#0055ff';
             return '#00baff';
         }
      }"

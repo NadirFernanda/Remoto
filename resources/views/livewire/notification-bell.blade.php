@@ -67,7 +67,7 @@
                         'novo_projeto', 'proposal_received', 'delivery_submitted', 'support_ticket_new', 'support_ticket_reply' => 'text-blue-500',
                         'service_rejected', 'saque_rejeitado', 'refund_rejected'                    => 'text-red-400',
                         'revision_requested', 'dispute_admin_reply', 'dispute_resolved'             => 'text-yellow-500',
-                        'nova_mensagem', 'direct_invite', 'project_invite'                          => 'text-purple-500',
+                        'nova_mensagem', 'direct_invite', 'project_invite'                          => 'text-[#0055ff]',
                         default                                                                     => 'text-[#0055ff]',
                     };
                 @endphp

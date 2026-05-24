@@ -75,7 +75,7 @@
                         @php
                             $isMaster = ($admin->admin_role === null || $admin->admin_role === 'master');
                             $roleColors = [
-                                'master'     => 'bg-purple-100 text-purple-800',
+                                'master'     => 'bg-blue-100 text-[#0033cc]',
                                 'financeiro' => 'bg-emerald-100 text-emerald-800',
                                 'gestor'     => 'bg-blue-100 text-blue-800',
                                 'suporte'    => 'bg-orange-100 text-orange-800',
@@ -122,7 +122,7 @@
                             {{-- Module count badge --}}
                             <td class="hidden sm:table-cell py-3.5 px-4">
                                 @if($isMaster)
-                                    <span class="inline-flex items-center gap-1 text-xs bg-purple-50 text-purple-700 border border-purple-200 rounded-full px-2.5 py-0.5 font-medium">
+                                    <span class="inline-flex items-center gap-1 text-xs bg-blue-50 text-[#0055ff] border border-blue-200 rounded-full px-2.5 py-0.5 font-medium">
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
                                         Acesso Total
                                     </span>
@@ -283,7 +283,7 @@
                                 <label class="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">Perfil de Acesso *</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                     @foreach([
-                                        'master'     => ['label' => 'Admin Master', 'desc' => 'Acesso total ao sistema', 'color' => 'purple'],
+                                        'master'     => ['label' => 'Admin Master', 'desc' => 'Acesso total ao sistema', 'color' => 'blue'],
                                         'financeiro' => ['label' => 'Diretor Financeiro', 'desc' => 'Módulos financeiros', 'color' => 'emerald'],
                                         'gestor'     => ['label' => 'Gestor de Operações', 'desc' => 'Disputas, utilizadores', 'color' => 'blue'],
                                         'suporte'    => ['label' => 'Gestor de Suporte', 'desc' => 'Atendimento e disputas', 'color' => 'orange'],
@@ -291,9 +291,8 @@
                                     ] as $roleVal => $info)
                                         @php
                                             $colorMap = [
-                                                'purple'  => 'border-purple-300 bg-purple-50 ring-purple-400',
                                                 'emerald' => 'border-emerald-300 bg-emerald-50 ring-emerald-400',
-                                                'blue'    => 'border-blue-300 bg-blue-50 ring-blue-400',
+                                                'blue'    => 'border-blue-300 bg-blue-50 ring-[#0055ff]',
                                                 'orange'  => 'border-orange-300 bg-orange-50 ring-orange-400',
                                                 'cyan'    => 'border-sky-300 bg-sky-50 ring-sky-400',
                                             ];
@@ -330,8 +329,8 @@
                     @elseif($permTab === 'permissoes')
                         @if($adminRole === 'master')
                             <div class="flex flex-col items-center justify-center py-10 text-center">
-                                <div class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center mb-4">
-                                    <svg class="w-7 h-7 text-purple-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
+                                <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-4">
+                                    <svg class="w-7 h-7 text-[#0055ff]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.403 12.652a3 3 0 000-5.304 3 3 0 00-3.75-3.751 3 3 0 00-5.305 0 3 3 0 00-3.751 3.75 3 3 0 000 5.305 3 3 0 003.75 3.751 3 3 0 005.305 0 3 3 0 003.751-3.75zm-2.546-4.46a.75.75 0 00-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd"/></svg>
                                 </div>
                                 <h3 class="font-bold text-gray-800 text-lg">Acesso Total</h3>
                                 <p class="text-sm text-gray-500 mt-1 max-w-xs">O Admin Master tem acesso irrestrito a todos os módulos da plataforma. As permissões não são aplicáveis.</p>

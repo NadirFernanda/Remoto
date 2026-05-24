@@ -1,4 +1,4 @@
-﻿<div class="max-w-6xl mx-auto space-y-6">
+<div class="max-w-6xl mx-auto space-y-6">
 
     @php
         $statusLabels = [
@@ -21,7 +21,7 @@
             'delivered'          => 'bg-orange-100 text-orange-700 border-orange-200',
             'completed'          => 'bg-green-100 text-green-700 border-green-200',
             'cancelled'          => 'bg-gray-100 text-gray-500 border-gray-200',
-            'em_moderacao'       => 'bg-purple-100 text-purple-700 border-purple-200',
+            'em_moderacao'       => 'bg-blue-100 text-[#0055ff] border-blue-200',
         ];
         $statusDots = [
             'negotiating'        => 'bg-amber-400',
@@ -32,7 +32,7 @@
             'delivered'          => 'bg-orange-400',
             'completed'          => 'bg-green-500',
             'cancelled'          => 'bg-gray-400',
-            'em_moderacao'       => 'bg-purple-400',
+            'em_moderacao'       => 'bg-[#0055ff]',
         ];
     @endphp
 
@@ -200,7 +200,7 @@
                     {{-- Moderação --}}
                     @if($project->status === 'em_moderacao')
                         <a href="{{ route('service.dispute', ['service' => $project->id]) }}"
-                           class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-purple-50 text-purple-700 hover:bg-purple-600 hover:text-white text-xs font-semibold transition-colors">
+                           class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-50 text-[#0055ff] hover:bg-[#0055ff] hover:text-white text-xs font-semibold transition-colors">
                             Em Moderação
                         </a>
                     @endif
@@ -272,7 +272,7 @@
 
             <div class="flex gap-3">
                 <button wire:click="solicitarSaqueProjectos" wire:loading.attr="disabled"
-                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-violet-500 to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                     <span wire:loading.remove wire:target="solicitarSaqueProjectos">Confirmar Saque</span>
                     <span wire:loading wire:target="solicitarSaqueProjectos">A processar...</span>
                 </button>

@@ -59,7 +59,7 @@
     @php
         $corMap = [
             'blue'   => ['bg' => 'bg-blue-50',   'border' => 'border-blue-100',   'text' => 'text-blue-700',   'badge' => 'bg-blue-100 text-blue-700'],
-            'purple' => ['bg' => 'bg-purple-50',  'border' => 'border-purple-100', 'text' => 'text-purple-700', 'badge' => 'bg-purple-100 text-purple-700'],
+            'purple' => ['bg' => 'bg-blue-50',  'border' => 'border-blue-100', 'text' => 'text-[#0055ff]', 'badge' => 'bg-blue-100 text-[#0055ff]'],
             'orange' => ['bg' => 'bg-orange-50',  'border' => 'border-orange-100', 'text' => 'text-orange-700', 'badge' => 'bg-orange-100 text-orange-700'],
             'green'  => ['bg' => 'bg-green-50',   'border' => 'border-green-100',  'text' => 'text-green-700',  'badge' => 'bg-green-100 text-green-700'],
         ];
