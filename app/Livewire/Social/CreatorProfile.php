@@ -78,8 +78,8 @@ class CreatorProfile extends Component
         return view('livewire.social.creator-profile', compact(
             'posts', 'followersCount', 'isFollowing', 'isSubscribed', 'subscribedCreatorIds', 'subscriptionPrice'
         ))
-            ->layout('layouts.public', [
-                'title' => $this->creator->name . ' — Perfil de Criador',
+            ->layout('layouts.dashboard', [
+                'dashboardTitle' => '',
             ]);
     }
     // ── Subscribe (pay via wallet) ─────────────────────────────────────────
