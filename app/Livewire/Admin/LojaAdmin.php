@@ -29,17 +29,17 @@ class LojaAdmin extends Component
     public function updatingBusca(): void       { $this->resetPage(); }
     public function updatingFiltroStatus(): void { $this->resetPage(); }
 
-    public function aprovar(int $id): void
+    public function reativar(int $id): void
     {
         Infoproduto::findOrFail($id)->update(['status' => 'ativo']);
-        $this->feedback = 'Produto aprovado e publicado na Loja.';
+        $this->feedback = 'Produto reativado e visível na Loja.';
         $this->fecharInspecao();
     }
 
     public function rejeitar(int $id): void
     {
         Infoproduto::findOrFail($id)->update(['status' => 'inativo']);
-        $this->feedback = 'Produto rejeitado e ocultado da Loja.';
+        $this->feedback = 'Produto removido da Loja.';
         $this->fecharInspecao();
     }
 
@@ -81,7 +81,7 @@ class LojaAdmin extends Component
 
         $stats = [
             'total'         => Infoproduto::count(),
-            'em_moderacao'  => Infoproduto::where('status', 'em_moderacao')->count(),
+            'em_moderacao'  => Infoproduto::where('status', 'inativo')->count(),
             'ativos'        => Infoproduto::where('status', 'ativo')->count(),
             'vendas_hoje'   => InfoprodutoCompra::whereDate('created_at', today())->count(),
             'receita_total' => InfoprodutoCompra::sum('comissao_plataforma'),

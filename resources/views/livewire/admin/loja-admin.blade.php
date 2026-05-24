@@ -54,7 +54,7 @@
                         <svg style="width:18px;height:18px" class="text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     </div>
                     <div class="text-2xl font-extrabold text-amber-600 leading-none">{{ $stats['em_moderacao'] }}</div>
-                    <div class="text-xs text-slate-400 mt-1 font-medium">Em moderação</div>
+                    <div class="text-xs text-slate-400 mt-1 font-medium">Removidos</div>
                 </div>
             </div>
 
@@ -128,10 +128,9 @@
                 <select wire:model.live="filtroStatus"
                     class="px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400 transition text-slate-700 min-w-[160px]">
                     <option value="">Todos os status</option>
-                    <option value="em_moderacao">Em Moderação</option>
                     <option value="ativo">Ativo</option>
-                    <option value="inativo">Inativo</option>
-                    <option value="rascunho">Rascunho</option>
+                    <option value="inativo">Removido</option>
+                    <option value="em_moderacao">Moderação (legado)</option>
                 </select>
                 <select wire:model.live="filtroTipo"
                     class="px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400 transition text-slate-700 min-w-[160px]">
@@ -250,22 +249,12 @@
                                         Inspecionar
                                     </button>
 
-                                    @if($produto->status === 'em_moderacao')
-                                        <button wire:click="aprovar({{ $produto->id }})"
-                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition-all duration-150 shadow-sm shadow-emerald-200">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                                            Aprovar
-                                        </button>
+                                    @if($produto->status === 'ativo')
                                         <button wire:click="rejeitar({{ $produto->id }})"
-                                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-100 hover:bg-red-200 text-red-700 transition-all duration-150">
-                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                                            Rejeitar
-                                        </button>
-                                    @elseif($produto->status === 'ativo')
-                                        <button wire:click="rejeitar({{ $produto->id }})"
+                                            wire:confirm="Remover este produto da loja?"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 transition-all duration-150">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-                                            Desativar
+                                            Remover
                                         </button>
                                         <a href="{{ route('loja.show', $produto->slug) }}" target="_blank"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all duration-150">
@@ -273,7 +262,7 @@
                                             Ver
                                         </a>
                                     @elseif($produto->status === 'inativo')
-                                        <button wire:click="aprovar({{ $produto->id }})"
+                                        <button wire:click="reativar({{ $produto->id }})"
                                             class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition-all duration-150">
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                                             Reativar
@@ -347,7 +336,7 @@
                     @if($produtoInspecao->status === 'em_moderacao')
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                             <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                            Aguardando verificação
+                            Em moderação (legado)
                         </span>
                     @elseif($produtoInspecao->status === 'ativo')
                         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -472,14 +461,14 @@
                     Fechar
                 </button>
                 <div class="flex items-center gap-2">
-                    @if($produtoInspecao->status === 'em_moderacao' || $produtoInspecao->status === 'inativo')
-                        <button wire:click="aprovar({{ $produtoInspecao->id }})"
+                    @if($produtoInspecao->status === 'inativo')
+                        <button wire:click="reativar({{ $produtoInspecao->id }})"
                             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                            Aprovar Produto
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                            Reativar Produto
                         </button>
                     @endif
-                    @if($produtoInspecao->status === 'em_moderacao' || $produtoInspecao->status === 'ativo')
+                    @if($produtoInspecao->status === 'ativo')
                         <button wire:click="rejeitar({{ $produtoInspecao->id }})"
                             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-red-100 hover:bg-red-200 text-red-700 transition">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>

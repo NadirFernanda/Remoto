@@ -96,7 +96,7 @@ class Loja extends Component
             'descricao' => $this->descricao,
             'tipo'     => $this->tipo,
             'preco'    => (float) $this->preco,
-            'status'   => 'em_moderacao',
+            'status'   => 'ativo',
         ];
 
         if ($this->capa) {
@@ -115,13 +115,13 @@ class Loja extends Component
             }
 
             $produto->update($data);
-            $this->feedback     = 'Produto atualizado! Enviado novamente para moderação.';
+            $this->feedback     = 'Produto atualizado e publicado na loja.';
         } else {
             Infoproduto::create(array_merge($data, [
                 'freelancer_id' => $user->id,
                 'slug'  => Str::slug($this->titulo) . '-' . Str::random(6),
             ]));
-            $this->feedback = 'Produto criado e enviado para moderação. Será publicado após aprovação.';
+            $this->feedback = 'Produto publicado na loja com sucesso!';
         }
 
         $this->feedbackType = 'success';
