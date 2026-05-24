@@ -7,10 +7,16 @@
 ============================== --}}
 @php
     $ft = fn($p) => ($f = public_path($p)) && file_exists($f) ? '?v=' . filemtime($f) : '';
+    // Para cada banner, usa o formato disponível como fallback se o outro não existir
+    $mkBanner = fn($webpPath, $pngPath, $alt) => [
+        'webp' => asset(file_exists(public_path($webpPath)) ? $webpPath : $pngPath) . $ft(file_exists(public_path($webpPath)) ? $webpPath : $pngPath),
+        'png'  => asset(file_exists(public_path($pngPath))  ? $pngPath  : $webpPath) . $ft(file_exists(public_path($pngPath))  ? $pngPath  : $webpPath),
+        'alt'  => $alt,
+    ];
     $banners = [
-        ['webp' => asset('img/banner1.webp') . $ft('img/banner1.webp'), 'png' => asset('img/banner1.png') . $ft('img/banner1.png'), 'alt' => '24 Horas — Banner 1'],
-        ['webp' => asset('img/banner2.webp') . $ft('img/banner2.webp'), 'png' => asset('img/banner2.png') . $ft('img/banner2.png'), 'alt' => '24 Horas — Banner 2'],
-        ['webp' => asset('img/banner3.webp') . $ft('img/banner3.webp'), 'png' => asset('img/banner3.png') . $ft('img/banner3.png'), 'alt' => '24 Horas — Banner 3'],
+        $mkBanner('img/banner1.webp', 'img/banner1.png', '24 Horas — Banner 1'),
+        $mkBanner('img/banner2.webp', 'img/banner2.png', '24 Horas — Banner 2'),
+        $mkBanner('img/banner3.webp', 'img/banner3.png', '24 Horas — Banner 3'),
     ];
 @endphp
 
