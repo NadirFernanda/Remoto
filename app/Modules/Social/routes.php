@@ -18,6 +18,7 @@ Route::middleware(['web', 'auth'])->group(function () {
         return redirect('/social?bookmarkedOnly=1');
     })->name('social.bookmarks');
     Route::get('/social/minhas-publicacoes', \App\Livewire\Social\MyPosts::class)->name('social.myposts');
+    Route::get('/social/a-seguir', \App\Livewire\Social\FollowingList::class)->name('social.following');
 });
 
 // Creator dashboard (role:creator obrigatório)
