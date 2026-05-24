@@ -59,10 +59,11 @@ class AdminSupportTickets extends Component
 
         // Notify the user
         Notification::create([
-            'user_id' => $ticket->user_id,
-            'type'    => 'support_ticket_reply',
-            'title'   => 'Resposta ao seu ticket de suporte',
-            'message' => 'A equipa de suporte respondeu ao seu ticket "' . $ticket->subject . '".',
+            'user_id'     => $ticket->user_id,
+            'type'        => 'support_ticket_reply',
+            'title'       => 'Resposta ao seu ticket de suporte',
+            'message'     => 'A equipa de suporte respondeu ao seu ticket "' . $ticket->subject . '".',
+            'sender_name' => Auth::user()->name,
         ]);
 
         $this->replyMessage = '';
@@ -83,10 +84,11 @@ class AdminSupportTickets extends Component
         if ($old !== $this->newStatus) {
             $statusLabel = SupportTicket::statusLabel($this->newStatus);
             Notification::create([
-                'user_id' => $ticket->user_id,
-                'type'    => 'support_ticket_reply',
-                'title'   => 'Estado do ticket atualizado',
-                'message' => 'O seu ticket "' . $ticket->subject . '" foi marcado como: ' . $statusLabel . '.',
+                'user_id'     => $ticket->user_id,
+                'type'        => 'support_ticket_reply',
+                'title'       => 'Estado do ticket atualizado',
+                'message'     => 'O seu ticket "' . $ticket->subject . '" foi marcado como: ' . $statusLabel . '.',
+                'sender_name' => Auth::user()->name,
             ]);
         }
 

@@ -5,7 +5,8 @@
     $senderName = $notification->sender_name && $notification->sender_name !== 'Administração'
         ? $notification->sender_name
         : null;
-    $initial = strtoupper(substr($senderName ?? 'A', 0, 1));
+    $initial = strtoupper(substr($senderName ?? 'S', 0, 1));
+    $isSupport = in_array($notification->type, ['support_ticket_reply', 'support_ticket_new']);
     $supportRoute = auth()->user()?->activeRole() === 'freelancer'
         ? route('freelancer.support')
         : route('client.support');
@@ -31,13 +32,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
                 <span style="font-size:.75rem;font-weight:600;color:rgba(255,255,255,.9);letter-spacing:.02em;">
-                    @if($senderName) Mensagem do administrador {{ $senderName }} @else Mensagem da Administração @endif
+                    @if($isSupport)
+                        @if($senderName) Suporte: {{ $senderName }} @else Mensagem do Suporte @endif
+                    @else
+                        @if($senderName) Mensagem do administrador {{ $senderName }} @else Mensagem da Administração @endif
+                    @endif
                 </span>
             </div>
 
             {{-- Título --}}
             <h1 style="font-size:1.5rem;font-weight:800;color:#fff;margin:0 0 1.25rem;line-height:1.3;">
-                {{ $notification->title ?: 'Mensagem do Admin' }}
+                {{ $notification->title ?: ($isSupport ? 'Mensagem do Suporte' : 'Mensagem do Admin') }}
             </h1>
 
             {{-- Avatar + nome + data --}}
@@ -46,7 +51,7 @@
                     {{ $initial }}
                 </div>
                 <div>
-                    <div style="font-size:.9rem;font-weight:700;color:#fff;">{{ $senderName ?? 'Administração 24 Horas' }}</div>
+                    <div style="font-size:.9rem;font-weight:700;color:#fff;">{{ $senderName ?? ($isSupport ? 'Equipa de Suporte' : 'Administração 24 Horas') }}</div>
                     <div style="font-size:.75rem;color:rgba(255,255,255,.55);margin-top:.1rem;">{{ $notification->created_at->format('d/m/Y \à\s H:i') }}</div>
                 </div>
             </div>
