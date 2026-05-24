@@ -115,7 +115,7 @@
 
         {{-- Detail --}}
         @if($selected)
-        <div class="flex-1 min-w-0 space-y-4">
+        <div class="flex-1 min-w-0 space-y-4" x-data="{ bulkIds: [] }">
 
             {{-- Back on mobile --}}
             <button wire:click="$set('selectedTicketId', null)" class="lg:hidden btn-outline text-xs flex items-center gap-1">
@@ -139,58 +139,25 @@
             @endphp
             <div class="bg-white rounded-2xl border border-gray-200 p-5">
                 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div>
+                    <div class="flex-1 min-w-0">
                         <h2 class="text-base font-bold text-gray-900">#{{ $selected->id }} · {{ $selected->subject }}</h2>
                         <div class="flex items-center gap-2 mt-1 flex-wrap">
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $sc2 }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $pc2 }}">{{ \App\Models\SupportTicket::priorityLabel($selected->priority) }}</span>
                             <span class="text-xs text-gray-500">{{ \App\Models\SupportTicket::categoryLabel($selected->category) }}</span>
                         </div>
-                        <div class="flex items-start gap-3 mt-2 flex-wrap">
-                            <img src="{{ $selected->user->avatarUrl() }}" class="w-5 h-5 rounded-full object-cover">
+                        <div class="flex items-center gap-3 mt-3">
+                            <img src="{{ $selected->user->avatarUrl() }}" class="w-8 h-8 rounded-full object-cover flex-shrink-0">
                             <div>
-                                <p class="text-sm text-gray-700 font-medium">{{ $selected->user->name }}</p>
+                                <p class="text-sm text-gray-800 font-semibold">{{ $selected->user->name }}</p>
                                 <p class="text-xs text-gray-500">{{ $selected->user->email }}</p>
                             </div>
                         </div>
-
-                        @if($selected->user->wallet)
-                        <div class="mt-4 grid gap-3 sm:grid-cols-3">
-                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
-                                <div class="text-gray-500">Saldo atual</div>
-                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saldo, 0, ',', '.') }} Kz</div>
-                            </div>
-                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
-                                <div class="text-gray-500">Saldo pendente</div>
-                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saldo_pendente, 0, ',', '.') }} Kz</div>
-                            </div>
-                            <div class="rounded-2xl border border-gray-200 bg-slate-50 p-3 text-xs text-gray-700">
-                                <div class="text-gray-500">Mínimo saque</div>
-                                <div class="mt-2 text-base font-semibold">{{ number_format($selected->user->wallet->saque_minimo, 0, ',', '.') }} Kz</div>
-                            </div>
-                        </div>
-
-                        <div class="mt-3 flex flex-col sm:flex-row gap-2">
-                            <a href="{{ route('admin.user.wallet.history', $selected->user) }}" class="inline-flex items-center justify-center rounded-xl border border-[#0055ff] bg-[#0055ff]/10 px-4 py-2 text-sm font-semibold text-[#0072d8] hover:bg-[#0055ff]/20 transition">
-                                Ver movimentos da carteira
-                            </a>
-                            <a href="{{ route('admin.wallet.adjustment') }}" class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
-                                Ajuste de saldo admin
-                            </a>
-                        </div>
-                        @endif
-
                         @if($selected->user_provided_id || $selected->contact_email || $selected->contact_phone)
-                        <div class="mt-2 text-xs text-gray-500">
-                            @if($selected->user_provided_id)
-                            <div>ID fornecido: <span class="font-medium">{{ $selected->user_provided_id }}</span></div>
-                            @endif
-                            @if($selected->contact_email)
-                            <div>Email contato: <span class="font-medium">{{ $selected->contact_email }}</span></div>
-                            @endif
-                            @if($selected->contact_phone)
-                            <div>Telefone contato: <span class="font-medium">{{ $selected->contact_phone }}</span></div>
-                            @endif
+                        <div class="mt-2 text-xs text-gray-500 flex flex-wrap gap-x-4 gap-y-1">
+                            @if($selected->user_provided_id)<span>ID: <span class="font-medium text-gray-700">{{ $selected->user_provided_id }}</span></span>@endif
+                            @if($selected->contact_email)<span>Email: <span class="font-medium text-gray-700">{{ $selected->contact_email }}</span></span>@endif
+                            @if($selected->contact_phone)<span>Tel: <span class="font-medium text-gray-700">{{ $selected->contact_phone }}</span></span>@endif
                         </div>
                         @endif
                     </div>
@@ -206,7 +173,27 @@
                 </div>
             </div>
 
-            {{-- Thread --}}
+            {{-- ── TABS: Conversa / Conta Completa ──────────────────────── --}}
+            <div class="flex border-b border-gray-200 bg-white rounded-t-2xl overflow-hidden">
+                <button wire:click="$set('detailTab','conversa')"
+                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition
+                        {{ $detailTab === 'conversa' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    Conversa
+                </button>
+                <button wire:click="$set('detailTab','conta')"
+                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition
+                        {{ $detailTab === 'conta' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    Conta Completa
+                    @if($userServices->count())
+                        <span class="ml-1 text-xs bg-[#0055ff] text-white rounded-full px-1.5 py-0.5 font-semibold">{{ $userServices->count() }}</span>
+                    @endif
+                </button>
+            </div>
+
+            {{-- ── TAB: CONVERSA ──────────────────────────────────────────── --}}
+            @if($detailTab === 'conversa')
             <div class="space-y-3">
                 {{-- Original message --}}
                 <div class="bg-white rounded-2xl border border-gray-200 p-4">
@@ -218,7 +205,6 @@
                     </div>
                     <p class="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{{ $selected->message }}</p>
                 </div>
-
                 {{-- Replies --}}
                 @foreach($selected->replies as $reply)
                 @php $isAdmin = $reply->is_admin_reply; @endphp
@@ -250,6 +236,124 @@
                     <p class="text-xs text-gray-400">O utilizador será notificado por notificação na plataforma.</p>
                 </div>
             </div>
+            @endif
+
+            {{-- ── TAB: CONTA COMPLETA ────────────────────────────────────── --}}
+            @if($detailTab === 'conta')
+            <div class="space-y-4">
+
+                {{-- Carteira --}}
+                @if($selected->user->wallet)
+                <div class="bg-white rounded-2xl border border-gray-200 p-5">
+                    <h3 class="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                        Carteira
+                    </h3>
+                    <div class="grid gap-3 sm:grid-cols-3 mb-4">
+                        <div class="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs">
+                            <div class="text-gray-500">Saldo disponível</div>
+                            <div class="mt-1.5 text-base font-bold text-gray-800">{{ number_format($selected->user->wallet->saldo, 0, ',', '.') }} Kz</div>
+                        </div>
+                        <div class="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs">
+                            <div class="text-gray-500">Saldo pendente</div>
+                            <div class="mt-1.5 text-base font-bold text-gray-800">{{ number_format($selected->user->wallet->saldo_pendente, 0, ',', '.') }} Kz</div>
+                        </div>
+                        <div class="rounded-xl border border-gray-100 bg-gray-50 p-3 text-xs">
+                            <div class="text-gray-500">Mínimo saque</div>
+                            <div class="mt-1.5 text-base font-bold text-gray-800">{{ number_format($selected->user->wallet->saque_minimo, 0, ',', '.') }} Kz</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="{{ route('admin.user.wallet.history', $selected->user) }}" target="_blank"
+                            class="inline-flex items-center gap-1.5 rounded-xl border border-[#0055ff] bg-[#0055ff]/10 px-3 py-2 text-xs font-semibold text-[#0055ff] hover:bg-[#0055ff]/20 transition">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                            Movimentos da carteira
+                        </a>
+                        <a href="{{ route('admin.wallet.adjustment') }}" target="_blank"
+                            class="inline-flex items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition">
+                            Ajuste de saldo
+                        </a>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Projectos / Recibos --}}
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                        <h3 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                            <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            Projectos com comprovativo ({{ $userServices->count() }})
+                        </h3>
+                        {{-- Bulk action --}}
+                        <div x-show="bulkIds.length > 0" x-cloak class="flex items-center gap-2">
+                            <span class="text-xs text-gray-500" x-text="bulkIds.length + ' seleccionado(s)'"></span>
+                            <a :href="'{{ route('admin.services.receipts.bulk') }}?ids=' + bulkIds.join(',')"
+                                target="_blank"
+                                class="inline-flex items-center gap-1.5 rounded-xl bg-[#0055ff] text-white text-xs font-semibold px-3 py-2 hover:bg-[#0033cc] transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                                Extrair selecionados
+                            </a>
+                        </div>
+                        @if($userServices->count() > 1)
+                        <button x-show="bulkIds.length === 0" x-cloak
+                            @click="bulkIds = {{ $userServices->pluck('id') }}"
+                            class="text-xs text-[#0055ff] hover:underline font-medium">
+                            Seleccionar todos
+                        </button>
+                        @endif
+                    </div>
+
+                    @forelse($userServices as $svc)
+                    @php
+                        $svcStatus = match($svc->status) {
+                            'published'                                  => ['t' => 'Retido (Escrow)',    'c' => 'bg-blue-100 text-blue-700'],
+                            'accepted','negotiating'                     => ['t' => 'Em Negociação',      'c' => 'bg-blue-100 text-blue-700'],
+                            'in_progress','em_andamento','em andamento'  => ['t' => 'Em Execução',        'c' => 'bg-amber-100 text-amber-700'],
+                            'revision_requested'                         => ['t' => 'Revisão Pedida',     'c' => 'bg-orange-100 text-orange-700'],
+                            'delivered'                                  => ['t' => 'Aguarda Revisão',    'c' => 'bg-sky-100 text-sky-700'],
+                            'completed','concluido'                      => ['t' => 'Concluído',          'c' => 'bg-green-100 text-green-700'],
+                            'cancelled','cancelado'                      => ['t' => 'Cancelado',          'c' => 'bg-red-100 text-red-700'],
+                            default                                      => ['t' => ucfirst($svc->status),'c' => 'bg-gray-100 text-gray-600'],
+                        };
+                    @endphp
+                    <div class="flex items-center gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition">
+                        {{-- Checkbox --}}
+                        <input type="checkbox" :value="{{ $svc->id }}"
+                            x-model="bulkIds"
+                            class="w-4 h-4 rounded border-gray-300 accent-[#0055ff] flex-shrink-0">
+                        {{-- Info --}}
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-800 truncate">{{ $svc->titulo }}</p>
+                            <div class="flex items-center gap-2 mt-0.5 flex-wrap">
+                                <span class="text-xs font-semibold {{ $svcStatus['c'] }} px-2 py-0.5 rounded-full">{{ $svcStatus['t'] }}</span>
+                                @if($svc->freelancer)
+                                <span class="text-xs text-gray-500">Freelancer: {{ $svc->freelancer->name }}</span>
+                                @endif
+                                <span class="text-xs text-gray-400">{{ $svc->created_at->format('d/m/Y') }}</span>
+                            </div>
+                        </div>
+                        {{-- Valor --}}
+                        <div class="text-sm font-bold text-gray-800 flex-shrink-0 text-right">
+                            {{ number_format((float)($svc->valor ?? 0), 0, ',', '.') }} Kz
+                        </div>
+                        {{-- Botão individual --}}
+                        <a href="{{ route('admin.service.receipt', $svc) }}" target="_blank"
+                            class="inline-flex items-center gap-1.5 rounded-xl border border-[#0055ff] bg-[#0055ff]/10 px-3 py-1.5 text-xs font-semibold text-[#0055ff] hover:bg-[#0055ff]/20 transition flex-shrink-0">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Extrair
+                        </a>
+                    </div>
+                    @empty
+                    <div class="py-10 text-center text-gray-400 text-sm">
+                        <svg class="w-10 h-10 mx-auto mb-3 text-gray-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        Sem projectos com comprovativo disponível.
+                    </div>
+                    @endforelse
+                </div>
+
+            </div>
+            @endif
+
         </div>
         @endif
     </div>

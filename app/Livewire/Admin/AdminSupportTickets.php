@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use App\Models\SupportTicket;
 use App\Models\SupportTicketReply;
 use App\Models\Notification;
+use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 
 class AdminSupportTickets extends Component
@@ -21,11 +22,13 @@ class AdminSupportTickets extends Component
     public ?int $selectedTicketId = null;
     public string $replyMessage = '';
     public string $newStatus = '';
+    public string $detailTab = 'conversa';
 
     public function selectTicket(int $id): void
     {
         $this->selectedTicketId = $id;
         $this->replyMessage = '';
+        $this->detailTab = 'conversa';
         $ticket = SupportTicket::findOrFail($id);
         $this->newStatus = $ticket->status;
     }
@@ -120,13 +123,24 @@ class AdminSupportTickets extends Component
             ? SupportTicket::with(['user.wallet', 'replies.user'])->find($this->selectedTicketId)
             : null;
 
+        $paid = ['published','accepted','negotiating','in_progress','em_andamento','em andamento',
+                 'delivered','revision_requested','completed','concluido','cancelled','cancelado'];
+
+        $userServices = $selected
+            ? Service::with('freelancer')
+                ->where('cliente_id', $selected->user_id)
+                ->whereIn('status', $paid)
+                ->orderByDesc('created_at')
+                ->get()
+            : collect();
+
         $counts = [
             'aberto'       => SupportTicket::where('status', 'aberto')->count(),
             'em_andamento' => SupportTicket::where('status', 'em_andamento')->count(),
             'fechado'      => SupportTicket::where('status', 'fechado')->count(),
         ];
 
-        return view('livewire.admin.support-tickets', compact('tickets', 'selected', 'counts'))
+        return view('livewire.admin.support-tickets', compact('tickets', 'selected', 'counts', 'userServices'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Tickets de Suporte']);
     }
 }
