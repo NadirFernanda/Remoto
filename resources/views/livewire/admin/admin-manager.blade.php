@@ -175,7 +175,7 @@
     <div x-show="confirmDelete !== null" x-cloak
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div @click.outside="confirmDelete = null"
-            class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm">
+            class="admin-light-modal bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm">
             <div class="flex items-start gap-4">
                 <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
@@ -200,7 +200,7 @@
          ═══════════════════════════════════════════════════════════════════ --}}
     <div x-show="$wire.modalMode === 'create' || $wire.modalMode === 'edit'" x-cloak
          class="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-0 sm:py-6 px-0 sm:px-4">
-            <div wire:click.stop class="bg-white rounded-none sm:rounded-2xl shadow-2xl w-full sm:max-w-2xl flex flex-col max-h-screen sm:max-h-[92vh]">
+            <div wire:click.stop class="admin-light-modal bg-white rounded-none sm:rounded-2xl shadow-2xl w-full sm:max-w-2xl flex flex-col max-h-screen sm:max-h-[92vh]">
 
                 {{-- Modal header --}}
                 <div class="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-100">

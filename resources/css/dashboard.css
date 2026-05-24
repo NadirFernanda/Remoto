@@ -342,6 +342,46 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
 .dash-main ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
+/* ═══════════════════════════════════════════════════════
+   ADMIN LIGHT MODAL — anula o tema escuro para modais
+   com fundo branco dentro do .dash-main
+   ═══════════════════════════════════════════════════════ */
+.admin-light-modal {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+}
+.admin-light-modal .bg-white:not(input):not(select):not(textarea):not(button),
+.admin-light-modal.bg-white { background-color: #ffffff !important; }
+.admin-light-modal button.bg-white { background-color: #ffffff !important; }
+.admin-light-modal .bg-gray-50,
+.admin-light-modal .bg-gray-50\/50 { background-color: #f9fafb !important; }
+.admin-light-modal .bg-gray-100 { background-color: #f3f4f6 !important; }
+.admin-light-modal .bg-blue-50  { background-color: #eff6ff !important; }
+.admin-light-modal .bg-slate-50 { background-color: #f8fafc !important; }
+.admin-light-modal .text-gray-900, .admin-light-modal .text-slate-900 { color: #111827 !important; }
+.admin-light-modal .text-gray-800, .admin-light-modal .text-slate-800 { color: #1f2937 !important; }
+.admin-light-modal .text-gray-700, .admin-light-modal .text-slate-700 { color: #374151 !important; }
+.admin-light-modal .text-gray-600, .admin-light-modal .text-slate-600 { color: #4b5563 !important; }
+.admin-light-modal .text-gray-500, .admin-light-modal .text-slate-500 { color: #6b7280 !important; }
+.admin-light-modal .text-gray-400, .admin-light-modal .text-slate-400 { color: #9ca3af !important; }
+.admin-light-modal .border-gray-100,
+.admin-light-modal .border-gray-200 { border-color: #e5e7eb !important; }
+.admin-light-modal .divide-gray-100 > * + *,
+.admin-light-modal .divide-gray-50  > * + * { border-color: #f3f4f6 !important; }
+.admin-light-modal h1, .admin-light-modal h2,
+.admin-light-modal h3, .admin-light-modal h4 { color: #111827 !important; }
+.admin-light-modal input:not([type=radio]):not([type=checkbox]):not([type=submit]),
+.admin-light-modal select,
+.admin-light-modal textarea {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border-color: #e5e7eb !important;
+}
+.admin-light-modal input::placeholder,
+.admin-light-modal textarea::placeholder { color: #9ca3af !important; }
+.admin-light-modal span.bg-white,
+.admin-light-modal a.bg-white { background-color: #ffffff !important; color: #1f2937 !important; }
+
 /* =====================================================
    ADDITIONAL MOBILE RESPONSIVE FIXES
    ===================================================== */
