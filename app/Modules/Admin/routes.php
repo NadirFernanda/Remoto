@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\Admin\Controllers\ContractController;
 use App\Modules\Admin\Controllers\AdminReceiptController;
+use App\Modules\Admin\Controllers\ImpersonateController;
 use App\Modules\Admin\Controllers\UsersExportController;
 use App\Modules\Admin\Controllers\FinancialExportController;
 use App\Modules\Admin\Controllers\AuditExportController;
@@ -38,6 +39,8 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services')->middleware('admin.module:gestor');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes')->middleware('admin.module:suporte');
     Route::get('/admin/suporte', \App\Livewire\Admin\AdminSupportTickets::class)->name('admin.support')->middleware('admin.module:suporte');
+    Route::get('/admin/impersonar/{user}', [ImpersonateController::class, 'start'])->name('admin.impersonate.start')->middleware('admin.module:suporte');
+    Route::get('/admin/impersonar/sair', [ImpersonateController::class, 'stop'])->name('admin.impersonate.stop');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit')->middleware('admin.module:audit');
     Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation')->middleware('admin.module:gestor');
     Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds')->middleware('admin.module:gestor');

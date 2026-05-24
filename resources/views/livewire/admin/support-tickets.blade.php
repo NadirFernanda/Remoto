@@ -152,6 +152,12 @@
                                 <p class="text-sm text-gray-800 font-semibold">{{ $selected->user->name }}</p>
                                 <p class="text-xs text-gray-500">{{ $selected->user->email }}</p>
                             </div>
+                            <a href="{{ route('admin.impersonate.start', $selected->user) }}"
+                                onclick="return confirm('Vai aceder à plataforma como {{ addslashes($selected->user->name) }}. Um banner vermelho ficará visível enquanto estiver neste modo. Continuar?')"
+                                class="ml-auto inline-flex items-center gap-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 text-xs font-semibold transition">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                Aceder como utilizador
+                            </a>
                         </div>
                         @if($selected->user_provided_id || $selected->contact_email || $selected->contact_phone)
                         <div class="mt-2 text-xs text-gray-500 flex flex-wrap gap-x-4 gap-y-1">

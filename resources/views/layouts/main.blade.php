@@ -15,6 +15,19 @@
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
+    {{-- Banner de impersonation --}}
+    @if(session('impersonating_admin_id'))
+    <div style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#dc2626;color:#fff;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 16px;font-size:13px;font-weight:600;font-family:Arial,sans-serif;">
+        <span style="display:flex;align-items:center;gap:8px;">
+            <svg style="width:16px;height:16px;flex-shrink:0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            Modo Suporte — a visualizar como: <strong>{{ auth()->user()->name }}</strong>
+        </span>
+        <a href="{{ route('admin.impersonate.stop') }}" style="background:#fff;color:#dc2626;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;text-decoration:none;">
+            Sair e Voltar ao Admin
+        </a>
+    </div>
+    <div style="height:46px"></div>
+    @endif
     <!-- Barra de progresso de scroll — fixed no topo absoluto do viewport -->
     <div x-data="{progress:0}" x-init="(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){let m=sc.scrollHeight-sc.clientHeight;progress=m>0?Math.round(sc.scrollTop/m*100):0;})})()" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
     @include('components.header')

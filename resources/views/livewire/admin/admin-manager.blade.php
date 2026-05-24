@@ -336,46 +336,35 @@
                                 <p class="text-sm text-gray-500 mt-1 max-w-xs">O Admin Master tem acesso irrestrito a todos os módulos da plataforma. As permissões não são aplicáveis.</p>
                             </div>
                         @else
-                            <div class="flex items-center justify-between mb-4">
-                                <p class="text-sm text-gray-600">Configure o nível de acesso por módulo. <span class="font-medium text-gray-800">Perfil: {{ $adminRole }}</span></p>
-                                <button wire:click="applyRoleDefaults" class="text-xs text-[#0055ff] hover:underline font-medium">↺ Aplicar padrões do perfil</button>
+                            <div class="flex items-center justify-between mb-3">
+                                <p class="text-xs text-gray-500">Perfil: <span class="font-semibold text-gray-700">{{ $adminRole }}</span></p>
+                                <button wire:click="applyRoleDefaults" class="text-xs text-[#0055ff] hover:underline font-medium">↺ Repor padrões do perfil</button>
                             </div>
                             <div class="space-y-2">
-                                <div class="hidden sm:grid sm:grid-cols-12 gap-2 px-3 py-1.5 text-[11px] font-semibold text-gray-400 uppercase tracking-wide bg-gray-50 rounded-lg">
-                                    <div class="col-span-5">Módulo</div>
-                                    <div class="col-span-7 grid grid-cols-4 text-center">
-                                        <span>Sem acesso</span>
-                                        <span>Leitura</span>
-                                        <span>Escrita</span>
-                                        <span>Total</span>
+                                @foreach($modules as $modKey => $modLabel)
+                                @php
+                                    $currentAccess = $permissions[$modKey] ?? 'none';
+                                    $levels = [
+                                        'none'  => ['label' => 'Sem acesso', 'active' => 'bg-gray-500 text-white border-gray-500'],
+                                        'read'  => ['label' => 'Leitura',    'active' => 'bg-blue-500 text-white border-blue-500'],
+                                        'write' => ['label' => 'Escrita',    'active' => 'bg-amber-500 text-white border-amber-500'],
+                                        'full'  => ['label' => 'Total',      'active' => 'bg-emerald-500 text-white border-emerald-500'],
+                                    ];
+                                @endphp
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-2 p-3 rounded-xl border border-gray-100 bg-gray-50/40 hover:bg-gray-50 transition">
+                                    <span class="text-sm font-medium text-gray-700 sm:w-40 flex-shrink-0">{{ $modLabel }}</span>
+                                    <div class="flex rounded-xl border border-gray-200 overflow-hidden w-full sm:w-auto">
+                                        @foreach($levels as $level => $info)
+                                        <label class="flex-1 cursor-pointer">
+                                            <input type="radio" wire:model.live="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
+                                            <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0
+                                                {{ $currentAccess === $level ? $info['active'] : 'bg-white text-gray-500 hover:bg-gray-50' }}">
+                                                {{ $info['label'] }}
+                                            </span>
+                                        </label>
+                                        @endforeach
                                     </div>
                                 </div>
-                                @foreach($modules as $modKey => $modLabel)
-                                    @php $currentAccess = $permissions[$modKey] ?? 'none'; @endphp
-                                    <div class="flex flex-col sm:grid sm:grid-cols-12 gap-1 sm:gap-2 items-start sm:items-center px-3 py-2.5 rounded-xl border border-gray-100 hover:bg-gray-50/50 transition">
-                                        <div class="sm:col-span-5 text-sm font-medium text-gray-700">{{ $modLabel }}</div>
-                                        <div class="sm:col-span-7 grid grid-cols-4 gap-3 sm:gap-1 w-full">
-                                            @foreach(['none' => 'bg-gray-200', 'read' => 'bg-blue-400', 'write' => 'bg-amber-400', 'full' => 'bg-emerald-500'] as $level => $color)
-                                                <label class="flex flex-col items-center cursor-pointer group">
-                                                    <input type="radio" wire:model.live="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
-                                                    <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center transition
-                                                        {{ $currentAccess === $level ? $color . ' border-transparent' : 'border-gray-300 group-hover:border-gray-400' }}">
-                                                        @if($currentAccess === $level)
-                                                            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                                                        @endif
-                                                    </div>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="flex gap-3 mt-3 flex-wrap">
-                                @foreach(['none' => ['bg-gray-200', 'Sem acesso'], 'read' => ['bg-blue-400', 'Leitura'], 'write' => ['bg-amber-400', 'Escrita'], 'full' => ['bg-emerald-500', 'Total']] as $lv => [$clr, $lbl])
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="w-3 h-3 rounded-full {{ $clr }}"></div>
-                                        <span class="text-xs text-gray-500">{{ $lbl }}</span>
-                                    </div>
                                 @endforeach
                             </div>
                         @endif
@@ -461,36 +450,52 @@
                     {{-- ── TAB: NOTIFICAÇÕES ───────────────────────────────── --}}
                     @elseif($permTab === 'notificacoes')
                         <div class="space-y-3">
-                            <p class="text-sm text-gray-600">Selecione os eventos sobre os quais este administrador deve ser notificado.</p>
 
-                            @foreach([
-                                'notifyNewUser'              => 'Novo utilizador registado',
-                                'notifyNewDispute'           => 'Nova disputa aberta',
-                                'notifyKycPending'           => 'KYC pendente de revisão',
-                                'notifyPayoutRequest'        => 'Novo pedido de saque',
-                                'notifyHighValueTransaction' => 'Transacção de alto valor',
-                                'notifySystemError'          => 'Erro crítico no sistema',
-                                'notifyDailyReport'          => 'Relatório diário automático',
-                            ] as $prop => $label)
-                                <label class="flex items-center justify-between p-3.5 rounded-xl border border-gray-100 cursor-pointer hover:bg-gray-50/50 transition">
-                                    <span class="text-sm text-gray-700">{{ $label }}</span>
-                                    <input type="checkbox" wire:model="{{ $prop }}"
-                                        class="w-4 h-4 rounded border-gray-300 text-[#0055ff] accent-[#0055ff]">
-                                </label>
-                            @endforeach
-
-                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50/50 mt-2">
-                                <label class="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">Canal de Notificação</label>
-                                <div class="flex gap-3 flex-wrap">
+                            {{-- Canal de notificação --}}
+                            <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                                <div>
+                                    <div class="font-semibold text-sm text-gray-800">Canal de Notificação</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">Onde este admin recebe os alertas.</div>
+                                </div>
+                                <div class="flex rounded-xl border border-gray-200 overflow-hidden ml-4 flex-shrink-0">
                                     @foreach(['email' => 'E-mail', 'system' => 'Painel', 'both' => 'Ambos'] as $val => $lbl)
-                                        <label class="flex items-center gap-2 cursor-pointer p-2.5 rounded-xl border transition
-                                            {{ $notifyChannel === $val ? 'border-[#0055ff] bg-sky-50' : 'border-gray-200 hover:bg-gray-50' }}">
-                                            <input type="radio" wire:model="notifyChannel" value="{{ $val }}" class="accent-[#0055ff]">
-                                            <span class="text-sm text-gray-700">{{ $lbl }}</span>
-                                        </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" wire:model="notifyChannel" value="{{ $val }}" class="sr-only">
+                                        <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0
+                                            {{ $notifyChannel === $val ? 'bg-[#0055ff] text-white' : 'bg-white text-gray-500 hover:bg-gray-50' }}">
+                                            {{ $lbl }}
+                                        </span>
+                                    </label>
                                     @endforeach
                                 </div>
                             </div>
+
+                            {{-- Eventos --}}
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide px-1">Eventos a notificar</p>
+
+                            @foreach([
+                                'notifyNewUser'              => ['Novo utilizador registado',    'Sempre que um novo utilizador se regista na plataforma.'],
+                                'notifyNewDispute'           => ['Nova disputa aberta',          'Quando um cliente ou freelancer abre uma disputa.'],
+                                'notifyKycPending'           => ['KYC pendente de revisão',      'Documentos de verificação de identidade submetidos.'],
+                                'notifyPayoutRequest'        => ['Pedido de saque',              'Quando um utilizador solicita levantamento de saldo.'],
+                                'notifyHighValueTransaction' => ['Transacção de alto valor',     'Pagamentos acima do limiar configurado no sistema.'],
+                                'notifySystemError'          => ['Erro crítico no sistema',      'Alertas de falhas críticas na plataforma.'],
+                                'notifyDailyReport'          => ['Relatório diário automático',  'Resumo diário de actividade enviado ao final do dia.'],
+                            ] as $prop => [$label, $desc])
+                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                                <div>
+                                    <div class="font-semibold text-sm text-gray-800">{{ $label }}</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">{{ $desc }}</div>
+                                </div>
+                                <button type="button" wire:click="$toggle('{{ $prop }}')"
+                                    class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
+                                    style="{{ $$prop ? 'background:#0055ff' : 'background:#d1d5db' }}">
+                                    <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
+                                        style="{{ $$prop ? 'left:22px' : 'left:2px' }}"></span>
+                                </button>
+                            </div>
+                            @endforeach
+
                         </div>
                     @endif
 
