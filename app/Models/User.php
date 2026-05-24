@@ -218,7 +218,28 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_seen_at'      => 'datetime',
+            'last_login_at'     => 'datetime',
         ];
+    }
+
+    public function isOnline(): bool
+    {
+        return $this->last_seen_at && $this->last_seen_at->gt(now()->subMinutes(5));
+    }
+
+    public function isIdle(): bool
+    {
+        return $this->last_seen_at
+            && $this->last_seen_at->lte(now()->subMinutes(5))
+            && $this->last_seen_at->gt(now()->subMinutes(30));
+    }
+
+    public function presenceStatus(): string
+    {
+        if ($this->isOnline()) return 'online';
+        if ($this->isIdle())   return 'idle';
+        return 'offline';
     }
 
     /**

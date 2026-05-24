@@ -27,6 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Frente 2 — Delivery Cache: adiciona Cache-Control a páginas públicas
         $middleware->web(append: [
             \App\Http\Middleware\HttpCacheHeaders::class,
+            \App\Http\Middleware\TrackAdminLastSeen::class,
         ]);
 
         $middleware->api(prepend: [

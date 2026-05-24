@@ -97,6 +97,9 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     // Admin — Manage Administrators (master only)
     Route::get('/admin/administradores', \App\Livewire\Admin\AdminManager::class)->name('admin.managers')->middleware('admin.module:admin-manager');
 
+    // Admin — Painel RH (equipa) — master + gestor
+    Route::get('/admin/equipa', \App\Livewire\Admin\AdminTeamPanel::class)->name('admin.team')->middleware('admin.module:gestor');
+
     // Admin — Recibos de serviços de clientes (visualizar/imprimir)
     Route::get('/admin/servico/{service}/recibo', [AdminReceiptController::class, 'serviceReceipt'])
         ->name('admin.service.receipt')
