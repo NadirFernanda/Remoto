@@ -6,10 +6,11 @@
      HERO — CARROSSEL DE BANNERS
 ============================== --}}
 @php
+    $ft = fn($p) => ($f = public_path($p)) && file_exists($f) ? '?v=' . filemtime($f) : '';
     $banners = [
-        ['webp' => asset('img/banner1.webp') . '?v=' . filemtime(public_path('img/banner1.webp')), 'png' => asset('img/banner1.png') . '?v=' . filemtime(public_path('img/banner1.png')), 'alt' => '24 Horas — Banner 1'],
-        ['webp' => asset('img/banner2.webp') . '?v=' . filemtime(public_path('img/banner2.webp')), 'png' => asset('img/banner2.png') . '?v=' . filemtime(public_path('img/banner2.png')), 'alt' => '24 Horas — Banner 2'],
-        ['webp' => asset('img/banner3.webp') . '?v=' . filemtime(public_path('img/banner3.webp')), 'png' => asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')), 'alt' => '24 Horas — Banner 3'],
+        ['webp' => asset('img/banner1.webp') . $ft('img/banner1.webp'), 'png' => asset('img/banner1.png') . $ft('img/banner1.png'), 'alt' => '24 Horas — Banner 1'],
+        ['webp' => asset('img/banner2.webp') . $ft('img/banner2.webp'), 'png' => asset('img/banner2.png') . $ft('img/banner2.png'), 'alt' => '24 Horas — Banner 2'],
+        ['webp' => asset('img/banner3.webp') . $ft('img/banner3.webp'), 'png' => asset('img/banner3.png') . $ft('img/banner3.png'), 'alt' => '24 Horas — Banner 3'],
     ];
 @endphp
 
