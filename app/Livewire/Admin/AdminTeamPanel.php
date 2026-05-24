@@ -13,6 +13,7 @@ use Carbon\Carbon;
 class AdminTeamPanel extends Component
 {
     public string $periodo = 'hoje'; // hoje | semana | mes
+    public string $search = '';
     public ?int $selectedAdminId = null;
 
     public function mount(): void
@@ -36,6 +37,15 @@ class AdminTeamPanel extends Component
         // Todos os admins activos
         $admins = User::where('role', 'admin')
             ->where('status', 'active')
+            ->when($this->search, function ($q) {
+                $term = '%' . $this->search . '%';
+                $q->where(function ($q2) use ($term) {
+                    $q2->where('name', 'ilike', $term)
+                       ->orWhere('admin_cargo', 'ilike', $term)
+                       ->orWhere('admin_role', 'ilike', $term)
+                       ->orWhere('email', 'ilike', $term);
+                });
+            })
             ->orderByRaw("CASE WHEN last_seen_at >= ? THEN 0 WHEN last_seen_at >= ? THEN 1 ELSE 2 END",
                 [now()->subMinutes(5), now()->subMinutes(30)])
             ->orderBy('name')

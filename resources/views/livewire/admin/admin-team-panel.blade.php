@@ -46,20 +46,33 @@
         </div>
     </div>
 
-    {{-- ── PERÍODO + TÍTULO ─────────────────────────────────────────────────────── --}}
+    {{-- ── PERÍODO + PESQUISA + TÍTULO ────────────────────────────────────────── --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
             <h2 class="text-base font-bold text-gray-100">Actividade da Equipa</h2>
             <p class="text-xs text-slate-400 mt-0.5">Clique num membro para ver o histórico detalhado</p>
         </div>
-        <div class="flex rounded-xl border border-slate-700 overflow-hidden self-start">
-            @foreach(['hoje' => 'Hoje', 'semana' => 'Esta semana', 'mes' => 'Este mês'] as $val => $label)
-                <button wire:click="$set('periodo', '{{ $val }}')"
-                    class="px-3 py-1.5 text-xs font-semibold transition
-                        {{ $periodo === $val ? 'bg-[#0055ff] text-white' : 'bg-transparent text-slate-400 hover:text-white' }}">
-                    {{ $label }}
-                </button>
-            @endforeach
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 self-start">
+            {{-- Pesquisa --}}
+            <div class="relative">
+                <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input wire:model.live.debounce.300ms="search"
+                       type="text"
+                       placeholder="Pesquisar admin..."
+                       class="pl-8 pr-3 py-1.5 text-xs rounded-xl border border-slate-700 bg-transparent text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40 focus:border-[#0055ff] transition w-44">
+            </div>
+            {{-- Período --}}
+            <div class="flex rounded-xl border border-slate-700 overflow-hidden">
+                @foreach(['hoje' => 'Hoje', 'semana' => 'Semana', 'mes' => 'Mês'] as $val => $label)
+                    <button wire:click="$set('periodo', '{{ $val }}')"
+                        class="px-3 py-1.5 text-xs font-semibold transition
+                            {{ $periodo === $val ? 'bg-[#0055ff] text-white' : 'bg-transparent text-slate-400 hover:text-white' }}">
+                        {{ $label }}
+                    </button>
+                @endforeach
+            </div>
         </div>
     </div>
 
