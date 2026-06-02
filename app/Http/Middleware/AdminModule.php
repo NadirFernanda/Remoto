@@ -21,13 +21,13 @@ class AdminModule
 {
     // Mapa de módulo → admin_roles com acesso (null = master implícito)
     private const ACCESS = [
-        'gestor'     => ['master', 'gestor', null],
-        'financeiro' => ['master', 'financeiro', null],
-        'settings'   => ['master', null],
-        'audit'      => ['master', 'gestor', 'analista', null],
-        'suporte'    => ['master', 'gestor', 'suporte', null],
-        'analista'   => ['master', 'analista', null],
-        // admin-manager: master-only (managing admins)
+        'gestor'      => ['master', 'gestor', null],
+        'financeiro'  => ['master', 'financeiro', null],
+        'relatorios'  => ['master', 'financeiro', 'relatorios', null],
+        'settings'    => ['master', null],
+        'audit'       => ['master', 'gestor', 'analista', null],
+        'suporte'     => ['master', 'gestor', 'suporte', null],
+        'analista'    => ['master', 'analista', null],
         'admin-manager' => ['master', null],
     ];
 

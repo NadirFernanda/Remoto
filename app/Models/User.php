@@ -332,6 +332,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'gestor'       => 'Gestor de Operações',
             'suporte'      => 'Gestor de Suporte',
             'analista'     => 'Analista de Dados',
+            'relatorios'   => 'Acesso a Relatórios',
             default        => 'Administrador',
         };
     }

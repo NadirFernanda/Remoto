@@ -52,6 +52,7 @@
             <option value="gestor">Gestor de Operações</option>
             <option value="suporte">Gestor de Suporte</option>
             <option value="analista">Analista de Dados</option>
+            <option value="relatorios">Acesso a Relatórios</option>
         </select>
     </div>
 
@@ -80,6 +81,7 @@
                                 'gestor'     => 'bg-blue-100 text-blue-800',
                                 'suporte'    => 'bg-orange-100 text-orange-800',
                                 'analista'   => 'bg-sky-100 text-sky-800',
+                                'relatorios' => 'bg-violet-100 text-violet-800',
                             ];
                             $roleKey   = $admin->admin_role ?? 'master';
                             $roleClass = $roleColors[$roleKey] ?? 'bg-gray-100 text-gray-700';
@@ -283,11 +285,12 @@
                                 <label class="block text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">Perfil de Acesso *</label>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                     @foreach([
-                                        'master'     => ['label' => 'Admin Master', 'desc' => 'Acesso total ao sistema', 'color' => 'blue'],
-                                        'financeiro' => ['label' => 'Diretor Financeiro', 'desc' => 'Módulos financeiros', 'color' => 'emerald'],
-                                        'gestor'     => ['label' => 'Gestor de Operações', 'desc' => 'Disputas, utilizadores', 'color' => 'blue'],
-                                        'suporte'    => ['label' => 'Gestor de Suporte', 'desc' => 'Atendimento e disputas', 'color' => 'orange'],
-                                        'analista'   => ['label' => 'Analista de Dados', 'desc' => 'Relatórios e auditoria', 'color' => 'cyan'],
+                                        'master'     => ['label' => 'Admin Master',        'desc' => 'Acesso total ao sistema',          'color' => 'blue'],
+                                        'financeiro' => ['label' => 'Diretor Financeiro',   'desc' => 'Gestão financeira completa',       'color' => 'emerald'],
+                                        'gestor'     => ['label' => 'Gestor de Operações',  'desc' => 'Disputas, utilizadores',           'color' => 'blue'],
+                                        'suporte'    => ['label' => 'Gestor de Suporte',    'desc' => 'Atendimento e disputas',           'color' => 'orange'],
+                                        'analista'   => ['label' => 'Analista de Dados',    'desc' => 'Relatórios e auditoria',           'color' => 'cyan'],
+                                        'relatorios' => ['label' => 'Acesso a Relatórios',  'desc' => 'Só visualizar e exportar listas',  'color' => 'violet'],
                                     ] as $roleVal => $info)
                                         @php
                                             $colorMap = [
@@ -295,6 +298,7 @@
                                                 'blue'    => 'border-blue-300 bg-blue-50 ring-[#0055ff]',
                                                 'orange'  => 'border-orange-300 bg-orange-50 ring-orange-400',
                                                 'cyan'    => 'border-sky-300 bg-sky-50 ring-sky-400',
+                                                'violet'  => 'border-violet-300 bg-violet-50 ring-violet-400',
                                             ];
                                             $activeClass  = $adminRole === $roleVal ? 'ring-2 ' . $colorMap[$info['color']] : 'border-gray-200 bg-white hover:bg-gray-50';
                                         @endphp
