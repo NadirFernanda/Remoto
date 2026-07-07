@@ -64,12 +64,24 @@ class Settings extends Component
     public string $profileMsg             = '';
     public string $profileMsgType         = 'success';
 
+    // ── Autenticação de dois factores ─────────────────────────────────────────
+    public bool   $twoFactorEnabled = false;
+    public string $twoFaConfirmCode = '';
+    public array  $showRecoveryCodes = [];
+    public string $twoFaMsg     = '';
+    public string $twoFaMsgType = 'success';
+
     public function mount(): void
     {
         abort_if(auth()->user()?->role !== 'admin', 403);
 
         $this->profileName  = auth()->user()->name;
         $this->profileEmail = auth()->user()->email;
+        $this->twoFactorEnabled = auth()->user()->hasTwoFactorEnabled();
+
+        if (auth()->user()->admin_role !== null) {
+            return;
+        }
 
         $this->siteName        = PlatformSetting::get('site_name', config('app.name', ''));
         $this->siteEmail       = PlatformSetting::get('site_email', config('mail.from.address', ''));
@@ -148,6 +160,8 @@ class Settings extends Component
 
     public function save(): void
     {
+        abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode alterar as definições da plataforma.');
+
         $this->savedMsg = '';
         $this->errorMsg = '';
 
@@ -227,6 +241,59 @@ class Settings extends Component
         }
 
         $this->savedMsg = 'Configurações guardadas com sucesso.';
+    }
+
+    public function regenerateRecoveryCodes(\App\Services\TwoFactorAuthService $twoFactor): void
+    {
+        $this->twoFaMsg = '';
+        $user = auth()->user();
+
+        $this->validate(['twoFaConfirmCode' => 'required|string'], [
+            'twoFaConfirmCode.required' => 'Introduza o código actual da sua app autenticadora.',
+        ]);
+
+        if (!$user->two_factor_secret || !$twoFactor->verify($user->two_factor_secret, $this->twoFaConfirmCode)) {
+            $this->twoFaMsg     = 'Código inválido.';
+            $this->twoFaMsgType = 'error';
+            return;
+        }
+
+        $plaintextCodes = $twoFactor->generateRecoveryCodes();
+        $user->two_factor_recovery_codes = $twoFactor->hashRecoveryCodes($plaintextCodes);
+        $user->save();
+
+        \App\Modules\Admin\Services\AuditLogger::log('2fa_recovery_codes_regenerated', "Códigos de recuperação regenerados por {$user->name} ({$user->email}).", 'User', $user->id, category: 'sistema');
+
+        $this->showRecoveryCodes = $plaintextCodes;
+        $this->twoFaConfirmCode  = '';
+        $this->twoFaMsg          = 'Novos códigos de recuperação gerados.';
+        $this->twoFaMsgType      = 'success';
+    }
+
+    public function disableAndReenroll(\App\Services\TwoFactorAuthService $twoFactor): void
+    {
+        $this->twoFaMsg = '';
+        $user = auth()->user();
+
+        $this->validate(['twoFaConfirmCode' => 'required|string'], [
+            'twoFaConfirmCode.required' => 'Introduza o código actual da sua app autenticadora.',
+        ]);
+
+        if (!$user->two_factor_secret || !$twoFactor->verify($user->two_factor_secret, $this->twoFaConfirmCode)) {
+            $this->twoFaMsg     = 'Código inválido.';
+            $this->twoFaMsgType = 'error';
+            return;
+        }
+
+        $user->two_factor_secret         = null;
+        $user->two_factor_recovery_codes = null;
+        $user->two_factor_confirmed_at   = null;
+        $user->save();
+
+        \App\Modules\Admin\Services\AuditLogger::log('2fa_disabled_self', "2FA desactivado por {$user->name} ({$user->email}) para reconfiguração.", 'User', $user->id, category: 'sistema');
+
+        session()->forget('2fa_passed_at');
+        $this->redirect(route('2fa.setup'));
     }
 
     public function render()

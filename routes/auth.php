@@ -11,9 +11,13 @@ use Illuminate\Support\Str;
 // Rota GET para exibir o formulário de login
 Route::get('/login', function () {
     if (Auth::check()) {
-        $role = Auth::user()->role;
-        if ($role === 'freelancer') return redirect('/freelancer/dashboard');
-        if ($role === 'admin')      return redirect('/admin/dashboard');
+        $user = Auth::user();
+        if ($user->role === 'admin') {
+            return $user->two_factor_confirmed_at === null
+                ? redirect()->route('2fa.setup')
+                : redirect()->route('2fa.challenge');
+        }
+        if ($user->role === 'freelancer') return redirect('/freelancer/dashboard');
         return redirect('/cliente/dashboard');
     }
     return view('auth.login');
@@ -56,12 +60,16 @@ Route::post('/login', function (Request $request) {
         $user->save();
     }
 
+    if ($user->role === 'admin') {
+        return $user->two_factor_confirmed_at === null
+            ? redirect()->route('2fa.setup')
+            : redirect()->route('2fa.challenge');
+    }
+
     if ($user->role === 'cliente') {
         return redirect()->intended('/cliente/dashboard');
     } elseif ($user->role === 'freelancer') {
         return redirect()->intended('/freelancer/dashboard');
-    } elseif ($user->role === 'admin') {
-        return redirect()->intended('/admin/dashboard');
     } elseif ($user->role === 'creator') {
         return redirect()->intended('/creator/dashboard');
     } else {

@@ -40,7 +40,8 @@ class AdminManager extends Component
     public array $permissions = [];
 
     // ── Security ──────────────────────────────────────────────────────────────
-    public bool   $twoFactorRequired        = false;
+    public bool   $twoFactorRequired        = false; // @deprecated — 2FA agora é obrigatório para todos, ver editingTwoFactorStatus
+    public bool   $editingTwoFactorStatus   = false;
     public bool   $ipRestriction            = false;
     public string $allowedIps               = '';
     public bool   $sessionTimeoutEnabled    = true;
@@ -110,6 +111,7 @@ class AdminManager extends Component
         $this->loadPermissionsFromDb($id);
         $this->loadSecurityFromDb($id);
         $this->loadNotificationsFromDb($id);
+        $this->editingTwoFactorStatus = $admin->hasTwoFactorEnabled();
 
         $this->modalMode = 'edit';
         $this->permTab   = 'perfil';
@@ -410,6 +412,39 @@ class AdminManager extends Component
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 2FA
+    // ─────────────────────────────────────────────────────────────────────────
+
+    public function resetTwoFactor(int $id): void
+    {
+        $this->guardNotSelf($id);
+        $admin = User::findOrFail($id);
+
+        $before = ['two_factor_confirmed_at' => optional($admin->two_factor_confirmed_at)->toDateTimeString()];
+
+        $admin->two_factor_secret         = null;
+        $admin->two_factor_recovery_codes = null;
+        $admin->two_factor_confirmed_at   = null;
+        $admin->save();
+
+        AuditLogger::log(
+            'admin_2fa_reset',
+            "2FA reposto para {$admin->name} ({$admin->email}) — obrigado a reconfigurar no próximo login.",
+            'User',
+            $id,
+            $before,
+            ['two_factor_confirmed_at' => null],
+            category: 'sistema'
+        );
+
+        if ($this->editingId === $id) {
+            $this->editingTwoFactorStatus = false;
+        }
+
+        session()->flash('success', "2FA de {$admin->name} foi reposto. Terá de reconfigurar no próximo login.");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // HELPERS
     // ─────────────────────────────────────────────────────────────────────────
 
@@ -433,6 +468,7 @@ class AdminManager extends Component
         $this->passwordConfirm = '';
         $this->permissions     = [];
         $this->allowedIps      = '';
+        $this->editingTwoFactorStatus  = false;
         $this->twoFactorRequired       = false;
         $this->ipRestriction           = false;
         $this->sessionTimeoutEnabled   = true;

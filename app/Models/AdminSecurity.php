@@ -9,6 +9,11 @@ class AdminSecurity extends Model
 {
     protected $table = 'admin_security';
 
+    /**
+     * @deprecated 'two_factor_required' — superseded by users.two_factor_confirmed_at.
+     * 2FA é agora obrigatório para todos os administradores, sem opt-in por conta.
+     * Coluna mantida apenas por histórico/auditoria, já não é lida em lado nenhum.
+     */
     protected $fillable = [
         'user_id',
         'two_factor_required',

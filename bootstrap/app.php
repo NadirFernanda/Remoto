@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware('web')->group(base_path('routes/auth.php'));
             Route::middleware('web')->group(base_path('routes/receipt.php'));
+            Route::middleware('web')->group(base_path('routes/two-factor.php'));
             // Admin routes are registered by App\Modules\Admin\AdminServiceProvider
         },
     )
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role'         => \App\Http\Middleware\Role::class,
             'admin.module' => \App\Http\Middleware\AdminModule::class,
             'kyc.verified' => \App\Http\Middleware\KycVerified::class,
+            '2fa'          => \App\Http\Middleware\EnsureTwoFactorAuthenticated::class,
         ]);
 
         // Frente 2 — Delivery Cache: adiciona Cache-Control a páginas públicas

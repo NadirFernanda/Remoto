@@ -55,6 +55,61 @@
         </button>
     </div>
 
+    {{-- ── Autenticação de Dois Factores ── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 p-6">
+        <div class="mb-5 pb-3 border-b border-gray-100 flex items-center justify-between">
+            <div>
+                <h2 class="text-base font-semibold text-gray-800">Autenticação de Dois Factores (2FA)</h2>
+                <p class="text-xs text-gray-400 mt-1">Obrigatório para todos os administradores.</p>
+            </div>
+            <span class="text-xs font-semibold px-3 py-1 rounded-full {{ $twoFactorEnabled ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700' }}">
+                {{ $twoFactorEnabled ? 'Activo' : 'Pendente de configuração' }}
+            </span>
+        </div>
+
+        @if($twoFaMsg)
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
+                {{ $twoFaMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+                {{ $twoFaMsg }}
+            </div>
+        @endif
+
+        @if($twoFactorEnabled)
+            @if(count($showRecoveryCodes))
+                <div class="mb-4 p-4 bg-gray-900 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    @foreach($showRecoveryCodes as $code)
+                        <span class="font-mono text-xs text-gray-100">{{ $code }}</span>
+                    @endforeach
+                </div>
+                <p class="text-xs text-amber-600 mb-4">Guarde estes códigos agora — não serão mostrados novamente.</p>
+            @endif
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">Código actual da app autenticadora</label>
+                    <input wire:model="twoFaConfirmCode" type="text" maxlength="6" placeholder="000000"
+                        class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
+                    @error('twoFaConfirmCode') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+                <div class="flex gap-2">
+                    <button wire:click="regenerateRecoveryCodes" wire:loading.attr="disabled"
+                        class="px-4 py-2 border border-gray-200 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-50 transition disabled:opacity-50">
+                        Regenerar códigos
+                    </button>
+                    <button wire:click="disableAndReenroll" wire:loading.attr="disabled" wire:confirm="Desactivar o 2FA actual e reconfigurar? Terá de ler um novo código QR."
+                        class="px-4 py-2 border border-red-200 text-red-600 rounded-xl text-sm font-semibold hover:bg-red-50 transition disabled:opacity-50">
+                        Desactivar e reconfigurar
+                    </button>
+                </div>
+            </div>
+        @else
+            <a href="{{ route('2fa.setup') }}" class="inline-flex items-center px-5 py-2 bg-gradient-to-r from-[#00c8ff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition">
+                Configurar agora
+            </a>
+        @endif
+    </div>
+
+    @if(auth()->user()->admin_role === null)
     {{-- ── 1. Configurações de Marca e Comunicação ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <div class="mb-5 pb-3 border-b border-gray-100">
@@ -521,4 +576,5 @@
             <span wire:loading wire:target="save">A guardar…</span>
         </button>
     </div>
+    @endif
 </div>

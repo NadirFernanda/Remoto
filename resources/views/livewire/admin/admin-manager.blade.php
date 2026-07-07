@@ -380,14 +380,20 @@
                             <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
                                 <div>
                                     <div class="font-semibold text-sm text-gray-800">Autenticação 2 Factores (2FA)</div>
-                                    <div class="text-xs text-gray-500 mt-0.5">Obrigar este administrador a activar 2FA no próximo login.</div>
+                                    <div class="text-xs text-gray-500 mt-0.5">
+                                        Obrigatório para todos os administradores. Estado actual:
+                                        <span class="font-semibold {{ $editingTwoFactorStatus ? 'text-emerald-600' : 'text-amber-600' }}">
+                                            {{ $editingTwoFactorStatus ? 'Activo' : 'Pendente de configuração' }}
+                                        </span>.
+                                    </div>
                                 </div>
-                                <button type="button" wire:click="$toggle('twoFactorRequired')"
-                                    class="relative ml-4 flex-shrink-0 w-11 h-6 rounded-full transition-colors focus:outline-none"
-                                    style="{{ $twoFactorRequired ? 'background:#0055ff' : 'background:#d1d5db' }}">
-                                    <span class="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all"
-                                        style="{{ $twoFactorRequired ? 'left:22px' : 'left:2px' }}"></span>
+                                @if($editingTwoFactorStatus)
+                                <button type="button" wire:click="resetTwoFactor({{ $editingId }})"
+                                    wire:confirm="Repor o 2FA deste administrador? Ele terá de reconfigurar no próximo login."
+                                    class="ml-4 flex-shrink-0 text-xs font-semibold text-red-600 hover:text-red-700 whitespace-nowrap">
+                                    Repor 2FA
                                 </button>
+                                @endif
                             </div>
 
                             {{-- Force password change --}}

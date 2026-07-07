@@ -217,10 +217,18 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'last_seen_at'      => 'datetime',
-            'last_login_at'     => 'datetime',
+            'email_verified_at'         => 'datetime',
+            'last_seen_at'              => 'datetime',
+            'last_login_at'             => 'datetime',
+            'two_factor_confirmed_at'   => 'datetime',
+            'two_factor_secret'         => 'encrypted',
+            'two_factor_recovery_codes' => 'array',
         ];
+    }
+
+    public function hasTwoFactorEnabled(): bool
+    {
+        return $this->role === 'admin' && $this->two_factor_confirmed_at !== null;
     }
 
     public function isOnline(): bool

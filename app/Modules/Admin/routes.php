@@ -14,7 +14,7 @@ use App\Modules\Admin\Services\ExchangeRateService;
 // Base group: apenas verifica que o utilizador é admin (qualquer sub-role).
 // Cada rota/grupo aplica depois o seu próprio admin.module:X específico.
 
-Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
+Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
 
     // Dashboard — acessível a todos os admins
     Route::get('/admin/dashboard', \App\Livewire\Admin\Dashboard::class)->name('admin.dashboard');
@@ -92,7 +92,8 @@ Route::middleware(['web', 'auth', 'role:admin'])->group(function () {
     Route::get('/admin/notificacoes-massa', \App\Livewire\Admin\MassNotifications::class)->name('admin.notifications.mass')->middleware('admin.module:suporte');
 
     // Admin — Settings (master only)
-    Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings')->middleware('admin.module:settings');
+    // Acessível a todos os admins (auto-gestão de 2FA); definições de plataforma restritas a master dentro do próprio componente.
+    Route::get('/admin/settings', \App\Livewire\Admin\Settings::class)->name('admin.settings');
 
     // Admin — Manage Administrators (master only)
     Route::get('/admin/administradores', \App\Livewire\Admin\AdminManager::class)->name('admin.managers')->middleware('admin.module:admin-manager');
