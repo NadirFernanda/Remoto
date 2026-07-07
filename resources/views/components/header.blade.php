@@ -400,6 +400,14 @@
             @else
                 {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
                 <div style="display:flex;align-items:center;gap:.625rem;">
+                    {{-- CTA extensão de navegador --}}
+                    <a href="{{ route('extension.show') }}"
+                       class="hp-btn-pulse"
+                       title="Instalar extensão de navegador"
+                       style="display:flex;align-items:center;gap:.4rem;padding:.4rem .75rem;border-radius:.6875rem;background:#0055ff;color:#fff;font-weight:700;font-size:.78rem;text-decoration:none;white-space:nowrap;">
+                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        <span class="hp-cta-label">Instalar extensão</span>
+                    </a>
                     {{-- Ícone Mensagens + sino: apenas para não-admin --}}
                     @if(auth()->user()->activeRole() !== 'admin')
                     @include('partials.header-chat-badge')
@@ -757,6 +765,10 @@
                 @else
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
                 @endif
+                <a href="{{ route('extension.show') }}" class="nav-link flex items-center gap-2" style="color:#5b9dff;">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Instalar extensão
+                </a>
                 {{-- Publicar / Notificação --}}
                 <div class="border-t border-white/10 my-1"></div>
                 @if(auth()->user()->activeRole() === 'admin')

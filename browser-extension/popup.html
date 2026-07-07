@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<title>Site Freelancer</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="topbar">
+    <img src="icons/icon48.png" alt="" class="topbar-logo">
+    <span class="topbar-title">Site Freelancer</span>
+    <button id="settings-btn" class="icon-btn" title="Configurações" aria-label="Configurações">⚙</button>
+  </header>
+
+  <main id="view-login" class="view">
+    <p class="hint">Indique o endereço do site e inicie sessão para aceder rapidamente ao seu painel.</p>
+    <form id="login-form">
+      <label for="site-url">Endereço do site</label>
+      <input id="site-url" type="text" placeholder="https://seudominio.com" required>
+
+      <label for="email">E-mail</label>
+      <input id="email" type="email" required autocomplete="username">
+
+      <label for="password">Palavra-passe</label>
+      <input id="password" type="password" required autocomplete="current-password">
+
+      <p id="login-error" class="error" hidden></p>
+
+      <button type="submit" id="login-submit" class="btn-primary">Entrar</button>
+    </form>
+  </main>
+
+  <main id="view-main" class="view" hidden>
+    <div class="user-row">
+      <div class="user-avatar" id="user-initial"></div>
+      <div>
+        <div class="user-name" id="user-name"></div>
+        <div class="user-role" id="user-role"></div>
+      </div>
+    </div>
+
+    <div class="badges-row">
+      <div class="badge-tile">
+        <span class="badge-count" id="chat-count">0</span>
+        <span class="badge-label">Mensagens</span>
+      </div>
+      <div class="badge-tile">
+        <span class="badge-count" id="notif-count">0</span>
+        <span class="badge-label">Notificações</span>
+      </div>
+    </div>
+
+    <nav class="quick-links" id="quick-links"></nav>
+
+    <button id="logout-btn" class="btn-outline">Terminar sessão</button>
+  </main>
+
+  <script src="popup.js"></script>
+</body>
+</html>

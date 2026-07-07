@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ProposalController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\BadgeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,5 +66,8 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('notifications/unread-count',      [NotificationController::class, 'unreadCount'])->name('notifications.unread');
         Route::patch('notifications/{id}/read',       [NotificationController::class, 'markRead'])->name('notifications.read');
         Route::post('notifications/mark-all-read',    [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+
+        // Badges (extensão de navegador)
+        Route::get('badges', [BadgeController::class, 'index'])->name('badges');
     });
 });

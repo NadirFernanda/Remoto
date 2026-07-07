@@ -16,6 +16,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpVerificationController;
+use App\Http\Controllers\ExtensionController;
+
+// ─── Extensão de navegador ────────────────────────────────────────────────────
+Route::get('/extensao', [ExtensionController::class, 'show'])->name('extension.show');
+Route::get('/extensao/download', [ExtensionController::class, 'download'])->name('extension.download');
 
 // ─── Homepage ─────────────────────────────────────────────────────────────────
 Route::get('/', function () {
