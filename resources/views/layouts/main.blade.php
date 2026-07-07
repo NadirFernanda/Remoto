@@ -37,7 +37,9 @@
             @include('components.flash-messages')
             @yield('content')
         </main>
+        @unless(Route::currentRouteName() === 'extension.show')
         @include('components.footer')
+        @endunless
         @include('components.cookie-consent')
     </div>
     @livewireScripts
