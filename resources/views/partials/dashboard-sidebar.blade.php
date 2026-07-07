@@ -23,7 +23,7 @@
             <p class="text-sm text-gray-100 truncate leading-tight" style="max-width:160px">{{ $u->name }}</p>
             <p class="text-xs text-slate-400 truncate leading-tight" style="max-width:160px">{{ $u->email }}</p>
             @php $sidebarRole = optional(auth()->user())->activeRole() ?? 'cliente'; @endphp
-            <p class="text-xs font-semibold mt-0.5" style="color:#00baff;">
+            <p class="text-xs font-semibold mt-0.5" style="color:#0055ff;">
                 @if($sidebarRole === 'freelancer') Freelancer / Criador
                 @elseif(in_array($sidebarRole, ['cliente', 'client'])) Cliente / Seguidor
                 @elseif($sidebarRole === 'admin')
@@ -52,7 +52,7 @@
             <span id="sidebarAffiliate" class="text-xs text-slate-400 font-mono flex-1 select-all">{{ $u->affiliate_code }}</span>
             <button x-data
                 x-on:click="navigator.clipboard.writeText('{{ $u->affiliate_code }}');$el.textContent='✓'"
-                class="text-xs text-[#00baff] hover:text-[#009ad6] transition font-medium">
+                class="text-xs text-[#0055ff] hover:text-[#0044cc] transition font-medium">
                 Copiar
             </button>
         </div>
@@ -60,7 +60,7 @@
         <form method="POST" action="{{ route('affiliate.generate') }}" class="mt-3">
             @csrf
             <button type="submit"
-                class="w-full flex items-center justify-center gap-1.5 text-xs text-[#00baff] border border-[#00baff]/30 rounded-lg px-3 py-2 hover:bg-[#00baff]/5 transition">
+                class="w-full flex items-center justify-center gap-1.5 text-xs text-[#0055ff] border border-[#0055ff]/30 rounded-lg px-3 py-2 hover:bg-[#0055ff]/5 transition">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
