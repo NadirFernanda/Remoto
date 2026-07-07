@@ -553,8 +553,8 @@
                     {{-- Não-admin: Publicar Projecto + Conteúdo --}}
                     <div x-data="{open:false, role:'{{ auth()->user()->activeRole() }}'}" class="relative">
                         <button @click="open = !open"
-                                style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:600;font-size:.8rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
-                                onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">
+                                style="display:flex;align-items:center;gap:.4rem;padding:.35rem .75rem;border-radius:.6875rem;background:#0055ff;color:#fff;font-weight:600;font-size:.8rem;border:none;cursor:pointer;white-space:nowrap;transition:background .15s;"
+                                onmouseover="this.style.background='#0044cc'" onmouseout="this.style.background='#0055ff'">
                             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/></svg>
                             Publicar
                             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" :class="open?'rotate-180':''" style="transition:transform .15s;"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
