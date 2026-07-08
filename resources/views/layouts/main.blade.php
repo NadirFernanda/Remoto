@@ -41,9 +41,17 @@
         // o listener tem de estar registado ANTES disso, por isso fica aqui no
         // <head> e não junto aos outros scripts no fim do <body> (onde chegava
         // tarde demais e perdia o evento, mostrando sempre "Indisponível").
+        //
+        // O Chrome só dispara este evento quando a app NÃO está instalada — por
+        // isso, se disparar, é prova de que uma desinstalação anterior aconteceu
+        // de facto. Não há nenhum evento "appuninstalled" para nos avisar disso
+        // directamente, por isso usamos este como sinal indirecto para limpar a
+        // memória antiga (localStorage) que ficava presa em "já instalada".
         window.addEventListener('beforeinstallprompt', function (event) {
             event.preventDefault();
             window.deferredPwaPrompt = event;
+            localStorage.removeItem('pwa_installed');
+            document.documentElement.classList.remove('pwa-installed');
             window.dispatchEvent(new CustomEvent('pwa-install-available'));
         });
         window.addEventListener('appinstalled', function () {
