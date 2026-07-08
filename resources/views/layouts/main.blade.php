@@ -19,6 +19,24 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <style>[x-cloak]{display:none!important}</style>
+    <style>
+        .pwa-installed .js-pwa-install-cta { display: none !important; }
+        .js-pwa-installed-msg { display: none; }
+        .pwa-installed .js-pwa-installed-msg { display: block; }
+    </style>
+    <script>
+        // Aplica a classe o mais cedo possível (antes do body renderizar) para
+        // esconder botões de instalação sem qualquer flash visual.
+        (function () {
+            var installed = localStorage.getItem('pwa_installed') === '1'
+                || window.matchMedia('(display-mode: standalone)').matches
+                || window.navigator.standalone === true;
+            if (installed) {
+                document.documentElement.classList.add('pwa-installed');
+                localStorage.setItem('pwa_installed', '1');
+            }
+        })();
+    </script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 <body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
@@ -80,6 +98,8 @@
         });
         window.addEventListener('appinstalled', function () {
             window.deferredPwaPrompt = null;
+            localStorage.setItem('pwa_installed', '1');
+            document.documentElement.classList.add('pwa-installed');
         });
     </script>
 </body>
