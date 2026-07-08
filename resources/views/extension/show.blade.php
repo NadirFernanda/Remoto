@@ -69,5 +69,18 @@
             </script>
         @endif
     </div>
+
+    <div class="js-pwa-install-cta" style="text-align:left;background:rgba(255,255,255,.03);border-radius:.75rem;padding:1.25rem 1.5rem;margin-top:1.25rem;">
+        <p style="color:#94a3b8;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:0 0 .6rem;">Onde encontrar o ícone depois de instalar</p>
+        <ul style="color:#cbd5e1;font-size:.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
+            <li><strong>Computador (Windows):</strong> Menu Iniciar, ou afixe na Barra de Tarefas (clique direito no ícone → "Afixar").</li>
+            <li><strong>Computador (Mac):</strong> Launchpad ou pasta Aplicações.</li>
+            <li><strong>Android:</strong> gaveta de aplicações ou ecrã principal, como qualquer app.</li>
+            <li><strong>iPhone:</strong> ecrã principal, como qualquer app.</li>
+        </ul>
+        <p style="color:#64748b;font-size:.8rem;margin:.85rem 0 0;">
+            A partir daí, abre directamente pelo ícone — não precisa de abrir o navegador nem de se lembrar do endereço do site.
+        </p>
+    </div>
 </div>
 @endsection
