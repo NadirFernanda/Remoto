@@ -36,6 +36,21 @@
                 localStorage.setItem('pwa_installed', '1');
             }
         })();
+
+        // O evento beforeinstallprompt pode disparar assim que a página carrega —
+        // o listener tem de estar registado ANTES disso, por isso fica aqui no
+        // <head> e não junto aos outros scripts no fim do <body> (onde chegava
+        // tarde demais e perdia o evento, mostrando sempre "Indisponível").
+        window.addEventListener('beforeinstallprompt', function (event) {
+            event.preventDefault();
+            window.deferredPwaPrompt = event;
+            window.dispatchEvent(new CustomEvent('pwa-install-available'));
+        });
+        window.addEventListener('appinstalled', function () {
+            window.deferredPwaPrompt = null;
+            localStorage.setItem('pwa_installed', '1');
+            document.documentElement.classList.add('pwa-installed');
+        });
     </script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
@@ -86,21 +101,11 @@
             });
         });
 
-        // PWA: regista o service worker e guarda o evento de instalação para
-        // ser usado pelo botão "Instalar aplicação" em /extensao.
+        // PWA: regista o service worker (o listener de beforeinstallprompt já
+        // está registado no <head>, o mais cedo possível).
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(function () {});
         }
-        window.addEventListener('beforeinstallprompt', function (event) {
-            event.preventDefault();
-            window.deferredPwaPrompt = event;
-            window.dispatchEvent(new CustomEvent('pwa-install-available'));
-        });
-        window.addEventListener('appinstalled', function () {
-            window.deferredPwaPrompt = null;
-            localStorage.setItem('pwa_installed', '1');
-            document.documentElement.classList.add('pwa-installed');
-        });
     </script>
 </body>
 </html>
