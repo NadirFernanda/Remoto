@@ -51,6 +51,13 @@
             localStorage.setItem('pwa_installed', '1');
             document.documentElement.classList.add('pwa-installed');
         });
+
+        // Regista o service worker o mais cedo possível — o Chrome só considera
+        // o site instalável (e só dispara beforeinstallprompt) depois de ter um
+        // service worker activo, por isso registá-lo tarde atrasa tudo o resto.
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+        }
     </script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
@@ -100,12 +107,6 @@
                 close() { this.open = false; }
             });
         });
-
-        // PWA: regista o service worker (o listener de beforeinstallprompt já
-        // está registado no <head>, o mais cedo possível).
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(function () {});
-        }
     </script>
 </body>
 </html>

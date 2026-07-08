@@ -36,15 +36,17 @@
                 A preparar…
             </button>
             <p id="pwa-fallback-hint" style="color:#64748b;font-size:.78rem;margin-top:1rem;line-height:1.6;">
-                Se o botão não activar: no computador, use o ícone de instalação na barra de endereço
-                (Chrome/Edge); no telemóvel, abra o menu (⋮) e toque em "Instalar aplicação" ou
-                "Adicionar ao ecrã principal".
+                Pode demorar alguns segundos a activar. Se não activar: no computador, use o ícone de
+                instalação na barra de endereço (Chrome/Edge); no telemóvel, abra o menu (⋮) e toque em
+                "Instalar aplicação" ou "Adicionar ao ecrã principal".
             </p>
             <script>
                 (function () {
                     var btn = document.getElementById('pwa-install-btn');
+                    var ready = false;
 
                     function enable() {
+                        ready = true;
                         btn.disabled = false;
                         btn.style.opacity = '1';
                         btn.textContent = 'Instalar aplicação';
@@ -54,17 +56,29 @@
                     window.addEventListener('pwa-install-available', enable);
 
                     btn.addEventListener('click', function () {
-                        if (!window.deferredPwaPrompt) return;
-                        window.deferredPwaPrompt.prompt();
-                        window.deferredPwaPrompt.userChoice.finally(function () {
-                            window.deferredPwaPrompt = null;
-                            btn.textContent = 'Instalado ✓';
-                        });
+                        if (ready && window.deferredPwaPrompt) {
+                            window.deferredPwaPrompt.prompt();
+                            window.deferredPwaPrompt.userChoice.finally(function () {
+                                window.deferredPwaPrompt = null;
+                                btn.textContent = 'Instalado ✓';
+                            });
+                        } else if (!ready && btn.dataset.fallback === '1') {
+                            window.location.reload();
+                        }
                     });
 
+                    // O Chrome pode demorar vários segundos a decidir que o site é
+                    // instalável (regista o service worker, avalia critérios, etc.).
+                    // Só ao fim de 8s — se ainda não activou — assumimos que vale a
+                    // pena sugerir recarregar, em vez de desistir cedo demais.
                     setTimeout(function () {
-                        if (btn.disabled) btn.textContent = 'Indisponível neste navegador';
-                    }, 1500);
+                        if (!ready) {
+                            btn.disabled = false;
+                            btn.style.opacity = '1';
+                            btn.textContent = 'Recarregar página';
+                            btn.dataset.fallback = '1';
+                        }
+                    }, 8000);
                 })();
             </script>
         @endif
