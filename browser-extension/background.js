@@ -1,9 +1,10 @@
+const SITE_URL = 'https://24horas.ao';
 const ALARM_NAME = 'badge-refresh';
 const ALARM_PERIOD_MINUTES = 2;
 
-async function getSession() {
-  const { siteUrl, token } = await chrome.storage.local.get(['siteUrl', 'token']);
-  return { siteUrl, token };
+async function getToken() {
+  const { token } = await chrome.storage.local.get(['token']);
+  return token;
 }
 
 async function clearBadge() {
@@ -11,14 +12,14 @@ async function clearBadge() {
 }
 
 async function refreshBadge() {
-  const { siteUrl, token } = await getSession();
-  if (!siteUrl || !token) {
+  const token = await getToken();
+  if (!token) {
     await clearBadge();
     return;
   }
 
   try {
-    const response = await fetch(`${siteUrl}/api/v1/badges`, {
+    const response = await fetch(`${SITE_URL}/api/v1/badges`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',

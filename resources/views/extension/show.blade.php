@@ -28,7 +28,7 @@
             <li>Extraia o .zip descarregado numa pasta.</li>
             <li>Abra <code style="background:rgba(255,255,255,.08);padding:.1rem .4rem;border-radius:4px;">chrome://extensions</code> e active o <strong>Modo de desenvolvedor</strong>.</li>
             <li><strong>Carregar sem compactação</strong> → seleccione a pasta extraída.</li>
-            <li>Abra a extensão, indique <strong>{{ request()->getSchemeAndHttpHost() }}</strong> e inicie sessão.</li>
+            <li>Abra a extensão e inicie sessão com o seu e-mail e palavra-passe.</li>
         </ol>
     </div>
 </div>

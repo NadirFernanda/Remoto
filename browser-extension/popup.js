@@ -1,3 +1,5 @@
+const SITE_URL = 'https://24horas.ao';
+
 const viewLogin = document.getElementById('view-login');
 const viewMain = document.getElementById('view-main');
 const loginForm = document.getElementById('login-form');
@@ -5,19 +7,6 @@ const loginError = document.getElementById('login-error');
 const loginSubmit = document.getElementById('login-submit');
 const settingsBtn = document.getElementById('settings-btn');
 const logoutBtn = document.getElementById('logout-btn');
-
-function normalizeSiteUrl(raw) {
-  let url = raw.trim().replace(/\/+$/, '');
-  if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
-  return url;
-}
-
-function requestOrigin(siteUrl) {
-  return new Promise((resolve) => {
-    const origin = `${new URL(siteUrl).origin}/*`;
-    chrome.permissions.request({ origins: [origin] }, (granted) => resolve(granted));
-  });
-}
 
 function quickLinksFor(role) {
   const dashboardPath = { admin: '/admin/dashboard', freelancer: '/freelancer/dashboard' }[role] || '/cliente/dashboard';
@@ -39,7 +28,7 @@ function quickLinksFor(role) {
   return links;
 }
 
-function renderMain({ siteUrl, user, badges }) {
+function renderMain({ user, badges }) {
   viewLogin.hidden = true;
   viewMain.hidden = false;
 
@@ -54,7 +43,7 @@ function renderMain({ siteUrl, user, badges }) {
   for (const link of quickLinksFor(user.role)) {
     const a = document.createElement('a');
     a.className = 'quick-link';
-    a.href = `${siteUrl}${link.path}`;
+    a.href = `${SITE_URL}${link.path}`;
     a.target = '_blank';
     a.rel = 'noopener';
     a.textContent = link.label;
@@ -62,15 +51,14 @@ function renderMain({ siteUrl, user, badges }) {
   }
 }
 
-function renderLogin(prefillUrl) {
+function renderLogin() {
   viewLogin.hidden = false;
   viewMain.hidden = true;
-  if (prefillUrl) document.getElementById('site-url').value = prefillUrl;
 }
 
-async function fetchBadges(siteUrl, token) {
+async function fetchBadges(token) {
   try {
-    const response = await fetch(`${siteUrl}/api/v1/badges`, {
+    const response = await fetch(`${SITE_URL}/api/v1/badges`, {
       headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
     });
     if (!response.ok) return null;
@@ -81,21 +69,21 @@ async function fetchBadges(siteUrl, token) {
 }
 
 async function init() {
-  const { siteUrl, token, user } = await chrome.storage.local.get(['siteUrl', 'token', 'user']);
-  if (!siteUrl || !token || !user) {
-    renderLogin(siteUrl);
+  const { token, user } = await chrome.storage.local.get(['token', 'user']);
+  if (!token || !user) {
+    renderLogin();
     return;
   }
 
-  const badges = await fetchBadges(siteUrl, token);
+  const badges = await fetchBadges(token);
   if (badges === null) {
-    // token pode ter expirado — pede novo login, mantendo o endereço do site.
+    // token pode ter expirado — pede novo login.
     await chrome.storage.local.remove(['token', 'user']);
-    renderLogin(siteUrl);
+    renderLogin();
     return;
   }
 
-  renderMain({ siteUrl, user, badges });
+  renderMain({ user, badges });
   chrome.runtime.sendMessage({ type: 'refresh-badge' });
 }
 
@@ -105,17 +93,11 @@ loginForm.addEventListener('submit', async (event) => {
   loginSubmit.disabled = true;
   loginSubmit.textContent = 'A entrar…';
 
-  const siteUrl = normalizeSiteUrl(document.getElementById('site-url').value);
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
   try {
-    const granted = await requestOrigin(siteUrl);
-    if (!granted) {
-      throw new Error('É necessário autorizar o acesso ao site para continuar.');
-    }
-
-    const response = await fetch(`${siteUrl}/api/v1/auth/login`, {
+    const response = await fetch(`${SITE_URL}/api/v1/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -127,10 +109,10 @@ loginForm.addEventListener('submit', async (event) => {
     }
 
     const data = await response.json();
-    await chrome.storage.local.set({ siteUrl, token: data.token, user: data.user });
+    await chrome.storage.local.set({ token: data.token, user: data.user });
 
-    const badges = await fetchBadges(siteUrl, data.token);
-    renderMain({ siteUrl, user: data.user, badges });
+    const badges = await fetchBadges(data.token);
+    renderMain({ user: data.user, badges });
     chrome.runtime.sendMessage({ type: 'refresh-badge' });
   } catch (error) {
     loginError.textContent = error.message || 'Não foi possível iniciar sessão.';
@@ -142,16 +124,16 @@ loginForm.addEventListener('submit', async (event) => {
 });
 
 logoutBtn.addEventListener('click', async () => {
-  const { siteUrl, token } = await chrome.storage.local.get(['siteUrl', 'token']);
-  if (siteUrl && token) {
-    fetch(`${siteUrl}/api/v1/auth/logout`, {
+  const { token } = await chrome.storage.local.get(['token']);
+  if (token) {
+    fetch(`${SITE_URL}/api/v1/auth/logout`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
     }).catch(() => {});
   }
   await chrome.storage.local.remove(['token', 'user']);
   chrome.runtime.sendMessage({ type: 'clear-badge' });
-  renderLogin(siteUrl);
+  renderLogin();
 });
 
 settingsBtn.addEventListener('click', () => logoutBtn.click());

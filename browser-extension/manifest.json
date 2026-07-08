@@ -20,5 +20,5 @@
     "service_worker": "background.js"
   },
   "permissions": ["storage", "alarms"],
-  "optional_host_permissions": ["*://*/*"]
+  "host_permissions": ["https://24horas.ao/*"]
 }
