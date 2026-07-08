@@ -12,6 +12,7 @@ if (auth()->check()) {
 @endphp
 <div x-data="{ unread: {{ (int) $_chatUnread }} }"
      x-init="setInterval(async () => {
+         if (!navigator.onLine || document.hidden) return;
          try { const r = await fetch('/user/chat-badge'); if (r.ok) { const d = await r.json(); unread = d.unread; } } catch(e) {}
      }, 30000)"
      class="relative inline-flex">

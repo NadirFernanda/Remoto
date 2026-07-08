@@ -51,6 +51,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
         }
      }"
      x-init="setInterval(async () => {
+         if (!navigator.onLine || document.hidden) return;
          try { const r = await fetch('/user/notification-data'); if (r.ok) { const d = await r.json(); unread = d.unread_count; if(open){ items = d.items; } } } catch(e) {}
      }, 60000)"
      class="relative"
