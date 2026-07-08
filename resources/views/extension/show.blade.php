@@ -16,6 +16,12 @@
         <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
         <h2 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin:0;">Já está instalada</h2>
         <p style="color:#94a3b8;font-size:.875rem;margin:.5rem 0 0;">Encontra o ícone no seu ecrã principal ou lista de aplicações.</p>
+        <p style="margin:1rem 0 0;">
+            <button type="button" onclick="localStorage.removeItem('pwa_installed');location.reload();"
+                style="background:none;border:none;color:#64748b;font-size:.78rem;text-decoration:underline;cursor:pointer;font-family:inherit;">
+                Já desinstalei — mostrar o botão de instalar outra vez
+            </button>
+        </p>
     </div>
 
     <div class="js-pwa-install-cta" style="background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:1.75rem;text-align:center;">
