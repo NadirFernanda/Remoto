@@ -9,6 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" sizes="any">
+    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/pwa/icon-192.png') }}">
+    <meta name="theme-color" content="#080d1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="24 Horas">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <style>[x-cloak]{display:none!important}</style>
@@ -59,6 +66,20 @@
                 toggle() { this.open = !this.open; },
                 close() { this.open = false; }
             });
+        });
+
+        // PWA: regista o service worker e guarda o evento de instalação para
+        // ser usado pelo botão "Instalar aplicação" em /extensao.
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+        }
+        window.addEventListener('beforeinstallprompt', function (event) {
+            event.preventDefault();
+            window.deferredPwaPrompt = event;
+            window.dispatchEvent(new CustomEvent('pwa-install-available'));
+        });
+        window.addEventListener('appinstalled', function () {
+            window.deferredPwaPrompt = null;
         });
     </script>
 </body>

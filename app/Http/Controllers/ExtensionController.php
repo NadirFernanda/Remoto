@@ -13,8 +13,11 @@ class ExtensionController extends Controller
 
     public function show(Request $request)
     {
+        $userAgent = $request->userAgent() ?? '';
+
         return view('extension.show', [
-            'isMobile' => (bool) preg_match('/Mobi|Android|iPhone|iPad|iPod/i', $request->userAgent() ?? ''),
+            'isMobile' => (bool) preg_match('/Mobi|Android|iPhone|iPad|iPod/i', $userAgent),
+            'isIos'    => (bool) preg_match('/iPhone|iPad|iPod/i', $userAgent),
         ]);
     }
 
