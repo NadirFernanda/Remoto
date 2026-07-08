@@ -17,6 +17,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\ExtensionController;
+use App\Http\Controllers\ManifestController;
+
+// ─── PWA Manifest (dinâmico, ícones com cache-busting) ───────────────────────
+Route::get('/manifest.webmanifest', [ManifestController::class, 'show']);
 
 // ─── Extensão de navegador ────────────────────────────────────────────────────
 Route::get('/extensao', [ExtensionController::class, 'show'])->name('extension.show');

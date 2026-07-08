@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ asset('img/logo.png') . '?v=' . filemtime(public_path('img/logo.png')) }}" sizes="any">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
-    <link rel="apple-touch-icon" href="{{ asset('img/pwa/icon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('img/pwa/icon-192.png') . '?v=' . filemtime(public_path('img/pwa/icon-192.png')) }}">
     <meta name="theme-color" content="#080d1a">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
