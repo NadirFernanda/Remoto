@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use ZipArchive;
@@ -10,9 +11,11 @@ class ExtensionController extends Controller
 {
     private const SOURCE_DIR = 'browser-extension';
 
-    public function show()
+    public function show(Request $request)
     {
-        return view('extension.show');
+        return view('extension.show', [
+            'isMobile' => (bool) preg_match('/Mobi|Android|iPhone|iPad|iPod/i', $request->userAgent() ?? ''),
+        ]);
     }
 
     /** Compacta browser-extension/ num .zip e serve para download (sempre actualizado com o código-fonte). */
