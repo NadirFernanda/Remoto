@@ -25,9 +25,25 @@
             </div>
 
             <p style="font-size:.8rem;color:#94a3b8;margin-bottom:.35rem;">Não consegue ler o código? Introduza a chave manualmente:</p>
-            <p style="font-family:monospace;font-size:.9rem;font-weight:700;color:#0d1424;background:#f1f5f9;border-radius:8px;padding:.5rem .75rem;display:inline-block;letter-spacing:.05em;margin-bottom:1.5rem;word-break:break-all;">
+            <p style="font-family:monospace;font-size:.9rem;font-weight:700;color:#0d1424;background:#f1f5f9;border-radius:8px;padding:.5rem .75rem;display:inline-block;letter-spacing:.05em;margin-bottom:.75rem;word-break:break-all;">
                 {{ $secret }}
             </p>
+
+            <details style="text-align:left;margin:0 auto 1.5rem;max-width:420px;">
+                <summary style="cursor:pointer;font-size:.8rem;color:#00baff;font-weight:600;">Não tem uma app autenticadora? Ver alternativas</summary>
+                <div style="font-size:.8rem;color:#94a3b8;line-height:1.7;margin-top:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:8px;">
+                    <strong style="color:#334155;">Sem telemóvel — extensão do navegador:</strong> instale a extensão
+                    "Authenticator" no Chrome/Edge, cole a chave manual acima e gera o código no computador.<br><br>
+                    <strong style="color:#334155;">Já usa um gestor de senhas</strong> (Bitwarden, 1Password): a maioria
+                    tem suporte a códigos deste tipo — cole a chave manual lá.<br><br>
+                    <strong style="color:#334155;">Acesso ao servidor por SSH:</strong> instale <code style="background:#e2e8f0;padding:.05rem .3rem;border-radius:4px;">oathtool</code>
+                    (<code style="background:#e2e8f0;padding:.05rem .3rem;border-radius:4px;">apt-get install oathtool</code>)
+                    e corra <code style="background:#e2e8f0;padding:.05rem .3rem;border-radius:4px;">oathtool --totp -b "chave"</code>
+                    para gerar o código no terminal.<br><br>
+                    <strong style="color:#334155;">App no telemóvel</strong> (mais comum): Google Authenticator,
+                    Microsoft Authenticator ou Authy — leia o código QR acima.
+                </div>
+            </details>
 
             <form method="POST" action="{{ route('2fa.setup.confirm') }}">
                 @csrf
