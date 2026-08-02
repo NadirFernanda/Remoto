@@ -1,64 +1,97 @@
-<div class="space-y-6">
+<div class="space-y-8">
 
-    {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
-        <div class="mb-4">
-            <h2 class="text-2xl font-extrabold">Loja de Infoprodutos</h2>
-            <p class="text-sm text-white/75 mt-1">E-books, áudios, literatura digital e muito mais dos melhores freelancers</p>
-        </div>
-        <div class="max-w-lg">
-            <div class="relative">
-                <svg class="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                <input wire:model.live.debounce.400ms="busca" type="text"
-                    class="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-white/50"
-                    placeholder="Buscar e-books, áudios, literatura...">
+    {{-- Hero --}}
+    <div class="relative overflow-hidden rounded-2xl p-7 sm:p-9 text-white" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 55%, #0033cc 100%);">
+        <div class="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-white/10"></div>
+        <div class="absolute right-16 bottom-[-3rem] w-40 h-40 rounded-full bg-white/10"></div>
+        <div class="relative">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 backdrop-blur-sm mb-3">
+                🛍️ Loja Oficial
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold">Loja de Infoprodutos</h2>
+            <p class="text-sm text-white/80 mt-1.5 max-w-md">E-books, áudios, literatura digital e muito mais, feitos pelos melhores freelancers da plataforma.</p>
+
+            <div class="max-w-lg mt-5">
+                <div class="relative">
+                    <svg class="absolute left-3.5 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input wire:model.live.debounce.400ms="busca" type="text"
+                        class="w-full pl-11 pr-4 py-3.5 rounded-xl text-sm text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/60"
+                        placeholder="Buscar e-books, áudios, literatura...">
+                </div>
             </div>
         </div>
     </div>
 
+    {{-- Feedback --}}
+    @if(session('success_loja'))
+        <div class="px-4 py-3 rounded-xl bg-green-100 text-green-700 text-sm font-medium">{{ session('success_loja') }}</div>
+    @endif
+    @if(session('error_loja'))
+        <div class="px-4 py-3 rounded-xl bg-red-100 text-red-700 text-sm font-medium">{{ session('error_loja') }}</div>
+    @endif
+
+    {{-- ── Mais vendidos ────────────────────────────────────────────── --}}
+    @if($maisVendidos->isNotEmpty())
     <div>
+        <div class="flex items-center gap-2 mb-3">
+            <span class="text-lg">🔥</span>
+            <h3 class="text-white font-bold text-base">Mais vendidos</h3>
+        </div>
+        <div class="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1" style="scrollbar-width:thin;">
+            @foreach($maisVendidos as $produto)
+            <a href="{{ route('loja.show', $produto->slug) }}"
+                class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-0.5 transition-all flex-shrink-0 w-44 overflow-hidden">
+                <div class="relative h-32 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
+                    @if($produto->capa_path)
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
+                            alt="{{ $produto->titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-10 h-10 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
+                        </div>
+                    @endif
+                    <span class="absolute top-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-white shadow">
+                        #{{ $loop->iteration }} mais vendido
+                    </span>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-semibold text-gray-900 text-xs line-clamp-2 mb-1.5 group-hover:text-[#0055ff] transition-colors">{{ $produto->titulo }}</h4>
+                    <span class="text-sm font-bold text-gray-900">Kz {{ number_format($produto->preco, 0, ',', '.') }}</span>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
 
-        {{-- Feedback --}}
-        @if(session('success_loja'))
-            <div class="mb-6 px-4 py-3 rounded-xl bg-green-100 text-green-700 text-sm font-medium">
-                {{ session('success_loja') }}
-            </div>
-        @endif
-        @if(session('error_loja'))
-            <div class="mb-6 px-4 py-3 rounded-xl bg-red-100 text-red-700 text-sm font-medium">
-                {{ session('error_loja') }}
-            </div>
-        @endif
+    <div>
+        {{-- ── Category pills + sort ───────────────────────────────────── --}}
+        <div class="flex flex-wrap items-center gap-2 mb-6">
+            @php
+                $tipos = ['' => 'Todos', 'ebook' => 'E-book', 'audio' => 'Áudio', 'literatura_digital' => 'Literatura Digital', 'outro' => 'Outro'];
+            @endphp
+            @foreach($tipos as $value => $label)
+                <button type="button" wire:click="$set('tipo', '{{ $value }}')"
+                    class="px-4 py-2 rounded-full text-sm font-semibold transition border
+                        {{ $tipo === $value ? 'bg-[#0055ff] text-white border-[#0055ff] shadow' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]/50 hover:text-[#0055ff]' }}">
+                    {{ $label }}
+                </button>
+            @endforeach
 
-        {{-- ── Filters ─────────────────────────────────────────────────── --}}
-        <div class="flex flex-wrap gap-3 mb-8 items-center">
-            <div>
-                <label class="text-xs text-gray-500 block mb-1">Categoria</label>
-                <select wire:model.live="tipo" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#0055ff]">
-                    <option value="">Todos</option>
-                    <option value="ebook">E-book</option>
-                    <option value="audio">Áudio</option>
-                    <option value="literatura_digital">Literatura Digital</option>
-                    <option value="outro">Outro</option>
-                </select>
-            </div>
-            <div>
-                <label class="text-xs text-gray-500 block mb-1">Ordenar</label>
-                <select wire:model.live="ordenar" class="border rounded-lg px-3 py-1.5 text-sm focus:ring-1 focus:ring-[#0055ff]">
+            <div class="ml-auto flex items-center gap-2">
+                <select wire:model.live="ordenar" class="border border-gray-200 bg-white rounded-full px-3.5 py-2 text-sm text-gray-600 focus:ring-1 focus:ring-[#0055ff] focus:outline-none">
                     <option value="recente">Mais recentes</option>
                     <option value="mais_vendidos">Mais vendidos</option>
                     <option value="preco_asc">Menor preço</option>
                     <option value="preco_desc">Maior preço</option>
                 </select>
-            </div>
-            <div class="ml-auto text-sm text-gray-400">
-                {{ $produtos->total() }} produto(s) encontrado(s)
+                <span class="text-sm text-white/60 whitespace-nowrap">{{ $produtos->total() }} produto(s)</span>
             </div>
         </div>
 
         {{-- ── Products grid ───────────────────────────────────────────── --}}
         @if($produtos->isEmpty())
-        <div class="text-center py-20">
+        <div class="text-center py-20 bg-white rounded-2xl border border-gray-200">
             <svg class="w-16 h-16 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
             </svg>
@@ -70,18 +103,18 @@
             @foreach($produtos as $produto)
             @php $isPatrocinado = $produto->patrocinado ?? $produto->isPatrocinado(); @endphp
             <a href="{{ route('loja.show', $produto->slug) }}"
-                class="group bg-white rounded-2xl border shadow-sm overflow-hidden hover:shadow-md transition-shadow flex flex-col {{ $isPatrocinado ? 'ring-2 ring-amber-300' : '' }}">
+                class="group bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-[#0055ff]/40 transition-all duration-200 flex flex-col {{ $isPatrocinado ? 'ring-2 ring-amber-300' : '' }}">
 
                 {{-- Cover --}}
-                <div class="relative h-44 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
+                <div class="relative h-48 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-16 h-16 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/>
                             </svg>
                         </div>
                     @endif
@@ -94,14 +127,20 @@
                             Patrocinado
                         </span>
                         @endif
-                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-700">
+                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-700 shadow-sm">
                             {{ $produto->tipoLabel() }}
                         </span>
                     </div>
+
+                    @if($produto->vendas_count > 0)
+                    <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-black/60 text-white backdrop-blur-sm">
+                        {{ $produto->vendas_count }} vendido(s)
+                    </span>
+                    @endif
                 </div>
 
                 <div class="p-4 flex flex-col flex-1">
-                    <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-1 group-hover:text-[#0055ff] transition-colors">
+                    <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-2 group-hover:text-[#0055ff] transition-colors">
                         {{ $produto->titulo }}
                     </h3>
 
@@ -113,11 +152,13 @@
                         <span class="text-xs text-gray-500 truncate">{{ $produto->freelancer->name }}</span>
                     </div>
 
-                    <div class="mt-auto flex items-center justify-between">
-                        <span class="text-base font-bold text-gray-900">
+                    <div class="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
+                        <span class="text-lg font-extrabold text-gray-900">
                             Kz {{ number_format($produto->preco, 0, ',', '.') }}
                         </span>
-                        <span class="text-xs text-gray-400">{{ $produto->vendas_count }} vendas</span>
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </span>
                     </div>
                 </div>
             </a>

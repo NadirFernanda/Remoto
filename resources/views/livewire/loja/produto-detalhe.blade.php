@@ -25,7 +25,9 @@
         </div>
         <div class="text-right flex-shrink-0">
             <div class="text-3xl font-extrabold">Kz {{ number_format($produto->preco, 0, ',', '.') }}</div>
+            @if($produto->vendas_count > 0)
             <div class="text-xs text-white/60 mt-0.5">{{ $produto->vendas_count }} venda(s)</div>
+            @endif
         </div>
     </div>
 
@@ -39,10 +41,10 @@
 
     {{-- Main card --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div class="flex flex-col md:flex-row">
+        <div class="flex flex-col md:flex-row md:items-start">
 
             {{-- Cover image --}}
-            <div class="md:w-72 h-56 md:h-auto flex-shrink-0" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+            <div class="md:w-[22rem] h-72 md:h-[26rem] flex-shrink-0" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
                 @if($produto->capa_path)
                     <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                         alt="{{ $produto->titulo }}"
@@ -50,17 +52,17 @@
                 @else
                     <div class="w-full h-full flex items-center justify-center">
                         <svg class="w-24 h-24 text-white/30" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/>
                         </svg>
                     </div>
                 @endif
             </div>
 
             {{-- Details --}}
-            <div class="flex-1 p-6 md:p-8">
+            <div class="flex-1 p-6 md:p-8 md:sticky md:top-4">
 
                 {{-- Freelancer info --}}
-                <div class="flex items-center gap-2 mb-6">
+                <div class="flex items-center gap-2 mb-5">
                     <img src="{{ $produto->freelancer->avatarUrl() }}"
                         class="w-9 h-9 rounded-full object-cover ring-2 ring-[#0055ff]/20"
                         onerror="this.src='/img/default-avatar.svg'">
@@ -71,6 +73,18 @@
                         </a>
                         <p class="text-xs text-gray-400">Freelancer</p>
                     </div>
+                </div>
+
+                {{-- Trust badges --}}
+                <div class="flex flex-wrap gap-3 mb-5 text-xs text-gray-500">
+                    <span class="inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Download imediato
+                    </span>
+                    <span class="inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        Pagamento seguro pela carteira
+                    </span>
                 </div>
 
                 {{-- Purchase area --}}
@@ -95,7 +109,7 @@
                         <div class="w-full">
                             @if(!$confirmando)
                             <button wire:click="$set('confirmando', true)"
-                                class="inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-xl font-semibold text-sm transition shadow"
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 text-white rounded-xl font-semibold text-sm transition shadow hover:shadow-lg"
                                 style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                 Comprar agora
@@ -166,5 +180,33 @@
             <div class="text-gray-600 text-sm whitespace-pre-line leading-relaxed">{{ $produto->descricao }}</div>
         </div>
     </div>
+
+    {{-- ── Relacionados ─────────────────────────────────────────────── --}}
+    @if($relacionados->isNotEmpty())
+    <div>
+        <h3 class="text-white font-bold text-base mb-3">Também pode gostar</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            @foreach($relacionados as $rel)
+            <a href="{{ route('loja.show', $rel->slug) }}"
+                class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-0.5 transition-all overflow-hidden">
+                <div class="relative h-32 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
+                    @if($rel->capa_path)
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($rel->capa_path) }}"
+                            alt="{{ $rel->titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center">
+                            <svg class="w-10 h-10 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $rel->tipoIcon() }}"/></svg>
+                        </div>
+                    @endif
+                </div>
+                <div class="p-3">
+                    <h4 class="font-semibold text-gray-900 text-xs line-clamp-2 mb-1.5 group-hover:text-[#0055ff] transition-colors">{{ $rel->titulo }}</h4>
+                    <span class="text-sm font-bold text-gray-900">Kz {{ number_format($rel->preco, 0, ',', '.') }}</span>
+                </div>
+            </a>
+            @endforeach
+        </div>
+    </div>
+    @endif
 
 </div>

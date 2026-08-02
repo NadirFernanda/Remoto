@@ -96,8 +96,22 @@ class Vitrine extends Component
             return $query->paginate(12);
         });
 
+        // "Mais vendidos" — só faz sentido mostrar na vista sem filtros/busca.
+        $semFiltros = $this->busca === '' && $this->tipo === '' && $this->getPage() === 1;
+        $maisVendidos = $semFiltros
+            ? Cache::remember('loja_mais_vendidos', 600, function () {
+                return Infoproduto::where('status', 'ativo')
+                    ->where('vendas_count', '>', 0)
+                    ->with(['freelancer:id,name,profile_photo'])
+                    ->orderByDesc('vendas_count')
+                    ->limit(6)
+                    ->get();
+            })
+            : collect();
+
         return view('livewire.loja.vitrine', [
-            'produtos' => $produtos,
+            'produtos'     => $produtos,
+            'maisVendidos' => $maisVendidos,
         ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

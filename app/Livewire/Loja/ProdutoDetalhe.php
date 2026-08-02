@@ -65,9 +65,22 @@ class ProdutoDetalhe extends Component
         $jaComprado = auth()->check() && $this->produto->jaCompradoPor(auth()->id());
         $patrocinado = $this->produto->isPatrocinado();
 
+        $relacionados = Infoproduto::where('status', 'ativo')
+            ->where('id', '!=', $this->produto->id)
+            ->where(function ($q) {
+                $q->where('freelancer_id', $this->produto->freelancer_id)
+                  ->orWhere('tipo', $this->produto->tipo);
+            })
+            ->with(['freelancer:id,name,profile_photo'])
+            ->orderByRaw('freelancer_id = ? DESC', [$this->produto->freelancer_id])
+            ->orderByDesc('vendas_count')
+            ->limit(4)
+            ->get();
+
         return view('livewire.loja.produto-detalhe', [
-            'jaComprado'  => $jaComprado,
-            'patrocinado' => $patrocinado,
+            'jaComprado'   => $jaComprado,
+            'patrocinado'  => $patrocinado,
+            'relacionados' => $relacionados,
         ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
