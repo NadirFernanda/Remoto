@@ -89,6 +89,17 @@ class Infoproduto extends Model
         };
     }
 
+    /** Cor de destaque por tipo, para badges/ícones/acentos visuais na Loja. */
+    public function tipoColor(): string
+    {
+        return match ($this->tipo) {
+            'ebook'              => '#3b82f6',
+            'audio'              => '#a855f7',
+            'literatura_digital' => '#f59e0b',
+            default              => '#64748b',
+        };
+    }
+
     /** Path SVG (atributo "d") do ícone representativo do tipo, para placeholders de capa. */
     public function tipoIcon(): string
     {

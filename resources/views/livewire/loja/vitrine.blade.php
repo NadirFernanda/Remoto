@@ -40,14 +40,14 @@
         <div class="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1" style="scrollbar-width:thin;">
             @foreach($maisVendidos as $produto)
             <a href="{{ route('loja.show', $produto->slug) }}"
-                class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-0.5 transition-all flex-shrink-0 w-44 overflow-hidden">
-                <div class="relative h-32 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
+                class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-1 transition-all flex-shrink-0 w-44 overflow-hidden">
+                <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-10 h-10 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
+                            <svg class="w-10 h-10" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
                         </div>
                     @endif
                     <span class="absolute top-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-white shadow">
@@ -99,71 +99,90 @@
             <p class="text-sm text-gray-400 mt-1">Tente outros termos ou categorias</p>
         </div>
         @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($produtos as $produto)
             @php $isPatrocinado = $produto->patrocinado ?? $produto->isPatrocinado(); @endphp
             <a href="{{ route('loja.show', $produto->slug) }}"
-                class="group bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 hover:border-[#0055ff]/40 transition-all duration-200 flex flex-col {{ $isPatrocinado ? 'ring-2 ring-amber-300' : '' }}">
+                wire:key="produto-{{ $produto->id }}"
+                style="animation: loja-card-in .45s ease-out backwards; animation-delay: {{ min($loop->index * 45, 300) }}ms; {{ $isPatrocinado ? 'background: linear-gradient(160deg, #0055ff 0%, #0033cc 100%);' : '' }}"
+                class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0055ff]/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col
+                    {{ $isPatrocinado ? 'text-white' : 'bg-white border border-gray-200/70 text-gray-900 hover:border-[#0055ff]/40' }}">
+
+                @if($isPatrocinado)
+                <span class="absolute top-0 right-0 z-10 px-4 py-1.5 text-[11px] font-extrabold tracking-wide bg-amber-400 text-white rounded-bl-2xl shadow">
+                    ★ PATROCINADO
+                </span>
+                @endif
 
                 {{-- Cover --}}
-                <div class="relative h-48 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/20 overflow-hidden">
+                <div class="relative h-48 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-16 h-16 text-[#0055ff]/30" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+                            <svg class="w-16 h-16 transition-transform duration-500 group-hover:scale-110" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/>
                             </svg>
                         </div>
                     @endif
 
-                    {{-- Badges --}}
-                    <div class="absolute top-2 left-2 flex flex-col gap-1">
-                        @if($isPatrocinado)
-                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-400 text-white shadow">
-                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            Patrocinado
-                        </span>
-                        @endif
-                        <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-700 shadow-sm">
-                            {{ $produto->tipoLabel() }}
-                        </span>
-                    </div>
-
                     @if($produto->vendas_count > 0)
-                    <span class="absolute bottom-2 right-2 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-black/60 text-white backdrop-blur-sm">
+                    <span class="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-gray-800 shadow">
+                        <svg class="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M13 7H7v6h6V7z"/><path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h1a2 2 0 012 2v1h-1a1 1 0 100 2h1v2h-1a1 1 0 100 2h1v1a2 2 0 01-2 2h-1v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H6a2 2 0 01-2-2v-1h1a1 1 0 100-2H4v-2h1a1 1 0 100-2H4V5a2 2 0 012-2h1V2z" clip-rule="evenodd"/></svg>
                         {{ $produto->vendas_count }} vendido(s)
                     </span>
                     @endif
                 </div>
 
-                <div class="p-4 flex flex-col flex-1">
-                    <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 mb-2 group-hover:text-[#0055ff] transition-colors">
+                <div class="p-5 flex flex-col flex-1">
+                    {{-- Icon chip + type --}}
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl flex-shrink-0"
+                            style="background: {{ $isPatrocinado ? 'rgba(255,255,255,.15)' : $produto->tipoColor().'18' }}; color: {{ $isPatrocinado ? '#fff' : $produto->tipoColor() }};">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
+                        </span>
+                        <span class="text-xs font-bold uppercase tracking-wide {{ $isPatrocinado ? 'text-white/70' : 'text-gray-400' }}">
+                            {{ $produto->tipoLabel() }}
+                        </span>
+                    </div>
+
+                    <h3 class="font-bold text-base leading-snug line-clamp-2 mb-3 transition-colors {{ $isPatrocinado ? '' : 'text-gray-900 group-hover:text-[#0055ff]' }}">
                         {{ $produto->titulo }}
                     </h3>
 
                     {{-- Freelancer --}}
-                    <div class="flex items-center gap-1.5 mb-3">
+                    <div class="flex items-center gap-2 mb-4">
                         <img src="{{ $produto->freelancer->avatarUrl() }}"
-                            class="w-5 h-5 rounded-full object-cover"
+                            class="w-6 h-6 rounded-full object-cover ring-2 {{ $isPatrocinado ? 'ring-white/20' : 'ring-gray-100' }}"
                             onerror="this.src='/img/default-avatar.svg'">
-                        <span class="text-xs text-gray-500 truncate">{{ $produto->freelancer->name }}</span>
+                        <span class="text-xs truncate font-medium {{ $isPatrocinado ? 'text-white/80' : 'text-gray-500' }}">{{ $produto->freelancer->name }}</span>
                     </div>
 
-                    <div class="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
-                        <span class="text-lg font-extrabold text-gray-900">
-                            Kz {{ number_format($produto->preco, 0, ',', '.') }}
-                        </span>
-                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    <div class="mt-auto {{ $isPatrocinado ? '' : 'pt-4 border-t border-gray-100' }}">
+                        <div class="flex items-baseline gap-1 mb-3">
+                            <span class="text-2xl font-extrabold tracking-tight">{{ number_format($produto->preco, 0, ',', '.') }}</span>
+                            <span class="text-xs font-bold {{ $isPatrocinado ? 'text-white/70' : 'text-gray-400' }}">Kz</span>
+                        </div>
+                        <span class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors
+                            {{ $isPatrocinado
+                                ? 'bg-white text-[#0033cc] group-hover:bg-amber-400 group-hover:text-white'
+                                : 'bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white' }}">
+                            Ver produto
                         </span>
                     </div>
                 </div>
             </a>
             @endforeach
         </div>
+
+        <style>
+            @keyframes loja-card-in {
+                from { opacity: 0; transform: translateY(10px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+        </style>
 
         {{-- Pagination --}}
         <div class="mt-8">
