@@ -50,7 +50,7 @@
                             <svg class="w-10 h-10" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
                         </div>
                     @endif
-                    <span class="absolute top-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-white shadow">
+                    <span class="absolute top-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#0055ff] text-white shadow">
                         #{{ $loop->iteration }} mais vendido
                     </span>
                 </div>
@@ -129,8 +129,8 @@
                     @endif
 
                     @if($produto->vendas_count > 0)
-                    <span class="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-white/95 text-gray-800 shadow">
-                        <svg class="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M13 7H7v6h6V7z"/><path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h1a2 2 0 012 2v1h-1a1 1 0 100 2h1v2h-1a1 1 0 100 2h1v1a2 2 0 01-2 2h-1v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H6a2 2 0 01-2-2v-1h1a1 1 0 100-2H4v-2h1a1 1 0 100-2H4V5a2 2 0 012-2h1V2z" clip-rule="evenodd"/></svg>
+                    <span class="absolute bottom-2.5 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-[#0055ff] text-white shadow">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M13 7H7v6h6V7z"/><path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h1a2 2 0 012 2v1h-1a1 1 0 100 2h1v2h-1a1 1 0 100 2h1v1a2 2 0 01-2 2h-1v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H6a2 2 0 01-2-2v-1h1a1 1 0 100-2H4v-2h1a1 1 0 100-2H4V5a2 2 0 012-2h1V2z" clip-rule="evenodd"/></svg>
                         {{ $produto->vendas_count }} vendido(s)
                     </span>
                     @endif
