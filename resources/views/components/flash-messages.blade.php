@@ -1,66 +1,8 @@
-@php
-    $hasErrors = isset($errors) && $errors->any();
-    $success = session('status') ?? session('success');
-    $error = session('error');
-    $invoicePath = session('invoice_path');
-@endphp
-
-@if($success || $error || $hasErrors || $invoicePath)
-    <div id="flash-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-2xl px-4">
-        @if($success)
-            <div class="flash flash-success mb-2 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded shadow flex justify-between items-start">
-                <div class="flex-1 mr-4">
-                    {{ $success }}
-                    @if($invoicePath)
-                        — <a href="{{ asset($invoicePath) }}" target="_blank" class="underline font-semibold">Baixar Recibo</a>
-                    @endif
-                </div>
-                <button class="flash-close text-green-700 hover:text-green-900" aria-label="Fechar">✕</button>
-            </div>
-        @endif
-
-        @if($error)
-            <div class="flash flash-error mb-2 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded shadow flex justify-between items-start">
-                <div class="flex-1 mr-4">{{ $error }}</div>
-                <button class="flash-close text-red-700 hover:text-red-900" aria-label="Fechar">✕</button>
-            </div>
-        @endif
-
-        @if($hasErrors && !request()->routeIs('login'))
-            <div class="flash flash-error mb-2 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded shadow">
-                <div class="font-semibold mb-1">Foram encontrados erros:</div>
-                <ul class="list-disc pl-5">
-                    @foreach($errors->all() as $err)
-                        <li>{{ $err }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
-
-    <script>
-        (function(){
-            // Auto-hide after 6s and wire up close buttons
-            setTimeout(function(){
-                var c = document.getElementById('flash-container');
-                if(c) c.style.display = 'none';
-            }, 6000);
-            document.addEventListener('click', function(e){
-                if(e.target && e.target.classList && e.target.classList.contains('flash-close')){
-                    var c = document.getElementById('flash-container');
-                    if(c) c.style.display = 'none';
-                }
-            });
-            // Allow Livewire to dispatch a 'flash' event with detail {type,message}
-            document.addEventListener('livewire:load', function(){
-                if(window.Livewire){
-                    Livewire.on('flash', function(payload){
-                        if(!payload) return;
-                        // simple page reload to pick up session flash, or we could render via JS
-                        location.reload();
-                    });
-                }
-            });
-        })();
-    </script>
-@endif
+{{--
+    Este componente já não renderiza nada: 'success'/'status'/'error' e os erros
+    de validação ($errors) já são mostrados de forma persistente por cada página
+    (ou por layouts.dashboard). Mostrá-los também aqui, como toast temporário que
+    desaparece sozinho ao fim de 6s, criava uma mensagem duplicada em todo o
+    sistema — uma fixa e outra a desaparecer. Mantido como include vazio para não
+    obrigar a mexer em layouts.main.
+--}}
