@@ -84,8 +84,9 @@ class AppyPayGateway
             'paymentMethod'         => $this->cfg['payment_method_ref'],
         ]);
 
-        $result['entity']    = $result['gateway_response']['entity'] ?? $this->cfg['entity'] ?? null;
-        $result['reference'] = $result['gateway_response']['referenceNumber'] ?? null;
+        $referenceData = $result['gateway_response']['responseStatus']['reference'] ?? [];
+        $result['entity']    = $referenceData['entity'] ?? $this->cfg['entity'] ?? null;
+        $result['reference'] = $referenceData['referenceNumber'] ?? null;
 
         return $result;
     }
@@ -113,7 +114,7 @@ class AppyPayGateway
             return [
                 'success'          => true,
                 'charge_id'        => $body['id'] ?? null,
-                'status'           => $body['status'] ?? 'pending',
+                'status'           => $body['responseStatus']['status'] ?? 'pending',
                 'message'          => 'Pedido de pagamento criado com sucesso.',
                 'gateway_response' => $body,
             ];
@@ -148,7 +149,7 @@ class AppyPayGateway
 
             return [
                 'success'          => true,
-                'status'           => $response->json('status'),
+                'status'           => $response->json('payment.status'),
                 'message'          => 'OK',
                 'gateway_response' => $response->json(),
             ];

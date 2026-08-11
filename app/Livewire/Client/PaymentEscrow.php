@@ -13,6 +13,7 @@ use App\Services\AffiliateService;
 use App\Services\FeeService;
 use App\Traits\UserSessionTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class PaymentEscrow extends Component
@@ -191,6 +192,12 @@ class PaymentEscrow extends Component
         return redirect()->route('client.orders');
     }
 
+    /** A AppyPay exige merchantTransactionId só alfanumérico, entre 1 e 15 caracteres. */
+    private function generateMerchantTransactionId(): string
+    {
+        return strtoupper(Str::random(12));
+    }
+
     // ── AppyPay: Multicaixa Express (telefone) ────────────────────────────
 
     public function chargeAppyPayPhone()
@@ -220,7 +227,7 @@ class PaymentEscrow extends Component
             $this->phone_number,
             $this->valor_total,
             'Pagamento de serviço #' . $service->id,
-            'SVC-' . $service->id . '-' . now()->timestamp
+            $this->generateMerchantTransactionId()
         );
 
         if (empty($result['success'])) {
@@ -262,7 +269,7 @@ class PaymentEscrow extends Component
         $result = (new AppyPayGateway())->chargeByReference(
             $this->valor_total,
             'Pagamento de serviço #' . $service->id,
-            'SVC-' . $service->id . '-' . now()->timestamp
+            $this->generateMerchantTransactionId()
         );
 
         if (empty($result['success'])) {

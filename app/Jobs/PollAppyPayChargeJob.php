@@ -70,7 +70,7 @@ class PollAppyPayChargeJob implements ShouldQueue
         $status = strtolower((string) $charge['status']);
 
         if (in_array($status, ['paid', 'completed', 'success', 'approved'], true)) {
-            $amount = $charge['gateway_response']['amount'] ?? null;
+            $amount = $charge['gateway_response']['payment']['amount'] ?? null;
             $reconciliation->markPaidByChargeId($this->chargeId, $amount !== null ? (float) $amount : null);
             return;
         }

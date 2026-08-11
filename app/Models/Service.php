@@ -72,6 +72,10 @@ class Service extends Model
         'transaction_id',
         'payment_status',
         'paypal_order_id',
+        'payment_method_used',
+        'appypay_charge_id',
+        'payment_reference',
+        'payment_entity',
     ];
 
     public function cliente()

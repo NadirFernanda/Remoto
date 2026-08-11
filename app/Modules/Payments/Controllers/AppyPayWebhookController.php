@@ -61,7 +61,7 @@ class AppyPayWebhookController extends Controller
         $confirmedStatus = strtolower((string) $charge['status']);
 
         if (in_array($confirmedStatus, ['paid', 'completed', 'success', 'approved'], true)) {
-            $amount = $charge['gateway_response']['amount'] ?? null;
+            $amount = $charge['gateway_response']['payment']['amount'] ?? null;
             $reconciliation->markPaidByChargeId($chargeId, $amount !== null ? (float) $amount : null);
         } elseif (in_array($confirmedStatus, ['failed', 'rejected', 'declined', 'timeout', 'cancelled'], true)) {
             $reconciliation->markFailedByChargeId($chargeId, $confirmedStatus);
