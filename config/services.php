@@ -46,4 +46,20 @@ return [
         'webhook_id'    => env('PAYPAL_WEBHOOK_ID', ''),
     ],
 
+    'appypay' => [
+        'client_id'           => env('APPYPAY_CLIENT_ID'),
+        'client_secret'       => env('APPYPAY_CLIENT_SECRET'),
+        'resource'            => env('APPYPAY_RESOURCE'),
+        'mode'                => env('APPYPAY_MODE', 'sandbox'), // 'sandbox' ou 'live'
+        'base_url'            => env('APPYPAY_BASE_URL', 'https://gwy-api-tst.appypay.co.ao'),
+        'auth_url'            => env('APPYPAY_AUTH_URL', 'https://login.microsoftonline.com/appypaydev.onmicrosoft.com/oauth2/token'),
+        // Identificadores de "payment method" fornecidos pela AppyPay para cada meio de pagamento
+        'payment_method_gpo'  => env('APPYPAY_PAYMENT_METHOD_GPO'), // Multicaixa Express (telefone)
+        'payment_method_ref'  => env('APPYPAY_PAYMENT_METHOD_REF'), // Referência (ATM/Multicaixa/Internet Banking)
+        'entity'              => env('APPYPAY_ENTITY', '00348'),
+        // Segredo partilhado para validar o webhook — a confirmar com a AppyPay
+        // (operacao.pay@appy.co.ao) quando o webhook for registado do lado deles.
+        'webhook_secret'      => env('APPYPAY_WEBHOOK_SECRET', ''),
+    ],
+
 ];

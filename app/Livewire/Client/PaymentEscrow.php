@@ -4,7 +4,10 @@ namespace App\Livewire\Client;
 
 use App\Events\PaymentFailed;
 use App\Jobs\NotifyFreelancersOfNewProject;
+use App\Jobs\PollAppyPayChargeJob;
 use App\Models\Service;
+use App\Modules\Payments\Services\AppyPayGateway;
+use App\Modules\Payments\Services\AppyPayReconciliationService;
 use App\Modules\Payments\Services\PaymentGateway;
 use App\Services\AffiliateService;
 use App\Services\FeeService;
@@ -34,6 +37,15 @@ class PaymentEscrow extends Component
     public string $card_cvv     = '';
     public string $payment_token = '';
 
+    // ── AppyPay (Multicaixa Express / Referência) ─────────────────────────
+    public string $phone_number       = '';
+    public string $appypay_step       = 'form'; // form | waiting | reference | done
+    public ?int   $appypay_service_id = null;
+    public ?string $appypay_charge_id = null;
+    public ?string $appypay_reference = null;
+    public ?string $appypay_entity    = null;
+    public string $appypay_error      = '';
+
     public function mount(): void
     {
         $order    = session('client_order', []);
@@ -50,14 +62,62 @@ class PaymentEscrow extends Component
         $this->valor_liquido = $fee['valor_liquido'];
     }
 
+    /**
+     * Recupera o serviço em curso (da sessão) ou cria um novo, no estado
+     * payment_pending/initiated — partilhado por todos os métodos de pagamento.
+     * Devolve null (com mensagem/redirect já tratados pelo chamador) se faltar
+     * informação do briefing.
+     */
+    private function resolveOrCreateService($user): ?Service
+    {
+        $order     = session('client_order', []);
+        $serviceId = $order['service_id'] ?? null;
+        $service   = $serviceId
+            ? Service::where('id', $serviceId)->where('cliente_id', $user->id)->first()
+            : null;
+
+        if ($service) {
+            $service->valor          = $this->valor;
+            $service->taxa           = $this->taxa;
+            $service->valor_liquido  = $this->valor_liquido;
+            $service->payment_status = 'initiated';
+            $service->status         = 'payment_pending';
+            $service->save();
+
+            return $service;
+        }
+
+        $briefing = $order['briefing_raw'] ?? session('briefing', null);
+        $titulo   = $order['title'] ?? session('briefing_title');
+
+        if (!$briefing || !$titulo) {
+            return null;
+        }
+
+        $briefingFinal = is_array($briefing)
+            ? ($briefing['texto'] ?? json_encode($briefing))
+            : (string)$briefing;
+
+        return Service::create([
+            'cliente_id'     => $user->id,
+            'titulo'         => is_string($titulo) ? trim($titulo) : '',
+            'briefing'       => $briefingFinal,
+            'valor'          => $this->valor,
+            'taxa'           => $this->taxa,
+            'valor_liquido'  => $this->valor_liquido,
+            'status'         => 'payment_pending',
+            'payment_status' => 'initiated',
+        ]);
+    }
+
     public function confirmPayment()
     {
-        // ── PayPal / métodos indisponíveis ───────────────────────────────────
+        // ── PayPal ────────────────────────────────────────────────────────────
         if ($this->payment_method === 'paypal') {
             return redirect()->route('paypal.create');
         }
         if (in_array($this->payment_method, ['express', 'bank'])) {
-            session()->flash('error', 'Este método de pagamento ainda não está disponível. Escolhe outro.');
+            // Tratados pelos seus próprios métodos (chargeAppyPayPhone/chargeAppyPayReference).
             return;
         }
 
@@ -78,42 +138,10 @@ class PaymentEscrow extends Component
         ]);
 
         // ── Recuperar ou criar o registo de serviço (estado: payment_pending) ─
-        $order     = session('client_order', []);
-        $serviceId = $order['service_id'] ?? null;
-        $service   = $serviceId
-            ? Service::where('id', $serviceId)->where('cliente_id', $user->id)->first()
-            : null;
-
-        if ($service) {
-            $service->valor          = $this->valor;
-            $service->taxa           = $this->taxa;
-            $service->valor_liquido  = $this->valor_liquido;
-            $service->payment_status = 'initiated';
-            $service->status         = 'payment_pending';
-            $service->save();
-        } else {
-            $briefing = $order['briefing_raw'] ?? session('briefing', null);
-            $titulo   = $order['title'] ?? session('briefing_title');
-
-            if (!$briefing || !$titulo) {
-                session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
-                return redirect()->route('client.briefing');
-            }
-
-            $briefingFinal = is_array($briefing)
-                ? ($briefing['texto'] ?? json_encode($briefing))
-                : (string)$briefing;
-
-            $service = Service::create([
-                'cliente_id'     => $user->id,
-                'titulo'         => is_string($titulo) ? trim($titulo) : '',
-                'briefing'       => $briefingFinal,
-                'valor'          => $this->valor,
-                'taxa'           => $this->taxa,
-                'valor_liquido'  => $this->valor_liquido,
-                'status'         => 'payment_pending',
-                'payment_status' => 'initiated',
-            ]);
+        $service = $this->resolveOrCreateService($user);
+        if (!$service) {
+            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
+            return redirect()->route('client.briefing');
         }
 
         // ── Cobrar via gateway ───────────────────────────────────────────────
@@ -161,6 +189,147 @@ class PaymentEscrow extends Component
 
         session()->flash('success', 'Pagamento realizado e pedido publicado com sucesso!');
         return redirect()->route('client.orders');
+    }
+
+    // ── AppyPay: Multicaixa Express (telefone) ────────────────────────────
+
+    public function chargeAppyPayPhone()
+    {
+        $this->appypay_error = '';
+
+        $this->validate([
+            'phone_number' => ['required', 'regex:/^9[0-9]{8}$/'],
+        ], [
+            'phone_number.required' => 'Indique o número de telefone Multicaixa Express.',
+            'phone_number.regex'    => 'Número inválido — use 9 dígitos (ex: 923456789).',
+        ]);
+
+        $user = $this->getCurrentUser();
+        if (!$user) {
+            session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
+            return redirect()->route('client.payment', ['valor' => $this->valor]);
+        }
+
+        $service = $this->resolveOrCreateService($user);
+        if (!$service) {
+            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
+            return redirect()->route('client.briefing');
+        }
+
+        $result = (new AppyPayGateway())->chargeByPhone(
+            $this->phone_number,
+            $this->valor_total,
+            'Pagamento de serviço #' . $service->id,
+            'SVC-' . $service->id . '-' . now()->timestamp
+        );
+
+        if (empty($result['success'])) {
+            $this->appypay_error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
+            return;
+        }
+
+        $service->payment_method_used = 'appypay_gpo';
+        $service->appypay_charge_id   = $result['charge_id'];
+        $service->save();
+
+        PollAppyPayChargeJob::dispatch($service, $result['charge_id'], 'gpo')->delay(now()->addSeconds(30));
+
+        $this->appypay_service_id = $service->id;
+        $this->appypay_charge_id  = $result['charge_id'];
+        $this->appypay_step       = 'waiting';
+
+        session()->forget(['client_order', 'briefing', 'briefing_title']);
+    }
+
+    // ── AppyPay: Referência de pagamento ───────────────────────────────────
+
+    public function chargeAppyPayReference()
+    {
+        $this->appypay_error = '';
+
+        $user = $this->getCurrentUser();
+        if (!$user) {
+            session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
+            return redirect()->route('client.payment', ['valor' => $this->valor]);
+        }
+
+        $service = $this->resolveOrCreateService($user);
+        if (!$service) {
+            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
+            return redirect()->route('client.briefing');
+        }
+
+        $result = (new AppyPayGateway())->chargeByReference(
+            $this->valor_total,
+            'Pagamento de serviço #' . $service->id,
+            'SVC-' . $service->id . '-' . now()->timestamp
+        );
+
+        if (empty($result['success'])) {
+            $this->appypay_error = $result['message'] ?? 'Não foi possível gerar a referência. Tente novamente.';
+            return;
+        }
+
+        $service->payment_method_used = 'appypay_ref';
+        $service->appypay_charge_id   = $result['charge_id'];
+        $service->payment_reference   = $result['reference'];
+        $service->payment_entity      = $result['entity'];
+        $service->save();
+
+        PollAppyPayChargeJob::dispatch($service, $result['charge_id'], 'ref')->delay(now()->addMinutes(5));
+
+        $this->appypay_service_id = $service->id;
+        $this->appypay_charge_id  = $result['charge_id'];
+        $this->appypay_reference  = $result['reference'];
+        $this->appypay_entity     = $result['entity'];
+        $this->appypay_step       = 'reference';
+
+        session()->forget(['client_order', 'briefing', 'briefing_title']);
+    }
+
+    /** Apenas sandbox — simula o pagamento da referência gerada, para testar o fluxo de ponta a ponta. */
+    public function mockConfirmAppyPayReference()
+    {
+        if (config('services.appypay.mode') !== 'sandbox' || !$this->appypay_reference) {
+            return;
+        }
+
+        (new AppyPayGateway())->mockReferencePayment($this->appypay_reference);
+        $this->checkAppyPayStatus();
+    }
+
+    /** Chamado via wire:poll no ecrã de espera — confirma o estado directamente na AppyPay. */
+    public function checkAppyPayStatus()
+    {
+        if (!$this->appypay_service_id || !$this->appypay_charge_id) {
+            return;
+        }
+
+        $service = Service::find($this->appypay_service_id);
+        if (!$service) {
+            return;
+        }
+
+        if ($service->payment_status === 'paid') {
+            $this->appypay_step = 'done';
+            session()->flash('success', 'Pagamento confirmado e pedido publicado com sucesso!');
+            return redirect()->route('client.orders');
+        }
+
+        if ($service->payment_status === 'failed') {
+            $this->appypay_error = 'O pagamento não foi confirmado. Tente novamente ou escolha outro método.';
+            $this->appypay_step  = 'form';
+            return;
+        }
+
+        // Consulta directa (não depende só do job em fila) — mais responsivo para o utilizador à espera.
+        $charge = (new AppyPayGateway())->getCharge($this->appypay_charge_id);
+        if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
+            app(AppyPayReconciliationService::class)->markPaidByChargeId($this->appypay_charge_id);
+            $this->appypay_step = 'done';
+            session()->flash('success', 'Pagamento confirmado e pedido publicado com sucesso!');
+            return redirect()->route('client.orders');
+        }
     }
 
     public function render()
