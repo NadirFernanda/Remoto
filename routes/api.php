@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ProposalController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\BadgeController;
+use App\Http\Controllers\Api\CspReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,11 @@ Route::post('/paypal/webhook', [PayPalWebhookController::class, 'handle'])
 Route::post('/appypay/webhook', [AppyPayWebhookController::class, 'handle'])
     ->middleware('throttle:60,1')
     ->name('appypay.webhook');
+
+// ─── CSP violation reports (auditoria F3 — fase Report-Only) ─────────────────
+Route::post('/csp-report', [CspReportController::class, 'store'])
+    ->middleware('throttle:120,1')
+    ->name('csp.report');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
 
