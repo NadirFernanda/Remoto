@@ -27,7 +27,12 @@
         <div class="px-4 py-3 rounded-xl bg-green-100 text-green-700 text-sm font-medium">{{ session('success_loja') }}</div>
     @endif
     @if(session('error_loja'))
-        <div class="px-4 py-3 rounded-xl bg-red-100 text-red-700 text-sm font-medium">{{ session('error_loja') }}</div>
+        <div class="px-4 py-3 rounded-xl bg-red-100 text-red-700 text-sm font-medium flex items-center justify-between gap-3">
+            <span>{{ session('error_loja') }}</span>
+            @if(str_contains(session('error_loja'), 'Saldo insuficiente'))
+                <a href="{{ route('wallet.topup') }}" class="whitespace-nowrap font-semibold underline">Recarregar carteira</a>
+            @endif
+        </div>
     @endif
 
     {{-- ── Mais vendidos ────────────────────────────────────────────── --}}

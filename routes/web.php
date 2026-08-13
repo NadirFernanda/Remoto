@@ -133,6 +133,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // KYC
     Route::get('/kyc', \App\Livewire\KycForm::class)->name('kyc.submit');
 
+    // Carteira — recarga via AppyPay (Multicaixa Express)
+    Route::get('/carteira/recarregar', \App\Livewire\WalletTopUp::class)->name('wallet.topup');
+
 });
 
 // ─── Freelancer Core ──────────────────────────────────────────────────────────

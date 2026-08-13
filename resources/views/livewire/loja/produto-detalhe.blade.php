@@ -33,9 +33,12 @@
 
     {{-- Feedback --}}
     @if($feedback)
-    <div class="px-4 py-3 rounded-xl text-sm font-medium
+    <div class="px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between gap-3
         {{ $feedbackType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-        {{ $feedback }}
+        <span>{{ $feedback }}</span>
+        @if($feedbackType === 'error' && str_contains($feedback, 'Saldo insuficiente'))
+            <a href="{{ route('wallet.topup') }}" class="whitespace-nowrap font-semibold underline">Recarregar carteira</a>
+        @endif
     </div>
     @endif
 
