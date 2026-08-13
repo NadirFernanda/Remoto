@@ -26,10 +26,12 @@ use App\Http\Controllers\Api\BadgeController;
 
 // ─── PayPal Webhooks (sem auth, sem CSRF — verificação por assinatura PayPal) ─
 Route::post('/paypal/webhook', [PayPalWebhookController::class, 'handle'])
+    ->middleware('throttle:60,1')
     ->name('paypal.webhook');
 
 // ─── AppyPay Webhooks (sem auth, sem CSRF — verificação por segredo partilhado) ─
 Route::post('/appypay/webhook', [AppyPayWebhookController::class, 'handle'])
+    ->middleware('throttle:60,1')
     ->name('appypay.webhook');
 
 Route::prefix('v1')->name('api.v1.')->group(function () {
