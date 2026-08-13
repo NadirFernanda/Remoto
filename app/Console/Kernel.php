@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\RefreshAoaRate::class,
         \App\Console\Commands\ExpireCreatorSubscriptions::class,
         \App\Console\Commands\SendReviewReminders::class,
+        \App\Console\Commands\CloseCashFlowDay::class,
     ];
 
     protected function schedule(Schedule $schedule)
@@ -31,6 +32,12 @@ class Kernel extends ConsoleKernel
         // Executar às 10:00 para maximizar taxa de abertura
         $schedule->command('reviews:remind')
             ->dailyAt('10:00')
+            ->withoutOverlapping()
+            ->runInBackground();
+
+        // Fecho diário do fluxo de caixa — snapshot histórico às 23:59
+        $schedule->command('cashflow:close')
+            ->dailyAt('23:59')
             ->withoutOverlapping()
             ->runInBackground();
     }

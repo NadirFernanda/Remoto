@@ -3,9 +3,9 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
-use App\Models\WalletLog;
-use App\Models\InfoprodutoCompra;
-use App\Models\CreatorSubscription;
+use App\Models\CashFlowClosing;
+use App\Services\CashFlowClosingService;
+use App\Services\CashFlowService;
 use Carbon\Carbon;
 
 class CashFlow extends Component
@@ -45,73 +45,25 @@ class CashFlow extends Component
             : Carbon::now()->endOfDay();
     }
 
+    /** Fecha manualmente o dia de hoje (além do fecho automático agendado às 23:59). */
+    public function fecharHoje(): void
+    {
+        $admin = auth()->user();
+        app(CashFlowClosingService::class)->closeDay(Carbon::today(), $admin->name ?? 'admin');
+        session()->flash('cashflow_success', 'Fecho de hoje registado com sucesso.');
+    }
+
     public function render()
     {
         $start = $this->startDate();
         $end   = $this->endDate();
 
-        // ── Freelancing ──────────────────────────────────────────────────────
-        $flEntradas  = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'escrow_retido')->sum('valor');
-        $flSaidas    = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'saque_aprovado')->sum('valor');
-        $flComissao  = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'pagamento_projeto')->sum('valor') * 10 / 90;
+        $resultado = (new CashFlowService())->calculate($start, $end);
 
-        // ── Creator ──────────────────────────────────────────────────────────
-        $crEntradas  = (float) CreatorSubscription::whereBetween('created_at', [$start, $end])->sum('amount');
-        $crComissao  = (float) CreatorSubscription::whereBetween('created_at', [$start, $end])->sum('platform_fee');
-        $crSaidas    = (float) CreatorSubscription::whereBetween('created_at', [$start, $end])->sum('net_amount');
+        $fechos = CashFlowClosing::orderByDesc('data')->take(30)->get();
 
-        // ── Infoprodutos ─────────────────────────────────────────────────────
-        $ipEntradas  = (float) InfoprodutoCompra::whereBetween('created_at', [$start, $end])->sum('valor_pago');
-        $ipComissao  = (float) InfoprodutoCompra::whereBetween('created_at', [$start, $end])->sum('comissao_plataforma');
-        $ipSaidas    = (float) InfoprodutoCompra::whereBetween('created_at', [$start, $end])->sum('valor_freelancer');
-
-        // ── Afiliados ────────────────────────────────────────────────────────
-        $afEntradas  = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'comissao_afiliado')->where('valor', '>', 0)->sum('valor');
-        $afSaidas    = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'comissao_afiliado')->where('valor', '<', 0)->sum('valor');
-
-        // ── Totais ───────────────────────────────────────────────────────────
-        $totalEntradas = $flEntradas + $crEntradas + $ipEntradas + $afEntradas;
-        $totalSaidas   = $flSaidas   + $crSaidas   + $ipSaidas   + abs($afSaidas);
-        $totalComissao = $flComissao + $crComissao + $ipComissao;
-        $saldoLiquido  = $totalEntradas - $totalSaidas;
-
-        $grupos = [
-            [
-                'origem'   => 'Freelancing',
-                'cor'      => 'blue',
-                'entradas' => $flEntradas,
-                'saidas'   => $flSaidas,
-                'comissao' => $flComissao,
-            ],
-            [
-                'origem'   => 'Criador',
-                'cor'      => 'purple',
-                'entradas' => $crEntradas,
-                'saidas'   => $crSaidas,
-                'comissao' => $crComissao,
-            ],
-            [
-                'origem'   => 'Infoprodutos',
-                'cor'      => 'orange',
-                'entradas' => $ipEntradas,
-                'saidas'   => $ipSaidas,
-                'comissao' => $ipComissao,
-            ],
-            [
-                'origem'   => 'Afiliados',
-                'cor'      => 'green',
-                'entradas' => $afEntradas,
-                'saidas'   => abs($afSaidas),
-                'comissao' => 0,
-            ],
-        ];
-
-        return view('livewire.admin.cash-flow', compact(
-            'grupos',
-            'totalEntradas',
-            'totalSaidas',
-            'totalComissao',
-            'saldoLiquido',
-        ))->layout('layouts.dashboard', ['dashboardTitle' => 'Fluxo de Caixa']);
+        return view('livewire.admin.cash-flow', array_merge($resultado, [
+            'fechos' => $fechos,
+        ]))->layout('layouts.dashboard', ['dashboardTitle' => 'Fluxo de Caixa']);
     }
 }

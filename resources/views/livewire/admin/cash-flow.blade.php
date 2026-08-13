@@ -1,4 +1,8 @@
 <div>
+    @if(session('cashflow_success'))
+        <div class="mb-4 px-4 py-3 rounded-xl bg-green-100 text-green-700 text-sm font-medium">{{ session('cashflow_success') }}</div>
+    @endif
+
     {{-- ─── Filtros ─────────────────────────────────────────────────── --}}
     <div class="flex flex-wrap items-end gap-3 mb-6">
         {{-- Período rápido --}}
@@ -100,5 +104,53 @@
                 </div>
             </div>
         @endforeach
+    </div>
+
+    {{-- ─── Fecho diário ────────────────────────────────────────────── --}}
+    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden mt-6">
+        <div class="px-5 py-4 flex items-center justify-between border-b border-gray-100">
+            <div>
+                <h3 class="text-sm font-bold text-gray-800">Fecho diário de conta</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Fecho automático todos os dias às 23:59. Pode fechar hoje manualmente a qualquer momento.</p>
+            </div>
+            <button wire:click="fecharHoje" wire:loading.attr="disabled" wire:target="fecharHoje" wire:confirm="Registar o fecho de hoje com os dados até agora?"
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-[#0055ff] text-white hover:bg-blue-700 transition disabled:opacity-60">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                Fechar hoje agora
+            </button>
+        </div>
+
+        @if($fechos->isEmpty())
+            <p class="text-xs text-gray-400 px-5 py-6 text-center">Ainda não há nenhum fecho registado.</p>
+        @else
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="text-left text-gray-400 border-b border-gray-100">
+                            <th class="px-5 py-2.5 font-medium">Data</th>
+                            <th class="px-5 py-2.5 font-medium">Entradas</th>
+                            <th class="px-5 py-2.5 font-medium">Saídas</th>
+                            <th class="px-5 py-2.5 font-medium">Comissão</th>
+                            <th class="px-5 py-2.5 font-medium">Saldo do dia</th>
+                            <th class="px-5 py-2.5 font-medium">Saldo acumulado</th>
+                            <th class="px-5 py-2.5 font-medium">Fechado por</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        @foreach($fechos as $f)
+                            <tr>
+                                <td class="px-5 py-2.5 font-semibold text-gray-700">{{ $f->data->format('d/m/Y') }}</td>
+                                <td class="px-5 py-2.5 text-green-600">{{ money_aoa($f->total_entradas) }}</td>
+                                <td class="px-5 py-2.5 text-red-500">{{ money_aoa($f->total_saidas) }}</td>
+                                <td class="px-5 py-2.5 text-[#0055ff]">{{ money_aoa($f->total_comissao) }}</td>
+                                <td class="px-5 py-2.5 font-semibold {{ $f->saldo_liquido >= 0 ? 'text-gray-700' : 'text-red-600' }}">{{ money_aoa($f->saldo_liquido) }}</td>
+                                <td class="px-5 py-2.5 font-semibold text-gray-700">{{ money_aoa($f->saldo_acumulado) }}</td>
+                                <td class="px-5 py-2.5 text-gray-400">{{ $f->fechado_por ?? '—' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 </div>
