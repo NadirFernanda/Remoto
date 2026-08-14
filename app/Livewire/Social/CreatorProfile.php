@@ -37,7 +37,7 @@ class CreatorProfile extends Component
 
     public function mount(User $user): void
     {
-        $user->load(['freelancerProfile', 'workExperiences', 'educations']);
+        $user->load(['freelancerProfile', 'creatorProfile', 'workExperiences', 'educations']);
         $this->creator = $user;
     }
 
@@ -74,7 +74,7 @@ class CreatorProfile extends Component
             }
         }
 
-        $subscriptionPrice = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
+        $subscriptionPrice = $this->creator->creatorProfile?->subscription_price ?? \App\Models\CreatorProfile::MIN_SUBSCRIPTION_PRICE;
 
         return view('livewire.social.creator-profile', compact(
             'posts', 'followersCount', 'isFollowing', 'isSubscribed', 'subscribedCreatorIds', 'subscriptionPrice'
@@ -102,7 +102,7 @@ class CreatorProfile extends Component
             return;
         }
 
-        $price       = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
+        $price       = $this->creator->creatorProfile?->subscription_price ?? \App\Models\CreatorProfile::MIN_SUBSCRIPTION_PRICE;
         $platformFee = round($price * \App\Services\FeeService::subscriptionRate(), 2);
         $netAmount   = round($price - $platformFee, 2);
 

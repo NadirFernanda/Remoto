@@ -17,6 +17,12 @@ class AvailableProjects extends Component
     public $proposalServiceId = null;
     public $proposalMessage = '';
     public $proposalValue = null;
+    public string $search = '';
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
 
     public function acceptService($serviceId)
     {
@@ -189,6 +195,18 @@ class AvailableProjects extends Component
             ->where('cliente_id', '!=', $userId)
             ->whereNotIn('id', $fullProjectIds)
             ->whereNotIn('id', $rejectedProjectIds)
+            // Pesquisa "solta" — qualquer palavra da pesquisa que apareça em
+            // qualquer um dos campos já conta, em vez de exigir a frase exacta.
+            ->when(trim($this->search) !== '', function ($q) {
+                $terms = array_filter(preg_split('/\s+/', trim($this->search)));
+                $q->where(function ($q2) use ($terms) {
+                    foreach ($terms as $term) {
+                        $q2->orWhere('titulo', 'like', "%{$term}%")
+                           ->orWhere('descricao', 'like', "%{$term}%")
+                           ->orWhere('categoria', 'like', "%{$term}%");
+                    }
+                });
+            })
             ->orderByDesc('created_at')
             ->paginate(12);
 

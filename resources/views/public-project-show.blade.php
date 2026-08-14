@@ -108,7 +108,7 @@
                                 <p style="font-size:.75rem;color:#94a3b8;margin:0;">{{ $service->cliente->location }}</p>
                             @endif
                         </div>
-                        <a href="{{ route('freelancer.show', $service->cliente) }}"
+                        <a href="{{ route('client.public', $service->cliente) }}"
                            class="pshow-client-btn"
                            style="flex-shrink:0;font-size:.8rem;font-weight:700;color:#00baff;text-decoration:none;border:1.5px solid #00baff;border-radius:8px;padding:.35rem .85rem;white-space:nowrap;"
                            onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">

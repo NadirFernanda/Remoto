@@ -20,6 +20,16 @@
         </div>
     @endif
 
+    {{-- Pesquisa --}}
+    <div class="relative">
+        <svg class="w-4 h-4 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+        </svg>
+        <input type="search" wire:model.live.debounce.400ms="search"
+               placeholder="Pesquisar por título, descrição ou categoria..."
+               class="w-full bg-white border border-gray-200 shadow-sm rounded-2xl pl-11 pr-4 py-3 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
+    </div>
+
     <div class="flex items-center justify-between">
         <div class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-full px-4 py-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>

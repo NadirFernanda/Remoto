@@ -22,9 +22,30 @@ class SubscriptionManager extends Component
     public string $saqueMsg          = '';
     public string $saqueMsgType      = 'success';
 
+    // ─── Preço da assinatura ───────────────────────────────────────
+    public $precoAssinatura;
+    public string $precoMsg     = '';
+    public string $precoMsgType = 'success';
+
     public function mount(): void
     {
         $this->selectedYear = now()->year;
+        $profile = CreatorProfile::where('user_id', Auth::id())->first();
+        $this->precoAssinatura = $profile->subscription_price ?? CreatorProfile::MIN_SUBSCRIPTION_PRICE;
+    }
+
+    public function atualizarPreco(): void
+    {
+        $this->validate([
+            'precoAssinatura' => ['required', 'numeric', 'min:' . CreatorProfile::MIN_SUBSCRIPTION_PRICE],
+        ], [
+            'precoAssinatura.min' => 'O valor mínimo permitido pela plataforma é Kz ' . number_format(CreatorProfile::MIN_SUBSCRIPTION_PRICE, 0, ',', '.') . '.',
+        ]);
+
+        CreatorProfile::where('user_id', Auth::id())->update(['subscription_price' => $this->precoAssinatura]);
+
+        $this->precoMsgType = 'success';
+        $this->precoMsg     = 'Preço da assinatura atualizado! Só se aplica a novas assinaturas — quem já é assinante mantém o valor pago até renovar.';
     }
 
     public function render()
@@ -60,7 +81,7 @@ class SubscriptionManager extends Component
             ->sum('platform_fee');
 
         // Valor da assinatura mensal
-        $valorAssinatura = \App\Models\CreatorProfile::SUBSCRIPTION_PRICE;
+        $valorAssinatura = $creatorProfile->subscription_price ?? CreatorProfile::MIN_SUBSCRIPTION_PRICE;
 
         // ── Monthly new subscriptions for selected year ──────────────────────
         $monthlyNew = CreatorSubscription::where('creator_id', $user->id)

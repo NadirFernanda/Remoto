@@ -66,6 +66,30 @@
 
     </div>
 
+    {{-- Definir preço da assinatura --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+        <p class="text-sm font-bold text-gray-800">Preço da sua assinatura</p>
+        <p class="text-xs text-gray-400 mt-0.5 mb-3">Define quanto cobra por mês. Mínimo permitido pela plataforma: Kz {{ number_format(\App\Models\CreatorProfile::MIN_SUBSCRIPTION_PRICE, 0, ',', '.') }}.</p>
+
+        @if($precoMsg)
+            <div class="mb-3 p-3 rounded-lg text-sm font-medium {{ $precoMsgType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                {{ $precoMsg }}
+            </div>
+        @endif
+
+        <form wire:submit="atualizarPreco" class="flex items-end gap-3 flex-wrap">
+            <div>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Valor mensal (Kz)</label>
+                <input type="number" step="1" min="{{ \App\Models\CreatorProfile::MIN_SUBSCRIPTION_PRICE }}" wire:model="precoAssinatura"
+                       class="w-40 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400 outline-none">
+                @error('precoAssinatura') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+                Guardar
+            </button>
+        </form>
+    </div>
+
     {{-- Bar Chart --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div class="flex items-center justify-between mb-5 flex-wrap gap-3">

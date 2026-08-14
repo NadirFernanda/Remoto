@@ -81,7 +81,7 @@
             @if($service->cliente)
             <div class="sm:col-span-2">
                 <p class="text-xs text-gray-400 uppercase tracking-wide mb-0.5">Cliente</p>
-                <p class="text-gray-700">{{ $service->cliente->name ?? '—' }}</p>
+                <a href="{{ route('client.public', $service->cliente) }}" class="text-[#0055ff] hover:underline font-medium">{{ $service->cliente->name ?? '—' }}</a>
             </div>
             @endif
 
