@@ -85,9 +85,10 @@
     @endif
     <!-- Barra de progresso de scroll — fixed no topo absoluto do viewport -->
     <div x-data="{progress:0}" x-init="(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){let m=sc.scrollHeight-sc.clientHeight;progress=m>0?Math.round(sc.scrollTop/m*100):0;})})()" class="scroll-progress-bar" :style="'width:'+progress+'%'"></div>
-    @include('components.header')
-    <!-- Container de scroll: ocupa exactamente o espaço que resta após o header -->
+    <!-- Container de scroll: inclui o cabeçalho (sticky) para a barra de scroll
+         nativa cobrir o ecrã inteiro, em vez de parar por baixo do cabeçalho. -->
     <div id="page-scroll" style="flex:1;min-height:0;overflow-y:scroll;overflow-x:hidden;display:flex;flex-direction:column;">
+        @include('components.header')
         <main class="@yield('main-padding', 'pt-0') flex-1" style="display:flex;flex-direction:column;@yield('main-style', '')">
             @include('components.flash-messages')
             @yield('content')
