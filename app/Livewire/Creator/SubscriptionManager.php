@@ -79,12 +79,13 @@ class SubscriptionManager extends Component
         // Saldo Disponível = total líquido recebido de todas as assinaturas
         $saldoDisponivel = $allTimeEarnings;
 
-        // Comissão total retida pela plataforma (25%)
-        $comissaoTotal = CreatorSubscription::where('creator_id', $user->id)
-            ->sum('platform_fee');
-
         // Valor da assinatura mensal
         $valorAssinatura = $creatorProfile->subscription_price ?? CreatorProfile::MIN_SUBSCRIPTION_PRICE;
+
+        // Comissão da plataforma sobre o preço actual da assinatura (25%) —
+        // reflecte sempre o preço em vigor agora, não o histórico de pagamentos
+        // já feitos (que pode ter sido a um preço antigo).
+        $comissaoTotal = (new \App\Services\FeeService())->calculateSubscriptionFee($valorAssinatura)['comissao'];
 
         // ── Monthly new subscriptions for selected year ──────────────────────
         $monthlyNew = CreatorSubscription::where('creator_id', $user->id)
