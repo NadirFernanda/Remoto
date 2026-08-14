@@ -54,7 +54,7 @@
                 <span class="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded text-xs font-bold ml-1">25%</span>
             </p>
             <p class="text-3xl font-black text-amber-600 leading-none">{{ money_aoa($comissaoTotal, false) }}</p>
-            <p class="text-sm text-amber-500 mt-1">total retido pela plataforma</p>
+            <p class="text-sm text-amber-500 mt-1">retido até agora, sobre o que já foi pago</p>
         </div>
 
         {{-- Valor da Assinatura --}}
