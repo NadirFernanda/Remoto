@@ -5,7 +5,6 @@ namespace App\Livewire\Loja;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Infoproduto;
-use App\Modules\Loja\Services\LojaService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -22,29 +21,6 @@ class Vitrine extends Component
     public function updatingBusca(): void  { $this->resetPage(); }
     public function updatingTipo(): void   { $this->resetPage(); }
     public function updatingOrdenar(): void { $this->resetPage(); }
-
-    // ─── Purchase ────────────────────────────────────────────────────
-
-    public function comprar(int $produtoId)
-    {
-        $user = auth()->user();
-
-        if (!$user) {
-            return $this->redirect(route('login'));
-        }
-
-        $produto = Infoproduto::where('status', 'ativo')->findOrFail($produtoId);
-
-        try {
-            app(LojaService::class)->comprar($user, $produto);
-        } catch (\RuntimeException $e) {
-            session()->flash('error_loja', $e->getMessage());
-            return;
-        }
-
-        session()->flash('success_loja', 'Compra realizada! Vá ao detalhe do produto para fazer o download.');
-        $this->redirect(route('loja.show', $produto->slug));
-    }
 
     // ─── Render ──────────────────────────────────────────────────────
 

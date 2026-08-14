@@ -131,7 +131,7 @@
                                             Ver conteúdo
                                         </a>
                                     @else
-                                        <a href="{{ route('social.creator', $creator) }}"
+                                        <a href="{{ route('social.creator.subscribe', $creator) }}"
                                            class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition">
                                             Assinar
                                         </a>

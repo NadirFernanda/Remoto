@@ -32,14 +32,16 @@
     </div>
 
     {{-- Feedback --}}
-    @if($feedback)
-    <div class="px-4 py-3 rounded-xl text-sm font-medium flex items-center justify-between gap-3
-        {{ $feedbackType === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-        <span>{{ $feedback }}</span>
-        @if($feedbackType === 'error' && str_contains($feedback, 'Saldo insuficiente'))
-            <a href="{{ route('wallet.topup') }}" class="whitespace-nowrap font-semibold underline">Recarregar carteira</a>
-        @endif
-    </div>
+    @if(session('success_loja'))
+        <div class="px-4 py-3 rounded-xl bg-green-100 text-green-700 text-sm font-medium">{{ session('success_loja') }}</div>
+    @endif
+    @if(session('error_loja'))
+        <div class="px-4 py-3 rounded-xl bg-red-100 text-red-700 text-sm font-medium flex items-center justify-between gap-3">
+            <span>{{ session('error_loja') }}</span>
+            @if(str_contains(session('error_loja'), 'Saldo insuficiente'))
+                <a href="{{ route('wallet.topup') }}" class="whitespace-nowrap font-semibold underline">Recarregar carteira</a>
+            @endif
+        </div>
     @endif
 
     {{-- Main card --}}
@@ -112,29 +114,12 @@
                         <span class="text-sm text-gray-400 italic">Este é o seu produto</span>
                         @else
                         <div class="w-full">
-                            @if(!$confirmando)
-                            <button wire:click="$set('confirmando', true)"
+                            <a href="{{ route('loja.purchase', $produto->slug) }}"
                                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 text-white rounded-xl font-semibold text-sm transition shadow hover:shadow-lg"
                                 style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                 Comprar agora
-                            </button>
-                            @else
-                            <div class="bg-white border-2 border-[#0055ff] rounded-xl p-4 text-sm">
-                                <p class="font-medium text-gray-900 mb-1">Confirmar compra?</p>
-                                <p class="text-gray-500 mb-3">Será debitado <strong>Kz {{ number_format($produto->preco, 0, ',', '.') }}</strong> da sua carteira.</p>
-                                <div class="flex gap-2">
-                                    <button wire:click="comprar"
-                                        class="px-4 py-2 bg-[#0055ff] text-white rounded-lg font-medium text-xs hover:bg-[#0044cc] transition">
-                                        Confirmar
-                                    </button>
-                                    <button wire:click="$set('confirmando', false)"
-                                        class="px-4 py-2 text-gray-600 hover:text-gray-900 text-xs transition">
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                            @endif
+                            </a>
                         </div>
                         @endif
                     @else

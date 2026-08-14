@@ -3,12 +3,18 @@
 namespace App\Modules\Payments\Services;
 
 use App\Jobs\NotifyFreelancersOfNewProject;
+use App\Models\CreatorSubscriptionCheckout;
+use App\Models\Infoproduto;
+use App\Models\InfoprodutoCompraCheckout;
 use App\Models\Service;
+use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\WalletTopUp;
 use App\Modules\Admin\Services\AuditLogger;
+use App\Modules\Loja\Services\LojaService;
 use App\Services\AffiliateService;
+use App\Services\CreatorSubscriptionService;
 use App\Services\FeeService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,35 +22,55 @@ use Illuminate\Support\Facades\Log;
 /**
  * Lógica partilhada de reconciliação de pagamentos AppyPay — chamada tanto pelo
  * webhook (App­yPayWebhookController) como pelos jobs de polling (PollAppyPayChargeJob,
- * PollAppyPayWalletTopUpJob), para nunca duplicar o efeito de marcar um pagamento como pago.
+ * PollAppyPayWalletTopUpJob, PollAppyPaySubscriptionCheckoutJob,
+ * PollAppyPayInfoprodutoCompraCheckoutJob), para nunca duplicar o efeito de marcar
+ * um pagamento como pago.
  *
- * Um charge_id da AppyPay pertence sempre a um único tipo de registo (Service ou
- * WalletTopUp) — por isso procuramos primeiro em Service e, se não encontrado, em
- * WalletTopUp, antes de desistir.
+ * Um charge_id da AppyPay pertence sempre a um único tipo de registo — por isso
+ * procuramos por ordem em Service, CreatorSubscriptionCheckout,
+ * InfoprodutoCompraCheckout e, por fim, WalletTopUp, antes de desistir.
  */
 class AppyPayReconciliationService
 {
     /**
-     * Marca um serviço/recarga de carteira como pago a partir do ID da cobrança AppyPay.
+     * Marca um pagamento como pago a partir do ID da cobrança AppyPay.
      * Idempotente — se já estiver pago, não faz nada.
      */
     public function markPaidByChargeId(string $chargeId, ?float $amountFromGateway = null): void
     {
-        $service = Service::where('appypay_charge_id', $chargeId)->exists();
-        if ($service) {
+        if (Service::where('appypay_charge_id', $chargeId)->exists()) {
             $this->markServicePaid($chargeId, $amountFromGateway);
+            return;
+        }
+
+        if (CreatorSubscriptionCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markCreatorSubscriptionCheckoutPaid($chargeId, $amountFromGateway);
+            return;
+        }
+
+        if (InfoprodutoCompraCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markInfoprodutoCompraCheckoutPaid($chargeId, $amountFromGateway);
             return;
         }
 
         $this->markWalletTopUpPaid($chargeId, $amountFromGateway);
     }
 
-    /** Marca um serviço/recarga de carteira como falhado (pagamento rejeitado, saldo insuficiente, timeout). */
+    /** Marca um pagamento como falhado (pagamento rejeitado, saldo insuficiente, timeout). */
     public function markFailedByChargeId(string $chargeId, string $reason = ''): void
     {
-        $service = Service::where('appypay_charge_id', $chargeId)->exists();
-        if ($service) {
+        if (Service::where('appypay_charge_id', $chargeId)->exists()) {
             $this->markServiceFailed($chargeId, $reason);
+            return;
+        }
+
+        if (CreatorSubscriptionCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markCreatorSubscriptionCheckoutFailed($chargeId, $reason);
+            return;
+        }
+
+        if (InfoprodutoCompraCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markInfoprodutoCompraCheckoutFailed($chargeId, $reason);
             return;
         }
 
@@ -150,5 +176,124 @@ class AppyPayReconciliationService
 
         Log::info('AppyPay: recarga de carteira falhada', ['top_up_id' => $topUp->id, 'charge_id' => $chargeId, 'reason' => $reason]);
         AuditLogger::log('appypay_wallet_topup_failed', "Recarga de carteira AppyPay falhou para o utilizador #{$topUp->user_id}: {$reason}", 'WalletTopUp', $topUp->id);
+    }
+
+    private function markCreatorSubscriptionCheckoutPaid(string $chargeId, ?float $amountFromGateway): void
+    {
+        DB::transaction(function () use ($chargeId, $amountFromGateway) {
+            $checkout = CreatorSubscriptionCheckout::where('appypay_charge_id', $chargeId)->lockForUpdate()->first();
+
+            if (!$checkout) {
+                Log::warning('AppyPay: checkout de assinatura não encontrado para reconciliação', ['charge_id' => $chargeId]);
+                return;
+            }
+
+            if ($checkout->payment_status === 'paid') {
+                return;
+            }
+
+            $subscriber = User::find($checkout->subscriber_id);
+            $creator    = User::find($checkout->creator_id);
+            if (!$subscriber || !$creator) {
+                $checkout->update(['payment_status' => 'failed']);
+                Log::warning('AppyPay: assinante/criador em falta ao reconciliar assinatura', ['checkout_id' => $checkout->id]);
+                return;
+            }
+
+            $amount = $amountFromGateway ?? (float) $checkout->amount;
+            $subscription = app(CreatorSubscriptionService::class)->activate(
+                $subscriber, $creator, $amount, $checkout->payment_method_used ?? 'appypay'
+            );
+
+            $checkout->payment_status  = 'paid';
+            $checkout->subscription_id = $subscription->id;
+            $checkout->save();
+
+            Log::info('AppyPay: assinatura de criador reconciliada', ['checkout_id' => $checkout->id, 'subscription_id' => $subscription->id, 'charge_id' => $chargeId]);
+            AuditLogger::log('appypay_subscription_confirmed', "Assinatura AppyPay confirmada — assinante #{$subscriber->id}, criador #{$creator->id}", 'CreatorSubscription', $subscription->id);
+
+            (new AffiliateService())->creditCommissionForReferredAction($subscriber, 'subscribe_creator', $subscription->id);
+        });
+    }
+
+    private function markCreatorSubscriptionCheckoutFailed(string $chargeId, string $reason): void
+    {
+        $checkout = CreatorSubscriptionCheckout::where('appypay_charge_id', $chargeId)->first();
+
+        if (!$checkout || $checkout->payment_status === 'paid') {
+            return;
+        }
+
+        $checkout->payment_status = 'failed';
+        $checkout->save();
+
+        Log::info('AppyPay: pagamento de assinatura falhado', ['checkout_id' => $checkout->id, 'charge_id' => $chargeId, 'reason' => $reason]);
+        AuditLogger::log('appypay_subscription_failed', "Pagamento AppyPay de assinatura falhou (checkout #{$checkout->id}): {$reason}", 'CreatorSubscriptionCheckout', $checkout->id);
+    }
+
+    private function markInfoprodutoCompraCheckoutPaid(string $chargeId, ?float $amountFromGateway): void
+    {
+        DB::transaction(function () use ($chargeId, $amountFromGateway) {
+            $checkout = InfoprodutoCompraCheckout::where('appypay_charge_id', $chargeId)->lockForUpdate()->first();
+
+            if (!$checkout) {
+                Log::warning('AppyPay: checkout de compra não encontrado para reconciliação', ['charge_id' => $chargeId]);
+                return;
+            }
+
+            if ($checkout->payment_status === 'paid') {
+                return;
+            }
+
+            $comprador = User::find($checkout->comprador_id);
+            $produto   = Infoproduto::find($checkout->infoproduto_id);
+            if (!$comprador || !$produto) {
+                $checkout->update(['payment_status' => 'failed']);
+                Log::warning('AppyPay: comprador/produto em falta ao reconciliar compra', ['checkout_id' => $checkout->id]);
+                return;
+            }
+
+            $amount = $amountFromGateway ?? (float) $checkout->amount;
+
+            // Infoprodutos são bens únicos — não "empilham" como assinaturas. Se já
+            // foi comprado por outra via entretanto (ex: saldo numa aba enquanto a
+            // Referência confirmava noutra), não duplicar a compra nem o crédito ao
+            // freelancer — apenas destravar o ecrã de espera e sinalizar para
+            // reembolso manual (a AppyPay não tem API de reembolso documentada).
+            if ($produto->jaCompradoPor($comprador->id)) {
+                $checkout->update(['payment_status' => 'paid']);
+                Log::critical('AppyPay: cobrança confirmada para produto já comprado por outro meio — possível cobrança duplicada, requer reembolso manual', [
+                    'checkout_id' => $checkout->id, 'infoproduto_id' => $produto->id, 'comprador_id' => $comprador->id, 'charge_id' => $chargeId,
+                ]);
+                AuditLogger::log('appypay_duplicate_purchase_detected', "Cobrança AppyPay duplicada detectada — produto #{$produto->id} já comprado, verificar reembolso ao utilizador #{$comprador->id}", 'InfoprodutoCompraCheckout', $checkout->id);
+                return;
+            }
+
+            $compra = app(LojaService::class)->activate($comprador, $produto, $amount, $checkout->payment_method_used ?? 'appypay');
+
+            $checkout->payment_status = 'paid';
+            $checkout->compra_id      = $compra->id;
+            $checkout->save();
+
+            Log::info('AppyPay: compra de infoproduto reconciliada', ['checkout_id' => $checkout->id, 'compra_id' => $compra->id, 'charge_id' => $chargeId]);
+            AuditLogger::log('appypay_purchase_confirmed', "Compra AppyPay confirmada — comprador #{$comprador->id}, produto #{$produto->id}", 'InfoprodutoCompra', $compra->id);
+
+            (new AffiliateService())->creditCommissionForReferredAction($comprador, 'buy_product', $produto->id);
+        });
+    }
+
+    private function markInfoprodutoCompraCheckoutFailed(string $chargeId, string $reason): void
+    {
+        $checkout = InfoprodutoCompraCheckout::where('appypay_charge_id', $chargeId)->first();
+
+        if (!$checkout || $checkout->payment_status === 'paid') {
+            return;
+        }
+
+        $checkout->payment_status = 'failed';
+        $checkout->save();
+
+        Log::info('AppyPay: pagamento de compra falhado', ['checkout_id' => $checkout->id, 'charge_id' => $chargeId, 'reason' => $reason]);
+        AuditLogger::log('appypay_purchase_failed', "Pagamento AppyPay de compra falhou (checkout #{$checkout->id}): {$reason}", 'InfoprodutoCompraCheckout', $checkout->id);
     }
 }

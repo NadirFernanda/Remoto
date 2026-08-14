@@ -99,11 +99,10 @@
                                         Assinante
                                     </span>
                                 @else
-                                    <button wire:click="subscribe"
-                                        wire:confirm="Será debitado {{ number_format($subscriptionPrice, 2) }} KZS da sua carteira. Confirma a assinatura mensal?"
+                                    <a href="{{ route('social.creator.subscribe', $creator) }}"
                                         class="px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 transition shadow-sm">
                                         ★ Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês
-                                    </button>
+                                    </a>
                                 @endif
                             @endif
                             @if($creator->role === 'freelancer' || $creator->has_freelancer_profile)

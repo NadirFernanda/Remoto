@@ -11,6 +11,11 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/criador/{user}', \App\Livewire\Social\CreatorProfile::class)->name('social.creator');
 });
 
+// Checkout — assinar um criador (saldo/Multicaixa Express/Referência)
+Route::middleware(['web', 'auth', 'verified'])->group(function () {
+    Route::get('/social/criador/{user}/assinar', \App\Livewire\Social\SubscriptionCheckout::class)->name('social.creator.subscribe');
+});
+
 // Authenticated: create post, bookmarks, stories (todos os roles)
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/social/publicar', \App\Livewire\Social\CreatePost::class)->name('social.create');

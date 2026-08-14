@@ -107,8 +107,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach($produtos as $produto)
             @php $isPatrocinado = $produto->patrocinado ?? $produto->isPatrocinado(); @endphp
-            <a href="{{ route('loja.show', $produto->slug) }}"
-                wire:key="produto-{{ $produto->id }}"
+            <div wire:key="produto-{{ $produto->id }}"
                 style="animation: loja-card-in .45s ease-out backwards; animation-delay: {{ min($loop->index * 45, 300) }}ms; {{ $isPatrocinado ? 'background: linear-gradient(160deg, #0055ff 0%, #0033cc 100%);' : '' }}"
                 class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0055ff]/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col
                     {{ $isPatrocinado ? 'text-white' : 'bg-white border border-gray-200/70 text-gray-900 hover:border-[#0055ff]/40' }}">
@@ -118,6 +117,8 @@
                     ★ PATROCINADO
                 </span>
                 @endif
+
+                <a href="{{ route('loja.show', $produto->slug) }}" class="flex flex-col flex-1">
 
                 {{-- Cover --}}
                 <div class="relative h-48 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
@@ -178,7 +179,18 @@
                         </span>
                     </div>
                 </div>
-            </a>
+                </a>
+
+                <div class="px-5 pb-5 {{ $isPatrocinado ? '' : '-mt-1' }}">
+                    <a href="{{ route('loja.purchase', $produto->slug) }}"
+                        class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors
+                            {{ $isPatrocinado
+                                ? 'bg-amber-400 text-white hover:bg-amber-300'
+                                : 'bg-[#0055ff] text-white hover:bg-[#0033cc]' }}">
+                        Comprar
+                    </a>
+                </div>
+            </div>
             @endforeach
         </div>
 

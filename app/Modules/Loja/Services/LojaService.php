@@ -13,11 +13,11 @@ use App\Services\FeeService;
 class LojaService
 {
     /**
-     * Execute the purchase of an infoproduto.
+     * Caminho da carteira: debita o comprador e regista a compra.
      *
      * @throws \RuntimeException on validation failure
      */
-    public function comprar(User $user, Infoproduto $produto): void
+    public function comprar(User $user, Infoproduto $produto): InfoprodutoCompra
     {
         if ($produto->freelancer_id === $user->id) {
             throw new \RuntimeException('Não pode comprar o seu próprio produto.');
@@ -27,23 +27,17 @@ class LojaService
             throw new \RuntimeException('Já adquiriu este produto.');
         }
 
-        $wallet = $user->wallet;
+        $compra = DB::transaction(function () use ($user, $produto) {
+            $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->first();
+            if (!$wallet || $wallet->saldo < $produto->preco) {
+                throw new \RuntimeException('Saldo insuficiente. Recarregue a sua carteira antes de comprar.');
+            }
 
-        if (!$wallet || $wallet->saldo < $produto->preco) {
-            throw new \RuntimeException('Saldo insuficiente. Recarregue a sua carteira antes de comprar.');
-        }
-
-        $comissao        = round($produto->preco * FeeService::lojaRate(), 2);
-        $valorFreelancer = round($produto->preco - $comissao, 2);
-
-        DB::transaction(function () use ($user, $wallet, $produto, $comissao, $valorFreelancer) {
-            InfoprodutoCompra::create([
-                'infoproduto_id'      => $produto->id,
-                'comprador_id'        => $user->id,
-                'valor_pago'          => $produto->preco,
-                'comissao_plataforma' => $comissao,
-                'valor_freelancer'    => $valorFreelancer,
-            ]);
+            // Reconfirma sob lock — fecha a mesma race condition que a constraint
+            // única em (infoproduto_id, comprador_id) protege ao nível da BD.
+            if ($produto->jaCompradoPor($user->id)) {
+                throw new \RuntimeException('Já adquiriu este produto.');
+            }
 
             $wallet->decrement('saldo', $produto->preco);
             WalletLog::create([
@@ -54,24 +48,48 @@ class LojaService
                 'descricao' => "Compra do infoproduto \"{$produto->titulo}\".",
             ]);
 
-            // firstOrCreate: garante que a carteira existe antes de creditar
-            // (evita perda silenciosa de pagamento se wallet row não existir)
-            $freelancerWallet = Wallet::firstOrCreate(
-                ['user_id' => $produto->freelancer_id],
-                ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
-            );
-            $freelancerWallet->increment('saldo', $valorFreelancer);
-            WalletLog::create([
-                'user_id'   => $produto->freelancer_id,
-                'wallet_id' => $freelancerWallet->id,
-                'valor'     => $valorFreelancer,
-                'tipo'      => 'ganho_infoproduto',
-                'descricao' => "Venda do infoproduto \"{$produto->titulo}\" — comissão de 20% retida.",
-            ]);
-
-            $produto->increment('vendas_count');
+            return $this->activate($user, $produto, $produto->preco, 'wallet');
         });
 
         (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'buy_product', $produto->id);
+
+        return $compra;
+    }
+
+    /**
+     * Regista a compra e credita a carteira do freelancer — partilhado entre
+     * comprar() (após débito da carteira) e a reconciliação AppyPay (após
+     * confirmação do pagamento). Nunca debita o comprador.
+     */
+    public function activate(User $user, Infoproduto $produto, float $preco, string $paymentMethodUsed): InfoprodutoCompra
+    {
+        $fee = (new FeeService())->calculateLojaFee($preco);
+
+        $compra = InfoprodutoCompra::create([
+            'infoproduto_id'      => $produto->id,
+            'comprador_id'        => $user->id,
+            'valor_pago'          => $preco,
+            'comissao_plataforma' => $fee['comissao'],
+            'valor_freelancer'    => $fee['valor_freelancer'],
+        ]);
+
+        // firstOrCreate: garante que a carteira existe antes de creditar
+        // (evita perda silenciosa de pagamento se wallet row não existir)
+        $freelancerWallet = Wallet::firstOrCreate(
+            ['user_id' => $produto->freelancer_id],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]
+        );
+        $freelancerWallet->increment('saldo', $fee['valor_freelancer']);
+        WalletLog::create([
+            'user_id'   => $produto->freelancer_id,
+            'wallet_id' => $freelancerWallet->id,
+            'valor'     => $fee['valor_freelancer'],
+            'tipo'      => 'ganho_infoproduto',
+            'descricao' => "Venda do infoproduto \"{$produto->titulo}\" via {$paymentMethodUsed} — comissão retida.",
+        ]);
+
+        $produto->increment('vendas_count');
+
+        return $compra;
     }
 }

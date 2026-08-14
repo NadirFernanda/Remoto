@@ -10,6 +10,11 @@ Route::middleware('web')->group(function () {
     Route::get('/loja/{produto:slug}', \App\Livewire\Loja\ProdutoDetalhe::class)->name('loja.show');
 });
 
+// Checkout — pagamento de produtos (saldo/Multicaixa Express/Referência)
+Route::middleware(['web', 'auth', 'verified'])->group(function () {
+    Route::get('/loja/{produto:slug}/comprar', \App\Livewire\Loja\PurchaseCheckout::class)->name('loja.purchase');
+});
+
 // Authenticated seller routes
 Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/loja', \App\Livewire\Freelancer\Loja::class)->name('freelancer.loja');

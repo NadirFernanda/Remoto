@@ -11,10 +11,7 @@ use App\Models\SocialComment;
 use App\Models\SocialReport;
 use App\Models\SocialBookmark;
 use App\Models\CreatorSubscription;
-use App\Models\Wallet;
-use App\Models\WalletLog;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class CreatorProfile extends Component
@@ -82,97 +79,6 @@ class CreatorProfile extends Component
             ->layout('layouts.dashboard', [
                 'dashboardTitle' => '',
             ]);
-    }
-    // ── Subscribe (pay via wallet) ─────────────────────────────────────────
-
-    public function subscribe(): void
-    {
-        $user = Auth::user();
-        if (!$user) { $this->dispatch('need-login'); return; }
-        if ($user->id === $this->creator->id) return;
-
-        // Already subscribed?
-        $existing = CreatorSubscription::where('subscriber_id', $user->id)
-            ->where('creator_id', $this->creator->id)
-            ->where('status', 'active')
-            ->where('expires_at', '>', now())
-            ->first();
-        if ($existing) {
-            session()->flash('success', 'Já é assinante deste criador.');
-            return;
-        }
-
-        $price       = $this->creator->creatorProfile?->subscription_price ?? \App\Models\CreatorProfile::MIN_SUBSCRIPTION_PRICE;
-        $platformFee = round($price * \App\Services\FeeService::subscriptionRate(), 2);
-        $netAmount   = round($price - $platformFee, 2);
-
-        // Check subscriber wallet (pre-check for early UX feedback)
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $user->id],
-            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 0, 'taxa_saque' => 0]
-        );
-
-        if ($wallet->saldo < $price) {
-            session()->flash('error', 'Saldo insuficiente. Recarregue a sua carteira antes de assinar.');
-            return;
-        }
-
-        $subscriptionId = null;
-        try {
-            DB::transaction(function () use ($user, $price, $platformFee, $netAmount, &$subscriptionId) {
-                // Re-fetch with lock to prevent race condition on concurrent subscriptions
-                $wallet = Wallet::where('user_id', $user->id)->lockForUpdate()->firstOrFail();
-
-                if ($wallet->saldo < $price) {
-                    throw new \RuntimeException('Saldo insuficiente. Recarregue a sua carteira antes de assinar.');
-                }
-
-                // Deduct from subscriber
-                $wallet->decrement('saldo', $price);
-                WalletLog::create([
-                    'user_id'   => $user->id,
-                    'wallet_id' => $wallet->id,
-                    'valor'     => -$price,
-                    'tipo'      => 'assinatura',
-                    'descricao' => "Assinatura do criador \"{$this->creator->name}\" por 1 mês.",
-                ]);
-
-                // Credit creator directly (net amount after 25% platform fee)
-                $creatorWallet = Wallet::firstOrCreate(
-                    ['user_id' => $this->creator->id],
-                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 0, 'taxa_saque' => 0]
-                );
-                $creatorWallet->increment('saldo', $netAmount);
-                WalletLog::create([
-                    'user_id'   => $this->creator->id,
-                    'wallet_id' => $creatorWallet->id,
-                    'valor'     => $netAmount,
-                    'tipo'      => 'ganho_assinatura',
-                    'descricao' => "Assinatura de \"{$user->name}\" — comissão de 25% retida pela plataforma.",
-                ]);
-
-                // Create subscription
-                $subscription = CreatorSubscription::create([
-                    'subscriber_id' => $user->id,
-                    'creator_id'    => $this->creator->id,
-                    'amount'        => $price,
-                    'platform_fee'  => $platformFee,
-                    'net_amount'    => $netAmount,
-                    'status'        => 'active',
-                    'starts_at'     => now(),
-                    'expires_at'    => now()->addMonth(),
-                ]);
-
-                $subscriptionId = $subscription->id;
-            });
-        } catch (\RuntimeException $e) {
-            session()->flash('error', $e->getMessage());
-            return;
-        }
-
-        (new \App\Services\AffiliateService())->creditCommissionForReferredAction($user, 'subscribe_creator', $subscriptionId);
-
-        session()->flash('success', 'Assinatura activada! Agora tem acesso ao conteúdo exclusivo de ' . $this->creator->name . '.');
     }
     // ── Toggle follow ─────────────────────────────────────────────────────────
 
