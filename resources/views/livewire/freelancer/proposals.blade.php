@@ -56,7 +56,7 @@
                 ];
                 $badge = $badgeMap[$proposal->status] ?? ['class' => 'bg-gray-100 text-gray-600 border-gray-200', 'dot' => 'bg-gray-400', 'label' => $proposal->status];
             @endphp
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+            <div wire:key="proposal-{{ $proposal->id }}" class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
                 <div class="p-5 flex items-start gap-4">
 
                     {{-- Avatar --}}
