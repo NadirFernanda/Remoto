@@ -80,9 +80,10 @@ class FeedService
         }
 
         if ($search !== '') {
+            // ilike (Postgres) — insensível a maiúsculas/minúsculas, ao contrário de 'like'
             $query->where(function ($q) use ($search) {
-                $q->where('content', 'like', '%' . $search . '%')
-                  ->orWhereHas('user', fn ($u) => $u->where('name', 'like', '%' . $search . '%'));
+                $q->where('content', 'ilike', '%' . $search . '%')
+                  ->orWhereHas('user', fn ($u) => $u->where('name', 'ilike', '%' . $search . '%'));
             });
         }
 

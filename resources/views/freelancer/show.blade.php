@@ -1,245 +1,230 @@
 @extends('layouts.main')
 
+@section('main-padding', 'pt-0')
+@section('main-style', 'background:#f8fafc')
+
 @section('content')
-@php use Illuminate\Support\Str; @endphp
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
-
-    {{-- ── Header ── --}}
-    <div class="bg-white border-b border-slate-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-6 py-6 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00baff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold text-slate-800 leading-tight">Perfil do Freelancer</h1>
-                <p class="text-sm text-slate-500">Dados, portfólio e avaliações do profissional</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="max-w-6xl mx-auto px-6 pt-8">
-    <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-5">
 
     {{-- Voltar --}}
-    <a href="{{ route('freelancers.index') }}" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
+    <a href="{{ route('freelancers.index') }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0055ff] hover:underline">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
         Voltar aos freelancers
     </a>
 
-    {{-- Card principal --}}
-    <div class="pub-card" style="padding:1.75rem;">
-        <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
-            {{-- Avatar --}}
-            <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
-                <div style="width:88px;height:88px;border-radius:14px;overflow:hidden;flex-shrink:0;border:2px solid #e8edf3;">
-                    <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" style="width:100%;height:100%;object-fit:cover;">
+    {{-- ── PROFILE CARD ──────────────────────────────────────────────────── --}}
+    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+
+        {{-- Cover --}}
+        @if($user->coverPhotoUrl())
+            <x-image-lightbox :src="$user->coverPhotoUrl()" :alt="$user->name . ' — capa'">
+                <div class="h-32 sm:h-44">
+                    <img src="{{ $user->coverPhotoUrl() }}" alt="{{ $user->name }} — capa" class="w-full h-full object-cover">
                 </div>
             </x-image-lightbox>
-
-            {{-- Nome + headline --}}
-            <div style="flex:1;min-width:0;">
-                <h1 style="font-size:1.35rem;font-weight:900;color:#0f172a;margin:0 0 .3rem;">{{ $user->name }}</h1>
-                @if($user->freelancerProfile && $user->freelancerProfile->headline)
-                    <p style="font-size:.9rem;color:#475569;margin:0 0 .6rem;">{{ $user->freelancerProfile->headline }}</p>
-                @endif
-                <div style="display:flex;gap:1rem;font-size:.8rem;color:#64748b;flex-wrap:wrap;">
-                    @if($user->freelancerProfile && $user->freelancerProfile->hourly_rate && $user->isFieldPublic('hourly_rate'))
-                        <span style="font-weight:700;color:#00baff;">Kz {{ number_format($user->freelancerProfile->hourly_rate,0,',','.') }}/h</span>
-                    @endif
-                    @if($user->freelancerProfile && $user->freelancerProfile->availability_status && $user->isFieldPublic('availability_status'))
-                        @php
-                            $statusMap = [
-                                'available'   => 'Disponível',
-                                'busy'        => 'Ocupado',
-                                'unavailable' => 'Indisponível',
-                                'vacation'    => 'Em férias',
-                            ];
-                            $statusLabel = $statusMap[$user->freelancerProfile->availability_status] ?? ucfirst($user->freelancerProfile->availability_status);
-                        @endphp
-                        <span>· {{ $statusLabel }}</span>
-                    @endif
-                    @if($user->location && $user->isFieldPublic('location'))
-                        <span style="display:flex;align-items:center;gap:.3rem;">
-                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                            {{ $user->location }}
-                        </span>
-                    @endif
-                </div>
+        @else
+            <div class="h-32 sm:h-44 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
+                <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
             </div>
+        @endif
 
-            {{-- Ações --}}
-            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem;">
-                <div style="display:flex;gap:.5rem;">
-                    <a href="#report" class="btn-outline action-icon" title="Reportar" aria-label="Reportar">
-                        @include('components.icon', ['name' => 'flag', 'class' => 'w-5 h-5'])
+        <div class="px-5 sm:px-8 pb-6">
+            <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
+                {{-- Avatar --}}
+                <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
+                    <div class="p-1 rounded-2xl bg-white shadow-md">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block">
+                    </div>
+                </x-image-lightbox>
+
+                {{-- Rating --}}
+                @if($reviewCount > 0)
+                <div class="sm:pb-1">
+                    <div class="flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <span class="text-base font-bold text-gray-900">{{ number_format($avgRating, 1) }}</span>
+                        <span class="text-xs text-gray-400">({{ $reviewCount }} {{ $reviewCount === 1 ? 'avaliação' : 'avaliações' }})</span>
+                    </div>
+                </div>
+                @endif
+
+                <div class="flex-1"></div>
+
+                {{-- Ações --}}
+                <div class="flex gap-2">
+                    <a href="#report" title="Reportar" aria-label="Reportar"
+                       class="w-10 h-10 flex items-center justify-center rounded-xl border-2 border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18M3 3h13l-1.5 4.5L16 12H3"/></svg>
                     </a>
-                    <button onclick="Livewire.dispatch('openProposal', { recipientId: {{ $user->id }} })" class="btn-primary action-icon" title="Enviar proposta" aria-label="Enviar proposta">
-                        @include('components.icon', ['name' => 'send', 'class' => 'w-5 h-5'])
+                    <button onclick="Livewire.dispatch('openProposal', { recipientId: {{ $user->id }} })"
+                        class="px-5 py-2 text-sm font-bold rounded-xl bg-[#0055ff] text-white hover:bg-[#0033cc] transition inline-flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9-7-9-7v14z"/></svg>
+                        Enviar proposta
                     </button>
                 </div>
             </div>
-        </div>
 
-        {{-- Sobre --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->summary && $user->isFieldPublic('summary'))
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
-            <h2 class="pub-section-title">Sobre</h2>
-            <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0;">{!! nl2br(e($user->freelancerProfile->summary)) !!}</p>
-        </div>
-        @endif
+            {{-- Nome + headline --}}
+            <h1 class="text-xl font-bold text-gray-900 leading-tight">{{ $user->name }}</h1>
+            @if($user->freelancerProfile?->headline)
+                <p class="text-sm text-gray-500 mt-0.5">{{ $user->freelancerProfile->headline }}</p>
+            @endif
 
-        {{-- Skills --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->skills && $user->isFieldPublic('skills'))
-        <div style="margin-top:1.25rem;">
-            <h3 class="pub-section-title">Competências</h3>
-            <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem;">
-                @foreach($user->freelancerProfile->skills as $skill)
-                    <span class="pub-skill">{{ $skill }}</span>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- Idiomas --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->languages && $user->isFieldPublic('languages'))
-        <div style="margin-top:1.25rem;">
-            <h3 class="pub-section-title">Idiomas</h3>
-            <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem;">
-                @foreach($user->freelancerProfile->languages as $lang)
-                    <span class="pub-skill" style="background:#f8fafc;color:#475569;">{{ $lang }}</span>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- Experiência profissional --}}
-        @if($user->workExperiences->isNotEmpty() && $user->isFieldPublic('work_experience'))
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
-            <h3 class="pub-section-title">Experiência profissional</h3>
-            <div style="display:flex;flex-direction:column;gap:1rem;margin-top:.75rem;">
-                @foreach($user->workExperiences as $exp)
-                    <div>
-                        <div style="font-weight:700;font-size:.9rem;color:#0f172a;">{{ $exp->titulo }}</div>
-                        <div style="font-size:.8rem;color:#64748b;">
-                            {{ $exp->empresa }}@if($exp->cidade || $exp->pais) · {{ trim(($exp->cidade ?? '') . (($exp->cidade && $exp->pais) ? ', ' : '') . ($exp->pais ?? '')) }}@endif
-                        </div>
-                        <div style="font-size:.75rem;color:#94a3b8;margin-top:.15rem;">
-                            {{ $exp->mes_inicio ? str_pad($exp->mes_inicio, 2, '0', STR_PAD_LEFT) . '/' : '' }}{{ $exp->ano_inicio }}
-                            —
-                            {{ $exp->atual ? 'Actual' : (($exp->mes_fim ? str_pad($exp->mes_fim, 2, '0', STR_PAD_LEFT) . '/' : '') . $exp->ano_fim) }}
-                        </div>
-                        @if($exp->descricao)
-                            <p style="font-size:.85rem;color:#475569;margin:.4rem 0 0;line-height:1.6;">{{ $exp->descricao }}</p>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- Educação --}}
-        @if($user->educations->isNotEmpty() && $user->isFieldPublic('education'))
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
-            <h3 class="pub-section-title">Educação</h3>
-            <div style="display:flex;flex-direction:column;gap:1rem;margin-top:.75rem;">
-                @foreach($user->educations as $edu)
-                    <div>
-                        <div style="font-weight:700;font-size:.9rem;color:#0f172a;">{{ $edu->escola }}</div>
-                        @if($edu->grau || $edu->area_estudo)
-                            <div style="font-size:.8rem;color:#64748b;">{{ trim(($edu->grau ?? '') . (($edu->grau && $edu->area_estudo) ? ', ' : '') . ($edu->area_estudo ?? '')) }}</div>
-                        @endif
-                        <div style="font-size:.75rem;color:#94a3b8;margin-top:.15rem;">
-                            {{ $edu->ano_inicio }} — {{ $edu->atual ? 'Actual' : $edu->ano_fim }}
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- Portfólio --}}
-        @if($user->portfolios && $user->portfolios->count() && $user->isFieldPublic('portfolio'))
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
-            <h3 class="pub-section-title">Portfólio</h3>
-            <div class="pub-portfolio-grid">
-                @foreach($user->portfolios as $item)
-                    <div class="pub-portfolio-item">
-                        @if(Str::startsWith($item->media_path, 'http') || Str::startsWith($item->media_path, '/'))
-                            <img src="{{ $item->media_path }}" alt="portfolio" style="width:100%;height:160px;object-fit:cover;">
-                        @else
-                            <img src="{{ asset('storage/' . $item->media_path) }}" alt="portfolio" style="width:100%;height:160px;object-fit:cover;">
-                        @endif
-                        @if($item->title)
-                        <div style="padding:.75rem;">
-                            <div style="font-weight:700;font-size:.875rem;color:#0f172a;">{{ $item->title }}</div>
-                            @if($item->description)
-                                <div style="font-size:.8rem;color:#64748b;margin-top:.25rem;">{{ $item->description }}</div>
-                            @endif
-                        </div>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        {{-- Avaliações --}}
-        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem;">
-                <h3 class="pub-section-title" style="margin-bottom:0;">Avaliações</h3>
-                @if($reviewCount > 0)
-                <div style="display:flex;align-items:center;gap:.5rem;">
-                    <div style="display:flex;gap:.15rem;">
-                        @for($i = 1; $i <= 5; $i++)
-                            @if($i <= floor($avgRating))
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="#facc15"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            @else
-                                <svg width="18" height="18" viewBox="0 0 20 20" fill="#d1d5db"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                            @endif
-                        @endfor
-                    </div>
-                    <span style="font-weight:800;color:#0f172a;font-size:.9rem;">{{ number_format($avgRating, 1) }}</span>
-                    <span style="color:#94a3b8;font-size:.8rem;">({{ $reviewCount }} {{ $reviewCount === 1 ? 'avaliação' : 'avaliações' }})</span>
-                </div>
+            <div class="flex items-center gap-4 mt-2 flex-wrap text-sm">
+                @if($user->freelancerProfile?->hourly_rate && $user->isFieldPublic('hourly_rate'))
+                    <span class="font-bold text-[#0055ff]">Kz {{ number_format($user->freelancerProfile->hourly_rate, 0, ',', '.') }}/h</span>
+                @endif
+                @if($user->freelancerProfile?->availability_status && $user->isFieldPublic('availability_status'))
+                    @php
+                        $statusMap = ['available' => 'Disponível', 'busy' => 'Ocupado', 'unavailable' => 'Indisponível', 'vacation' => 'Em férias'];
+                        $statusLabel = $statusMap[$user->freelancerProfile->availability_status] ?? ucfirst($user->freelancerProfile->availability_status);
+                    @endphp
+                    <span class="text-gray-500">· {{ $statusLabel }}</span>
+                @endif
+                @if($user->location && $user->isFieldPublic('location'))
+                    <span class="text-gray-400 flex items-center gap-1">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {{ $user->location }}
+                    </span>
                 @endif
             </div>
 
-            @if($reviewCount === 0)
-                <p style="color:#94a3b8;font-size:.875rem;">Este freelancer ainda não tem avaliações.</p>
-            @else
-                <div style="display:flex;flex-direction:column;gap:.75rem;">
-                    @foreach($user->reviewsReceived as $review)
-                    <div class="pub-review">
-                        <div style="display:flex;align-items:flex-start;gap:.75rem;">
-                            <img src="{{ $review->author->avatarUrl() }}" alt="{{ $review->author->name }}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid #e8edf3;">
-                            <div style="flex:1;min-width:0;">
-                                <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.3rem;">
-                                    <span style="font-weight:700;font-size:.875rem;color:#0f172a;">{{ $review->author->name }}</span>
-                                    <span style="font-size:.75rem;color:#94a3b8;">{{ $review->created_at->diffForHumans() }}</span>
-                                </div>
-                                <div style="display:flex;gap:.15rem;margin-bottom:.4rem;">
-                                    @for($i = 1; $i <= 5; $i++)
-                                        @if($i <= $review->rating)
-                                            <svg width="14" height="14" viewBox="0 0 20 20" fill="#facc15"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                        @else
-                                            <svg width="14" height="14" viewBox="0 0 20 20" fill="#d1d5db"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                        @endif
-                                    @endfor
-                                </div>
-                                @if($review->comment)
-                                    <p style="font-size:.875rem;color:#475569;margin:0;line-height:1.5;">{{ $review->comment }}</p>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
+            {{-- Sobre --}}
+            @if($user->freelancerProfile?->summary && $user->isFieldPublic('summary'))
+                <p class="text-sm text-gray-600 leading-relaxed mt-4 pt-4 border-t border-gray-100">{!! nl2br(e($user->freelancerProfile->summary)) !!}</p>
+            @endif
+
+            {{-- Skills --}}
+            @if($user->freelancerProfile?->skills && $user->isFieldPublic('skills'))
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                    @foreach($user->freelancerProfile->skills as $skill)
+                        <span class="text-xs bg-[#0055ff]/8 text-[#0055ff] border border-[#0055ff]/20 px-2.5 py-1 rounded-full font-medium">{{ $skill }}</span>
+                    @endforeach
+                </div>
+            @endif
+
+            {{-- Idiomas --}}
+            @if($user->freelancerProfile?->languages && $user->isFieldPublic('languages'))
+                <div class="mt-2 flex flex-wrap gap-1.5">
+                    @foreach($user->freelancerProfile->languages as $lang)
+                        <span class="text-xs bg-gray-50 text-gray-600 border border-gray-200 px-2.5 py-1 rounded-full font-medium">{{ $lang }}</span>
                     @endforeach
                 </div>
             @endif
         </div>
     </div>
+
+    {{-- ── Experiência profissional ─────────────────────────────────────── --}}
+    @if($user->workExperiences->isNotEmpty() && $user->isFieldPublic('work_experience'))
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Experiência profissional</h3>
+        <div class="flex flex-col gap-4">
+            @foreach($user->workExperiences as $exp)
+                <div class="flex gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-[#0055ff]/8 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-gray-900">{{ $exp->titulo }}</p>
+                        <p class="text-xs text-gray-500">
+                            {{ $exp->empresa }}@if($exp->cidade || $exp->pais) · {{ trim(($exp->cidade ?? '') . (($exp->cidade && $exp->pais) ? ', ' : '') . ($exp->pais ?? '')) }}@endif
+                        </p>
+                        <p class="text-xs text-gray-400 mt-0.5">
+                            {{ $exp->mes_inicio ? str_pad($exp->mes_inicio, 2, '0', STR_PAD_LEFT) . '/' : '' }}{{ $exp->ano_inicio }}
+                            —
+                            {{ $exp->atual ? 'Actual' : (($exp->mes_fim ? str_pad($exp->mes_fim, 2, '0', STR_PAD_LEFT) . '/' : '') . $exp->ano_fim) }}
+                        </p>
+                        @if($exp->descricao)
+                            <p class="text-sm text-gray-600 mt-1.5 leading-relaxed">{{ $exp->descricao }}</p>
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
+    @endif
+
+    {{-- ── Educação ──────────────────────────────────────────────────────── --}}
+    @if($user->educations->isNotEmpty() && $user->isFieldPublic('education'))
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Educação</h3>
+        <div class="flex flex-col gap-4">
+            @foreach($user->educations as $edu)
+                <div class="flex gap-3">
+                    <div class="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-gray-900">{{ $edu->escola }}</p>
+                        @if($edu->grau || $edu->area_estudo)
+                            <p class="text-xs text-gray-500">{{ trim(($edu->grau ?? '') . (($edu->grau && $edu->area_estudo) ? ', ' : '') . ($edu->area_estudo ?? '')) }}</p>
+                        @endif
+                        <p class="text-xs text-gray-400 mt-0.5">{{ $edu->ano_inicio }} — {{ $edu->atual ? 'Actual' : $edu->ano_fim }}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    {{-- ── Portfólio ─────────────────────────────────────────────────────── --}}
+    @if($user->portfolios && $user->portfolios->count() && $user->isFieldPublic('portfolio'))
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Portfólio</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            @foreach($user->portfolios as $item)
+                @php
+                    $mediaUrl = (Str::startsWith($item->media_path, 'http') || Str::startsWith($item->media_path, '/'))
+                        ? $item->media_path
+                        : asset('storage/' . $item->media_path);
+                @endphp
+                <div class="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                    <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
+                        <img src="{{ $mediaUrl }}" alt="portfolio" class="w-full h-32 object-cover">
+                    </x-image-lightbox>
+                    @if($item->title)
+                    <div class="p-3">
+                        <p class="text-xs font-bold text-gray-900 truncate">{{ $item->title }}</p>
+                        @if($item->description)
+                            <p class="text-xs text-gray-400 mt-0.5 line-clamp-2">{{ $item->description }}</p>
+                        @endif
+                    </div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    {{-- ── Avaliações ────────────────────────────────────────────────────── --}}
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Avaliações</h3>
+
+        @if($reviewCount === 0)
+            <p class="text-sm text-gray-400">Este freelancer ainda não tem avaliações.</p>
+        @else
+            <div class="flex flex-col gap-4">
+                @foreach($user->reviewsReceived as $review)
+                <div class="flex items-start gap-3">
+                    <img src="{{ $review->author->avatarUrl() }}" alt="{{ $review->author->name }}" class="w-9 h-9 rounded-full object-cover flex-shrink-0" onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                            <span class="text-sm font-bold text-gray-900">{{ $review->author->name }}</span>
+                            <span class="text-xs text-gray-400">{{ $review->created_at->diffForHumans() }}</span>
+                        </div>
+                        <div class="flex gap-0.5 my-1">
+                            @for($i = 1; $i <= 5; $i++)
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="{{ $i <= $review->rating ? '#facc15' : '#e5e7eb' }}"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            @endfor
+                        </div>
+                        @if($review->comment)
+                            <p class="text-sm text-gray-600 leading-relaxed">{{ $review->comment }}</p>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>
 

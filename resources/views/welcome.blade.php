@@ -325,7 +325,7 @@
                         <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                             <svg width="10" height="10" fill="none" stroke="#f59e0b" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
-                        Assine por apenas 3.000 KZS/mês por criador
+                        Assine a partir de 3.000 KZS/mês por criador
                     </li>
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
                         <span style="width:1.25rem;height:1.25rem;background:rgba(245,158,11,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">

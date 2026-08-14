@@ -41,7 +41,7 @@
             </div>
 
             <div class="bg-blue-50 rounded-xl p-4 mb-6 text-sm text-gray-600 space-y-1">
-                <p>✦ <strong>3.000 KZS/mês</strong> por assinante — 75% para si, 25% para a plataforma</p>
+                <p>✦ Define o preço da sua assinatura (mínimo <strong>3.000 KZS/mês</strong>) — 75% para si, 25% para a plataforma</p>
                 <p>✦ Venda infoprodutos com <strong>80% dos ganhos</strong> para si</p>
                 <p>✦ Patrocine conteúdos por <strong>600 KZS/dia</strong></p>
                 <p>✦ Ganhos unificados com os seus outros perfis</p>

@@ -201,9 +201,10 @@ class AvailableProjects extends Component
                 $terms = array_filter(preg_split('/\s+/', trim($this->search)));
                 $q->where(function ($q2) use ($terms) {
                     foreach ($terms as $term) {
-                        $q2->orWhere('titulo', 'like', "%{$term}%")
-                           ->orWhere('descricao', 'like', "%{$term}%")
-                           ->orWhere('categoria', 'like', "%{$term}%");
+                        // ilike (Postgres) — insensível a maiúsculas/minúsculas
+                        $q2->orWhere('titulo', 'ilike', "%{$term}%")
+                           ->orWhere('descricao', 'ilike', "%{$term}%")
+                           ->orWhere('categoria', 'ilike', "%{$term}%");
                     }
                 });
             })

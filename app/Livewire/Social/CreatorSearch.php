@@ -40,10 +40,11 @@ class CreatorSearch extends Component
             })
             ->with(['creatorProfile'])
             ->when($this->query, function ($q) {
+                // ilike (Postgres) — insensível a maiúsculas/minúsculas
                 $q->where(function ($inner) {
-                    $inner->where('name', 'like', '%' . $this->query . '%')
+                    $inner->where('name', 'ilike', '%' . $this->query . '%')
                           ->orWhereHas('creatorProfile', function ($cp) {
-                              $cp->where('bio', 'like', '%' . $this->query . '%');
+                              $cp->where('bio', 'ilike', '%' . $this->query . '%');
                           });
                 });
             })
