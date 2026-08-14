@@ -99,6 +99,12 @@
         <input type="text" id="cp-location" wire:model.defer="location" class="pub-input" placeholder="Ex.: Luanda, Angola">
         @error('location') <div class="pub-field-error">{{ $message }}</div> @enderror
     </div>
+    <div class="pub-field">
+        <label for="cp-bio">Sobre mim</label>
+        <textarea id="cp-bio" wire:model.defer="bio" rows="4" maxlength="600" class="pub-input" placeholder="Fale um pouco sobre si ou sobre a sua empresa — isto aparece no seu perfil público."></textarea>
+        <div class="text-xs text-gray-500 mt-1">Visível a quem vir o seu perfil público. Máx. 600 caracteres.</div>
+        @error('bio') <div class="pub-field-error">{{ $message }}</div> @enderror
+    </div>
     <div class="action-row mb-6" role="toolbar" aria-label="Guardar dados pessoais">
         <button wire:click.prevent="saveProfile" class="btn-eq btn-primary" aria-label="Guardar perfil">
             @include('components.icon', ['name' => 'save', 'class' => 'mr-2'])

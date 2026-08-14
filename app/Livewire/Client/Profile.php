@@ -23,6 +23,7 @@ class Profile extends Component
     public $name;
     public $phone;
     public $location;
+    public $bio;
 
     public function mount()
     {
@@ -34,6 +35,7 @@ class Profile extends Component
         $this->name     = $this->user->name;
         $this->phone    = $this->user->phone;
         $this->location = $this->user->location;
+        $this->bio      = $this->user->bio;
     }
 
     public function saveProfile()
@@ -42,6 +44,7 @@ class Profile extends Component
             'name'     => 'required|string|max:120',
             'phone'    => 'nullable|string|max:50',
             'location' => 'nullable|string|max:255',
+            'bio'      => 'nullable|string|max:600',
         ]);
 
         $user = \App\Models\User::find(Auth::id());
@@ -49,6 +52,7 @@ class Profile extends Component
             'name'     => strip_tags($this->name),
             'phone'    => $this->phone,
             'location' => $this->location,
+            'bio'      => $this->bio ? strip_tags($this->bio) : null,
         ]);
 
         $this->user = $user;
