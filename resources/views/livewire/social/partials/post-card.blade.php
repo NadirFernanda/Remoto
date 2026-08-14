@@ -203,20 +203,24 @@
         @php $imgs = $post->media->where('type','image')->values(); $count = $imgs->count(); @endphp
         @if($count === 1)
             <div class="w-full overflow-hidden bg-gray-50">
-                <img src="{{ $imgs[0]->url() }}"
-                     class="w-full object-cover"
-                     style="max-height: 600px;"
-                     alt="Imagem" loading="lazy">
+                <x-image-lightbox :src="$imgs[0]->url()" alt="Imagem" trigger-class="block">
+                    <img src="{{ $imgs[0]->url() }}"
+                         class="w-full object-cover"
+                         style="max-height: 600px;"
+                         alt="Imagem" loading="lazy">
+                </x-image-lightbox>
             </div>
         @else
             <div class="grid grid-cols-2 gap-0.5 overflow-hidden">
                 @foreach($imgs->take(4) as $i => $img)
                     <div class="relative overflow-hidden bg-gray-100" style="aspect-ratio: 1 / 1;">
-                        <img src="{{ $img->url() }}"
-                             class="w-full h-full object-cover"
-                             alt="Imagem {{ $i + 1 }}" loading="lazy">
+                        <x-image-lightbox :src="$img->url()" :alt="'Imagem ' . ($i + 1)" trigger-class="block w-full h-full">
+                            <img src="{{ $img->url() }}"
+                                 class="w-full h-full object-cover"
+                                 alt="Imagem {{ $i + 1 }}" loading="lazy">
+                        </x-image-lightbox>
                         @if($i === 3 && $count > 4)
-                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center">
+                            <div class="absolute inset-0 bg-black/60 flex items-center justify-center pointer-events-none">
                                 <span class="text-white text-2xl font-bold">+{{ $count - 4 }}</span>
                             </div>
                         @endif

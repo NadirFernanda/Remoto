@@ -46,7 +46,7 @@
                 @endif
                 <div style="display:flex;gap:1rem;font-size:.8rem;color:#64748b;flex-wrap:wrap;">
                     @if($user->freelancerProfile && $user->freelancerProfile->hourly_rate && $user->isFieldPublic('hourly_rate'))
-                        <span style="font-weight:700;color:#00baff;">{{ number_format($user->freelancerProfile->hourly_rate,2) }} {{ $user->freelancerProfile->currency }}/h</span>
+                        <span style="font-weight:700;color:#00baff;">Kz {{ number_format($user->freelancerProfile->hourly_rate,0,',','.') }}/h</span>
                     @endif
                     @if($user->freelancerProfile && $user->freelancerProfile->availability_status && $user->isFieldPublic('availability_status'))
                         @php

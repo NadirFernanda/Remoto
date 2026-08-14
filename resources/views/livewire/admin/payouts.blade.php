@@ -34,16 +34,27 @@
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Freelancer</th>
                         <th class="py-3 px-4 text-right text-xs font-semibold text-gray-500 uppercase">Valor Solicitado</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Descrição</th>
+                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase">Conta bancária</th>
                         <th class="py-3 px-4 text-center text-xs font-semibold text-gray-500 uppercase">Acção</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-orange-100">
                     @foreach($pendentes as $log)
+                    @php $bank = $log->user?->freelancerProfile; @endphp
                     <tr class="bg-white hover:bg-orange-50">
                         <td class="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
                         <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ $log->user->name ?? '—' }}</td>
                         <td class="py-3 px-4 text-sm text-right font-bold text-orange-600">{{ money_aoa(abs($log->valor)) }}</td>
                         <td class="py-3 px-4 text-xs text-gray-500">{{ $log->descricao ?? '—' }}</td>
+                        <td class="py-3 px-4 text-xs text-gray-600">
+                            @if($bank?->hasBankAccount())
+                                <div class="font-semibold">{{ $bank->bank_name }}</div>
+                                <div>{{ $bank->bank_account_holder }}</div>
+                                <div class="font-mono text-gray-400">{{ $bank->bank_account_number }}</div>
+                            @else
+                                <span class="text-red-500 font-semibold">Sem conta registada</span>
+                            @endif
+                        </td>
                         <td class="py-3 px-4 text-center">
                             <div class="flex items-center justify-center gap-2">
                                 <button wire:click="aprovarSaque({{ $log->id }})"

@@ -49,9 +49,11 @@
             {{-- Cover image --}}
             <div class="md:w-[22rem] h-72 md:h-[26rem] flex-shrink-0" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
                 @if($produto->capa_path)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
-                        alt="{{ $produto->titulo }}"
-                        class="w-full h-full object-cover">
+                    <x-image-lightbox :src="\Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path)" :alt="$produto->titulo" trigger-class="block w-full h-full">
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
+                            alt="{{ $produto->titulo }}"
+                            class="w-full h-full object-cover">
+                    </x-image-lightbox>
                 @else
                     <div class="w-full h-full flex items-center justify-center">
                         <svg class="w-24 h-24 text-white/30" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">

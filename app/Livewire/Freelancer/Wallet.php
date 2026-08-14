@@ -23,6 +23,13 @@ class Wallet extends Component
 
     public function solicitarSaque()
     {
+        $user = Auth::user();
+        if (!$user->freelancerProfile?->hasBankAccount()) {
+            $this->mensagem = 'Precisa de registar uma conta bancária antes de solicitar um saque.';
+            $this->addError('valor_saque', 'Registe uma conta bancária em Editar Perfil antes de solicitar um saque.');
+            return;
+        }
+
         $minAmount = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 1000);
         $feeFixed   = (float) \App\Models\PlatformSetting::get('withdraw_fee_fixed', 0);
         $feePercent = (float) \App\Models\PlatformSetting::get('withdraw_fee_percent', 0);
@@ -36,7 +43,6 @@ class Wallet extends Component
         $fee        = round($feeFixed + ($this->valor_saque * $feePercent / 100), 2);
         $valorLiquidoSaque = round($this->valor_saque - $fee, 2);
 
-        $user   = Auth::user();
         $wallet = WalletModel::firstOrCreate(
             ['user_id' => $user->id],
             ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => $minAmount, 'taxa_saque' => 0]

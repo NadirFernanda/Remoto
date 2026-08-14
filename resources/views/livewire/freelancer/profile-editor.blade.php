@@ -122,18 +122,13 @@
                 @error('headline') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Taxa por hora</label>
+                <label class="block text-sm font-medium text-gray-700">Taxa por hora (Kz)</label>
                 <input type="text" wire:model.defer="hourly_rate" class="pub-input">
                 @error('hourly_rate') <div class="pub-field-error">{{ $message }}</div> @enderror
             </div>
         </div>
 
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Moeda</label>
-                <input type="text" wire:model.defer="currency" class="pub-input">
-                @error('currency') <div class="pub-field-error">{{ $message }}</div> @enderror
-            </div>
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Disponibilidade</label>
                 <select wire:model.defer="availability_status" class="pub-input">
@@ -251,6 +246,55 @@
             </div>
         </div>
     </form>
+
+    {{-- ══════════════════════════════════════════════════════════════════
+         CONTA BANCÁRIA (para saques)
+    ══════════════════════════════════════════════════════════════════ --}}
+    <div class="mt-8 bg-white rounded-2xl border border-gray-100 p-6">
+        <h3 class="text-base font-bold text-gray-800 flex items-center gap-2 mb-1">
+            <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+            Conta bancária
+        </h3>
+
+        @if(($kyc_status ?? 'pending') !== 'verified')
+            <div class="mt-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-700">
+                Precisa de completar a <a href="{{ route('kyc.submit') }}" class="font-bold underline">verificação de identidade (KYC)</a> antes de poder registar uma conta bancária para receber saques.
+            </div>
+        @else
+            <p class="text-xs text-gray-400 mb-4">Usada para transferir os seus saques. O nome do titular tem de ser exactamente o mesmo desta conta — não é possível registar dados bancários de outra pessoa.</p>
+
+            @if($bankMessage)
+                <div class="mb-4 p-3 rounded-lg text-sm font-medium {{ str_contains($bankMessage, 'sucesso') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    {{ $bankMessage }}
+                </div>
+            @endif
+
+            <form wire:submit="saveBankAccount" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Banco</label>
+                    <input type="text" wire:model.defer="bank_name" class="pub-input" placeholder="Ex: BAI, BFA, BIC...">
+                    @error('bank_name') <div class="pub-field-error">{{ $message }}</div> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Nome do titular</label>
+                    <input type="text" wire:model.defer="bank_account_holder" class="pub-input" placeholder="{{ $name }}">
+                    @error('bank_account_holder') <div class="pub-field-error">{{ $message }}</div> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Número de conta / IBAN</label>
+                    <input type="text" wire:model.defer="bank_account_number" class="pub-input">
+                    @error('bank_account_number') <div class="pub-field-error">{{ $message }}</div> @enderror
+                </div>
+                <div class="md:col-span-3">
+                    <button type="submit" class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg transition">
+                        Guardar conta bancária
+                    </button>
+                </div>
+            </form>
+        @endif
+    </div>
 
     {{-- ══════════════════════════════════════════════════════════════════
          HISTÓRICO PROFISSIONAL

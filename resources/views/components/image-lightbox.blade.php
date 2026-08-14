@@ -1,4 +1,4 @@
-@props(['src', 'alt' => ''])
+@props(['src', 'alt' => '', 'triggerClass' => ''])
 
 {{--
     Envolve uma imagem clicável que abre em tamanho maior, num overlay a ecrã
@@ -9,7 +9,7 @@
     </x-image-lightbox>
 --}}
 <div x-data="{ open: false }">
-    <div @click="open = true" class="cursor-zoom-in">
+    <div @click="open = true" class="cursor-zoom-in {{ $triggerClass }}">
         {{ $slot }}
     </div>
 

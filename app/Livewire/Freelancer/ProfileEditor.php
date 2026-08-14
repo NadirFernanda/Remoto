@@ -26,7 +26,6 @@ class ProfileEditor extends Component
     public $currentCoverPhoto;
     public $summary;
     public $hourly_rate;
-    public $currency = 'USD';
     public $availability_status = 'available';
     public $skills = '';
     public $languages = '';
@@ -40,6 +39,12 @@ class ProfileEditor extends Component
     public $metrics_rating;
     public $metrics_total_earnings;
     public $kyc_status;
+
+    // ── Conta bancária (para saques) ─────────────────────────
+    public $bank_name;
+    public $bank_account_holder;
+    public $bank_account_number;
+    public string $bankMessage = '';
 
     // ── Histórico profissional ──────────────────────────────
     public array $experiences = [];   // lista carregada do DB
@@ -94,7 +99,6 @@ class ProfileEditor extends Component
             $this->headline = $profile->headline;
             $this->summary = $profile->summary;
             $this->hourly_rate = $profile->hourly_rate;
-            $this->currency = $profile->currency;
             $this->availability_status = $profile->availability_status;
             $this->skills = is_array($profile->skills) ? implode(',', $profile->skills) : $profile->skills;
             $this->languages = is_array($profile->languages) ? implode(',', $profile->languages) : $profile->languages;
@@ -103,6 +107,9 @@ class ProfileEditor extends Component
             $this->metrics_rating = $metrics['rating'] ?? null;
             $this->metrics_total_earnings = $metrics['total_earnings'] ?? null;
             $this->kyc_status = $profile->kyc_status ?? 'pending';
+            $this->bank_name = $profile->bank_name;
+            $this->bank_account_holder = $profile->bank_account_holder;
+            $this->bank_account_number = $profile->bank_account_number;
         }
 
         // Carrega experiências e educações
@@ -164,7 +171,6 @@ class ProfileEditor extends Component
             'headline' => 'nullable|string|max:120',
             'summary' => 'nullable|string|max:5000',
             'hourly_rate' => 'nullable|numeric|min:0',
-            'currency' => 'nullable|string|max:8',
             'availability_status' => 'nullable|string|in:available,unavailable,busy',
             'skills' => 'nullable|string|max:1000',
             'languages' => 'nullable|string|max:500',
@@ -194,7 +200,7 @@ class ProfileEditor extends Component
                 'headline' => $this->headline,
                 'summary' => $this->summary,
                 'hourly_rate' => $this->hourly_rate,
-                'currency' => $this->currency,
+                'currency' => 'Kz',
                 'availability_status' => $this->availability_status,
                 'skills' => $this->skills ? array_map('trim', explode(',', $this->skills)) : null,
                 'languages' => $this->languages ? array_map('trim', explode(',', $this->languages)) : null,
@@ -207,6 +213,48 @@ class ProfileEditor extends Component
         );
 
         $this->successMessage = 'Perfil salvo com sucesso!';
+    }
+
+    // ── Conta bancária ────────────────────────────────────────
+
+    public function saveBankAccount(): void
+    {
+        $user = User::find(Auth::id());
+
+        if (($user->kyc_status ?? 'pending') !== 'verified') {
+            $this->bankMessage = 'Precisa de completar a verificação de identidade (KYC) antes de registar uma conta bancária.';
+            return;
+        }
+
+        $this->validate([
+            'bank_name'            => 'required|string|max:100',
+            'bank_account_holder'  => 'required|string|max:120',
+            'bank_account_number'  => 'required|string|max:60',
+        ], [], [
+            'bank_name'           => 'banco',
+            'bank_account_holder' => 'nome do titular',
+            'bank_account_number' => 'número de conta',
+        ]);
+
+        // O titular tem de ser o próprio utilizador — nunca aceitamos coordenadas
+        // bancárias de outra pessoa. Comparação tolerante a maiúsculas/espaços,
+        // já que o nome verificado na KYC é o mesmo desta conta (users.name).
+        $normalize = fn (string $s) => mb_strtolower(trim(preg_replace('/\s+/', ' ', $s)));
+        if ($normalize($this->bank_account_holder) !== $normalize($user->name)) {
+            $this->addError('bank_account_holder', 'O nome do titular tem de corresponder exactamente ao nome da sua conta (' . $user->name . '), verificado na sua identidade (KYC). Não é possível registar a conta bancária de outra pessoa.');
+            return;
+        }
+
+        FreelancerProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'bank_name'           => strip_tags($this->bank_name),
+                'bank_account_holder' => strip_tags($this->bank_account_holder),
+                'bank_account_number' => strip_tags($this->bank_account_number),
+            ]
+        );
+
+        $this->bankMessage = 'Conta bancária guardada com sucesso!';
     }
 
     // ── Histórico profissional ──────────────────────────────

@@ -10,6 +10,7 @@ class FreelancerProfile extends Model
         'user_id', 'headline', 'summary', 'hourly_rate', 'currency',
         'availability_status', 'skills', 'languages', 'metrics',
         'onboarding_dismissed',
+        'bank_name', 'bank_account_holder', 'bank_account_number',
         // kyc_status excluído do fillable — atribuir explicitamente via código (OWASP A03)
     ];
 
@@ -33,6 +34,11 @@ class FreelancerProfile extends Model
     public function educations()
     {
         return $this->hasMany(Education::class, 'user_id', 'user_id')->orderByDesc('ano_inicio');
+    }
+
+    public function hasBankAccount(): bool
+    {
+        return (bool) ($this->bank_name && $this->bank_account_holder && $this->bank_account_number);
     }
 
     public function photoUrl()

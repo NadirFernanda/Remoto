@@ -116,7 +116,7 @@ class Payouts extends Component
         };
 
         // Saques pendentes (aguardam aprovação)
-        $pendentes = WalletLog::with('user')
+        $pendentes = WalletLog::with('user.freelancerProfile')
             ->where('tipo', 'saque_solicitado')
             ->when($this->search, fn ($q) => $q->whereHas('user', fn ($u) => $u->where('name', 'like', '%'.$this->search.'%')))
             ->orderByDesc('created_at')
