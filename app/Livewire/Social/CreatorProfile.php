@@ -37,6 +37,7 @@ class CreatorProfile extends Component
 
     public function mount(User $user): void
     {
+        $user->load(['freelancerProfile', 'workExperiences', 'educations']);
         $this->creator = $user;
     }
 

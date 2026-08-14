@@ -83,6 +83,13 @@ class RegisterController extends Controller
                 $user->update($profileFlags);
             }
 
+            // Sem esta linha, o freelancer fica com has_creator_profile=true mas sem
+            // registo em creator_profiles — e desaparece da listagem de criadores
+            // assim que um filtro de categoria é aplicado (whereHas exige a linha).
+            if ($user->role === 'freelancer') {
+                \App\Models\CreatorProfile::firstOrCreate(['user_id' => $user->id]);
+            }
+
             // Processa referral: lê da URL (?ref=) ou do cookie de 30 dias
             $ref = $request->query('ref') ?: $request->cookie('affiliate_ref');
             if ($ref) {

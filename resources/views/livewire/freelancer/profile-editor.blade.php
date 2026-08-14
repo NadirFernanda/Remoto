@@ -210,6 +210,23 @@
             </a>
         </div>
 
+        <div class="mt-6 p-4 border border-gray-200 rounded-xl">
+            <p class="text-sm font-bold text-gray-800">Privacidade do perfil público</p>
+            <p class="text-xs text-gray-500 mt-0.5 mb-2">Escolha o que aparece na sua página pública (perfil de freelancer/criador) para outros utilizadores. O nome, foto e profissão são sempre visíveis.</p>
+            <div class="divide-y divide-gray-100">
+                <x-toggle wire:model="visibility.summary" label="Sobre mim" />
+                <x-toggle wire:model="visibility.location" label="Localização" />
+                <x-toggle wire:model="visibility.phone" label="Telefone" hint="Desligado por omissão" />
+                <x-toggle wire:model="visibility.skills" label="Competências" />
+                <x-toggle wire:model="visibility.languages" label="Idiomas" />
+                <x-toggle wire:model="visibility.hourly_rate" label="Taxa horária" />
+                <x-toggle wire:model="visibility.availability_status" label="Disponibilidade" />
+                <x-toggle wire:model="visibility.work_experience" label="Experiência profissional" />
+                <x-toggle wire:model="visibility.education" label="Educação" />
+                <x-toggle wire:model="visibility.portfolio" label="Portfólio" />
+            </div>
+        </div>
+
         <div class="mt-6">
             @if($successMessage)
                 <div class="mb-3 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm flex items-center gap-2">

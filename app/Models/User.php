@@ -55,6 +55,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Portfolio::class);
     }
 
+    public function workExperiences()
+    {
+        return $this->hasMany(WorkExperience::class, 'user_id')->orderByDesc('ano_inicio');
+    }
+
+    public function educations()
+    {
+        return $this->hasMany(Education::class, 'user_id')->orderByDesc('ano_inicio');
+    }
+
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
@@ -223,7 +233,19 @@ class User extends Authenticatable implements MustVerifyEmail
             'two_factor_confirmed_at'   => 'datetime',
             'two_factor_secret'         => 'encrypted',
             'two_factor_recovery_codes' => 'array',
+            'profile_visibility'        => 'array',
         ];
+    }
+
+    /**
+     * Campos do perfil que o dono pode esconder do público (Configurações → Privacidade).
+     * Por omissão tudo é público, excepto o telefone — assim, utilizadores que nunca
+     * mexeram nesta definição não ficam com dados escondidos por engano.
+     */
+    public function isFieldPublic(string $field): bool
+    {
+        $default = $field === 'phone' ? false : true;
+        return (bool) ($this->profile_visibility[$field] ?? $default);
     }
 
     public function hasTwoFactorEnabled(): bool

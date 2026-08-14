@@ -30,10 +30,16 @@ class Feed extends Component
     public string $hashtag = '';
     public bool $bookmarkedOnly = false;
     public bool $myPostsOnly = false;
+    public string $search = '';
 
     protected $paginationTheme = 'tailwind';
 
-    protected $queryString = ['hashtag', 'bookmarkedOnly', 'myPostsOnly'];
+    protected $queryString = ['hashtag', 'bookmarkedOnly', 'myPostsOnly', 'search'];
+
+    public function updatedSearch(): void
+    {
+        $this->resetPage();
+    }
 
     protected $rules = [
         'commentText'  => 'required|string|min:1|max:1000',
@@ -48,7 +54,7 @@ class Feed extends Component
         $user    = Auth::user();
         $service = app(FeedService::class);
 
-        $posts   = $service->getFeed($user, $this->hashtag, $this->bookmarkedOnly, $this->myPostsOnly);
+        $posts   = $service->getFeed($user, $this->hashtag, $this->bookmarkedOnly, $this->myPostsOnly, 10, $this->search);
         $isEmpty = $service->isEmptyFeed($user, $this->hashtag, $this->bookmarkedOnly, $this->myPostsOnly);
 
         try {

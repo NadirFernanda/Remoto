@@ -72,6 +72,14 @@ class ProfileEditor extends Component
     ];
     public bool $showEduForm = false;
 
+    // ── Privacidade — o que aparece no perfil público ────────
+    public const VISIBILITY_FIELDS = [
+        'summary', 'location', 'phone', 'skills', 'languages',
+        'hourly_rate', 'availability_status', 'work_experience',
+        'education', 'portfolio',
+    ];
+    public array $visibility = [];
+
     public function mount()
     {
         $user = Auth::user();
@@ -100,6 +108,10 @@ class ProfileEditor extends Component
         // Carrega experiências e educações
         $this->loadExperiences();
         $this->loadEducations();
+
+        foreach (self::VISIBILITY_FIELDS as $field) {
+            $this->visibility[$field] = $user->isFieldPublic($field);
+        }
     }
 
     // savePhoto removido: upload e salvamento agora são automáticos
@@ -173,6 +185,8 @@ class ProfileEditor extends Component
             'phone' => $this->phone,
             'location' => $this->location,
         ]);
+        $user->profile_visibility = $this->visibility;
+        $user->save();
 
         $profile = FreelancerProfile::updateOrCreate(
             ['user_id' => $user->id],

@@ -23,24 +23,34 @@
     <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
 
         {{-- Cover --}}
-        <div class="h-32 sm:h-44 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
-            <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
-            <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
-        </div>
+        @if($creator->coverPhotoUrl())
+            <x-image-lightbox :src="$creator->coverPhotoUrl()" :alt="$creator->name . ' — capa'">
+                <div class="h-32 sm:h-44 relative">
+                    <img src="{{ $creator->coverPhotoUrl() }}" alt="{{ $creator->name }} — capa" class="w-full h-full object-cover">
+                </div>
+            </x-image-lightbox>
+        @else
+            <div class="h-32 sm:h-44 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
+                <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
+                <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
+            </div>
+        @endif
 
         <div class="px-5 sm:px-8 pb-6">
             <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
 
                 {{-- Avatar --}}
                 <div class="relative flex-shrink-0">
-                    <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-white shadow-md' }}">
-                        <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-xl' : '' }}">
-                            <img src="{{ $creator->avatarUrl() }}"
-                                 alt="{{ $creator->name }}"
-                                 class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block"
-                                 onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                    <x-image-lightbox :src="$creator->avatarUrl()" :alt="$creator->name">
+                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-white shadow-md' }}">
+                            <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-xl' : '' }}">
+                                <img src="{{ $creator->avatarUrl() }}"
+                                     alt="{{ $creator->name }}"
+                                     class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block"
+                                     onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                            </div>
                         </div>
-                    </div>
+                    </x-image-lightbox>
                     @if($creator->has_creator_profile)
                         <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-[#0055ff] rounded-full flex items-center justify-center shadow-md border-2 border-white">
                             <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -141,7 +151,7 @@
                 @if($creator->freelancerProfile?->headline)
                     <p class="text-sm text-gray-500 mt-0.5">{{ $creator->freelancerProfile->headline }}</p>
                 @endif
-                @if($creator->location)
+                @if($creator->location && $creator->isFieldPublic('location'))
                     <p class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -150,14 +160,54 @@
                         {{ $creator->location }}
                     </p>
                 @endif
-                @if($creator->bio)
-                    <p class="text-sm text-gray-600 leading-relaxed mt-3">{{ $creator->bio }}</p>
+                @if($creator->freelancerProfile?->summary && $creator->isFieldPublic('summary'))
+                    <p class="text-sm text-gray-600 leading-relaxed mt-3">{{ $creator->freelancerProfile->summary }}</p>
                 @endif
-                @if($creator->freelancerProfile?->skills)
+                @if($creator->freelancerProfile?->skills && $creator->isFieldPublic('skills'))
                     <div class="mt-3 flex flex-wrap gap-1.5">
                         @foreach(array_slice($creator->freelancerProfile->skills, 0, 10) as $skill)
                             <span class="text-xs bg-[#0055ff]/8 text-[#0055ff] border border-[#0055ff]/20 px-2.5 py-1 rounded-full font-medium">{{ $skill }}</span>
                         @endforeach
+                    </div>
+                @endif
+
+                {{-- Experiência profissional --}}
+                @if($creator->workExperiences->isNotEmpty() && $creator->isFieldPublic('work_experience'))
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Experiência profissional</h3>
+                        <div class="flex flex-col gap-3">
+                            @foreach($creator->workExperiences as $exp)
+                                <div>
+                                    <p class="text-sm font-bold text-gray-800">{{ $exp->titulo }}</p>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $exp->empresa }}@if($exp->cidade || $exp->pais) · {{ trim(($exp->cidade ?? '') . (($exp->cidade && $exp->pais) ? ', ' : '') . ($exp->pais ?? '')) }}@endif
+                                    </p>
+                                    <p class="text-xs text-gray-400 mt-0.5">
+                                        {{ $exp->mes_inicio ? str_pad($exp->mes_inicio, 2, '0', STR_PAD_LEFT) . '/' : '' }}{{ $exp->ano_inicio }}
+                                        —
+                                        {{ $exp->atual ? 'Actual' : (($exp->mes_fim ? str_pad($exp->mes_fim, 2, '0', STR_PAD_LEFT) . '/' : '') . $exp->ano_fim) }}
+                                    </p>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                {{-- Educação --}}
+                @if($creator->educations->isNotEmpty() && $creator->isFieldPublic('education'))
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Educação</h3>
+                        <div class="flex flex-col gap-3">
+                            @foreach($creator->educations as $edu)
+                                <div>
+                                    <p class="text-sm font-bold text-gray-800">{{ $edu->escola }}</p>
+                                    @if($edu->grau || $edu->area_estudo)
+                                        <p class="text-xs text-gray-500">{{ trim(($edu->grau ?? '') . (($edu->grau && $edu->area_estudo) ? ', ' : '') . ($edu->area_estudo ?? '')) }}</p>
+                                    @endif
+                                    <p class="text-xs text-gray-400 mt-0.5">{{ $edu->ano_inicio }} — {{ $edu->atual ? 'Actual' : $edu->ano_fim }}</p>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
             </div>

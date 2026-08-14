@@ -32,9 +32,11 @@
     <div class="pub-card" style="padding:1.75rem;">
         <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
             {{-- Avatar --}}
-            <div style="width:88px;height:88px;border-radius:14px;overflow:hidden;flex-shrink:0;border:2px solid #e8edf3;">
-                <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" style="width:100%;height:100%;object-fit:cover;">
-            </div>
+            <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
+                <div style="width:88px;height:88px;border-radius:14px;overflow:hidden;flex-shrink:0;border:2px solid #e8edf3;">
+                    <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" style="width:100%;height:100%;object-fit:cover;">
+                </div>
+            </x-image-lightbox>
 
             {{-- Nome + headline --}}
             <div style="flex:1;min-width:0;">
@@ -43,10 +45,10 @@
                     <p style="font-size:.9rem;color:#475569;margin:0 0 .6rem;">{{ $user->freelancerProfile->headline }}</p>
                 @endif
                 <div style="display:flex;gap:1rem;font-size:.8rem;color:#64748b;flex-wrap:wrap;">
-                    @if($user->freelancerProfile && $user->freelancerProfile->hourly_rate)
+                    @if($user->freelancerProfile && $user->freelancerProfile->hourly_rate && $user->isFieldPublic('hourly_rate'))
                         <span style="font-weight:700;color:#00baff;">{{ number_format($user->freelancerProfile->hourly_rate,2) }} {{ $user->freelancerProfile->currency }}/h</span>
                     @endif
-                    @if($user->freelancerProfile && $user->freelancerProfile->availability_status)
+                    @if($user->freelancerProfile && $user->freelancerProfile->availability_status && $user->isFieldPublic('availability_status'))
                         @php
                             $statusMap = [
                                 'available'   => 'Disponível',
@@ -57,6 +59,12 @@
                             $statusLabel = $statusMap[$user->freelancerProfile->availability_status] ?? ucfirst($user->freelancerProfile->availability_status);
                         @endphp
                         <span>· {{ $statusLabel }}</span>
+                    @endif
+                    @if($user->location && $user->isFieldPublic('location'))
+                        <span style="display:flex;align-items:center;gap:.3rem;">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            {{ $user->location }}
+                        </span>
                     @endif
                 </div>
             </div>
@@ -75,7 +83,7 @@
         </div>
 
         {{-- Sobre --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->summary)
+        @if($user->freelancerProfile && $user->freelancerProfile->summary && $user->isFieldPublic('summary'))
         <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
             <h2 class="pub-section-title">Sobre</h2>
             <p style="color:#475569;font-size:.9rem;line-height:1.7;margin:0;">{!! nl2br(e($user->freelancerProfile->summary)) !!}</p>
@@ -83,7 +91,7 @@
         @endif
 
         {{-- Skills --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->skills)
+        @if($user->freelancerProfile && $user->freelancerProfile->skills && $user->isFieldPublic('skills'))
         <div style="margin-top:1.25rem;">
             <h3 class="pub-section-title">Competências</h3>
             <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem;">
@@ -95,7 +103,7 @@
         @endif
 
         {{-- Idiomas --}}
-        @if($user->freelancerProfile && $user->freelancerProfile->languages)
+        @if($user->freelancerProfile && $user->freelancerProfile->languages && $user->isFieldPublic('languages'))
         <div style="margin-top:1.25rem;">
             <h3 class="pub-section-title">Idiomas</h3>
             <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem;">
@@ -106,8 +114,53 @@
         </div>
         @endif
 
+        {{-- Experiência profissional --}}
+        @if($user->workExperiences->isNotEmpty() && $user->isFieldPublic('work_experience'))
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
+            <h3 class="pub-section-title">Experiência profissional</h3>
+            <div style="display:flex;flex-direction:column;gap:1rem;margin-top:.75rem;">
+                @foreach($user->workExperiences as $exp)
+                    <div>
+                        <div style="font-weight:700;font-size:.9rem;color:#0f172a;">{{ $exp->titulo }}</div>
+                        <div style="font-size:.8rem;color:#64748b;">
+                            {{ $exp->empresa }}@if($exp->cidade || $exp->pais) · {{ trim(($exp->cidade ?? '') . (($exp->cidade && $exp->pais) ? ', ' : '') . ($exp->pais ?? '')) }}@endif
+                        </div>
+                        <div style="font-size:.75rem;color:#94a3b8;margin-top:.15rem;">
+                            {{ $exp->mes_inicio ? str_pad($exp->mes_inicio, 2, '0', STR_PAD_LEFT) . '/' : '' }}{{ $exp->ano_inicio }}
+                            —
+                            {{ $exp->atual ? 'Actual' : (($exp->mes_fim ? str_pad($exp->mes_fim, 2, '0', STR_PAD_LEFT) . '/' : '') . $exp->ano_fim) }}
+                        </div>
+                        @if($exp->descricao)
+                            <p style="font-size:.85rem;color:#475569;margin:.4rem 0 0;line-height:1.6;">{{ $exp->descricao }}</p>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
+        {{-- Educação --}}
+        @if($user->educations->isNotEmpty() && $user->isFieldPublic('education'))
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
+            <h3 class="pub-section-title">Educação</h3>
+            <div style="display:flex;flex-direction:column;gap:1rem;margin-top:.75rem;">
+                @foreach($user->educations as $edu)
+                    <div>
+                        <div style="font-weight:700;font-size:.9rem;color:#0f172a;">{{ $edu->escola }}</div>
+                        @if($edu->grau || $edu->area_estudo)
+                            <div style="font-size:.8rem;color:#64748b;">{{ trim(($edu->grau ?? '') . (($edu->grau && $edu->area_estudo) ? ', ' : '') . ($edu->area_estudo ?? '')) }}</div>
+                        @endif
+                        <div style="font-size:.75rem;color:#94a3b8;margin-top:.15rem;">
+                            {{ $edu->ano_inicio }} — {{ $edu->atual ? 'Actual' : $edu->ano_fim }}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         {{-- Portfólio --}}
-        @if($user->portfolios && $user->portfolios->count())
+        @if($user->portfolios && $user->portfolios->count() && $user->isFieldPublic('portfolio'))
         <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #f1f5f9;">
             <h3 class="pub-section-title">Portfólio</h3>
             <div class="pub-portfolio-grid">

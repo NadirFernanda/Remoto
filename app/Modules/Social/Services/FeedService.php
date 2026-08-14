@@ -17,11 +17,12 @@ class FeedService
         string $hashtag = '',
         bool $bookmarkedOnly = false,
         bool $myPostsOnly = false,
-        int $perPage = 10
+        int $perPage = 10,
+        string $search = ''
     ): LengthAwarePaginator {
         // Feed de convidados (sem filtros): cacheável por página — 2 min
         // Feeds autenticados têm contexto pessoal (likes, bookmarks) — não cacheamos
-        if (!$user && !$hashtag && !$bookmarkedOnly && !$myPostsOnly) {
+        if (!$user && !$hashtag && !$bookmarkedOnly && !$myPostsOnly && !$search) {
             $page = request()->integer('page', 1);
             return Cache::remember("social_guest_feed_p{$page}", 120, function () use ($perPage) {
                 return SocialPost::with([
@@ -76,6 +77,13 @@ class FeedService
             if (!$user) {
                 $query->where('visibility', 'public');
             }
+        }
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('content', 'like', '%' . $search . '%')
+                  ->orWhereHas('user', fn ($u) => $u->where('name', 'like', '%' . $search . '%'));
+            });
         }
 
         return $query->latest()->paginate($perPage);
