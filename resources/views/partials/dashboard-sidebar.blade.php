@@ -15,13 +15,21 @@
 @if(auth()->check())
 @php $u = auth()->user(); @endphp
 <div class="px-4 pt-3 pb-3 border-b border-white/8">
+    @php
+        $sidebarProfileRoute = match ($u->activeRole()) {
+            'freelancer' => 'freelancer.profile.edit',
+            'admin'      => 'admin.settings',
+            default      => 'client.profile.edit',
+        };
+    @endphp
     <div class="flex items-center gap-3">
-        <img src="{{ $u->avatarUrl() }}" alt="{{ $u->name }}"
-            class="w-10 h-10 rounded-full object-cover ring-2 ring-[#0055ff]/30 flex-shrink-0"
-            onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
+        <a href="{{ route($sidebarProfileRoute) }}" class="flex-shrink-0">
+            <img src="{{ $u->avatarUrl() }}" alt="{{ $u->name }}"
+                class="w-10 h-10 rounded-full object-cover ring-2 ring-[#0055ff]/30 flex-shrink-0"
+                onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
+        </a>
         <div class="min-w-0">
             <p class="text-sm text-gray-100 truncate leading-tight" style="max-width:160px">{{ $u->name }}</p>
-            <p class="text-xs text-slate-400 truncate leading-tight" style="max-width:160px">{{ $u->email }}</p>
             @php $sidebarRole = optional(auth()->user())->activeRole() ?? 'cliente'; @endphp
             <p class="text-xs font-semibold mt-0.5" style="color:#0055ff;">
                 @if($sidebarRole === 'freelancer') Freelancer / Criador

@@ -67,8 +67,8 @@
 
                         {{-- Cover photo --}}
                         <div class="relative h-24" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
-                            @if($profile?->cover_photo)
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($profile->cover_photo) }}"
+                            @if($creator->coverPhotoUrl())
+                                <img src="{{ $creator->coverPhotoUrl() }}"
                                      alt="capa"
                                      class="absolute inset-0 w-full h-full object-cover">
                             @endif

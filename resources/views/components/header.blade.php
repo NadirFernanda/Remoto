@@ -761,13 +761,19 @@
                 <a href="/register" class="nav-link btn-primary">Registo</a>
             @else
                 {{-- Card do utilizador --}}
-                <div class="flex items-center gap-3 px-2 py-2 border border-white/10 rounded-xl mb-1">
+                @php
+                    $headerProfileRoute = match (auth()->user()->activeRole()) {
+                        'freelancer' => 'freelancer.profile.edit',
+                        'admin'      => 'admin.settings',
+                        default      => 'client.profile.edit',
+                    };
+                @endphp
+                <a href="{{ route($headerProfileRoute) }}" @click="open=false" class="flex items-center gap-3 px-2 py-2 border border-white/10 rounded-xl mb-1" style="text-decoration:none;">
                     <img src="{{ auth()->user()->avatarUrl() }}" alt="{{ auth()->user()->name }}" class="avatar-sm" onerror="this.onerror=null;this.src='{{ asset('img/default-avatar.svg') }}'">
                     <div class="flex-1 min-w-0">
                         <div class="font-semibold text-white text-sm truncate">{{ auth()->user()->name }}</div>
-                        <div class="text-xs text-gray-400 truncate">{{ auth()->user()->email }}</div>
                     </div>
-                </div>
+                </a>
                 {{-- Dashboard --}}
                 @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
                     <a href="{{ route('client.dashboard') }}" class="nav-link">Dashboard</a>
