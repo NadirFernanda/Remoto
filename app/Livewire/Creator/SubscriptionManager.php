@@ -42,7 +42,10 @@ class SubscriptionManager extends Component
             'precoAssinatura.min' => 'O valor mínimo permitido pela plataforma é Kz ' . number_format(CreatorProfile::MIN_SUBSCRIPTION_PRICE, 0, ',', '.') . '.',
         ]);
 
-        CreatorProfile::where('user_id', Auth::id())->update(['subscription_price' => $this->precoAssinatura]);
+        CreatorProfile::updateOrCreate(
+            ['user_id' => Auth::id()],
+            ['subscription_price' => $this->precoAssinatura]
+        );
 
         $this->precoMsgType = 'success';
         $this->precoMsg     = 'Preço da assinatura atualizado! Só se aplica a novas assinaturas — quem já é assinante mantém o valor pago até renovar.';
