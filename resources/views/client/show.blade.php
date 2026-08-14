@@ -1,9 +1,10 @@
 @extends('layouts.main')
 
 @section('main-padding', 'pt-0')
-@section('main-style', 'background:#f8fafc')
+@section('main-style', 'background:#0d1424')
 
 @section('content')
+<div class="dash-main">
 <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-5">
 
     {{-- ── PROFILE CARD ──────────────────────────────────────────────────── --}}
@@ -71,5 +72,6 @@
             @endif
         </div>
     </div>
+</div>
 </div>
 @endsection
