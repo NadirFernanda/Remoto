@@ -102,7 +102,7 @@
                     @else
                     <div class="divide-y divide-gray-50">
                         @foreach($following as $creator)
-                        <div class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition">
+                        <div wire:key="following-{{ $creator->id }}" class="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 transition">
                             {{-- Avatar --}}
                             <a href="{{ route('social.creator', $creator) }}" class="flex-shrink-0">
                                 <img src="{{ $creator->avatarUrl() }}" alt="{{ $creator->name }}"

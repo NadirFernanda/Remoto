@@ -167,7 +167,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-50">
                         @forelse($produtos as $produto)
-                        <tr class="group hover:bg-sky-50/30 transition-colors duration-100">
+                        <tr wire:key="produto-{{ $produto->id }}" class="group hover:bg-sky-50/30 transition-colors duration-100">
 
                             {{-- Produto --}}
                             <td class="px-6 py-4">

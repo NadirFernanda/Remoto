@@ -41,7 +41,7 @@
                 <tbody class="divide-y divide-orange-100">
                     @foreach($pendentes as $log)
                     @php $bank = $log->user?->freelancerProfile; @endphp
-                    <tr class="bg-white hover:bg-orange-50">
+                    <tr wire:key="payout-{{ $log->id }}" class="bg-white hover:bg-orange-50">
                         <td class="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
                         <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ $log->user->name ?? '—' }}</td>
                         <td class="py-3 px-4 text-sm text-right font-bold text-orange-600">{{ money_aoa(abs($log->valor)) }}</td>

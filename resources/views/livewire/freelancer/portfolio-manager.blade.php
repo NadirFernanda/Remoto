@@ -156,7 +156,7 @@ $categoryIcons = [
                 @if($catKey === 'imagem')
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     @foreach($items[$catKey] as $item)
-                    <div class="bg-white border rounded-xl overflow-hidden shadow-sm group relative">
+                    <div wire:key="portfolio-item-{{ $item->id }}" class="bg-white border rounded-xl overflow-hidden shadow-sm group relative">
                         @if($item->featured)
                             <span class="absolute top-2 left-2 z-10 text-[10px] bg-yellow-400 text-white px-2 py-0.5 rounded-full font-semibold">Destaque</span>
                         @endif
@@ -181,7 +181,7 @@ $categoryIcons = [
                 @elseif(in_array($catKey, ['estudo_de_caso', 'certificacao']))
                 <div class="space-y-3">
                     @foreach($items[$catKey] as $item)
-                    <div class="bg-white border rounded-xl p-4 shadow-sm relative">
+                    <div wire:key="portfolio-item-{{ $item->id }}" class="bg-white border rounded-xl p-4 shadow-sm relative">
                         @if($item->featured)
                             <span class="absolute top-3 right-3 text-[10px] bg-yellow-400 text-white px-2 py-0.5 rounded-full font-semibold">Destaque</span>
                         @endif
@@ -200,7 +200,7 @@ $categoryIcons = [
                 @else
                 <div class="space-y-2">
                     @foreach($items[$catKey] as $item)
-                    <div class="bg-white border rounded-xl p-4 shadow-sm flex items-start gap-3">
+                    <div wire:key="portfolio-item-{{ $item->id }}" class="bg-white border rounded-xl p-4 shadow-sm flex items-start gap-3">
                         <svg class="w-5 h-5 text-[#0055ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="{{ $categoryIcons[$catKey] }}"/>
                         </svg>

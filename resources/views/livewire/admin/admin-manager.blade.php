@@ -87,7 +87,7 @@
                             $roleClass = $roleColors[$roleKey] ?? 'bg-gray-100 text-gray-700';
                             $moduleCount = $isMaster ? count($modules) : $admin->adminPermissions->where('access', '!=', 'none')->count();
                         @endphp
-                        <tr class="hover:bg-gray-50/60 transition-colors">
+                        <tr wire:key="admin-manager-{{ $admin->id }}" class="hover:bg-gray-50/60 transition-colors">
                             {{-- Name + avatar --}}
                             <td class="py-3.5 px-5">
                                 <div class="flex items-center gap-3">

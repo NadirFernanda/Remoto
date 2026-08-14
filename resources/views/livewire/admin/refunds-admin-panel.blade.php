@@ -46,7 +46,7 @@
             </thead>
             <tbody>
                 @forelse($refunds as $refund)
-                    <tr class="border-t border-slate-100">
+                    <tr wire:key="refund-{{ $refund->id }}" class="border-t border-slate-100">
                         <td class="p-3">{{ $refund->id }}</td>
                         <td class="p-3">{{ $refund->user->name ?? '-' }}</td>
                         <td class="p-3 max-w-[140px] truncate text-slate-500">{{ $refund->service->titulo ?? '-' }}</td>

@@ -249,7 +249,7 @@
                 };
             @endphp
 
-            <div class="fsp-card" onclick="window.location='{{ route('freelancer.show', $freelancer) }}'">
+            <div wire:key="freelancer-listing-{{ $freelancer->id }}" class="fsp-card" onclick="window.location='{{ route('freelancer.show', $freelancer) }}'">
 
                 {{-- Cover --}}
                 <div class="fsp-card-cover">

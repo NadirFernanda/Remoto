@@ -32,7 +32,7 @@
                 @if ($searchUser && $users->count())
                     <div class="border border-gray-200 rounded-xl divide-y divide-gray-100 shadow-sm">
                         @foreach ($users as $u)
-                            <button wire:click="selectUser({{ $u->id }}, '{{ addslashes($u->name) }}')"
+                            <button wire:key="wallet-adj-user-{{ $u->id }}" wire:click="selectUser({{ $u->id }}, '{{ addslashes($u->name) }}')"
                                 class="w-full text-left px-4 py-2.5 hover:bg-slate-50 text-sm flex justify-between items-center">
                                 <span class="font-medium">{{ $u->name }}</span>
                                 <span class="text-slate-400 text-xs">{{ $u->email }} · {{ $u->role }}</span>

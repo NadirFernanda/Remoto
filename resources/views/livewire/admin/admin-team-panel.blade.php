@@ -96,7 +96,8 @@
                 $initial = strtoupper(mb_substr($admin->name, 0, 1));
             @endphp
 
-            <div wire:click="selectAdmin({{ $admin->id }})"
+            <div wire:key="admin-team-{{ $admin->id }}"
+                 wire:click="selectAdmin({{ $admin->id }})"
                  class="bg-white rounded-2xl border shadow-sm p-5 cursor-pointer transition-all duration-150
                      {{ $isSelected ? 'border-[#0055ff] ring-2 ring-[#0055ff]/20' : 'border-gray-100 hover:border-slate-300' }}">
 

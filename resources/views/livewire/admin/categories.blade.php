@@ -88,7 +88,7 @@
             </thead>
             <tbody>
                 @forelse($categories as $cat)
-                    <tr class="border-b last:border-0 hover:bg-[#f8fdff] transition">
+                    <tr wire:key="category-{{ $cat->id }}" class="border-b last:border-0 hover:bg-[#f8fdff] transition">
                         <td class="py-3 px-5">
                             <div class="flex items-center gap-2">
                                 @if($cat->icon)

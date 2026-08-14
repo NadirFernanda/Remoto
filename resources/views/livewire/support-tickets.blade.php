@@ -143,7 +143,8 @@
                 };
                 $isSelected = $selected && $selected->id === $ticket->id;
             @endphp
-            <button wire:click="selectTicket({{ $ticket->id }})"
+            <button wire:key="my-support-ticket-{{ $ticket->id }}"
+                wire:click="selectTicket({{ $ticket->id }})"
                 class="w-full text-left bg-white rounded-2xl border p-4 transition
                     {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
                 <div class="flex items-start justify-between gap-2 mb-1">

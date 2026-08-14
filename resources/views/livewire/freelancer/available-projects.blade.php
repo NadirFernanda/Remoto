@@ -71,7 +71,7 @@
                 $statusLabel = $statusLabels[$project->status] ?? $project->status;
             @endphp
 
-            <div class="rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-slate-100 hover:border-sky-300 hover:shadow-2xl transition bg-white text-gray-900">
+            <div wire:key="available-project-{{ $project->id }}" class="rounded-2xl shadow-lg p-6 flex flex-col justify-between border border-slate-100 hover:border-sky-300 hover:shadow-2xl transition bg-white text-gray-900">
                 <div>
                     <div class="flex items-start justify-between gap-2 mb-3">
                         <div>

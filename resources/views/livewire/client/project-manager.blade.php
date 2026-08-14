@@ -80,6 +80,7 @@
                     $total = $project->milestones->count();
                 @endphp
                 <button
+                    wire:key="project-list-{{ $project->id }}"
                     wire:click="selectService({{ $project->id }})"
                     class="w-full text-left bg-white rounded-2xl border p-4 transition
                         {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}"
@@ -358,7 +359,7 @@
                                             default         => [$candidate->status, 'bg-gray-100 text-gray-500'],
                                         };
                                     @endphp
-                                    <div class="rounded-2xl border {{ $isPending ? 'border-gray-200' : 'border-gray-100 opacity-60' }} p-4 space-y-3">
+                                    <div wire:key="candidate-{{ $candidate->id }}" class="rounded-2xl border {{ $isPending ? 'border-gray-200' : 'border-gray-100 opacity-60' }} p-4 space-y-3">
                                         {{-- Cabeçalho do candidato --}}
                                         <div class="flex items-center justify-between gap-3">
                                             <div class="flex items-center gap-3 flex-1 min-w-0">
@@ -533,7 +534,7 @@
                         {{-- Milestone list --}}
                         <div class="space-y-2">
                             @forelse($selected->milestones as $milestone)
-                                <div class="flex items-start gap-3 p-3 rounded-[10px] border
+                                <div wire:key="milestone-{{ $milestone->id }}" class="flex items-start gap-3 p-3 rounded-[10px] border
                                     {{ $milestone->completed ? 'bg-green-50 border-green-100' : 'bg-gray-50 border-gray-100' }}">
                                     <button wire:click="toggleMilestone({{ $milestone->id }})"
                                         class="mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition
@@ -617,7 +618,7 @@
                         {{-- List --}}
                         <div class="space-y-2">
                             @forelse($selected->attachments->filter(fn($a) => !str_starts_with($a->path, 'deliveries/')) as $att)
-                                <div class="flex items-center gap-3 bg-gray-50 rounded-[10px] border border-gray-100 p-3">
+                                <div wire:key="attachment-{{ $att->id }}" class="flex items-center gap-3 bg-gray-50 rounded-[10px] border border-gray-100 p-3">
                                     <div class="w-8 h-8 rounded-lg bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
                                         <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 002.112 2.13"/>

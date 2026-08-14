@@ -38,7 +38,7 @@
         {{-- LEFT: list --}}
         <div class="{{ $selected ? 'hidden lg:block' : '' }} lg:w-80 w-full flex-shrink-0 space-y-2">
             @forelse($disputes as $d)
-            <button wire:click="select({{ $d->id }})"
+            <button wire:key="dispute-{{ $d->id }}" wire:click="select({{ $d->id }})"
                 class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#0055ff]/40 transition
                     {{ $selectedId === $d->id ? 'border-[#0055ff] ring-1 ring-[#0055ff]/20' : 'border-gray-200' }}"
             >

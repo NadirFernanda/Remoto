@@ -74,7 +74,7 @@
                     // Normalize score to 0-100% for display (max theoretical ~30)
                     $pct   = min(100, round($score / 28 * 100));
                 @endphp
-                <div class="bg-white rounded-2xl border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden flex flex-col">
+                <div wire:key="match-{{ $fl->id }}" class="bg-white rounded-2xl border border-gray-100 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 overflow-hidden flex flex-col">
 
                     {{-- Match score bar --}}
                     <div class="h-1 bg-gray-100">
