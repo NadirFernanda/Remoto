@@ -24,9 +24,8 @@
 
             @if($step === 'form')
                 <div class="flex items-center gap-4 mb-5">
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
+                    <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express"
+                        class="w-12 h-12 rounded-2xl object-cover flex-shrink-0 shadow-sm">
                     <div>
                         <p class="text-base font-bold text-slate-800">Multicaixa Express</p>
                         <p class="text-xs text-slate-400">Vai receber um pedido de aprovação no seu telemóvel</p>

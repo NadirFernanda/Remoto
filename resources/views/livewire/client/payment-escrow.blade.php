@@ -61,112 +61,6 @@
 
             {{-- Método de pagamento --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-                <h2 class="text-lg font-bold text-slate-800 mb-1">Método de pagamento</h2>
-                <p class="text-sm text-slate-500 mb-5">Escolha como pretende efectuar o pagamento</p>
-
-                @php
-                    $methods = [
-                        'card'    => ['label' => 'Cartão',  'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>'],
-                        'express' => ['label' => 'Express', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
-                        'bank'    => ['label' => 'Banco',   'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>'],
-                    ];
-                @endphp
-
-                <div class="grid grid-cols-3 gap-3">
-                    @foreach($methods as $key => $method)
-                        <button type="button" wire:click="$set('payment_method', '{{ $key }}')"
-                            class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
-                                {{ $payment_method === $key
-                                    ? 'border-sky-400 bg-sky-50 text-sky-700 shadow-sm shadow-sky-100'
-                                    : 'border-slate-100 bg-slate-50/60 text-slate-400 hover:border-sky-300 hover:bg-sky-50/60 hover:text-sky-600' }}">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                {!! $method['icon'] !!}
-                            </svg>
-                            <span class="text-xs font-semibold">{{ $method['label'] }}</span>
-                        </button>
-                    @endforeach
-                </div>
-            </div>
-
-            <form wire:submit.prevent="confirmPayment">
-
-                {{-- CARTÃO --}}
-                @if($payment_method === 'card')
-                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
-                    <div class="flex items-center gap-2 mb-1">
-                        <svg class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-                        <h3 class="text-sm font-bold text-slate-700">Dados do cartão</h3>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Nome no cartão <span class="text-red-500">*</span></label>
-                        <input type="text" wire:model.defer="card_name"
-                            class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('card_name') border-red-400 @enderror"
-                            placeholder="Como está impresso no cartão" autocomplete="cc-name">
-                        @error('card_name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Número do cartão <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <input type="text" wire:model.defer="card_number" maxlength="19"
-                                class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono tracking-widest focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('card_number') border-red-400 @enderror"
-                                placeholder="0000 0000 0000 0000" autocomplete="cc-number">
-                            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
-                                <span class="text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded">VISA</span>
-                                <span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-100 px-1.5 py-0.5 rounded">MC</span>
-                            </div>
-                        </div>
-                        @error('card_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Validade <span class="text-red-500">*</span></label>
-                            <input type="text" wire:model.defer="card_expiry" maxlength="5"
-                                class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('card_expiry') border-red-400 @enderror"
-                                placeholder="MM/AA" autocomplete="cc-exp">
-                            @error('card_expiry') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-1.5">CVV <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <input type="text" wire:model.defer="card_cvv" maxlength="4"
-                                    class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('card_cvv') border-red-400 @enderror"
-                                    placeholder="123" autocomplete="cc-csc">
-                                <div class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                </div>
-                            </div>
-                            @error('card_cvv') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-                        </div>
-                    </div>
-
-                    @error('payment_token')
-                        <div class="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-xs">{{ $message }}</div>
-                    @enderror
-                </div>
-                @endif
-
-                {{-- Botão de pagamento --}}
-                @if(!in_array($payment_method, ['express', 'bank']))
-                <button type="submit" wire:loading.attr="disabled"
-                    class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
-                    <span wire:loading.remove wire:target="confirmPayment">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                        Pagar {{ number_format($valor_total, 0, ',', '.') }} Kz e publicar pedido
-                    </span>
-                    <span wire:loading wire:target="confirmPayment" class="flex items-center gap-2">
-                        <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                        A processar...
-                    </span>
-                </button>
-                @endif
-            </form>
-
-            {{-- EXPRESS (Multicaixa Express — telefone) --}}
-            @if($payment_method === 'express')
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
 
                 @if($appypay_error)
                     <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">{{ $appypay_error }}</div>
@@ -174,11 +68,10 @@
 
                 @if($appypay_step === 'form')
                     <div class="flex items-center gap-4 mb-5">
-                        <div class="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                        </div>
+                        <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express"
+                            class="w-12 h-12 rounded-2xl object-cover flex-shrink-0 shadow-sm">
                         <div>
-                            <p class="text-base font-bold text-slate-800">Multicaixa Express</p>
+                            <p class="text-base font-bold text-slate-800">Pagamento via Multicaixa Express</p>
                             <p class="text-xs text-slate-400">Vai receber um pedido de aprovação no seu telemóvel</p>
                         </div>
                     </div>
@@ -209,64 +102,6 @@
                     </div>
                 @endif
             </div>
-            @endif
-
-            {{-- BANCO (Referência de pagamento) --}}
-            @if($payment_method === 'bank')
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-
-                @if($appypay_error)
-                    <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">{{ $appypay_error }}</div>
-                @endif
-
-                @if($appypay_step === 'form')
-                    <div class="flex items-center gap-4 mb-5">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/></svg>
-                        </div>
-                        <div>
-                            <p class="text-base font-bold text-slate-800">Referência de pagamento</p>
-                            <p class="text-xs text-slate-400">Pague depois num ATM, Multicaixa ou Internet Banking</p>
-                        </div>
-                    </div>
-
-                    <button type="button" wire:click="chargeAppyPayReference" wire:loading.attr="disabled" wire:target="chargeAppyPayReference"
-                        class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
-                        <span wire:loading.remove wire:target="chargeAppyPayReference">Gerar referência de {{ number_format($valor_total, 0, ',', '.') }} Kz</span>
-                        <span wire:loading wire:target="chargeAppyPayReference" class="flex items-center gap-2">
-                            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                            A gerar...
-                        </span>
-                    </button>
-                @endif
-
-                @if($appypay_step === 'reference')
-                    <div wire:poll.30s="checkAppyPayStatus" class="text-center py-4">
-                        <p class="text-sm text-slate-500 mb-4">Use estes dados para pagar num ATM, Multicaixa ou Internet Banking:</p>
-                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">Entidade</p>
-                                <p class="text-lg font-bold text-slate-800 font-mono">{{ $appypay_entity }}</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">Referência</p>
-                                <p class="text-lg font-bold text-slate-800 font-mono">{{ $appypay_reference }}</p>
-                            </div>
-                            <div class="col-span-2 border-t border-slate-200 pt-3">
-                                <p class="text-xs text-slate-400 uppercase tracking-wide mb-1">Valor</p>
-                                <p class="text-lg font-bold text-sky-700">{{ number_format($valor_total, 0, ',', '.') }} Kz</p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-400">Assim que o pagamento for confirmado, o pedido é publicado automaticamente. Pode fechar esta página — receberá uma notificação.</p>
-
-                        @if(config('services.appypay.mode') === 'sandbox')
-                        <button type="button" wire:click="mockConfirmAppyPayReference" wire:confirm="[Sandbox] Simular pagamento desta referência agora?"
-                            class="mt-4 text-xs text-slate-400 underline">Simular confirmação (apenas sandbox)</button>
-                        @endif
-                    </div>
-                @endif
-            </div>
-            @endif
 
             {{-- Selos de segurança --}}
             <div class="flex items-center justify-center gap-6">
