@@ -122,9 +122,6 @@ Route::post('/password/reset', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->name('password.update');
 
-// Cadastro freelancer centralizado no RegisterController
-use App\Http\Controllers\Auth\RegisterController;
-
 // ─── Email Verification ──────────────────────────────────────────────────────
 // Necessário para o middleware 'verified' funcionar correctamente.
 // O login web já faz auto-verificação, mas utilizadores criados via API
@@ -140,14 +137,4 @@ Route::middleware('auth')->group(function () {
     })->middleware('signed')->name('verification.verify');
 });
 
-Route::get('/register', function () {
-    if (Auth::check()) {
-        $role = Auth::user()->role;
-        if ($role === 'freelancer') return redirect('/freelancer/dashboard');
-        if ($role === 'admin')      return redirect('/admin/dashboard');
-        return redirect('/cliente/dashboard');
-    }
-    return app(\App\Http\Controllers\Auth\RegisterController::class)->showFreelancerForm();
-})->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/register/client', [RegisterController::class, 'registerClient']);
+Route::get('/register', \App\Livewire\Auth\RegisterWizard::class)->name('register');

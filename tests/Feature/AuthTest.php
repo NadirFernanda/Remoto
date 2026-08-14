@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Auth\RegisterWizard;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -81,8 +83,8 @@ class AuthTest extends TestCase
 
     public function test_register_requires_name_email_password(): void
     {
-        $response = $this->post('/register', []);
-
-        $response->assertSessionHasErrors(['name', 'email', 'password']);
+        Livewire::test(RegisterWizard::class)
+            ->call('nextStep')
+            ->assertHasErrors(['name', 'email', 'password']);
     }
 }

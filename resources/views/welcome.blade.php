@@ -384,6 +384,4 @@
     </div>
 </section>
 
-@include('components.freelancer-modal')
-
 @endsection
