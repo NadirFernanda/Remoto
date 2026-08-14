@@ -15,8 +15,6 @@ class Listing extends Component
 
     protected $updatesQueryString = ['search', 'skill'];
 
-    protected $listeners = ['refreshListing' => '$refresh'];
-
     public function updatingSearch()
     {
         $this->resetPage();

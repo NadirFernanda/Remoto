@@ -67,13 +67,12 @@
                 @php
                     $methods = [
                         'card'    => ['label' => 'Cartão',  'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>'],
-                        'paypal'  => ['label' => 'PayPal',  'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'],
                         'express' => ['label' => 'Express', 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>'],
                         'bank'    => ['label' => 'Banco',   'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>'],
                     ];
                 @endphp
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="grid grid-cols-3 gap-3">
                     @foreach($methods as $key => $method)
                         <button type="button" wire:click="$set('payment_method', '{{ $key }}')"
                             class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
@@ -149,45 +148,13 @@
                 </div>
                 @endif
 
-                {{-- PAYPAL --}}
-                @if($payment_method === 'paypal')
-                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-                    <div class="flex items-center gap-4 mb-5">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="#003087">
-                                <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.379 2.879.577 6.397-2.525 8.17-2.484 1.42-5.954 1.338-8.31.132l-.38 2.395c-.082.518.364.959.888.959H13.6c.524 0 .968-.382 1.05-.9l.894-5.67c.082-.518.526-.9 1.05-.9h.665c2.77 0 4.936-.69 5.983-3.645z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-base font-bold text-slate-800">Pagar com PayPal</p>
-                            <p class="text-xs text-slate-400">Será redirecionado para o PayPal</p>
-                        </div>
-                    </div>
-                    <div class="bg-sky-50 border border-sky-100 rounded-xl p-4">
-                        <ul class="space-y-2.5">
-                            @foreach(['Pagamento 100% seguro via PayPal', 'Após aprovação, o pedido é publicado automaticamente', 'Pode usar saldo PayPal ou cartão associado'] as $item)
-                                <li class="flex items-center gap-2 text-xs text-sky-700">
-                                    <svg class="w-3.5 h-3.5 text-sky-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                                    {{ $item }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                @endif
-
                 {{-- Botão de pagamento --}}
                 @if(!in_array($payment_method, ['express', 'bank']))
                 <button type="submit" wire:loading.attr="disabled"
                     class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
                     <span wire:loading.remove wire:target="confirmPayment">
-                        @if($payment_method === 'paypal')
-                            Continuar para PayPal
-                            <svg class="w-4 h-4 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                        @else
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                            Pagar {{ number_format($valor_total, 0, ',', '.') }} Kz e publicar pedido
-                        @endif
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                        Pagar {{ number_format($valor_total, 0, ',', '.') }} Kz e publicar pedido
                     </span>
                     <span wire:loading wire:target="confirmPayment" class="flex items-center gap-2">
                         <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

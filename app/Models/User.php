@@ -135,11 +135,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->followers()->count();
     }
 
-    public function isFollowedBy(int $userId): bool
-    {
-        return $this->followers()->where('follower_id', $userId)->exists();
-    }
-
     public function socialLikes()
     {
         return $this->hasMany(SocialLike::class);
@@ -153,11 +148,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function bookmarks()
     {
         return $this->hasMany(SocialBookmark::class);
-    }
-
-    public function hasActiveStories(): bool
-    {
-        return $this->stories()->where('expires_at', '>', now())->exists();
     }
 
     // ── Creator Module ───────────────────────────────────────────────────────

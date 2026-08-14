@@ -149,7 +149,6 @@ body{
 
 .site-header{background: var(--bg-v); border-bottom:1px solid rgba(255,255,255,0.07); padding-top:.625rem; padding-bottom:.625rem; transition: background .3s ease;}
 .site-header.scrolled{background: var(--bg-v); backdrop-filter: blur(12px);}
-.logo-text-24{ color:var(--accent-v); font-weight:900; font-size:1.8rem; letter-spacing:1px; }
 .logo-text-horas{ background:var(--accent-v); color:#ffffff; border-radius:8px; padding:6px 14px; font-weight:700; font-size:1rem; margin-left:14px; }
 
 /* Image logo used in header */
@@ -160,11 +159,6 @@ body{
 .site-header.site-header-compact.scrolled{ background: var(--bg-v); }
 .site-header.site-header-compact .site-logo{ height:48px; max-height:52px; }
 .site-logo-compact{ height:48px; max-height:52px; }
-
-/* Light input (still used in some pages) */
-.light-input{ width:100%; background:#fff; border:1px solid #e2e8f0; color:#1e293b; padding:.55rem .75rem; border-radius:10px; font-size:.9rem; transition: border-color .2s, box-shadow .2s; }
-.light-input:focus{ border-color:#0055ff; box-shadow:0 0 0 3px rgba(0,80,255,0.1); outline:none; }
-.light-input::placeholder{ color:#94a3b8; }
 
 /* Section helpers: allow alternating backgrounds per section */
 .section{ padding:3.5rem 0; background:transparent; }
@@ -361,16 +355,6 @@ body{
     margin: 0 !important;
 }
 .action-row .btn-eq { color: var(--accent-v) !important; }
-
-/* Remove card-like background for action cells in orders-table */
-.orders-table td.no-card{
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-    padding-top: .4rem !important;
-    padding-bottom: .4rem !important;
-}
-.orders-table td.no-card .action-row{ margin:0 !important; }
 
 /* Focus: visível apenas para navegação por teclado (não ao clicar com rato) */
 *:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; }
@@ -611,8 +595,6 @@ body{
 .pub-sidebar-block { background: rgba(255,255,255,.04); border-radius: 14px; border: 1px solid rgba(255,255,255,.08); padding: 1.1rem 1.25rem; }
 .pub-sidebar-block label { display: block; font-size: .7rem; font-weight: 700; color: #94a3b8; letter-spacing: .09em; text-transform: uppercase; margin-bottom: .6rem; }
 
-/* grid de resultados */
-.pub-results-grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
 
 /* freelancer card */
 .pub-freelancer-card { display: block; background: rgba(255,255,255,.04); border-radius: 18px; border: 1px solid rgba(255,255,255,.08); padding: 1.25rem; text-decoration: none; transition: box-shadow .18s, transform .18s, border-color .18s; }
@@ -700,16 +682,10 @@ body{
    ===================================================== */
 
 /* ── Auth pages: narrower cards on mobile ──────────────── */
-/* Role selector grid: 3 columns desktop, 2 on tiny screens */
-.role-selector-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .6rem; }
-
 @media (max-width: 480px) {
     .pub-auth-card { padding: 1.25rem 1rem; border-radius: 1.25rem; }
     .pub-auth-title { font-size: 1.3rem; letter-spacing: -.015em; }
     .pub-container--sm { padding-left: .75rem; padding-right: .75rem; }
-
-    /* Register: 3-col role selector → stack on 2 cols */
-    .role-selector-grid { grid-template-columns: 1fr 1fr !important; }
 
     /* Inputs: larger tap target */
     .pub-input { padding: .7rem .85rem; font-size: 1rem; }
@@ -729,13 +705,8 @@ body{
 
 /* ── Public results grid: min 1 column on tiny screens ─── */
 @media (max-width: 360px) {
-    .pub-results-grid-3 { grid-template-columns: 1fr; }
     .hp-categories { grid-template-columns: 1fr 1fr; }
 }
-
-/* ── Homepage tabs / pill navigation ──────────────────── */
-.hp-tabs-scrollable { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; scrollbar-width: none; }
-.hp-tabs-scrollable::-webkit-scrollbar { display: none; }
 
 /* ── KYC form: grid on mobile ─────────────────────────── */
 @media (max-width: 640px) {

@@ -13,8 +13,6 @@ class FreelancerMatching extends Component
     public Service $service;
     public int     $limit = 6;
 
-    protected $listeners = ['refreshMatching' => '$refresh'];
-
     public function mount(Service $service): void
     {
         // Only the owner can access matching for their service

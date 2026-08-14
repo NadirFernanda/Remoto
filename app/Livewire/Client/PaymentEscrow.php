@@ -113,10 +113,6 @@ class PaymentEscrow extends Component
 
     public function confirmPayment()
     {
-        // ── PayPal ────────────────────────────────────────────────────────────
-        if ($this->payment_method === 'paypal') {
-            return redirect()->route('paypal.create');
-        }
         if (in_array($this->payment_method, ['express', 'bank'])) {
             // Tratados pelos seus próprios métodos (chargeAppyPayPhone/chargeAppyPayReference).
             return;
