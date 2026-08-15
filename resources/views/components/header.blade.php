@@ -707,8 +707,25 @@
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Benguela</a>
                     <a href="{{ route('freelancers.search', ['location' => 'huambo']) }}" class="nav-link text-sm flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Huambo</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'lobito']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Lobito</a>
+                    <a href="{{ route('freelancers.search', ['location' => 'cabinda']) }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Cabinda</a>
                     <a href="{{ route('freelancers.search') }}" class="nav-link text-sm text-sky-400 flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver todos os freelancers</a>
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Por categoria</p>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Tecnologia</a>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>Criativo</a>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>Negócios</a>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>Educação</a>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>Jurídico</a>
+                    <a href="{{ route('freelancers.index') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>Engenharia</a>
                 </div>
             </div>
             <!-- Accordion: Encontrar Trabalho -->
@@ -718,14 +735,46 @@
                     <svg :class="sub ? 'rotate-180' : ''" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="sub" x-cloak class="pl-3 mt-1 flex flex-col gap-1 border-l border-white/10 ml-2">
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-1">Por habilidade</p>
                     <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
-                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Projectos abertos</a>
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18M9 21V9"/></svg>Websites</a>
                     <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
-                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>Concursos activos</a>
-                    <a href="{{ route('freelancers.search') }}" class="nav-link text-sm flex items-center gap-2">
-                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>Explorar categorias</a>
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Design Gráfico</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 20V10M12 20V4M6 20v-6"/></svg>Marketing Digital</a>
+
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Por idioma</p>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>Português</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>Inglês</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>Francês</a>
+
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Trabalhos em destaque</p>
+                    <a href="{{ route('freelancer.available-projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01"/></svg>Dev. de Apps</a>
+                    <a href="{{ route('freelancer.available-projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/></svg>Entrada de Dados</a>
+                    <a href="{{ route('freelancer.available-projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Trabalhos Locais</a>
+
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Encontrar concursos</p>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Edição de Vídeo</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Escrita & Conteúdo</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0033cc" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>Tecnologia</a>
+
                     <a href="{{ route('public.projects') }}" class="nav-link text-sm text-sky-400 flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>Ver mais trabalhos</a>
+
+                    <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-2">Mais populares</p>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">Desenvolvimento de Software</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">Escrita & Conteúdo</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">Edição de Vídeo</a>
+                    <a href="{{ route('public.projects') }}" class="nav-link text-sm flex items-center gap-2">SEO & SEM</a>
                 </div>
             </div>
             <!-- Accordion: Soluções -->
@@ -759,6 +808,7 @@
                 </a>
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link btn-primary">Registo</a>
+                <a href="{{ route('client.projects') }}" class="nav-link" style="background:#ff2d55;color:#fff;font-weight:700;text-align:center;border-radius:.6875rem;">Publicar projecto</a>
             @else
                 {{-- Card do utilizador --}}
                 @php
@@ -853,6 +903,10 @@
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         Propostas
                     </a>
+                    <a href="{{ route('freelancer.notifications') }}" class="nav-link flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        Notificações
+                    </a>
                     <div class="border-t border-white/10 my-1"></div>
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-1 pb-0.5">Publicar</p>
                     <a href="{{ route('social.create') }}" class="nav-link flex items-center gap-2">
@@ -896,6 +950,10 @@
                     <a href="{{ route('client.orders') }}" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                         Meus Pedidos
+                    </a>
+                    <a href="{{ route('social.create') }}" @click.prevent="$dispatch('open-role-switch-modal', {action: 'conteudo'})" class="nav-link flex items-center gap-2">
+                        <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                        Publicar Conteúdo
                     </a>
                     <a href="{{ route('social.feed') }}" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
