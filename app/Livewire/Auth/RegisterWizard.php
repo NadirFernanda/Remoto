@@ -31,6 +31,7 @@ class RegisterWizard extends Component
 
     // ── Passo 2: verificação de identidade (KYC) ────────────────────────
     public string $documentType = 'bi';
+    public string $documentNumber = '';
     public $documentFront;
     public $documentBack;
     public $selfie;
@@ -65,16 +66,24 @@ class RegisterWizard extends Component
     protected function step2Rules(): array
     {
         return [
-            'documentType'  => 'required|in:bi,passport,driving_license',
-            'documentFront' => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
-            'documentBack'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
-            'selfie'        => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
+            'documentType'   => 'required|in:bi,passport,driving_license',
+            'documentNumber' => 'required|string|max:50|unique:kyc_submissions,document_number',
+            'documentFront'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'documentBack'   => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'selfie'         => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
+        ];
+    }
+
+    protected function step2Messages(): array
+    {
+        return [
+            'documentNumber.unique' => 'Este número de documento já está associado a outra conta.',
         ];
     }
 
     public function submit(): void
     {
-        $this->validate($this->step2Rules());
+        $this->validate($this->step2Rules(), $this->step2Messages());
 
         $user = DB::transaction(function () {
             // Código de afiliado único
@@ -121,6 +130,7 @@ class RegisterWizard extends Component
             KycSubmission::create([
                 'user_id'             => $user->id,
                 'document_type'       => $this->documentType,
+                'document_number'     => trim($this->documentNumber),
                 'document_front_path' => $frontPath,
                 'document_back_path'  => $backPath,
                 'selfie_path'         => $selfiePath,

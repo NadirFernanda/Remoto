@@ -29,6 +29,7 @@ class RegisterWizardTest extends TestCase
         return $wizard
             ->assertSet('step', 2)
             ->set('documentType', $overrides['documentType'] ?? 'bi')
+            ->set('documentNumber', $overrides['documentNumber'] ?? '00'.uniqid().'LA000')
             ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
             ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
             ->call('submit');
@@ -271,8 +272,44 @@ class RegisterWizardTest extends TestCase
             ->assertSet('step', 2);
 
         $wizard->call('submit')
-            ->assertHasErrors(['documentFront', 'documentBack']);
+            ->assertHasErrors(['documentFront', 'documentBack', 'documentNumber']);
 
         $this->assertDatabaseMissing('users', ['email' => 'semdocs@example.com']);
+    }
+
+    #[Test]
+    public function nao_pode_registar_com_numero_de_documento_ja_usado(): void
+    {
+        Storage::fake('private');
+
+        $wizardA = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Primeiro Dono')
+            ->set('email', 'primeiro@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+        $this->completeStep2($wizardA, ['documentNumber' => '003456789LA042']);
+
+        \Illuminate\Support\Facades\Auth::logout();
+        $this->app['session']->flush();
+
+        $wizardB = Livewire::test(RegisterWizard::class)
+            ->set('role', 'freelancer')
+            ->set('name', 'Segundo Tentando')
+            ->set('email', 'segundo@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizardB
+            ->set('documentType', 'bi')
+            ->set('documentNumber', '003456789LA042')
+            ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
+            ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
+            ->call('submit')
+            ->assertHasErrors('documentNumber');
+
+        $this->assertDatabaseMissing('users', ['email' => 'segundo@example.com']);
     }
 }

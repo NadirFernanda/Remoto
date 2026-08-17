@@ -387,6 +387,15 @@
                 </div>
 
                 <div class="lf-group">
+                    <label class="lf-label" for="reg-document-number">Número do documento</label>
+                    <input class="lf-input @error('documentNumber') has-error @enderror"
+                           type="text" id="reg-document-number" wire:model="documentNumber"
+                           style="padding-left:1rem;" placeholder="Ex.: 003456789LA042">
+                    <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">Usado apenas para impedir contas duplicadas — não é partilhado publicamente.</p>
+                    @error('documentNumber') <p class="lf-error show">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="lf-group">
                     <label class="lf-label">Frente do documento</label>
                     <div x-data="{ nome: 'Nenhum ficheiro selecionado' }" style="display:flex;align-items:center;gap:.6rem;">
                         <label style="cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;background:#f0f7ff;color:#0055ff;font-weight:700;font-size:.82rem;padding:.55rem .9rem;border-radius:8px;white-space:nowrap;">
