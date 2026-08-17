@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\WalletLog;
 use App\Models\Wallet as WalletModel;
 use App\Models\Service;
+use App\Services\SubscriptionWithdrawalGate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,9 +26,23 @@ class FinancialPanel extends Component
     {
         $this->successMsg = '';
 
+        $user = Auth::user();
+
         $minAmount  = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 1000);
         $feeFixed   = (float) \App\Models\PlatformSetting::get('withdraw_fee_fixed', 0);
         $feePercent = (float) \App\Models\PlatformSetting::get('withdraw_fee_percent', 0);
+
+        $gatedPorAssinaturas = SubscriptionWithdrawalGate::saldoAtribuivel($user->id) > 0;
+
+        if ($gatedPorAssinaturas) {
+            $minAmount = SubscriptionWithdrawalGate::SAQUE_MINIMO;
+
+            $diasRestantes = SubscriptionWithdrawalGate::diasParaProximoSaque($user->id);
+            if ($diasRestantes > 0) {
+                $this->addError('valorSaque', "Tem saldo de assinaturas por resgatar — só pode voltar a sacar daqui a {$diasRestantes} dia(s).");
+                return;
+            }
+        }
 
         $this->validate([
             'valorSaque' => ['required', 'numeric', 'min:' . $minAmount],
@@ -38,7 +53,6 @@ class FinancialPanel extends Component
         $fee               = round($feeFixed + ($this->valorSaque * $feePercent / 100), 2);
         $valorLiquidoSaque = round($this->valorSaque - $fee, 2);
 
-        $user   = Auth::user();
         $wallet = WalletModel::firstOrCreate(
             ['user_id' => $user->id],
             ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => $minAmount, 'taxa_saque' => 0]
@@ -62,7 +76,7 @@ class FinancialPanel extends Component
         // Mover valor do saldo disponível para saldo_pendente (em análise)
         // Uso de transacção para garantir atomicidade: se WalletLog falhar,
         // os decrements/increments são revertidos automaticamente.
-        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $valorLiquidoSaque) {
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $valorLiquidoSaque, $gatedPorAssinaturas) {
             $wallet->decrement('saldo', $this->valorSaque);
             $wallet->increment('saldo_pendente', $this->valorSaque);
 
@@ -71,6 +85,7 @@ class FinancialPanel extends Component
                 'wallet_id' => $wallet->id,
                 'valor'     => -$this->valorSaque,
                 'tipo'      => 'saque_solicitado',
+                'fonte'     => $gatedPorAssinaturas ? 'assinaturas' : null,
                 'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz — taxa " . number_format($fee, 2, ',', '.') . " Kz — valor líquido a receber: " . number_format($valorLiquidoSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
             ]);
         });
@@ -113,14 +128,21 @@ class FinancialPanel extends Component
             ->whereIn('status', ['accepted', 'in_progress', 'delivered'])
             ->get();
 
+        $saldoAssinAtribuivel      = SubscriptionWithdrawalGate::saldoAtribuivel($user->id);
+        $gatedPorAssinaturas       = $saldoAssinAtribuivel > 0;
+        $diasParaProximoSaqueAssin = $gatedPorAssinaturas ? SubscriptionWithdrawalGate::diasParaProximoSaque($user->id) : 0;
+
         return view('livewire.freelancer.financial-panel', [
-            'wallet'          => $wallet,
-            'logs'            => $logs,
-            'ganhos'          => $ganhos,
-            'taxas'           => $taxas,
-            'saques'          => $saques,
-            'reembolsos'      => $reembolsos,
-            'pendingServices' => $pendingServices,
+            'wallet'                    => $wallet,
+            'logs'                      => $logs,
+            'ganhos'                    => $ganhos,
+            'taxas'                     => $taxas,
+            'saques'                    => $saques,
+            'reembolsos'                => $reembolsos,
+            'pendingServices'           => $pendingServices,
+            'gatedPorAssinaturas'       => $gatedPorAssinaturas,
+            'saldoAssinAtribuivel'      => $saldoAssinAtribuivel,
+            'diasParaProximoSaqueAssin' => $diasParaProximoSaqueAssin,
         ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }

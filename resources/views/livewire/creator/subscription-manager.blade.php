@@ -24,6 +24,23 @@
         </div>
     </div>
 
+    @if($gatedPorAssinaturas)
+    <div class="flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm text-amber-800">
+        <svg class="w-5 h-5 mt-0.5 shrink-0 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        <div>
+            <p class="font-semibold">Tem Kz {{ number_format($saldoAssinAtribuivel, 0, ',', '.') }} de assinaturas por resgatar.</p>
+            <p class="mt-0.5">
+                Enquanto isso, o saque no Painel Financeiro exige um mínimo de <strong>Kz 200.000</strong> e um intervalo de <strong>14 dias</strong> entre pedidos.
+                @if($diasParaProximoSaqueAssin > 0)
+                    Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
+                @else
+                    Já pode solicitar o saque.
+                @endif
+            </p>
+        </div>
+    </div>
+    @endif
+
     {{-- KPI Cards --}}
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
