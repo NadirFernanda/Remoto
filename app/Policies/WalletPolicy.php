@@ -22,18 +22,14 @@ class WalletPolicy
         return $user->id === $wallet->user_id || $user->role === 'admin';
     }
 
-    /**
-     * Apenas o dono com KYC aprovado pode solicitar saque.
-     * Verifica o kyc_status tanto no User como no FreelancerProfile.
-     */
+    /** Apenas o dono com KYC verificado pode solicitar saque. */
     public function withdraw(User $user, Wallet $wallet): bool
     {
         if ($user->id !== $wallet->user_id) {
             return false;
         }
 
-        return $user->kyc_status === 'approved'
-            || $user->freelancerProfile?->kyc_status === 'approved';
+        return $user->kyc_status === 'verified';
     }
 
     /** Mesmas condições do saque se aplicam a transferências. */

@@ -45,7 +45,7 @@ class UsersExportController extends Controller
             fputcsv($handle, ['ID', 'Nome', 'Email', 'Papel', 'KYC', 'Email Verificado', 'Criado Em']);
 
             foreach ($users as $user) {
-                $kycStatus = $user->freelancerProfile->kyc_status ?? 'N/A';
+                $kycStatus = $user->kyc_status ?? 'N/A';
                 fputcsv($handle, [
                     $user->id,
                     $user->name,

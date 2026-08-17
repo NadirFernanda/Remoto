@@ -105,7 +105,7 @@ class ProfileEditor extends Component
             $this->metrics_completed_projects = $metrics['completed_projects'] ?? null;
             $this->metrics_rating = $metrics['rating'] ?? null;
             $this->metrics_total_earnings = $metrics['total_earnings'] ?? null;
-            $this->kyc_status = $profile->kyc_status ?? 'pending';
+            $this->kyc_status = $user->kyc_status ?? 'pending';
             $this->bank_name = $profile->bank_name;
             $this->bank_account_holder = $profile->bank_account_holder;
             $this->bank_account_number = $profile->bank_account_number;
