@@ -24,15 +24,25 @@ class RegisterWizardTest extends TestCase
 {
     use RefreshDatabase;
 
+    private static int $documentCounter = 0;
+
     private function completeStep2($wizard, array $overrides = [])
     {
+        self::$documentCounter++;
+
         return $wizard
             ->assertSet('step', 2)
             ->set('documentType', $overrides['documentType'] ?? 'bi')
-            ->set('documentNumber', $overrides['documentNumber'] ?? '00'.uniqid().'LA000')
+            ->set('documentNumber', $overrides['documentNumber'] ?? $this->validBiNumber())
             ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
             ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
             ->call('submit');
+    }
+
+    /** Gera um número de BI único no formato oficial: 9 dígitos + 2 letras + 3 dígitos. */
+    private function validBiNumber(): string
+    {
+        return sprintf('%09d', self::$documentCounter).'LA'.sprintf('%03d', self::$documentCounter % 1000);
     }
 
     // ── Registo de cliente ────────────────────────────────────────────────────
@@ -311,5 +321,79 @@ class RegisterWizardTest extends TestCase
             ->assertHasErrors('documentNumber');
 
         $this->assertDatabaseMissing('users', ['email' => 'segundo@example.com']);
+    }
+
+    // ── Formato do número de BI ──────────────────────────────────────────────
+
+    #[Test]
+    public function bi_com_formato_invalido_e_rejeitado(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Formato Errado')
+            ->set('email', 'formatoerrado@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizard
+            ->set('documentType', 'bi')
+            ->set('documentNumber', '12345') // não tem o formato 9 dígitos + 2 letras + 3 dígitos
+            ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
+            ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
+            ->call('submit')
+            ->assertHasErrors('documentNumber');
+
+        $this->assertDatabaseMissing('users', ['email' => 'formatoerrado@example.com']);
+    }
+
+    #[Test]
+    public function bi_com_formato_valido_em_minusculas_e_normalizado_e_aceite(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Minusculas')
+            ->set('email', 'minusculas@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizard
+            ->set('documentType', 'bi')
+            ->set('documentNumber', '003456789la042') // letras em minúsculas
+            ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
+            ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
+            ->call('submit')
+            ->assertHasNoErrors('documentNumber')
+            ->assertRedirect('/cliente/dashboard');
+
+        $this->assertDatabaseHas('kyc_submissions', ['document_number' => '003456789LA042']);
+    }
+
+    #[Test]
+    public function passaporte_nao_exige_o_formato_do_bi(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Estrangeiro')
+            ->set('email', 'estrangeiro@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizard
+            ->set('documentType', 'passport')
+            ->set('documentNumber', 'N1234567') // formato de passaporte, não o do BI
+            ->set('documentFront', UploadedFile::fake()->image('frente.jpg'))
+            ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
+            ->call('submit')
+            ->assertHasNoErrors('documentNumber')
+            ->assertRedirect('/cliente/dashboard');
     }
 }

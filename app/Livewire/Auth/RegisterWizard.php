@@ -65,9 +65,21 @@ class RegisterWizard extends Component
 
     protected function step2Rules(): array
     {
+        $documentNumberRule = ['required', 'string', 'max:50'];
+
+        // Formato oficial do BI angolano: 9 dígitos + 2 letras + 3 dígitos
+        // (ex.: 003456789LA042) — 14 caracteres alfanuméricos no total.
+        // Passaporte e carta de condução não têm um formato único verificado,
+        // por isso ficam só com a validação genérica acima.
+        if ($this->documentType === 'bi') {
+            $documentNumberRule[] = 'regex:/^\d{9}[A-Z]{2}\d{3}$/';
+        }
+
+        $documentNumberRule[] = 'unique:kyc_submissions,document_number';
+
         return [
             'documentType'   => 'required|in:bi,passport,driving_license',
-            'documentNumber' => 'required|string|max:50|unique:kyc_submissions,document_number',
+            'documentNumber' => $documentNumberRule,
             'documentFront'  => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
             'documentBack'   => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
             'selfie'         => 'nullable|file|mimes:jpg,jpeg,png|max:10240',
@@ -77,12 +89,18 @@ class RegisterWizard extends Component
     protected function step2Messages(): array
     {
         return [
+            'documentNumber.regex'  => 'Número de BI inválido — deve ter 9 dígitos, 2 letras e mais 3 dígitos (ex.: 003456789LA042).',
             'documentNumber.unique' => 'Este número de documento já está associado a outra conta.',
         ];
     }
 
     public function submit(): void
     {
+        // Normaliza antes de validar: garante que o regex do BI e a
+        // verificação de duplicidade não são contornáveis por diferenças
+        // de maiúsculas/espaços (ex.: "003456789la042" vs "003456789LA042").
+        $this->documentNumber = strtoupper(str_replace(' ', '', trim($this->documentNumber)));
+
         $this->validate($this->step2Rules(), $this->step2Messages());
 
         $user = DB::transaction(function () {
@@ -130,7 +148,7 @@ class RegisterWizard extends Component
             KycSubmission::create([
                 'user_id'             => $user->id,
                 'document_type'       => $this->documentType,
-                'document_number'     => trim($this->documentNumber),
+                'document_number'     => $this->documentNumber,
                 'document_front_path' => $frontPath,
                 'document_back_path'  => $backPath,
                 'selfie_path'         => $selfiePath,
