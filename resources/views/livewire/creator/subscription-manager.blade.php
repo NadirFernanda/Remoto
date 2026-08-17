@@ -7,31 +7,18 @@
                 <h2 class="text-2xl font-extrabold">Assinaturas</h2>
                 <p class="text-sm text-white/75 mt-1">Acompanhe receitas, ciclo anual e assinantes activos</p>
             </div>
-            {{-- Saldo + Saque no header --}}
+            {{-- Ganhos + link para o Painel Financeiro --}}
             <div class="flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-4 py-3">
                 <div>
-                    <p class="text-xs font-bold text-white/70 uppercase tracking-wide">Saldo Disponível</p>
-                    <p class="text-xl font-black text-white">{{ money_aoa($saldoAssinDisponivel, false) }}</p>
-                    <p class="text-xs text-white/60 mt-0.5">Saques a cada 22 dias</p>
+                    <p class="text-xs font-bold text-white/70 uppercase tracking-wide">Total Ganho em Assinaturas</p>
+                    <p class="text-xl font-black text-white">{{ money_aoa($allTimeEarnings, false) }}</p>
                 </div>
                 <div>
-                    @if($pendenteSaqueAssin)
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-yellow-400/20 text-yellow-100 text-xs font-bold whitespace-nowrap">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Saque pendente
-                        </span>
-                    @elseif(!$podeRealizarSaque)
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/15 text-white text-xs font-bold whitespace-nowrap">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Em {{ $diasParaProximoSaque }} dia(s)
-                        </span>
-                    @else
-                        <button wire:click="abrirSaqueAssin"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition whitespace-nowrap border border-white/20">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            Solicitar Saque
-                        </button>
-                    @endif
+                    <a href="{{ route('freelancer.financial') }}"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-bold transition whitespace-nowrap border border-white/20">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        Sacar no Painel Financeiro
+                    </a>
                 </div>
             </div>
         </div>
@@ -216,67 +203,5 @@
         @endforelse
         </div>
     </div>
-
-    {{-- Modal: Saque das Assinaturas --}}
-    @if($showSaqueModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="fecharSaqueAssin">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-gray-900">Saque de Assinaturas</h3>
-                    <p class="text-xs text-gray-500">Disponível: <strong class="text-blue-600">Kz {{ number_format($saldoAssinDisponivel, 2, ',', '.') }}</strong></p>
-                </div>
-            </div>
-
-            @if($saqueMsg)
-            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
-                {{ $saqueMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
-                {{ $saqueMsg }}
-            </div>
-            @endif
-
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Valor a sacar (Kz)</label>
-                <div class="relative">
-                    <span class="absolute left-3 top-2.5 text-sm text-gray-400 font-medium">Kz</span>
-                    <input type="number" wire:model="valorSaqueAssin"
-                        min="1000" step="100" max="{{ $saldoAssinDisponivel }}"
-                        class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-400"
-                        placeholder="0">
-                </div>
-                @error('valorSaqueAssin') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-
-            <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-5">
-                <p class="text-xs text-amber-700 font-medium">
-                    <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    Saques de assinaturas são permitidos <strong>a cada 22 dias</strong>.
-                    O processamento ocorre em até 2 dias úteis após aprovação.
-                </p>
-            </div>
-
-            <div class="flex gap-3">
-                <button wire:click="solicitarSaqueAssin" wire:loading.attr="disabled"
-                    @if(!$podeRealizarSaque) disabled @endif
-                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#00c8ff] to-[#0033cc] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed">
-                    <span wire:loading.remove wire:target="solicitarSaqueAssin">
-                        @if(!$podeRealizarSaque)
-                            Disponível em {{ $diasParaProximoSaque }} dia{{ $diasParaProximoSaque == 1 ? '' : 's' }}
-                        @else
-                            Confirmar Saque
-                        @endif
-                    </span>
-                    <span wire:loading wire:target="solicitarSaqueAssin">A processar...</span>
-                </button>
-                <button wire:click="fecharSaqueAssin" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-xl transition">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-    @endif
 
 </div>
