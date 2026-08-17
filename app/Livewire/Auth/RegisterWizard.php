@@ -150,6 +150,6 @@ class RegisterWizard extends Component
     public function render()
     {
         return view('livewire.auth.register-wizard', PlatformStatsService::get())
-            ->layout('layouts.main');
+            ->extends('layouts.main');
     }
 }
