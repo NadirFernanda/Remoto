@@ -12,6 +12,7 @@ use App\Services\AffiliateService;
 use App\Services\PlatformStatsService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -96,6 +97,18 @@ class RegisterWizard extends Component
 
     public function submit(): void
     {
+        // Limita tentativas de conclusão do registo por IP — sem isto, alguém
+        // podia testar rapidamente vários números de documento até um passar
+        // na verificação de duplicidade.
+        $throttleKey = 'register-submit:'.request()->ip();
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            $this->addError('documentNumber', "Demasiadas tentativas. Tente novamente dentro de {$seconds} segundos.");
+
+            return;
+        }
+        RateLimiter::hit($throttleKey, 600);
+
         // Normaliza antes de validar: garante que o regex do BI e a
         // verificação de duplicidade não são contornáveis por diferenças
         // de maiúsculas/espaços (ex.: "003456789la042" vs "003456789LA042").
@@ -103,7 +116,17 @@ class RegisterWizard extends Component
 
         $this->validate($this->step2Rules(), $this->step2Messages());
 
-        $user = DB::transaction(function () {
+        // Impede reenvio da MESMA foto do documento associada a um número
+        // diferente — a verificação de duplicidade acima só olha para o
+        // número digitado, não para a imagem em si.
+        $frontHash = hash_file('sha256', $this->documentFront->getRealPath());
+        if (KycSubmission::where('document_front_hash', $frontHash)->exists()) {
+            $this->addError('documentFront', 'Esta foto de documento já foi usada noutro registo.');
+
+            return;
+        }
+
+        $user = DB::transaction(function () use ($frontHash) {
             // Código de afiliado único
             do {
                 $affiliateCode = strtoupper(Str::random(8));
@@ -150,6 +173,7 @@ class RegisterWizard extends Component
                 'document_type'       => $this->documentType,
                 'document_number'     => $this->documentNumber,
                 'document_front_path' => $frontPath,
+                'document_front_hash' => $frontHash,
                 'document_back_path'  => $backPath,
                 'selfie_path'         => $selfiePath,
                 'status'              => 'pending',

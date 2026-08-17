@@ -11,6 +11,7 @@ class KycSubmission extends Model
         'document_type',
         'document_number',
         'document_front_path',
+        'document_front_hash',
         'document_back_path',
         'selfie_path',
         'status',

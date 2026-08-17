@@ -28,8 +28,6 @@ class RegisterWizardTest extends TestCase
 
     private function completeStep2($wizard, array $overrides = [])
     {
-        self::$documentCounter++;
-
         return $wizard
             ->assertSet('step', 2)
             ->set('documentType', $overrides['documentType'] ?? 'bi')
@@ -39,9 +37,11 @@ class RegisterWizardTest extends TestCase
             ->call('submit');
     }
 
-    /** Gera um número de BI único no formato oficial: 9 dígitos + 2 letras + 3 dígitos. */
+    /** Gera um número de BI único (cada chamada avança o contador) no formato oficial: 9 dígitos + 2 letras + 3 dígitos. */
     private function validBiNumber(): string
     {
+        self::$documentCounter++;
+
         return sprintf('%09d', self::$documentCounter).'LA'.sprintf('%03d', self::$documentCounter % 1000);
     }
 
@@ -395,5 +395,79 @@ class RegisterWizardTest extends TestCase
             ->call('submit')
             ->assertHasNoErrors('documentNumber')
             ->assertRedirect('/cliente/dashboard');
+    }
+
+    // ── Reforços anti-fraude ─────────────────────────────────────────────────
+
+    #[Test]
+    public function mesma_foto_de_documento_nao_pode_ser_reusada_com_outro_numero(): void
+    {
+        Storage::fake('private');
+        $fotoPartilhada = UploadedFile::fake()->image('frente.jpg');
+
+        $wizardA = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Dono da Foto')
+            ->set('email', 'donodafoto@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizardA
+            ->set('documentType', 'bi')
+            ->set('documentNumber', $this->validBiNumber())
+            ->set('documentFront', $fotoPartilhada)
+            ->set('documentBack', UploadedFile::fake()->image('verso.jpg'))
+            ->call('submit')
+            ->assertRedirect('/cliente/dashboard');
+
+        \Illuminate\Support\Facades\Auth::logout();
+        $this->app['session']->flush();
+
+        $wizardB = Livewire::test(RegisterWizard::class)
+            ->set('role', 'freelancer')
+            ->set('name', 'Foto Reciclada')
+            ->set('email', 'fotoreciclada@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $wizardB
+            ->set('documentType', 'bi')
+            ->set('documentNumber', $this->validBiNumber()) // número diferente, mesma foto
+            ->set('documentFront', $fotoPartilhada)
+            ->set('documentBack', UploadedFile::fake()->image('verso2.jpg'))
+            ->call('submit')
+            ->assertHasErrors('documentFront');
+
+        $this->assertDatabaseMissing('users', ['email' => 'fotoreciclada@example.com']);
+    }
+
+    #[Test]
+    public function demasiadas_tentativas_de_submissao_sao_bloqueadas(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Muitas Tentativas')
+            ->set('email', 'muitastentativas@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        // 5 tentativas consomem o limite (falham por faltar o número de documento)
+        for ($i = 0; $i < 5; $i++) {
+            $wizard->call('submit');
+        }
+
+        // a 6ª tentativa é bloqueada pelo limite, independentemente dos dados
+        $wizard->call('submit');
+
+        $mensagens = $wizard->errors()->get('documentNumber');
+        $this->assertTrue(
+            collect($mensagens)->contains(fn ($m) => str_contains($m, 'Demasiadas tentativas')),
+            'Esperava a mensagem de limite de tentativas entre os erros de documentNumber.'
+        );
     }
 }
