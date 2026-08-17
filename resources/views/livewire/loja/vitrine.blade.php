@@ -49,7 +49,7 @@
                 <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
-                            alt="{{ $produto->titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            alt="{{ $produto->titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-10 h-10" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
@@ -162,6 +162,7 @@
                     <div class="flex items-center gap-2 mb-4">
                         <img src="{{ $produto->freelancer->avatarUrl() }}"
                             class="w-6 h-6 rounded-full object-cover ring-2 {{ $isPatrocinado ? 'ring-white/20' : 'ring-gray-100' }}"
+                            loading="lazy" decoding="async"
                             onerror="this.src='/img/default-avatar.svg'">
                         <span class="text-xs truncate font-medium {{ $isPatrocinado ? 'text-white/80' : 'text-gray-500' }}">{{ $produto->freelancer->name }}</span>
                     </div>

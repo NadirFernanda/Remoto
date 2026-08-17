@@ -35,16 +35,14 @@ class ChatService
             $anexoFilename = $preUploadedPath;
             $anexoOriginal = $preUploadedOriginal ?: $preUploadedPath;
         } elseif ($file !== null) {
-            $original      = $file->getClientOriginalName();
-            $safe          = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
-            $filename      = time() . '_' . $safe;
+            $original = $file->getClientOriginalName();
             Storage::disk('public')->makeDirectory('anexos');
-            $stored = $file->storeAs('anexos', $filename, 'public');
-            if ($stored === false) {
-                Log::error('ChatService: falha ao guardar ficheiro', ['filename' => $filename]);
+            $stored = \App\Services\ImageOptimizer::store($file, 'anexos', 'public', maxWidth: 1600);
+            if (!$stored) {
+                Log::error('ChatService: falha ao guardar ficheiro', ['original' => $original]);
             }
-            $anexoFilename = $filename;
-            $anexoOriginal = $original ?: $filename;
+            $anexoFilename = basename($stored);
+            $anexoOriginal = $original ?: $anexoFilename;
         }
 
         $message = $service->messages()->create([

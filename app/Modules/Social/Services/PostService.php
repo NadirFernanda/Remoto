@@ -45,14 +45,14 @@ class PostService
         if ($data['type'] === 'image' && !empty($data['photos'])) {
             foreach ($data['photos'] as $i => $photo) {
                 /** @var UploadedFile $photo */
-                $path = $photo->store('social/images', 'public');
+                $path = \App\Services\ImageOptimizer::store($photo, 'social/images', 'public', maxWidth: 1600);
                 SocialPostMedia::create([
                     'post_id'       => $post->id,
                     'type'          => 'image',
                     'path'          => $path,
                     'original_name' => $photo->getClientOriginalName(),
                     'mime_type'     => $photo->getMimeType(),
-                    'file_size'     => $photo->getSize(),
+                    'file_size'     => \Illuminate\Support\Facades\Storage::disk('public')->size($path),
                     'order'         => $i,
                 ]);
             }

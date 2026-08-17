@@ -53,7 +53,7 @@ class RefundRequest extends Component
         if ($this->evidence) {
             $paths = [];
             foreach ($this->evidence as $file) {
-                $paths[] = $file->store("refunds/{$refund->id}", 'public');
+                $paths[] = \App\Services\ImageOptimizer::store($file, "refunds/{$refund->id}", 'public', maxWidth: 1600);
             }
             $refund->update(['evidence_paths' => json_encode($paths)]);
         }

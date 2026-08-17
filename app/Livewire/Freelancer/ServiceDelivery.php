@@ -53,7 +53,7 @@ class ServiceDelivery extends Component
         $file = $this->entrega_arquivo;
 
         // Armazenar o ficheiro ANTES da transacção (I/O não é revertível por rollback)
-        $path = $file->store("deliveries/{$this->service->id}", 'public');
+        $path = \App\Services\ImageOptimizer::store($file, "deliveries/{$this->service->id}", 'public', maxWidth: 1600);
 
         $releaseMode = \App\Models\PlatformSetting::get('freelancer_payment_release', 'after_confirmation');
 
@@ -65,7 +65,7 @@ class ServiceDelivery extends Component
                     'user_id'    => auth()->id(),
                     'filename'   => $file->getClientOriginalName(),
                     'path'       => $path,
-                    'size'       => $file->getSize(),
+                    'size'       => \Illuminate\Support\Facades\Storage::disk('public')->size($path),
                     'mime_type'  => $file->getMimeType(),
                 ]);
 

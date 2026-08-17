@@ -4,7 +4,6 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Str;
 use App\Models\FreelancerProfile;
 use App\Models\WorkExperience;
 use App\Models\Education;
@@ -132,8 +131,7 @@ class ProfileEditor extends Component
         if ($user->profile_photo) {
             Storage::disk('public')->delete($user->profile_photo);
         }
-        $ext = $this->profilePhoto->getClientOriginalExtension();
-        $path = $this->profilePhoto->storeAs('avatars', Str::uuid() . '.' . $ext, 'public');
+        $path = \App\Services\ImageOptimizer::store($this->profilePhoto, 'avatars', 'public', maxWidth: 500);
         $user->profile_photo = $path;
         $user->save();
         $this->currentProfilePhoto = $path;
@@ -150,8 +148,7 @@ class ProfileEditor extends Component
         if ($user->cover_photo) {
             Storage::disk('public')->delete($user->cover_photo);
         }
-        $ext  = $this->coverPhoto->getClientOriginalExtension();
-        $path = $this->coverPhoto->storeAs('covers', Str::uuid() . '.' . $ext, 'public');
+        $path = \App\Services\ImageOptimizer::store($this->coverPhoto, 'covers', 'public', maxWidth: 1600);
         $user->cover_photo = $path;
         $user->save();
         $this->currentCoverPhoto = $path;

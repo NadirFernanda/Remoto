@@ -90,14 +90,14 @@ class ProjectManager extends Component
 
         $service = $this->loadSelectedService();
         $file    = $this->attachmentFile;
-        $path    = $file->store("attachments/{$service->id}", 'public');
+        $path    = \App\Services\ImageOptimizer::store($file, "attachments/{$service->id}", 'public', maxWidth: 1600);
 
         ServiceAttachment::create([
             'service_id' => $service->id,
             'user_id'    => auth()->id(),
             'filename'   => $file->getClientOriginalName(),
             'path'       => $path,
-            'size'       => $file->getSize(),
+            'size'       => \Illuminate\Support\Facades\Storage::disk('public')->size($path),
             'mime_type'  => $file->getMimeType(),
         ]);
 

@@ -181,7 +181,7 @@
                 @endphp
                 <div class="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
                     <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
-                        <img src="{{ $mediaUrl }}" alt="portfolio" class="w-full h-32 object-cover">
+                        <img src="{{ $mediaUrl }}" alt="portfolio" loading="lazy" decoding="async" class="w-full h-32 object-cover">
                     </x-image-lightbox>
                     @if($item->title)
                     <div class="p-3">
@@ -207,7 +207,7 @@
             <div class="flex flex-col gap-4">
                 @foreach($user->reviewsReceived as $review)
                 <div class="flex items-start gap-3">
-                    <img src="{{ $review->author->avatarUrl() }}" alt="{{ $review->author->name }}" class="w-9 h-9 rounded-full object-cover flex-shrink-0" onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
+                    <img src="{{ $review->author->avatarUrl() }}" alt="{{ $review->author->name }}" loading="lazy" decoding="async" class="w-9 h-9 rounded-full object-cover flex-shrink-0" onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between gap-2 flex-wrap">
                             <span class="text-sm font-bold text-gray-900">{{ $review->author->name }}</span>

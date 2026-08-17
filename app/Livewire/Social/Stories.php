@@ -37,7 +37,7 @@ class Stories extends Component
 
         $mime    = $this->storyFile->getMimeType();
         $isVideo = str_starts_with($mime, 'video/');
-        $path    = $this->storyFile->store('social/stories', 'public');
+        $path    = \App\Services\ImageOptimizer::store($this->storyFile, 'social/stories', 'public', maxWidth: 1600);
 
         SocialStory::create([
             'user_id'    => $user->id,

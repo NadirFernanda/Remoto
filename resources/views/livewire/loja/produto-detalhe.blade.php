@@ -182,7 +182,7 @@
                 <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, {{ $rel->tipoColor() }}18, {{ $rel->tipoColor() }}35);">
                     @if($rel->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($rel->capa_path) }}"
-                            alt="{{ $rel->titulo }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            alt="{{ $rel->titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-10 h-10" style="color: {{ $rel->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $rel->tipoIcon() }}"/></svg>

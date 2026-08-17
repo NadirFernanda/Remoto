@@ -88,7 +88,7 @@ class PortfolioManager extends Component
 
         if ($this->file) {
             $subdir    = $this->tab === 'imagem' ? 'images' : 'documents';
-            $path      = $this->file->store("portfolio/{$subdir}", 'public');
+            $path      = \App\Services\ImageOptimizer::store($this->file, "portfolio/{$subdir}", 'public', maxWidth: 1600, quality: 82);
             $data['media_path'] = $path;
             $data['media_type'] = $this->tab === 'imagem' ? 'image' : 'document';
         }

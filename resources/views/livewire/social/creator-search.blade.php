@@ -70,12 +70,14 @@
                             @if($creator->coverPhotoUrl())
                                 <img src="{{ $creator->coverPhotoUrl() }}"
                                      alt="capa"
+                                     loading="lazy" decoding="async"
                                      class="absolute inset-0 w-full h-full object-cover">
                             @endif
                             {{-- Avatar --}}
                             <div class="absolute -bottom-6 left-4">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
+                                     loading="lazy" decoding="async"
                                      class="w-12 h-12 rounded-full object-cover ring-2 ring-white"
                                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                             </div>

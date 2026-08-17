@@ -23,8 +23,7 @@ class ChatFileUploadController extends Controller
         $file = $request->file('file');
 
         $original = $file->getClientOriginalName();
-        $safe     = preg_replace('/[^a-zA-Z0-9._-]/', '_', $original);
-        $path     = $file->storeAs('anexos', time() . '_' . $safe, 'public');
+        $path     = \App\Services\ImageOptimizer::store($file, 'anexos', 'public', maxWidth: 1600);
 
         if (!$path) {
             return response()->json(['error' => 'Não foi possível guardar o ficheiro.'], 500);

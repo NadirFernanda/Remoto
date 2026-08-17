@@ -98,7 +98,7 @@
                 <div class="pub-card" style="display:flex;flex-direction:column;overflow:hidden;padding:0;">
                     @if($thumb && file_exists(public_path('img/' . $thumb)))
                         <a href="{{ route('public.project.show', $project->id) }}" style="display:block;">
-                            <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" style="width:100%;height:160px;object-fit:cover;">
+                            <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" loading="lazy" decoding="async" style="width:100%;height:160px;object-fit:cover;">
                         </a>
                     @else
                         <div style="width:100%;height:80px;background:linear-gradient(135deg,rgba(0,186,255,.12),rgba(0,186,255,.05));display:flex;align-items:center;justify-content:center;">

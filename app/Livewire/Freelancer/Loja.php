@@ -99,7 +99,7 @@ class Loja extends Component
         ];
 
         if ($this->capa) {
-            $data['capa_path'] = $this->capa->store('infoprodutos/capas', 'public');
+            $data['capa_path'] = \App\Services\ImageOptimizer::store($this->capa, 'infoprodutos/capas', 'public', maxWidth: 1000, quality: 82);
         }
 
         if ($this->arquivo) {
