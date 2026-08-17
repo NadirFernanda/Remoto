@@ -21,13 +21,17 @@ if (!function_exists('convert_brl_to_aoa')) {
 
 if (!function_exists('money_aoa')) {
     /**
-     * Formata um valor (assumido em BRL) para exibir em AOA com símbolo.
-     * Se $convert for false, apenas formata o valor sem converter.
+     * Formata um valor em Kz (AOA) com símbolo. Todos os valores monetários
+     * desta plataforma já são guardados directamente em Kz — não há nenhum
+     * fluxo que armazene ou compute em BRL.
+     * Se $convert for true, o valor é tratado como BRL e convertido para AOA
+     * antes de formatar (mantido apenas para o caso raro de precisar mostrar
+     * um valor que genuinamente esteja em BRL — não usar por omissão).
      * @param float $amount
      * @param bool $convert
      * @return string
      */
-    function money_aoa($amount, $convert = true)
+    function money_aoa($amount, $convert = false)
     {
         $decimals = (int) config('currency.decimals', 2);
         $thousand = config('currency.thousand_sep', '.');

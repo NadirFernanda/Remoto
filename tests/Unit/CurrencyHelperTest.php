@@ -47,4 +47,19 @@ class CurrencyHelperTest extends TestCase
         $this->assertIsString($result);
         $this->assertStringContainsString('Kz', $result);
     }
+
+    /**
+     * Todos os valores monetários desta plataforma já são guardados em Kz —
+     * money_aoa() NÃO deve converter por omissão. Se este teste falhar,
+     * qualquer chamada a money_aoa($valor) sem o segundo argumento volta a
+     * inflacionar todos os valores em Kz do admin/financeiro por ~41,5x
+     * (o bug real reportado nos Saques: 50.000 Kz a aparecer como 2.075.000 Kz).
+     */
+    public function test_money_aoa_nao_converte_por_omissao(): void
+    {
+        config(['currency.aoa_per_brl' => 41.5, 'currency.decimals' => 2, 'currency.symbol' => 'Kz']);
+
+        $this->assertSame('Kz 50.000,00', money_aoa(50000));
+        $this->assertSame(money_aoa(50000), money_aoa(50000, false));
+    }
 }

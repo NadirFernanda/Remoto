@@ -44,7 +44,7 @@
                     <tr wire:key="payout-{{ $log->id }}" class="bg-white hover:bg-orange-50">
                         <td class="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
                         <td class="py-3 px-4 text-sm font-medium text-gray-700">{{ $log->user->name ?? '—' }}</td>
-                        <td class="py-3 px-4 text-sm text-right font-bold text-orange-600">{{ money_aoa(abs($log->valor)) }}</td>
+                        <td class="py-3 px-4 text-sm text-right font-bold text-orange-600">{{ money_aoa(abs($log->valor), false) }}</td>
                         <td class="py-3 px-4 text-xs text-gray-500">{{ $log->descricao ?? '—' }}</td>
                         <td class="py-3 px-4 text-xs text-gray-600">
                             @if($bank?->hasBankAccount())
@@ -58,7 +58,7 @@
                         <td class="py-3 px-4 text-center">
                             <div class="flex items-center justify-center gap-2">
                                 <button wire:click="aprovarSaque({{ $log->id }})"
-                                    wire:confirm="Aprovar este saque de {{ money_aoa(abs($log->valor)) }}?"
+                                    wire:confirm="Aprovar este saque de {{ money_aoa(abs($log->valor), false) }}?"
                                     class="px-3 py-1 rounded-[8px] bg-green-100 text-green-700 border border-green-300 hover:bg-green-600 hover:text-white text-xs font-semibold transition">
                                     ✓ Aprovar
                                 </button>
@@ -80,7 +80,7 @@
     {{-- ─── KPI ────────────────────────────────────────────────── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-5 mb-6 inline-flex items-center gap-3">
         <span class="text-xs text-gray-500">Total Aprovado (período):</span>
-        <span class="text-xl font-bold text-red-500">{{ money_aoa($totalAprovado) }}</span>
+        <span class="text-xl font-bold text-red-500">{{ money_aoa($totalAprovado, false) }}</span>
     </div>
 
     {{-- ─── Histórico ──────────────────────────────────────────── --}}
@@ -103,7 +103,7 @@
                         <td class="py-3 px-4 text-sm text-gray-700">{{ $log->user->name ?? '—' }}</td>
                         <td class="py-3 px-4 text-sm text-right font-medium
                             {{ $log->tipo === 'saque_rejeitado' ? 'text-gray-400 line-through' : 'text-red-500' }}">
-                            {{ money_aoa(abs($log->valor)) }}
+                            {{ money_aoa(abs($log->valor), false) }}
                         </td>
                         <td class="py-3 px-4">
                             @if($log->tipo === 'saque_aprovado')
