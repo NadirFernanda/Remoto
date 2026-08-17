@@ -101,7 +101,7 @@
     <div class="overflow-x-auto rounded-2xl shadow bg-white">
         <table class="min-w-full text-base">
             <thead>
-                <tr class="bg-[#f4fbfd] text-[#00baff] uppercase text-xs tracking-wider">
+                <tr class="bg-gray-50 text-[#00baff] uppercase text-xs tracking-wider">
                     <th class="py-3 px-5 text-left font-semibold">Parceiro</th>
                     <th class="py-3 px-5 text-left font-semibold">Tipo</th>
                     <th class="py-3 px-5 text-left font-semibold">Status</th>
@@ -114,7 +114,7 @@
             </thead>
             <tbody>
                 @forelse($contracts as $contract)
-                <tr class="border-b last:border-0 hover:bg-[#f8fdff] transition">
+                <tr class="border-b last:border-0 hover:bg-gray-50 transition">
                     <td class="py-3 px-5 font-medium text-gray-900">{{ $contract->partner_name }}</td>
                     <td class="py-3 px-5">{{ ucfirst($contract->type) }}</td>
                     <td class="py-3 px-5">

@@ -37,7 +37,7 @@
                     <div class="mt-2 border border-gray-200 rounded-lg overflow-hidden">
                         @foreach($userMatches as $match)
                             <button type="button" wire:click="selectUser({{ $match['id'] }})"
-                                class="w-full text-left px-3 py-2 text-sm hover:bg-[#f4fbfd] flex justify-between">
+                                class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 flex justify-between">
                                 <span>{{ $match['name'] }} — {{ $match['email'] }}</span>
                                 <span class="text-xs text-gray-400">#{{ $match['id'] }} · {{ $match['role'] }}</span>
                             </button>

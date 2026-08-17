@@ -78,7 +78,7 @@
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
         <table class="min-w-full text-sm">
             <thead>
-                <tr class="bg-[#f4fbfd] text-[#0055ff] uppercase text-xs tracking-wider">
+                <tr class="bg-gray-50 text-[#0055ff] uppercase text-xs tracking-wider">
                     <th class="py-3 px-5 text-left font-semibold">Categoria</th>
                     <th class="py-3 px-5 text-left font-semibold">Descrição</th>
                     <th class="py-3 px-5 text-center font-semibold">Ordem</th>
@@ -88,7 +88,7 @@
             </thead>
             <tbody>
                 @forelse($categories as $cat)
-                    <tr wire:key="category-{{ $cat->id }}" class="border-b last:border-0 hover:bg-[#f8fdff] transition">
+                    <tr wire:key="category-{{ $cat->id }}" class="border-b last:border-0 hover:bg-gray-50 transition">
                         <td class="py-3 px-5">
                             <div class="flex items-center gap-2">
                                 @if($cat->icon)
