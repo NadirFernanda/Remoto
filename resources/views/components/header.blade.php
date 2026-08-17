@@ -1049,12 +1049,12 @@
         <div style="display:flex;align-items:center;justify-content:center;gap:.875rem;margin-bottom:1.375rem;padding:.8rem 1rem;background:rgba(0,0,0,.03);border-radius:.875rem;border:1px solid rgba(0,0,0,.08);">
             <div style="text-align:center;">
                 <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo actual</div>
-                <span style="font-size:.8rem;font-weight:700;color:#fca5a5;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.2);border-radius:.45rem;padding:.18rem .6rem;">{{ $currentRoleLabel }}</span>
+                <span style="font-size:.8rem;font-weight:700;color:#dc2626;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);border-radius:.45rem;padding:.18rem .6rem;">{{ $currentRoleLabel }}</span>
             </div>
             <svg width="18" height="18" fill="none" stroke="#94a3b8" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             <div style="text-align:center;">
                 <div style="font-size:.6rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo necessário</div>
-                <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#86efac;background:rgba(0,80,255,.1);border:1px solid rgba(0,80,255,.22);border-radius:.45rem;padding:.18rem .6rem;"></span>
+                <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#0055ff;background:rgba(0,80,255,.08);border:1px solid rgba(0,80,255,.22);border-radius:.45rem;padding:.18rem .6rem;"></span>
             </div>
         </div>
 
