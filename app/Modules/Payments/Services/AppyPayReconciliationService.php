@@ -6,6 +6,7 @@ use App\Jobs\NotifyFreelancersOfNewProject;
 use App\Models\CreatorSubscriptionCheckout;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoCompraCheckout;
+use App\Models\InfoprodutoPatrocinioCheckout;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Wallet;
@@ -13,6 +14,7 @@ use App\Models\WalletLog;
 use App\Models\WalletTopUp;
 use App\Modules\Admin\Services\AuditLogger;
 use App\Modules\Loja\Services\LojaService;
+use App\Modules\Loja\Services\PatrocinioService;
 use App\Services\AffiliateService;
 use App\Services\CreatorSubscriptionService;
 use App\Services\FeeService;
@@ -23,12 +25,13 @@ use Illuminate\Support\Facades\Log;
  * Lógica partilhada de reconciliação de pagamentos AppyPay — chamada tanto pelo
  * webhook (App­yPayWebhookController) como pelos jobs de polling (PollAppyPayChargeJob,
  * PollAppyPayWalletTopUpJob, PollAppyPaySubscriptionCheckoutJob,
- * PollAppyPayInfoprodutoCompraCheckoutJob), para nunca duplicar o efeito de marcar
- * um pagamento como pago.
+ * PollAppyPayInfoprodutoCompraCheckoutJob, PollAppyPayInfoprodutoPatrocinioCheckoutJob),
+ * para nunca duplicar o efeito de marcar um pagamento como pago.
  *
  * Um charge_id da AppyPay pertence sempre a um único tipo de registo — por isso
  * procuramos por ordem em Service, CreatorSubscriptionCheckout,
- * InfoprodutoCompraCheckout e, por fim, WalletTopUp, antes de desistir.
+ * InfoprodutoCompraCheckout, InfoprodutoPatrocinioCheckout e, por fim,
+ * WalletTopUp, antes de desistir.
  */
 class AppyPayReconciliationService
 {
@@ -53,6 +56,11 @@ class AppyPayReconciliationService
             return;
         }
 
+        if (InfoprodutoPatrocinioCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markInfoprodutoPatrocinioCheckoutPaid($chargeId, $amountFromGateway);
+            return;
+        }
+
         $this->markWalletTopUpPaid($chargeId, $amountFromGateway);
     }
 
@@ -71,6 +79,11 @@ class AppyPayReconciliationService
 
         if (InfoprodutoCompraCheckout::where('appypay_charge_id', $chargeId)->exists()) {
             $this->markInfoprodutoCompraCheckoutFailed($chargeId, $reason);
+            return;
+        }
+
+        if (InfoprodutoPatrocinioCheckout::where('appypay_charge_id', $chargeId)->exists()) {
+            $this->markInfoprodutoPatrocinioCheckoutFailed($chargeId, $reason);
             return;
         }
 
@@ -295,5 +308,54 @@ class AppyPayReconciliationService
 
         Log::info('AppyPay: pagamento de compra falhado', ['checkout_id' => $checkout->id, 'charge_id' => $chargeId, 'reason' => $reason]);
         AuditLogger::log('appypay_purchase_failed', "Pagamento AppyPay de compra falhou (checkout #{$checkout->id}): {$reason}", 'InfoprodutoCompraCheckout', $checkout->id);
+    }
+
+    private function markInfoprodutoPatrocinioCheckoutPaid(string $chargeId, ?float $amountFromGateway): void
+    {
+        DB::transaction(function () use ($chargeId, $amountFromGateway) {
+            $checkout = InfoprodutoPatrocinioCheckout::where('appypay_charge_id', $chargeId)->lockForUpdate()->first();
+
+            if (!$checkout) {
+                Log::warning('AppyPay: checkout de patrocínio não encontrado para reconciliação', ['charge_id' => $chargeId]);
+                return;
+            }
+
+            if ($checkout->payment_status === 'paid') {
+                return;
+            }
+
+            $user    = User::find($checkout->user_id);
+            $produto = Infoproduto::find($checkout->infoproduto_id);
+            if (!$user || !$produto) {
+                $checkout->update(['payment_status' => 'failed']);
+                Log::warning('AppyPay: utilizador/produto em falta ao reconciliar patrocínio', ['checkout_id' => $checkout->id]);
+                return;
+            }
+
+            $amount = $amountFromGateway ?? (float) $checkout->amount;
+            $patrocinio = app(PatrocinioService::class)->activate($user, $produto, $checkout->dias, $amount);
+
+            $checkout->payment_status = 'paid';
+            $checkout->patrocinio_id  = $patrocinio->id;
+            $checkout->save();
+
+            Log::info('AppyPay: patrocínio de infoproduto reconciliado', ['checkout_id' => $checkout->id, 'patrocinio_id' => $patrocinio->id, 'charge_id' => $chargeId]);
+            AuditLogger::log('appypay_patrocinio_confirmed', "Patrocínio AppyPay confirmado — utilizador #{$user->id}, produto #{$produto->id}", 'InfoprodutoPatrocinio', $patrocinio->id);
+        });
+    }
+
+    private function markInfoprodutoPatrocinioCheckoutFailed(string $chargeId, string $reason): void
+    {
+        $checkout = InfoprodutoPatrocinioCheckout::where('appypay_charge_id', $chargeId)->first();
+
+        if (!$checkout || $checkout->payment_status === 'paid') {
+            return;
+        }
+
+        $checkout->payment_status = 'failed';
+        $checkout->save();
+
+        Log::info('AppyPay: pagamento de patrocínio falhado', ['checkout_id' => $checkout->id, 'charge_id' => $chargeId, 'reason' => $reason]);
+        AuditLogger::log('appypay_patrocinio_failed', "Pagamento AppyPay de patrocínio falhou (checkout #{$checkout->id}): {$reason}", 'InfoprodutoPatrocinioCheckout', $checkout->id);
     }
 }

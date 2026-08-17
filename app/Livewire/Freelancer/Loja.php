@@ -4,14 +4,13 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Jobs\PollAppyPayInfoprodutoPatrocinioCheckoutJob;
 use App\Models\Infoproduto;
-use App\Models\InfoprodutoPatrocinio;
-use App\Models\Wallet;
-use App\Models\WalletLog;
-use Illuminate\Support\Facades\DB;
+use App\Models\InfoprodutoPatrocinioCheckout;
+use App\Modules\Loja\Services\PatrocinioService;
+use App\Modules\Payments\Services\AppyPayGateway;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Carbon\Carbon;
 
 class Loja extends Component
 {
@@ -35,6 +34,12 @@ class Loja extends Component
     // ─── Sponsorship ────────────────────────────────────────────────
     public ?int $sponsoring = null;
     public int  $dias       = 3;
+    public string $sponsor_payment_method = 'wallet'; // wallet | express
+    public string $sponsor_phone_number   = '';
+    public string $sponsor_step           = 'form'; // form | waiting
+    public ?int $sponsor_checkout_id      = null;
+    public ?string $sponsor_charge_id     = null;
+    public string $sponsor_error          = '';
 
     // ─── Saque (Loja) ───────────────────────────────────────────────
     public bool  $showSaqueModal  = false;
@@ -147,9 +152,15 @@ class Loja extends Component
 
     public function openSponsor(int $id): void
     {
-        $this->sponsoring        = $id;
-        $this->dias              = 3;
-        $this->showSponsorModal  = true;
+        $this->sponsoring              = $id;
+        $this->dias                    = 3;
+        $this->sponsor_payment_method  = 'wallet';
+        $this->sponsor_phone_number    = '';
+        $this->sponsor_step            = 'form';
+        $this->sponsor_checkout_id     = null;
+        $this->sponsor_charge_id       = null;
+        $this->sponsor_error           = '';
+        $this->showSponsorModal        = true;
     }
 
     public function valorPatrocinio(): float
@@ -157,54 +168,31 @@ class Loja extends Component
         return max(1, $this->dias) * \App\Services\FeeService::patrocinioDiario();
     }
 
+    private function sponsoredProduto(): Infoproduto
+    {
+        return Infoproduto::where('freelancer_id', auth()->id())
+            ->where('status', 'ativo')
+            ->findOrFail($this->sponsoring);
+    }
+
+    // ── Saldo da carteira ──────────────────────────────────────────────────
+
     public function confirmarPatrocinio(): void
     {
         $this->validate(['dias' => 'required|integer|min:1|max:365']);
 
-        $user   = auth()->user();
-        $wallet = $user->wallet;
-        $valor  = $this->valorPatrocinio();
+        $user    = auth()->user();
+        $valor   = $this->valorPatrocinio();
+        $produto = $this->sponsoredProduto();
 
-        if (!$wallet || $wallet->saldo < $valor) {
-            $this->feedbackType      = 'error';
-            $this->feedback          = 'Saldo insuficiente. Recarregue a sua carteira antes de patrocinar.';
-            $this->showSponsorModal  = false;
+        try {
+            app(PatrocinioService::class)->patrocinar($user, $produto, $this->dias, $valor);
+        } catch (\RuntimeException $e) {
+            $this->feedbackType     = 'error';
+            $this->feedback         = $e->getMessage();
+            $this->showSponsorModal = false;
             return;
         }
-
-        $produto = Infoproduto::where('freelancer_id', $user->id)
-            ->where('status', 'ativo')
-            ->findOrFail($this->sponsoring);
-
-        DB::transaction(function () use ($produto, $user, $wallet, $valor) {
-            // Cancel any running sponsorship for this product
-            InfoprodutoPatrocinio::where('infoproduto_id', $produto->id)
-                ->where('status', 'ativo')
-                ->update(['status' => 'cancelado']);
-
-            $inicio = Carbon::today();
-            $fim    = $inicio->copy()->addDays($this->dias - 1);
-
-            InfoprodutoPatrocinio::create([
-                'infoproduto_id' => $produto->id,
-                'user_id'        => $user->id,
-                'data_inicio'    => $inicio,
-                'data_fim'       => $fim,
-                'dias'           => $this->dias,
-                'valor_total'    => $valor,
-                'status'         => 'ativo',
-            ]);
-
-            $wallet->decrement('saldo', $valor);
-
-            WalletLog::create([
-                'user_id'   => $user->id,
-                'wallet_id' => $wallet->id,
-                'valor'     => -$valor,
-                'tipo'      => 'patrocinio',
-                'descricao' => "Patrocínio do infoproduto \"{$produto->titulo}\" por {$this->dias} dia(s) — Kz " . number_format($valor, 0, ',', '.') . '.',
-            ]);
-        });
 
         $this->feedbackType     = 'success';
         $this->feedback         = "Patrocínio ativo! Kz " . number_format($valor, 0, ',', '.') . " debitados. O produto ficará em destaque por {$this->dias} dia(s).";
@@ -212,10 +200,105 @@ class Loja extends Component
         $this->sponsoring       = null;
     }
 
+    // ── AppyPay: Multicaixa Express (telefone) ─────────────────────────────
+
+    public function chargeSponsorAppyPayPhone(): void
+    {
+        if ($this->sponsor_step !== 'form') {
+            return;
+        }
+
+        $this->sponsor_error = '';
+
+        $this->validate([
+            'dias'                  => 'required|integer|min:1|max:365',
+            'sponsor_phone_number'  => ['required', 'regex:/^9[0-9]{8}$/'],
+        ], [
+            'sponsor_phone_number.required' => 'Indique o número de telefone Multicaixa Express.',
+            'sponsor_phone_number.regex'    => 'Número inválido — use 9 dígitos (ex: 923456789).',
+        ]);
+
+        $user    = auth()->user();
+        $valor   = $this->valorPatrocinio();
+        $produto = $this->sponsoredProduto();
+
+        $checkout = InfoprodutoPatrocinioCheckout::create([
+            'infoproduto_id' => $produto->id,
+            'user_id'        => $user->id,
+            'dias'           => $this->dias,
+            'amount'         => $valor,
+            'payment_status' => 'initiated',
+        ]);
+
+        $result = (new AppyPayGateway())->chargeByPhone(
+            $this->sponsor_phone_number,
+            $valor,
+            'Patrocínio de "' . $produto->titulo . '" #' . $checkout->id,
+            strtoupper(Str::random(12))
+        );
+
+        if (empty($result['success'])) {
+            $checkout->update(['payment_status' => 'failed']);
+            $this->sponsor_error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
+            return;
+        }
+
+        $checkout->update([
+            'payment_method_used' => 'appypay_gpo',
+            'appypay_charge_id'   => $result['charge_id'],
+        ]);
+
+        PollAppyPayInfoprodutoPatrocinioCheckoutJob::dispatch($checkout, $result['charge_id'])->delay(now()->addSeconds(30));
+
+        $this->sponsor_checkout_id = $checkout->id;
+        $this->sponsor_charge_id   = $result['charge_id'];
+        $this->sponsor_step        = 'waiting';
+    }
+
+    /** Chamado via wire:poll no modal — confirma o estado directamente na AppyPay. */
+    public function checkSponsorAppyPayStatus(): void
+    {
+        if (!$this->sponsor_checkout_id || !$this->sponsor_charge_id) {
+            return;
+        }
+
+        $checkout = InfoprodutoPatrocinioCheckout::find($this->sponsor_checkout_id);
+        if (!$checkout) {
+            return;
+        }
+
+        if ($checkout->payment_status === 'paid') {
+            $this->feedbackType     = 'success';
+            $this->feedback         = "Patrocínio ativo! Kz " . number_format((float) $checkout->amount, 0, ',', '.') . " pagos via Multicaixa Express. O produto ficará em destaque por {$checkout->dias} dia(s).";
+            $this->showSponsorModal = false;
+            $this->sponsoring       = null;
+            $this->sponsor_step     = 'form';
+            return;
+        }
+
+        if ($checkout->payment_status === 'failed') {
+            $this->sponsor_error = 'O pagamento não foi confirmado. Tente novamente ou escolha outro método.';
+            $this->sponsor_step  = 'form';
+            return;
+        }
+
+        $charge = (new AppyPayGateway())->getCharge($this->sponsor_charge_id);
+        if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
+            app(\App\Modules\Payments\Services\AppyPayReconciliationService::class)->markPaidByChargeId($this->sponsor_charge_id);
+            $checkout->refresh();
+            $this->feedbackType     = 'success';
+            $this->feedback         = "Patrocínio ativo! Kz " . number_format((float) $checkout->amount, 0, ',', '.') . " pagos via Multicaixa Express. O produto ficará em destaque por {$checkout->dias} dia(s).";
+            $this->showSponsorModal = false;
+            $this->sponsoring       = null;
+            $this->sponsor_step     = 'form';
+        }
+    }
+
     public function cancelarSponsor(): void
     {
         $this->showSponsorModal = false;
         $this->sponsoring       = null;
+        $this->sponsor_step     = 'form';
     }
 
     public function getLinkProduto(int $id): string

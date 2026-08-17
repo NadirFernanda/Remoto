@@ -343,6 +343,8 @@
 <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
     wire:click.self="cancelarSponsor">
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+
+        @if($sponsor_step === 'form')
         <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
             <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             Patrocinar Infoproduto
@@ -376,31 +378,101 @@
                 <span class="font-medium">{{ $dias }} dia(s)</span>
             </div>
             <div class="border-t pt-2 flex justify-between font-bold text-base">
-                <span>Total a debitar</span>
+                <span>Total a pagar</span>
                 <span class="text-amber-600">Kz {{ number_format($this->valorPatrocinio(), 0, ',', '.') }}</span>
-            </div>
-            <div class="text-xs text-gray-400 mt-1 text-right">
-                Saldo: Kz {{ number_format($wallet->saldo ?? 0, 0, ',', '.') }}
             </div>
         </div>
 
-        @if(($wallet->saldo ?? 0) < $this->valorPatrocinio())
+        {{-- Método de pagamento --}}
+        <div class="mb-5">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Método de pagamento</label>
+            <div class="grid grid-cols-2 gap-3">
+                <button type="button" wire:click="$set('sponsor_payment_method', 'wallet')"
+                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
+                        {{ $sponsor_payment_method === 'wallet'
+                            ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
+                            : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-amber-300 hover:bg-amber-50/50' }}">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <span class="text-xs font-semibold">Saldo</span>
+                </button>
+                <button type="button" wire:click="$set('sponsor_payment_method', 'express')"
+                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
+                        {{ $sponsor_payment_method === 'express'
+                            ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
+                            : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-amber-300 hover:bg-amber-50/50' }}">
+                    <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express" class="w-5 h-5 rounded object-cover">
+                    <span class="text-xs font-semibold">Express</span>
+                </button>
+            </div>
+        </div>
+
+        @if($sponsor_error)
         <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm mb-4">
-            Saldo insuficiente para este patrocínio.
+            {{ $sponsor_error }}
         </div>
         @endif
 
-        <div class="flex gap-3">
-            <button wire:click="confirmarPatrocinio"
-                @disabled(($wallet->saldo ?? 0) < $this->valorPatrocinio())
-                class="flex-1 py-2.5 bg-amber-500 text-white rounded-xl font-semibold text-sm hover:bg-amber-600 transition disabled:opacity-50">
-                Confirmar Patrocínio
-            </button>
-            <button wire:click="cancelarSponsor"
-                class="px-5 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
-                Cancelar
-            </button>
+        {{-- SALDO --}}
+        @if($sponsor_payment_method === 'wallet')
+            <div class="text-xs text-gray-400 mb-4 text-right">
+                Saldo disponível: Kz {{ number_format($wallet->saldo ?? 0, 0, ',', '.') }}
+            </div>
+
+            @if(($wallet->saldo ?? 0) < $this->valorPatrocinio())
+            <div class="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm mb-4">
+                Saldo insuficiente para este patrocínio — escolha Express para pagar por telemóvel.
+            </div>
+            @endif
+
+            <div class="flex gap-3">
+                <button wire:click="confirmarPatrocinio"
+                    @disabled(($wallet->saldo ?? 0) < $this->valorPatrocinio())
+                    class="flex-1 py-2.5 bg-amber-500 text-white rounded-xl font-semibold text-sm hover:bg-amber-600 transition disabled:opacity-50">
+                    Confirmar Patrocínio
+                </button>
+                <button wire:click="cancelarSponsor"
+                    class="px-5 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
+                    Cancelar
+                </button>
+            </div>
+        @endif
+
+        {{-- EXPRESS (Multicaixa Express — telefone) --}}
+        @if($sponsor_payment_method === 'express')
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Número de telefone</label>
+                <input type="tel" wire:model.defer="sponsor_phone_number" maxlength="9"
+                    class="w-full bg-white text-gray-800 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-mono focus:ring-2 focus:ring-amber-300 focus:border-amber-400 outline-none transition @error('sponsor_phone_number') border-red-400 @enderror"
+                    placeholder="923456789">
+                @error('sponsor_phone_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="flex gap-3">
+                <button wire:click="chargeSponsorAppyPayPhone" wire:loading.attr="disabled" wire:target="chargeSponsorAppyPayPhone"
+                    class="flex-1 py-2.5 bg-amber-500 text-white rounded-xl font-semibold text-sm hover:bg-amber-600 transition disabled:opacity-60 flex items-center justify-center gap-2">
+                    <span wire:loading.remove wire:target="chargeSponsorAppyPayPhone">Pagar via Express</span>
+                    <span wire:loading wire:target="chargeSponsorAppyPayPhone" class="flex items-center gap-2">
+                        <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                        A processar...
+                    </span>
+                </button>
+                <button wire:click="cancelarSponsor"
+                    class="px-5 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
+                    Cancelar
+                </button>
+            </div>
+        @endif
+        @endif
+
+        @if($sponsor_step === 'waiting')
+        <div wire:poll.3s="checkSponsorAppyPayStatus" class="flex flex-col items-center justify-center py-8 text-center gap-3">
+            <svg class="animate-spin w-10 h-10 text-amber-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+            <p class="text-base font-semibold text-gray-700">Aguarde a aprovação no seu telemóvel</p>
+            <p class="text-sm text-gray-400 max-w-xs">Abra a app Multicaixa Express e aprove o pedido de pagamento. Este ecrã actualiza-se automaticamente.</p>
         </div>
+        @endif
     </div>
 </div>
 @endif
