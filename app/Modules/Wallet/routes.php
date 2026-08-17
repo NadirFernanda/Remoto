@@ -16,17 +16,6 @@ Route::middleware(['web', 'auth', 'role:freelancer', 'kyc.verified'])->group(fun
     Route::get('/freelancer/carteira/historico', \App\Livewire\Freelancer\WalletHistory::class)
         ->name('freelancer.wallet.history');
 
-    Route::get('/freelancer/afiliados', \App\Livewire\Freelancer\AffiliatePanel::class)
-        ->name('freelancer.affiliate');
-
     Route::get('/freelancer/patrocinio', \App\Livewire\Freelancer\SponsorshipPanel::class)
         ->name('freelancer.sponsorship');
-});
-
-Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
-    // Geração do link de afiliado (não requer KYC — apenas autenticação)
-    Route::post('/affiliate/generate', function () {
-        (new \App\Services\AffiliateService())->generateCode(auth()->user());
-        return back()->with('success', 'Link de afiliado gerado!');
-    })->name('affiliate.generate');
 });

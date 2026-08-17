@@ -3,11 +3,18 @@
 namespace Tests\Unit;
 
 use App\Models\Affiliate;
+use App\Models\Referral;
 use App\Models\User;
 use App\Services\AffiliateService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
+/**
+ * Programa de afiliados descontinuado. Estes testes confirmam que o serviço
+ * não cria mais nenhuma actividade nova (códigos, indicações, comissões),
+ * mantendo apenas leitura de dados históricos já existentes.
+ */
 class AffiliateServiceTest extends TestCase
 {
     use RefreshDatabase;
@@ -20,63 +27,55 @@ class AffiliateServiceTest extends TestCase
         $this->service = new AffiliateService();
     }
 
-    public function test_generate_code_creates_affiliate_with_correct_status(): void
+    public function test_generate_code_does_not_create_new_affiliate(): void
     {
         $user = User::factory()->create();
 
-        $affiliate = $this->service->generateCode($user);
+        $result = $this->service->generateCode($user);
 
-        $this->assertInstanceOf(Affiliate::class, $affiliate);
-        $this->assertEquals('ativo', $affiliate->status);
-        $this->assertEquals($user->id, $affiliate->user_id);
+        $this->assertNull($result);
+        $this->assertDatabaseCount('affiliates', 0);
     }
 
-    public function test_generate_code_produces_unique_uppercase_code(): void
+    public function test_generate_code_returns_existing_historical_record_without_duplicating(): void
     {
-        $user = User::factory()->create();
-
-        $affiliate = $this->service->generateCode($user);
-
-        $this->assertEquals(8, strlen($affiliate->codigo));
-        $this->assertEquals(strtoupper($affiliate->codigo), $affiliate->codigo);
-    }
-
-    public function test_generate_code_returns_existing_if_already_generated(): void
-    {
-        $user = User::factory()->create();
-
-        $first  = $this->service->generateCode($user);
-        $second = $this->service->generateCode($user);
-
-        $this->assertEquals($first->id, $second->id);
-        $this->assertEquals($first->codigo, $second->codigo);
-    }
-
-    public function test_generate_code_code_is_unique_across_users(): void
-    {
-        $userA = User::factory()->create();
-        $userB = User::factory()->create();
-
-        $codeA = $this->service->generateCode($userA)->codigo;
-        // Force collision on next random (stub). Without a stub,
-        // statistical chance of collision with 8 alphanumeric chars
-        // (~2.8 trillion combos) is negligible; assert DB uniqueness instead.
-        $codeB = $this->service->generateCode($userB)->codigo;
-
-        $this->assertEquals(1, Affiliate::where('codigo', $codeA)->count());
-        $this->assertEquals(1, Affiliate::where('codigo', $codeB)->count());
-    }
-
-    public function test_generate_code_persisted_to_database(): void
-    {
-        $user = User::factory()->create();
-
-        $affiliate = $this->service->generateCode($user);
-
-        $this->assertDatabaseHas('affiliates', [
+        $user      = User::factory()->create();
+        $affiliate = Affiliate::create([
             'user_id' => $user->id,
-            'codigo'  => $affiliate->codigo,
+            'codigo'  => 'OLDCODE1',
+            'ganhos'  => 0,
             'status'  => 'ativo',
         ]);
+
+        $result = $this->service->generateCode($user);
+
+        $this->assertEquals($affiliate->id, $result->id);
+        $this->assertDatabaseCount('affiliates', 1);
+    }
+
+    public function test_record_referral_does_not_create_referral(): void
+    {
+        $affiliateUser = User::factory()->create(['affiliate_code' => 'REFCODE1', 'status' => 'active']);
+        $newUser       = User::factory()->create();
+
+        $this->service->recordReferral($newUser, 'REFCODE1', Request::create('/register'));
+
+        $this->assertDatabaseCount('referrals', 0);
+    }
+
+    public function test_credit_commission_for_referred_action_does_not_touch_wallet(): void
+    {
+        $affiliateUser = User::factory()->create();
+        $actor         = User::factory()->create();
+        Referral::create([
+            'user_id'      => $actor->id,
+            'affiliate_id' => $affiliateUser->id,
+            'ip_address'   => '127.0.0.1',
+            'user_agent'   => 'test',
+        ]);
+
+        $this->service->creditCommissionForReferredAction($actor, 'publish_service', 1);
+
+        $this->assertDatabaseCount('wallet_logs', 0);
     }
 }

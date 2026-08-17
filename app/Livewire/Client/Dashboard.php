@@ -313,7 +313,6 @@ class Dashboard extends Component
     public function render()
     {
         $user = Auth::user();
-        $affiliate_link = $user->affiliate_code ? url('/register?ref=' . $user->affiliate_code) : url('/register');
         return view('livewire.client.dashboard', [
             'orders' => $this->orders,
             'recent_messages' => $this->recent_messages,
@@ -323,7 +322,6 @@ class Dashboard extends Component
             'kpi_freelancers_contratados' => $this->kpi_freelancers_contratados,
             'kpi_projetos_andamento' => $this->kpi_projetos_andamento,
             'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
-            'affiliate_link' => $affiliate_link,
             'period' => $this->period,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Cliente',

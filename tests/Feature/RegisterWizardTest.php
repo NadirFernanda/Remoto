@@ -17,8 +17,7 @@ use Tests\TestCase;
  * identidade (KYC), obrigatória para concluir o registo.
  *
  * Cobre registo de cliente e freelancer, validação de inputs,
- * unicidade de e-mail, assignação de role, código de afiliado, e
- * criação do KycSubmission.
+ * unicidade de e-mail, assignação de role, e criação do KycSubmission.
  */
 class RegisterWizardTest extends TestCase
 {
@@ -76,7 +75,7 @@ class RegisterWizardTest extends TestCase
     }
 
     #[Test]
-    public function cliente_recebe_codigo_de_afiliado_unico(): void
+    public function cliente_registado_nao_recebe_codigo_de_afiliado(): void
     {
         Storage::fake('private');
 
@@ -92,9 +91,7 @@ class RegisterWizardTest extends TestCase
 
         $user = User::where('email', 'bob@example.com')->first();
 
-        $this->assertNotNull($user->affiliate_code);
-        $this->assertEquals(8, strlen($user->affiliate_code));
-        $this->assertEquals(strtoupper($user->affiliate_code), $user->affiliate_code);
+        $this->assertNull($user->affiliate_code);
     }
 
     #[Test]
@@ -185,7 +182,7 @@ class RegisterWizardTest extends TestCase
     }
 
     #[Test]
-    public function freelancer_recebe_codigo_de_afiliado_unico(): void
+    public function freelancer_registado_nao_recebe_codigo_de_afiliado(): void
     {
         Storage::fake('private');
 
@@ -201,43 +198,7 @@ class RegisterWizardTest extends TestCase
 
         $user = User::where('email', 'diana@example.com')->first();
 
-        $this->assertNotNull($user->affiliate_code);
-        $this->assertEquals(8, strlen($user->affiliate_code));
-    }
-
-    #[Test]
-    public function dois_utilizadores_nao_partilham_codigo_de_afiliado(): void
-    {
-        Storage::fake('private');
-
-        $wizardA = Livewire::test(RegisterWizard::class)
-            ->set('role', 'cliente')
-            ->set('name', 'User A')
-            ->set('email', 'usera@example.com')
-            ->set('password', 'secret123')
-            ->set('password_confirmation', 'secret123')
-            ->call('nextStep');
-        $this->completeStep2($wizardA);
-
-        // O segundo registo tem de arrancar sem sessão — mount() redirecciona
-        // logo quem já está autenticado (como o utilizador A, que o submit()
-        // anterior acabou de autenticar).
-        \Illuminate\Support\Facades\Auth::logout();
-        $this->app['session']->flush();
-
-        $wizardB = Livewire::test(RegisterWizard::class)
-            ->set('role', 'freelancer')
-            ->set('name', 'User B')
-            ->set('email', 'userb@example.com')
-            ->set('password', 'secret123')
-            ->set('password_confirmation', 'secret123')
-            ->call('nextStep');
-        $this->completeStep2($wizardB);
-
-        $codeA = User::where('email', 'usera@example.com')->value('affiliate_code');
-        $codeB = User::where('email', 'userb@example.com')->value('affiliate_code');
-
-        $this->assertNotEquals($codeA, $codeB);
+        $this->assertNull($user->affiliate_code);
     }
 
     #[Test]

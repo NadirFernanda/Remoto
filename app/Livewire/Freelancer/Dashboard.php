@@ -21,8 +21,6 @@ class Dashboard extends Component
 
     // Cached in mount() — not recalculated on every Livewire re-render
     public int $kpi_projetos_concluidos = 0;
-    public string $affiliate_link = '';
-    public $referrals;
 
     public function mount()
     {
@@ -43,13 +41,6 @@ class Dashboard extends Component
             ->where('status', 'completed')
             ->count();
 
-        $this->affiliate_link = $user->affiliate_code
-            ? url('/register?ref=' . $user->affiliate_code)
-            : url('/register');
-
-        $this->referrals = \App\Models\Referral::where('affiliate_id', $user->id)
-            ->with('user')
-            ->get();
     }
 
     public function render()
@@ -61,8 +52,6 @@ class Dashboard extends Component
             'kpi_total_recebido'      => 0,
             'kpi_projetos_concluidos' => $this->kpi_projetos_concluidos,
             'kpi_projetos_andamento'  => $this->services->count(),
-            'affiliate_link'          => $this->affiliate_link,
-            'referrals'               => $this->referrals,
             'period'                  => $period,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => 'Dashboard do Freelancer',

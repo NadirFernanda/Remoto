@@ -50,32 +50,6 @@
         </div>
     </div>
 
-    {{-- Affiliate code (não exibido para administradores) --}}
-    @if($u->role !== 'admin' && !empty($u->affiliate_code))
-        <div class="mt-3 flex items-center gap-1.5 rounded-lg px-3 py-2" style="background:rgba(255,255,255,.06)">
-            <svg class="w-3.5 h-3.5 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 015.656 0l-4 4a4 4 0 01-5.656-5.656l1.1-1.1"/>
-            </svg>
-            <span id="sidebarAffiliate" class="text-xs text-slate-400 font-mono flex-1 select-all">{{ $u->affiliate_code }}</span>
-            <button x-data
-                x-on:click="navigator.clipboard.writeText('{{ $u->affiliate_code }}');$el.textContent='✓'"
-                class="text-xs text-[#0055ff] hover:text-[#0044cc] transition font-medium">
-                Copiar
-            </button>
-        </div>
-    @elseif($u->role !== 'admin')
-        <form method="POST" action="{{ route('affiliate.generate') }}" class="mt-3">
-            @csrf
-            <button type="submit"
-                class="w-full flex items-center justify-center gap-1.5 text-xs text-[#0055ff] border border-[#0055ff]/30 rounded-lg px-3 py-2 hover:bg-[#0055ff]/5 transition">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                </svg>
-                Gerar código de afiliado
-            </button>
-        </form>
-    @endif
 </div>
 @endif
 

@@ -90,21 +90,6 @@
         </div>
     </div>
 
-    {{-- ── Programa de Afiliados ── --}}
-    <div class="bg-white rounded-2xl border border-gray-200 p-6">
-        <h3 class="text-sm font-semibold text-gray-700 mb-1">Programa de Afiliados</h3>
-        <p class="text-xs text-gray-400 mb-4">Comissão em AOA creditada ao afiliado por cada novo utilizador que se regista com o código desse afiliado.</p>
-        <div class="max-w-xs">
-            <label class="block text-xs text-gray-500 mb-1">Comissão por Registo (AOA)</label>
-            <div class="flex items-center gap-2">
-                <input wire:model="affiliateSignupCommission" type="number" step="1" min="0"
-                    class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('affiliateSignupCommission') border-red-400 @enderror">
-                <span class="text-gray-500 text-sm font-medium">Kz</span>
-            </div>
-            @error('affiliateSignupCommission') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-        </div>
-    </div>
-
     {{-- ── Saques ── --}}
     <div class="bg-white rounded-2xl border border-gray-200 p-6">
         <h3 class="text-sm font-semibold text-gray-700 mb-1">Saques (Levantamentos)</h3>

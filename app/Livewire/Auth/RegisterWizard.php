@@ -8,12 +8,10 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\CreatorProfile;
 use App\Models\KycSubmission;
 use App\Models\User;
-use App\Services\AffiliateService;
 use App\Services\PlatformStatsService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -127,16 +125,10 @@ class RegisterWizard extends Component
         }
 
         $user = DB::transaction(function () use ($frontHash) {
-            // Código de afiliado único
-            do {
-                $affiliateCode = strtoupper(Str::random(8));
-            } while (User::where('affiliate_code', $affiliateCode)->exists());
-
             $user = User::create([
-                'name'           => strip_tags($this->name),
-                'email'          => $this->email,
-                'password'       => bcrypt($this->password),
-                'affiliate_code' => $affiliateCode,
+                'name'     => strip_tags($this->name),
+                'email'    => $this->email,
+                'password' => bcrypt($this->password),
             ]);
 
             // role atribuído explicitamente — não está em $fillable (OWASP A03)
@@ -155,12 +147,6 @@ class RegisterWizard extends Component
 
             if ($user->role === 'freelancer') {
                 CreatorProfile::firstOrCreate(['user_id' => $user->id]);
-            }
-
-            // Processa referral: lê da URL (?ref=) ou do cookie de 30 dias
-            $ref = request()->query('ref') ?: request()->cookie('affiliate_ref');
-            if ($ref) {
-                (new AffiliateService())->recordReferral($user, strtoupper(trim($ref)), request());
             }
 
             // Documentos de identidade

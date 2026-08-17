@@ -13,7 +13,6 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             // ...existing code...
-            \App\Http\Middleware\CaptureAffiliateRef::class,
         ],
         'api' => [
             // ...existing code...

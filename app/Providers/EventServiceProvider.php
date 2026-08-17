@@ -44,11 +44,6 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\UpdateTargetRatingMetrics::class,
         ],
 
-        // ── Afiliados ──────────────────────────────────────────────
-        \App\Events\AffiliateCommissionEarned::class => [
-            \App\Listeners\CreditAffiliateCommission::class,
-        ],
-
         // ── Receita ────────────────────────────────────────────────
         \App\Events\RevenueAdjusted::class => [
             \App\Listeners\HandleRevenueAdjusted::class,

@@ -50,11 +50,6 @@
             <ul>
                 <li><a href="{{ route('sobre.sobre-nos') }}">Sobre nós</a></li>
                 <li><a href="{{ route('sobre.como-funciona') }}">Como funciona</a></li>
-                @auth
-                <li><a href="{{ route('dashboard') }}">Programa de afiliados</a></li>
-                @else
-                <li><a href="/register">Programa de afiliados</a></li>
-                @endauth
                 <li><a href="{{ route('legal.terms') }}">Termos de uso</a></li>
                 <li><a href="{{ route('legal.privacy') }}">Política de privacidade</a></li>
                 <li><a href="{{ route('suporte') }}">Suporte</a></li>

@@ -271,13 +271,6 @@
             @enderror
             <form wire:submit.prevent="nextStep">
 
-                @if(request('ref'))
-                <div style="display:flex;align-items:center;gap:.6rem;background:#f0fbff;border:1px solid #bae6fd;border-radius:10px;padding:.6rem .875rem;margin-bottom:.9rem;">
-                    <svg width="15" height="15" fill="none" stroke="#0284c7" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-                    <span style="font-size:.8rem;color:#0369a1;font-weight:600;">A registar com link de convite de afiliado</span>
-                </div>
-                @endif
-
                 {{-- Role selector --}}
                 <label style="display:block;font-size:.82rem;font-weight:600;color:#374151;margin-bottom:.5rem;">Quero registar-me como:</label>
                 <div class="reg-role-grid">

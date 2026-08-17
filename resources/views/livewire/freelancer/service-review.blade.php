@@ -1,25 +1,25 @@
-﻿<div class="container mx-auto py-10 px-2 flex justify-center items-center min-h-[80vh] bg-gradient-to-b from-[#f8fcff] to-[#eaf6fa]">
+﻿<div class="max-w-2xl mx-auto py-8 px-2">
     @if(session('error'))
-        <div class="mb-4 p-3 bg-red-100 text-red-700 rounded shadow text-center font-semibold">
+        <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-center font-semibold text-sm">
             {{ session('error') }}
         </div>
     @endif
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded shadow text-center font-semibold">
+        <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-semibold text-sm">
             {{ session('success') }}
         </div>
     @endif
     @if(session('info'))
-        <div class="mb-4 p-3 bg-blue-100 text-blue-700 rounded shadow text-center font-semibold">
+        <div class="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl text-center font-semibold text-sm">
             {{ session('info') }}
         </div>
     @endif
-    <div class="pub-card" style="max-width:42rem;width:100%;padding:2rem;margin:0 auto 2rem;">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
 
         <div class="mb-4 flex items-center gap-3">
             <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00c8ff,#0033cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
             <div>
-                <div class="font-bold text-lg text-[#222]">{{ $service->titulo }}</div>
+                <div class="font-bold text-lg text-gray-800">{{ $service->titulo }}</div>
             </div>
         </div>
         <div class="mb-4">
@@ -33,13 +33,13 @@
             @endphp
             @php $briefingDecoded = json_decode($service->briefing, true); @endphp
             @if(is_array($briefingDecoded))
-                <ul class="list-disc ml-6 text-gray-700 mt-2">
+                <ul class="list-disc ml-6 text-gray-600 text-sm mt-2 space-y-1">
                     @foreach($briefingDecoded as $key => $value)
-                        <li><span class="capitalize font-semibold">{{ $labels[$key] ?? str_replace('_', ' ', $key) }}:</span> {{ $value }}</li>
+                        <li><span class="capitalize font-semibold text-gray-700">{{ $labels[$key] ?? str_replace('_', ' ', $key) }}:</span> {{ $value }}</li>
                     @endforeach
                 </ul>
             @else
-                <p class="text-gray-700 mt-2">{{ $service->briefing }}</p>
+                <p class="text-gray-600 text-sm mt-2 leading-relaxed">{{ $service->briefing }}</p>
             @endif
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
