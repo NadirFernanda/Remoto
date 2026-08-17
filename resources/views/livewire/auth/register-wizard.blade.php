@@ -262,6 +262,12 @@
 
         @if($step === 1)
             {{-- ═══ PASSO 1: Dados da conta ═══ --}}
+            @error('email')
+                <div class="login-alert-error" x-data x-init="$el.scrollIntoView({behavior:'smooth', block:'center'})" style="display:flex;align-items:center;gap:.5rem;">
+                    <svg width="16" height="16" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+                    {{ $message }}
+                </div>
+            @enderror
             <form wire:submit.prevent="nextStep">
 
                 @if(request('ref'))
