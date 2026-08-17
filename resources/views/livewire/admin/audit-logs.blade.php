@@ -144,7 +144,7 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead>
-                        <tr class="bg-slate-50/80 border-b border-slate-100">
+                        <tr class="bg-slate-50 border-b border-slate-100">
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider whitespace-nowrap">Data / Hora</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Categoria</th>
                             <th class="py-3.5 px-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Acção</th>
@@ -190,7 +190,7 @@
                                 $userName = $log->user->name ?? 'Sistema';
                                 $initials = collect(explode(' ', $userName))->map(fn($w) => strtoupper(substr($w, 0, 1)))->take(2)->implode('');
                             @endphp
-                            <tr class="transition-colors {{ $isExpanded ? 'bg-indigo-50/40' : 'hover:bg-slate-50/60' }}">
+                            <tr class="transition-colors {{ $isExpanded ? 'bg-blue-50' : 'hover:bg-slate-50' }}">
 
                                 {{-- Date --}}
                                 <td class="py-3.5 px-4 whitespace-nowrap">
@@ -309,7 +309,7 @@
             </div>
 
             @if($logs->hasPages())
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50">
                 {{ $logs->links() }}
             </div>
             @endif

@@ -323,7 +323,7 @@
                             default                                      => ['t' => ucfirst($svc->status),'c' => 'bg-gray-100 text-gray-600'],
                         };
                     @endphp
-                    <div class="flex items-center gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition">
+                    <div class="flex items-center gap-3 px-5 py-3.5 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition">
                         {{-- Checkbox --}}
                         <input type="checkbox" :value="{{ $svc->id }}"
                             x-model="bulkIds"

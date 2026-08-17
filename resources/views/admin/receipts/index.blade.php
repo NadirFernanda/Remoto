@@ -91,7 +91,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     @foreach($services as $service)
-                    <tr class="hover:bg-sky-50/30 transition-colors" :class="selected.includes({{ $service->id }}) ? 'bg-sky-50/60' : ''">
+                    <tr class="hover:bg-blue-50 transition-colors" :class="selected.includes({{ $service->id }}) ? 'bg-blue-50' : ''">
                         <td class="py-3 px-4">
                             <input type="checkbox" :value="{{ $service->id }}" x-model="selected"
                                 class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer">

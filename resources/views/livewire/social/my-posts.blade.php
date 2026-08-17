@@ -59,7 +59,7 @@
                 $commentsCount = $post->comments->count();
             @endphp
 
-            <div wire:key="my-post-{{ $post->id }}" class="flex items-start gap-4 px-5 py-4 {{ $isArchived ? 'opacity-60' : '' }} hover:bg-gray-50/60 transition-colors">
+            <div wire:key="my-post-{{ $post->id }}" class="flex items-start gap-4 px-5 py-4 {{ $isArchived ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors">
 
                 {{-- Thumbnail / icon --}}
                 <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center overflow-hidden">

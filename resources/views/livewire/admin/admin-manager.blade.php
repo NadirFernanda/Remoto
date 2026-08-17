@@ -87,7 +87,7 @@
                             $roleClass = $roleColors[$roleKey] ?? 'bg-gray-100 text-gray-700';
                             $moduleCount = $isMaster ? count($modules) : $admin->adminPermissions->where('access', '!=', 'none')->count();
                         @endphp
-                        <tr wire:key="admin-manager-{{ $admin->id }}" class="hover:bg-gray-50/60 transition-colors">
+                        <tr wire:key="admin-manager-{{ $admin->id }}" class="hover:bg-gray-50 transition-colors">
                             {{-- Name + avatar --}}
                             <td class="py-3.5 px-5">
                                 <div class="flex items-center gap-3">
@@ -355,7 +355,7 @@
                                         'full'  => ['label' => 'Total',      'active' => 'bg-emerald-500 text-white border-emerald-500'],
                                     ];
                                 @endphp
-                                <div class="flex flex-col sm:flex-row sm:items-center gap-2 p-3 rounded-xl border border-gray-100 bg-gray-50/40 hover:bg-gray-50 transition">
+                                <div class="flex flex-col sm:flex-row sm:items-center gap-2 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-gray-100 transition">
                                     <span class="text-sm font-medium text-gray-700 sm:w-40 flex-shrink-0">{{ $modLabel }}</span>
                                     <div class="flex rounded-xl border border-gray-200 overflow-hidden w-full sm:w-auto">
                                         @foreach($levels as $level => $info)
@@ -377,7 +377,7 @@
                     @elseif($permTab === 'seguranca')
                         <div class="space-y-4">
                             {{-- 2FA --}}
-                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div>
                                     <div class="font-semibold text-sm text-gray-800">Autenticação 2 Factores (2FA)</div>
                                     <div class="text-xs text-gray-500 mt-0.5">
@@ -397,7 +397,7 @@
                             </div>
 
                             {{-- Force password change --}}
-                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div>
                                     <div class="font-semibold text-sm text-gray-800">Forçar Mudança de Senha</div>
                                     <div class="text-xs text-gray-500 mt-0.5">Obrigar este admin a alterar a senha no próximo acesso.</div>
@@ -411,7 +411,7 @@
                             </div>
 
                             {{-- Session timeout --}}
-                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div class="flex items-start justify-between">
                                     <div>
                                         <div class="font-semibold text-sm text-gray-800">Tempo de Sessão</div>
@@ -434,7 +434,7 @@
                             </div>
 
                             {{-- IP restriction --}}
-                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div class="flex items-start justify-between">
                                     <div>
                                         <div class="font-semibold text-sm text-gray-800">Restrição por IP</div>
@@ -462,7 +462,7 @@
                         <div class="space-y-3">
 
                             {{-- Canal de notificação --}}
-                            <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div>
                                     <div class="font-semibold text-sm text-gray-800">Canal de Notificação</div>
                                     <div class="text-xs text-gray-500 mt-0.5">Onde este admin recebe os alertas.</div>
@@ -492,7 +492,7 @@
                                 'notifySystemError'          => ['Erro crítico no sistema',      'Alertas de falhas críticas na plataforma.'],
                                 'notifyDailyReport'          => ['Relatório diário automático',  'Resumo diário de actividade enviado ao final do dia.'],
                             ] as $prop => [$label, $desc])
-                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50/50">
+                            <div class="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
                                 <div>
                                     <div class="font-semibold text-sm text-gray-800">{{ $label }}</div>
                                     <div class="text-xs text-gray-500 mt-0.5">{{ $desc }}</div>
@@ -512,7 +512,7 @@
                 </div>
 
                 {{-- Modal footer --}}
-                <div class="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50/50 rounded-b-none sm:rounded-b-2xl">
+                <div class="flex flex-wrap items-center justify-between gap-2 px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-none sm:rounded-b-2xl">
                     <button wire:click="closeModal"
                         class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
                         Cancelar

@@ -287,7 +287,7 @@
                         </svg>
                     </div>
                 @endif
-                <div class="px-4 py-3 bg-gray-50/80 group-hover:bg-blue-50/30 transition">
+                <div class="px-4 py-3 bg-gray-50 group-hover:bg-blue-50 transition">
                     <p class="text-sm font-bold text-gray-800 truncate group-hover:text-[#0055ff] transition">
                         {{ $post->link_title ?: parse_url($post->link_url, PHP_URL_HOST) }}
                     </p>
@@ -301,7 +301,7 @@
 
     {{-- REPOST --}}
     @elseif(isset($post->type) && $post->type === 'repost' && $post->repost)
-        <div class="mx-4 mb-1 border border-gray-100 rounded-2xl overflow-hidden bg-gray-50/50">
+        <div class="mx-4 mb-1 border border-gray-100 rounded-2xl overflow-hidden bg-gray-50">
             <div class="flex items-center gap-2.5 px-3 py-2.5 border-b border-gray-100">
                 <img src="{{ $post->repost->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover"
                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">

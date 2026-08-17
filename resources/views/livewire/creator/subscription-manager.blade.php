@@ -154,7 +154,7 @@
                     @php $hasAnyData = collect($months)->sum('new') > 0; @endphp
                     @foreach(array_reverse($months, true) as $m => $data)
                         @if($data['new'] > 0 || $data['cancelled'] > 0)
-                            <tr class="hover:bg-gray-50/60 transition-colors">
+                            <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-5 py-3 font-semibold text-gray-700">{{ $data['label'] }} {{ $selectedYear }}</td>
                                 <td class="text-center px-4 py-3 font-bold text-green-600">
                                     @if($data['new'] > 0) +{{ $data['new'] }} @else — @endif
@@ -192,7 +192,7 @@
         <div class="divide-y divide-gray-50">
         @forelse($recentSubscribers as $sub)
             @php $subscriber = $sub->subscriber; @endphp
-            <div class="flex items-center gap-3 px-6 py-3.5 hover:bg-gray-50/60 transition-colors">
+            <div class="flex items-center gap-3 px-6 py-3.5 hover:bg-gray-50 transition-colors">
                 <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#00c8ff] to-[#0033cc] flex items-center justify-center flex-shrink-0 overflow-hidden">
                     @if($subscriber?->profile_photo)
                         <img src="{{ $subscriber->avatarUrl() }}" class="w-9 h-9 object-cover" loading="lazy">

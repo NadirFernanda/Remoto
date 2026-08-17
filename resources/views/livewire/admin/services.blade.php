@@ -82,7 +82,7 @@
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead>
-                        <tr class="bg-slate-50/80">
+                        <tr class="bg-slate-50">
                             <th class="py-3.5 px-4 w-10">
                                 <input type="checkbox"
                                     class="w-4 h-4 rounded border-slate-300 text-sky-500 focus:ring-sky-300 cursor-pointer"
@@ -161,7 +161,7 @@
                 </table>
             </div>
 
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50">
                 {{ $services->links() }}
             </div>
         </div>

@@ -340,7 +340,7 @@
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
                         {{ $sponsor_payment_method === 'wallet'
                             ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
-                            : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-amber-300 hover:bg-amber-50/50' }}">
+                            : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                     </svg>
@@ -350,7 +350,7 @@
                     class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
                         {{ $sponsor_payment_method === 'express'
                             ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
-                            : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-amber-300 hover:bg-amber-50/50' }}">
+                            : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
                     <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express" class="w-5 h-5 rounded object-cover">
                     <span class="text-xs font-semibold">Express</span>
                 </button>

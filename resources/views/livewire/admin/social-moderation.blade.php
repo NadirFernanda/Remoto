@@ -45,7 +45,7 @@
             </thead>
             <tbody class="divide-y divide-gray-50">
                 @forelse($reports as $report)
-                    <tr wire:key="report-{{ $report->id }}" class="hover:bg-gray-50/50 transition">
+                    <tr wire:key="report-{{ $report->id }}" class="hover:bg-gray-50 transition">
                         <td class="py-3 pr-3">
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
                                 {{ $report->reportable_type === 'post' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600' }}">

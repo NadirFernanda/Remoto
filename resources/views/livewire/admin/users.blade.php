@@ -37,7 +37,7 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @foreach($pendingSubmissions as $sub)
-                            <tr wire:key="kyc-sub-{{ $sub->id }}" class="hover:bg-gray-50/60">
+                            <tr wire:key="kyc-sub-{{ $sub->id }}" class="hover:bg-gray-50">
                                 <td class="py-2.5 px-5 font-medium text-gray-800">
                                     {{ $sub->user->name }}
                                     <span class="block text-xs text-gray-400 font-normal">{{ $sub->user->email }}</span>
@@ -237,7 +237,7 @@
                             default    => 'bg-amber-100 text-amber-700',
                         };
                     @endphp
-                    <tr wire:key="admin-user-{{ $user->id }}" class="hover:bg-gray-50/60 transition-colors {{ $user->is_suspended ? 'opacity-60' : '' }}">
+                    <tr wire:key="admin-user-{{ $user->id }}" class="hover:bg-gray-50 transition-colors {{ $user->is_suspended ? 'opacity-60' : '' }}">
 
                         {{-- Utilizador --}}
                         <td class="py-3 px-5">

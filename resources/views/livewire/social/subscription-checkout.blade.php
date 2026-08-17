@@ -35,7 +35,7 @@
                 class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
                     {{ $payment_method === 'wallet'
                         ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm'
-                        : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
+                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
@@ -45,7 +45,7 @@
                 class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
                     {{ $payment_method === 'express'
                         ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm'
-                        : 'border-gray-100 bg-gray-50/60 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
+                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
                 <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express" class="w-5 h-5 rounded object-cover">
                 <span class="text-xs font-semibold">Express</span>
             </button>

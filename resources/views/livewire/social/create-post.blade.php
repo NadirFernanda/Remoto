@@ -182,7 +182,7 @@
         {{-- REPOST TYPE --}}
         @if($postType === 'repost')
             @if($repostPost)
-                <div class="border border-gray-100 rounded-xl bg-gray-50/50 overflow-hidden">
+                <div class="border border-gray-100 rounded-xl bg-gray-50 overflow-hidden">
                     <div class="flex items-center gap-2 p-3 border-b border-gray-100">
                         <img src="{{ $repostPost->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover"
                              onerror="this.src='{{ asset('img/default-avatar.svg') }}'">

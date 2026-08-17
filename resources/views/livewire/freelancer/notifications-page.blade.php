@@ -43,7 +43,7 @@
             <a href="{{ $notification->getUrl() }}"
                class="flex items-start gap-4 p-4 rounded-2xl border transition-all group
                    {{ $isUnread
-                       ? 'bg-blue-50/60 border-[#0052cc]/25 shadow-sm hover:shadow-md'
+                       ? 'bg-blue-50 border-[#0052cc]/25 shadow-sm hover:shadow-md'
                        : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                 <div class="flex-shrink-0 mt-1">
                     <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc] animate-pulse' : 'bg-gray-200' }}"></span>
@@ -79,7 +79,7 @@
                 <a href="{{ $notification->getUrl() }}"
                    class="flex items-start gap-4 p-4 rounded-2xl border transition-all group
                        {{ $isUnread
-                           ? 'bg-blue-50/40 border-[#0052cc]/20 shadow-sm hover:shadow-md'
+                           ? 'bg-blue-50 border-[#0052cc]/20 shadow-sm hover:shadow-md'
                            : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                     <div class="flex-shrink-0 mt-1">
                         <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc]' : 'bg-gray-200' }}"></span>

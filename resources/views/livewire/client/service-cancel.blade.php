@@ -46,7 +46,7 @@
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
 
             {{-- Card header: title + status badge --}}
-            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-slate-50">
                 <div class="flex items-center gap-3 min-w-0">
                     <span class="font-bold text-slate-800 text-base truncate" id="service-title">{{ $service->titulo }}</span>
                     <button type="button"

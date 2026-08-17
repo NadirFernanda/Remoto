@@ -155,7 +155,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
-                        <tr class="bg-slate-50/80">
+                        <tr class="bg-slate-50">
                             <th class="text-left px-6 py-3.5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Produto</th>
                             <th class="text-left px-4 py-3.5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Freelancer</th>
                             <th class="text-left px-4 py-3.5 font-semibold text-slate-500 text-xs uppercase tracking-wider">Tipo</th>
@@ -292,7 +292,7 @@
             </div>
 
             @if($produtos->hasPages())
-            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50/50">
+            <div class="px-6 py-4 border-t border-slate-100 bg-slate-50">
                 {{ $produtos->links() }}
             </div>
             @endif
