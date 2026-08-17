@@ -77,7 +77,7 @@ if (!function_exists('fetch_live_aoa_rate')) {
                 return null;
             }
             $url = 'https://api.exchangerate.host/latest?base=BRL&symbols=AOA';
-            $resp = \Illuminate\Support\Facades\Http::get($url);
+            $resp = \Illuminate\Support\Facades\Http::timeout(10)->connectTimeout(5)->get($url);
             if ($resp->ok()) {
                 $data = $resp->json();
                 if (isset($data['rates']['AOA'])) {

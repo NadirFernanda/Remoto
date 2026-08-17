@@ -36,7 +36,7 @@ class AppyPayGateway
     public function getToken(): string
     {
         return Cache::remember('appypay_access_token', now()->addMinutes(55), function () {
-            $response = Http::asForm()->post($this->cfg['auth_url'], [
+            $response = Http::asForm()->timeout(15)->connectTimeout(10)->post($this->cfg['auth_url'], [
                 'grant_type'    => 'client_credentials',
                 'client_id'     => $this->cfg['client_id'],
                 'client_secret' => $this->cfg['client_secret'],
@@ -96,6 +96,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
+                ->timeout(15)->connectTimeout(10)
                 ->post($this->cfg['base_url'] . '/v2.0/charges', $payload);
 
             $body = $response->json();
@@ -140,6 +141,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
+                ->timeout(15)->connectTimeout(10)
                 ->get($this->cfg['base_url'] . '/v2.0/charges/' . $chargeId);
 
             if (!$response->successful()) {
@@ -172,6 +174,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
+                ->timeout(15)->connectTimeout(10)
                 ->post($this->cfg['base_url'] . '/v2.0/mocks/referenceProcessing', [
                     'entity'          => $this->cfg['entity'],
                     'referenceNumber' => $referenceNumber,

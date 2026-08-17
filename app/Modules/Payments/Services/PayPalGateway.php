@@ -174,6 +174,7 @@ class PayPalGateway
             // Obter access token
             $tokenResp = \Illuminate\Support\Facades\Http::withBasicAuth($clientId, $clientSecret)
                 ->asForm()
+                ->timeout(15)->connectTimeout(10)
                 ->post("{$apiBase}/v1/oauth2/token", ['grant_type' => 'client_credentials']);
 
             if (!$tokenResp->successful()) {
@@ -184,6 +185,7 @@ class PayPalGateway
             $accessToken = $tokenResp->json('access_token');
 
             $verifyResp = \Illuminate\Support\Facades\Http::withToken($accessToken)
+                ->timeout(15)->connectTimeout(10)
                 ->post("{$apiBase}/v1/notifications/verify-webhook-signature", [
                     'auth_algo'         => $headers['PAYPAL-AUTH-ALGO'] ?? $headers['paypal-auth-algo'] ?? '',
                     'cert_url'          => $headers['PAYPAL-CERT-URL'] ?? $headers['paypal-cert-url'] ?? '',
