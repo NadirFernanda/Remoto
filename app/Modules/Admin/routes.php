@@ -83,6 +83,10 @@ Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
     Route::get('/admin/relatorios/saques/csv', [ReportsExportController::class, 'withdrawalsCsv'])->name('admin.reports.withdrawals.csv')->middleware('admin.module:relatorios');
     Route::get('/admin/relatorios/saques/pdf', [ReportsExportController::class, 'withdrawalsPdf'])->name('admin.reports.withdrawals.pdf')->middleware('admin.module:relatorios');
 
+    // Admin — Export: Ficheiro de pagamento bancário (Saques pendentes)
+    Route::get('/admin/saques/pagamento-bancario/excel', [ReportsExportController::class, 'bankPaymentExcel'])->name('admin.payouts.bank-file.excel')->middleware('admin.module:financeiro');
+    Route::get('/admin/saques/pagamento-bancario/csv',   [ReportsExportController::class, 'bankPaymentCsv'])->name('admin.payouts.bank-file.csv')->middleware('admin.module:financeiro');
+
     // Admin — Facturação Genérica (Projectos + Infoprodutos + Assinaturas)
     Route::get('/admin/facturacao', \App\Livewire\Admin\GenericBilling::class)->name('admin.facturacao')->middleware('admin.module:relatorios');
     Route::get('/admin/facturacao/csv',   [ReportsExportController::class, 'genericBillingCsv'])->name('admin.facturacao.csv')->middleware('admin.module:relatorios');

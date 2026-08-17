@@ -338,7 +338,74 @@ class ReportsExportController extends Controller
     }
 
     // ══════════════════════════════════════════════════════════════════════════
-    // D) FACTURAÇÃO GENÉRICA (Projectos + Infoprodutos + Assinaturas)
+    // D) FICHEIRO DE PAGAMENTO BANCÁRIO — Saques pendentes de aprovação
+    //
+    // Não existe um formato único entre os bancos angolanos (BAI, BIC, Standard
+    // Bank, BFA, ...) para upload de pagamentos em lote — cada um tem o seu
+    // próprio modelo no respectivo portal empresarial. Por isso exportamos os
+    // campos universais que qualquer um deles pede (beneficiário, banco, conta,
+    // valor, referência), para o admin adaptar rapidamente ao portal do banco
+    // que estiver a usar para executar a transferência.
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private function bankPaymentRows(): array
+    {
+        $headers = ['Nome do Beneficiário', 'Banco', 'Número de Conta / IBAN', 'Valor a Pagar (Kz)', 'Referência'];
+        $rows    = [$headers];
+
+        WalletLog::with('user.freelancerProfile')
+            ->where('tipo', 'saque_solicitado')
+            ->orderBy('created_at')
+            ->get()
+            ->each(function ($log) use (&$rows) {
+                $bank     = optional($log->user)->freelancerProfile;
+                $temConta = (bool) $bank?->hasBankAccount();
+
+                $rows[] = [
+                    $bank->bank_account_holder ?? optional($log->user)->name ?? '—',
+                    $temConta ? $bank->bank_name : 'SEM CONTA REGISTADA — NÃO PAGAR',
+                    $temConta ? $bank->bank_account_number : '—',
+                    number_format(abs((float) $log->valor), 2, ',', '.'),
+                    'Saque #' . $log->id . ' — ' . (optional($log->user)->name ?? '—'),
+                ];
+            });
+
+        return $rows;
+    }
+
+    public function bankPaymentExcel(Request $request)
+    {
+        $rows     = $this->bankPaymentRows();
+        $filename = 'pagamentos_bancarios_' . now()->format('Ymd_His') . '.xls';
+
+        return response(
+            view('admin.exports.bank-payment-excel', ['rows' => array_slice($rows, 1), 'headers' => $rows[0]])->render(),
+            200,
+            [
+                'Content-Type'        => 'application/vnd.ms-excel; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            ]
+        );
+    }
+
+    public function bankPaymentCsv(Request $request)
+    {
+        $rows     = $this->bankPaymentRows();
+        $filename = 'pagamentos_bancarios_' . now()->format('Ymd_His') . '.csv';
+
+        return response()->stream(function () use ($rows) {
+            $h = fopen('php://output', 'w');
+            fwrite($h, "\xEF\xBB\xBF");
+            foreach ($rows as $row) { fputcsv($h, $row, ';'); }
+            fclose($h);
+        }, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ]);
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // E) FACTURAÇÃO GENÉRICA (Projectos + Infoprodutos + Assinaturas)
     // ══════════════════════════════════════════════════════════════════════════
 
     private function genericBillingRows(Request $request): array

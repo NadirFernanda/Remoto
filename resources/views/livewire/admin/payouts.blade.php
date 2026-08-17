@@ -22,10 +22,23 @@
     {{-- ─── Pendentes ──────────────────────────────────────────── --}}
     @if($pendentes->count() > 0)
     <div class="mb-6">
-        <h3 class="text-sm font-bold text-orange-700 mb-2 flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">{{ $pendentes->count() }}</span>
-            Saques Pendentes — aguardam aprovação
-        </h3>
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+            <h3 class="text-sm font-bold text-orange-700 flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 text-orange-700 text-xs font-bold">{{ $pendentes->count() }}</span>
+                Saques Pendentes — aguardam aprovação
+            </h3>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.payouts.bank-file.excel') }}"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H8a2 2 0 01-2-2V5a2 2 0 012-2h6l6 6v11a2 2 0 01-2 2z"/></svg>
+                    Exportar para Excel (Banco)
+                </a>
+                <a href="{{ route('admin.payouts.bank-file.csv') }}"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] text-xs font-semibold bg-white text-gray-600 border border-gray-200 hover:border-emerald-300 hover:text-emerald-700 transition">
+                    CSV
+                </a>
+            </div>
+        </div>
         <div class="rounded-2xl border border-orange-200 overflow-x-auto">
             <table class="min-w-full text-sm">
                 <thead class="bg-orange-50">
