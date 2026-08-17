@@ -6,13 +6,6 @@
             {{ session('success') }}
         </div>
     @endif
-    @if($saqueMsg)
-        <div class="px-4 py-3 rounded-xl text-sm font-medium border
-            {{ $saqueMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
-            {{ $saqueMsg }}
-        </div>
-    @endif
-
     {{-- Header --}}
     <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
@@ -21,25 +14,6 @@
                 <p class="text-sm text-white/75 mt-1">Gere todo o seu conteúdo publicado</p>
             </div>
             <div class="flex items-center gap-3 flex-wrap">
-                {{-- Earnings badge --}}
-                <div class="flex items-center gap-3 bg-white/15 border border-white/30 rounded-xl px-4 py-2.5">
-                    <div>
-                        <p class="text-xs font-bold text-white/70 uppercase tracking-wide">Ganhos</p>
-                        <p class="text-lg font-black text-white">Kz {{ number_format($saldoPublicacoesDisponivel, 2, ',', '.') }}</p>
-                    </div>
-                    @if($sakePendentePublicacoes)
-                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-yellow-400/20 text-yellow-100 text-xs font-bold whitespace-nowrap">
-                            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            Saque pendente
-                        </span>
-                    @else
-                        <button wire:click="abrirSaque"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition whitespace-nowrap">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                            Sacar
-                        </button>
-                    @endif
-                </div>
                 {{-- New post button --}}
                 <a href="{{ route('social.create') }}"
                    class="inline-flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/30 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition whitespace-nowrap">
@@ -181,49 +155,5 @@
             </div>
         @endif
     </div>
-
-    {{-- Modal: Saque das Publicações --}}
-    @if($showSaqueModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm" wire:click.self="fecharSaque">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 p-6">
-            <div class="flex items-center gap-3 mb-5">
-                <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                </div>
-                <div>
-                    <h3 class="text-base font-bold text-gray-900">Saque das Publicações</h3>
-                    <p class="text-xs text-gray-500">Disponivel: <strong class="text-emerald-600">Kz {{ number_format($saldoPublicacoesDisponivel, 2, ',', '.') }}</strong></p>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Valor a sacar (Kz)</label>
-                <div class="relative">
-                    <span class="absolute left-3 top-2.5 text-sm text-gray-400 font-medium">Kz</span>
-                    <input type="number" wire:model="valorSaquePublicacoes"
-                        min="1000" step="100" max="{{ $saldoPublicacoesDisponivel }}"
-                        class="w-full border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-200 focus:border-emerald-400"
-                        placeholder="0">
-                </div>
-                @error('valorSaquePublicacoes') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-
-            <p class="text-xs text-gray-400 mb-5">
-                Os ganhos das publicações são creditados pela plataforma com base no desempenho do conteúdo. O processamento ocorre em até 2 dias úteis após aprovação.
-            </p>
-
-            <div class="flex gap-3">
-                <button wire:click="solicitarSaque" wire:loading.attr="disabled"
-                    class="flex-1 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
-                    <span wire:loading.remove wire:target="solicitarSaque">Confirmar Saque</span>
-                    <span wire:loading wire:target="solicitarSaque">A processar...</span>
-                </button>
-                <button wire:click="fecharSaque" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 border border-gray-200 rounded-xl transition">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-    </div>
-    @endif
 
 </div>
