@@ -41,6 +41,7 @@ Route::middleware(['web', 'auth', 'verified', 'role:freelancer'])->group(functio
     Route::get('/freelancer/servico/{service}/review', \App\Livewire\Freelancer\ServiceReview::class)->name('freelancer.service.review');
     Route::get('/freelancer/servico/{service}/entrega', \App\Livewire\Freelancer\ServiceDelivery::class)->name('freelancer.service.delivery');
     Route::get('/freelancer/propostas', \App\Livewire\Freelancer\Proposals::class)->name('freelancer.proposals');
+    Route::get('/freelancer/clientes', \App\Livewire\Freelancer\ClientSearch::class)->name('freelancer.clients');
 });
 
 // Authenticated marketplace routes — Cliente
