@@ -279,9 +279,9 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main .text-gray-600,
 .dash-main .text-slate-600 { color: #94a3b8 !important; }
 .dash-main .text-gray-500,
-.dash-main .text-slate-500 { color: #64748b !important; }
+.dash-main .text-slate-500 { color: #8a99b3 !important; }
 .dash-main .text-gray-400,
-.dash-main .text-slate-400 { color: #4e5f78 !important; }
+.dash-main .text-slate-400 { color: #7788a3 !important; }
 
 /* ── Headings ───────────────────────────────────────── */
 .dash-main h1, .dash-main h2, .dash-main h3, .dash-main h4,
