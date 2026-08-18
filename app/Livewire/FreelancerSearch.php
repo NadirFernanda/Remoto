@@ -13,6 +13,7 @@ class FreelancerSearch extends Component
 
     public string $query = '';
     public string $skill = '';
+    public string $location = '';
     public string $language = '';
     public string $availability = '';
     public string $sort = 'relevancia';
@@ -23,6 +24,7 @@ class FreelancerSearch extends Component
     protected $queryString = [
         'query'       => ['except' => ''],
         'skill'       => ['except' => ''],
+        'location'    => ['except' => ''],
         'language'    => ['except' => ''],
         'availability'=> ['except' => ''],
         'sort'        => ['except' => 'relevancia'],
@@ -32,6 +34,7 @@ class FreelancerSearch extends Component
     ];
     public function updatingQuery()     { $this->resetPage(); }
     public function updatingSkill()     { $this->resetPage(); }
+    public function updatingLocation()  { $this->resetPage(); }
     public function updatingLanguage()  { $this->resetPage(); }
     public function updatingAvailability() { $this->resetPage(); }
     public function updatingSort()      { $this->resetPage(); }
@@ -55,9 +58,23 @@ class FreelancerSearch extends Component
                 });
             })
             ->when($this->skill, function ($q) {
-                $q->whereHas('freelancerProfile', function ($fp) {
-                    $fp->whereJsonContains('skills', $this->skill);
+                // $this->skill pode ser uma lista separada por vírgulas (usado pelos
+                // atalhos do menu "Contratar", que representam uma categoria ampla
+                // — ex.: "Dev. de Websites" cobre várias tecnologias distintas).
+                // Basta uma das habilidades listadas corresponder.
+                $skills = array_filter(array_map('trim', explode(',', $this->skill)));
+                $q->whereHas('freelancerProfile', function ($fp) use ($skills) {
+                    $fp->where(function ($inner) use ($skills) {
+                        foreach ($skills as $s) {
+                            $inner->orWhereJsonContains('skills', $s);
+                        }
+                    });
                 });
+            })
+            ->when($this->location, function ($q) {
+                // Localização é texto livre preenchido pelo utilizador (ex.: "Luanda,
+                // Angola"), por isso usa correspondência parcial em vez de exacta.
+                $q->where('location', 'ilike', '%' . $this->location . '%');
             })
             ->when($this->language, function ($q) {
                 $q->whereHas('freelancerProfile', function ($fp) {

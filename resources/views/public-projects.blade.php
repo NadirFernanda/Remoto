@@ -17,6 +17,10 @@
         <form method="GET" class="pub-filters" role="search" aria-label="Filtrar projectos" style="margin-bottom:2rem;">
             <div class="pub-filter-grid">
                 <div class="pub-filter-group">
+                    <label class="pub-filter-label" for="q">Palavra-chave</label>
+                    <input type="text" name="q" id="q" class="pub-input" placeholder="Ex: website, vídeo, marketing" value="{{ request('q') }}">
+                </div>
+                <div class="pub-filter-group">
                     <label class="pub-filter-label" for="valor_min">Valor mínimo</label>
                     <input type="number" step="0.01" name="valor_min" id="valor_min" class="pub-input" placeholder="Kz 0,00" value="{{ request('valor_min') }}">
                 </div>

@@ -13,7 +13,7 @@ class PublicProjectsController extends Controller
     {
         // Cache keyed por hash dos filtros — 3 min
         // Garante que cada combinação única de filtros tem a sua própria entrada
-        $filters = $request->only(['status','valor_min','valor_max','data_inicio','data_fim','business_type','target_audience','page']);
+        $filters = $request->only(['status','q','valor_min','valor_max','data_inicio','data_fim','business_type','target_audience','page']);
         $cacheKey = 'public_projects:' . md5(serialize($filters));
 
         $projects = Cache::remember($cacheKey, 180, function () use ($request) {
@@ -23,6 +23,15 @@ class PublicProjectsController extends Controller
                 $query->where('status', $request->status);
             } else {
                 $query->where('status', 'published');
+            }
+
+            if ($request->filled('q')) {
+                $term = $request->q;
+                $query->where(function ($inner) use ($term) {
+                    $inner->where('titulo', 'ilike', '%' . $term . '%')
+                          ->orWhere('descricao', 'ilike', '%' . $term . '%')
+                          ->orWhere('categoria', 'ilike', '%' . $term . '%');
+                });
             }
 
             if ($request->filled('valor_min')) {
