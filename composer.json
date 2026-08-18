@@ -36,7 +36,8 @@
         }
         ,
         "files": [
-            "app/Helpers/currency.php"
+            "app/Helpers/currency.php",
+            "app/Helpers/site_images.php"
         ]
     },
     "autoload-dev": {

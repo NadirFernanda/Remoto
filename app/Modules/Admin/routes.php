@@ -53,6 +53,7 @@ Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
         ->name('admin.user.wallet.history')
         ->middleware('admin.module:financeiro');
     Route::get('/admin/categorias', \App\Livewire\Admin\Categories::class)->name('admin.categories')->middleware('admin.module:financeiro');
+    Route::get('/admin/imagens-do-site', \App\Livewire\Admin\SiteImages::class)->name('admin.site-images')->middleware('admin.module:gestor');
     Route::get('/admin/taxas', \App\Livewire\Admin\Fees::class)->name('admin.fees')->middleware('admin.module:financeiro');
     Route::get('/admin/ajuste-saldo', \App\Livewire\Admin\WalletAdjustment::class)->name('admin.wallet.adjustment')->middleware('admin.module:financeiro');
 

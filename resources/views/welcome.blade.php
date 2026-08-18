@@ -6,11 +6,14 @@
      HERO — CARROSSEL DE BANNERS
 ============================== --}}
 @php
-    $banners = [
-        ['webp' => asset('img/banner1.webp') . '?v=' . filemtime(public_path('img/banner1.webp')), 'png' => asset('img/banner1.png') . '?v=' . filemtime(public_path('img/banner1.png')), 'alt' => '24 Horas — Banner 1'],
-        ['webp' => asset('img/banner2.webp') . '?v=' . filemtime(public_path('img/banner2.webp')), 'png' => asset('img/banner2.png') . '?v=' . filemtime(public_path('img/banner2.png')), 'alt' => '24 Horas — Banner 2'],
-        ['webp' => asset('img/banner3.webp') . '?v=' . filemtime(public_path('img/banner3.webp')), 'png' => asset('img/banner3.png') . '?v=' . filemtime(public_path('img/banner3.png')), 'alt' => '24 Horas — Banner 3'],
-    ];
+    $banners = [];
+    for ($i = 1; $i <= 3; $i++) {
+        $defaultPng = asset("img/banner{$i}.png") . '?v=' . filemtime(public_path("img/banner{$i}.png"));
+        $customUrl  = site_image_url("site_banner_{$i}", '');
+        $banners[] = $customUrl
+            ? ['webp' => null, 'png' => $customUrl, 'alt' => "24 Horas — Banner {$i}"]
+            : ['webp' => asset("img/banner{$i}.webp") . '?v=' . filemtime(public_path("img/banner{$i}.webp")), 'png' => $defaultPng, 'alt' => "24 Horas — Banner {$i}"];
+    }
 @endphp
 
 <section class="hp-hero"
@@ -30,7 +33,7 @@
 
     {{-- Imagem de referência invisível — define a altura do contentor --}}
     <img class="hp-banner-ref"
-         src="{{ $banners[0]['webp'] }}"
+         src="{{ $banners[0]['webp'] ?? $banners[0]['png'] }}"
          alt=""
          aria-hidden="true">
 
@@ -38,7 +41,9 @@
     @foreach($banners as $i => $banner)
         <div class="hp-banner-slide" :class="slide === {{ $i }} ? 'hp-banner-active' : ''">
             <picture>
-                <source srcset="{{ $banner['webp'] }}" type="image/webp">
+                @if($banner['webp'])
+                    <source srcset="{{ $banner['webp'] }}" type="image/webp">
+                @endif
                 <img src="{{ $banner['png'] }}"
                      alt="{{ $banner['alt'] }}"
                      @if($i === 0) fetchpriority="high" @else loading="lazy" @endif>
@@ -234,7 +239,7 @@
 <section class="hp-comunidade-section" style="background:#0a0f1e; padding:6rem 1rem; overflow:hidden; position:relative;">
 
     {{-- Imagem de fundo --}}
-    <div style="position:absolute;inset:0;background-image:url('{{ asset('img/login.jpeg') }}');background-size:cover;background-position:center 20%;"></div>
+    <div style="position:absolute;inset:0;background-image:url('{{ site_image_url('site_background_image', asset('img/login.jpeg')) }}');background-size:cover;background-position:center 20%;"></div>
     <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,14,36,.75) 0%,rgba(10,22,40,.68) 50%,rgba(6,16,30,.78) 100%);"></div>
 
     {{-- Overlay escuro (mantém a cor #0a0f1e) --}}

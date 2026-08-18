@@ -218,7 +218,7 @@
 
     {{-- ─── RIGHT: visual ───────────────────────────────────────────────── --}}
     <div class="login-right"
-         style="background-image: url('{{ asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg')) }}');">
+         style="background-image: url('{{ site_image_url('site_login_image', asset('img/login.jpeg') . '?v=' . filemtime(public_path('img/login.jpeg'))) }}');">
 
 
         <div class="lr-badge">
