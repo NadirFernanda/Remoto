@@ -307,7 +307,7 @@ main::before, main::after { display: none !important; content: none !important; 
     border-color: rgba(255,255,255,.12) !important;
 }
 .dash-main input::placeholder,
-.dash-main textarea::placeholder { color: #3d5175 !important; }
+.dash-main textarea::placeholder { color: #8a99b3 !important; opacity: 1; }
 .dash-main select option { background-color: #1a2740; color: #e2e8f0; }
 
 /* ── Shadows ────────────────────────────────────────── */
