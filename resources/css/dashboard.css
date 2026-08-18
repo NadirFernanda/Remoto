@@ -309,6 +309,16 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main input::placeholder,
 .dash-main textarea::placeholder { color: #8a99b3 !important; opacity: 1; }
 .dash-main select option { background-color: #1a2740; color: #e2e8f0; }
+/* Campos desactivados: o navegador aplica a sua própria cor de texto
+   (e, no Chrome/Safari, -webkit-text-fill-color) por cima da regra
+   acima, lavando o texto — repõe legibilidade explicitamente. */
+.dash-main input:disabled,
+.dash-main select:disabled,
+.dash-main textarea:disabled {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+    opacity: 1 !important;
+}
 
 /* ── Shadows ────────────────────────────────────────── */
 .dash-main .shadow-sm { box-shadow: 0 1px 4px rgba(0,0,0,.45) !important; }

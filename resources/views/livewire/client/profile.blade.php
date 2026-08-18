@@ -83,7 +83,7 @@
     <div class="pub-field">
         <label>E-mail</label>
         <input type="email" class="pub-input" value="{{ $user->email }}" readonly style="opacity:.7;cursor:not-allowed;">
-        <div style="font-size:.75rem;color:#64748b;margin-top:.25rem;">O e-mail não pode ser alterado aqui.</div>
+        <div style="font-size:.75rem;color:#94a3b8;margin-top:.25rem;">O e-mail não pode ser alterado aqui.</div>
     </div>
     <div class="pub-field">
         <label>Tipo de Conta</label>

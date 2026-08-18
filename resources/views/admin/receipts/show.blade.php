@@ -77,7 +77,7 @@
 
     {{-- Dados do cliente --}}
     @if($recibo->nome || $recibo->nif || $recibo->telefone || $recibo->email || $recibo->endereco)
-    <div style="padding:1.5rem 2.5rem;border-bottom:1px solid #f1f5f9;">
+    <div style="padding:1.5rem 2.5rem;border-bottom:1px solid #f1f5f9;background:#fff;">
         <p style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem;">Dados do Cliente</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem 2rem;">
             @if($recibo->nome)
@@ -147,7 +147,7 @@
 
     {{-- Notas --}}
     @if($recibo->notes)
-    <div style="padding:1.25rem 2.5rem;border-bottom:1px solid #f1f5f9;">
+    <div style="padding:1.25rem 2.5rem;border-bottom:1px solid #f1f5f9;background:#fff;">
         <p style="font-size:.65rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Descrição / Notas</p>
         <p style="font-size:.88rem;color:#334155;line-height:1.6;white-space:pre-line;">{{ $recibo->notes }}</p>
     </div>
@@ -168,8 +168,8 @@
 
     {{-- Rodapé --}}
     <div style="padding:1rem 2.5rem;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:.72rem;color:#94a3b8;">Gerado por {{ $recibo->creator?->name ?? 'Administrador' }}</span>
-        <span style="font-size:.72rem;color:#cbd5e1;">24horas.ao</span>
+        <span style="font-size:.72rem;color:#64748b;">Gerado por {{ $recibo->creator?->name ?? 'Administrador' }}</span>
+        <span style="font-size:.72rem;color:#475569;">24horas.ao</span>
     </div>
 
 </div>

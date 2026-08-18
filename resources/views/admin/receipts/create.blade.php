@@ -61,8 +61,8 @@
                     </svg>
                 </div>
                 <div>
-                    <p class="text-sm font-bold text-gray-800">Dados do Recibo</p>
-                    <p class="text-xs text-gray-500">Selecione um utilizador registado ou preencha manualmente</p>
+                    <p class="text-sm font-bold" style="color:#1e3a8a;">Dados do Recibo</p>
+                    <p class="text-xs" style="color:#3b82f6;">Selecione um utilizador registado ou preencha manualmente</p>
                 </div>
             </div>
         </div>
