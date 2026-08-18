@@ -89,4 +89,42 @@ class PublicProfileDashboardShellTest extends TestCase
         $response->assertOk();
         $response->assertSee('w-20 h-20 sm:w-24 sm:h-24 rounded-full', false);
     }
+
+    /**
+     * Regressão: @extends(...) dentro de @if/@else no MESMO ficheiro faz o
+     * Blade renderizar os dois layouts em sequência (cabeçalho/rodapé
+     * duplicados), porque a directiva @extends é localizada durante a
+     * compilação, não em tempo de execução — não importa que só um dos
+     * ramos corra de facto. Corrigido para @extends(condição ? 'a' : 'b')
+     * — uma única directiva, uma única árvore de layout.
+     */
+    #[Test]
+    public function perfil_de_cliente_nao_duplica_cabecalho_ou_rodape(): void
+    {
+        $client = User::factory()->create(['role' => 'cliente']);
+
+        $guestHtml = $this->get(route('client.public', $client))->assertOk()->getContent();
+        $this->assertSame(1, substr_count($guestHtml, 'class="site-header'));
+        $this->assertSame(1, substr_count($guestHtml, 'class="hp-footer"'));
+
+        $viewer = User::factory()->create(['role' => 'freelancer']);
+        $authHtml = $this->actingAs($viewer)->get(route('client.public', $client))->assertOk()->getContent();
+        $this->assertSame(1, substr_count($authHtml, 'class="site-header'));
+        $this->assertSame(1, substr_count($authHtml, 'class="hp-footer"'));
+    }
+
+    #[Test]
+    public function perfil_de_freelancer_nao_duplica_cabecalho_ou_rodape(): void
+    {
+        $freelancer = User::factory()->create(['role' => 'freelancer']);
+
+        $guestHtml = $this->get(route('freelancer.show', $freelancer))->assertOk()->getContent();
+        $this->assertSame(1, substr_count($guestHtml, 'class="site-header'));
+        $this->assertSame(1, substr_count($guestHtml, 'class="hp-footer"'));
+
+        $viewer = User::factory()->create(['role' => 'cliente']);
+        $authHtml = $this->actingAs($viewer)->get(route('freelancer.show', $freelancer))->assertOk()->getContent();
+        $this->assertSame(1, substr_count($authHtml, 'class="site-header'));
+        $this->assertSame(1, substr_count($authHtml, 'class="hp-footer"'));
+    }
 }
