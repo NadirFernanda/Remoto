@@ -1,6 +1,13 @@
 <div class="dash-main">
 <div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-5">
 
+    @if($showBackLink ?? false)
+    <a href="javascript:history.back()" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0055ff] hover:underline">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Voltar
+    </a>
+    @endif
+
     {{-- ── PROFILE CARD ──────────────────────────────────────────────────── --}}
     <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
 
@@ -21,8 +28,8 @@
             <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
                 {{-- Avatar --}}
                 <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
-                    <div class="p-1 rounded-2xl bg-white shadow-md">
-                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block">
+                    <div class="p-1 rounded-full bg-white shadow-md">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover block">
                     </div>
                 </x-image-lightbox>
 

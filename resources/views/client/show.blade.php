@@ -4,7 +4,7 @@
 @section('dashboard-title', $user->name)
 
 @section('dashboard-content')
-@include('client._profile-body')
+@include('client._profile-body', ['showBackLink' => false])
 @endsection
 
 @else
@@ -14,7 +14,7 @@
 @section('main-style', 'background:#0d1424')
 
 @section('content')
-@include('client._profile-body')
+@include('client._profile-body', ['showBackLink' => true])
 @endsection
 
 @endif

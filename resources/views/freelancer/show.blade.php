@@ -4,7 +4,7 @@
 @section('dashboard-title', $user->name)
 
 @section('dashboard-content')
-@include('freelancer._profile-body')
+@include('freelancer._profile-body', ['showBackLink' => false])
 @endsection
 
 @else
@@ -14,7 +14,7 @@
 @section('main-style', 'background:#0d1424')
 
 @section('content')
-@include('freelancer._profile-body')
+@include('freelancer._profile-body', ['showBackLink' => true])
 @endsection
 
 @endif

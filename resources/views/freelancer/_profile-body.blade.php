@@ -27,8 +27,8 @@
             <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
                 {{-- Avatar --}}
                 <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
-                    <div class="p-1 rounded-2xl bg-white shadow-md">
-                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block">
+                    <div class="p-1 rounded-full bg-white shadow-md">
+                        <img src="{{ $user->avatarUrl() }}" alt="{{ $user->name }}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover block">
                     </div>
                 </x-image-lightbox>
 

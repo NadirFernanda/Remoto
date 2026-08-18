@@ -20,7 +20,7 @@ class PublicProfileDashboardShellTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function visitante_ve_perfil_de_cliente_sem_barra_lateral(): void
+    public function visitante_ve_perfil_de_cliente_sem_barra_lateral_mas_com_botao_voltar(): void
     {
         $client = User::factory()->create(['role' => 'cliente']);
 
@@ -28,6 +28,7 @@ class PublicProfileDashboardShellTest extends TestCase
 
         $response->assertOk();
         $response->assertDontSee('dash-sidebar', false);
+        $response->assertSee('history.back()', false);
     }
 
     #[Test]
@@ -41,6 +42,17 @@ class PublicProfileDashboardShellTest extends TestCase
         $response->assertOk();
         $response->assertSee('dash-sidebar', false);
         $response->assertSee($client->name);
+    }
+
+    #[Test]
+    public function avatar_do_perfil_de_cliente_e_circular(): void
+    {
+        $client = User::factory()->create(['role' => 'cliente']);
+
+        $response = $this->get(route('client.public', $client));
+
+        $response->assertOk();
+        $response->assertSee('w-20 h-20 sm:w-24 sm:h-24 rounded-full', false);
     }
 
     #[Test]
@@ -65,5 +77,16 @@ class PublicProfileDashboardShellTest extends TestCase
         $response->assertOk();
         $response->assertSee('dash-sidebar', false);
         $response->assertSee($freelancer->name);
+    }
+
+    #[Test]
+    public function avatar_do_perfil_de_freelancer_e_circular(): void
+    {
+        $freelancer = User::factory()->create(['role' => 'freelancer']);
+
+        $response = $this->get(route('freelancer.show', $freelancer));
+
+        $response->assertOk();
+        $response->assertSee('w-20 h-20 sm:w-24 sm:h-24 rounded-full', false);
     }
 }
