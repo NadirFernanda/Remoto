@@ -18,20 +18,29 @@ use Illuminate\Support\Facades\Log;
  *   5. mockReferencePayment() → só em sandbox, simula o pagamento de uma referência
  *
  * Timeouts HTTP: confirmado em produção (20/08/2026) que a AppyPay por
- * vezes só responde ao POST /v2.0/charges bem depois dos 12s iniciais —
- * o pedido de aprovação chega ao telemóvel do cliente e o pagamento
- * completa-se normalmente, só a nossa chamada é que desistia cedo demais.
- * Por isso getToken() fica com timeout curto (12s — autenticação é sempre
- * rápida e o token fica em cache 55min), mas postCharge()/getCharge() (o
- * caminho crítico) sobem para 45s.
+ * vezes só responde ao POST /v2.0/charges bem depois de qualquer tempo de
+ * espera razoável para um pedido web síncrono — no caso do Multicaixa
+ * Express (GPO), o pedido de aprovação chega ao telemóvel do cliente e ele
+ * sai da nossa página para o aprovar lá, o que já por si só pode
+ * ultrapassar qualquer timeout curto. Por isso chargeByPhone() passa a
+ * correr sempre em segundo plano via InitiateAppyPayChargeJob (nunca
+ * directamente num pedido web), o que permite um timeout mais generoso
+ * (45s) sem bloquear o cliente. chargeByReference() mantém-se síncrono —
+ * gerar uma referência não depende de nenhuma acção externa do cliente,
+ * por isso não sofre do mesmo problema.
  *
- * ⚠️ Isto SÓ é seguro se o max_execution_time do PHP-FPM em produção for
- * >= 75s (pior caso: 12s de auth + 45s de charge + margem para o resto do
- * pedido). Um timeout aqui maior que o limite do PHP arrisca o processo
- * ser morto a meio antes do try/catch conseguir responder com um erro
- * tratado — deixando o utilizador preso sem feedback nenhum (foi
- * exactamente isto que aconteceu quando o timeout daqui > max_execution_time
- * do PHP). Ao subir este valor, subir SEMPRE o max_execution_time primeiro.
+ * getToken() e getCharge() continuam com timeout curto (12s) de propósito:
+ * getToken() é sempre rápido e fica em cache 55min; getCharge() é chamado
+ * repetidamente (a cada poucos segundos, tanto no ecrã de espera do
+ * cliente como no job de polling), por isso um timeout longo aqui deixaria
+ * a interface lenta sem necessidade — se falhar, tenta-se de novo no
+ * próximo ciclo.
+ *
+ * ⚠️ Se algum chamador voltar a fazer chargeByPhone()/chargeByReference()
+ * de forma síncrona num pedido web, o timeout de 45s exige
+ * max_execution_time do PHP-FPM >= 75s (ver histórico deste ficheiro) —
+ * caso contrário o PHP pode matar o processo a meio antes do try/catch
+ * conseguir responder com um erro tratado.
  */
 class AppyPayGateway
 {
@@ -161,7 +170,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(45)->connectTimeout(8)
+                ->timeout(12)->connectTimeout(8)
                 ->get($this->cfg['base_url'] . '/v2.0/charges/' . $chargeId);
 
             if (!$response->successful()) {

@@ -3,8 +3,8 @@
 namespace App\Livewire\Client;
 
 use App\Events\PaymentFailed;
+use App\Jobs\InitiateAppyPayChargeJob;
 use App\Jobs\NotifyFreelancersOfNewProject;
-use App\Jobs\PollAppyPayChargeJob;
 use App\Models\PlatformSetting;
 use App\Models\Service;
 use App\Modules\Payments\Services\AppyPayGateway;
@@ -257,32 +257,13 @@ class PaymentEscrow extends Component
         $service->appypay_merchant_transaction_id = $merchantTransactionId;
         $service->save();
 
-        $result = (new AppyPayGateway())->chargeByPhone(
-            $this->phone_number,
-            $this->valor_total,
-            'Pagamento de serviço #' . $service->id,
-            $merchantTransactionId
-        );
-
-        if (empty($result['success'])) {
-            $this->appypay_error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
-            \App\Modules\Admin\Services\AuditLogger::log(
-                'appypay_charge_ambiguous',
-                "Pedido de cobrança AppyPay falhou/expirou para o serviço #{$service->id} (merchantTransactionId: {$merchantTransactionId}) — estado do pagamento do lado da AppyPay não confirmado, requer verificação manual.",
-                'Service',
-                $service->id
-            );
-            return;
-        }
-
-        $service->payment_method_used = 'appypay_gpo';
-        $service->appypay_charge_id   = $result['charge_id'];
-        $service->save();
-
-        PollAppyPayChargeJob::dispatch($service, $result['charge_id'], 'gpo')->delay(now()->addSeconds(30));
+        // A chamada à AppyPay corre em segundo plano (não aqui, de forma
+        // síncrona) — o cliente sai da nossa página para aprovar no
+        // telemóvel, o que pode por si só demorar mais do que qualquer
+        // timeout razoável para um pedido web. Ver InitiateAppyPayChargeJob.
+        InitiateAppyPayChargeJob::dispatch($service, 'gpo', $this->phone_number, $this->valor_total, $merchantTransactionId);
 
         $this->appypay_service_id = $service->id;
-        $this->appypay_charge_id  = $result['charge_id'];
         $this->appypay_step       = 'waiting';
 
         session()->forget(['client_order', 'briefing', 'briefing_title']);
@@ -359,10 +340,17 @@ class PaymentEscrow extends Component
         $this->checkAppyPayStatus();
     }
 
-    /** Chamado via wire:poll no ecrã de espera — confirma o estado directamente na AppyPay. */
+    /**
+     * Chamado via wire:poll no ecrã de espera (a cada 3s) — verifica o estado
+     * no NOSSO serviço primeiro, nunca à espera de resposta imediata da
+     * AppyPay. Para o método GPO (telefone), InitiateAppyPayChargeJob pode
+     * ainda estar a criar a cobrança em segundo plano quando este poll
+     * corre — nesse caso ainda não há charge_id, e este método só volta a
+     * verificar no próximo ciclo, sem bloquear nem mostrar erro.
+     */
     public function checkAppyPayStatus()
     {
-        if (!$this->appypay_service_id || !$this->appypay_charge_id) {
+        if (!$this->appypay_service_id) {
             return;
         }
 
@@ -383,10 +371,19 @@ class PaymentEscrow extends Component
             return;
         }
 
+        // O job em segundo plano ainda pode não ter conseguido o charge_id
+        // (chamada à AppyPay ainda em curso, ou pendente na fila) — sem ele
+        // não há nada para consultar ainda; o próximo ciclo de 3s tenta de novo.
+        $chargeId = $this->appypay_charge_id ?: $service->appypay_charge_id;
+        if (!$chargeId) {
+            return;
+        }
+        $this->appypay_charge_id = $chargeId;
+
         // Consulta directa (não depende só do job em fila) — mais responsivo para o utilizador à espera.
-        $charge = (new AppyPayGateway())->getCharge($this->appypay_charge_id);
+        $charge = (new AppyPayGateway())->getCharge($chargeId);
         if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
-            app(AppyPayReconciliationService::class)->markPaidByChargeId($this->appypay_charge_id);
+            app(AppyPayReconciliationService::class)->markPaidByChargeId($chargeId);
             $this->appypay_step = 'done';
             session()->flash('success', 'Pagamento confirmado e pedido publicado com sucesso!');
             return redirect()->route('client.orders');
