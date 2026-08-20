@@ -6,6 +6,17 @@
         <div class="mb-4 p-3 bg-red-50 text-red-800 rounded-xl border border-red-200 text-sm">{{ session('error') }}</div>
     @endif
 
+    {{-- Esta página só lista clientes e freelancers. Administradores têm uma secção própria. --}}
+    @if(auth()->user()->admin_role === null)
+        <div class="mb-4 flex items-center gap-3 p-3 bg-blue-50 border border-blue-200 rounded-xl text-sm">
+            <svg class="w-4 h-4 text-[#0055ff] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0"/>
+            </svg>
+            <span class="text-blue-900">Esta lista mostra apenas clientes e freelancers.</span>
+            <a href="{{ route('admin.managers') }}" class="ml-auto btn-outline text-xs">Gerir administradores →</a>
+        </div>
+    @endif
+
     {{-- Alerta KYC pendente --}}
     @if($pendingKyc > 0)
         <div class="mb-4 flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-xl text-sm">
@@ -180,7 +191,6 @@
         </div>
         <select wire:model.live="roleFilter" class="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             <option value="">Todas as funções</option>
-            <option value="admin">Administrador</option>
             <option value="freelancer">Freelancer</option>
             <option value="cliente">Cliente</option>
         </select>

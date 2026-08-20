@@ -325,6 +325,7 @@ class Users extends Component
     private function usersOnPage()
     {
         return User::query()
+            ->where('role', '!=', 'admin')
             ->when($this->search, fn($q) => $q->where(function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
                   ->orWhere('email', 'like', "%{$this->search}%");
