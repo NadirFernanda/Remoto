@@ -19,6 +19,10 @@ class Users extends Component
     public string $roleFilter  = '';
     public string $kycFilter   = '';
 
+    // Selecção em lote
+    public array $selected    = [];
+    public bool  $selectPage  = false;
+
     // KYC review modal
     public ?int $reviewingSubmissionId = null;
     public string $adminNotes = '';
@@ -29,9 +33,15 @@ class Users extends Component
         abort_if(auth()->user()?->role !== 'admin', 403);
     }
 
-    public function updatingSearch(): void    { $this->resetPage(); }
-    public function updatingRoleFilter(): void { $this->resetPage(); }
-    public function updatingKycFilter(): void  { $this->resetPage(); }
+    public function updatingSearch(): void    { $this->resetPage(); $this->clearSelection(); }
+    public function updatingRoleFilter(): void { $this->resetPage(); $this->clearSelection(); }
+    public function updatingKycFilter(): void  { $this->resetPage(); $this->clearSelection(); }
+
+    private function clearSelection(): void
+    {
+        $this->selected   = [];
+        $this->selectPage = false;
+    }
 
     public function approveUser(int $id): void
     {
@@ -179,15 +189,29 @@ class Users extends Component
         abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode eliminar utilizadores.');
 
         $user = User::findOrFail($id);
+        $error = $this->tryDeleteUser($user);
 
-        if ($user->id === auth()->id()) {
-            session()->flash('error', 'Não pode eliminar a sua própria conta.');
+        if ($error) {
+            session()->flash('error', $error);
             return;
         }
 
+        session()->flash('success', "Utilizador \"{$user->name}\" eliminado.");
+    }
+
+    /**
+     * Tenta eliminar um utilizador; devolve null em caso de sucesso, ou uma
+     * mensagem de erro se a conta não puder ser eliminada. Partilhado entre
+     * a eliminação individual e a eliminação em lote.
+     */
+    private function tryDeleteUser(User $user): ?string
+    {
+        if ($user->id === auth()->id()) {
+            return 'Não pode eliminar a sua própria conta.';
+        }
+
         if ($user->role === 'admin') {
-            session()->flash('error', 'Não é possível eliminar contas de administrador por aqui.');
-            return;
+            return 'Não é possível eliminar contas de administrador por aqui.';
         }
 
         $wallet = $user->wallet;
@@ -203,17 +227,79 @@ class Users extends Component
             ->exists();
 
         if ($hasWalletActivity || $hasServiceActivity || $hasSubscriptionActivity) {
-            session()->flash('error', 'Este utilizador tem saldo, projectos ou assinaturas associadas — não pode ser eliminado. Suspenda a conta em vez disso.');
-            return;
+            return 'Tem saldo, projectos ou assinaturas associadas.';
         }
 
         $name  = $user->name;
         $email = $user->email;
 
-        AuditLogger::log('user_deleted', "Utilizador {$name} ({$email}) eliminado permanentemente", 'User', $id);
+        AuditLogger::log('user_deleted', "Utilizador {$name} ({$email}) eliminado permanentemente", 'User', $user->id);
         $user->delete();
 
-        session()->flash('success', "Utilizador \"{$name}\" eliminado.");
+        return null;
+    }
+
+    /** Elimina, em lote, os utilizadores marcados na tabela (mesmas regras de segurança do individual). */
+    public function bulkDeleteSelected(): void
+    {
+        abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode eliminar utilizadores.');
+
+        if (empty($this->selected)) {
+            return;
+        }
+
+        $eliminados = 0;
+        $ignorados  = 0;
+
+        foreach (User::whereIn('id', $this->selected)->get() as $user) {
+            if ($this->tryDeleteUser($user) === null) {
+                $eliminados++;
+            } else {
+                $ignorados++;
+            }
+        }
+
+        $this->clearSelection();
+
+        $msg = "{$eliminados} utilizador(es) eliminado(s).";
+        if ($ignorados > 0) {
+            $msg .= " {$ignorados} ignorado(s) por terem saldo, projectos ou assinaturas associadas.";
+        }
+        session()->flash($eliminados > 0 ? 'success' : 'error', $msg);
+    }
+
+    /** Suspende, em lote, os utilizadores marcados na tabela. */
+    public function bulkSuspendSelected(): void
+    {
+        if (empty($this->selected)) {
+            return;
+        }
+
+        $users = User::whereIn('id', $this->selected)->where('role', '!=', 'admin')->get();
+
+        foreach ($users as $user) {
+            $user->is_suspended = true;
+            $user->status       = 'suspended';
+            $user->save();
+        }
+
+        AuditLogger::log('user_bulk_suspended', $users->count() . ' utilizador(es) suspenso(s) em lote', 'User', null);
+
+        $this->clearSelection();
+
+        session()->flash('success', $users->count() . ' utilizador(es) suspenso(s).');
+    }
+
+    public function updatedSelectPage(bool $value): void
+    {
+        $pageIds = $this->usersOnPage()->pluck('id')
+            ->filter(fn ($id) => $id !== auth()->id())
+            ->values()
+            ->all();
+
+        $this->selected = $value
+            ? array_values(array_unique(array_merge($this->selected, $pageIds)))
+            : array_values(array_diff($this->selected, $pageIds));
     }
 
     public function bulkVerifyKyc(): void
@@ -224,9 +310,10 @@ class Users extends Component
         session()->flash('success', "{$count} utilizadores verificados em lote.");
     }
 
-    public function render()
+    /** Mesma query/paginação usada por render() — reutilizada para "seleccionar tudo nesta página". */
+    private function usersOnPage()
     {
-        $users = User::query()
+        return User::query()
             ->when($this->search, fn($q) => $q->where(function ($q) {
                 $q->where('name', 'like', "%{$this->search}%")
                   ->orWhere('email', 'like', "%{$this->search}%");
@@ -235,6 +322,11 @@ class Users extends Component
             ->when($this->kycFilter,  fn($q) => $q->where('kyc_status', $this->kycFilter))
             ->orderByDesc('created_at')
             ->paginate(20);
+    }
+
+    public function render()
+    {
+        $users = $this->usersOnPage();
 
         $pendingKyc = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->count();
         $pendingSubmissions = KycSubmission::with('user')->where('status', 'pending')->latest()->get();

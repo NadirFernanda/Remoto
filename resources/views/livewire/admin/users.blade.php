@@ -197,13 +197,40 @@
         @endif
     </div>
 
+    {{-- Barra de acções em lote --}}
+    @if(count($selected) > 0)
+        <div class="flex items-center gap-3 mb-4 px-4 py-3 bg-[#0055ff]/5 border border-[#0055ff]/20 rounded-xl">
+            <span class="text-sm font-semibold text-[#0055ff]">{{ count($selected) }} seleccionado(s)</span>
+            <div class="ml-auto flex items-center gap-2">
+                <button wire:click="bulkSuspendSelected" wire:confirm="Suspender {{ count($selected) }} utilizador(es)?"
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-orange-700 border border-orange-200 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
+                    Suspender seleccionados
+                </button>
+                @if(auth()->user()->admin_role === null)
+                    <button wire:click="bulkDeleteSelected"
+                        wire:confirm="Eliminar PERMANENTEMENTE {{ count($selected) }} utilizador(es)? Só quem não tiver saldo, projectos ou assinaturas associadas é eliminado — o resto é ignorado. Esta acção não pode ser desfeita."
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-700 border border-red-200 bg-red-50 rounded-lg hover:bg-red-100 transition">
+                        Eliminar seleccionados
+                    </button>
+                @endif
+                <button wire:click="$set('selected', []); $set('selectPage', false)" class="text-xs text-gray-400 hover:text-gray-600 transition px-2">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    @endif
+
     {{-- Tabela de utilizadores --}}
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm">
                 <thead>
                     <tr class="bg-gray-50 border-b border-gray-100">
-                        <th class="py-3 px-5 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Utilizador</th>
+                        <th class="py-3 pl-5 pr-2 text-left w-8">
+                            <input type="checkbox" wire:model.live="selectPage"
+                                class="w-4 h-4 rounded border-gray-300 text-[#0055ff] focus:ring-[#0055ff]/30 cursor-pointer">
+                        </th>
+                        <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Utilizador</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Função</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Verificação</th>
                         <th class="py-3 px-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">Estado</th>
@@ -238,6 +265,14 @@
                         };
                     @endphp
                     <tr wire:key="admin-user-{{ $user->id }}" class="hover:bg-gray-50 transition-colors {{ $user->is_suspended ? 'opacity-60' : '' }}">
+
+                        {{-- Seleccionar --}}
+                        <td class="py-3 pl-5 pr-2">
+                            @if($user->id !== auth()->id())
+                                <input type="checkbox" wire:model.live="selected" value="{{ $user->id }}"
+                                    class="w-4 h-4 rounded border-gray-300 text-[#0055ff] focus:ring-[#0055ff]/30 cursor-pointer">
+                            @endif
+                        </td>
 
                         {{-- Utilizador --}}
                         <td class="py-3 px-5">
@@ -279,72 +314,92 @@
                         </td>
 
                         {{-- Acções --}}
-                        <td class="py-3 px-4">
-                            <div class="flex items-center justify-end gap-1.5 flex-wrap">
-                                {{-- Documentos de identificação --}}
-                                @if($user->role !== 'admin')
-                                    <button wire:click="reviewUserKyc({{ $user->id }})"
-                                        title="Ver documentos de identificação"
-                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-slate-600 border border-slate-200 rounded-lg hover:border-[#0055ff] hover:text-[#0055ff] transition">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-                                        Documentos
+                        <td class="py-3 px-4 text-right">
+                            @if($user->role !== 'admin')
+                                <div x-data="{
+                                        open: false,
+                                        top: 0,
+                                        left: 0,
+                                        toggle() {
+                                            if (this.open) { this.open = false; return; }
+                                            const r = this.$refs.trigger.getBoundingClientRect();
+                                            this.top  = r.bottom + window.scrollY + 4;
+                                            this.left = r.right + window.scrollX - 208;
+                                            this.open = true;
+                                        }
+                                     }"
+                                     @keydown.escape.window="open = false"
+                                     class="inline-block text-left">
+                                    <button x-ref="trigger" @click="toggle()"
+                                        class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition">
+                                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6h.008v.008H12V6zm0 6h.008v.008H12V12zm0 6h.008v.008H12V18z"/></svg>
                                     </button>
-                                @endif
 
-                                {{-- Verificar / Rejeitar identidade --}}
-                                @if($user->role !== 'admin')
-                                    @if($kyc !== 'verified')
-                                        <button wire:click="verifyKyc({{ $user->id }})"
-                                            title="Aprovar verificação de identidade"
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-green-700 border border-green-200 bg-green-50 rounded-lg hover:bg-green-100 transition">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
-                                            Aprovar
-                                        </button>
-                                    @endif
-                                    @if($kyc !== 'rejected')
-                                        <button wire:click="rejectKyc({{ $user->id }})"
-                                            title="Rejeitar verificação de identidade"
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-red-600 border border-red-200 bg-red-50 rounded-lg hover:bg-red-100 transition">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                                            Rejeitar
-                                        </button>
-                                    @endif
-                                @endif
+                                    <template x-teleport="body">
+                                    <div x-show="open" x-cloak x-transition @click.outside="open = false"
+                                        :style="`position:absolute; top:${top}px; left:${left}px;`"
+                                        class="w-52 py-1.5 rounded-xl shadow-2xl z-[100]"
+                                        style="background:#131f35; border:1px solid rgba(255,255,255,.1);">
 
-                                {{-- Suspender / Reactivar --}}
-                                @if($user->role !== 'admin')
-                                    @if($user->is_suspended)
-                                        <button wire:click="approveUser({{ $user->id }})"
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-[#0055ff] border border-[#0055ff]/30 bg-[#0055ff]/5 rounded-lg hover:bg-[#0055ff]/10 transition">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/></svg>
-                                            Reactivar
+                                        <button wire:click="reviewUserKyc({{ $user->id }})" @click="open = false"
+                                            class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-gray-200 hover:bg-white/5 transition text-left">
+                                            <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+                                            Ver documentos
                                         </button>
-                                    @else
-                                        <button wire:click="suspendUser({{ $user->id }})"
-                                            wire:confirm="Suspender o utilizador {{ $user->name }}?"
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-orange-700 border border-orange-200 bg-orange-50 rounded-lg hover:bg-orange-100 transition">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
-                                            Suspender
-                                        </button>
-                                    @endif
-                                @endif
 
-                                {{-- Eliminar — só Admin Master, só contas sem actividade real (útil para limpar contas de teste) --}}
-                                @if($user->role !== 'admin' && auth()->user()->admin_role === null)
-                                    <button wire:click="deleteUser({{ $user->id }})"
-                                        wire:confirm="Eliminar PERMANENTEMENTE o utilizador &quot;{{ $user->name }}&quot; ({{ $user->email }})? Só é possível se não tiver saldo, projectos ou assinaturas associadas. Esta acção não pode ser desfeita."
-                                        title="Eliminar conta (só contas sem actividade — use Suspender para contas reais)"
-                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs text-red-700 border border-red-200 bg-red-50 rounded-lg hover:bg-red-100 transition">
-                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        Eliminar
-                                    </button>
-                                @endif
-                            </div>
+                                        @if($kyc !== 'verified')
+                                            <button wire:click="verifyKyc({{ $user->id }})" @click="open = false"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-emerald-400 hover:bg-white/5 transition text-left">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                                                Aprovar identidade
+                                            </button>
+                                        @endif
+                                        @if($kyc !== 'rejected')
+                                            <button wire:click="rejectKyc({{ $user->id }})" @click="open = false"
+                                                wire:confirm="Rejeitar a verificação de identidade de {{ $user->name }}?"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-red-400 hover:bg-white/5 transition text-left">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                Rejeitar identidade
+                                            </button>
+                                        @endif
+
+                                        <div class="my-1 border-t border-white/10"></div>
+
+                                        @if($user->is_suspended)
+                                            <button wire:click="approveUser({{ $user->id }})" @click="open = false"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#5b9dff] hover:bg-white/5 transition text-left">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/></svg>
+                                                Reactivar conta
+                                            </button>
+                                        @else
+                                            <button wire:click="suspendUser({{ $user->id }})" @click="open = false"
+                                                wire:confirm="Suspender o utilizador {{ $user->name }}?"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-amber-400 hover:bg-white/5 transition text-left">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+                                                Suspender conta
+                                            </button>
+                                        @endif
+
+                                        {{-- Eliminar — só Admin Master, só contas sem actividade real (útil para limpar contas de teste) --}}
+                                        @if(auth()->user()->admin_role === null)
+                                            <div class="my-1 border-t border-white/10"></div>
+                                            <button wire:click="deleteUser({{ $user->id }})" @click="open = false"
+                                                wire:confirm="Eliminar PERMANENTEMENTE o utilizador &quot;{{ $user->name }}&quot; ({{ $user->email }})? Só é possível se não tiver saldo, projectos ou assinaturas associadas. Esta acção não pode ser desfeita."
+                                                title="Só contas sem actividade — use Suspender para contas reais"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-semibold text-red-400 hover:bg-red-500/10 transition text-left">
+                                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                                Eliminar conta
+                                            </button>
+                                        @endif
+                                    </div>
+                                    </template>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="py-14 text-center">
+                        <td colspan="7" class="py-14 text-center">
                             <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                             <p class="text-sm text-gray-400">Nenhum utilizador encontrado.</p>
                         </td>
