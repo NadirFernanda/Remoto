@@ -67,7 +67,7 @@
                 @error('photos.*') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 <div wire:loading wire:target="photos" class="mt-2 text-xs text-[#0055ff]">A processar imagens...</div>
                 @if(count($photos))
-                    <div class="grid grid-cols-5 gap-2 mt-3">
+                    <div class="grid grid-cols-3 sm:grid-cols-5 gap-2 mt-3">
                         @foreach($photos as $i => $photo)
                             <div class="relative">
                                 <img src="{{ $photo->temporaryUrl() }}" class="w-full aspect-square object-cover rounded-lg">

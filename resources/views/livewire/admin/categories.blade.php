@@ -76,6 +76,7 @@
 
     {{-- Table --}}
     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
         <table class="min-w-full text-sm">
             <thead>
                 <tr class="bg-gray-50 text-[#0055ff] uppercase text-xs tracking-wider">
@@ -137,6 +138,7 @@
                 @endforelse
             </tbody>
         </table>
+        </div>
     </div>
 
     <p class="text-xs text-gray-400">

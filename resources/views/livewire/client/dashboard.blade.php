@@ -15,22 +15,22 @@
 
 	{{-- KPIs --}}
 	<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-		<div class="bg-white rounded-2xl border border-gray-200 p-5">
+		<div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
 			<p class="text-xs text-gray-500 mb-1">Total Gasto</p>
 			<p class="text-2xl font-bold text-[#0055ff]">{{ money_aoa($kpi_total_gasto ?? 0) }}</p>
 			<p class="text-xs text-gray-400 mt-1">Pagamentos realizados</p>
 		</div>
-		<div class="bg-white rounded-2xl border border-gray-200 p-5">
+		<div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
 			<p class="text-xs text-gray-500 mb-1">Projectos Publicados</p>
 			<p class="text-2xl font-bold text-green-600">{{ $kpi_projetos_publicados ?? 0 }}</p>
 			<p class="text-xs text-gray-400 mt-1">Pedidos criados</p>
 		</div>
-		<div class="bg-white rounded-2xl border border-gray-200 p-5">
+		<div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
 			   <p class="text-xs text-gray-500 mb-1">Relatórios</p>
 			<p class="text-2xl font-bold text-indigo-600">{{ $kpi_freelancers_contratados ?? 0 }}</p>
 			<p class="text-xs text-gray-400 mt-1">Contratações</p>
 		</div>
-		<div class="bg-white rounded-2xl border border-gray-200 p-5">
+		<div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
 			<p class="text-xs text-gray-500 mb-1">Em Andamento</p>
 			<p class="text-2xl font-bold text-yellow-500">{{ $kpi_projetos_andamento ?? 0 }}</p>
 			<p class="text-xs text-gray-400 mt-1">Pedidos activos</p>

@@ -3,7 +3,7 @@
 @section('dashboard-title')
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-900">Gestão Comercial</h2>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-wrap">
             <a href="{{ route('admin.recibos.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#0070ff] text-[#0070ff] bg-white hover:bg-blue-50 font-semibold shadow-sm transition text-base">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 Gerar Recibo

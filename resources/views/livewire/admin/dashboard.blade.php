@@ -16,22 +16,22 @@
 
     {{-- ─── GMV + Revenue row ──────────────────────────────────── --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">GMV Total</p>
             <p class="text-2xl font-bold text-gray-900">{{ money_aoa($stats['gmv_total']) }}</p>
             <p class="text-xs text-gray-400 mt-1">Volume transacionado</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">GMV ({{ $period }}d)</p>
             <p class="text-2xl font-bold text-[#0055ff]">{{ money_aoa($stats['gmv_period']) }}</p>
             <p class="text-xs text-gray-400 mt-1">Últimos {{ $period }} dias</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Receita em Taxas</p>
             <p class="text-2xl font-bold text-green-600">{{ money_aoa($stats['revenue_total']) }}</p>
             <p class="text-xs text-gray-400 mt-1">Comissões acumuladas</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Taxas ({{ $period }}d)</p>
             <p class="text-2xl font-bold text-green-500">{{ money_aoa($stats['revenue_period']) }}</p>
             <p class="text-xs text-gray-400 mt-1">Últimos {{ $period }} dias</p>
@@ -95,7 +95,7 @@
 
     {{-- ─── Users + KYC + Disputes ────────────────────────────── --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <h2 class="text-sm font-bold text-gray-700 mb-3">Utilizadores</h2>
             <div class="space-y-2">
                 @foreach([
@@ -113,7 +113,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <h2 class="text-sm font-bold text-gray-700 mb-3">Verificação KYC</h2>
             @if($stats['kyc_pending'] > 0)
                 <div class="flex items-center gap-3 mb-4">
@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <h2 class="text-sm font-bold text-gray-700 mb-3">Disputas</h2>
             <div class="space-y-2">
                 <div class="flex justify-between text-sm">

@@ -108,7 +108,7 @@
         </x-action-toolbar>
 
         @if($proposalModal)
-            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
                 <div class="bg-white rounded-lg w-full max-w-2xl p-6 shadow-xl">
                     <h3 class="text-lg font-bold mb-3">Enviar proposta</h3>
                     <form wire:submit.prevent="sendProposal">

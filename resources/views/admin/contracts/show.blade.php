@@ -3,7 +3,7 @@
 @section('dashboard-title')
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 class="text-3xl font-bold text-gray-900">Detalhes do Contrato/Parceria</h2>
-        <div class="flex gap-3">
+        <div class="flex gap-3 flex-wrap">
             <a href="{{ route('admin.comercial.edit', $contract) }}"
                class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#00baff] text-[#00baff] hover:bg-[#00baff]/10 font-semibold text-sm transition">
                 ✏️ Editar

@@ -15,22 +15,22 @@
 
     {{-- KPIs --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Total Recebido</p>
             <p class="text-2xl font-bold text-[#0055ff]">Kz {{ number_format($kpi_total_recebido ?? 0, 2, ',', '.') }}</p>
             <p class="text-xs text-gray-400 mt-1">Recebido em pagamentos</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Projectos Concluídos</p>
             <p class="text-2xl font-bold text-green-600">{{ $kpi_projetos_concluidos ?? 0 }}</p>
             <p class="text-xs text-gray-400 mt-1">Finalizados com sucesso</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Em Andamento</p>
             <p class="text-2xl font-bold text-yellow-500">{{ $kpi_projetos_andamento ?? 0 }}</p>
             <p class="text-xs text-gray-400 mt-1">Projectos activos</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 min-w-0">
             <p class="text-xs text-gray-500 mb-1">Saldo Pendente</p>
             <p class="text-2xl font-bold text-orange-500">Kz {{ number_format($saldo_pendente ?? 0, 2, ',', '.') }}</p>
             <p class="text-xs text-gray-400 mt-1">A receber</p>
