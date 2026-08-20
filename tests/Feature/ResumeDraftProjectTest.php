@@ -128,6 +128,71 @@ class ResumeDraftProjectTest extends TestCase
             ->test(ProjectManager::class)
             ->set('selectedServiceId', $service->id)
             ->assertSee('Publicar Projecto')
+            ->assertSee('Eliminar Rascunho')
             ->assertSee('Rascunho');
+    }
+
+    #[Test]
+    public function cliente_pode_eliminar_o_proprio_rascunho(): void
+    {
+        $client  = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($client, 'draft');
+
+        Livewire::actingAs($client)
+            ->test(ProjectManager::class)
+            ->set('selectedServiceId', $service->id)
+            ->call('deleteDraft', $service->id)
+            ->assertSet('selectedServiceId', null);
+
+        $this->assertSoftDeleted('services', ['id' => $service->id]);
+    }
+
+    #[Test]
+    public function cliente_pode_eliminar_projecto_com_pagamento_pendente(): void
+    {
+        $client  = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($client, 'payment_pending');
+
+        Livewire::actingAs($client)
+            ->test(ProjectManager::class)
+            ->call('deleteDraft', $service->id);
+
+        $this->assertSoftDeleted('services', ['id' => $service->id]);
+    }
+
+    #[Test]
+    public function cliente_nao_pode_eliminar_rascunho_de_outro_cliente(): void
+    {
+        $dono    = User::factory()->create(['role' => 'cliente']);
+        $outro   = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($dono, 'draft');
+
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+
+        Livewire::actingAs($outro)
+            ->test(ProjectManager::class)
+            ->call('deleteDraft', $service->id);
+
+        $this->assertDatabaseHas('services', ['id' => $service->id]);
+    }
+
+    /**
+     * Um projecto já publicado envolve dinheiro real (pagamento confirmado)
+     * — eliminar por aqui teria de ser sempre bloqueado; cancelamento tem
+     * de passar pelo fluxo próprio, não pela eliminação de rascunho.
+     */
+    #[Test]
+    public function nao_e_possivel_eliminar_projecto_ja_publicado(): void
+    {
+        $client  = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($client, 'published');
+
+        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+
+        Livewire::actingAs($client)
+            ->test(ProjectManager::class)
+            ->call('deleteDraft', $service->id);
+
+        $this->assertDatabaseHas('services', ['id' => $service->id]);
     }
 }

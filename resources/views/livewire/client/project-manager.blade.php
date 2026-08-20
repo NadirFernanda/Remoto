@@ -172,13 +172,21 @@
 
                         {{-- Action buttons --}}
                         <div class="flex flex-wrap gap-2">
-                            {{-- Rascunho: publicar (concluir o pagamento pendente) --}}
+                            {{-- Rascunho: publicar (concluir o pagamento pendente) ou eliminar --}}
                             @if(in_array($selected->status, ['draft', 'payment_pending']))
                                 <button wire:click="resumeDraft({{ $selected->id }})" class="btn-primary text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                                     </svg>
                                     Publicar Projecto
+                                </button>
+                                <button wire:click="deleteDraft({{ $selected->id }})"
+                                    wire:confirm="Eliminar permanentemente o rascunho &quot;{{ $selected->titulo }}&quot;? Esta acção não pode ser desfeita."
+                                    class="btn-outline text-xs text-red-600 border-red-200 hover:bg-red-50">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                    Eliminar Rascunho
                                 </button>
                             @endif
                             {{-- Comprovativo de pagamento (disponível após publicação) --}}

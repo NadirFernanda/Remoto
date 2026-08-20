@@ -275,6 +275,33 @@ class ProjectManager extends Component
         return redirect()->route('client.value', ['service' => $service->id]);
     }
 
+    /**
+     * Elimina permanentemente um rascunho — restrito a 'draft'/'payment_pending'
+     * de propósito: nunca houve pagamento confirmado nem freelancer associado
+     * nesse estado, por isso não há saldo/escrow a proteger. Um projecto já
+     * publicado ou com actividade real tem de passar pelo fluxo normal de
+     * cancelamento, não por aqui.
+     */
+    public function deleteDraft(int $serviceId): void
+    {
+        $service = Service::where('id', $serviceId)
+            ->where('cliente_id', auth()->id())
+            ->whereIn('status', ['draft', 'payment_pending'])
+            ->firstOrFail();
+
+        foreach ($service->attachments as $attachment) {
+            Storage::disk('public')->delete($attachment->path);
+        }
+
+        $service->delete();
+
+        if ($this->selectedServiceId === $serviceId) {
+            $this->selectedServiceId = null;
+        }
+
+        session()->flash('success', 'Rascunho eliminado.');
+    }
+
     // ─── Confirmar Início de Projecto (proposta directa aceite) ────
     public function confirmarInicio(int $serviceId): void
     {
