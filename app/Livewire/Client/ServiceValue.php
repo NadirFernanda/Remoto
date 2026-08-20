@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Client;
 
+use App\Models\PlatformSetting;
 use Livewire\Component;
 
 class ServiceValue extends Component
@@ -9,8 +10,13 @@ class ServiceValue extends Component
     public float $valor = 5;
     public float $taxa = 10.0; // 10%
     public float $valor_liquido = 0;
+    public float $valorMinimo = 5;
+
     public function mount()
     {
+        $this->valorMinimo = (float) PlatformSetting::get('project_min_value', 5);
+        $this->valor       = $this->valorMinimo;
+
         // Se já houver dados de pedido na sessão, respeita o valor definido anteriormente
         $order = session('client_order', []);
         if (isset($order['payment']['valor'], $order['payment']['taxa'], $order['payment']['valor_liquido'])) {
@@ -40,9 +46,9 @@ class ServiceValue extends Component
         }
 
         $this->validate([
-            'valor' => 'required|numeric|min:5',
+            'valor' => 'required|numeric|min:' . $this->valorMinimo,
         ], [
-            'valor.min' => 'O valor do serviço deve ser no mínimo 5 Kz.',
+            'valor.min' => 'O valor do serviço deve ser no mínimo ' . number_format($this->valorMinimo, 0, ',', '.') . ' Kz.',
         ]);
         // Atualizar objeto único de pedido na sessão
         $order['payment'] = [

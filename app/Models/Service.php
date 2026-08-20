@@ -74,6 +74,7 @@ class Service extends Model
         'paypal_order_id',
         'payment_method_used',
         'appypay_charge_id',
+        'appypay_merchant_transaction_id',
         'payment_reference',
         'payment_entity',
     ];

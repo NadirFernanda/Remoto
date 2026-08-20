@@ -5,6 +5,7 @@ namespace App\Livewire\Client;
 use App\Events\PaymentFailed;
 use App\Jobs\NotifyFreelancersOfNewProject;
 use App\Jobs\PollAppyPayChargeJob;
+use App\Models\PlatformSetting;
 use App\Models\Service;
 use App\Modules\Payments\Services\AppyPayGateway;
 use App\Modules\Payments\Services\AppyPayReconciliationService;
@@ -51,10 +52,11 @@ class PaymentEscrow extends Component
     {
         $order    = session('client_order', []);
         $pagamento = $order['payment'] ?? session('pagamento', null);
+        $valorMinimo = (float) PlatformSetting::get('project_min_value', 5);
 
         $this->valor = $pagamento
-            ? (float)($pagamento['valor'] ?? 5)
-            : (float)request()->query('valor', 5);
+            ? (float)($pagamento['valor'] ?? $valorMinimo)
+            : (float)request()->query('valor', $valorMinimo);
 
         $fee = (new FeeService())->calculateServiceFee($this->valor);
         $this->taxa_cliente  = $fee['taxa_cliente'];
@@ -219,15 +221,30 @@ class PaymentEscrow extends Component
             return redirect()->route('client.briefing');
         }
 
+        // Gravado ANTES da chamada — se o pedido expirar do nosso lado sem
+        // recebermos o charge_id da AppyPay, ainda ficamos com este ID para
+        // reconciliar manualmente com o suporte deles, em vez de perder por
+        // completo o rasto de uma cobrança que possa ter sido processada do
+        // lado deles apesar do timeout.
+        $merchantTransactionId = $this->generateMerchantTransactionId();
+        $service->appypay_merchant_transaction_id = $merchantTransactionId;
+        $service->save();
+
         $result = (new AppyPayGateway())->chargeByPhone(
             $this->phone_number,
             $this->valor_total,
             'Pagamento de serviço #' . $service->id,
-            $this->generateMerchantTransactionId()
+            $merchantTransactionId
         );
 
         if (empty($result['success'])) {
             $this->appypay_error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
+            \App\Modules\Admin\Services\AuditLogger::log(
+                'appypay_charge_ambiguous',
+                "Pedido de cobrança AppyPay falhou/expirou para o serviço #{$service->id} (merchantTransactionId: {$merchantTransactionId}) — estado do pagamento do lado da AppyPay não confirmado, requer verificação manual.",
+                'Service',
+                $service->id
+            );
             return;
         }
 
@@ -262,14 +279,24 @@ class PaymentEscrow extends Component
             return redirect()->route('client.briefing');
         }
 
+        $merchantTransactionId = $this->generateMerchantTransactionId();
+        $service->appypay_merchant_transaction_id = $merchantTransactionId;
+        $service->save();
+
         $result = (new AppyPayGateway())->chargeByReference(
             $this->valor_total,
             'Pagamento de serviço #' . $service->id,
-            $this->generateMerchantTransactionId()
+            $merchantTransactionId
         );
 
         if (empty($result['success'])) {
             $this->appypay_error = $result['message'] ?? 'Não foi possível gerar a referência. Tente novamente.';
+            \App\Modules\Admin\Services\AuditLogger::log(
+                'appypay_charge_ambiguous',
+                "Pedido de referência AppyPay falhou/expirou para o serviço #{$service->id} (merchantTransactionId: {$merchantTransactionId}) — estado do pagamento do lado da AppyPay não confirmado, requer verificação manual.",
+                'Service',
+                $service->id
+            );
             return;
         }
 

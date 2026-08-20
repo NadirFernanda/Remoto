@@ -23,6 +23,7 @@ class Settings extends Component
     public string $receiptText           = 'Pagamento processado pela 24Horas Remoto.';
     public string $brandLogoPath         = '';
     public string $walletMinBalance      = '0';
+    public string $projectMinValue       = '5';
     public mixed  $brandLogo             = null;
 
     // ── Prazos & Retenção ─────────────────────────────────────────────────────
@@ -91,6 +92,7 @@ class Settings extends Component
         $this->receiptText           = PlatformSetting::get('receipt_text', 'Pagamento processado pela 24Horas Remoto.');
         $this->brandLogoPath         = PlatformSetting::get('brand_logo_path', '');
         $this->walletMinBalance      = PlatformSetting::get('wallet_min_balance', '0');
+        $this->projectMinValue       = PlatformSetting::get('project_min_value', '5');
 
         $this->freelancerPaymentRelease  = PlatformSetting::get('freelancer_payment_release',  'immediate');
         $this->creatorPaymentRelease     = PlatformSetting::get('creator_payment_release',     'day_26');
@@ -172,6 +174,7 @@ class Settings extends Component
             'financialSupportEmail'=> 'nullable|email|max:150',
             'receiptText'          => 'nullable|string|max:500',
             'walletMinBalance'             => 'nullable|numeric|min:0',
+            'projectMinValue'              => 'required|numeric|min:1',
             'brandLogo'                    => 'nullable|image|max:2048',
             'freelancerPaymentRelease'     => 'required|in:immediate,after_confirmation',
             'creatorPaymentRelease'        => 'required|in:immediate,day_26',
@@ -203,6 +206,7 @@ class Settings extends Component
         PlatformSetting::set('financial_support_email', $this->financialSupportEmail ?? '');
         PlatformSetting::set('receipt_text',      $this->receiptText ?? '');
         PlatformSetting::set('wallet_min_balance', $this->walletMinBalance ?? '0');
+        PlatformSetting::set('project_min_value',  $this->projectMinValue ?? '5');
         PlatformSetting::set('freelancer_payment_release',  $this->freelancerPaymentRelease);
         PlatformSetting::set('creator_payment_release',     $this->creatorPaymentRelease);
         PlatformSetting::set('infoproduto_payment_release', $this->infoprodutoPaymentRelease);
