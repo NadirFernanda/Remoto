@@ -114,6 +114,15 @@ class Briefing extends Component
         }
 
         $order = session('client_order', []);
+        // Se o projecto a que a sessão se referia mudou (novo projecto, ou a
+        // editar um rascunho diferente do último), o valor guardado em
+        // 'payment' pertence a OUTRO projecto — nunca deixar herdar isso.
+        // Sem isto, um valor de uma tentativa antiga e abandonada ficava
+        // "colado" à sessão e aparecia em qualquer projecto novo criado a
+        // seguir, mesmo sem nenhuma relação com o projecto abandonado.
+        if (($order['service_id'] ?? null) !== $serviceId) {
+            unset($order['payment']);
+        }
         $order['briefing_text'] = $this->generated_description;
         $order['title']         = $this->title1;
         $order['service_id']    = $serviceId;
