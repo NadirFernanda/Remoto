@@ -252,6 +252,16 @@ main::before, main::after { display: none !important; content: none !important; 
 /* Respostas de admin no suporte (bg-blue-50) */
 .dash-main .bg-blue-50 { background-color: rgba(0,85,255,.10) !important; }
 
+/* Fundo em gradiente claro (bg-gradient-to-br from-slate-50 via-white to-*)
+   usado como wrapper em várias páginas — .bg-white/.bg-slate-50 não apanham
+   isto porque um gradiente Tailwind define background-image via custom
+   properties (--tw-gradient-*), não background-color. Sem isto, a página
+   inteira fica com um fundo claro por baixo de tudo o resto já convertido. */
+.dash-main .bg-gradient-to-br.from-slate-50 {
+    background-image: none !important;
+    background-color: transparent !important;
+}
+
 /* ── Badges brancos ─────────────────────────────────── */
 /* Converte badges bg-white em dark glass */
 .dash-main span.bg-white,
