@@ -193,14 +193,16 @@ body{
         font-size: 1rem;
     }
     .mobile-menu-dropdown .nav-link:hover{ background: rgba(0,80,255,0.08); color: var(--accent-v) !important; }
-    .mobile-menu-dropdown .nav-link.btn-primary{ color: #021018 !important; margin-left: 0; }
+    .mobile-menu-dropdown .nav-link.btn-primary{ color: #fff !important; margin-left: 0; }
 }
 
 /* Footer */
 .site-footer{ background: transparent; color: var(--muted-v); }
 
-/* Buttons */
-.btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: #0055ff; color:#021018; padding:.6rem 1rem; border-radius:10px; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; box-shadow: 0 10px 30px rgba(0,80,255,0.08); text-decoration:none; opacity:1; }
+/* Buttons — arredondamento e cor de texto alinhados de propósito com os
+   botões do cabeçalho ("Instalar app", "Publicar": #0055ff, texto branco,
+   border-radius .6875rem), a referência visual única da plataforma. */
+.btn-primary{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background: #0055ff; color:#fff; padding:.6rem 1rem; border-radius:.6875rem; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; box-shadow: 0 10px 30px rgba(0,80,255,0.08); text-decoration:none; opacity:1; }
 .nav-link.btn-primary{ margin-left:0.75rem; }
 .btn-primary:hover{ transform:translateY(-2px); box-shadow: 0 12px 30px rgba(6,182,212,0.16); }
 
@@ -211,18 +213,18 @@ body{
 }
 .hp-btn-pulse { animation: hp-btn-pulse 2.2s ease-out infinite; }
 
-.btn-ghost{ background:transparent; border:1px solid rgba(0,80,255,0.12); color:var(--accent-v); padding:.5rem .9rem; border-radius:10px; }
+.btn-ghost{ background:transparent; border:1px solid rgba(0,80,255,0.12); color:var(--accent-v); padding:.5rem .9rem; border-radius:.6875rem; }
 
 /* Button size variants used across dashboards */
-.btn-primary.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
-.btn-primary.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
+.btn-primary.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:.5rem; }
+.btn-primary.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:.5rem; }
 /* Mesmo padding/arredondamento do .btn-primary de propósito — os dois
    aparecem lado a lado em toda a plataforma (ex.: acções "Publicar" +
    "Eliminar"), e sem isto ficavam sempre com tamanhos diferentes. */
-.btn-outline{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background:transparent; color:var(--accent-v); border:1px solid rgba(0,80,255,0.35); padding:.6rem 1rem; border-radius:10px; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; }
+.btn-outline{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background:transparent; color:var(--accent-v); border:1px solid rgba(0,80,255,0.35); padding:.6rem 1rem; border-radius:.6875rem; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; }
 .btn-outline:hover{ background:rgba(0,80,255,0.07); border-color:rgba(0,80,255,0.35); transform:translateY(-1px); }
-.btn-outline.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
-.btn-outline.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
+.btn-outline.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:.5rem; }
+.btn-outline.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:.5rem; }
 
 /* Icon + text spacing for dashboard header buttons */
 .btn-primary svg, .btn-outline svg { flex-shrink: 0; }
@@ -236,7 +238,7 @@ body{
 .action-row{ display:flex; gap:.75rem; align-items:center; }
 .action-row .btn-eq{ display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .85rem; border-radius:10px; font-weight:700; text-decoration:none; justify-content:center; }
 .action-row .btn-eq svg{ width:18px; height:18px; flex-shrink:0; }
-.action-row .btn-eq.btn-primary{ background: #0055ff; color:#021018; box-shadow:0 8px 22px rgba(0,80,255,0.06); border:none; }
+.action-row .btn-eq.btn-primary{ background: #0055ff; color:#fff; box-shadow:0 8px 22px rgba(0,80,255,0.06); border:none; }
 .action-row .btn-eq.btn-outline{ background:transparent; color:var(--accent-v); border:1px solid rgba(0,80,255,0.12); }
 .action-row .btn-eq:focus-visible{ outline-offset:3px; outline:3px solid rgba(0,80,255,0.12); }
 
@@ -245,7 +247,7 @@ body{
 
 /* Ensure btns are not affected by nav link color rules */
 .nav-link{ color: #e2e8f0; }
-.nav-link.btn-primary{ color:#021018; }
+.nav-link.btn-primary{ color:#fff; }
 
 /* Utility */
 .container { max-width:1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
@@ -324,7 +326,7 @@ body{
 .action-row.equal > *{ flex:1 1 0; min-width:0; }
 .action-row a, .action-row button, .action-row form{ display:inline-flex; }
 .action-row .btn-eq{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.45rem .8rem; border-radius:9999px; font-weight:700; transition:transform .12s ease, box-shadow .12s ease; background:transparent; color:var(--accent-v); border:1px solid transparent; box-shadow:none; }
-.action-row .btn-eq.btn-primary{ background: #0055ff; color:#021018; box-shadow:0 8px 22px rgba(0,80,255,0.06); border: none; }
+.action-row .btn-eq.btn-primary{ background: #0055ff; color:#fff; box-shadow:0 8px 22px rgba(0,80,255,0.06); border: none; }
 .action-row .btn-eq.btn-outline{ background:transparent; border:1px solid rgba(0,80,255,0.12); color:var(--accent-v); box-shadow:none; }
 .action-row .btn-eq svg{ margin-right:.5rem; width:18px; height:18px; flex-shrink:0; }
 .action-row .btn-eq:hover{ transform: translateY(-2px); box-shadow:0 12px 30px rgba(0,80,255,0.10); }
