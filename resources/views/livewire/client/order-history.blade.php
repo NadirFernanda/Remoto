@@ -39,6 +39,7 @@
             @forelse($orders as $order)
                 @php
                     $s = $order->status;
+                    $isDraft = in_array($s, ['draft', 'payment_pending']);
                     if ($s === 'published') {
                         $badge = ['label' => 'Publicado',    'color' => 'bg-sky-50 text-sky-700 border-sky-200'];
                         $dot   = 'bg-[#0055ff]';
@@ -51,13 +52,18 @@
                     } elseif ($s === 'cancelado') {
                         $badge = ['label' => 'Cancelado',    'color' => 'bg-red-50 text-red-600 border-red-200'];
                         $dot   = 'bg-red-500';
+                    } elseif ($isDraft) {
+                        $badge = ['label' => 'Rascunho',     'color' => 'bg-amber-50 text-amber-700 border-amber-200'];
+                        $dot   = 'bg-amber-400';
                     } else {
                         $badge = ['label' => ucfirst($s),    'color' => 'bg-gray-100 text-gray-500 border-gray-200'];
                         $dot   = 'bg-gray-400';
                     }
                 @endphp
 
-                <a href="{{ route('client.service.cancel', $order->id) }}"
+                {{-- Rascunhos não podem ser "cancelados" (nunca houve pagamento) —
+                     levam à Gestão de Projectos, onde há acções de Publicar/Eliminar. --}}
+                <a href="{{ $isDraft ? route('client.projects', ['service' => $order->id]) : route('client.service.cancel', $order->id) }}"
                    class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-sky-100 hover:-translate-y-0.5">
 
                     {{-- Number badge --}}

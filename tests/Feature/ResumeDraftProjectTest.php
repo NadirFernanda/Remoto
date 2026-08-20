@@ -195,4 +195,38 @@ class ResumeDraftProjectTest extends TestCase
 
         $this->assertDatabaseHas('services', ['id' => $service->id]);
     }
+
+    /**
+     * Regressão: "Meus Pedidos" (order-history) levava TODOS os projectos,
+     * incluindo rascunhos, para /cliente/servico/{id}/cancelar — uma página
+     * que só sabe cancelar projectos 'published'/'accepted' e mostra sempre
+     * "Não é possível cancelar" para rascunhos, sem oferecer nenhuma
+     * alternativa (nem publicar, nem eliminar). Um rascunho clicado em
+     * "Meus Pedidos" tem de chegar a um sítio onde essas acções existem.
+     */
+    #[Test]
+    public function abrir_um_projecto_via_service_na_url_seleciona_o_projecto_correcto(): void
+    {
+        $client  = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($client, 'draft');
+
+        $response = $this->actingAs($client)->get(route('client.projects', ['service' => $service->id]));
+
+        $response->assertOk();
+        $response->assertSee('Publicar Projecto');
+        $response->assertSee('Eliminar Rascunho');
+    }
+
+    #[Test]
+    public function nao_seleciona_projecto_de_outro_cliente_via_service_na_url(): void
+    {
+        $dono   = User::factory()->create(['role' => 'cliente']);
+        $outro  = User::factory()->create(['role' => 'cliente']);
+        $service = $this->makeService($dono, 'draft');
+
+        $response = $this->actingAs($outro)->get(route('client.projects', ['service' => $service->id]));
+
+        $response->assertOk();
+        $response->assertDontSee('Publicar Projecto');
+    }
 }

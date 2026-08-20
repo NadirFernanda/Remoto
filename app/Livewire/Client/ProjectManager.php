@@ -34,6 +34,15 @@ class ProjectManager extends Component
     // Attachment upload
     public $attachmentFile = null;
 
+    /** Permite chegar directamente a um projecto específico via ?service=ID (ex.: a partir de "Meus Pedidos"). */
+    public function mount(): void
+    {
+        $serviceId = request()->query('service');
+        if ($serviceId && Service::where('id', $serviceId)->where('cliente_id', auth()->id())->exists()) {
+            $this->selectedServiceId = (int) $serviceId;
+        }
+    }
+
     public function selectService(int $id): void
     {
         $this->selectedServiceId = $id;
