@@ -5,6 +5,7 @@ namespace App\Livewire\Loja;
 use App\Jobs\PollAppyPayInfoprodutoCompraCheckoutJob;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoCompraCheckout;
+use App\Models\Wallet;
 use App\Modules\Loja\Services\LojaService;
 use App\Modules\Payments\Services\AppyPayGateway;
 use App\Modules\Payments\Services\AppyPayReconciliationService;
@@ -18,6 +19,7 @@ class PurchaseCheckout extends Component
     public float $price;
 
     public string $payment_method = 'wallet'; // wallet | express | bank
+    public float $walletBalance   = 0;
     public string $phone_number   = '';
 
     public string $step         = 'form'; // form | waiting | reference | done
@@ -48,6 +50,8 @@ class PurchaseCheckout extends Component
         // tem nada para pagar com "Saldo".
         if ($user->activeRole() === 'cliente') {
             $this->payment_method = 'express';
+        } else {
+            $this->walletBalance = (float) (Wallet::where('user_id', $user->id)->value('saldo') ?? 0);
         }
 
         if ($produto->jaCompradoPor($user->id)) {

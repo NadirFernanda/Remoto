@@ -7,6 +7,7 @@ use App\Models\CreatorProfile;
 use App\Models\CreatorSubscription;
 use App\Models\CreatorSubscriptionCheckout;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Modules\Payments\Services\AppyPayGateway;
 use App\Modules\Payments\Services\AppyPayReconciliationService;
 use App\Services\CreatorSubscriptionService;
@@ -20,6 +21,7 @@ class SubscriptionCheckout extends Component
     public float $price;
 
     public string $payment_method = 'wallet'; // wallet | express | bank
+    public float $walletBalance   = 0;
     public string $phone_number   = '';
 
     public string $step         = 'form'; // form | waiting | reference | done
@@ -48,6 +50,8 @@ class SubscriptionCheckout extends Component
         // tem nada para pagar com "Saldo".
         if ($me->activeRole() === 'cliente') {
             $this->payment_method = 'express';
+        } else {
+            $this->walletBalance = (float) (Wallet::where('user_id', $me->id)->value('saldo') ?? 0);
         }
 
         $alreadyActive = CreatorSubscription::where('subscriber_id', $me->id)

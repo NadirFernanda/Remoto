@@ -55,6 +55,12 @@
 
         {{-- SALDO --}}
         @if($payment_method === 'wallet')
+            <div class="flex items-center justify-between px-1 mb-3 text-sm">
+                <span class="text-gray-500">Saldo disponível</span>
+                <span class="font-bold {{ $walletBalance < $price ? 'text-red-500' : 'text-gray-800' }}">
+                    Kz {{ number_format($walletBalance, 0, ',', '.') }}
+                </span>
+            </div>
             <button type="button" wire:click="chargeWallet" wire:loading.attr="disabled" wire:target="chargeWallet"
                 class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-base">
                 <span wire:loading.remove wire:target="chargeWallet">Pagar {{ number_format($price, 0, ',', '.') }} Kz com saldo da carteira</span>

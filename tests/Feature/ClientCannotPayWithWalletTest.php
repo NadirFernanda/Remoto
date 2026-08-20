@@ -79,6 +79,20 @@ class ClientCannotPayWithWalletTest extends TestCase
     }
 
     #[Test]
+    public function freelancer_ve_o_saldo_disponivel_ao_comprar_infoproduto_com_saldo(): void
+    {
+        $produto    = $this->makeInfoproduto();
+        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        Wallet::create(['user_id' => $freelancer->id, 'saldo' => 12345, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]);
+
+        Livewire::actingAs($freelancer)
+            ->test(PurchaseCheckout::class, ['produto' => $produto])
+            ->assertSet('walletBalance', 12345.0)
+            ->assertSee('Saldo disponível')
+            ->assertSee('12.345');
+    }
+
+    #[Test]
     public function freelancer_dono_do_produto_e_redireccionado_com_mensagem_clara_em_vez_de_403(): void
     {
         $freelancer = User::factory()->create(['role' => 'freelancer']);
@@ -110,5 +124,20 @@ class ClientCannotPayWithWalletTest extends TestCase
             ->test(SubscriptionCheckout::class, ['user' => $creator])
             ->assertSet('payment_method', 'express')
             ->assertDontSee('Saldo');
+    }
+
+    #[Test]
+    public function freelancer_ve_o_saldo_disponivel_ao_assinar_criador_com_saldo(): void
+    {
+        $creator = User::factory()->create(['role' => 'creator', 'has_creator_profile' => true]);
+        CreatorProfile::create(['user_id' => $creator->id, 'subscription_price' => 3000]);
+        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        Wallet::create(['user_id' => $freelancer->id, 'saldo' => 7500, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 0]);
+
+        Livewire::actingAs($freelancer)
+            ->test(SubscriptionCheckout::class, ['user' => $creator])
+            ->assertSet('walletBalance', 7500.0)
+            ->assertSee('Saldo disponível')
+            ->assertSee('7.500');
     }
 }
