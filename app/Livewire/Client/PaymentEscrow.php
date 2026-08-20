@@ -20,7 +20,7 @@ class PaymentEscrow extends Component
 {
     use UserSessionTrait;
 
-    public float $valor        = 10000;
+    public float $valor        = 5;
     public float $taxa_cliente = 0.0;
     public float $valor_total  = 0.0;
     public float $taxa         = 0.0;
@@ -53,8 +53,8 @@ class PaymentEscrow extends Component
         $pagamento = $order['payment'] ?? session('pagamento', null);
 
         $this->valor = $pagamento
-            ? (float)($pagamento['valor'] ?? 10000)
-            : (float)request()->query('valor', 10000);
+            ? (float)($pagamento['valor'] ?? 5)
+            : (float)request()->query('valor', 5);
 
         $fee = (new FeeService())->calculateServiceFee($this->valor);
         $this->taxa_cliente  = $fee['taxa_cliente'];

@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class ServiceValue extends Component
 {
-    public float $valor = 10000;
+    public float $valor = 5;
     public float $taxa = 10.0; // 10%
     public float $valor_liquido = 0;
     public function mount()
@@ -40,9 +40,9 @@ class ServiceValue extends Component
         }
 
         $this->validate([
-            'valor' => 'required|numeric|min:10000',
+            'valor' => 'required|numeric|min:5',
         ], [
-            'valor.min' => 'O valor do serviço deve ser no mínimo 10.000 Kz.',
+            'valor.min' => 'O valor do serviço deve ser no mínimo 5 Kz.',
         ]);
         // Atualizar objeto único de pedido na sessão
         $order['payment'] = [

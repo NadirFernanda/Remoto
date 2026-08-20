@@ -68,9 +68,9 @@
                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                                 <span class="text-slate-400 text-sm font-semibold">Kz</span>
                             </div>
-                            <input type="number" wire:model.live.debounce.300ms="valor" min="10000" step="500"
+                            <input type="number" wire:model.live.debounce.300ms="valor" min="5" step="1"
                                 class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl pl-10 pr-4 py-3.5 text-lg font-bold focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
-                                placeholder="10.000">
+                                placeholder="5">
                         </div>
                         @error('valor')
                             <p class="text-red-500 text-xs mt-1.5 flex items-center gap-1">
@@ -78,7 +78,7 @@
                                 {{ $message }}
                             </p>
                         @enderror
-                        <p class="text-xs text-slate-400 mt-1.5">Mínimo: 10.000 Kz</p>
+                        <p class="text-xs text-slate-400 mt-1.5">Mínimo: 5 Kz</p>
                     </div>
 
                     {{-- Breakdown --}}
