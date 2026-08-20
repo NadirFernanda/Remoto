@@ -216,8 +216,13 @@ body{
 /* Button size variants used across dashboards */
 .btn-primary.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
 .btn-primary.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
-.btn-outline{ display:inline-flex; align-items:center; gap:.375rem; background:transparent; color:var(--accent-v); border:1px solid rgba(0,80,255,0.35); padding:.45rem .7rem; border-radius:8px; }
+/* Mesmo padding/arredondamento do .btn-primary de propósito — os dois
+   aparecem lado a lado em toda a plataforma (ex.: acções "Publicar" +
+   "Eliminar"), e sem isto ficavam sempre com tamanhos diferentes. */
+.btn-outline{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; background:transparent; color:var(--accent-v); border:1px solid rgba(0,80,255,0.35); padding:.6rem 1rem; border-radius:10px; font-weight:700; font-size:.9375rem; font-family:'Inter',system-ui,sans-serif; letter-spacing:-.01em; }
 .btn-outline:hover{ background:rgba(0,80,255,0.07); border-color:rgba(0,80,255,0.35); transform:translateY(-1px); }
+.btn-outline.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:8px; }
+.btn-outline.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:8px; }
 
 /* Icon + text spacing for dashboard header buttons */
 .btn-primary svg, .btn-outline svg { flex-shrink: 0; }
