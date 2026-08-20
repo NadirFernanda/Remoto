@@ -35,7 +35,9 @@ class PurchaseCheckout extends Component
 
         $user = Auth::user();
         if ($produto->freelancer_id === $user->id) {
-            abort(403);
+            session()->flash('error_loja', 'Não pode comprar o seu próprio produto.');
+            $this->redirect(route('loja.show', $produto->slug));
+            return;
         }
 
         $this->produto = $produto;
