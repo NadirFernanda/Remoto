@@ -34,6 +34,7 @@ class ClientSearch extends Component
     {
         $clients = User::query()
             ->where('role', 'cliente')
+            ->where('kyc_status', 'verified')
             ->when($this->query, function ($q) {
                 $q->where('name', 'ilike', '%' . $this->query . '%');
             })

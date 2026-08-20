@@ -29,6 +29,7 @@ class FreelancerMatchingService
 
         // Load all active freelancers with their profiles & portfolios (eager load)
         $freelancers = User::where('role', 'freelancer')
+            ->where('kyc_status', 'verified')
             ->where('id', '!=', $service->cliente_id)
             ->with(['freelancerProfile', 'portfolios'])
             ->get();

@@ -36,6 +36,14 @@ class CreatorProfile extends Component
     {
         $user->load(['freelancerProfile', 'creatorProfile', 'workExperiences', 'educations']);
         $this->creator = $user;
+
+        $viewer = Auth::user();
+        $isOwnerOrAdmin = $viewer && ($viewer->id === $user->id || $viewer->role === 'admin');
+
+        if ($user->kyc_status !== 'verified' && !$isOwnerOrAdmin) {
+            session()->flash('error', 'Este perfil ainda não está disponível — o utilizador está a concluir a verificação de identidade.');
+            $this->redirect(route('social.creators'));
+        }
     }
 
     public function render()

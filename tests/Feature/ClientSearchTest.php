@@ -63,7 +63,7 @@ class ClientSearchTest extends TestCase
     public function lista_clientes_com_contagem_de_projectos(): void
     {
         $freelancer = User::factory()->create(['role' => 'freelancer']);
-        $client     = User::factory()->create(['role' => 'cliente', 'name' => 'Empresa Exemplo']);
+        $client     = User::factory()->create(['role' => 'cliente', 'name' => 'Empresa Exemplo', 'kyc_status' => 'verified']);
 
         $this->makeService($client, 'published');
         $this->makeService($client, 'published');

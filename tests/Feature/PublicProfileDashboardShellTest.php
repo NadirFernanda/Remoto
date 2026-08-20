@@ -14,6 +14,11 @@ use Tests\TestCase;
  * por um utilizador já autenticado, devem aparecer dentro da shell do
  * dashboard (com a barra lateral) em vez de o "ejectar" para o layout
  * público — sem isso, o utilizador perde a navegação a meio da sessão.
+ *
+ * Os utilizadores cujo perfil é visitado nestes testes têm sempre
+ * kyc_status 'verified' — um perfil não verificado mostra um aviso em
+ * vez do conteúdo (ver KycGatesProfileVisibilityTest), o que não é o
+ * que estes testes de layout/avatar/duplicação querem exercitar.
  */
 class PublicProfileDashboardShellTest extends TestCase
 {
@@ -22,7 +27,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function visitante_ve_perfil_de_cliente_sem_barra_lateral_mas_com_botao_voltar(): void
     {
-        $client = User::factory()->create(['role' => 'cliente']);
+        $client = User::factory()->create(['role' => 'cliente', 'kyc_status' => 'verified']);
 
         $response = $this->get(route('client.public', $client));
 
@@ -35,7 +40,7 @@ class PublicProfileDashboardShellTest extends TestCase
     public function utilizador_autenticado_ve_perfil_de_cliente_com_barra_lateral(): void
     {
         $viewer = User::factory()->create(['role' => 'freelancer']);
-        $client = User::factory()->create(['role' => 'cliente']);
+        $client = User::factory()->create(['role' => 'cliente', 'kyc_status' => 'verified']);
 
         $response = $this->actingAs($viewer)->get(route('client.public', $client));
 
@@ -47,7 +52,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function avatar_do_perfil_de_cliente_e_circular(): void
     {
-        $client = User::factory()->create(['role' => 'cliente']);
+        $client = User::factory()->create(['role' => 'cliente', 'kyc_status' => 'verified']);
 
         $response = $this->get(route('client.public', $client));
 
@@ -58,7 +63,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function visitante_ve_perfil_de_freelancer_sem_barra_lateral(): void
     {
-        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        $freelancer = User::factory()->create(['role' => 'freelancer', 'kyc_status' => 'verified']);
 
         $response = $this->get(route('freelancer.show', $freelancer));
 
@@ -70,7 +75,7 @@ class PublicProfileDashboardShellTest extends TestCase
     public function utilizador_autenticado_ve_perfil_de_freelancer_com_barra_lateral(): void
     {
         $viewer     = User::factory()->create(['role' => 'cliente']);
-        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        $freelancer = User::factory()->create(['role' => 'freelancer', 'kyc_status' => 'verified']);
 
         $response = $this->actingAs($viewer)->get(route('freelancer.show', $freelancer));
 
@@ -82,7 +87,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function avatar_do_perfil_de_freelancer_e_circular(): void
     {
-        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        $freelancer = User::factory()->create(['role' => 'freelancer', 'kyc_status' => 'verified']);
 
         $response = $this->get(route('freelancer.show', $freelancer));
 
@@ -101,7 +106,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function perfil_de_cliente_nao_duplica_cabecalho_ou_rodape(): void
     {
-        $client = User::factory()->create(['role' => 'cliente']);
+        $client = User::factory()->create(['role' => 'cliente', 'kyc_status' => 'verified']);
 
         $guestHtml = $this->get(route('client.public', $client))->assertOk()->getContent();
         $this->assertSame(1, substr_count($guestHtml, 'class="site-header'));
@@ -116,7 +121,7 @@ class PublicProfileDashboardShellTest extends TestCase
     #[Test]
     public function perfil_de_freelancer_nao_duplica_cabecalho_ou_rodape(): void
     {
-        $freelancer = User::factory()->create(['role' => 'freelancer']);
+        $freelancer = User::factory()->create(['role' => 'freelancer', 'kyc_status' => 'verified']);
 
         $guestHtml = $this->get(route('freelancer.show', $freelancer))->assertOk()->getContent();
         $this->assertSame(1, substr_count($guestHtml, 'class="site-header'));

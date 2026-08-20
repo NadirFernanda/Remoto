@@ -23,6 +23,7 @@ class Listing extends Component
     public function render()
     {
         $query = User::where('role', 'freelancer')
+            ->where('kyc_status', 'verified')
             ->with(['freelancerProfile', 'portfolios', 'reviewsReceived'])
             ->when($this->search, function ($q) {
                 $q->where(function ($sub) {

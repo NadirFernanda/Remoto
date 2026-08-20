@@ -38,6 +38,7 @@ class CreatorSearch extends Component
                 $q->where('role', 'creator')
                   ->orWhere('has_creator_profile', true);
             })
+            ->where('kyc_status', 'verified')
             ->with(['creatorProfile'])
             ->when($this->query, function ($q) {
                 // ilike (Postgres) — insensível a maiúsculas/minúsculas

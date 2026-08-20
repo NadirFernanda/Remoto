@@ -46,6 +46,7 @@ class FreelancerSearch extends Component
     {
         $freelancers = User::query()
             ->whereIn('role', ['freelancer'])
+            ->where('kyc_status', 'verified')
             ->whereHas('freelancerProfile')
             ->with(['freelancerProfile', 'reviewsReceived'])
             ->when($this->query, function ($q) {

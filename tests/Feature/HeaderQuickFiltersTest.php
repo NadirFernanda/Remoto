@@ -25,7 +25,7 @@ class HeaderQuickFiltersTest extends TestCase
 
     private function makeFreelancer(array $skills, ?string $location = null): User
     {
-        $user = User::factory()->create(['role' => 'freelancer', 'location' => $location]);
+        $user = User::factory()->create(['role' => 'freelancer', 'location' => $location, 'kyc_status' => 'verified']);
         FreelancerProfile::create([
             'user_id' => $user->id,
             'skills'  => $skills,
