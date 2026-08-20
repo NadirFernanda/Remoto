@@ -17,14 +17,21 @@ use Illuminate\Support\Facades\Log;
  *   4. getCharge()          → GET /v2.0/charges/{id} — para confirmar o estado
  *   5. mockReferencePayment() → só em sandbox, simula o pagamento de uma referência
  *
- * Timeouts HTTP: mantidos baixos (12s) de propósito. O PHP-FPM de produção
- * tem max_execution_time=30, e uma cobrança pode ter de chamar getToken()
- * (se o cache do token expirou) SEGUIDO da chamada real — pior caso, duas
- * chamadas na mesma requisição. Um timeout demasiado alto aqui arrisca o
- * PHP matar o processo a meio antes do try/catch conseguir responder com
- * um erro tratado, deixando o utilizador preso sem feedback nenhum. Se a
- * AppyPay precisar de mais tempo para responder de forma fiável, aumentar
- * primeiro o max_execution_time do PHP-FPM, só depois este valor.
+ * Timeouts HTTP: confirmado em produção (20/08/2026) que a AppyPay por
+ * vezes só responde ao POST /v2.0/charges bem depois dos 12s iniciais —
+ * o pedido de aprovação chega ao telemóvel do cliente e o pagamento
+ * completa-se normalmente, só a nossa chamada é que desistia cedo demais.
+ * Por isso getToken() fica com timeout curto (12s — autenticação é sempre
+ * rápida e o token fica em cache 55min), mas postCharge()/getCharge() (o
+ * caminho crítico) sobem para 45s.
+ *
+ * ⚠️ Isto SÓ é seguro se o max_execution_time do PHP-FPM em produção for
+ * >= 75s (pior caso: 12s de auth + 45s de charge + margem para o resto do
+ * pedido). Um timeout aqui maior que o limite do PHP arrisca o processo
+ * ser morto a meio antes do try/catch conseguir responder com um erro
+ * tratado — deixando o utilizador preso sem feedback nenhum (foi
+ * exactamente isto que aconteceu quando o timeout daqui > max_execution_time
+ * do PHP). Ao subir este valor, subir SEMPRE o max_execution_time primeiro.
  */
 class AppyPayGateway
 {
@@ -105,7 +112,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(12)->connectTimeout(8)
+                ->timeout(45)->connectTimeout(8)
                 ->post($this->cfg['base_url'] . '/v2.0/charges', $payload);
 
             $body = $response->json();
@@ -154,7 +161,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(12)->connectTimeout(8)
+                ->timeout(45)->connectTimeout(8)
                 ->get($this->cfg['base_url'] . '/v2.0/charges/' . $chargeId);
 
             if (!$response->successful()) {
