@@ -226,14 +226,21 @@ body{
 .btn-outline.sm{ padding:.45rem .7rem; font-size:.92rem; border-radius:.5rem; }
 .btn-outline.xs{ padding:.35rem .5rem; font-size:.82rem; border-radius:.5rem; }
 
-/* Etiquetas de estado (ex.: "Publicado", "Rascunho — pagamento pendente")
-   usam rounded-full (span com padding px-/py-) em muitas páginas, ficando
-   perfeitamente circulares nas pontas — visualmente destoante dos botões,
-   que usam o mesmo arredondamento .6875rem em toda a plataforma. Aplica o
-   mesmo raio aqui, sem tocar em pontos de estado (w-2 h-2 rounded-full,
-   sem padding) nem em fotos de perfil (sempre <img>, nunca <span>). */
+/* Etiquetas de estado e "chips" de texto (ex.: "Publicado", "Rascunho —
+   pagamento pendente", CTAs em pílula) usam rounded-full com padding
+   horizontal (px-) em toda a plataforma — span, div, a ou button —,
+   ficando perfeitamente circulares nas pontas, visualmente destoante dos
+   botões, que usam o mesmo arredondamento .6875rem em toda a plataforma.
+   Aplica o mesmo raio a QUALQUER elemento nesse padrão. O que fica de
+   fora, de propósito, nunca tem padding horizontal: pontos de estado
+   (w-2 h-2 rounded-full), interruptores (toggle switches), círculos
+   decorativos e fotos de perfil (sempre <img>) — esses continuam
+   perfeitamente redondos, como devem estar. */
 .status-pill,
-span.rounded-full[class*="px-"] { border-radius: .6875rem !important; }
+span.rounded-full[class*="px-"],
+div.rounded-full[class*="px-"],
+a.rounded-full[class*="px-"],
+button.rounded-full[class*="px-"] { border-radius: .6875rem !important; }
 
 /* Icon + text spacing for dashboard header buttons */
 .btn-primary svg, .btn-outline svg { flex-shrink: 0; }
