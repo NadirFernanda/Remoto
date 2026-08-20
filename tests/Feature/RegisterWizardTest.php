@@ -74,6 +74,33 @@ class RegisterWizardTest extends TestCase
         ]);
     }
 
+    /**
+     * Regressão: o registo autentica a conta e redirecciona logo para o
+     * dashboard, mas esse dashboard exige o middleware 'verified'. Sem
+     * email_verified_at preenchido na criação, o utilizador ficava preso
+     * num ciclo infinito de redireccionamentos (dashboard → /email/verify
+     * → dashboard → ...) na primeira visita depois de se registar.
+     * assertRedirect() sozinho não apanha isto — só confirma o destino
+     * pretendido, não que esse destino é de facto acessível a seguir.
+     */
+    #[Test]
+    public function cliente_recem_registado_acede_ao_dashboard_sem_ciclo_de_redireccionamento(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'cliente')
+            ->set('name', 'Acesso Imediato')
+            ->set('email', 'acessoimediato@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $this->completeStep2($wizard)->assertRedirect('/cliente/dashboard');
+
+        $this->get('/cliente/dashboard')->assertOk();
+    }
+
     #[Test]
     public function cliente_registado_nao_recebe_codigo_de_afiliado(): void
     {
@@ -179,6 +206,24 @@ class RegisterWizardTest extends TestCase
 
         $user = User::where('email', 'carlos@example.com')->first();
         $this->assertDatabaseHas('creator_profiles', ['user_id' => $user->id]);
+    }
+
+    #[Test]
+    public function freelancer_recem_registado_acede_ao_dashboard_sem_ciclo_de_redireccionamento(): void
+    {
+        Storage::fake('private');
+
+        $wizard = Livewire::test(RegisterWizard::class)
+            ->set('role', 'freelancer')
+            ->set('name', 'Acesso Imediato Freelancer')
+            ->set('email', 'acessoimediatofl@example.com')
+            ->set('password', 'secret123')
+            ->set('password_confirmation', 'secret123')
+            ->call('nextStep');
+
+        $this->completeStep2($wizard)->assertRedirect('/freelancer/dashboard');
+
+        $this->get('/freelancer/dashboard')->assertOk();
     }
 
     #[Test]

@@ -131,8 +131,12 @@ class RegisterWizard extends Component
                 'password' => bcrypt($this->password),
             ]);
 
-            // role atribuído explicitamente — não está em $fillable (OWASP A03)
-            $user->role = $this->role === 'freelancer' ? 'freelancer' : 'cliente';
+            // role e email_verified_at atribuídos explicitamente — não estão em $fillable (OWASP A03).
+            // Sem email_verified_at, o middleware 'verified' bloqueia o acesso ao dashboard logo a
+            // seguir ao registo, e a rota /email/verify redirecciona de volta para o dashboard —
+            // um ciclo de redirecionamentos infinito para quem acaba de criar conta.
+            $user->role              = $this->role === 'freelancer' ? 'freelancer' : 'cliente';
+            $user->email_verified_at = now();
             $user->save();
 
             // Seed multi-profile flags: freelancer tem automaticamente acesso ao módulo de criador
