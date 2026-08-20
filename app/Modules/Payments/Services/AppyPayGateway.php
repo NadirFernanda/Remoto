@@ -36,7 +36,7 @@ class AppyPayGateway
     public function getToken(): string
     {
         return Cache::remember('appypay_access_token', now()->addMinutes(55), function () {
-            $response = Http::asForm()->timeout(15)->connectTimeout(10)->post($this->cfg['auth_url'], [
+            $response = Http::asForm()->timeout(30)->connectTimeout(10)->post($this->cfg['auth_url'], [
                 'grant_type'    => 'client_credentials',
                 'client_id'     => $this->cfg['client_id'],
                 'client_secret' => $this->cfg['client_secret'],
@@ -96,7 +96,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(15)->connectTimeout(10)
+                ->timeout(30)->connectTimeout(10)
                 ->post($this->cfg['base_url'] . '/v2.0/charges', $payload);
 
             $body = $response->json();
@@ -125,7 +125,11 @@ class AppyPayGateway
                 'success'          => false,
                 'charge_id'        => null,
                 'status'           => null,
-                'message'          => 'Erro de ligação à AppyPay: ' . $e->getMessage(),
+                // Uma excepção aqui (ex.: timeout) deixa o resultado ambíguo — não
+                // sabemos se a AppyPay chegou a processar o pedido do outro lado.
+                // Por isso o aviso pede para confirmar antes de repetir, em vez de
+                // convidar a tentar de novo de imediato (risco de cobrança duplicada).
+                'message'          => 'Não foi possível confirmar o pagamento a tempo. Antes de tentar novamente, verifique a app Multicaixa Express ou o extracto da sua conta — se o valor já tiver sido debitado, não repita o pagamento e contacte o suporte.',
                 'gateway_response' => [],
             ];
         }
@@ -141,7 +145,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(15)->connectTimeout(10)
+                ->timeout(30)->connectTimeout(10)
                 ->get($this->cfg['base_url'] . '/v2.0/charges/' . $chargeId);
 
             if (!$response->successful()) {
@@ -174,7 +178,7 @@ class AppyPayGateway
         try {
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
-                ->timeout(15)->connectTimeout(10)
+                ->timeout(30)->connectTimeout(10)
                 ->post($this->cfg['base_url'] . '/v2.0/mocks/referenceProcessing', [
                     'entity'          => $this->cfg['entity'],
                     'referenceNumber' => $referenceNumber,
