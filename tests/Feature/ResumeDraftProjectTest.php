@@ -43,10 +43,10 @@ class ResumeDraftProjectTest extends TestCase
         Livewire::actingAs($client)
             ->test(ProjectManager::class)
             ->call('resumeDraft', $service->id)
-            ->assertRedirect(route('client.payment', ['service' => $service->id, 'valor' => $service->valor]));
+            ->assertRedirect(route('client.value', ['service' => $service->id]));
 
         $this->assertEquals($service->id, session('client_order.service_id'));
-        $this->assertEquals(8000.0, (float) session('client_order.payment.valor'));
+        $this->assertEquals('Preciso de um site institucional.', session('client_order.briefing_raw'));
     }
 
     #[Test]
@@ -58,7 +58,37 @@ class ResumeDraftProjectTest extends TestCase
         Livewire::actingAs($client)
             ->test(ProjectManager::class)
             ->call('resumeDraft', $service->id)
-            ->assertRedirect(route('client.payment', ['service' => $service->id, 'valor' => $service->valor]));
+            ->assertRedirect(route('client.value', ['service' => $service->id]));
+    }
+
+    /**
+     * Regressão: alguns rascunhos antigos (de tentativas de pagamento
+     * falhadas) ficaram gravados com valor 0 — retomar um destes deve
+     * passar pelo passo de "Investimento" para corrigir o valor, nunca
+     * saltar directo para o pagamento com o valor 0 ainda gravado.
+     */
+    #[Test]
+    public function retomar_rascunho_com_valor_zero_nao_leva_directo_ao_pagamento(): void
+    {
+        $client  = User::factory()->create(['role' => 'cliente']);
+        $service = Service::create([
+            'cliente_id' => $client->id,
+            'titulo'     => 'Site',
+            'briefing'   => 'Preciso de um site.',
+            'valor'      => 0,
+            'taxa'       => 0,
+            'valor_liquido' => 0,
+            'status'     => 'payment_pending',
+        ]);
+
+        Livewire::actingAs($client)
+            ->test(ProjectManager::class)
+            ->call('resumeDraft', $service->id)
+            ->assertRedirect(route('client.value', ['service' => $service->id]));
+
+        // Sem 'payment' na sessão, o passo de Investimento cai no valor
+        // mínimo configurado (não no 0 corrompido) como ponto de partida.
+        $this->assertArrayNotHasKey('payment', session('client_order', []));
     }
 
     #[Test]

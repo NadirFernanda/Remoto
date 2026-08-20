@@ -127,6 +127,10 @@ class PaymentEscrow extends Component
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
+        if ($this->valorAbaixoDoMinimo()) {
+            return;
+        }
+
         // ── Validação do cartão ──────────────────────────────────────────────
         $this->validate([
             'payment_token' => 'required|string|min:8',
@@ -196,11 +200,34 @@ class PaymentEscrow extends Component
         return strtoupper(Str::random(12));
     }
 
+    /**
+     * Última barreira antes de qualquer cobrança real — alguns rascunhos
+     * antigos (de tentativas de pagamento falhadas) ficaram gravados com
+     * valor 0, e sem isto o cliente conseguia chegar a "Pagar 0 Kz via
+     * Express" e a AppyPay simplesmente rejeitava o pedido com um erro
+     * genérico. Nunca deixar tentar cobrar abaixo do mínimo configurado.
+     */
+    private function valorAbaixoDoMinimo(): bool
+    {
+        $minimo = (float) PlatformSetting::get('project_min_value', 5);
+
+        if ($this->valor < $minimo) {
+            $this->appypay_error = 'O valor deste projecto é inválido (' . number_format($this->valor, 0, ',', '.') . ' Kz). Volte ao passo de investimento e defina um valor de pelo menos ' . number_format($minimo, 0, ',', '.') . ' Kz antes de pagar.';
+            return true;
+        }
+
+        return false;
+    }
+
     // ── AppyPay: Multicaixa Express (telefone) ────────────────────────────
 
     public function chargeAppyPayPhone()
     {
         $this->appypay_error = '';
+
+        if ($this->valorAbaixoDoMinimo()) {
+            return;
+        }
 
         $this->validate([
             'phone_number' => ['required', 'regex:/^9[0-9]{8}$/'],
@@ -266,6 +293,10 @@ class PaymentEscrow extends Component
     public function chargeAppyPayReference()
     {
         $this->appypay_error = '';
+
+        if ($this->valorAbaixoDoMinimo()) {
+            return;
+        }
 
         $user = $this->getCurrentUser();
         if (!$user) {

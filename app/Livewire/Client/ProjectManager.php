@@ -249,9 +249,14 @@ class ProjectManager extends Component
     /**
      * Retoma um projecto que ficou em rascunho (briefing/valor definidos mas
      * pagamento nunca concluído) — reconstrói a sessão que o ecrã de
-     * pagamento espera e reenvia o cliente directamente para lá, sem ter de
-     * repetir o briefing/investimento. Sem isto, um rascunho ficava preso
-     * para sempre sem nenhuma forma de o publicar.
+     * definir valor espera e reenvia o cliente para lá, sem ter de repetir
+     * o briefing. Sem isto, um rascunho ficava preso para sempre sem
+     * nenhuma forma de o publicar.
+     *
+     * Vai para o passo de "Investimento" (não direto ao pagamento) de
+     * propósito — alguns rascunhos antigos ficaram gravados com valor 0
+     * (de uma tentativa anterior falhada), e isto dá ao cliente a
+     * oportunidade de rever/corrigir o valor antes de tentar pagar.
      */
     public function resumeDraft(int $serviceId)
     {
@@ -261,12 +266,13 @@ class ProjectManager extends Component
             ->firstOrFail();
 
         session(['client_order' => [
-            'service_id' => $service->id,
-            'title'      => $service->titulo,
-            'payment'    => ['valor' => (float) $service->valor],
+            'service_id'    => $service->id,
+            'title'         => $service->titulo,
+            'briefing_raw'  => $service->briefing,
+            'briefing_text' => $service->briefing,
         ]]);
 
-        return redirect()->route('client.payment', ['service' => $service->id, 'valor' => $service->valor]);
+        return redirect()->route('client.value', ['service' => $service->id]);
     }
 
     // ─── Confirmar Início de Projecto (proposta directa aceite) ────
