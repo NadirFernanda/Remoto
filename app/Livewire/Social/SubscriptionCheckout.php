@@ -43,6 +43,13 @@ class SubscriptionCheckout extends Component
         $this->creator = $user;
         $this->price   = $user->creatorProfile?->subscription_price ?? CreatorProfile::MIN_SUBSCRIPTION_PRICE;
 
+        // Só quem ganha dinheiro na plataforma (freelancer, criador) tem saldo
+        // em carteira — o cliente só gasta, nunca gera saldo, por isso nunca
+        // tem nada para pagar com "Saldo".
+        if ($me->activeRole() === 'cliente') {
+            $this->payment_method = 'express';
+        }
+
         $alreadyActive = CreatorSubscription::where('subscriber_id', $me->id)
             ->where('creator_id', $user->id)
             ->active()
@@ -68,6 +75,11 @@ class SubscriptionCheckout extends Component
         }
 
         $user = Auth::user();
+
+        if ($user->activeRole() === 'cliente') {
+            $this->error = 'Pagamento com saldo de carteira não está disponível no modo cliente.';
+            return;
+        }
 
         try {
             $subscription = app(CreatorSubscriptionService::class)->subscribe($user, $this->creator);

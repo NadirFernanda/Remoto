@@ -30,7 +30,8 @@
         <h2 class="text-base font-bold text-gray-800 mb-1">Método de pagamento</h2>
         <p class="text-sm text-gray-500 mb-5">Escolha como pretende pagar a assinatura</p>
 
-        <div class="grid grid-cols-2 gap-3 mb-6">
+        <div class="grid {{ auth()->user()->activeRole() === 'cliente' ? 'grid-cols-1' : 'grid-cols-2' }} gap-3 mb-6">
+            @if(auth()->user()->activeRole() !== 'cliente')
             <button type="button" wire:click="$set('payment_method', 'wallet')"
                 class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
                     {{ $payment_method === 'wallet'
@@ -41,6 +42,7 @@
                 </svg>
                 <span class="text-xs font-semibold">Saldo</span>
             </button>
+            @endif
             <button type="button" wire:click="$set('payment_method', 'express')"
                 class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
                     {{ $payment_method === 'express'

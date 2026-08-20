@@ -41,6 +41,13 @@ class PurchaseCheckout extends Component
         $this->produto = $produto;
         $this->price   = $produto->preco;
 
+        // Só quem ganha dinheiro na plataforma (freelancer, criador) tem saldo
+        // em carteira — o cliente só gasta, nunca gera saldo, por isso nunca
+        // tem nada para pagar com "Saldo".
+        if ($user->activeRole() === 'cliente') {
+            $this->payment_method = 'express';
+        }
+
         if ($produto->jaCompradoPor($user->id)) {
             session()->flash('success_loja', 'Já adquiriu este produto.');
             $this->redirect(route('loja.show', $produto->slug));
@@ -61,6 +68,11 @@ class PurchaseCheckout extends Component
         }
 
         $user = Auth::user();
+
+        if ($user->activeRole() === 'cliente') {
+            $this->error = 'Pagamento com saldo de carteira não está disponível no modo cliente.';
+            return;
+        }
 
         try {
             app(LojaService::class)->comprar($user, $this->produto);
