@@ -212,6 +212,12 @@
                         class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-red-700 border border-red-200 bg-red-50 rounded-lg hover:bg-red-100 transition">
                         Eliminar seleccionados
                     </button>
+                    <button wire:click="bulkDeleteSelected(true)"
+                        wire:confirm="⚠ FORÇAR ELIMINAÇÃO de {{ count($selected) }} utilizador(es)?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois.&#10;&#10;Só confirme se tiver a certeza absoluta de que nenhuma destas contas tem dinheiro ou actividade real."
+                        title="Ignora a protecção de saldo/projectos/assinaturas — usar com muito cuidado"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-red-700 rounded-lg hover:bg-red-800 transition">
+                        ⚠ Forçar eliminação
+                    </button>
                 @endif
                 <button wire:click="$set('selected', []); $set('selectPage', false)" class="text-xs text-gray-400 hover:text-gray-600 transition px-2">
                     Cancelar
@@ -389,6 +395,12 @@
                                                 class="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm font-semibold text-red-400 hover:bg-red-500/10 transition text-left">
                                                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                                 Eliminar conta
+                                            </button>
+                                            <button wire:click="deleteUser({{ $user->id }}, true)" @click="open = false"
+                                                wire:confirm="⚠ FORÇAR ELIMINAÇÃO de &quot;{{ $user->name }}&quot; ({{ $user->email }})?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois."
+                                                title="Ignora a protecção de saldo/projectos/assinaturas — usar com muito cuidado"
+                                                class="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-bold text-white bg-red-700/90 hover:bg-red-700 transition text-left">
+                                                ⚠ Forçar eliminação
                                             </button>
                                         @endif
                                     </div>

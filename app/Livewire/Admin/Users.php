@@ -184,27 +184,31 @@ class Users extends Component
      * dados financeiros reais por engano. Contas com actividade devem ser
      * suspensas, nunca eliminadas.
      */
-    public function deleteUser(int $id): void
+    public function deleteUser(int $id, bool $force = false): void
     {
         abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode eliminar utilizadores.');
 
         $user = User::findOrFail($id);
-        $error = $this->tryDeleteUser($user);
+        $error = $this->tryDeleteUser($user, $force);
 
         if ($error) {
             session()->flash('error', $error);
             return;
         }
 
-        session()->flash('success', "Utilizador \"{$user->name}\" eliminado.");
+        session()->flash('success', "Utilizador \"{$user->name}\" eliminado." . ($force ? ' (eliminação forçada)' : ''));
     }
 
     /**
      * Tenta eliminar um utilizador; devolve null em caso de sucesso, ou uma
      * mensagem de erro se a conta não puder ser eliminada. Partilhado entre
      * a eliminação individual e a eliminação em lote.
+     *
+     * $force ignora a rede de segurança de actividade (saldo/projectos/
+     * assinaturas) — usar só quando se tem a certeza de que a conta não tem
+     * nada de real, porque apaga tudo de forma permanente e irreversível.
      */
-    private function tryDeleteUser(User $user): ?string
+    private function tryDeleteUser(User $user, bool $force = false): ?string
     {
         if ($user->id === auth()->id()) {
             return 'Não pode eliminar a sua própria conta.';
@@ -214,33 +218,40 @@ class Users extends Component
             return 'Não é possível eliminar contas de administrador por aqui.';
         }
 
-        $wallet = $user->wallet;
-        $hasWalletActivity = $wallet && ((float) ($wallet->saldo ?? 0) > 0 || (float) ($wallet->saldo_pendente ?? 0) > 0);
+        if (!$force) {
+            $wallet = $user->wallet;
+            $hasWalletActivity = $wallet && ((float) ($wallet->saldo ?? 0) > 0 || (float) ($wallet->saldo_pendente ?? 0) > 0);
 
-        $hasServiceActivity = \App\Models\Service::where('cliente_id', $user->id)
-            ->orWhere('freelancer_id', $user->id)
-            ->whereNotIn('status', ['draft'])
-            ->exists();
+            $hasServiceActivity = \App\Models\Service::where('cliente_id', $user->id)
+                ->orWhere('freelancer_id', $user->id)
+                ->whereNotIn('status', ['draft'])
+                ->exists();
 
-        $hasSubscriptionActivity = \App\Models\CreatorSubscription::where('subscriber_id', $user->id)
-            ->orWhere('creator_id', $user->id)
-            ->exists();
+            $hasSubscriptionActivity = \App\Models\CreatorSubscription::where('subscriber_id', $user->id)
+                ->orWhere('creator_id', $user->id)
+                ->exists();
 
-        if ($hasWalletActivity || $hasServiceActivity || $hasSubscriptionActivity) {
-            return 'Tem saldo, projectos ou assinaturas associadas.';
+            if ($hasWalletActivity || $hasServiceActivity || $hasSubscriptionActivity) {
+                return 'Tem saldo, projectos ou assinaturas associadas.';
+            }
         }
 
         $name  = $user->name;
         $email = $user->email;
 
-        AuditLogger::log('user_deleted', "Utilizador {$name} ({$email}) eliminado permanentemente", 'User', $user->id);
+        AuditLogger::log(
+            $force ? 'user_force_deleted' : 'user_deleted',
+            "Utilizador {$name} ({$email}) eliminado permanentemente" . ($force ? ' — FORÇADO, ignorando saldo/projectos/assinaturas' : ''),
+            'User',
+            $user->id
+        );
         $user->delete();
 
         return null;
     }
 
     /** Elimina, em lote, os utilizadores marcados na tabela (mesmas regras de segurança do individual). */
-    public function bulkDeleteSelected(): void
+    public function bulkDeleteSelected(bool $force = false): void
     {
         abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode eliminar utilizadores.');
 
@@ -252,7 +263,7 @@ class Users extends Component
         $ignorados  = 0;
 
         foreach (User::whereIn('id', $this->selected)->get() as $user) {
-            if ($this->tryDeleteUser($user) === null) {
+            if ($this->tryDeleteUser($user, $force) === null) {
                 $eliminados++;
             } else {
                 $ignorados++;
@@ -261,9 +272,9 @@ class Users extends Component
 
         $this->clearSelection();
 
-        $msg = "{$eliminados} utilizador(es) eliminado(s).";
+        $msg = "{$eliminados} utilizador(es) eliminado(s)." . ($force && $eliminados > 0 ? ' (eliminação forçada)' : '');
         if ($ignorados > 0) {
-            $msg .= " {$ignorados} ignorado(s) por terem saldo, projectos ou assinaturas associadas.";
+            $msg .= " {$ignorados} ignorado(s)" . ($force ? ' (conta de administrador ou a sua própria).' : ' por terem saldo, projectos ou assinaturas associadas.');
         }
         session()->flash($eliminados > 0 ? 'success' : 'error', $msg);
     }
