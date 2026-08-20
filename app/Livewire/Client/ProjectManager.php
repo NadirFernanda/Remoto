@@ -246,6 +246,29 @@ class ProjectManager extends Component
         session()->flash('success', 'Candidato rejeitado e notificado.');
     }
 
+    /**
+     * Retoma um projecto que ficou em rascunho (briefing/valor definidos mas
+     * pagamento nunca concluído) — reconstrói a sessão que o ecrã de
+     * pagamento espera e reenvia o cliente directamente para lá, sem ter de
+     * repetir o briefing/investimento. Sem isto, um rascunho ficava preso
+     * para sempre sem nenhuma forma de o publicar.
+     */
+    public function resumeDraft(int $serviceId)
+    {
+        $service = Service::where('id', $serviceId)
+            ->where('cliente_id', auth()->id())
+            ->whereIn('status', ['draft', 'payment_pending'])
+            ->firstOrFail();
+
+        session(['client_order' => [
+            'service_id' => $service->id,
+            'title'      => $service->titulo,
+            'payment'    => ['valor' => (float) $service->valor],
+        ]]);
+
+        return redirect()->route('client.payment', ['service' => $service->id, 'valor' => $service->valor]);
+    }
+
     // ─── Confirmar Início de Projecto (proposta directa aceite) ────
     public function confirmarInicio(int $serviceId): void
     {
@@ -397,6 +420,8 @@ class ProjectManager extends Component
     public function render()
     {
         $statusLabels = [
+            'draft'           => 'Rascunho — pagamento pendente',
+            'payment_pending' => 'Rascunho — pagamento pendente',
             'published'    => 'Publicado',
             'negotiating'  => 'Em Negociação',
             'accepted'     => 'Proposta Aceita',

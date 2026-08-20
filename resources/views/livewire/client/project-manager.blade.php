@@ -145,6 +145,7 @@
                             <div class="flex items-center gap-2 mt-1">
                                 @php
                                     $sc = match($selected->status) {
+                                        'draft', 'payment_pending' => 'bg-amber-100 text-amber-700',
                                         'published'    => 'bg-blue-100 text-blue-700',
                                         'accepted'     => 'bg-indigo-100 text-indigo-700',
                                         'in_progress'  => 'bg-yellow-100 text-yellow-700',
@@ -171,6 +172,15 @@
 
                         {{-- Action buttons --}}
                         <div class="flex flex-wrap gap-2">
+                            {{-- Rascunho: publicar (concluir o pagamento pendente) --}}
+                            @if(in_array($selected->status, ['draft', 'payment_pending']))
+                                <button wire:click="resumeDraft({{ $selected->id }})" class="btn-primary text-xs">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    Publicar Projecto
+                                </button>
+                            @endif
                             {{-- Comprovativo de pagamento (disponível após publicação) --}}
                             @if(in_array($selected->status, ['published','accepted','negotiating','in_progress','em_andamento','delivered','revision_requested','completed','concluido','cancelled','cancelado']))
                                 <a href="{{ route('client.receipt.download', $selected->id) }}" target="_blank"
