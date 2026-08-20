@@ -167,6 +167,55 @@ class Users extends Component
         session()->flash('success', 'Nível de acesso actualizado.');
     }
 
+    /**
+     * Elimina permanentemente um utilizador — só o Admin Master, e só quando
+     * a conta não tem nenhuma actividade real (saldo, projectos, assinaturas)
+     * associada, para servir para limpar contas de teste sem risco de apagar
+     * dados financeiros reais por engano. Contas com actividade devem ser
+     * suspensas, nunca eliminadas.
+     */
+    public function deleteUser(int $id): void
+    {
+        abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode eliminar utilizadores.');
+
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            session()->flash('error', 'Não pode eliminar a sua própria conta.');
+            return;
+        }
+
+        if ($user->role === 'admin') {
+            session()->flash('error', 'Não é possível eliminar contas de administrador por aqui.');
+            return;
+        }
+
+        $wallet = $user->wallet;
+        $hasWalletActivity = $wallet && ((float) ($wallet->saldo ?? 0) > 0 || (float) ($wallet->saldo_pendente ?? 0) > 0);
+
+        $hasServiceActivity = \App\Models\Service::where('cliente_id', $user->id)
+            ->orWhere('freelancer_id', $user->id)
+            ->whereNotIn('status', ['draft'])
+            ->exists();
+
+        $hasSubscriptionActivity = \App\Models\CreatorSubscription::where('subscriber_id', $user->id)
+            ->orWhere('creator_id', $user->id)
+            ->exists();
+
+        if ($hasWalletActivity || $hasServiceActivity || $hasSubscriptionActivity) {
+            session()->flash('error', 'Este utilizador tem saldo, projectos ou assinaturas associadas — não pode ser eliminado. Suspenda a conta em vez disso.');
+            return;
+        }
+
+        $name  = $user->name;
+        $email = $user->email;
+
+        AuditLogger::log('user_deleted', "Utilizador {$name} ({$email}) eliminado permanentemente", 'User', $id);
+        $user->delete();
+
+        session()->flash('success', "Utilizador \"{$name}\" eliminado.");
+    }
+
     public function bulkVerifyKyc(): void
     {
         $count = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->update(['kyc_status' => 'verified']);
