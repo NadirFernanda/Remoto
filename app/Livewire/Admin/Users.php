@@ -9,7 +9,6 @@ use App\Models\KycSubmission;
 use App\Modules\Admin\Services\AuditLogger;
 use App\Events\KycStatusChanged;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class Users extends Component
 {
@@ -154,11 +153,6 @@ class Users extends Component
         KycStatusChanged::dispatch($submission->user, 'rejected', $this->adminNotes ?: null);
         $this->closeKycReview();
         session()->flash('success', 'KYC rejeitado.');
-    }
-
-    public function kycDocumentUrl(string $path): string
-    {
-        return Storage::disk('private')->url($path);
     }
 
     public function setAdminRole(int $userId, string $role): void

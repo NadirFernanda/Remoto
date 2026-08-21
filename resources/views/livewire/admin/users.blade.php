@@ -120,24 +120,24 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <p class="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Frente do documento</p>
-                            <a href="{{ $this->kycDocumentUrl($reviewingSubmission->document_front_path) }}" target="_blank"
+                            <a href="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'front']) }}" target="_blank"
                                 class="block border border-gray-200 rounded-xl overflow-hidden hover:opacity-80 transition">
                                 @if(str_ends_with(strtolower($reviewingSubmission->document_front_path), '.pdf'))
                                     <div class="p-4 bg-gray-50 text-center text-sm text-gray-500">Ficheiro PDF — Clique para abrir</div>
                                 @else
-                                    <img src="{{ $this->kycDocumentUrl($reviewingSubmission->document_front_path) }}" class="w-full object-cover max-h-48" alt="Frente">
+                                    <img src="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'front']) }}" class="w-full object-cover max-h-48" alt="Frente">
                                 @endif
                             </a>
                         </div>
                         @if($reviewingSubmission->document_back_path)
                             <div>
                                 <p class="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Verso do documento</p>
-                                <a href="{{ $this->kycDocumentUrl($reviewingSubmission->document_back_path) }}" target="_blank"
+                                <a href="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'back']) }}" target="_blank"
                                     class="block border border-gray-200 rounded-xl overflow-hidden hover:opacity-80 transition">
                                     @if(str_ends_with(strtolower($reviewingSubmission->document_back_path), '.pdf'))
                                         <div class="p-4 bg-gray-50 text-center text-sm text-gray-500">Ficheiro PDF — Clique para abrir</div>
                                     @else
-                                        <img src="{{ $this->kycDocumentUrl($reviewingSubmission->document_back_path) }}" class="w-full object-cover max-h-48" alt="Verso">
+                                        <img src="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'back']) }}" class="w-full object-cover max-h-48" alt="Verso">
                                     @endif
                                 </a>
                             </div>
@@ -145,9 +145,9 @@
                         @if($reviewingSubmission->selfie_path)
                             <div class="md:col-span-2">
                                 <p class="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Selfie com documento</p>
-                                <a href="{{ $this->kycDocumentUrl($reviewingSubmission->selfie_path) }}" target="_blank"
+                                <a href="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'selfie']) }}" target="_blank"
                                     class="block border border-gray-200 rounded-xl overflow-hidden hover:opacity-80 transition">
-                                    <img src="{{ $this->kycDocumentUrl($reviewingSubmission->selfie_path) }}" class="w-full object-cover max-h-48" alt="Selfie">
+                                    <img src="{{ route('admin.kyc.document', [$reviewingSubmission->id, 'selfie']) }}" class="w-full object-cover max-h-48" alt="Selfie">
                                 </a>
                             </div>
                         @endif

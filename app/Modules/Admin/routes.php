@@ -8,6 +8,7 @@ use App\Modules\Admin\Controllers\UsersExportController;
 use App\Modules\Admin\Controllers\FinancialExportController;
 use App\Modules\Admin\Controllers\AuditExportController;
 use App\Modules\Admin\Controllers\ReportsExportController;
+use App\Modules\Admin\Controllers\KycDocumentController;
 use App\Modules\Admin\Services\ExchangeRateService;
 
 // ─── Admin Module Routes ──────────────────────────────────────────────────────
@@ -36,6 +37,10 @@ Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
 
     // Gestão de utilizadores e serviços (gestor+)
     Route::get('/admin/users', \App\Livewire\Admin\Users::class)->name('admin.users')->middleware('admin.module:gestor');
+    Route::get('/admin/kyc/{submission}/documento/{type}', [KycDocumentController::class, 'show'])
+        ->name('admin.kyc.document')
+        ->where('type', 'front|back|selfie')
+        ->middleware('admin.module:gestor');
     Route::get('/admin/services', \App\Livewire\Admin\Services::class)->name('admin.services')->middleware('admin.module:gestor');
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes')->middleware('admin.module:suporte');
     Route::get('/admin/suporte', \App\Livewire\Admin\AdminSupportTickets::class)->name('admin.support')->middleware('admin.module:suporte');
