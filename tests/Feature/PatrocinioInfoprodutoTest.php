@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\InitiateAppyPaySponsorshipChargeJob;
 use App\Jobs\PollAppyPayInfoprodutoPatrocinioCheckoutJob;
 use App\Livewire\Freelancer\Loja;
 use App\Models\FreelancerProfile;
@@ -127,14 +128,15 @@ class PatrocinioInfoprodutoTest extends TestCase
     // ── Multicaixa Express ───────────────────────────────────────────────────
 
     #[Test]
-    public function patrocinar_via_express_nao_precisa_de_saldo_e_inicia_cobranca_appypay(): void
+    public function patrocinar_via_express_nao_precisa_de_saldo_e_desperta_o_job_em_segundo_plano(): void
     {
-        $this->fakeAppyPayCredentials();
+        // chargeByPhone() corre em InitiateAppyPaySponsorshipChargeJob (segundo
+        // plano), não dentro do pedido web — mesmo motivo do
+        // AppyPayAsyncChargeTest (PaymentEscrow): a chamada pode demorar mais
+        // do que qualquer timeout HTTP razoável. O pedido web só regista o
+        // checkout e despacha o job; é o job (testado à parte) que faz a
+        // chamada real à AppyPay e grava payment_method_used/appypay_charge_id.
         Bus::fake();
-        Http::fake([
-            'auth.appypay.test/*' => Http::response(['access_token' => 'fake-token'], 200),
-            'gwy.appypay.test/*'  => Http::response(['id' => 'CHARGE123', 'responseStatus' => ['status' => 'pending']], 200),
-        ]);
 
         $freelancer = $this->makeFreelancerComSaldo(0); // sem saldo nenhum — só Express resolve
         $produto    = $this->makeProduto($freelancer);
@@ -150,17 +152,54 @@ class PatrocinioInfoprodutoTest extends TestCase
             ->assertSet('sponsor_error', '');
 
         $this->assertDatabaseHas('infoproduto_patrocinio_checkouts', [
-            'infoproduto_id'       => $produto->id,
-            'user_id'              => $freelancer->id,
-            'dias'                 => 3,
-            'amount'               => 1800,
-            'payment_method_used'  => 'appypay_gpo',
-            'appypay_charge_id'    => 'CHARGE123',
-            'payment_status'       => 'initiated',
+            'infoproduto_id' => $produto->id,
+            'user_id'        => $freelancer->id,
+            'dias'           => 3,
+            'amount'         => 1800,
+            'payment_status' => 'initiated',
         ]);
 
         // Ainda não activado — só a reconciliação (webhook/polling) o faz
         $this->assertDatabaseMissing('infoproduto_patrocinios', ['infoproduto_id' => $produto->id]);
+
+        Bus::assertDispatched(InitiateAppyPaySponsorshipChargeJob::class);
+    }
+
+    #[Test]
+    public function job_de_inicio_grava_charge_id_e_desperta_o_polling(): void
+    {
+        $this->fakeAppyPayCredentials();
+        Bus::fake([PollAppyPayInfoprodutoPatrocinioCheckoutJob::class]);
+        Http::fake([
+            'auth.appypay.test/*' => Http::response(['access_token' => 'fake-token'], 200),
+            'gwy.appypay.test/*'  => Http::response(['id' => 'CHARGE123', 'responseStatus' => ['status' => 'pending']], 200),
+        ]);
+
+        $freelancer = $this->makeFreelancerComSaldo(0);
+        $produto    = $this->makeProduto($freelancer);
+
+        $checkout = InfoprodutoPatrocinioCheckout::create([
+            'infoproduto_id' => $produto->id,
+            'user_id'        => $freelancer->id,
+            'dias'           => 3,
+            'amount'         => 1800,
+            'payment_status' => 'initiated',
+        ]);
+
+        (new InitiateAppyPaySponsorshipChargeJob(
+            $checkout,
+            '923456789',
+            1800,
+            'Patrocínio de teste',
+            'MERCHANT123'
+        ))->handle(app(\App\Modules\Payments\Services\AppyPayGateway::class));
+
+        $this->assertDatabaseHas('infoproduto_patrocinio_checkouts', [
+            'id'                  => $checkout->id,
+            'payment_method_used' => 'appypay_gpo',
+            'appypay_charge_id'   => 'CHARGE123',
+            'payment_status'      => 'initiated',
+        ]);
 
         Bus::assertDispatched(PollAppyPayInfoprodutoPatrocinioCheckoutJob::class);
     }

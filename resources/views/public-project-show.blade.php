@@ -1,16 +1,9 @@
-@php
-    // Esta página é partilhada por visitantes e por utilizadores autenticados
-    // (o freelancer chega aqui a partir de "Projectos Disponíveis"). Para quem
-    // já está logado, tem de usar o layout do dashboard — senão aparece com o
-    // tema claro/público a meio da experiência autenticada, e os links de
-    // "Voltar" tinham sempre como destino fixo a lista pública, nunca a página
-    // de onde o utilizador realmente veio.
-    $isAuthed = auth()->check();
-    $dashboardTitle = $isAuthed ? $service->titulo : null;
-@endphp
-@extends($isAuthed ? 'layouts.dashboard' : 'layouts.main')
+{{-- Só para visitantes — quem está autenticado usa project-detail-authenticated.blade.php
+     (ver PublicProjectsController::show()). Esta página foi desenhada para o tema
+     escuro/público (fundo #080d1a, cartão .pub-card), nunca para dentro do dashboard. --}}
+@extends('layouts.main')
 
-@section($isAuthed ? 'dashboard-content' : 'content')
+@section('content')
 <style>
 @media (max-width: 600px) {
     .pshow-card         { padding: 1rem !important; }
@@ -59,14 +52,10 @@
 <div class="pub-page" style="padding-top:0">
     <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
 
-        {{-- Voltar — só para visitantes; utilizadores autenticados já têm o botão
-             "Voltar" universal do dashboard, que respeita a página de origem. --}}
-        @guest
         <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
             Voltar aos projectos
         </a>
-        @endguest
 
         <div class="pub-card pshow-card" style="padding:2rem;">
             <div class="pshow-header-row" style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
@@ -130,40 +119,11 @@
                     </div>
                     @endif
 
-                    {{-- Ações --}}
+                    {{-- Ações — página só de visitantes; autenticados usam project-detail-authenticated.blade.php --}}
                     <div class="pshow-actions" style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.75rem;">
-                        @guest
-                            <a href="{{ route('register') }}" class="pub-btn-primary">Criar conta para aceitar</a>
-                            <a href="{{ route('login') }}" class="pub-btn-secondary">Já tenho conta</a>
-                        @else
-                            @php $role = auth()->user()->activeRole(); @endphp
-                            @if($role === 'freelancer')
-                                @if(auth()->id() === $service->cliente_id)
-                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Este é o seu projecto</span>
-                                @elseif($service->status === 'published')
-                                    <form method="POST" action="{{ route('service.candidatar', $service->id) }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="pub-btn-primary">Candidatar-me a este projecto</button>
-                                    </form>
-                                @else
-                                    <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Projecto não disponível</span>
-                                @endif
-                            @elseif(in_array($role, ['cliente', 'client']))
-                                @if(auth()->user()->canSwitchRole())
-                                    <form method="POST" action="{{ route('switch.role') }}" style="display:inline;">
-                                        @csrf
-                                        <button type="submit" class="pub-btn-primary">Mudar para Freelancer e aceitar</button>
-                                    </form>
-                                @else
-                                    <a href="{{ route('register') }}" class="pub-btn-primary">Criar perfil Freelancer</a>
-                                @endif
-                            @elseif($role === 'admin')
-                                <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Visualização administrativa</span>
-                            @endif
-                        @endguest
-                        @guest
-                            <a href="{{ route('public.projects') }}" class="pub-btn-secondary">Voltar à lista</a>
-                        @endguest
+                        <a href="{{ route('register') }}" class="pub-btn-primary">Criar conta para aceitar</a>
+                        <a href="{{ route('login') }}" class="pub-btn-secondary">Já tenho conta</a>
+                        <a href="{{ route('public.projects') }}" class="pub-btn-secondary">Voltar à lista</a>
                     </div>
                 </div>
             </div>

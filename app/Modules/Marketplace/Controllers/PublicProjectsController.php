@@ -62,6 +62,13 @@ class PublicProjectsController extends Controller
     public function show(Request $request, Service $service)
     {
         $service->loadMissing('cliente');
-        return view('public-project-show', compact('service'));
+
+        // Visitantes veem a página pública (tema escuro dedicado); quem já
+        // está autenticado vê uma versão construída com as mesmas classes do
+        // resto do dashboard, para não misturar dois temas visuais na mesma
+        // experiência autenticada.
+        $view = $request->user() ? 'project-detail-authenticated' : 'public-project-show';
+
+        return view($view, compact('service'));
     }
 }

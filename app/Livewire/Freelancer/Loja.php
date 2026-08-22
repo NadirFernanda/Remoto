@@ -4,6 +4,7 @@ namespace App\Livewire\Freelancer;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Jobs\InitiateAppyPaySponsorshipChargeJob;
 use App\Jobs\PollAppyPayInfoprodutoPatrocinioCheckoutJob;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoPatrocinioCheckout;
@@ -224,35 +225,22 @@ class Loja extends Component
             'payment_status' => 'initiated',
         ]);
 
-        $result = (new AppyPayGateway())->chargeByPhone(
+        InitiateAppyPaySponsorshipChargeJob::dispatch(
+            $checkout,
             $this->sponsor_phone_number,
             $valor,
             'Patrocínio de "' . $produto->titulo . '" #' . $checkout->id,
             strtoupper(Str::random(12))
         );
 
-        if (empty($result['success'])) {
-            $checkout->update(['payment_status' => 'failed']);
-            $this->sponsor_error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
-            return;
-        }
-
-        $checkout->update([
-            'payment_method_used' => 'appypay_gpo',
-            'appypay_charge_id'   => $result['charge_id'],
-        ]);
-
-        PollAppyPayInfoprodutoPatrocinioCheckoutJob::dispatch($checkout, $result['charge_id'])->delay(now()->addSeconds(30));
-
         $this->sponsor_checkout_id = $checkout->id;
-        $this->sponsor_charge_id   = $result['charge_id'];
         $this->sponsor_step        = 'waiting';
     }
 
     /** Chamado via wire:poll no modal — confirma o estado directamente na AppyPay. */
     public function checkSponsorAppyPayStatus(): void
     {
-        if (!$this->sponsor_checkout_id || !$this->sponsor_charge_id) {
+        if (!$this->sponsor_checkout_id) {
             return;
         }
 
@@ -276,9 +264,17 @@ class Loja extends Component
             return;
         }
 
-        $charge = (new AppyPayGateway())->getCharge($this->sponsor_charge_id);
+        // O job em segundo plano ainda pode não ter conseguido o charge_id —
+        // sem ele não há nada para consultar ainda; o próximo ciclo tenta de novo.
+        $chargeId = $this->sponsor_charge_id ?: $checkout->appypay_charge_id;
+        if (!$chargeId) {
+            return;
+        }
+        $this->sponsor_charge_id = $chargeId;
+
+        $charge = (new AppyPayGateway())->getCharge($chargeId);
         if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
-            app(\App\Modules\Payments\Services\AppyPayReconciliationService::class)->markPaidByChargeId($this->sponsor_charge_id);
+            app(\App\Modules\Payments\Services\AppyPayReconciliationService::class)->markPaidByChargeId($chargeId);
             $checkout->refresh();
             $this->feedbackType     = 'success';
             $this->feedback         = "Patrocínio ativo! Kz " . number_format((float) $checkout->amount, 0, ',', '.') . " pagos via Multicaixa Express. O produto ficará em destaque por {$checkout->dias} dia(s).";
