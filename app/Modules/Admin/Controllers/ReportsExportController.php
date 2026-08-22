@@ -74,11 +74,6 @@ class ReportsExportController extends Controller
             ];
         }
 
-        $totalEntradas = array_sum(array_column(array_slice($rows, 1), 1));
-        $totalSaidas   = array_sum(array_column(array_slice($rows, 1), 2));
-        $totalComissao = array_sum(array_column(array_slice($rows, 1), 3));
-
-        // Re-calculate totals from float grupos
         $tE = array_sum(array_column(array_values($grupos), 'entradas'));
         $tS = array_sum(array_column(array_values($grupos), 'saidas'));
         $tC = array_sum(array_column(array_values($grupos), 'comissao'));
