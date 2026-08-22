@@ -141,19 +141,15 @@ class ProjectManager extends Component
             return;
         }
 
-        // Verificar saldo antes do lock (para dar feedback imediato)
+        // O valor deste projecto já foi cobrado do cliente no momento da
+        // publicação (cartão/AppyPay — ver PaymentEscrow::confirmPayment()),
+        // não a partir de saldo de carteira. Nunca exigir/debitar saldo aqui:
+        // esse saldo nunca chega a ser creditado para este pagamento, por
+        // isso a verificação bloqueava sempre a escolha de freelancer para
+        // qualquer projecto pago por fora da carteira.
         $valorFinal = ($candidate->proposal_value && $candidate->proposal_value > 0)
             ? (float) $candidate->proposal_value
             : (float) ($service->valor ?? 0);
-
-        if ($valorFinal > 0) {
-            $totalComTaxa = $valorFinal;
-            $clientWalletCheck = Wallet::where('user_id', auth()->id())->first();
-            if (!$clientWalletCheck || (float) $clientWalletCheck->saldo < $totalComTaxa) {
-                session()->flash('error', 'Saldo insuficiente. Necessita de Kz ' . number_format($totalComTaxa, 2, ',', '.') . ' para reter em escrow.');
-                return;
-            }
-        }
 
         // Operações atómicas com lock anti race-condition
         \Illuminate\Support\Facades\DB::transaction(function () use ($serviceId, $freelancerId, $candidate, $valorFinal) {
@@ -181,18 +177,6 @@ class ProjectManager extends Component
             $service->freelancer_id = $freelancerId;
             $service->status = 'in_progress';
             $service->save();
-
-            // Move o valor de saldo -> saldo_pendente na carteira do cliente
-            // (mecânica interna de escrow, usada por ServiceCancel::_devolverEscrow
-            // e por approveDelivery() para libertar). O registo em WalletLog de
-            // "entrada" já foi criado no momento do pagamento — ver
-            // PaymentEscrow::registarEntradaEmEscrow() — criar outro aqui
-            // contaria a mesma entrada em duplicado nos relatórios financeiros.
-            if ($service->valor && $service->valor > 0) {
-                $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
-                $clientWallet->decrement('saldo', $service->valor);          // débito real
-                $clientWallet->increment('saldo_pendente', $service->valor); // escrow
-            }
 
             // Notifica o freelancer escolhido
             Notification::create([
