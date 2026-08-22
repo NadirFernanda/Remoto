@@ -83,7 +83,7 @@
                     </div>
                     <div class="pb-1 text-xs text-gray-400">
                         Clique nos ícones de câmara para alterar as fotos · jpg, png ou webp · máx. 8 MB
-                        @error('profilePhoto') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        @error('profilePhoto') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         @if($photoMessage)
                             <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
                         @endif
@@ -94,23 +94,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Nome</label>
-                <input type="text" wire:model.defer="name" id="pe-name" class="pub-input">
-                @error('name') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="name" id="pe-name" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('name') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">E-mail</label>
-                <input type="email" wire:model.defer="email" id="pe-email" class="pub-input">
-                @error('email') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="email" wire:model.defer="email" id="pe-email" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('email') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Telefone</label>
-                <input type="text" wire:model.defer="phone" class="pub-input">
-                @error('phone') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="phone" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('phone') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Localização</label>
-                <input type="text" wire:model.defer="location" class="pub-input">
-                @error('location') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="location" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('location') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
         </div>
 
@@ -118,25 +118,25 @@
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Título profissional</label>
-                <input type="text" wire:model.defer="headline" class="pub-input">
-                @error('headline') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="headline" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('headline') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Taxa por hora (Kz)</label>
-                <input type="text" wire:model.defer="hourly_rate" class="pub-input">
-                @error('hourly_rate') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="hourly_rate" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('hourly_rate') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Disponibilidade</label>
-                <select wire:model.defer="availability_status" class="pub-input">
+                <select wire:model.defer="availability_status" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                     <option value="available">Disponível</option>
                     <option value="busy">Ocupado</option>
                     <option value="unavailable">Indisponível</option>
                 </select>
-                @error('availability_status') <div class="pub-field-error">{{ $message }}</div> @enderror
+                @error('availability_status') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Verificação de identidade (KYC)</label>
@@ -155,20 +155,20 @@
 
         <div class="mt-4">
             <label class="block text-sm font-medium text-gray-700">Resumo / Bio profissional</label>
-            <textarea wire:model.defer="summary" rows="4" class="pub-input"></textarea>
-            @error('summary') <div class="pub-field-error">{{ $message }}</div> @enderror
+            <textarea wire:model.defer="summary" rows="4" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none"></textarea>
+            @error('summary') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
         </div>
 
         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Skills (vírgula separado)</label>
-                <input type="text" wire:model.defer="skills" class="pub-input">
-                @error('skills') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="skills" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('skills') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Idiomas (vírgula separado)</label>
-                <input type="text" wire:model.defer="languages" class="pub-input">
-                @error('languages') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="text" wire:model.defer="languages" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('languages') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
         </div>
 
@@ -176,18 +176,18 @@
         <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Projectos concluídos</label>
-                <input type="number" wire:model.defer="metrics_completed_projects" class="pub-input">
-                @error('metrics_completed_projects') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="number" wire:model.defer="metrics_completed_projects" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('metrics_completed_projects') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Avaliação média (0-5)</label>
-                <input type="number" step="0.1" wire:model.defer="metrics_rating" class="pub-input">
-                @error('metrics_rating') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="number" step="0.1" wire:model.defer="metrics_rating" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('metrics_rating') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Ganhos totais</label>
-                <input type="number" step="0.01" wire:model.defer="metrics_total_earnings" class="pub-input">
-                @error('metrics_total_earnings') <div class="pub-field-error">{{ $message }}</div> @enderror
+                <input type="number" step="0.01" wire:model.defer="metrics_total_earnings" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                @error('metrics_total_earnings') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
             </div>
         </div>
 
@@ -274,18 +274,18 @@
             <form wire:submit="saveBankAccount" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Banco</label>
-                    <input type="text" wire:model.defer="bank_name" class="pub-input" placeholder="Ex: BAI, BFA, BIC..." @disabled(!$editingBank)>
-                    @error('bank_name') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    <input type="text" wire:model.defer="bank_name" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex: BAI, BFA, BIC..." @disabled(!$editingBank)>
+                    @error('bank_name') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nome do titular</label>
-                    <input type="text" wire:model.defer="bank_account_holder" class="pub-input" placeholder="{{ $name }}" @disabled(!$editingBank)>
-                    @error('bank_account_holder') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    <input type="text" wire:model.defer="bank_account_holder" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="{{ $name }}" @disabled(!$editingBank)>
+                    @error('bank_account_holder') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Número de conta / IBAN</label>
-                    <input type="text" wire:model.defer="bank_account_number" class="pub-input" placeholder="AO06 0006 0000 0000 0000 0000 0" @disabled(!$editingBank)>
-                    @error('bank_account_number') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    <input type="text" wire:model.defer="bank_account_number" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="AO06 0006 0000 0000 0000 0000 0" @disabled(!$editingBank)>
+                    @error('bank_account_number') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                 </div>
                 <div class="md:col-span-3">
                     @if($editingBank)
@@ -458,33 +458,33 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Cargo / Título <span class="text-red-500">*</span></label>
-                            <input type="text" wire:model.defer="expForm.titulo" class="pub-input" placeholder="Ex.: Desenvolvedor Web">
-                            @error('expForm.titulo') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="text" wire:model.defer="expForm.titulo" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex.: Desenvolvedor Web">
+                            @error('expForm.titulo') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Empresa <span class="text-red-500">*</span></label>
-                            <input type="text" wire:model.defer="expForm.empresa" class="pub-input" placeholder="Nome da empresa">
-                            @error('expForm.empresa') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="text" wire:model.defer="expForm.empresa" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Nome da empresa">
+                            @error('expForm.empresa') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     {{-- Cidade e País --}}
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Cidade</label>
-                            <input type="text" wire:model.defer="expForm.cidade" class="pub-input" placeholder="Ex.: Luanda">
-                            @error('expForm.cidade') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="text" wire:model.defer="expForm.cidade" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex.: Luanda">
+                            @error('expForm.cidade') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">País</label>
-                            <input type="text" wire:model.defer="expForm.pais" class="pub-input" placeholder="Ex.: Angola">
-                            @error('expForm.pais') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="text" wire:model.defer="expForm.pais" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex.: Angola">
+                            @error('expForm.pais') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     {{-- Período --}}
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Mês início</label>
-                            <select wire:model.defer="expForm.mes_inicio" class="pub-input">
+                            <select wire:model.defer="expForm.mes_inicio" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 <option value="">—</option>
                                 @foreach(['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'] as $i => $m)
                                     <option value="{{ $i+1 }}">{{ $m }}</option>
@@ -493,12 +493,12 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ano início</label>
-                            <input type="number" wire:model.defer="expForm.ano_inicio" class="pub-input" placeholder="2020" min="1950" max="2100">
-                            @error('expForm.ano_inicio') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="number" wire:model.defer="expForm.ano_inicio" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="2020" min="1950" max="2100">
+                            @error('expForm.ano_inicio') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Mês fim</label>
-                            <select wire:model.defer="expForm.mes_fim" class="pub-input" @if($expForm['atual']) disabled @endif>
+                            <select wire:model.defer="expForm.mes_fim" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" @if($expForm['atual']) disabled @endif>
                                 <option value="">—</option>
                                 @foreach(['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'] as $i => $m)
                                     <option value="{{ $i+1 }}">{{ $m }}</option>
@@ -507,8 +507,8 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ano fim</label>
-                            <input type="number" wire:model.defer="expForm.ano_fim" class="pub-input" placeholder="2023" min="1950" max="2100" @if($expForm['atual']) disabled @endif>
-                            @error('expForm.ano_fim') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="number" wire:model.defer="expForm.ano_fim" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="2023" min="1950" max="2100" @if($expForm['atual']) disabled @endif>
+                            @error('expForm.ano_fim') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     {{-- Actualmente --}}
@@ -519,8 +519,8 @@
                     {{-- Descrição --}}
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                        <textarea wire:model.defer="expForm.descricao" rows="3" class="pub-input" placeholder="Descreva as suas responsabilidades e conquistas…"></textarea>
-                        @error('expForm.descricao') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        <textarea wire:model.defer="expForm.descricao" rows="3" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Descreva as suas responsabilidades e conquistas…"></textarea>
+                        @error('expForm.descricao') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <div class="px-6 py-4 border-t flex justify-end gap-3">
@@ -553,13 +553,13 @@
                 <div class="px-6 py-5 space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Escola / Instituição <span class="text-red-500">*</span></label>
-                        <input type="text" wire:model.defer="eduForm.escola" class="pub-input" placeholder="Ex.: Universidade Agostinho Neto">
-                        @error('eduForm.escola') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        <input type="text" wire:model.defer="eduForm.escola" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex.: Universidade Agostinho Neto">
+                        @error('eduForm.escola') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Grau</label>
-                            <select wire:model.defer="eduForm.grau" class="pub-input">
+                            <select wire:model.defer="eduForm.grau" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 <option value="">— Selecionar —</option>
                                 <option value="Ensino Secundário">Ensino Secundário</option>
                                 <option value="Técnico Médio">Técnico Médio</option>
@@ -572,24 +572,24 @@
                                 <option value="Curso Profissional">Curso Profissional</option>
                                 <option value="Outro">Outro</option>
                             </select>
-                            @error('eduForm.grau') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            @error('eduForm.grau') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Área de estudo</label>
-                            <input type="text" wire:model.defer="eduForm.area_estudo" class="pub-input" placeholder="Ex.: Engenharia Informática">
-                            @error('eduForm.area_estudo') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="text" wire:model.defer="eduForm.area_estudo" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Ex.: Engenharia Informática">
+                            @error('eduForm.area_estudo') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ano início</label>
-                            <input type="number" wire:model.defer="eduForm.ano_inicio" class="pub-input" placeholder="2018" min="1950" max="2100">
-                            @error('eduForm.ano_inicio') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="number" wire:model.defer="eduForm.ano_inicio" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="2018" min="1950" max="2100">
+                            @error('eduForm.ano_inicio') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Ano fim</label>
-                            <input type="number" wire:model.defer="eduForm.ano_fim" class="pub-input" placeholder="2022" min="1950" max="2100" @if($eduForm['atual']) disabled @endif>
-                            @error('eduForm.ano_fim') <div class="pub-field-error">{{ $message }}</div> @enderror
+                            <input type="number" wire:model.defer="eduForm.ano_fim" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="2022" min="1950" max="2100" @if($eduForm['atual']) disabled @endif>
+                            @error('eduForm.ano_fim') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
@@ -598,8 +598,8 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Descrição (opcional)</label>
-                        <textarea wire:model.defer="eduForm.descricao" rows="3" class="pub-input" placeholder="Actividades, conquistas, notas relevantes…"></textarea>
-                        @error('eduForm.descricao') <div class="pub-field-error">{{ $message }}</div> @enderror
+                        <textarea wire:model.defer="eduForm.descricao" rows="3" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none" placeholder="Actividades, conquistas, notas relevantes…"></textarea>
+                        @error('eduForm.descricao') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
                 </div>
                 <div class="px-6 py-4 border-t flex justify-end gap-3">

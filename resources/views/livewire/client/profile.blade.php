@@ -68,42 +68,47 @@
                 </div>
                 <div class="pb-1 text-xs text-gray-400">
                     Clique nos ícones de câmara para alterar as fotos · jpg, png ou webp · máx. 8 MB
-                    @error('profilePhoto') <div class="pub-field-error">{{ $message }}</div> @enderror
+                    @error('profilePhoto') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                 </div>
             </div>
         </div>
     </div>
 
     {{-- Dados pessoais editáveis --}}
-    <div class="pub-field">
-        <label for="cp-name">Nome</label>
-        <input type="text" id="cp-name" wire:model.defer="name" class="pub-input" placeholder="O seu nome completo">
-        @error('name') <div class="pub-field-error">{{ $message }}</div> @enderror
+    @php
+        $inputClass = 'block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none';
+        $labelClass = 'block text-sm font-semibold text-gray-700 mb-1.5';
+        $errorClass = 'text-red-600 text-xs mt-1';
+    @endphp
+    <div class="mb-5">
+        <label for="cp-name" class="{{ $labelClass }}">Nome</label>
+        <input type="text" id="cp-name" wire:model.defer="name" class="{{ $inputClass }}" placeholder="O seu nome completo">
+        @error('name') <div class="{{ $errorClass }}">{{ $message }}</div> @enderror
     </div>
-    <div class="pub-field">
-        <label>E-mail</label>
-        <input type="email" class="pub-input" value="{{ $user->email }}" readonly style="opacity:.7;cursor:not-allowed;">
-        <div style="font-size:.75rem;color:#94a3b8;margin-top:.25rem;">O e-mail não pode ser alterado aqui.</div>
+    <div class="mb-5">
+        <label class="{{ $labelClass }}">E-mail</label>
+        <input type="email" class="{{ $inputClass }} bg-gray-50 cursor-not-allowed" value="{{ $user->email }}" readonly>
+        <div class="text-xs text-gray-400 mt-1">O e-mail não pode ser alterado aqui.</div>
     </div>
-    <div class="pub-field">
-        <label>Tipo de Conta</label>
-        <input type="text" class="pub-input" value="{{ ucfirst($user->role) }}" readonly style="opacity:.7;cursor:not-allowed;">
+    <div class="mb-5">
+        <label class="{{ $labelClass }}">Tipo de Conta</label>
+        <input type="text" class="{{ $inputClass }} bg-gray-50 cursor-not-allowed" value="{{ ucfirst($user->role) }}" readonly>
     </div>
-    <div class="pub-field">
-        <label for="cp-phone">Telefone</label>
-        <input type="text" id="cp-phone" wire:model.defer="phone" class="pub-input" placeholder="+244 900 000 000">
-        @error('phone') <div class="pub-field-error">{{ $message }}</div> @enderror
+    <div class="mb-5">
+        <label for="cp-phone" class="{{ $labelClass }}">Telefone</label>
+        <input type="text" id="cp-phone" wire:model.defer="phone" class="{{ $inputClass }}" placeholder="+244 900 000 000">
+        @error('phone') <div class="{{ $errorClass }}">{{ $message }}</div> @enderror
     </div>
-    <div class="pub-field">
-        <label for="cp-location">Localização</label>
-        <input type="text" id="cp-location" wire:model.defer="location" class="pub-input" placeholder="Ex.: Luanda, Angola">
-        @error('location') <div class="pub-field-error">{{ $message }}</div> @enderror
+    <div class="mb-5">
+        <label for="cp-location" class="{{ $labelClass }}">Localização</label>
+        <input type="text" id="cp-location" wire:model.defer="location" class="{{ $inputClass }}" placeholder="Ex.: Luanda, Angola">
+        @error('location') <div class="{{ $errorClass }}">{{ $message }}</div> @enderror
     </div>
-    <div class="pub-field">
-        <label for="cp-bio">Sobre mim</label>
-        <textarea id="cp-bio" wire:model.defer="bio" rows="4" maxlength="600" class="pub-input" placeholder="Fale um pouco sobre si ou sobre a sua empresa — isto aparece no seu perfil público."></textarea>
+    <div class="mb-5">
+        <label for="cp-bio" class="{{ $labelClass }}">Sobre mim</label>
+        <textarea id="cp-bio" wire:model.defer="bio" rows="4" maxlength="600" class="{{ $inputClass }}" placeholder="Fale um pouco sobre si ou sobre a sua empresa — isto aparece no seu perfil público."></textarea>
         <div class="text-xs text-gray-500 mt-1">Visível a quem vir o seu perfil público. Máx. 600 caracteres.</div>
-        @error('bio') <div class="pub-field-error">{{ $message }}</div> @enderror
+        @error('bio') <div class="{{ $errorClass }}">{{ $message }}</div> @enderror
     </div>
     <div class="action-row mb-6" role="toolbar" aria-label="Guardar dados pessoais">
         <button wire:click.prevent="saveProfile" class="btn-eq btn-primary" aria-label="Guardar perfil">
@@ -114,9 +119,9 @@
 
     <hr class="my-6">
 
-    <div class="pub-field">
-        <label for="cp-interests">Áreas de interesse (ex.: Marketing, WordPress)</label>
-        <input type="text" id="cp-interests" wire:model.defer="interests_input" class="pub-input" placeholder="Adicione até 10 tags separadas por vírgula">
+    <div class="mb-5">
+        <label for="cp-interests" class="{{ $labelClass }}">Áreas de interesse (ex.: Marketing, WordPress)</label>
+        <input type="text" id="cp-interests" wire:model.defer="interests_input" class="{{ $inputClass }}" placeholder="Adicione até 10 tags separadas por vírgula">
         <div class="text-xs text-gray-500 mt-1">Use tags separadas por vírgula. Isto ajuda os freelancers a encontrá-lo.</div>
     </div>
     <div class="mb-4">
