@@ -53,7 +53,7 @@
                 <div>
                     <p class="font-semibold">Tem saldo de assinaturas por resgatar (Kz {{ number_format($saldoAssinAtribuivel, 0, ',', '.') }}).</p>
                     <p class="mt-0.5">
-                        Enquanto isso, o saque mínimo é <strong>Kz 200.000</strong>, com um intervalo mínimo de <strong>14 dias</strong> entre pedidos.
+                        Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong>, com um intervalo mínimo de <strong>14 dias</strong> entre pedidos.
                         @if($diasParaProximoSaqueAssin > 0)
                             Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
                         @endif
@@ -71,9 +71,9 @@
                             type="number"
                             wire:model.live="valorSaque"
                             x-model="valorSaque"
-                            min="{{ $gatedPorAssinaturas ? 200000 : 1 }}"
+                            min="{{ $gatedPorAssinaturas ? (int) $saqueMinimoAssinaturas : 1 }}"
                             step="100"
-                            placeholder="{{ $gatedPorAssinaturas ? '200000' : '1000' }}"
+                            placeholder="{{ $gatedPorAssinaturas ? (int) $saqueMinimoAssinaturas : '1000' }}"
                             class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>

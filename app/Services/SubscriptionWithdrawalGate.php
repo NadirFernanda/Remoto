@@ -21,8 +21,11 @@ use Illuminate\Support\Facades\DB;
  */
 class SubscriptionWithdrawalGate
 {
-    public const SAQUE_MINIMO = 200000.0;
-    public const COOLDOWN_DIAS = 14;
+    public const SAQUE_MINIMO = 20000.0;
+
+    // TEMPORÁRIO — desactivado a pedido para testar o fluxo de saque/IBAN em
+    // produção sem esperar 14 dias. REPOR PARA 14 DEPOIS DO TESTE.
+    public const COOLDOWN_DIAS = 0;
 
     /** Fatia de ganhos de assinaturas que ainda não foi "consumida" por um saque gated. */
     public static function saldoAtribuivel(int $userId): float

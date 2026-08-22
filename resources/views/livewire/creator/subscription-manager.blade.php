@@ -30,7 +30,7 @@
         <div>
             <p class="font-semibold">Tem Kz {{ number_format($saldoAssinAtribuivel, 0, ',', '.') }} de assinaturas por resgatar.</p>
             <p class="mt-0.5">
-                Enquanto isso, o saque no Painel Financeiro exige um mínimo de <strong>Kz 200.000</strong> e um intervalo de <strong>14 dias</strong> entre pedidos.
+                Enquanto isso, o saque no Painel Financeiro exige um mínimo de <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong> e um intervalo de <strong>14 dias</strong> entre pedidos.
                 @if($diasParaProximoSaqueAssin > 0)
                     Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
                 @else

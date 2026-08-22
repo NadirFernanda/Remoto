@@ -17,7 +17,7 @@ use Tests\TestCase;
  * criador: enquanto houver ganho_assinatura ainda não "resgatado" por um
  * saque fonte=assinaturas, o saque (feito sempre através do Painel
  * Financeiro, único ponto de saque desde o fix do bug de saque duplicado)
- * exige mínimo Kz 200.000 e um intervalo de 14 dias entre pedidos.
+ * exige mínimo Kz 20.000 e um intervalo de 14 dias entre pedidos.
  */
 class SubscriptionWithdrawalGateTest extends TestCase
 {
@@ -77,14 +77,14 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function com_ganhos_de_assinatura_por_resgatar_exige_minimo_200000(): void
+    public function com_ganhos_de_assinatura_por_resgatar_exige_minimo_20000(): void
     {
         $freelancer = $this->makeFreelancer(300000);
         $this->creditarGanhoAssinatura($freelancer, 250000);
 
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
-            ->set('valorSaque', 50000) // abaixo do mínimo gated
+            ->set('valorSaque', 15000) // abaixo do mínimo gated
             ->call('solicitarSaque')
             ->assertHasErrors('valorSaque');
 
@@ -117,6 +117,11 @@ class SubscriptionWithdrawalGateTest extends TestCase
     #[Test]
     public function segundo_saque_gated_antes_de_14_dias_e_bloqueado(): void
     {
+        // SubscriptionWithdrawalGate::COOLDOWN_DIAS está temporariamente a 0
+        // (pedido em produção para testar o fluxo de saque/IBAN sem esperar
+        // 14 dias) — este teste só volta a fazer sentido depois de repor o
+        // valor real. Reactivar junto com essa reposição.
+        $this->markTestSkipped('COOLDOWN_DIAS temporariamente 0 para teste em produção — ver SubscriptionWithdrawalGate.php');
         $freelancer = $this->makeFreelancer(600000);
         $this->creditarGanhoAssinatura($freelancer, 500000);
 
