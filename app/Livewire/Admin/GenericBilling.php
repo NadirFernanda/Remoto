@@ -70,7 +70,7 @@ class GenericBilling extends Component
                 ->whereNotNull('valor')
                 ->where('valor', '>', 0)
                 ->whereBetween('updated_at', [$start, $end])
-                ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
+                ->whereIn('status', ['published', 'in_progress', 'delivered', 'completed', 'cancelled'])
                 ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows, &$seq) {

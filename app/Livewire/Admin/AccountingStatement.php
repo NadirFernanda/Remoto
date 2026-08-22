@@ -56,7 +56,8 @@ class AccountingStatement extends Component
             Service::with(['cliente:id,name', 'freelancer:id,name'])
                 ->whereNotNull('valor')
                 ->where('valor', '>', 0)
-                ->whereIn('status', ['in_progress', 'delivered', 'completed', 'cancelled'])
+                ->whereBetween('updated_at', [$start, $end])
+                ->whereIn('status', ['published', 'in_progress', 'delivered', 'completed', 'cancelled'])
                 ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\AdminReceipt;
 use App\Models\CreatorSubscription;
+use App\Models\InfoprodutoCompra;
 use App\Models\Service;
 use App\Models\User;
 
@@ -117,6 +118,15 @@ class AdminReceiptController extends Controller
 
         return response()
             ->view('admin.receipts.subscription-receipt-pdf', compact('subscription'))
+            ->header('Content-Type', 'text/html; charset=UTF-8');
+    }
+
+    public function infoprodutoReceipt(InfoprodutoCompra $compra)
+    {
+        $compra->loadMissing('comprador', 'infoproduto.user');
+
+        return response()
+            ->view('admin.receipts.infoproduto-receipt-pdf', compact('compra'))
             ->header('Content-Type', 'text/html; charset=UTF-8');
     }
 

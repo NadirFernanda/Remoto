@@ -121,6 +121,9 @@ Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
     Route::get('/admin/assinatura/{subscription}/recibo', [AdminReceiptController::class, 'subscriptionReceipt'])
         ->name('admin.subscription.receipt')
         ->middleware('admin.module:suporte');
+    Route::get('/admin/infoproduto-compra/{compra}/recibo', [AdminReceiptController::class, 'infoprodutoReceipt'])
+        ->name('admin.infoproduto.receipt')
+        ->middleware('admin.module:suporte');
 
     // Admin — Download infoproduto file for moderation review
     Route::get('/admin/loja/download/{id}', function (int $id) {

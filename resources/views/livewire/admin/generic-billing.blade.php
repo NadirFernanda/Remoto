@@ -149,6 +149,9 @@
                         @elseif($row['tipo'] === 'Assinaturas')
                             <a href="{{ route('admin.subscription.receipt', $row['id']) }}" target="_blank"
                                class="text-xs font-semibold text-[#0055ff] hover:underline whitespace-nowrap">Ver recibo</a>
+                        @elseif($row['tipo'] === 'Infoprodutos')
+                            <a href="{{ route('admin.infoproduto.receipt', $row['id']) }}" target="_blank"
+                               class="text-xs font-semibold text-[#0055ff] hover:underline whitespace-nowrap">Ver recibo</a>
                         @else
                             <span class="text-xs text-gray-300">—</span>
                         @endif
