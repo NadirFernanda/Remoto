@@ -1,4 +1,4 @@
-﻿<div class="max-w-2xl mx-auto py-8 px-2">
+<div class="max-w-2xl mx-auto py-8 px-2">
     @if(session('error'))
         <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-center font-semibold text-sm">
             {{ session('error') }}

@@ -1,4 +1,4 @@
-﻿<div class="max-w-5xl mx-auto space-y-6">
+<div class="max-w-5xl mx-auto space-y-6">
 
     {{-- Flash messages --}}
     @if(session('success'))

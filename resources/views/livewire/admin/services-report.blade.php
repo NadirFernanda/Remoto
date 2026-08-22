@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     {{-- ─── Filtros ─────────────────────────────────────────────────── --}}
     <div class="flex flex-wrap items-end gap-3 mb-6">
         {{-- Período rápido --}}

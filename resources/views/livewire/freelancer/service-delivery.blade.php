@@ -1,4 +1,4 @@
-﻿<div class="container mx-auto px-4 py-8 max-w-xl">
+<div class="container mx-auto px-4 py-8 max-w-xl">
     <h2 class="text-xl font-bold text-sky-600 mb-4">Entrega do Serviço</h2>
 
     {{-- ── Resumo do projecto ── --}}
