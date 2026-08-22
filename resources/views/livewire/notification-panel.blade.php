@@ -46,10 +46,10 @@
                     'payment_released', 'saque_aprovado', 'refund_approved'
                         => ['bg-green-50', 'text-green-500',
                            'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'],
-                    'delivery_approved', 'service_chosen', 'proposal_accepted'
+                    'delivery_approved', 'service_chosen', 'proposal_accepted', 'kyc_verified'
                         => ['bg-green-50', 'text-green-500',
                            'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
-                    'service_rejected', 'saque_rejeitado', 'refund_rejected', 'project_cancelled', 'proposal_rejected'
+                    'service_rejected', 'saque_rejeitado', 'refund_rejected', 'project_cancelled', 'proposal_rejected', 'kyc_rejected'
                         => ['bg-red-50', 'text-red-500',
                            'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'],
                     'revision_requested'

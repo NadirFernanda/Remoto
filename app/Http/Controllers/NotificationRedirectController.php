@@ -83,6 +83,10 @@ class NotificationRedirectController extends Controller
             // ── Admin messages ────────────────────────────────────────────────
             'admin_message'        => route('notification.show', $notification->id),
 
+            // ── KYC ─────────────────────────────────────────────────────────
+            'kyc_rejected'         => route('kyc.submit'),
+            'kyc_verified'         => route('kyc.submit'),
+
             default                => $role === 'freelancer'
                 ? route('freelancer.notifications')
                 : route('notifications'),

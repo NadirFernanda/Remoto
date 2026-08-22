@@ -84,6 +84,10 @@ class Notification extends Model
                 // ── Admin message ─────────────────────────────────────
                 'admin_message'        => route('notification.show', $this->id),
 
+                // ── KYC ───────────────────────────────────────────────
+                'kyc_rejected'         => route('kyc.submit'),
+                'kyc_verified'         => route('kyc.submit'),
+
                 default => '#',
             };
         } catch (\Throwable) {

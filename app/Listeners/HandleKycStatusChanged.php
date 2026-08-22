@@ -24,12 +24,27 @@ class HandleKycStatusChanged implements ShouldQueue
             $profile->save();
         }
 
-        // Enviar notificação ao utilizador (email + database)
+        // Enviar notificação ao utilizador (email + database nativa do Laravel)
         $event->user->notify(new KycStatusNotification(
             $event->status,
             route('kyc.submit'),
             $event->adminNote
         ));
+
+        // A notificação nativa acima fica na tabela 'notifications', que não é
+        // lida pelo sino/painel de notificações do site (esse usa o modelo
+        // App\Models\Notification, tabela 'user_notifications'). Sem este
+        // registo aqui, o utilizador rejeitado nunca via, dentro da própria
+        // plataforma, uma forma de voltar à página de reenvio — só recebia
+        // isso por email.
+        \App\Models\Notification::create([
+            'user_id' => $event->user->id,
+            'type'    => $event->status === 'verified' ? 'kyc_verified' : 'kyc_rejected',
+            'title'   => $event->status === 'verified' ? 'Identidade verificada' : 'Verificação KYC rejeitada',
+            'message' => $event->status === 'verified'
+                ? 'A sua identidade foi verificada com sucesso! Pode agora receber pagamentos.'
+                : 'A verificação KYC foi rejeitada.' . ($event->adminNote ? ' Motivo: ' . $event->adminNote : ' Por favor, reenvie os documentos.'),
+        ]);
 
         AuditLogger::log(
             'kyc_status_changed',
