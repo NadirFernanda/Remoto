@@ -68,7 +68,7 @@
 
                     {{-- Number badge --}}
                     <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-50 border border-gray-100">
-                        #{{ $order->id }}
+                        #{{ $order->order_number }}
                     </div>
 
                     {{-- Title + date --}}
