@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\KycSubmission;
+use App\Events\KycSubmissionCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -59,6 +60,8 @@ class KycForm extends Component
             return;
         }
 
+        $isResubmission = (bool) $this->existing;
+
         $frontPath = $this->documentFront->store('kyc/' . $user->id, 'private');
         $backPath  = $this->documentBack  ? $this->documentBack->store('kyc/' . $user->id, 'private')  : null;
         $selfiePath = $this->selfie       ? $this->selfie->store('kyc/' . $user->id, 'private')        : null;
@@ -75,6 +78,8 @@ class KycForm extends Component
         // Update kyc_status on user
         $user->kyc_status = 'pending';
         $user->save();
+
+        KycSubmissionCreated::dispatch($submission, $user, $isResubmission);
 
         $this->existing = $submission;
         $this->showResubmitForm = false;

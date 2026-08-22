@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use App\Events\ClientRegistered;
 use App\Events\FreelancerRegistered;
+use App\Events\KycSubmissionCreated;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\CreatorProfile;
 use App\Models\KycSubmission;
@@ -124,7 +125,9 @@ class RegisterWizard extends Component
             return;
         }
 
-        $user = DB::transaction(function () use ($frontHash) {
+        $kycSubmission = null;
+
+        $user = DB::transaction(function () use ($frontHash, &$kycSubmission) {
             $user = User::create([
                 'name'     => strip_tags($this->name),
                 'email'    => $this->email,
@@ -158,7 +161,7 @@ class RegisterWizard extends Component
             $backPath   = $this->documentBack->store('kyc/' . $user->id, 'private');
             $selfiePath = $this->selfie ? $this->selfie->store('kyc/' . $user->id, 'private') : null;
 
-            KycSubmission::create([
+            $kycSubmission = KycSubmission::create([
                 'user_id'             => $user->id,
                 'document_type'       => $this->documentType,
                 'document_number'     => $this->documentNumber,
@@ -180,6 +183,8 @@ class RegisterWizard extends Component
         } else {
             event(new ClientRegistered($user));
         }
+
+        KycSubmissionCreated::dispatch($kycSubmission, $user, false);
 
         Auth::login($user);
         session()->regenerate();

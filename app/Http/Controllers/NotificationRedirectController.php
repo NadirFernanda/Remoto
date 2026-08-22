@@ -86,6 +86,7 @@ class NotificationRedirectController extends Controller
             // ── KYC ─────────────────────────────────────────────────────────
             'kyc_rejected'         => route('kyc.submit'),
             'kyc_verified'         => route('kyc.submit'),
+            'kyc_submission_new'   => route('admin.users'),
 
             default                => $role === 'freelancer'
                 ? route('freelancer.notifications')

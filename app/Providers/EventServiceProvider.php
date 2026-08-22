@@ -53,6 +53,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\KycStatusChanged::class => [
             \App\Listeners\HandleKycStatusChanged::class,
         ],
+        \App\Events\KycSubmissionCreated::class => [
+            \App\Listeners\NotifyAdminOfKycSubmission::class,
+        ],
     ];
 
     public function boot()

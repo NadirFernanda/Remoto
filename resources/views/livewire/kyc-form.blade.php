@@ -27,6 +27,16 @@
         </span>
     </div>
 
+    {{-- Success message — mostrado independentemente do estado seguinte, porque
+         logo a seguir a um reenvio bem-sucedido o estado já passou a 'pending'
+         e o ramo abaixo que o mostrava ficava sempre encoberto pelo banner de
+         "Submissão em análise". --}}
+    @if($successMessage)
+        <div class="mb-5 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">
+            {{ $successMessage }}
+        </div>
+    @endif
+
     {{-- Submission already approved --}}
     @if($currentKyc === 'verified' || ($existing && $existing->status === 'approved'))
         <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-medium">
@@ -42,13 +52,6 @@
         </div>
 
     @else
-        {{-- Success message --}}
-        @if($successMessage)
-            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg font-semibold text-sm">
-                {{ $successMessage }}
-            </div>
-        @endif
-
         {{-- Rejected: show reason --}}
         @if($existing && $existing->status === 'rejected')
             <div class="mb-5 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
