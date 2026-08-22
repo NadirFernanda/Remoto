@@ -574,8 +574,11 @@ html body button.rounded-full[class*="px-"] { border-radius: .6875rem !important
 .pub-hero-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: #f1f5f9; line-height: 1.2; margin-bottom: .5rem; }
 .pub-hero-sub   { color: #94a3b8; font-size: 1rem; }
 
-/* card base — páginas públicas (branco com raia, não glass-dark) */
-.pub-card { background: rgba(255,255,255,.05); border-radius: 18px; border: 1px solid rgba(255,255,255,.09); box-shadow: 0 1px 6px rgba(0,0,0,.2); transition: box-shadow .18s, transform .18s; }
+/* card base — páginas públicas (branco com raia, não glass-dark).
+   O texto destes cartões (#0f172a, #475569...) foi sempre escrito a pensar
+   num cartão branco a sério — nunca existiu (ficou só 5% de opacidade),
+   por isso o texto ficava quase invisível sobre o fundo escuro da página. */
+.pub-card { background: #ffffff; border-radius: 18px; border: 1px solid #e2e8f0; box-shadow: 0 1px 6px rgba(0,0,0,.2); transition: box-shadow .18s, transform .18s; }
 .pub-card:hover { box-shadow: 0 8px 28px rgba(0,80,255,.1); transform: translateY(-2px); }
 
 /* pills / tags */

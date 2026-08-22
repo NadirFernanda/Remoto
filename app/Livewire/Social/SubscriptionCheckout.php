@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Social;
 
+use App\Jobs\InitiateAppyPaySubscriptionChargeJob;
 use App\Jobs\PollAppyPaySubscriptionCheckoutJob;
 use App\Models\CreatorProfile;
 use App\Models\CreatorSubscription;
@@ -122,28 +123,15 @@ class SubscriptionCheckout extends Component
             'payment_status' => 'initiated',
         ]);
 
-        $result = (new AppyPayGateway())->chargeByPhone(
+        InitiateAppyPaySubscriptionChargeJob::dispatch(
+            $checkout,
+            'gpo',
             $this->phone_number,
             $this->price,
-            'Assinatura de ' . $this->creator->name . ' #' . $checkout->id,
             $this->generateMerchantTransactionId()
         );
 
-        if (empty($result['success'])) {
-            $checkout->update(['payment_status' => 'failed']);
-            $this->error = $result['message'] ?? 'Não foi possível iniciar o pagamento. Tente novamente.';
-            return;
-        }
-
-        $checkout->update([
-            'payment_method_used' => 'appypay_gpo',
-            'appypay_charge_id'   => $result['charge_id'],
-        ]);
-
-        PollAppyPaySubscriptionCheckoutJob::dispatch($checkout, $result['charge_id'], 'gpo')->delay(now()->addSeconds(30));
-
         $this->checkout_id = $checkout->id;
-        $this->charge_id   = $result['charge_id'];
         $this->step         = 'waiting';
     }
 
@@ -206,7 +194,7 @@ class SubscriptionCheckout extends Component
     /** Chamado via wire:poll no ecrã de espera — confirma o estado directamente na AppyPay. */
     public function checkAppyPayStatus(): void
     {
-        if (!$this->checkout_id || !$this->charge_id) {
+        if (!$this->checkout_id) {
             return;
         }
 
@@ -228,9 +216,18 @@ class SubscriptionCheckout extends Component
             return;
         }
 
-        $charge = (new AppyPayGateway())->getCharge($this->charge_id);
+        // O job em segundo plano ainda pode não ter conseguido o charge_id
+        // (chamada à AppyPay ainda em curso, ou pendente na fila) — sem ele
+        // não há nada para consultar ainda; o próximo ciclo tenta de novo.
+        $chargeId = $this->charge_id ?: $checkout->appypay_charge_id;
+        if (!$chargeId) {
+            return;
+        }
+        $this->charge_id = $chargeId;
+
+        $charge = (new AppyPayGateway())->getCharge($chargeId);
         if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
-            app(AppyPayReconciliationService::class)->markPaidByChargeId($this->charge_id);
+            app(AppyPayReconciliationService::class)->markPaidByChargeId($chargeId);
             $this->step = 'done';
             session()->flash('success', 'Pagamento confirmado! Agora tem acesso ao conteúdo exclusivo de ' . $this->creator->name . '.');
             $this->redirect(route('social.creator', ['user' => $this->creator]));
