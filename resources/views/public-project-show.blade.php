@@ -1,6 +1,16 @@
-@extends('layouts.main')
+@php
+    // Esta página é partilhada por visitantes e por utilizadores autenticados
+    // (o freelancer chega aqui a partir de "Projectos Disponíveis"). Para quem
+    // já está logado, tem de usar o layout do dashboard — senão aparece com o
+    // tema claro/público a meio da experiência autenticada, e os links de
+    // "Voltar" tinham sempre como destino fixo a lista pública, nunca a página
+    // de onde o utilizador realmente veio.
+    $isAuthed = auth()->check();
+    $dashboardTitle = $isAuthed ? $service->titulo : null;
+@endphp
+@extends($isAuthed ? 'layouts.dashboard' : 'layouts.main')
 
-@section('content')
+@section($isAuthed ? 'dashboard-content' : 'content')
 <style>
 @media (max-width: 600px) {
     .pshow-card         { padding: 1rem !important; }
@@ -49,11 +59,14 @@
 <div class="pub-page" style="padding-top:0">
     <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
 
-        {{-- Voltar --}}
+        {{-- Voltar — só para visitantes; utilizadores autenticados já têm o botão
+             "Voltar" universal do dashboard, que respeita a página de origem. --}}
+        @guest
         <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
             Voltar aos projectos
         </a>
+        @endguest
 
         <div class="pub-card pshow-card" style="padding:2rem;">
             <div class="pshow-header-row" style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
@@ -148,7 +161,9 @@
                                 <span style="background:#f1f5f9;color:#64748b;font-weight:700;padding:.6rem 1.25rem;border-radius:10px;font-size:.9rem;">Visualização administrativa</span>
                             @endif
                         @endguest
-                        <a href="{{ route('public.projects') }}" class="pub-btn-secondary">Voltar à lista</a>
+                        @guest
+                            <a href="{{ route('public.projects') }}" class="pub-btn-secondary">Voltar à lista</a>
+                        @endguest
                     </div>
                 </div>
             </div>
