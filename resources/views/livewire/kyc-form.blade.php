@@ -37,6 +37,29 @@
         </div>
     @endif
 
+    {{-- Erro explícito — nunca deixar o utilizador sem explicação nenhuma
+         quando o envio falha (upload que não chegou a completar, erro no
+         servidor, etc.). --}}
+    @if($errorMessage)
+        <div class="mb-5 p-3 bg-red-100 text-red-700 rounded-lg font-semibold text-sm">
+            ✗ {{ $errorMessage }}
+        </div>
+    @endif
+
+    {{-- Resumo de todos os erros de validação — além do texto pequeno por
+         baixo de cada campo, para ser impossível não notar que o envio
+         falhou. --}}
+    @if($errors->any())
+        <div class="mb-5 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+            <p class="font-semibold mb-1">Não foi possível enviar:</p>
+            <ul class="list-disc list-inside space-y-0.5">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     {{-- Submission already approved --}}
     @if($currentKyc === 'verified' || ($existing && $existing->status === 'approved'))
         <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-medium">
