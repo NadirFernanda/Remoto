@@ -77,6 +77,7 @@ class GenericBilling extends Component
                     $bruto   = (float) ($s->valor ?? 0);
                     $liquido = (float) ($s->valor_liquido ?? $bruto * 0.9);
                     $rows->push([
+                        'id'            => $s->id,
                         'fat_numero'    => self::fatNumber('Projectos', $seq++),
                         'data'          => $s->updated_at->format('d/m/Y'),
                         'data_iso'      => $s->updated_at->toDateString(),
@@ -101,6 +102,7 @@ class GenericBilling extends Component
                 ->get()
                 ->each(function ($c) use (&$rows, &$seq) {
                     $rows->push([
+                        'id'            => $c->id,
                         'fat_numero'    => self::fatNumber('Infoprodutos', $seq++),
                         'data'          => $c->created_at->format('d/m/Y'),
                         'data_iso'      => $c->created_at->toDateString(),
@@ -125,6 +127,7 @@ class GenericBilling extends Component
                 ->get()
                 ->each(function ($sub) use (&$rows, &$seq) {
                     $rows->push([
+                        'id'            => $sub->id,
                         'fat_numero'    => self::fatNumber('Assinaturas', $seq++),
                         'data'          => $sub->created_at->format('d/m/Y'),
                         'data_iso'      => $sub->created_at->toDateString(),

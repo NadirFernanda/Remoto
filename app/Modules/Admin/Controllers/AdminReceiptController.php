@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\AdminReceipt;
+use App\Models\CreatorSubscription;
 use App\Models\Service;
 use App\Models\User;
 
@@ -107,6 +108,15 @@ class AdminReceiptController extends Controller
 
         return response()
             ->view('livewire.client.receipt-pdf', compact('service', 'user'))
+            ->header('Content-Type', 'text/html; charset=UTF-8');
+    }
+
+    public function subscriptionReceipt(CreatorSubscription $subscription)
+    {
+        $subscription->loadMissing('subscriber', 'creator');
+
+        return response()
+            ->view('admin.receipts.subscription-receipt-pdf', compact('subscription'))
             ->header('Content-Type', 'text/html; charset=UTF-8');
     }
 

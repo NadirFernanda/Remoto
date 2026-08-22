@@ -114,6 +114,7 @@
                     <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Comissão</th>
                     <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide whitespace-nowrap">Líquido</th>
                     <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Estado</th>
+                    <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Recibo</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
@@ -141,6 +142,17 @@
                     <td class="px-4 py-2.5">
                         <span class="text-xs text-gray-500">{{ $row['status'] }}</span>
                     </td>
+                    <td class="px-4 py-2.5">
+                        @if($row['tipo'] === 'Projectos')
+                            <a href="{{ route('admin.service.receipt', $row['id']) }}" target="_blank"
+                               class="text-xs font-semibold text-[#0055ff] hover:underline whitespace-nowrap">Ver recibo</a>
+                        @elseif($row['tipo'] === 'Assinaturas')
+                            <a href="{{ route('admin.subscription.receipt', $row['id']) }}" target="_blank"
+                               class="text-xs font-semibold text-[#0055ff] hover:underline whitespace-nowrap">Ver recibo</a>
+                        @else
+                            <span class="text-xs text-gray-300">—</span>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -150,6 +162,7 @@
                     <td class="px-4 py-3 text-right font-bold text-gray-900 whitespace-nowrap">{{ money_aoa($totalBruto) }}</td>
                     <td class="px-4 py-3 text-right font-bold text-amber-600 whitespace-nowrap">{{ money_aoa($totalComissao) }}</td>
                     <td class="px-4 py-3 text-right font-bold text-emerald-600 whitespace-nowrap">{{ money_aoa($totalLiquido) }}</td>
+                    <td></td>
                     <td></td>
                 </tr>
             </tfoot>
