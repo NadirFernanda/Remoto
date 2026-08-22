@@ -154,6 +154,14 @@
                     </div>
 
                     <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nome completo (conforme consta no documento)</label>
+                        <input type="text" wire:model="verifiedName"
+                            class="block w-full rounded-xl border border-gray-200 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                        @error('verifiedName') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
+                        <p class="text-xs text-gray-400 mt-1">Confirme ou corrija — este é o nome usado para validar a conta bancária que o utilizador registar mais tarde. Confira com a frente do documento acima.</p>
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Observações / motivo (opcional)</label>
                         <textarea wire:model="adminNotes" rows="2" placeholder="Ex.: documento ilegível, expirado, etc."
                             class="block w-full rounded-xl border border-gray-200 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none"></textarea>

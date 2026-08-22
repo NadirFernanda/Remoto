@@ -274,23 +274,30 @@
             <form wire:submit="saveBankAccount" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Banco</label>
-                    <input type="text" wire:model.defer="bank_name" class="pub-input" placeholder="Ex: BAI, BFA, BIC...">
+                    <input type="text" wire:model.defer="bank_name" class="pub-input" placeholder="Ex: BAI, BFA, BIC..." @disabled(!$editingBank)>
                     @error('bank_name') <div class="pub-field-error">{{ $message }}</div> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Nome do titular</label>
-                    <input type="text" wire:model.defer="bank_account_holder" class="pub-input" placeholder="{{ $name }}">
+                    <input type="text" wire:model.defer="bank_account_holder" class="pub-input" placeholder="{{ $name }}" @disabled(!$editingBank)>
                     @error('bank_account_holder') <div class="pub-field-error">{{ $message }}</div> @enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Número de conta / IBAN</label>
-                    <input type="text" wire:model.defer="bank_account_number" class="pub-input">
+                    <input type="text" wire:model.defer="bank_account_number" class="pub-input" placeholder="AO06 0006 0000 0000 0000 0000 0" @disabled(!$editingBank)>
                     @error('bank_account_number') <div class="pub-field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="md:col-span-3">
-                    <button type="submit" class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg transition">
-                        Guardar conta bancária
-                    </button>
+                    @if($editingBank)
+                        <button type="submit" class="inline-flex items-center gap-2 bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg transition">
+                            Guardar conta bancária
+                        </button>
+                    @else
+                        <button type="button" wire:click="editBankAccount" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-5 py-2 rounded-lg transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                            Editar
+                        </button>
+                    @endif
                 </div>
             </form>
         @endif

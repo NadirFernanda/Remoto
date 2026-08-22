@@ -8,6 +8,7 @@ use App\Models\FreelancerProfile;
 use App\Models\WorkExperience;
 use App\Models\Education;
 use App\Models\User;
+use App\Rules\AngolaIban;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -44,6 +45,7 @@ class ProfileEditor extends Component
     public $bank_account_holder;
     public $bank_account_number;
     public string $bankMessage = '';
+    public bool $editingBank = true;
 
     // ── Histórico profissional ──────────────────────────────
     public array $experiences = [];   // lista carregada do DB
@@ -109,6 +111,7 @@ class ProfileEditor extends Component
             $this->bank_name = $profile->bank_name;
             $this->bank_account_holder = $profile->bank_account_holder;
             $this->bank_account_number = $profile->bank_account_number;
+            $this->editingBank = !$profile->bank_name;
         }
 
         // Carrega experiências e educações
@@ -214,6 +217,12 @@ class ProfileEditor extends Component
 
     // ── Conta bancária ────────────────────────────────────────
 
+    public function editBankAccount(): void
+    {
+        $this->editingBank = true;
+        $this->bankMessage = '';
+    }
+
     public function saveBankAccount(): void
     {
         $user = User::find(Auth::id());
@@ -226,7 +235,7 @@ class ProfileEditor extends Component
         $this->validate([
             'bank_name'            => 'required|string|max:100',
             'bank_account_holder'  => 'required|string|max:120',
-            'bank_account_number'  => 'required|string|max:60',
+            'bank_account_number'  => ['required', 'string', 'max:60', new AngolaIban],
         ], [], [
             'bank_name'           => 'banco',
             'bank_account_holder' => 'nome do titular',
@@ -234,11 +243,15 @@ class ProfileEditor extends Component
         ]);
 
         // O titular tem de ser o próprio utilizador — nunca aceitamos coordenadas
-        // bancárias de outra pessoa. Comparação tolerante a maiúsculas/espaços,
-        // já que o nome verificado na KYC é o mesmo desta conta (users.name).
+        // bancárias de outra pessoa. Compara com o nome confirmado pelo admin no
+        // documento de identidade (kyc_verified_name), não com 'name' — esse campo
+        // o próprio utilizador pode alterar livremente depois do KYC aprovado, o
+        // que tornaria a validação inútil. Para contas aprovadas antes deste campo
+        // existir, cai de volta para 'name'.
+        $legalName = $user->kyc_verified_name ?: $user->name;
         $normalize = fn (string $s) => mb_strtolower(trim(preg_replace('/\s+/', ' ', $s)));
-        if ($normalize($this->bank_account_holder) !== $normalize($user->name)) {
-            $this->addError('bank_account_holder', 'O nome do titular tem de corresponder exactamente ao nome da sua conta (' . $user->name . '), verificado na sua identidade (KYC). Não é possível registar a conta bancária de outra pessoa.');
+        if ($normalize($this->bank_account_holder) !== $normalize($legalName)) {
+            $this->addError('bank_account_holder', 'O nome do titular tem de corresponder exactamente ao nome verificado na sua identidade (KYC): ' . $legalName . '. Não é possível registar a conta bancária de outra pessoa.');
             return;
         }
 
@@ -251,6 +264,7 @@ class ProfileEditor extends Component
             ]
         );
 
+        $this->editingBank = false;
         $this->bankMessage = 'Conta bancária guardada com sucesso!';
     }
 

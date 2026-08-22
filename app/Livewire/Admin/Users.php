@@ -26,6 +26,7 @@ class Users extends Component
     public ?int $reviewingSubmissionId = null;
     public string $adminNotes = '';
     public ?string $noDocsUserName = null;
+    public string $verifiedName = '';
 
     public function mount(): void
     {
@@ -71,6 +72,7 @@ class Users extends Component
         $user   = User::findOrFail($id);
         $before = ['kyc_status' => $user->kyc_status];
         $user->kyc_status = 'verified';
+        $user->kyc_verified_name = $user->name;
         $user->save();
         // Also approve pending submission if exists
         KycSubmission::where('user_id', $id)->where('status', 'pending')
@@ -100,6 +102,7 @@ class Users extends Component
             $this->reviewingSubmissionId = $submission->id;
             $this->adminNotes = '';
             $this->noDocsUserName = null;
+            $this->verifiedName = $submission->user->name;
         } else {
             $user = User::findOrFail($userId);
             $this->noDocsUserName = strip_tags($user->name);
@@ -109,9 +112,11 @@ class Users extends Component
 
     public function openKycReview(int $submissionId): void
     {
+        $submission = KycSubmission::findOrFail($submissionId);
         $this->reviewingSubmissionId = $submissionId;
         $this->adminNotes = '';
         $this->noDocsUserName = null;
+        $this->verifiedName = $submission->user->name;
     }
 
     public function closeKycReview(): void
@@ -119,10 +124,15 @@ class Users extends Component
         $this->reviewingSubmissionId = null;
         $this->adminNotes = '';
         $this->noDocsUserName = null;
+        $this->verifiedName = '';
     }
 
     public function approveKycSubmission(): void
     {
+        $this->validate([
+            'verifiedName' => 'required|string|max:255',
+        ], [], ['verifiedName' => 'nome completo (conforme o documento)']);
+
         $submission = KycSubmission::findOrFail($this->reviewingSubmissionId);
         $submission->update([
             'status'      => 'approved',
@@ -131,6 +141,7 @@ class Users extends Component
             'reviewed_at' => now(),
         ]);
         $submission->user->kyc_status = 'verified';
+        $submission->user->kyc_verified_name = strip_tags($this->verifiedName);
         $submission->user->save();
         AuditLogger::log('kyc_verified', "KYC aprovado para {$submission->user->name}", 'User', $submission->user_id);
         KycStatusChanged::dispatch($submission->user, 'verified', $this->adminNotes ?: null);
@@ -309,7 +320,8 @@ class Users extends Component
 
     public function bulkVerifyKyc(): void
     {
-        $count = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')->update(['kyc_status' => 'verified']);
+        $count = User::where('kyc_status', 'pending')->where('role', '!=', 'admin')
+            ->update(['kyc_status' => 'verified', 'kyc_verified_name' => \Illuminate\Support\Facades\DB::raw('name')]);
         KycSubmission::where('status', 'pending')->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
         AuditLogger::log('kyc_bulk_verified', "KYC em lote: {$count} utilizadores verificados", 'User', null);
         session()->flash('success', "{$count} utilizadores verificados em lote.");
