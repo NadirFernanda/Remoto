@@ -182,18 +182,16 @@ class ProjectManager extends Component
             $service->status = 'in_progress';
             $service->save();
 
-            // Registar retenção em escrow na carteira do cliente (debit saldo + credit saldo_pendente)
+            // Move o valor de saldo -> saldo_pendente na carteira do cliente
+            // (mecânica interna de escrow, usada por ServiceCancel::_devolverEscrow
+            // e por approveDelivery() para libertar). O registo em WalletLog de
+            // "entrada" já foi criado no momento do pagamento — ver
+            // PaymentEscrow::registarEntradaEmEscrow() — criar outro aqui
+            // contaria a mesma entrada em duplicado nos relatórios financeiros.
             if ($service->valor && $service->valor > 0) {
                 $clientWallet = Wallet::where('user_id', auth()->id())->lockForUpdate()->firstOrFail();
                 $clientWallet->decrement('saldo', $service->valor);          // débito real
                 $clientWallet->increment('saldo_pendente', $service->valor); // escrow
-                WalletLog::create([
-                    'user_id'   => auth()->id(),
-                    'wallet_id' => $clientWallet->id,
-                    'valor'     => -(float) $service->valor,
-                    'tipo'      => 'escrow_retido',
-                    'descricao' => 'Pagamento retido em escrow para o projeto: ' . $service->titulo,
-                ]);
             }
 
             // Notifica o freelancer escolhido

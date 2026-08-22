@@ -7,6 +7,8 @@ use App\Jobs\InitiateAppyPayChargeJob;
 use App\Jobs\NotifyFreelancersOfNewProject;
 use App\Models\PlatformSetting;
 use App\Models\Service;
+use App\Models\Wallet;
+use App\Models\WalletLog;
 use App\Modules\Payments\Services\AppyPayGateway;
 use App\Modules\Payments\Services\AppyPayReconciliationService;
 use App\Modules\Payments\Services\PaymentGateway;
@@ -185,6 +187,8 @@ class PaymentEscrow extends Component
         $service->transaction_id  = $transactionId;
         $service->save();
 
+        $this->registarEntradaEmEscrow($service, $user->id);
+
         session()->forget(['client_order', 'briefing', 'briefing_title']);
 
         (new AffiliateService())->creditCommissionForReferredAction($user, 'publish_service', $service->id);
@@ -198,6 +202,40 @@ class PaymentEscrow extends Component
     private function generateMerchantTransactionId(): string
     {
         return strtoupper(Str::random(12));
+    }
+
+    /**
+     * Regista a entrada em escrow no momento em que o pagamento é confirmado
+     * — antes disto, um projecto pago (status='published') não deixava
+     * nenhum rasto em WalletLog, por isso ficava invisível para "Total
+     * Entradas" no Painel Financeiro/Fluxo de Caixa até (e só até) um
+     * freelancer ser escolhido (ver ProjectManager::escolherFreelancer).
+     *
+     * Só o registo — não mexe em saldo/saldo_pendente, porque este projecto
+     * foi pago externamente (cartão/AppyPay), não a partir de saldo já
+     * existente na carteira. A mecânica de saldo/saldo_pendente ao escolher
+     * freelancer (e a sua reversão em ServiceCancel/Client\Dashboard) fica
+     * exactamente como estava — só deixa de criar este MESMO registo outra
+     * vez nesse momento, para não contar a entrada em duplicado.
+     */
+    private function registarEntradaEmEscrow(Service $service, int $clienteId): void
+    {
+        if (!$service->valor || $service->valor <= 0) {
+            return;
+        }
+
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $clienteId],
+            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+        );
+
+        WalletLog::create([
+            'user_id'   => $clienteId,
+            'wallet_id' => $wallet->id,
+            'valor'     => -(float) $service->valor,
+            'tipo'      => 'escrow_retido',
+            'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
+        ]);
     }
 
     /**

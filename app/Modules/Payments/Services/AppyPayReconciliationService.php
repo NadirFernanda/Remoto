@@ -115,6 +115,27 @@ class AppyPayReconciliationService
             $service->valor_liquido  = $fee['valor_liquido'];
             $service->save();
 
+            // Regista a entrada em escrow — sem isto o "Total Entradas" do
+            // Painel Financeiro/Fluxo de Caixa nunca via este pagamento até
+            // (e só até) um freelancer ser escolhido para o projecto. Só o
+            // registo, sem mexer em saldo/saldo_pendente — ver
+            // PaymentEscrow::registarEntradaEmEscrow() para a explicação
+            // completa (mesma lógica, duplicada aqui por ser um caminho de
+            // pagamento diferente).
+            if ($amount > 0) {
+                $wallet = Wallet::firstOrCreate(
+                    ['user_id' => $service->cliente_id],
+                    ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
+                );
+                WalletLog::create([
+                    'user_id'   => $service->cliente_id,
+                    'wallet_id' => $wallet->id,
+                    'valor'     => -$amount,
+                    'tipo'      => 'escrow_retido',
+                    'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
+                ]);
+            }
+
             Log::info('AppyPay: serviço reconciliado', ['service_id' => $service->id, 'charge_id' => $chargeId]);
             AuditLogger::log('appypay_payment_confirmed', "Pagamento AppyPay confirmado para o serviço #{$service->id}", 'Service', $service->id);
 
