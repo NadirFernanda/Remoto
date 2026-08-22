@@ -78,11 +78,12 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
          x-transition:leave-start="opacity-100 scale-100 translate-y-0"
          x-transition:leave-end="opacity-0 scale-95 translate-y-1"
          x-cloak
-         class="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 overflow-hidden">
+         class="absolute right-0 mt-2 w-80 rounded-2xl shadow-xl z-50 overflow-hidden"
+         style="background:#141928;border:1px solid rgba(255,255,255,.08);">
 
         {{-- Header --}}
-        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-50">
-            <span class="text-sm font-bold text-gray-800">Notificações</span>
+        <div class="flex items-center justify-between px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,.07);">
+            <span class="text-sm font-bold text-gray-100">Notificações</span>
             <button x-show="unread > 0" @click="markAllRead()"
                     class="text-xs text-[#00baff] hover:underline font-medium">
                 Marcar todas como lidas
@@ -90,18 +91,18 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
         </div>
 
         {{-- Loading state --}}
-        <div x-show="!loaded" class="px-4 py-8 text-center text-sm text-gray-400">
-            <svg class="w-5 h-5 mx-auto mb-1 animate-spin text-gray-300" fill="none" viewBox="0 0 24 24">
+        <div x-show="!loaded" class="px-4 py-8 text-center text-sm text-slate-500">
+            <svg class="w-5 h-5 mx-auto mb-1 animate-spin text-slate-600" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
             </svg>
         </div>
 
         {{-- Notification list --}}
-        <div x-show="loaded" class="max-h-80 overflow-y-auto divide-y divide-gray-50">
+        <div x-show="loaded" class="max-h-80 overflow-y-auto">
             <template x-if="items.length === 0">
-                <div class="px-4 py-8 text-center text-sm text-gray-400">
-                    <svg class="w-8 h-8 mx-auto mb-2 text-gray-200" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <div class="px-4 py-8 text-center text-sm text-slate-500">
+                    <svg class="w-8 h-8 mx-auto mb-2 text-slate-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
                     </svg>
                     Sem notificações
@@ -109,27 +110,29 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
             </template>
             <template x-for="notif in items" :key="notif.id">
                 <a :href="notif.url"
-                   class="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition"
-                   :class="notif.read ? 'opacity-70' : ''">
+                   class="flex items-start gap-3 px-4 py-3 transition"
+                   style="border-bottom:1px solid rgba(255,255,255,.06);"
+                   onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'"
+                   :class="notif.read ? 'opacity-60' : ''">
                     <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full"
-                          :style="notif.read ? 'background:#e5e7eb' : 'background:' + dotColor(notif.type)"></span>
+                          :style="notif.read ? 'background:#475569' : 'background:' + dotColor(notif.type)"></span>
                     <div class="flex-1 min-w-0">
                         <p x-show="notif.sender_name || notif.type === 'admin_message' || notif.type === 'support_ticket_reply' || notif.type === 'support_ticket_new'"
                            x-text="(notif.type === 'support_ticket_reply' || notif.type === 'support_ticket_new') ? 'Suporte: ' + (notif.sender_name || 'Suporte') : 'Admin: ' + (notif.sender_name || 'Administração')"
-                           class="text-[10px] font-medium text-[#0055ff] mb-0.5"></p>
+                           class="text-[10px] font-medium text-[#5b9dff] mb-0.5"></p>
                         <p x-show="notif.title" x-text="notif.title"
-                           class="text-xs font-semibold text-gray-800 truncate"></p>
+                           class="text-xs font-semibold text-gray-100 truncate"></p>
                         <p x-text="notif.message"
-                           class="text-xs text-gray-600 leading-snug line-clamp-2 mt-0.5"></p>
+                           class="text-xs text-slate-400 leading-snug line-clamp-2 mt-0.5"></p>
                         <p x-text="notif.created_at"
-                           class="text-[11px] text-gray-400 mt-1"></p>
+                           class="text-[11px] text-slate-500 mt-1"></p>
                     </div>
                 </a>
             </template>
         </div>
 
         {{-- Footer --}}
-        <div class="px-4 py-2.5 border-t border-gray-50 bg-gray-50/50">
+        <div class="px-4 py-2.5" style="border-top:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);">
             <a href="{{ $_bellNotifUrl }}" class="block text-center text-xs text-[#00baff] font-medium hover:underline">
                 Ver todas as notificações
             </a>
