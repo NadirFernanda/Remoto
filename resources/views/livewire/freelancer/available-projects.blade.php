@@ -186,6 +186,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
+                @php $pb = $this->proposalBreakdown; @endphp
                 <form wire:submit.prevent="sendProposal" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">Mensagem</label>
@@ -194,13 +195,48 @@
                             rows="5" placeholder="Descreva a sua abordagem para este projecto..."></textarea>
                         @error('proposalMessage') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
+
+                    <div class="flex items-center justify-between rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
+                        <span class="text-sm font-medium text-emerald-800">Valor actual do projecto <span class="font-normal text-emerald-600">(já pago pelo cliente)</span></span>
+                        <span class="text-base font-bold text-emerald-700">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
+                    </div>
+
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Valor proposto (opcional)</label>
-                        <input type="number" step="0.01" wire:model.defer="proposalValue"
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Valor adicional a propor (opcional)</label>
+                        <input type="number" step="0.01" wire:model.live.debounce.400ms="proposalValue"
                             class="w-48 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-sky-200 focus:border-sky-400 transition"
                             placeholder="0.00" />
+                        <p class="text-xs text-gray-400 mt-1">Deixe em branco se aceita o valor actual sem alterações.</p>
                         @error('proposalValue') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
+
+                    @if($pb['extra'] > 0)
+                    <div class="rounded-xl bg-sky-50 border border-sky-200 px-4 py-3 text-sm space-y-1.5">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Já pago pelo cliente</span>
+                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>+ Acréscimo proposto</span>
+                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['extra'], 2, ',', '.') }}</span>
+                        </div>
+                        <div class="border-t border-sky-200 my-1.5"></div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>= Novo valor total do projecto</span>
+                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['novo'], 2, ',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>&minus; Comissão da plataforma ({{ $pb['clientRatePercent'] == (int) $pb['clientRatePercent'] ? (int) $pb['clientRatePercent'] : number_format($pb['clientRatePercent'], 1, ',', '.') }}%)</span>
+                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['taxa'], 2, ',', '.') }}</span>
+                        </div>
+                        <div class="border-t border-sky-200 my-1.5"></div>
+                        <div class="flex justify-between text-sky-700 font-bold">
+                            <span>Vais receber</span>
+                            <span>Kz {{ number_format($pb['valor_liquido'], 2, ',', '.') }}</span>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="flex justify-end gap-3 pt-2">
                         <button type="button" wire:click="$set('proposalModal', false)"
                             class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium transition">

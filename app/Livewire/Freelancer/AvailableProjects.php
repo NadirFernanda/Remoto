@@ -94,6 +94,36 @@ class AvailableProjects extends Component
         $this->proposalModal = true;
     }
 
+    /** Projecto do modal de proposta actualmente aberto (ou null). */
+    public function getProposalServiceProperty(): ?Service
+    {
+        return $this->proposalServiceId ? Service::find($this->proposalServiceId) : null;
+    }
+
+    /**
+     * Decomposição mostrada no modal: o freelancer indica quanto deseja
+     * ACRESCENTAR ao valor que o cliente já pagou (não o valor total), para
+     * ficar claro que o valor actual do projecto já está em escrow.
+     */
+    public function getProposalBreakdownProperty(): array
+    {
+        $service    = $this->proposalService;
+        $atual      = $service ? (float) $service->valor : 0.0;
+        $extra      = max(0.0, (float) ($this->proposalValue ?? 0));
+        $novo       = round($atual + $extra, 2);
+        $clientRate = \App\Services\FeeService::serviceClientRate();
+        $taxa       = round($novo * $clientRate, 2);
+
+        return [
+            'atual'             => $atual,
+            'extra'             => $extra,
+            'novo'              => $novo,
+            'taxa'              => $taxa,
+            'valor_liquido'     => round($novo - $taxa, 2),
+            'clientRatePercent' => round($clientRate * 100, 1),
+        ];
+    }
+
     public function sendProposal($serviceId = null)
     {
         $serviceId = $serviceId ?? $this->proposalServiceId;
@@ -137,18 +167,27 @@ class AvailableProjects extends Component
                 return;
             }
 
+            // O campo do formulário é o valor a ACRESCENTAR ao que o cliente já
+            // pagou (não um novo total) — aqui convertemos para o total, que é
+            // o formato que o resto do sistema espera em proposal_value (ver
+            // ServiceChat::abrirModalValor, que pré-preenche o pagamento com
+            // este total).
+            $valorTotalProposto = ($this->proposalValue !== null && $this->proposalValue !== '')
+                ? round((float) $service->valor + (float) $this->proposalValue, 2)
+                : null;
+
             $candidate = $service->candidates()->where('freelancer_id', $user->id)->first();
             if (!$candidate) {
                 $service->candidates()->create([
                     'freelancer_id'    => $user->id,
                     'status'           => 'proposal_sent',
                     'proposal_message' => $this->proposalMessage,
-                    'proposal_value'   => $this->proposalValue,
+                    'proposal_value'   => $valorTotalProposto,
                 ]);
             } else {
                 $candidate->status           = 'proposal_sent';
                 $candidate->proposal_message = $this->proposalMessage;
-                $candidate->proposal_value   = $this->proposalValue;
+                $candidate->proposal_value   = $valorTotalProposto;
                 $candidate->save();
             }
             $created = true;
