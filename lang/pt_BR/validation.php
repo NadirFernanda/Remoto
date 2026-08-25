@@ -204,8 +204,8 @@ return [
         'rating'                => 'avaliação',
         'comment'               => 'comentário',
         'reason'                => 'motivo',
-        // Briefing / criação de pedido
-        'title1'                => 'título do pedido',
+        // Briefing / criação de projecto
+        'title1'                => 'título do projecto',
         'necessity1'            => 'descrição detalhada',
         'generated_description' => 'descrição gerada',
         'business_type1'        => 'tipo de serviço',

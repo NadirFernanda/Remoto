@@ -937,7 +937,7 @@
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider px-2 pt-1 pb-0.5">Projectos</p>
                     <a href="{{ route('client.briefing') }}" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#ff2d55" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                        Novo Pedido
+                        Novo Projecto
                     </a>
                     <a href="{{ route('client.projects') }}" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -945,7 +945,7 @@
                     </a>
                     <a href="{{ route('client.orders') }}" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                        Meus Pedidos
+                        Histórico de Projectos
                     </a>
                     <a href="{{ route('social.create') }}" @click.prevent="$dispatch('open-role-switch-modal', {action: 'conteudo'})" class="nav-link flex items-center gap-2">
                         <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>

@@ -405,7 +405,7 @@
         <a href="{{ route('client.briefing') }}"
             class="snav-item {{ request()->routeIs('client.briefing') ? 'snav-active' : '' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            Novo Pedido
+            Novo Projecto
         </a>
         <a href="{{ route('freelancers.index') }}"
             class="snav-item {{ request()->routeIs('freelancers.index') || request()->routeIs('freelancers.search') || request()->routeIs('freelancer.show') ? 'snav-active' : '' }}">
@@ -437,7 +437,7 @@
         <a href="{{ route('client.orders') }}"
             class="snav-item {{ request()->routeIs('client.orders') ? 'snav-active' : '' }}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-            Meus Pedidos
+            Histórico de Projectos
         </a>
         <a href="{{ route('reviews.panel') }}"
             class="snav-item {{ request()->routeIs('reviews.panel') ? 'snav-active' : '' }}">

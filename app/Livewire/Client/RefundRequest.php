@@ -38,7 +38,7 @@ class RefundRequest extends Component
             ->where('cliente_id', Auth::id())
             ->first();
         if (!$ownedService) {
-            $this->addError('service_id', 'Não tem permissão para solicitar reembolso neste pedido.');
+            $this->addError('service_id', 'Não tem permissão para solicitar reembolso neste projecto.');
             return;
         }
 

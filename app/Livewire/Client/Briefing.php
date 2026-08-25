@@ -49,7 +49,7 @@ class Briefing extends Component
             'title1'    => 'required|string|max:100',
             'necessity1' => 'required|string|min:20|max:2000',
         ], [], [
-            'title1'    => 'título do pedido',
+            'title1'    => 'título do projecto',
             'necessity1' => 'descrição detalhada',
         ]);
         $this->generateDescription();
@@ -81,7 +81,7 @@ class Briefing extends Component
             'title1'               => 'required|max:100',
             'generated_description' => 'required|min:10',
         ], [], [
-            'title1'               => 'título do pedido',
+            'title1'               => 'título do projecto',
             'generated_description' => 'descrição gerada',
         ]);
 
@@ -129,13 +129,13 @@ class Briefing extends Component
         session(['client_order' => $order]);
 
         if (!$serviceId) {
-            session()->flash('error', 'Não foi possível guardar o pedido. Tente novamente.');
+            session()->flash('error', 'Não foi possível guardar o projecto. Tente novamente.');
             return;
         }
 
         session()->flash('success', $this->edit
-            ? 'Pedido atualizado com sucesso!'
-            : 'Pedido criado com sucesso! Defina o orçamento para publicar.'
+            ? 'Projecto atualizado com sucesso!'
+            : 'Projecto criado com sucesso! Defina o orçamento para publicar.'
         );
 
         return redirect()->route('client.value', ['service' => $serviceId]);
@@ -166,6 +166,6 @@ class Briefing extends Component
         $allCategories = array_merge($templates, ['Outro']);
 
         return view('livewire.client.briefing', compact('allCategories'))
-            ->layout('layouts.dashboard', ['dashboardTitle' => $this->edit ? 'Editar Pedido' : 'Novo Pedido']);
+            ->layout('layouts.dashboard', ['dashboardTitle' => $this->edit ? 'Editar Projecto' : 'Novo Projecto']);
     }
 }

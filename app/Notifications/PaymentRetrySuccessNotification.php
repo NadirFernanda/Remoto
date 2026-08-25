@@ -31,7 +31,7 @@ class PaymentRetrySuccessNotification extends Notification implements ShouldQueu
             ->line('O pagamento que havia falhado foi processado com sucesso na segunda tentativa.')
             ->line('**Projeto:** ' . $this->service->titulo)
             ->line('**Valor:** ' . number_format($this->amount, 0, ',', '.') . ' Kz')
-            ->action('Ver os meus pedidos', route('client.orders'))
-            ->line('O teu pedido foi publicado e os freelancers foram notificados.');
+            ->action('Ver os meus projectos', route('client.orders'))
+            ->line('O teu projecto foi publicado e os freelancers foram notificados.');
     }
 }

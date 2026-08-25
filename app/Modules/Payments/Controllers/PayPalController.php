@@ -104,7 +104,7 @@ class PayPalController extends Controller
         if ($existingPaid) {
             session()->forget(['client_order', 'briefing', 'briefing_title', 'paypal_order_id']);
             return redirect()->route('client.orders')
-                ->with('success', 'Pagamento já processado. O teu pedido está publicado.');
+                ->with('success', 'Pagamento já processado. O teu projecto está publicado.');
         }
 
         // ── Verificar se a ordem PayPal não expirou ──────────────────────────
@@ -187,7 +187,7 @@ class PayPalController extends Controller
                         $titulo   = $order['title'] ?? null;
 
                         if (!$briefing || !$titulo) {
-                            throw new \RuntimeException('Dados do pedido em falta. Preenche o briefing novamente.');
+                            throw new \RuntimeException('Dados do projecto em falta. Preenche o briefing novamente.');
                         }
 
                         $briefingFinal = is_array($briefing)
@@ -224,7 +224,7 @@ class PayPalController extends Controller
         session()->forget(['client_order', 'briefing', 'briefing_title', 'paypal_order_id']);
 
         return redirect()->route('client.orders')
-            ->with('success', 'Pagamento via PayPal realizado e pedido publicado com sucesso!');
+            ->with('success', 'Pagamento via PayPal realizado e projecto publicado com sucesso!');
     }
 
     /**

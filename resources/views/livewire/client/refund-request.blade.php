@@ -27,7 +27,7 @@
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
             <form wire:submit.prevent="submit" enctype="multipart/form-data" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1 text-slate-700">Pedido/Projecto</label>
+                    <label class="block text-sm font-medium mb-1 text-slate-700">Projecto</label>
                     <select wire:model="service_id" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-200 focus:border-rose-400">
                         <option value="">Seleccione...</option>
                         @foreach($services as $service)

@@ -39,14 +39,14 @@ class NewProjectNotification extends Notification implements ShouldQueue
             ? json_decode($this->service->briefing, true)['texto']
             : ($this->service->briefing ?? 'Sem descrição adicional');
         return (new MailMessage)
-            ->subject('Novo pedido de serviço disponível')
+            ->subject('Novo projecto de serviço disponível')
             ->greeting('Olá ' . $notifiable->name . ',')
-            ->line('Um novo pedido de serviço acaba de ser publicado que pode ser do seu interesse.')
+            ->line('Um novo projecto de serviço acaba de ser publicado que pode ser do seu interesse.')
             ->line('')
             ->line('**Título:** ' . $this->service->titulo)
             ->line('**Descrição:** ' . $descricao)
             ->line('**Valor:** Kz ' . number_format($this->service->valor, 2, ',', '.'))
-            ->action('Acessar Pedido', $this->serviceUrl)
+            ->action('Acessar Projecto', $this->serviceUrl)
             ->line('Desejamos bons negócios e sucesso no projeto!');
     }
 }

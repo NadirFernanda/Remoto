@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-slate-800 leading-tight">Serviços</h1>
-                    <p class="text-sm text-slate-500">Acompanhe o estado dos pedidos e entregas</p>
+                    <p class="text-sm text-slate-500">Acompanhe o estado dos projectos e entregas</p>
                 </div>
             </div>
         </div>

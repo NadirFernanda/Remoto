@@ -10,7 +10,7 @@
             </div>
             <div>
                 <h1 class="text-xl font-bold leading-tight">O que precisa?</h1>
-                <p class="text-sm text-white/80 mt-0.5">Descreva o seu pedido de forma clara e objectiva</p>
+                <p class="text-sm text-white/80 mt-0.5">Descreva o seu projecto de forma clara e objectiva</p>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
             <form wire:submit.prevent="submit" class="space-y-5">
                 <div>
                     <label for="title" class="block text-sm font-semibold text-slate-700 mb-1.5">
-                        Título do pedido <span class="text-red-500">*</span>
+                        Título do projecto <span class="text-red-500">*</span>
                     </label>
                     <input type="text" id="title" wire:model.defer="title" maxlength="100" required
                         class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 bg-white focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition"

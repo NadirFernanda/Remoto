@@ -33,7 +33,7 @@
     <div class="flex items-center justify-between">
         <div class="hidden md:flex items-center gap-2 text-xs text-slate-500 bg-white border border-gray-200 rounded-full px-4 py-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span>Pedidos em tempo real — actualize para ver novos projectos</span>
+            <span>Actualização em tempo real — actualize para ver novos projectos</span>
         </div>
     </div>
 

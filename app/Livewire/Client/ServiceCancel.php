@@ -36,7 +36,7 @@ class ServiceCancel extends Component
         }
 
         if (!in_array($status, ['published', 'accepted'])) {
-            session()->flash('error', 'Não é possível cancelar este pedido no estado actual.');
+            session()->flash('error', 'Não é possível cancelar este projecto no estado actual.');
             return;
         }
 
@@ -84,7 +84,7 @@ class ServiceCancel extends Component
         $this->service->status = 'cancelled';
         $this->service->save();
 
-        session()->flash('success', 'Pedido cancelado. ' . ($this->service->valor ? 'O reembolso será processado em até 5 dias úteis.' : ''));
+        session()->flash('success', 'Projecto cancelado. ' . ($this->service->valor ? 'O reembolso será processado em até 5 dias úteis.' : ''));
         return redirect()->route('client.orders');
     }
 

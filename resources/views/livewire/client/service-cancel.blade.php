@@ -8,7 +8,7 @@
             </svg>
         </div>
         <div>
-            <h2 class="text-2xl font-extrabold">Cancelar Pedido</h2>
+            <h2 class="text-2xl font-extrabold">Cancelar Projecto</h2>
             <p class="text-sm text-white/75 mt-1">Reveja os detalhes antes de confirmar</p>
         </div>
     </div>
@@ -39,7 +39,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Voltar aos pedidos
+            Voltar ao histórico
         </a>
 
         {{-- ── Project detail card ── --}}
@@ -124,7 +124,7 @@
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-5m-1.414-9.414a2 2 0 1 1 2.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                             </svg>
-                            Editar pedido
+                            Editar projecto
                         </a>
                         <a href="{{ route('service.chat', $service->id) }}"
                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-sm font-semibold hover:bg-slate-50 transition relative">
@@ -136,7 +136,7 @@
                         </a>
                     </div>
                 @else
-                    <p class="text-sm text-slate-500 mb-4">Este pedido não pode ser cancelado no estado actual.</p>
+                    <p class="text-sm text-slate-500 mb-4">Este projecto não pode ser cancelado no estado actual.</p>
                     <div class="flex flex-wrap gap-3">
                         @if(!in_array($service->status, ['cancelled', 'completed']))
                             <a href="{{ route('service.chat', $service->id) }}"
@@ -181,7 +181,7 @@
         {{-- ── Edit title modal ── --}}
         <dialog id="editTitleModal" class="rounded-2xl shadow-2xl p-0 max-w-sm w-full backdrop:bg-slate-900/50">
             <form method="dialog" class="p-6 bg-white rounded-2xl flex flex-col gap-4" onsubmit="event.preventDefault(); window.submitEditTitle()">
-                <h3 class="font-bold text-slate-800 text-base">Editar título do pedido</h3>
+                <h3 class="font-bold text-slate-800 text-base">Editar título do projecto</h3>
                 <input type="text" id="newTitleInput" value="{{ $service->titulo }}" maxlength="100"
                        class="border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-sky-400 focus:border-sky-400 focus:outline-none transition" required>
                 <div class="flex gap-2 justify-end">

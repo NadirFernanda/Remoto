@@ -153,11 +153,11 @@
         {{-- ── Sidebar ── --}}
         <div class="lg:col-span-1 space-y-4">
 
-            {{-- Resumo do pedido --}}
+            {{-- Resumo do projecto --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-4">
                     <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-                    <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">Resumo do pedido</p>
+                    <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">Resumo do projecto</p>
                 </div>
                 @php
                     $order = session('client_order', []);
@@ -182,7 +182,7 @@
                     </div>
                 @endif
                 @if(empty($order['title']) && empty($b['business_type']))
-                    <p class="text-xs text-slate-400 italic">Nenhum pedido em sessão.</p>
+                    <p class="text-xs text-slate-400 italic">Nenhum projecto em sessão.</p>
                 @endif
             </div>
 

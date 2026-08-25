@@ -17,7 +17,7 @@ class ServiceValue extends Component
         $this->valorMinimo = (float) PlatformSetting::get('project_min_value', 5);
         $this->valor       = $this->valorMinimo;
 
-        // Se já houver dados de pedido na sessão, respeita o valor definido anteriormente
+        // Se já houver dados de projecto na sessão, respeita o valor definido anteriormente
         $order = session('client_order', []);
         if (isset($order['payment']['valor'], $order['payment']['taxa'], $order['payment']['valor_liquido'])) {
             $this->valor = (float) $order['payment']['valor'];
@@ -50,7 +50,7 @@ class ServiceValue extends Component
         ], [
             'valor.min' => 'O valor do serviço deve ser no mínimo ' . number_format($this->valorMinimo, 0, ',', '.') . ' Kz.',
         ]);
-        // Atualizar objeto único de pedido na sessão
+        // Atualizar objeto único de projecto na sessão
         $order['payment'] = [
             'valor' => $this->valor,
             'taxa' => $this->taxa,

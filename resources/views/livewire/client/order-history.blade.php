@@ -3,7 +3,7 @@
         {{-- Gradient Header --}}
         <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h2 class="text-2xl font-extrabold">Meus Pedidos</h2>
+                <h2 class="text-2xl font-extrabold">Histórico de Projectos</h2>
                 <p class="text-sm text-white/75 mt-1">Acompanhe o estado dos seus projectos</p>
             </div>
             <a href="{{ route('client.projects') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-white/15 border border-white/30 hover:bg-white/25 text-white transition self-start">
@@ -118,12 +118,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <p class="text-gray-500 font-medium">Nenhum pedido encontrado</p>
+                    <p class="text-gray-500 font-medium">Nenhum projecto encontrado</p>
                     <p class="text-gray-400 text-sm mt-1">Os seus projectos aparecerão aqui após a criação</p>
                     <a href="{{ route('client.briefing') }}"
                        class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90"
                        style="background: #0055ff;">
-                        Criar primeiro pedido
+                        Criar primeiro projecto
                     </a>
                 </div>
             @endforelse
@@ -137,7 +137,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
-                Novo pedido
+                Novo projecto
             </a>
         </div>
         @endif

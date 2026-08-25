@@ -197,12 +197,13 @@ class ResumeDraftProjectTest extends TestCase
     }
 
     /**
-     * Regressão: "Meus Pedidos" (order-history) levava TODOS os projectos,
-     * incluindo rascunhos, para /cliente/servico/{id}/cancelar — uma página
-     * que só sabe cancelar projectos 'published'/'accepted' e mostra sempre
-     * "Não é possível cancelar" para rascunhos, sem oferecer nenhuma
-     * alternativa (nem publicar, nem eliminar). Um rascunho clicado em
-     * "Meus Pedidos" tem de chegar a um sítio onde essas acções existem.
+     * Regressão: "Histórico de Projectos" (order-history) levava TODOS os
+     * projectos, incluindo rascunhos, para /cliente/servico/{id}/cancelar —
+     * uma página que só sabe cancelar projectos 'published'/'accepted' e
+     * mostra sempre "Não é possível cancelar" para rascunhos, sem oferecer
+     * nenhuma alternativa (nem publicar, nem eliminar). Um rascunho clicado
+     * em "Histórico de Projectos" tem de chegar a um sítio onde essas acções
+     * existem.
      */
     #[Test]
     public function abrir_um_projecto_via_service_na_url_seleciona_o_projecto_correcto(): void

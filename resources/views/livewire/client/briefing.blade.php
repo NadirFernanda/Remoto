@@ -9,7 +9,7 @@
                 </svg>
             </div>
             <div>
-                <h1 class="text-xl font-bold leading-tight">Novo Pedido</h1>
+                <h1 class="text-xl font-bold leading-tight">Novo Projecto</h1>
                 <p class="text-sm text-white/80 mt-0.5">Descreva o seu projecto e encontre o freelancer ideal</p>
             </div>
         </div>
@@ -138,7 +138,7 @@
 
                     <div class="mb-5">
                         <label class="block text-sm font-semibold text-slate-700 mb-1.5">
-                            Título do pedido <span class="text-red-500">*</span>
+                            Título do projecto <span class="text-red-500">*</span>
                         </label>
                         <input type="text" wire:model.defer="title1" maxlength="100"
                             class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('title1') border-red-400 @enderror"
@@ -218,13 +218,13 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">Revisão do pedido</h2>
+                    <h2 class="text-lg font-bold text-slate-800">Revisão do projecto</h2>
                     <p class="text-xs text-slate-400 mt-0.5">Revise e edite a descrição antes de submeter</p>
                 </div>
             </div>
 
             <div class="mb-5">
-                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Título do pedido</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Título do projecto</label>
                 <div class="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-800 font-medium border border-slate-100">{{ $title1 }}</div>
             </div>
 
@@ -242,7 +242,7 @@
         <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4 flex items-start gap-3">
             <svg class="w-5 h-5 text-sky-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <p class="text-sm text-sky-800">
-                <strong>O que acontece a seguir?</strong> Após submeter, poderá definir o orçamento e o pedido será publicado para que freelancers enviem propostas.
+                <strong>O que acontece a seguir?</strong> Após submeter, poderá definir o orçamento e o projecto será publicado para que freelancers enviem propostas.
             </p>
         </div>
 
@@ -256,7 +256,7 @@
                 class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40 disabled:opacity-60">
                 <span wire:loading.remove>
                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    Publicar pedido
+                    Publicar projecto
                 </span>
                 <span wire:loading class="flex items-center gap-2">
                     <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

@@ -27,15 +27,15 @@ class Dashboard extends Component
         // Verificações rápidas antes do lock
         $serviceCheck = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
         if (!$serviceCheck) {
-            session()->flash('error', 'Pedido não encontrado.');
+            session()->flash('error', 'Projecto não encontrado.');
             return;
         }
         if ($serviceCheck->status !== 'delivered') {
-            session()->flash('error', 'Só é possível liberar pagamento para pedidos entregues.');
+            session()->flash('error', 'Só é possível liberar pagamento para projectos entregues.');
             return;
         }
         if ($serviceCheck->is_payment_released) {
-            session()->flash('info', 'O pagamento já foi liberado para este pedido.');
+            session()->flash('info', 'O pagamento já foi liberado para este projecto.');
             return;
         }
 
@@ -121,11 +121,11 @@ class Dashboard extends Component
         $user = Auth::user();
         $service = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
         if (!$service) {
-            session()->flash('error', 'Pedido não encontrado.');
+            session()->flash('error', 'Projecto não encontrado.');
             return;
         }
         if ($service->status === 'em_moderacao') {
-            session()->flash('info', 'O pedido já está em moderação.');
+            session()->flash('info', 'O projecto já está em moderação.');
             return;
         }
 
@@ -175,7 +175,7 @@ class Dashboard extends Component
             }
         });
 
-        session()->flash('success', 'Pedido colocado em moderação. A equipa de suporte foi notificada.');
+        session()->flash('success', 'Projecto colocado em moderação. A equipa de suporte foi notificada.');
         $this->mount();
     }
     public $orders = [];
@@ -232,11 +232,11 @@ class Dashboard extends Component
         // Verificações rápidas antes do lock
         $service = Service::where('id', $serviceId)->where('cliente_id', $user->id)->first();
         if (!$service) {
-            session()->flash('error', 'Pedido não encontrado.');
+            session()->flash('error', 'Projecto não encontrado.');
             return;
         }
         if ($service->status !== 'published') {
-            session()->flash('error', 'Só é possível escolher freelancer para pedidos publicados.');
+            session()->flash('error', 'Só é possível escolher freelancer para projectos publicados.');
             return;
         }
         $candidate = $service->candidates()->where('freelancer_id', $freelancerId)->first();
@@ -258,7 +258,7 @@ class Dashboard extends Component
             $candidate->save();
             // Rejeita os outros candidatos
             $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
-            // Atualiza o pedido
+            // Atualiza o projecto
             $service->freelancer_id = $freelancerId;
             $service->status = 'in_progress';
             $service->save();

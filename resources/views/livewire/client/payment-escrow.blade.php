@@ -145,11 +145,11 @@
                 </div>
             </div>
 
-            {{-- Resumo do pedido --}}
+            {{-- Resumo do projecto --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-4">
                     <span class="w-2 h-2 rounded-full bg-slate-300"></span>
-                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Pedido</p>
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Projecto</p>
                 </div>
                 @php
                     $order     = session('client_order', []);
@@ -171,7 +171,7 @@
                     </div>
                 @endif
                 @if(!$titulo && !$briefing)
-                    <p class="text-xs text-slate-400 italic">Dados do pedido não disponíveis.</p>
+                    <p class="text-xs text-slate-400 italic">Dados do projecto não disponíveis.</p>
                 @endif
             </div>
 

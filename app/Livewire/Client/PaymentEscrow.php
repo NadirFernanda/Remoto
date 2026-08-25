@@ -129,7 +129,7 @@ class PaymentEscrow extends Component
         // ── Autenticação ─────────────────────────────────────────────────────
         $user = $this->getCurrentUser();
         if (!$user) {
-            session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
+            session()->flash('error', 'É necessário estar autenticado para publicar um projecto.');
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
@@ -198,7 +198,7 @@ class PaymentEscrow extends Component
         (new AffiliateService())->creditCommissionForReferredAction($user, 'publish_service', $service->id);
         NotifyFreelancersOfNewProject::dispatch($service);
 
-        session()->flash('success', 'Pagamento realizado e pedido publicado com sucesso!');
+        session()->flash('success', 'Pagamento realizado e projecto publicado com sucesso!');
         return redirect()->route('client.orders');
     }
 
@@ -295,7 +295,7 @@ class PaymentEscrow extends Component
 
         $user = $this->getCurrentUser();
         if (!$user) {
-            session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
+            session()->flash('error', 'É necessário estar autenticado para publicar um projecto.');
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
@@ -338,7 +338,7 @@ class PaymentEscrow extends Component
 
         $user = $this->getCurrentUser();
         if (!$user) {
-            session()->flash('error', 'É necessário estar autenticado para publicar um pedido.');
+            session()->flash('error', 'É necessário estar autenticado para publicar um projecto.');
             return redirect()->route('client.payment', ['valor' => $this->valor]);
         }
 
@@ -418,7 +418,7 @@ class PaymentEscrow extends Component
 
         if ($service->payment_status === 'paid') {
             $this->appypay_step = 'done';
-            session()->flash('success', 'Pagamento confirmado e pedido publicado com sucesso!');
+            session()->flash('success', 'Pagamento confirmado e projecto publicado com sucesso!');
             return redirect()->route('client.orders');
         }
 
@@ -442,7 +442,7 @@ class PaymentEscrow extends Component
         if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
             app(AppyPayReconciliationService::class)->markPaidByChargeId($chargeId);
             $this->appypay_step = 'done';
-            session()->flash('success', 'Pagamento confirmado e pedido publicado com sucesso!');
+            session()->flash('success', 'Pagamento confirmado e projecto publicado com sucesso!');
             return redirect()->route('client.orders');
         }
     }

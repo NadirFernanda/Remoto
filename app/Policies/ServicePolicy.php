@@ -17,7 +17,7 @@ class ServicePolicy
     }
 
     /**
-     * Permite que apenas o cliente do serviço cancele o pedido.
+     * Permite que apenas o cliente do serviço cancele o projecto.
      */
     public function cancel(User $user, Service $service)
     {
