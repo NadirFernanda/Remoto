@@ -515,10 +515,13 @@
                 <div style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#34d399;line-height:1.5;">
                     &#9432; O valor será enviado como mensagem no chat. O cliente poderá confirmar e efectuar o pagamento.
                 </div>
+                @php $pb = $this->proposalBreakdown; @endphp
                 <form style="margin:0;" wire:submit="enviarPropostaValor">
                     <div style="margin-bottom:.75rem;">
-                        <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">Valor proposto (Kz)</label>
-                        <input wire:model="valorProposto"
+                        <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">
+                            {{ $pb['is_negotiating'] ? 'Valor proposto (Kz)' : 'Novo valor total proposto (Kz)' }}
+                        </label>
+                        <input wire:model.live.debounce.400ms="valorProposto"
                                type="text"
                                inputmode="decimal"
                                placeholder="Ex.: 50000"
@@ -529,6 +532,36 @@
                             <p style="margin:.35rem 0 0;font-size:.75rem;color:#f87171;">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    @if($pb['novo'] > 0)
+                    <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                        @unless($pb['is_negotiating'])
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>Já pago pelo cliente</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($pb['atual'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>+ Diferença que o cliente pagaria</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($pb['extra'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="border-top:1px solid rgba(16,185,129,.25);margin:.5rem 0;"></div>
+                        @endunless
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                            <span>Valor total do projecto</span>
+                            <span style="font-weight:600;color:#e2e8f0;">{{ number_format($pb['novo'], 2, ',', '.') }} Kz</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                            <span>&minus; Comissão da plataforma ({{ $pb['clientRatePercent'] == (int) $pb['clientRatePercent'] ? (int) $pb['clientRatePercent'] : number_format($pb['clientRatePercent'], 1, ',', '.') }}%)</span>
+                            <span style="font-weight:600;color:#e2e8f0;">{{ number_format($pb['taxa'], 2, ',', '.') }} Kz</span>
+                        </div>
+                        <div style="border-top:1px solid rgba(16,185,129,.25);margin:.5rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;color:#34d399;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                            <span>Vais receber</span>
+                            <span>{{ number_format($pb['valor_liquido'], 2, ',', '.') }} Kz</span>
+                        </div>
+                    </div>
+                    @endif
+
                     <div style="display:flex;gap:.75rem;">
                         <button type="button"
                                 wire:click="fecharModalProporValor"
@@ -614,15 +647,47 @@
                     </div>
                     @if($bd['extra'] > 0)
                     <div style="background:rgba(0,80,255,.1);border:1px solid rgba(0,80,255,.25);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
-                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
-                            <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
-                            <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
-                        </div>
-                        <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
-                        <div style="display:flex;justify-content:space-between;color:#5b9dff;font-weight:700;font-size:.88rem;padding:.1rem 0;">
-                            <span>Total a pagar</span>
-                            <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
-                        </div>
+                        @if($bd['is_negotiating'])
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>Valor do projecto</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
+                            <div style="display:flex;justify-content:space-between;color:#5b9dff;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                                <span>Total a pagar</span>
+                                <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                            </div>
+                        @else
+                            {{-- Decomposição completa: o que já foi pago + a diferença
+                                 para chegar ao novo valor acordado, e quanto disso o
+                                 freelancer efectivamente recebe depois da comissão. --}}
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>Já pago anteriormente</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>+ Diferença a pagar agora</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>= Novo valor total do projecto</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['novo'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>&minus; Comissão da plataforma ({{ $bd['clientRatePercent'] == (int) $bd['clientRatePercent'] ? (int) $bd['clientRatePercent'] : number_format($bd['clientRatePercent'], 1, ',', '.') }}%)</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.1rem 0;font-size:.78rem;">
+                                <span>Valor líquido para o freelancer</span>
+                                <span style="font-weight:600;">{{ number_format($bd['valor_liquido'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;color:#5b9dff;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                                <span>Total a pagar agora</span>
+                                <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                            </div>
+                        @endif
                     </div>
                     @endif
 

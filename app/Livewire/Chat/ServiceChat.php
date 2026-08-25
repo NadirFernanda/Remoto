@@ -87,12 +87,45 @@ class ServiceChat extends Component
         $isDirect   = $this->isDirectNegotiation;
         $clientRate = \App\Services\FeeService::serviceClientRate();
         $extra      = round(max(0.0, $isDirect ? $novo : ($novo - (float) $this->service->valor)), 2);
+        // O cliente só paga a diferença agora (já pagou $atual antes), mas o
+        // valor final do projecto — e o que o freelancer efectivamente recebe
+        // — é sempre sobre o NOVO total acordado, nunca só sobre o extra.
+        $taxa = round($novo * $clientRate, 2);
+
         return [
             'atual'             => (float) $this->service->valor,
             'novo'              => $novo,
             'extra'             => $extra,
-            'taxa'              => round($novo * $clientRate, 2),
+            'taxa'              => $taxa,
             'total_cliente'     => $extra,
+            'valor_liquido'     => round($novo - $taxa, 2),
+            'is_negotiating'    => $isDirect,
+            'clientRatePercent' => round($clientRate * 100, 1),
+        ];
+    }
+
+    /**
+     * Decomposição mostrada ao freelancer enquanto escreve a proposta —
+     * mesma lógica de getExtraBreakdownProperty(), mas a partir de
+     * $valorProposto em vez de $novoValorTotal (modais diferentes), para
+     * que o freelancer veja, antes de enviar, exactamente quanto vai
+     * receber depois da comissão da plataforma.
+     */
+    public function getProposalBreakdownProperty(): array
+    {
+        $novo       = (float) str_replace([' ', ','], ['', '.'], $this->valorProposto ?: '0');
+        $isDirect   = $this->isDirectNegotiation;
+        $clientRate = \App\Services\FeeService::serviceClientRate();
+        $atual      = (float) $this->service->valor;
+        $extra      = round(max(0.0, $isDirect ? $novo : ($novo - $atual)), 2);
+        $taxa       = round($novo * $clientRate, 2);
+
+        return [
+            'atual'             => $atual,
+            'novo'              => $novo,
+            'extra'             => $extra,
+            'taxa'              => $taxa,
+            'valor_liquido'     => round($novo - $taxa, 2),
             'is_negotiating'    => $isDirect,
             'clientRatePercent' => round($clientRate * 100, 1),
         ];
