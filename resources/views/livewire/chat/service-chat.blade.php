@@ -429,20 +429,20 @@
                             const short = name.length > 36 ? name.substring(0, 33) + '…' : name;
                             const url = storageBase + 'anexos/' + data.anexo;
                             if (data.is_image) {
-                                attachHtml = `<a href="${url}" target="_blank" class="block mb-1"><img src="${url}" alt="${short}" class="max-h-48 max-w-full rounded-xl shadow"></a>`;
+                                attachHtml = `<a href="${url}" target="_blank" class="block mb-1"><img src="${url}" alt="${short}" class="max-h-48 max-w-full rounded-xl shadow"><\/a>`;
                             } else if (data.is_audio) {
-                                attachHtml = `<audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg"><source src="${url}"></audio>`;
+                                attachHtml = `<audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg"><source src="${url}"><\/audio>`;
                             } else {
                                 const bg = isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9';
-                                attachHtml = `<a href="${url}" target="_blank" title="${name}" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:${bg};max-width:100%;overflow:hidden;box-sizing:border-box;"><span style="font-size:1.25rem;flex-shrink:0;">📄</span><span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${short}</span><span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">${data.ext}</span></a>`;
+                                attachHtml = `<a href="${url}" target="_blank" title="${name}" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:${bg};max-width:100%;overflow:hidden;box-sizing:border-box;"><span style="font-size:1.25rem;flex-shrink:0;">📄<\/span><span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${short}<\/span><span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">${data.ext}<\/span><\/a>`;
                             }
                         }
-                        const contentHtml = data.conteudo ? `<p class="text-sm leading-relaxed whitespace-pre-wrap break-words">${data.conteudo.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>` : '';
+                        const contentHtml = data.conteudo ? `<p class="text-sm leading-relaxed whitespace-pre-wrap break-words">${data.conteudo.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<\/p>` : '';
                         const bubbleClass = isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100';
                         const wrapClass  = isMine ? 'justify-end' : 'justify-start';
                         const itemClass  = isMine ? 'items-end' : 'items-start';
                         const avatarHtml = `<img src="${data.avatar}" alt="${data.name}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">`;
-                        const nameHtml   = !isMine ? `<span class="text-xs text-slate-400 mb-1 ml-1">${data.name}</span>` : '';
+                        const nameHtml   = !isMine ? `<span class="text-xs text-slate-400 mb-1 ml-1">${data.name}<\/span>` : '';
                         const div = document.createElement('div');
                         div.style.cssText = 'display:flex;align-items:flex-end;gap:8px;width:100%;';
                         div.className = wrapClass;
@@ -452,9 +452,9 @@
                                 ${nameHtml}
                                 <div class="relative px-4 py-2.5 rounded-2xl shadow-sm ${bubbleClass}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
                                     ${attachHtml}${contentHtml}
-                                    <span class="block text-right text-[10px] mt-1 ${isMine ? 'text-blue-100' : 'text-slate-400'}">${data.time}</span>
-                                </div>
-                            </div>
+                                    <span class="block text-right text-[10px] mt-1 ${isMine ? 'text-blue-100' : 'text-slate-400'}">${data.time}<\/span>
+                                <\/div>
+                            <\/div>
                             ${isMine ? avatarHtml : ''}`;
                         container.appendChild(div);
                         container.scrollTop = container.scrollHeight;
@@ -502,9 +502,9 @@
              @close-propor-valor-modal.window="open = false"
              x-show="open" x-cloak
              style="display:flex;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
-            <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
+            <div style="background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.45);margin:1rem;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-                    <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">Propor Valor ao Cliente</h3>
+                    <h3 style="font-size:1.05rem;font-weight:700;color:#f1f5f9;margin:0;">Propor Valor ao Cliente</h3>
                     <button type="button"
                             wire:click="fecharModalProporValor"
                             @click="open = false"
@@ -512,28 +512,28 @@
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
-                <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#166534;line-height:1.5;">
+                <div style="background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#34d399;line-height:1.5;">
                     &#9432; O valor será enviado como mensagem no chat. O cliente poderá confirmar e efectuar o pagamento.
                 </div>
                 <form style="margin:0;" wire:submit="enviarPropostaValor">
                     <div style="margin-bottom:.75rem;">
-                        <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Valor proposto (Kz)</label>
+                        <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">Valor proposto (Kz)</label>
                         <input wire:model="valorProposto"
                                type="text"
                                inputmode="decimal"
                                placeholder="Ex.: 50000"
-                               style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                               style="width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#f1f5f9;outline:none;box-sizing:border-box;transition:border-color .15s;"
                                onfocus="this.style.borderColor='#10b981'"
-                               onblur="this.style.borderColor='#e2e8f0'">
+                               onblur="this.style.borderColor='rgba(255,255,255,.12)'">
                         @error('valorProposto')
-                            <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                            <p style="margin:.35rem 0 0;font-size:.75rem;color:#f87171;">{{ $message }}</p>
                         @enderror
                     </div>
                     <div style="display:flex;gap:.75rem;">
                         <button type="button"
                                 wire:click="fecharModalProporValor"
                                 @click="open = false"
-                                style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                                style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:#94a3b8;font-size:.85rem;font-weight:600;cursor:pointer;">
                             Cancelar
                         </button>
                         <button type="submit"
@@ -556,9 +556,9 @@
              @close-valor-modal.window="open = false"
              x-show="open" x-cloak
              style="display:flex;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(15,23,42,.72);backdrop-filter:blur(5px);">
-            <div style="background:#fff;border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.28);margin:1rem;">
+            <div style="background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1.25rem;padding:1.75rem 1.75rem 1.5rem;width:100%;max-width:430px;box-shadow:0 24px 64px rgba(0,0,0,.45);margin:1rem;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;">
-                    <h3 style="font-size:1.05rem;font-weight:700;color:#0f172a;margin:0;">
+                    <h3 style="font-size:1.05rem;font-weight:700;color:#f1f5f9;margin:0;">
                         {{ $bd['is_negotiating'] ? 'Confirmar Valor Acordado' : 'Inserir Valor Acordado' }}
                     </h3>
                     <button type="button" wire:click="fecharModalValor" @click="open = false" style="background:none;border:none;cursor:pointer;color:#94a3b8;padding:.25rem;line-height:1;">
@@ -568,27 +568,36 @@
                 @if($valorAppyPayStep === 'waiting')
                     {{-- Espera pela confirmação Multicaixa Express --}}
                     <div wire:poll.3s="checkValorAppyPayStatus" style="text-align:center;padding:1rem 0 .5rem;">
-                        <div class="animate-spin" style="width:52px;height:52px;border-radius:50%;border:3px solid #e2e8f0;border-top-color:#ff2d55;margin:0 auto 1rem;"></div>
-                        <p style="font-size:.9rem;font-weight:700;color:#0f172a;margin:0 0 .4rem;">A aguardar confirmação...</p>
-                        <p style="font-size:.8rem;color:#64748b;line-height:1.6;margin:0;">Abra a app Multicaixa Express e aprove o pedido de pagamento. Esta janela actualiza-se automaticamente.</p>
+                        <div class="animate-spin" style="width:52px;height:52px;border-radius:50%;border:3px solid rgba(255,255,255,.12);border-top-color:#ff2d55;margin:0 auto 1rem;"></div>
+                        <p style="font-size:.9rem;font-weight:700;color:#f1f5f9;margin:0 0 .4rem;">A aguardar confirmação...</p>
+                        <p style="font-size:.8rem;color:#94a3b8;line-height:1.6;margin:0;">Abra a app Multicaixa Express e aprove o pedido de pagamento. Esta janela actualiza-se automaticamente.</p>
                     </div>
                     <button type="button" wire:click="fecharModalValor" @click="open = false"
-                            style="width:100%;margin-top:1rem;padding:.6rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                            style="width:100%;margin-top:1rem;padding:.6rem;border-radius:.65rem;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:#94a3b8;font-size:.85rem;font-weight:600;cursor:pointer;">
                         Fechar
                     </button>
                 @else
+                    {{-- Resumo de erros — sempre visível, para nunca dar a sensação de
+                         que "nada aconteceu" ao clicar em confirmar (ex.: saldo insuficiente). --}}
+                    @if($errors->any())
+                        <div style="background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#f87171;line-height:1.5;">
+                            @foreach($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
                     @if($bd['is_negotiating'])
-                        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
+                        <div style="background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#fbbf24;line-height:1.5;">
                             &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
                         </div>
                     @else
-                        <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
-                            <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
-                            <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                        <div style="background:rgba(255,255,255,.04);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                            <span style="font-size:.8rem;color:#94a3b8;">Valor actual do projecto</span>
+                            <span style="font-size:.95rem;font-weight:700;color:#5b9dff;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
                         </div>
                     @endif
                     <div style="margin-bottom:.75rem;">
-                        <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                        <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">
                             {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
                         </label>
                         <input wire:model.blur="novoValorTotal"
@@ -596,21 +605,21 @@
                                min="0"
                                step="0.01"
                                placeholder="Ex.: 80000"
-                               style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                               style="width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#f1f5f9;outline:none;box-sizing:border-box;transition:border-color .15s;"
                                onfocus="this.style.borderColor='#0ea5e9'"
-                               onblur="this.style.borderColor='#e2e8f0'">
+                               onblur="this.style.borderColor='rgba(255,255,255,.12)'">
                         @error('novoValorTotal')
-                            <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                            <p style="margin:.35rem 0 0;font-size:.75rem;color:#f87171;">{{ $message }}</p>
                         @enderror
                     </div>
                     @if($bd['extra'] > 0)
-                    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
-                        <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
+                    <div style="background:rgba(0,80,255,.1);border:1px solid rgba(0,80,255,.25);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                             <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
-                            <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                            <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
                         </div>
-                        <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
-                        <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                        <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;color:#5b9dff;font-weight:700;font-size:.88rem;padding:.1rem 0;">
                             <span>Total a pagar</span>
                             <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
                         </div>
@@ -620,14 +629,14 @@
                     @if($bd['is_negotiating'])
                         {{-- Método de pagamento — só disponível na primeira confirmação --}}
                         <div style="margin-bottom:.9rem;">
-                            <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Método de pagamento</label>
+                            <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">Método de pagamento</label>
                             <div style="display:flex;gap:.6rem;">
                                 <button type="button" wire:click="$set('valorPaymentMethod', 'wallet')"
-                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'wallet' ? '#0ea5e9' : '#e2e8f0' }};background:{{ $valorPaymentMethod === 'wallet' ? '#f0f9ff' : '#fff' }};color:{{ $valorPaymentMethod === 'wallet' ? '#0284c7' : '#64748b' }};">
+                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'wallet' ? '#0ea5e9' : 'rgba(255,255,255,.12)' }};background:{{ $valorPaymentMethod === 'wallet' ? 'rgba(14,165,233,.15)' : 'transparent' }};color:{{ $valorPaymentMethod === 'wallet' ? '#38bdf8' : '#94a3b8' }};">
                                     Saldo
                                 </button>
                                 <button type="button" wire:click="$set('valorPaymentMethod', 'express')"
-                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'express' ? '#ff8a00' : '#e2e8f0' }};background:{{ $valorPaymentMethod === 'express' ? '#fff7ed' : '#fff' }};color:{{ $valorPaymentMethod === 'express' ? '#c2410c' : '#64748b' }};">
+                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'express' ? '#ff8a00' : 'rgba(255,255,255,.12)' }};background:{{ $valorPaymentMethod === 'express' ? 'rgba(255,138,0,.15)' : 'transparent' }};color:{{ $valorPaymentMethod === 'express' ? '#fb923c' : '#94a3b8' }};">
                                     Multicaixa Express
                                 </button>
                             </div>
@@ -635,22 +644,22 @@
 
                         @if($valorPaymentMethod === 'express')
                             <div style="margin-bottom:.75rem;">
-                                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Número de telefone</label>
+                                <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">Número de telefone</label>
                                 <input wire:model.blur="valorPhoneNumber"
                                        type="text"
                                        inputmode="numeric"
                                        placeholder="Ex.: 923456789"
-                                       style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                                       style="width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#f1f5f9;outline:none;box-sizing:border-box;transition:border-color .15s;"
                                        onfocus="this.style.borderColor='#ff8a00'"
-                                       onblur="this.style.borderColor='#e2e8f0'">
+                                       onblur="this.style.borderColor='rgba(255,255,255,.12)'">
                                 @error('valorPhoneNumber')
-                                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#f87171;">{{ $message }}</p>
                                 @enderror
                             </div>
                         @endif
 
                         @if($valorAppyPayError)
-                            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:.65rem;padding:.65rem .85rem;margin-bottom:.9rem;font-size:.78rem;color:#b91c1c;">
+                            <div style="background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);border-radius:.65rem;padding:.65rem .85rem;margin-bottom:.9rem;font-size:.78rem;color:#f87171;">
                                 {{ $valorAppyPayError }}
                             </div>
                         @endif
@@ -658,7 +667,7 @@
 
                     <div style="display:flex;gap:.75rem;">
                         <button type="button" wire:click="fecharModalValor" @click="open = false"
-                                style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                                style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid rgba(255,255,255,.12);background:transparent;color:#94a3b8;font-size:.85rem;font-weight:600;cursor:pointer;">
                             Cancelar
                         </button>
                         <button type="button" wire:click="pagarValorExtra"
