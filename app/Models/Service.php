@@ -62,6 +62,8 @@ class Service extends Model
         'service_type',
         'valor',
         'taxa',
+        'taxa_cliente',
+        'total_cliente',
         'valor_liquido',
         'status',
         'is_payment_released',

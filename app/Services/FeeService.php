@@ -63,10 +63,12 @@ class FeeService
     // ── calculations ─────────────────────────────────────────────────
 
     /**
-     * Modelo de taxas:
-     *  - O cliente paga exactamente o valor do projecto acordado (sem sobretaxa).
-     *  - A plataforma retém taxa_cliente% do valor como comissão.
-     *  - Na entrega o freelancer recebe (100 - taxa_cliente)% do valor do projecto.
+     * Modelo de taxas — a plataforma cobra em ambas as pontas:
+     *  - O cliente paga o valor acordado + taxa_cliente% de sobretaxa da plataforma.
+     *  - O freelancer recebe (100 - taxa_cliente)% do valor acordado (a mesma
+     *    taxa, aplicada do lado do freelancer, é retida antes do pagamento).
+     *  - Num projecto de 100.000 Kz com taxa de 10%: cliente paga 110.000 Kz,
+     *    freelancer recebe 90.000 Kz, a plataforma fica com 20.000 Kz no total.
      *
      * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
@@ -74,10 +76,10 @@ class FeeService
     {
         $clientRate = self::serviceClientRate();
 
-        $taxa_cliente  = 0.0;                              // sem sobretaxa ao cliente
-        $total_cliente = (float) $valor;                   // cliente paga o valor acordado
-        $taxa          = round($valor * $clientRate, 2);   // 10% retidos pela plataforma
-        $valor_liquido = round($valor - $taxa, 2);         // freelancer recebe 90%
+        $taxa_cliente  = round($valor * $clientRate, 2);         // sobretaxa cobrada ao cliente
+        $total_cliente = round($valor + $taxa_cliente, 2);       // cliente paga valor + sobretaxa
+        $taxa          = round($valor * $clientRate, 2);         // retido do lado do freelancer
+        $valor_liquido = round($valor - $taxa, 2);               // freelancer recebe 90%
 
         return [
             'taxa_cliente'  => $taxa_cliente,

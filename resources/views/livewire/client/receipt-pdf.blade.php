@@ -7,8 +7,8 @@
         $refNum  = 'REF' . now()->year . str_pad($service->id, 7, '0', STR_PAD_LEFT);
         $entidade = '99924';
         $bruto   = (float) ($service->valor ?? 0);
-        $taxa_cli = round($bruto * 0.10, 2);
-        $total_pago = $bruto + $taxa_cli;
+        $taxa_cli = (float) ($service->taxa_cliente ?? round($bruto * \App\Services\FeeService::serviceClientRate(), 2));
+        $total_pago = (float) ($service->total_cliente ?: ($bruto + $taxa_cli));
         $liquido = (float) ($service->valor_liquido ?? $bruto * 0.8);
         $comissao = $bruto - $liquido;
 
@@ -262,7 +262,7 @@
         {{-- Amount --}}
         <div class="amount-block">
             <div class="amount-label">Montante Total Pago</div>
-            <div class="amount-value">{{ number_format($bruto, 2, ',', '.') }} <span class="amount-currency">Kz</span></div>
+            <div class="amount-value">{{ number_format($total_pago, 2, ',', '.') }} <span class="amount-currency">Kz</span></div>
         </div>
 
         {{-- Fee breakdown --}}
@@ -270,10 +270,12 @@
             <span class="lbl" style="color:#94a3b8;">Valor do Projecto</span>
             <span class="val" style="color:#94a3b8;">{{ number_format($bruto, 2, ',', '.') }} Kz</span>
         </div>
+        @if($taxa_cli > 0)
         <div class="slip-row" style="font-size:10px;">
-            <span class="lbl" style="color:#94a3b8;">Taxa Plataforma (10%)</span>
+            <span class="lbl" style="color:#94a3b8;">Taxa Plataforma ({{ rtrim(rtrim(number_format(\App\Services\FeeService::serviceClientRate() * 100, 1, ',', '.'), '0'), ',') }}%)</span>
             <span class="val" style="color:#94a3b8;">{{ number_format($taxa_cli, 2, ',', '.') }} Kz</span>
         </div>
+        @endif
 
         <hr class="divider-solid">
 
@@ -486,6 +488,8 @@
     };
 
     $bruto   = (float) ($service->valor ?? 0);
+    $taxa_cli = (float) ($service->taxa_cliente ?? round($bruto * \App\Services\FeeService::serviceClientRate(), 2));
+    $total_pago = (float) ($service->total_cliente ?: ($bruto + $taxa_cli));
     $liquido = (float) ($service->valor_liquido ?? $bruto * 0.9);
     $comissao = $bruto - $liquido;
 
@@ -564,11 +568,17 @@
                     <td>{{ $service->created_at->format('d/m/Y') }}</td>
                     <td class="right">{{ number_format($bruto, 2, ',', '.') }} Kz</td>
                 </tr>
+                @if($taxa_cli > 0)
+                <tr>
+                    <td colspan="2">Taxa da plataforma ({{ rtrim(rtrim(number_format(\App\Services\FeeService::serviceClientRate() * 100, 1, ',', '.'), '0'), ',') }}%)</td>
+                    <td class="right">{{ number_format($taxa_cli, 2, ',', '.') }} Kz</td>
+                </tr>
+                @endif
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="2" class="right">Total Pago</td>
-                    <td class="right">{{ number_format($bruto, 2, ',', '.') }} Kz</td>
+                    <td class="right">{{ number_format($total_pago, 2, ',', '.') }} Kz</td>
                 </tr>
             </tfoot>
         </table>

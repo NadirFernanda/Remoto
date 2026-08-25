@@ -128,16 +128,18 @@
                         <span class="text-sm text-slate-500">Valor do projecto</span>
                         <span class="text-sm font-semibold text-slate-800">{{ number_format($valor, 0, ',', '.') }} Kz</span>
                     </div>
+                    @if($taxa_cliente > 0)
                     <div class="flex justify-between items-center">
-                        <span class="text-sm text-slate-500">Taxa plataforma</span>
-                        <span class="text-sm font-semibold text-orange-500">− {{ number_format($taxa, 0, ',', '.') }} Kz</span>
+                        <span class="text-sm text-slate-500">+ Taxa da plataforma ({{ number_format((\App\Services\FeeService::serviceClientRate() * 100), 0, ',', '.') }}%)</span>
+                        <span class="text-sm font-semibold text-slate-800">{{ number_format($taxa_cliente, 0, ',', '.') }} Kz</span>
                     </div>
+                    @endif
                     <div class="border-t border-slate-100 pt-3 flex justify-between items-center">
                         <span class="text-sm font-bold text-slate-700">Total a pagar</span>
                         <span class="text-lg font-bold text-sky-700">{{ number_format($valor_total, 0, ',', '.') }} Kz</span>
                     </div>
                     <div class="bg-emerald-50 border border-emerald-100 rounded-xl px-3 py-2 flex justify-between items-center">
-                        <span class="text-xs text-emerald-700">Freelancer recebe</span>
+                        <span class="text-xs text-emerald-700">Freelancer recebe (após comissão)</span>
                         <span class="text-sm font-bold text-emerald-600">{{ number_format($valor_liquido, 0, ',', '.') }} Kz</span>
                     </div>
                 </div>

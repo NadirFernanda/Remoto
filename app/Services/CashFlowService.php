@@ -28,11 +28,18 @@ class CashFlowService
         // escrow_retido e saque_aprovado ficam sempre gravados com valor
         // negativo (débito), mesmo depois de aprovados — sem abs() aqui os
         // totais abaixo ficavam subtraídos em vez de somados.
-        $flEntradas = abs((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'escrow_retido')->sum('valor'));
+        // taxa_cliente_plataforma: sobretaxa de 10% cobrada ao cliente por
+        // cima do valor do projecto (ver FeeService::calculateServiceFee) —
+        // dinheiro que entra e é comissão da plataforma desde logo, ao
+        // contrário da comissão do lado do freelancer (só reconhecida no
+        // pagamento_projeto, à saída).
+        $flEntradas = abs((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'escrow_retido')->sum('valor'))
+            + abs((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'taxa_cliente_plataforma')->sum('valor'));
         $flSaidas   = abs((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'saque_aprovado')
             ->where(fn ($q) => $q->whereNull('fonte')->orWhere('fonte', '!=', 'assinaturas'))
             ->sum('valor'));
-        $flComissao = (float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'pagamento_projeto')->sum('valor') * 10 / 90;
+        $flComissao = ((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'pagamento_projeto')->sum('valor') * 10 / 90)
+            + abs((float) WalletLog::whereBetween('created_at', [$start, $end])->where('tipo', 'taxa_cliente_plataforma')->sum('valor'));
 
         // ── Creator ──────────────────────────────────────────────────────────
         // "Entradas" e "Comissão" continuam a reflectir o pagamento da

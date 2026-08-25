@@ -18,7 +18,6 @@ use App\Modules\Loja\Services\LojaService;
 use App\Modules\Loja\Services\PatrocinioService;
 use App\Services\AffiliateService;
 use App\Services\CreatorSubscriptionService;
-use App\Services\FeeService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -105,8 +104,26 @@ class AppyPayReconciliationService
                 return;
             }
 
-            $amount = $amountFromGateway ?? (float)($service->valor ?? 0);
-            $fee    = (new FeeService())->calculateServiceFee($amount);
+            // O valor do projecto (e a sua decomposição taxa/taxa_cliente/
+            // valor_liquido) já foi definido ANTES de iniciar a cobrança —
+            // ver PaymentEscrow::resolveOrCreateService() e
+            // ServiceChat::pagarValorExtraAppyPay(). Não recalculamos aqui a
+            // partir do montante que a gateway confirma, porque esse
+            // montante é o TOTAL cobrado ao cliente (valor + taxa_cliente de
+            // 10%), não o valor base do projecto — recalcular a partir dele
+            // inflacionaria o valor do projecto (e o que o freelancer
+            // recebe) pela sobretaxa do cliente. Só validamos que bate certo.
+            $amount        = (float) ($service->valor ?? 0);
+            $totalEsperado = (float) ($service->total_cliente ?: $amount);
+
+            if ($amountFromGateway !== null && abs($amountFromGateway - $totalEsperado) > 0.5) {
+                Log::warning('AppyPay: montante confirmado pela gateway difere do total esperado', [
+                    'service_id' => $service->id,
+                    'charge_id'  => $chargeId,
+                    'esperado'   => $totalEsperado,
+                    'confirmado' => $amountFromGateway,
+                ]);
+            }
 
             // Se já tem freelancer associado, este pagamento vem de uma
             // negociação directa via chat (ServiceChat::pagarValorExtra) — o
@@ -117,9 +134,6 @@ class AppyPayReconciliationService
             $service->status         = $jaTemFreelancer ? 'in_progress' : 'published';
             $service->payment_status = 'paid';
             $service->transaction_id = 'APPYPAY-' . $chargeId;
-            $service->valor          = $amount;
-            $service->taxa           = $fee['taxa'];
-            $service->valor_liquido  = $fee['valor_liquido'];
             $service->save();
 
             // Regista a entrada em escrow — sem isto o "Total Entradas" do
@@ -141,6 +155,18 @@ class AppyPayReconciliationService
                     'tipo'      => 'escrow_retido',
                     'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
                 ]);
+
+                // Sobretaxa de 10% do cliente — receita imediata da plataforma,
+                // separada do escrow do projecto (ver PaymentEscrow::registarEntradaEmEscrow).
+                if ((float) $service->taxa_cliente > 0) {
+                    WalletLog::create([
+                        'user_id'   => $service->cliente_id,
+                        'wallet_id' => $wallet->id,
+                        'valor'     => -(float) $service->taxa_cliente,
+                        'tipo'      => 'taxa_cliente_plataforma',
+                        'descricao' => 'Taxa da plataforma (10%) sobre o projecto: ' . $service->titulo,
+                    ]);
+                }
             }
 
             Log::info('AppyPay: serviço reconciliado', ['service_id' => $service->id, 'charge_id' => $chargeId]);

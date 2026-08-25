@@ -92,12 +92,20 @@ class ServiceChat extends Component
         // — é sempre sobre o NOVO total acordado, nunca só sobre o extra.
         $taxa = round($novo * $clientRate, 2);
 
+        // Sobretaxa de 10% cobrada ao cliente — aplicada só sobre o que está
+        // a pagar agora ($extra), nunca outra vez sobre a parte já paga
+        // anteriormente (ver pagarValorExtra() para a explicação da
+        // consistência matemática entre os pagamentos parciais e o total).
+        $taxaCliente  = round($extra * $clientRate, 2);
+        $totalCliente = round($extra + $taxaCliente, 2);
+
         return [
             'atual'             => (float) $this->service->valor,
             'novo'              => $novo,
             'extra'             => $extra,
             'taxa'              => $taxa,
-            'total_cliente'     => $extra,
+            'taxa_cliente'      => $taxaCliente,
+            'total_cliente'     => $totalCliente,
             'valor_liquido'     => round($novo - $taxa, 2),
             'is_negotiating'    => $isDirect,
             'clientRatePercent' => round($clientRate * 100, 1),
@@ -233,11 +241,15 @@ class ServiceChat extends Component
             $extra = round($novo - $atual, 2);
         }
 
-        // O cliente paga exactamente o valor acordado (sem sobretaxa) — a
-        // comissão da plataforma sai do lado do freelancer, mesmo modelo
-        // usado em qualquer outro pagamento de projecto (FeeService).
-        $taxa          = round($novo * \App\Services\FeeService::serviceClientRate(), 2);
-        $total_cliente = $extra;
+        // A plataforma cobra dos dois lados: 10% retidos do lado do
+        // freelancer (sobre o valor total acordado) + 10% de sobretaxa paga
+        // pelo cliente, aplicada só sobre o que está a pagar AGORA ($extra)
+        // — nunca outra vez sobre a parte já paga antes, ver
+        // getExtraBreakdownProperty() para a identidade matemática completa.
+        $clientRate    = \App\Services\FeeService::serviceClientRate();
+        $taxa          = round($novo * $clientRate, 2);
+        $taxaCliente   = round($extra * $clientRate, 2);
+        $total_cliente = round($extra + $taxaCliente, 2);
 
         $clientWallet = Wallet::firstOrCreate(
             ['user_id' => auth()->id()],
@@ -254,10 +266,14 @@ class ServiceChat extends Component
 
         // Processar débito, escrow, persistência E notificação dentro de uma transacção atómica
         try {
-            \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $total_cliente) {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($service, $clientWallet, $isDirect, $novo, $extra, $taxa, $taxaCliente, $total_cliente, $clientRate) {
             // Re-adquire wallet com lock para prevenir race-condition
             $clientWallet = \App\Models\Wallet::where('id', $clientWallet->id)->lockForUpdate()->firstOrFail();
             $clientWallet->decrement('saldo', $total_cliente);
+            // Só a parte do valor do projecto entra em saldo_pendente (escrow,
+            // eventualmente pago ao freelancer ou devolvido) — a sobretaxa do
+            // cliente sai do saldo mas nunca entra em escrow, é receita
+            // imediata da plataforma.
             $clientWallet->increment('saldo_pendente', $extra);
 
             $logDescricao = $isDirect
@@ -267,14 +283,26 @@ class ServiceChat extends Component
             WalletLog::create([
                 'user_id'   => auth()->id(),
                 'wallet_id' => $clientWallet->id,
-                'valor'     => -$total_cliente,
+                'valor'     => -$extra,
                 'tipo'      => $isDirect ? 'escrow_retido' : 'escrow_ajuste',
                 'descricao' => $logDescricao,
             ]);
 
+            if ($taxaCliente > 0) {
+                WalletLog::create([
+                    'user_id'   => auth()->id(),
+                    'wallet_id' => $clientWallet->id,
+                    'valor'     => -$taxaCliente,
+                    'tipo'      => 'taxa_cliente_plataforma',
+                    'descricao' => 'Taxa da plataforma (10%) sobre o projecto: ' . $service->titulo,
+                ]);
+            }
+
             // Actualizar serviço
             $service->valor         = $novo;
             $service->taxa          = round($novo * \App\Services\FeeService::serviceClientRate(), 2);
+            $service->taxa_cliente  = round($novo * $clientRate, 2);
+            $service->total_cliente = round($novo + $service->taxa_cliente, 2);
             $service->valor_liquido = round($novo - $service->taxa, 2);
 
             if ($isDirect) {
@@ -354,7 +382,16 @@ class ServiceChat extends Component
             return;
         }
 
+        // Só chega aqui na primeira confirmação de valor (ver pagarValorExtra) —
+        // o total cobrado ao cliente inclui a sobretaxa de 10% da plataforma,
+        // por cima do valor acordado com o freelancer.
+        $clientRate = \App\Services\FeeService::serviceClientRate();
+        $taxaCliente  = round($novo * $clientRate, 2);
+        $totalCliente = round($novo + $taxaCliente, 2);
+
         $service->valor          = $novo;
+        $service->taxa_cliente   = $taxaCliente;
+        $service->total_cliente  = $totalCliente;
         $service->payment_status = 'initiated';
         $service->save();
 
@@ -362,7 +399,7 @@ class ServiceChat extends Component
             $service,
             'gpo',
             $this->valorPhoneNumber,
-            $novo,
+            $totalCliente,
             strtoupper(Str::random(12))
         );
 
@@ -384,7 +421,8 @@ class ServiceChat extends Component
             $this->valorAppyPayStep = 'form';
             $this->novoValorTotal   = '';
             $this->dispatch('close-valor-modal');
-            session()->flash('chat_success', 'Pagamento de ' . number_format($service->valor, 2, ',', '.') . ' Kz confirmado! O projecto está agora Em andamento.');
+            $totalPago = (float) ($service->total_cliente ?: $service->valor);
+            session()->flash('chat_success', 'Pagamento de ' . number_format($totalPago, 2, ',', '.') . ' Kz confirmado! O projecto está agora Em andamento.');
             return;
         }
 

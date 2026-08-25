@@ -68,10 +68,14 @@ class ServiceCancel extends Component
                 ['user_id' => Auth::id()],
                 ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
             );
+            // Como nenhum freelancer chegou a ser escolhido, reembolsa-se o
+            // total efectivamente cobrado ao cliente (valor do projecto + a
+            // sobretaxa de 10%), não só o valor do projecto.
+            $valorReembolso = (float) ($this->service->total_cliente ?: $this->service->valor);
             WalletLog::create([
                 'user_id'   => Auth::id(),
                 'wallet_id' => $wallet->id,
-                'valor'     => $this->service->valor,
+                'valor'     => $valorReembolso,
                 'tipo'      => 'reembolso_solicitado',
                 'descricao' => 'Reembolso pendente pelo cancelamento do projecto: ' . $this->service->titulo,
             ]);

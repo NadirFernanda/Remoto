@@ -10,7 +10,9 @@ use Tests\TestCase;
  * Testes unitários para FeeService — sem base de dados.
  *
  * Garante que o modelo de taxas da plataforma está matematicamente correcto:
- *   - Serviços freelancer: cliente paga o valor acordado, plataforma retira 10%, freelancer recebe 90%
+ *   - Serviços freelancer: cliente paga o valor acordado + 10% de sobretaxa,
+ *     plataforma retira mais 10% do lado do freelancer, que recebe 90% do
+ *     valor original — a plataforma fica com 20% no total.
  *   - Loja (infoprodutos): -20% ao vendedor
  *   - Assinaturas (criadores): -25% ao criador
  */
@@ -31,9 +33,9 @@ class FeeServiceTest extends TestCase
     {
         $result = $this->fee->calculateServiceFee(50_000);
 
-        $this->assertEquals(0.0,      $result['taxa_cliente'],  'cliente não paga sobretaxa');
-        $this->assertEquals(50_000.0, $result['total_cliente'], 'cliente paga exatamente o valor acordado');
-        $this->assertEquals(5_000.0,  $result['taxa'],          'plataforma retira 10% do valor');
+        $this->assertEquals(5_000.0,  $result['taxa_cliente'],  'cliente paga 10% de sobretaxa');
+        $this->assertEquals(55_000.0, $result['total_cliente'], 'cliente paga o valor acordado + 10%');
+        $this->assertEquals(5_000.0,  $result['taxa'],          'plataforma retira 10% do lado do freelancer');
         $this->assertEquals(45_000.0, $result['valor_liquido'], 'freelancer recebe 90%');
     }
 
@@ -42,8 +44,8 @@ class FeeServiceTest extends TestCase
     {
         $result = $this->fee->calculateServiceFee(10_000);
 
-        $this->assertEquals(0.0,      $result['taxa_cliente']);
-        $this->assertEquals(10_000.0, $result['total_cliente']);
+        $this->assertEquals(1_000.0,  $result['taxa_cliente']);
+        $this->assertEquals(11_000.0, $result['total_cliente']);
         $this->assertEquals(1_000.0,  $result['taxa']);
         $this->assertEquals(9_000.0,  $result['valor_liquido']);
     }
@@ -54,7 +56,7 @@ class FeeServiceTest extends TestCase
         // Valor que provoca casas decimais
         $result = $this->fee->calculateServiceFee(333.33);
 
-        $this->assertEquals(0.0,                              $result['taxa_cliente']);
+        $this->assertEquals(round(333.33 * 0.10, 2), $result['taxa_cliente']);
         $this->assertEquals(round(333.33 * 0.90, 2), $result['valor_liquido']);
     }
 

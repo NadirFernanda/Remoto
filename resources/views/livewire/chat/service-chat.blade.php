@@ -647,10 +647,19 @@
                     </div>
                     @if($bd['extra'] > 0)
                     <div style="background:rgba(0,80,255,.1);border:1px solid rgba(0,80,255,.25);border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                        @php
+                            $pctLabel = $bd['clientRatePercent'] == (int) $bd['clientRatePercent']
+                                ? (int) $bd['clientRatePercent']
+                                : number_format($bd['clientRatePercent'], 1, ',', '.');
+                        @endphp
                         @if($bd['is_negotiating'])
                             <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                                 <span>Valor do projecto</span>
                                 <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>+ Taxa da plataforma ({{ $pctLabel }}%)</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
                             </div>
                             <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
                             <div style="display:flex;justify-content:space-between;color:#5b9dff;font-weight:700;font-size:.88rem;padding:.1rem 0;">
@@ -669,13 +678,17 @@
                                 <span>+ Diferença a pagar agora</span>
                                 <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
                             </div>
+                            <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
+                                <span>+ Taxa da plataforma sobre a diferença ({{ $pctLabel }}%)</span>
+                                <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
+                            </div>
                             <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>
                             <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                                 <span>= Novo valor total do projecto</span>
                                 <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['novo'], 2, ',', '.') }} Kz</span>
                             </div>
                             <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
-                                <span>&minus; Comissão da plataforma ({{ $bd['clientRatePercent'] == (int) $bd['clientRatePercent'] ? (int) $bd['clientRatePercent'] : number_format($bd['clientRatePercent'], 1, ',', '.') }}%)</span>
+                                <span>&minus; Comissão da plataforma ({{ $pctLabel }}%)</span>
                                 <span style="font-weight:600;color:#e2e8f0;">{{ number_format($bd['taxa'], 2, ',', '.') }} Kz</span>
                             </div>
                             <div style="border-top:1px solid rgba(0,80,255,.25);margin:.5rem 0;"></div>

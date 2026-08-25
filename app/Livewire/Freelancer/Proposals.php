@@ -89,11 +89,16 @@ class Proposals extends Component
                 $service->valor_liquido = (float) ($proposal->net ?? $service->valor_liquido ?? 0);
             }
 
-            // Tentar reter escrow e mover directamente para in_progress
+            // Tentar reter escrow e mover directamente para in_progress —
+            // o cliente paga o valor proposto + 10% de sobretaxa da plataforma.
             if ($valorProposta > 0) {
+                $clientRate   = \App\Services\FeeService::serviceClientRate();
+                $taxaCliente  = round($valorProposta * $clientRate, 2);
+                $totalCliente = round($valorProposta + $taxaCliente, 2);
+
                 $clientWallet = \App\Models\Wallet::where('user_id', $proposal->sender_id)->lockForUpdate()->first();
-                if ($clientWallet && (float) $clientWallet->saldo >= $valorProposta) {
-                    $clientWallet->decrement('saldo', $valorProposta);
+                if ($clientWallet && (float) $clientWallet->saldo >= $totalCliente) {
+                    $clientWallet->decrement('saldo', $totalCliente);
                     $clientWallet->increment('saldo_pendente', $valorProposta);
                     \App\Models\WalletLog::create([
                         'user_id'   => $proposal->sender_id,
@@ -102,7 +107,18 @@ class Proposals extends Component
                         'tipo'      => 'escrow_retido',
                         'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
                     ]);
-                    $service->status = 'in_progress';
+                    if ($taxaCliente > 0) {
+                        \App\Models\WalletLog::create([
+                            'user_id'   => $proposal->sender_id,
+                            'wallet_id' => $clientWallet->id,
+                            'valor'     => -$taxaCliente,
+                            'tipo'      => 'taxa_cliente_plataforma',
+                            'descricao' => 'Taxa da plataforma (10%) sobre o projecto: ' . $service->titulo,
+                        ]);
+                    }
+                    $service->taxa_cliente  = $taxaCliente;
+                    $service->total_cliente = $totalCliente;
+                    $service->status        = 'in_progress';
                     $escrowHandled = true;
                 } else {
                     // Saldo insuficiente — aguardar confirmação de pagamento do cliente

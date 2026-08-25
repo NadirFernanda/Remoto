@@ -84,6 +84,8 @@ class PaymentEscrow extends Component
         if ($service) {
             $service->valor          = $this->valor;
             $service->taxa           = $this->taxa;
+            $service->taxa_cliente   = $this->taxa_cliente;
+            $service->total_cliente  = $this->valor_total;
             $service->valor_liquido  = $this->valor_liquido;
             $service->payment_status = 'initiated';
             $service->status         = 'payment_pending';
@@ -109,6 +111,8 @@ class PaymentEscrow extends Component
             'briefing'       => $briefingFinal,
             'valor'          => $this->valor,
             'taxa'           => $this->taxa,
+            'taxa_cliente'   => $this->taxa_cliente,
+            'total_cliente'  => $this->valor_total,
             'valor_liquido'  => $this->valor_liquido,
             'status'         => 'payment_pending',
             'payment_status' => 'initiated',
@@ -217,6 +221,11 @@ class PaymentEscrow extends Component
      * freelancer (e a sua reversão em ServiceCancel/Client\Dashboard) fica
      * exactamente como estava — só deixa de criar este MESMO registo outra
      * vez nesse momento, para não contar a entrada em duplicado.
+     *
+     * A sobretaxa de 10% cobrada ao cliente (taxa_cliente) é registada num
+     * segundo lançamento, separado do escrow do projecto — é receita
+     * imediata da plataforma, não dinheiro reservado para o freelancer, por
+     * isso não deve ser contada como parte do valor "em escrow" do projecto.
      */
     private function registarEntradaEmEscrow(Service $service, int $clienteId): void
     {
@@ -236,6 +245,16 @@ class PaymentEscrow extends Component
             'tipo'      => 'escrow_retido',
             'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
         ]);
+
+        if ((float) $service->taxa_cliente > 0) {
+            WalletLog::create([
+                'user_id'   => $clienteId,
+                'wallet_id' => $wallet->id,
+                'valor'     => -(float) $service->taxa_cliente,
+                'tipo'      => 'taxa_cliente_plataforma',
+                'descricao' => 'Taxa da plataforma (10%) sobre o projecto: ' . $service->titulo,
+            ]);
+        }
     }
 
     /**
