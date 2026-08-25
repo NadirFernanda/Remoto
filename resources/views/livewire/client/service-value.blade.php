@@ -55,14 +55,31 @@
         <div class="lg:col-span-2 space-y-5">
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                 <h2 class="text-lg font-bold text-slate-800 mb-1">Quanto deseja investir?</h2>
-                <p class="text-sm text-slate-500 mb-6">Defina o orçamento total. O freelancer recebe o valor líquido após a taxa da plataforma.</p>
+                <p class="text-sm text-slate-500 mb-6">Defina o orçamento do projecto. A plataforma calcula automaticamente a sua taxa de 10%.</p>
 
                 <form wire:submit.prevent="submitValue">
+
+                    {{-- Modo: acrescentar ou descontar a taxa --}}
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">Como quer calcular a taxa da plataforma?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <button type="button" wire:click="$set('modo', 'acrescentar')"
+                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'acrescentar' ? 'border-sky-400 bg-sky-50' : 'border-slate-200 bg-white hover:border-slate-300' }}">
+                                <span class="block text-sm font-semibold {{ $modo === 'acrescentar' ? 'text-sky-700' : 'text-slate-700' }}">Acrescentar ao valor</span>
+                                <span class="block text-xs text-slate-400 mt-0.5">Indico o valor do projecto e pago +10% por cima</span>
+                            </button>
+                            <button type="button" wire:click="$set('modo', 'descontar')"
+                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'descontar' ? 'border-sky-400 bg-sky-50' : 'border-slate-200 bg-white hover:border-slate-300' }}">
+                                <span class="block text-sm font-semibold {{ $modo === 'descontar' ? 'text-sky-700' : 'text-slate-700' }}">Descontar do valor</span>
+                                <span class="block text-xs text-slate-400 mt-0.5">Indico o total que quero pagar e a taxa sai dali</span>
+                            </button>
+                        </div>
+                    </div>
 
                     {{-- Input de valor --}}
                     <div class="mb-6">
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
-                            Valor do projecto <span class="text-red-500">*</span>
+                            {{ $modo === 'descontar' ? 'Total que pretende pagar' : 'Valor do projecto' }} <span class="text-red-500">*</span>
                         </label>
                         <div class="relative">
                             <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -82,6 +99,7 @@
                     </div>
 
                     {{-- Breakdown --}}
+                    @php $bd = $this->breakdown; @endphp
                     <div class="rounded-2xl bg-slate-50 border border-slate-100 p-5 mb-6 space-y-4">
                         <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Decomposição do valor</p>
 
@@ -92,25 +110,40 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-slate-700 font-medium">Valor do projecto</p>
-                                    <p class="text-xs text-slate-400">Total que paga</p>
+                                    <p class="text-xs text-slate-400">Referência para o freelancer</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-bold text-slate-800">{{ number_format($valor, 0, ',', '.') }} Kz</span>
+                            <span class="text-sm font-bold text-slate-800">{{ number_format($bd['base'], 2, ',', '.') }} Kz</span>
                         </div>
 
                         <div class="border-t border-slate-200"></div>
 
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ $taxa }}%)</p>
-                                    <p class="text-xs text-slate-400">Serviço de intermediação</p>
+                                    <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ rtrim(rtrim(number_format($taxa, 1, ',', '.'), '0'), ',') }}%)</p>
+                                    <p class="text-xs text-slate-400">Acrescida ao valor que paga</p>
                                 </div>
                             </div>
-                            <span class="text-sm font-bold text-orange-500">− {{ number_format($valor * $taxa / 100, 0, ',', '.') }} Kz</span>
+                            <span class="text-sm font-bold text-sky-600">+ {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
+                        </div>
+
+                        <div class="border-t border-slate-200"></div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-slate-700 font-bold">Total a pagar</p>
+                                    <p class="text-xs text-slate-400">O que sai do seu bolso</p>
+                                </div>
+                            </div>
+                            <span class="text-base font-extrabold text-blue-700">{{ number_format($bd['total'], 2, ',', '.') }} Kz</span>
                         </div>
 
                         <div class="border-t border-slate-200"></div>
@@ -122,10 +155,10 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-slate-700 font-medium">Freelancer recebe</p>
-                                    <p class="text-xs text-slate-400">Valor líquido após taxa</p>
+                                    <p class="text-xs text-slate-400">Valor líquido após a sua própria comissão</p>
                                 </div>
                             </div>
-                            <span class="text-base font-bold text-emerald-600">{{ number_format($valor_liquido, 0, ',', '.') }} Kz</span>
+                            <span class="text-base font-bold text-emerald-600">{{ number_format($bd['liquido'], 2, ',', '.') }} Kz</span>
                         </div>
                     </div>
 
