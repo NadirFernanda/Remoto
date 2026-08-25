@@ -196,9 +196,9 @@
                         @error('proposalMessage') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="flex items-center justify-between rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
-                        <span class="text-sm font-medium text-emerald-800">Valor actual do projecto <span class="font-normal text-emerald-600">(já pago pelo cliente)</span></span>
-                        <span class="text-base font-bold text-emerald-700">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
+                    <div style="display:flex;align-items:center;justify-content:space-between;border-radius:.75rem;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);padding:.75rem 1rem;">
+                        <span style="font-size:.85rem;font-weight:500;color:#34d399;">Valor actual do projecto <span style="font-weight:400;color:#6ee7b7;">(já pago pelo cliente)</span></span>
+                        <span style="font-size:1rem;font-weight:700;color:#34d399;">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
                     </div>
 
                     <div>
@@ -211,26 +211,26 @@
                     </div>
 
                     @if($pb['extra'] > 0)
-                    <div class="rounded-xl bg-sky-50 border border-sky-200 px-4 py-3 text-sm space-y-1.5">
-                        <div class="flex justify-between text-gray-600">
+                    <div style="border-radius:.75rem;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);padding:.85rem 1rem;font-size:.85rem;">
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                             <span>Já pago pelo cliente</span>
-                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
+                            <span style="font-weight:600;color:#e2e8f0;">Kz {{ number_format($pb['atual'], 2, ',', '.') }}</span>
                         </div>
-                        <div class="flex justify-between text-gray-600">
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                             <span>+ Acréscimo proposto</span>
-                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['extra'], 2, ',', '.') }}</span>
+                            <span style="font-weight:600;color:#e2e8f0;">Kz {{ number_format($pb['extra'], 2, ',', '.') }}</span>
                         </div>
-                        <div class="border-t border-sky-200 my-1.5"></div>
-                        <div class="flex justify-between text-gray-600">
+                        <div style="border-top:1px solid rgba(14,165,233,.25);margin:.5rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                             <span>= Novo valor total do projecto</span>
-                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['novo'], 2, ',', '.') }}</span>
+                            <span style="font-weight:600;color:#e2e8f0;">Kz {{ number_format($pb['novo'], 2, ',', '.') }}</span>
                         </div>
-                        <div class="flex justify-between text-gray-600">
+                        <div style="display:flex;justify-content:space-between;color:#94a3b8;padding:.15rem 0;">
                             <span>&minus; Comissão da plataforma ({{ $pb['clientRatePercent'] == (int) $pb['clientRatePercent'] ? (int) $pb['clientRatePercent'] : number_format($pb['clientRatePercent'], 1, ',', '.') }}%)</span>
-                            <span class="font-semibold text-gray-800">Kz {{ number_format($pb['taxa'], 2, ',', '.') }}</span>
+                            <span style="font-weight:600;color:#e2e8f0;">Kz {{ number_format($pb['taxa'], 2, ',', '.') }}</span>
                         </div>
-                        <div class="border-t border-sky-200 my-1.5"></div>
-                        <div class="flex justify-between text-sky-700 font-bold">
+                        <div style="border-top:1px solid rgba(14,165,233,.25);margin:.5rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;color:#38bdf8;font-weight:700;font-size:.92rem;">
                             <span>Vais receber</span>
                             <span>Kz {{ number_format($pb['valor_liquido'], 2, ',', '.') }}</span>
                         </div>
