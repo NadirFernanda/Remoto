@@ -522,7 +522,7 @@
                                type="text"
                                inputmode="decimal"
                                placeholder="Ex.: 50000"
-                               style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                               style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
                                onfocus="this.style.borderColor='#10b981'"
                                onblur="this.style.borderColor='#e2e8f0'">
                         @error('valorProposto')
@@ -565,60 +565,113 @@
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
-                @if($bd['is_negotiating'])
-                    <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
-                        &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
+                @if($valorAppyPayStep === 'waiting')
+                    {{-- Espera pela confirmação Multicaixa Express --}}
+                    <div wire:poll.3s="checkValorAppyPayStatus" style="text-align:center;padding:1rem 0 .5rem;">
+                        <div class="animate-spin" style="width:52px;height:52px;border-radius:50%;border:3px solid #e2e8f0;border-top-color:#ff2d55;margin:0 auto 1rem;"></div>
+                        <p style="font-size:.9rem;font-weight:700;color:#0f172a;margin:0 0 .4rem;">A aguardar confirmação...</p>
+                        <p style="font-size:.8rem;color:#64748b;line-height:1.6;margin:0;">Abra a app Multicaixa Express e aprove o pedido de pagamento. Esta janela actualiza-se automaticamente.</p>
                     </div>
-                @else
-                    <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
-                        <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
-                        <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
-                    </div>
-                @endif
-                <div style="margin-bottom:.75rem;">
-                    <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
-                        {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
-                    </label>
-                    <input wire:model.blur="novoValorTotal"
-                           type="number"
-                           min="0"
-                           step="0.01"
-                           placeholder="Ex.: 80000"
-                           style="width:100%;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
-                           onfocus="this.style.borderColor='#0ea5e9'"
-                           onblur="this.style.borderColor='#e2e8f0'">
-                    @error('novoValorTotal')
-                        <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
-                    @enderror
-                </div>
-                @if($bd['extra'] > 0)
-                <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
-                    <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
-                        <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
-                        <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
-                    </div>
-                    <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
-                    <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
-                        <span>Total a pagar</span>
-                        <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
-                    </div>
-                </div>
-                @endif
-                <div style="display:flex;gap:.75rem;">
                     <button type="button" wire:click="fecharModalValor" @click="open = false"
-                            style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
-                        Cancelar
+                            style="width:100%;margin-top:1rem;padding:.6rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                        Fechar
                     </button>
-                    <button type="button" wire:click="pagarValorExtra"
-                            wire:loading.attr="disabled"
-                            wire:target="pagarValorExtra"
-                            style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
-                        <span wire:loading.remove wire:target="pagarValorExtra">
-                            {{ $bd['is_negotiating'] ? 'Confirmar & Iniciar Projecto' : 'Confirmar Pagamento' }}
-                        </span>
-                        <span wire:loading wire:target="pagarValorExtra">A processar...</span>
-                    </button>
-                </div>
+                @else
+                    @if($bd['is_negotiating'])
+                        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1rem;font-size:.8rem;color:#92400e;line-height:1.5;">
+                            &#9432; Após confirmar o pagamento, o projecto passará automaticamente para <strong>Em andamento</strong>.
+                        </div>
+                    @else
+                        <div style="background:#f8fafc;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;">
+                            <span style="font-size:.8rem;color:#64748b;">Valor actual do projecto</span>
+                            <span style="font-size:.95rem;font-weight:700;color:#0284c7;">{{ number_format($bd['atual'], 2, ',', '.') }} Kz</span>
+                        </div>
+                    @endif
+                    <div style="margin-bottom:.75rem;">
+                        <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">
+                            {{ $bd['is_negotiating'] ? 'Valor acordado (Kz)' : 'Novo valor total acordado (Kz)' }}
+                        </label>
+                        <input wire:model.blur="novoValorTotal"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               placeholder="Ex.: 80000"
+                               style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                               onfocus="this.style.borderColor='#0ea5e9'"
+                               onblur="this.style.borderColor='#e2e8f0'">
+                        @error('novoValorTotal')
+                            <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    @if($bd['extra'] > 0)
+                    <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:.75rem;padding:.85rem 1rem;margin-bottom:1.1rem;font-size:.82rem;">
+                        <div style="display:flex;justify-content:space-between;color:#475569;padding:.15rem 0;">
+                            <span>{{ $bd['is_negotiating'] ? 'Valor do projecto' : 'Valor extra acordado' }}</span>
+                            <span style="font-weight:600;">{{ number_format($bd['extra'], 2, ',', '.') }} Kz</span>
+                        </div>
+                        <div style="border-top:1px solid #bae6fd;margin:.5rem 0;"></div>
+                        <div style="display:flex;justify-content:space-between;color:#0284c7;font-weight:700;font-size:.88rem;padding:.1rem 0;">
+                            <span>Total a pagar</span>
+                            <span>{{ number_format($bd['total_cliente'], 2, ',', '.') }} Kz</span>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if($bd['is_negotiating'])
+                        {{-- Método de pagamento — só disponível na primeira confirmação --}}
+                        <div style="margin-bottom:.9rem;">
+                            <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Método de pagamento</label>
+                            <div style="display:flex;gap:.6rem;">
+                                <button type="button" wire:click="$set('valorPaymentMethod', 'wallet')"
+                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'wallet' ? '#0ea5e9' : '#e2e8f0' }};background:{{ $valorPaymentMethod === 'wallet' ? '#f0f9ff' : '#fff' }};color:{{ $valorPaymentMethod === 'wallet' ? '#0284c7' : '#64748b' }};">
+                                    Saldo
+                                </button>
+                                <button type="button" wire:click="$set('valorPaymentMethod', 'express')"
+                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'express' ? '#ff8a00' : '#e2e8f0' }};background:{{ $valorPaymentMethod === 'express' ? '#fff7ed' : '#fff' }};color:{{ $valorPaymentMethod === 'express' ? '#c2410c' : '#64748b' }};">
+                                    Multicaixa Express
+                                </button>
+                            </div>
+                        </div>
+
+                        @if($valorPaymentMethod === 'express')
+                            <div style="margin-bottom:.75rem;">
+                                <label style="display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:.4rem;">Número de telefone</label>
+                                <input wire:model.blur="valorPhoneNumber"
+                                       type="text"
+                                       inputmode="numeric"
+                                       placeholder="Ex.: 923456789"
+                                       style="width:100%;background:#fff;border:1.5px solid #e2e8f0;border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#0f172a;outline:none;box-sizing:border-box;transition:border-color .15s;"
+                                       onfocus="this.style.borderColor='#ff8a00'"
+                                       onblur="this.style.borderColor='#e2e8f0'">
+                                @error('valorPhoneNumber')
+                                    <p style="margin:.35rem 0 0;font-size:.75rem;color:#ef4444;">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
+                        @if($valorAppyPayError)
+                            <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:.65rem;padding:.65rem .85rem;margin-bottom:.9rem;font-size:.78rem;color:#b91c1c;">
+                                {{ $valorAppyPayError }}
+                            </div>
+                        @endif
+                    @endif
+
+                    <div style="display:flex;gap:.75rem;">
+                        <button type="button" wire:click="fecharModalValor" @click="open = false"
+                                style="flex:1;padding:.65rem;border-radius:.65rem;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;font-size:.85rem;font-weight:600;cursor:pointer;">
+                            Cancelar
+                        </button>
+                        <button type="button" wire:click="pagarValorExtra"
+                                wire:loading.attr="disabled"
+                                wire:target="pagarValorExtra"
+                                style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#ff2d55;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(255,45,85,.35);">
+                            <span wire:loading.remove wire:target="pagarValorExtra">
+                                {{ $bd['is_negotiating'] ? 'Confirmar & Iniciar Projecto' : 'Confirmar Pagamento' }}
+                            </span>
+                            <span wire:loading wire:target="pagarValorExtra">A processar...</span>
+                        </button>
+                    </div>
+                @endif
             </div>
         </div>
 

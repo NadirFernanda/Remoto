@@ -7,6 +7,7 @@ use App\Models\CreatorSubscriptionCheckout;
 use App\Models\Infoproduto;
 use App\Models\InfoprodutoCompraCheckout;
 use App\Models\InfoprodutoPatrocinioCheckout;
+use App\Models\Notification;
 use App\Models\Service;
 use App\Models\User;
 use App\Models\Wallet;
@@ -107,7 +108,13 @@ class AppyPayReconciliationService
             $amount = $amountFromGateway ?? (float)($service->valor ?? 0);
             $fee    = (new FeeService())->calculateServiceFee($amount);
 
-            $service->status         = 'published';
+            // Se já tem freelancer associado, este pagamento vem de uma
+            // negociação directa via chat (ServiceChat::pagarValorExtra) — o
+            // projecto já tem para quem vai, avança logo para 'in_progress'.
+            // Sem freelancer associado é o fluxo normal de marketplace: fica
+            // 'published', à espera de alguém escolher um candidato.
+            $jaTemFreelancer          = (bool) $service->freelancer_id;
+            $service->status         = $jaTemFreelancer ? 'in_progress' : 'published';
             $service->payment_status = 'paid';
             $service->transaction_id = 'APPYPAY-' . $chargeId;
             $service->valor          = $amount;
@@ -140,7 +147,18 @@ class AppyPayReconciliationService
             AuditLogger::log('appypay_payment_confirmed', "Pagamento AppyPay confirmado para o serviço #{$service->id}", 'Service', $service->id);
 
             (new AffiliateService())->creditCommissionForReferredAction($service->cliente, 'publish_service', $service->id);
-            NotifyFreelancersOfNewProject::dispatch($service);
+
+            if ($jaTemFreelancer) {
+                Notification::create([
+                    'user_id'    => $service->freelancer_id,
+                    'service_id' => $service->id,
+                    'type'       => 'project_started',
+                    'title'      => 'Projecto iniciado',
+                    'message'    => 'O cliente confirmou o pagamento de ' . number_format($amount, 2, ',', '.') . ' Kz para o projecto "' . $service->titulo . '". O projecto passou para Em andamento.',
+                ]);
+            } else {
+                NotifyFreelancersOfNewProject::dispatch($service);
+            }
         });
     }
 

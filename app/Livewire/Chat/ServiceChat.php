@@ -3,13 +3,17 @@
 namespace App\Livewire\Chat;
 
 use Livewire\Component;
+use App\Jobs\InitiateAppyPayChargeJob;
 use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
 use App\Modules\Messaging\Services\ChatService;
+use App\Modules\Payments\Services\AppyPayGateway;
+use App\Modules\Payments\Services\AppyPayReconciliationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ServiceChat extends Component
 {
@@ -24,6 +28,10 @@ class ServiceChat extends Component
     // ── Inserir Valor modal (cliente) ────────────────────────────────────────
     public bool $showValorModal = false;
     public string $novoValorTotal = '';
+    public string $valorPaymentMethod = 'wallet'; // wallet | express — só se aplica quando isDirectNegotiation
+    public string $valorPhoneNumber = '';
+    public string $valorAppyPayStep = 'form'; // form | waiting
+    public string $valorAppyPayError = '';
 
     // ── Propor Valor modal (freelancer) ──────────────────────────────────────
     public bool $showProporValorModal = false;
@@ -83,7 +91,7 @@ class ServiceChat extends Component
             'atual'             => (float) $this->service->valor,
             'novo'              => $novo,
             'extra'             => $extra,
-            'taxa'              => 0.0,
+            'taxa'              => round($novo * $clientRate, 2),
             'total_cliente'     => $extra,
             'is_negotiating'    => $isDirect,
             'clientRatePercent' => round($clientRate * 100, 1),
@@ -137,8 +145,12 @@ class ServiceChat extends Component
     public function fecharModalValor(): void
     {
         $this->skipRender();
-        $this->showValorModal = false;
-        $this->novoValorTotal = '';
+        $this->showValorModal   = false;
+        $this->novoValorTotal   = '';
+        $this->valorPaymentMethod = 'wallet';
+        $this->valorPhoneNumber  = '';
+        $this->valorAppyPayStep  = 'form';
+        $this->valorAppyPayError = '';
         $this->resetErrorBag();
         $this->dispatch('close-valor-modal');
     }
@@ -163,6 +175,15 @@ class ServiceChat extends Component
             'novoValorTotal.min'      => 'O valor deve ser maior que zero.',
         ]);
 
+        // Multicaixa Express só está disponível para a primeira confirmação
+        // de valor (isDirectNegotiation) — o pagamento inicial de um projecto
+        // negociado directamente por chat. Ajustes de valor num projecto já
+        // em curso continuam só por saldo (ver pagarValorExtra abaixo).
+        if ($this->isDirectNegotiation && $this->valorPaymentMethod === 'express') {
+            $this->pagarValorExtraAppyPay();
+            return;
+        }
+
         $service    = $this->service;
         $isDirect   = $this->isDirectNegotiation; // negotiating OU accepted+direct_invite
         $novo       = round((float) $this->novoValorTotal, 2);
@@ -179,7 +200,10 @@ class ServiceChat extends Component
             $extra = round($novo - $atual, 2);
         }
 
-        $taxa          = 0.0;
+        // O cliente paga exactamente o valor acordado (sem sobretaxa) — a
+        // comissão da plataforma sai do lado do freelancer, mesmo modelo
+        // usado em qualquer outro pagamento de projecto (FeeService).
+        $taxa          = round($novo * \App\Services\FeeService::serviceClientRate(), 2);
         $total_cliente = $extra;
 
         $clientWallet = Wallet::firstOrCreate(
@@ -217,7 +241,8 @@ class ServiceChat extends Component
 
             // Actualizar serviço
             $service->valor         = $novo;
-            $service->valor_liquido = round($novo * (1 - \App\Services\FeeService::serviceClientRate()), 2);
+            $service->taxa          = round($novo * \App\Services\FeeService::serviceClientRate(), 2);
+            $service->valor_liquido = round($novo - $service->taxa, 2);
 
             if ($isDirect) {
                 $service->status = 'in_progress';
@@ -267,6 +292,84 @@ class ServiceChat extends Component
             $successMsg .= ' O projecto está agora Em andamento.';
         }
         session()->flash('chat_success', $successMsg);
+    }
+
+    // ── Pagar valor acordado via Multicaixa Express (AppyPay) ──────────────────
+    // Só para a primeira confirmação de valor de uma negociação directa — o
+    // pagamento corre em segundo plano (InitiateAppyPayChargeJob), mesmo
+    // motivo/arquitectura já usada em PaymentEscrow::chargeAppyPayPhone().
+    // A reconciliação (AppyPayReconciliationService::markServicePaid) já sabe
+    // avançar o projecto directamente para 'in_progress' quando já tem
+    // freelancer associado, em vez de 'published'.
+
+    private function pagarValorExtraAppyPay(): void
+    {
+        $this->valorAppyPayError = '';
+
+        $this->validate([
+            'valorPhoneNumber' => ['required', 'regex:/^9[0-9]{8}$/'],
+        ], [
+            'valorPhoneNumber.required' => 'Indique o número de telefone Multicaixa Express.',
+            'valorPhoneNumber.regex'    => 'Número inválido — use 9 dígitos (ex: 923456789).',
+        ]);
+
+        $service = $this->service;
+        $novo    = round((float) $this->novoValorTotal, 2);
+
+        if ($service->appypay_charge_id) {
+            $this->valorAppyPayError = 'Já existe um pagamento em curso para este projecto.';
+            return;
+        }
+
+        $service->valor          = $novo;
+        $service->payment_status = 'initiated';
+        $service->save();
+
+        InitiateAppyPayChargeJob::dispatch(
+            $service,
+            'gpo',
+            $this->valorPhoneNumber,
+            $novo,
+            strtoupper(Str::random(12))
+        );
+
+        $this->valorAppyPayStep = 'waiting';
+    }
+
+    /** Chamado via wire:poll no ecrã de espera do modal de valor. */
+    public function checkValorAppyPayStatus(): void
+    {
+        if ($this->valorAppyPayStep !== 'waiting') {
+            return;
+        }
+
+        $service = $this->service->fresh();
+
+        if ($service->payment_status === 'paid') {
+            $this->service = $service;
+            $this->showValorModal   = false;
+            $this->valorAppyPayStep = 'form';
+            $this->novoValorTotal   = '';
+            $this->dispatch('close-valor-modal');
+            session()->flash('chat_success', 'Pagamento de ' . number_format($service->valor, 2, ',', '.') . ' Kz confirmado! O projecto está agora Em andamento.');
+            return;
+        }
+
+        if ($service->payment_status === 'failed') {
+            $this->valorAppyPayStep  = 'form';
+            $this->valorAppyPayError = 'O pagamento não foi confirmado. Tente novamente ou escolha outro método.';
+            return;
+        }
+
+        if (!$service->appypay_charge_id) {
+            return; // job ainda não conseguiu charge_id — continua a aguardar
+        }
+
+        $charge = (new AppyPayGateway())->getCharge($service->appypay_charge_id);
+        if ($charge['success'] && in_array(strtolower((string) $charge['status']), ['paid', 'completed', 'success', 'approved'], true)) {
+            app(AppyPayReconciliationService::class)->markPaidByChargeId($service->appypay_charge_id);
+            $this->checkValorAppyPayStatus();
+        }
     }
 
     // ── Propor Valor (freelancer) ─────────────────────────────────────────────
