@@ -40,6 +40,12 @@ class CreatorSearch extends Component
             })
             ->where('kyc_status', 'verified')
             ->with(['creatorProfile'])
+            // creator_profiles.total_subscribers nunca é actualizado em lado
+            // nenhum do código (fica sempre a 0) — a contagem real vem
+            // sempre ao vivo da relação subscriptionsAsCreator().
+            ->withCount(['subscriptionsAsCreator as active_subscribers_count' => function ($q) {
+                $q->active();
+            }])
             ->when($this->query, function ($q) {
                 // ilike (Postgres) — insensível a maiúsculas/minúsculas
                 $q->where(function ($inner) {
@@ -56,9 +62,7 @@ class CreatorSearch extends Component
             });
 
         if ($this->sort === 'populares') {
-            $creators->orderByRaw(
-                '(SELECT COALESCE(total_subscribers, 0) FROM creator_profiles WHERE creator_profiles.user_id = users.id) DESC'
-            );
+            $creators->orderByDesc('active_subscribers_count');
         } elseif ($this->sort === 'preco_asc') {
             $creators->orderByRaw(
                 '(SELECT COALESCE(subscription_price, 0) FROM creator_profiles WHERE creator_profiles.user_id = users.id) ASC'
