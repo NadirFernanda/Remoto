@@ -41,10 +41,17 @@ class ModelCastTest extends TestCase
         $this->assertEquals('array', $casts['metrics']);
     }
 
-    public function test_freelancer_profile_fillable_includes_kyc_status(): void
+    /**
+     * kyc_status foi deliberadamente removido de $fillable (OWASP A03 —
+     * mass assignment): sem isto, um payload malicioso a um formulário que
+     * faça FreelancerProfile::create($request->all()) conseguiria
+     * auto-aprovar o próprio KYC. Só pode ser atribuído explicitamente via
+     * código (ex.: fluxo de aprovação do admin).
+     */
+    public function test_freelancer_profile_fillable_excludes_kyc_status(): void
     {
         $fillable = (new FreelancerProfile())->getFillable();
 
-        $this->assertContains('kyc_status', $fillable);
+        $this->assertNotContains('kyc_status', $fillable);
     }
 }

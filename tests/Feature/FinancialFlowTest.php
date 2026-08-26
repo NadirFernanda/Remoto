@@ -250,8 +250,11 @@ class FinancialFlowTest extends TestCase
         $freelancer = $this->makeFreelancer(['kyc_status' => 'verified']);
         $this->actingAs($freelancer);
 
+        // /freelancer/carteira é uma página antiga, mantida só como redirect
+        // para o Painel Financeiro (único ponto de saque) — não deve
+        // redireccionar para o KYC, que é o que este teste verifica.
         $this->get('/freelancer/carteira')
-            ->assertOk();
+            ->assertRedirect(route('freelancer.financial'));
     }
 
     // ── Fee Calculation ─────────────────────────────────────────────────────

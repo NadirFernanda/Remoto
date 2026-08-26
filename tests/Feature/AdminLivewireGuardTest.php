@@ -53,9 +53,28 @@ class AdminLivewireGuardTest extends TestCase
 
     // ── Admin tem acesso ───────────────────────────────────────────────────
 
+    /**
+     * EnsureTwoFactorAuthenticated exige 2FA confirmado + sessão validada
+     * (2fa_passed_at) para qualquer admin — sem isto, mesmo um admin válido
+     * é redireccionado para o setup/challenge de 2FA em vez de aceder à
+     * página. Estes dois testes simulam um admin que já passou por esse
+     * fluxo, tal como aconteceria numa sessão real após o login com 2FA.
+     */
+    private function makeTwoFactorVerifiedAdmin(): User
+    {
+        $user = User::factory()->create([
+            'role'                     => 'admin',
+            'two_factor_confirmed_at'  => now(),
+        ]);
+
+        session(['2fa_passed_at' => now()->timestamp]);
+
+        return $user;
+    }
+
     public function test_admin_can_access_admin_dashboard(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = $this->makeTwoFactorVerifiedAdmin();
 
         $this->actingAs($user)
             ->get('/admin/dashboard')
@@ -64,7 +83,7 @@ class AdminLivewireGuardTest extends TestCase
 
     public function test_admin_can_access_admin_users(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = $this->makeTwoFactorVerifiedAdmin();
 
         $this->actingAs($user)
             ->get('/admin/users')
