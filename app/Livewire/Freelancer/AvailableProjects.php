@@ -50,6 +50,18 @@ class AvailableProjects extends Component
                 'proposal_message' => $this->proposalMessage,
                 'proposal_value' => $this->proposalValue,
             ]);
+
+            // Notificar o cliente do novo candidato — faltava aqui: só o
+            // ramo "aceitar convite" abaixo e o sendProposal() notificavam,
+            // por isso um freelancer que clicasse directamente em "Aceitar
+            // projecto" (o caso mais comum) nunca gerava notificação nenhuma.
+            Notification::create([
+                'user_id'    => $service->cliente_id,
+                'service_id' => $service->id,
+                'type'       => 'proposal_received',
+                'title'      => 'Novo candidato ao seu projecto',
+                'message'    => $user->name . ' candidatou-se ao seu projecto "' . $service->titulo . '".',
+            ]);
         } elseif ($candidate->status === 'invited') {
             // Freelancer está aceitando um convite do cliente
             $candidate->status = 'pending';
