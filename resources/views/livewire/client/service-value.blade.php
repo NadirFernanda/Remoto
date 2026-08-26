@@ -99,52 +99,113 @@
                     </div>
 
                     {{-- Breakdown --}}
-                    @php $bd = $this->breakdown; @endphp
+                    @php
+                        $bd = $this->breakdown;
+                        $pctLabel = rtrim(rtrim(number_format($taxa, 1, ',', '.'), '0'), ',');
+                    @endphp
                     <div class="rounded-2xl bg-slate-50 border border-slate-100 p-5 mb-6 space-y-4">
                         <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">Decomposição do valor</p>
+                        <p class="text-xs text-slate-500 -mt-2.5">
+                            @if($modo === 'descontar')
+                                Do total que indicou, {{ $pctLabel }}% fica para a plataforma — o resto é o valor do projecto.
+                            @else
+                                Paga o valor do projecto + {{ $pctLabel }}% para a plataforma.
+                            @endif
+                        </p>
 
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+                        @if($modo === 'descontar')
+                            {{-- Ordem "descontar": o cliente escreveu o TOTAL — mostrar
+                                 primeiro esse total (o seu input), depois a taxa a sair
+                                 dali, para chegar ao valor do projecto. --}}
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-bold">Total que vai pagar</p>
+                                        <p class="text-xs text-slate-400">O valor que indicou acima</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-slate-700 font-medium">Valor do projecto</p>
-                                    <p class="text-xs text-slate-400">Referência para o freelancer</p>
-                                </div>
+                                <span class="text-base font-extrabold text-blue-700">{{ number_format($bd['total'], 2, ',', '.') }} Kz</span>
                             </div>
-                            <span class="text-sm font-bold text-slate-800">{{ number_format($bd['base'], 2, ',', '.') }} Kz</span>
-                        </div>
 
-                        <div class="border-t border-slate-200"></div>
+                            <div class="border-t border-slate-200"></div>
 
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ $pctLabel }}%)</p>
+                                        <p class="text-xs text-slate-400">Retirada do total que indicou</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ rtrim(rtrim(number_format($taxa, 1, ',', '.'), '0'), ',') }}%)</p>
-                                    <p class="text-xs text-slate-400">Acrescida ao valor que paga</p>
-                                </div>
+                                <span class="text-sm font-bold text-orange-500">&minus; {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
                             </div>
-                            <span class="text-sm font-bold text-sky-600">+ {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
-                        </div>
 
-                        <div class="border-t border-slate-200"></div>
+                            <div class="border-t border-slate-200"></div>
 
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-medium">= Valor do projecto</p>
+                                        <p class="text-xs text-slate-400">O que resta para o freelancer trabalhar</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm text-slate-700 font-bold">Total a pagar</p>
-                                    <p class="text-xs text-slate-400">O que sai do seu bolso</p>
-                                </div>
+                                <span class="text-sm font-bold text-slate-800">{{ number_format($bd['base'], 2, ',', '.') }} Kz</span>
                             </div>
-                            <span class="text-base font-extrabold text-blue-700">{{ number_format($bd['total'], 2, ',', '.') }} Kz</span>
-                        </div>
+                        @else
+                            {{-- Ordem "acrescentar": o cliente escreveu o valor do
+                                 PROJECTO — mostrar primeiro esse valor (o seu input),
+                                 depois a taxa a somar, para chegar ao total a pagar. --}}
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-bold">Valor do projecto</p>
+                                        <p class="text-xs text-slate-400">O valor que indicou acima</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-bold text-slate-800">{{ number_format($bd['base'], 2, ',', '.') }} Kz</span>
+                            </div>
+
+                            <div class="border-t border-slate-200"></div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ $pctLabel }}%)</p>
+                                        <p class="text-xs text-slate-400">Acrescida por cima do valor do projecto</p>
+                                    </div>
+                                </div>
+                                <span class="text-sm font-bold text-sky-600">+ {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
+                            </div>
+
+                            <div class="border-t border-slate-200"></div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-slate-700 font-bold">= Total a pagar</p>
+                                        <p class="text-xs text-slate-400">O que sai do seu bolso</p>
+                                    </div>
+                                </div>
+                                <span class="text-base font-extrabold text-blue-700">{{ number_format($bd['total'], 2, ',', '.') }} Kz</span>
+                            </div>
+                        @endif
 
                         <div class="border-t border-slate-200"></div>
 
