@@ -17,7 +17,7 @@ class FeeService
     public const LOJA_FEE_RATE              = 0.20;
     public const SUBSCRIPTION_FEE_RATE      = 0.25;
     public const SERVICE_CLIENT_FEE_RATE    = 0.10;
-    public const SERVICE_FREELANCER_FEE_RATE = 0.20;
+    public const SERVICE_FREELANCER_FEE_RATE = 0.10;
 
     // ── helpers ──────────────────────────────────────────────────────
 
@@ -63,23 +63,26 @@ class FeeService
     // ── calculations ─────────────────────────────────────────────────
 
     /**
-     * Modelo de taxas — a plataforma cobra em ambas as pontas:
+     * Modelo de taxas — a plataforma cobra em ambas as pontas, cada uma com a
+     * sua própria taxa configurável (Admin > Taxas e Comissões):
      *  - O cliente paga o valor acordado + taxa_cliente% de sobretaxa da plataforma.
-     *  - O freelancer recebe (100 - taxa_cliente)% do valor acordado (a mesma
-     *    taxa, aplicada do lado do freelancer, é retida antes do pagamento).
-     *  - Num projecto de 100.000 Kz com taxa de 10%: cliente paga 110.000 Kz,
-     *    freelancer recebe 90.000 Kz, a plataforma fica com 20.000 Kz no total.
+     *  - O freelancer recebe (100 - taxa_freelancer)% do valor acordado, retido
+     *    antes do pagamento.
+     *  - Com as taxas por omissão (10% + 10%), num projecto de 100.000 Kz:
+     *    cliente paga 110.000 Kz, freelancer recebe 90.000 Kz, a plataforma
+     *    fica com 20.000 Kz no total.
      *
      * @return array{taxa_cliente: float, total_cliente: float, taxa: float, valor_liquido: float}
      */
     public function calculateServiceFee(float $valor): array
     {
-        $clientRate = self::serviceClientRate();
+        $clientRate     = self::serviceClientRate();
+        $freelancerRate = self::serviceFreelancerRate();
 
         $taxa_cliente  = round($valor * $clientRate, 2);         // sobretaxa cobrada ao cliente
         $total_cliente = round($valor + $taxa_cliente, 2);       // cliente paga valor + sobretaxa
-        $taxa          = round($valor * $clientRate, 2);         // retido do lado do freelancer
-        $valor_liquido = round($valor - $taxa, 2);               // freelancer recebe 90%
+        $taxa          = round($valor * $freelancerRate, 2);     // retido do lado do freelancer
+        $valor_liquido = round($valor - $taxa, 2);               // freelancer recebe o resto
 
         return [
             'taxa_cliente'  => $taxa_cliente,

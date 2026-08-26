@@ -44,11 +44,17 @@ class ProjectManager extends Component
             ->where('status', 'completed')
             ->sum('valor_liquido');
 
+        $comissaoRate = \App\Services\FeeService::serviceFreelancerRate() * 100;
+        $comissaoLabel = number_format($comissaoRate, $comissaoRate == (int) $comissaoRate ? 0 : 1, ',', '.') . '%';
+        $valorMinimo = (float) \App\Models\PlatformSetting::get('project_min_value', 5);
+
         return view('livewire.freelancer.project-manager', [
             'projects'           => $projects,
             'statusCounts'       => $statusCounts,
             'reviewedIds'        => $reviewedIds,
             'totalGanhoProjetos' => $totalGanhoProjetos,
+            'comissaoLabel'      => $comissaoLabel,
+            'valorMinimo'        => $valorMinimo,
         ])->layout('layouts.dashboard', [
             'dashboardTitle' => '',
         ]);

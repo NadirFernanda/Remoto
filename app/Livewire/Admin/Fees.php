@@ -10,7 +10,7 @@ class Fees extends Component
 {
     // ── Projetos / Serviços ──────────────────────────────────────────
     public float $serviceClientFeeRate     = 10.0;  // % adicionado ao cliente
-    public float $serviceFreelancerFeeRate = 20.0;  // % retido ao freelancer
+    public float $serviceFreelancerFeeRate = 10.0;  // % retido ao freelancer
 
     // ── Loja (Infoprodutos) ──────────────────────────────────────────
     public float $lojaFeeRate = 20.0;               // % comissão plataforma
@@ -58,7 +58,7 @@ class Fees extends Component
         abort_if(auth()->user()?->role !== 'admin', 403);
 
         $this->serviceClientFeeRate      = (float) PlatformSetting::get('service_client_fee_rate',      10);
-        $this->serviceFreelancerFeeRate  = (float) PlatformSetting::get('service_freelancer_fee_rate',  20);
+        $this->serviceFreelancerFeeRate  = (float) PlatformSetting::get('service_freelancer_fee_rate',  10);
         $this->lojaFeeRate               = (float) PlatformSetting::get('loja_fee_rate',                20);
         $this->subscriptionFeeRate       = (float) PlatformSetting::get('subscription_fee_rate',        25);
         $this->patrocinioDiario          = (float) PlatformSetting::get('patrocinio_diario',            600);

@@ -136,7 +136,7 @@ class FeeServiceTest extends TestCase
     public function test_constants_reflect_business_rules(): void
     {
         $this->assertEquals(0.10, FeeService::SERVICE_CLIENT_FEE_RATE,    'cliente: 10%');
-        $this->assertEquals(0.20, FeeService::SERVICE_FREELANCER_FEE_RATE, 'freelancer: 20%');
+        $this->assertEquals(0.10, FeeService::SERVICE_FREELANCER_FEE_RATE, 'freelancer: 10%');
         $this->assertEquals(0.20, FeeService::LOJA_FEE_RATE,              'loja: 20%');
         $this->assertEquals(0.25, FeeService::SUBSCRIPTION_FEE_RATE,      'assinaturas: 25%');
     }

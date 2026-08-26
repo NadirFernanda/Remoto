@@ -42,13 +42,28 @@
             <h2 class="text-2xl font-extrabold">Os Meus Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o estado e actue sobre os seus projectos activos.</p>
         </div>
-        <div class="flex items-center gap-4 flex-wrap">
-            <div class="text-center sm:text-right">
-                <div class="text-xs text-white/60 uppercase tracking-wider font-medium">Total ganho em Projectos</div>
-                <div class="text-2xl font-extrabold text-emerald-300">Kz {{ number_format($totalGanhoProjetos, 2, ',', '.') }}</div>
-            </div>
+    </div>
+
+    {{-- ─── Ganhos e comissão ────────────────────────────────── --}}
+    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-6 items-center">
+        <div>
+            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Ganhos dos projectos</div>
+            <div class="text-2xl font-bold text-green-600">Kz {{ number_format($totalGanhoProjetos, 2, ',', '.') }}</div>
+            <div class="text-xs text-gray-400 mt-0.5">total ganho</div>
+        </div>
+        <div class="text-gray-200 hidden sm:block">|</div>
+        <div>
+            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Comissão da plataforma</div>
+            <div class="text-lg font-semibold text-gray-700">{{ $comissaoLabel }} <span class="text-xs text-gray-400 font-normal">por projecto</span></div>
+        </div>
+        <div class="text-gray-200 hidden sm:block">|</div>
+        <div>
+            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Valor mínimo</div>
+            <div class="text-lg font-semibold text-gray-700">Kz {{ number_format($valorMinimo, 2, ',', '.') }}</div>
+        </div>
+        <div class="flex items-center gap-3 ml-auto flex-wrap">
             <a href="{{ route('freelancer.financial') }}"
-                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold bg-white text-[#0052cc] hover:bg-blue-50 transition shadow-sm">
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white transition shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 Sacar no Painel Financeiro
             </a>

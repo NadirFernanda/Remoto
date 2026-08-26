@@ -82,8 +82,13 @@ class SendProposal extends Component
             return;
         }
 
-        $fee = $this->value ? round($this->value * \App\Services\FeeService::serviceFreelancerRate(), 2) : 0;
-        $net = $this->value ? round($this->value - $fee, 2) : 0;
+        // Mesmo cálculo do fluxo padrão (ServiceValue::submitValue) — antes este
+        // convite directo cobrava 20% ao freelancer (taxa desactualizada) e não
+        // aplicava sobretaxa nenhuma ao cliente, ao contrário de todos os outros
+        // caminhos de criação de projecto.
+        $breakdown = (new \App\Services\FeeService())->calculateServiceFee((float) ($this->value ?? 0));
+        $fee = $breakdown['taxa'];
+        $net = $breakdown['valor_liquido'];
 
         // Criar o Service em modo negociação (canal de chat)
         $service = Service::create([
@@ -94,6 +99,8 @@ class SendProposal extends Component
             'service_type'  => 'direct_invite',
             'valor'         => $this->value ?? 0,
             'taxa'          => $fee,
+            'taxa_cliente'  => $breakdown['taxa_cliente'],
+            'total_cliente' => $breakdown['total_cliente'],
             'valor_liquido' => $net,
             'status'        => 'negotiating',
         ]);
