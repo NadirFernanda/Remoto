@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
+use App\Modules\Admin\Services\AuditLogger;
 use Illuminate\Support\Facades\DB;
 
 class DisputeAdmin extends Component

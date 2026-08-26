@@ -18,7 +18,24 @@
                 @endif
             </div>
         </div>
+        @if(!is_null($balance) && $balance > 0 && auth()->user()->canSwitchRole())
+            <form method="POST" action="{{ route('switch.role') }}">
+                @csrf
+                <input type="hidden" name="redirect_after" value="/freelancer/financeiro">
+                <button type="submit"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white transition shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Sacar no Modo Freelancer
+                </button>
+            </form>
+        @endif
     </div>
+
+    @if(!is_null($balance) && $balance > 0)
+        <div class="mb-6 px-4 py-3 rounded-xl bg-sky-50 border border-sky-100 text-sm text-sky-800">
+            Como cliente não é possível sacar directamente. Este saldo (ex: reembolsos) fica associado à sua conta e pode ser sacado a qualquer momento no <strong>Modo Freelancer</strong>, no Painel Financeiro.
+        </div>
+    @endif
 
     <h3 class="text-sm font-semibold text-slate-600 mb-2">Pagamentos recentes</h3>
     <ul class="divide-y divide-slate-100">
