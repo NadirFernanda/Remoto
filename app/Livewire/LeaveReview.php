@@ -94,6 +94,6 @@ class LeaveReview extends Component
     public function render()
     {
         return view('livewire.leave-review')
-            ->layout('layouts.app');
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Avaliar Projecto']);
     }
 }
