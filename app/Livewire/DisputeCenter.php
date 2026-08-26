@@ -117,6 +117,6 @@ class DisputeCenter extends Component
             : collect();
 
         return view('livewire.dispute-center', compact('messages'))
-            ->layout('layouts.app');
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Central de Disputas']);
     }
 }
