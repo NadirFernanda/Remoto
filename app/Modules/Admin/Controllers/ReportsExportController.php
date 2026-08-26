@@ -153,17 +153,25 @@ class ReportsExportController extends Controller
                 ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
-                    $bruto   = (float)($s->valor ?? 0);
-                    $liquido = (float)($s->valor_liquido ?? $bruto * 0.9);
+                    $valorProjecto  = (float) ($s->valor ?? 0);
+                    $liquido        = (float) ($s->valor_liquido ?? $valorProjecto * 0.9);
+                    $taxaFreelancer = $valorProjecto - $liquido;
+                    $taxaCliente    = (float) ($s->taxa_cliente ?? 0);
+                    // Mesma correcção do componente Livewire (AccountingStatement::render):
+                    // "Valor Bruto" inclui a sobretaxa de 10% paga pelo cliente, e "Comissão"
+                    // junta as duas fatias (freelancer + cliente), para exportar os mesmos
+                    // números que o admin já vê no ecrã.
+                    $totalCliente = (float) ($s->total_cliente ?: ($valorProjecto + $taxaCliente));
+                    $comissao     = $taxaFreelancer + $taxaCliente;
                     $rows[]  = [
                         $s->titulo ?? 'Projecto #' . $s->id,
                         $s->updated_at->format('d/m/Y'),
                         'Freelances',
                         optional($s->cliente)->name    ?? '—',
                         optional($s->freelancer)->name ?? '—',
-                        number_format($bruto,          2, ',', '.'),
-                        number_format($bruto - $liquido, 2, ',', '.'),
-                        number_format($liquido,         2, ',', '.'),
+                        number_format($totalCliente, 2, ',', '.'),
+                        number_format($comissao,     2, ',', '.'),
+                        number_format($liquido,      2, ',', '.'),
                         ucfirst($s->status ?? '—'),
                     ];
                 });

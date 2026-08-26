@@ -61,16 +61,26 @@ class AccountingStatement extends Component
                 ->orderByDesc('updated_at')
                 ->get()
                 ->each(function ($s) use (&$rows) {
-                    $bruto     = (float) ($s->valor ?? 0);
-                    $liquido   = (float) ($s->valor_liquido ?? $bruto * 0.9);
-                    $comissao  = $bruto - $liquido;
+                    $valorProjecto = (float) ($s->valor ?? 0);
+                    $liquido       = (float) ($s->valor_liquido ?? $valorProjecto * 0.9);
+                    $taxaFreelancer = $valorProjecto - $liquido;
+                    $taxaCliente    = (float) ($s->taxa_cliente ?? 0);
+                    // "Valor Bruto" passa a ser o que o cliente pagou de
+                    // facto (valor do projecto + sobretaxa de 10%), não só
+                    // o valor do projecto — senão a sobretaxa ficava de fora
+                    // deste extrato, tal como já tinha acontecido no Fluxo
+                    // de Caixa antes de ser corrigido. "Comissão" junta as
+                    // duas fatias (freelancer + cliente) para que a
+                    // identidade bruto = comissão + líquido continue válida.
+                    $totalCliente = (float) ($s->total_cliente ?: ($valorProjecto + $taxaCliente));
+                    $comissao     = $taxaFreelancer + $taxaCliente;
                     $rows->push([
                         'nome'           => $s->titulo ?? 'Projecto #' . $s->id,
                         'data'           => $s->updated_at->format('d/m/Y'),
                         'tipo'           => 'Freelances',
                         'user_origem'    => optional($s->cliente)->name    ?? '—',
                         'user_destino'   => optional($s->freelancer)->name ?? '—',
-                        'valor_bruto'    => $bruto,
+                        'valor_bruto'    => $totalCliente,
                         'comissao'       => $comissao,
                         'valor_liquido'  => $liquido,
                         'status'         => ucfirst($s->status ?? '—'),
