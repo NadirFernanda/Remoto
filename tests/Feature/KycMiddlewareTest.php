@@ -47,8 +47,10 @@ class KycMiddlewareTest extends TestCase
 
         $response = $this->actingAs($user)->get('/freelancer/carteira');
 
-        // Não deve redirecionar para KYC — deve aceder à carteira
-        $response->assertOk();
+        // Não deve redirecionar para KYC — /freelancer/carteira é uma página
+        // antiga, mantida só como redirect para o Painel Financeiro (único
+        // ponto de saque), nunca 404, para não partir links/notificações antigas.
+        $response->assertRedirect(route('freelancer.financial'));
     }
 
     public function test_kyc_redirect_carries_warning_message(): void

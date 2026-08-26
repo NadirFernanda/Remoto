@@ -108,7 +108,7 @@ class Dashboard extends Component
             $freelancerPago->notify(new PaymentReceivedNotification(
                 $service,
                 (float) ($service->valor_liquido ?? $service->valor),
-                route('freelancer.wallet')
+                route('freelancer.financial')
             ));
         }
 

@@ -67,10 +67,6 @@
                 <span class="inline-block px-3 py-1 text-xs rounded-full bg-[#e0f7fa] text-[#0055ff] font-semibold">Ver todos</span>
             </div>
         </a>
-        {{-- <a href="{{ route('freelancer.wallet') }}" class="bg-white rounded-2xl border border-gray-200 p-4 text-center hover:border-[#0055ff]/50 transition group">
-            <svg class="w-6 h-6 mx-auto mb-2 text-gray-400 group-hover:text-[#0055ff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/></svg>
-            <span class="text-xs font-medium text-gray-700">Extrato</span>
-        </a> --}}
     </div>
 
 
