@@ -5,7 +5,6 @@ namespace App\Livewire\Creator;
 use Livewire\Component;
 use App\Models\CreatorSubscription;
 use App\Models\CreatorProfile;
-use App\Services\SubscriptionWithdrawalGate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 
@@ -128,12 +127,6 @@ class SubscriptionManager extends Component
         $firstYear = $minStartsAt ? Carbon::parse($minStartsAt)->year : now()->year;
         $years = range(now()->year, $firstYear, -1);
 
-        $saldoAssinAtribuivel      = SubscriptionWithdrawalGate::saldoAtribuivel($user->id);
-        $gatedPorAssinaturas       = $saldoAssinAtribuivel > 0;
-        $diasParaProximoSaqueAssin = $gatedPorAssinaturas ? SubscriptionWithdrawalGate::diasParaProximoSaque($user->id) : 0;
-        $saqueMinimoAssinaturas    = SubscriptionWithdrawalGate::SAQUE_MINIMO;
-        $cooldownDiasAssinaturas   = SubscriptionWithdrawalGate::COOLDOWN_DIAS;
-
         return view('livewire.creator.subscription-manager', compact(
             'user',
             'creatorProfile',
@@ -148,11 +141,6 @@ class SubscriptionManager extends Component
             'maxNew',
             'recentSubscribers',
             'years',
-            'saldoAssinAtribuivel',
-            'gatedPorAssinaturas',
-            'diasParaProximoSaqueAssin',
-            'saqueMinimoAssinaturas',
-            'cooldownDiasAssinaturas',
         ))->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 

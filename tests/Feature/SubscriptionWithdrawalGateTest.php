@@ -13,12 +13,14 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Testes para a regra especial de saque de saldo vindo de assinaturas de
- * criador: enquanto houver ganho_assinatura ainda não "resgatado" por um
- * saque fonte=assinaturas, o saque (feito sempre através do Painel
- * Financeiro, único ponto de saque desde o fix do bug de saque duplicado)
- * exige mínimo Kz 20.000 — sem intervalo de dias entre pedidos (política
- * actual: quem atingir o mínimo pode sacar a qualquer momento).
+ * Testes para o saque no Painel Financeiro: mínimo geral de Kz 20.000 para
+ * todos, independentemente da origem do saldo (projectos, assinaturas, ou
+ * qualquer outro ganho) — sem intervalo de dias entre pedidos.
+ *
+ * A única coisa que ainda distingue saldo de assinaturas é a marcação
+ * fonte='assinaturas' no WalletLog do saque, usada só pelo CashFlowService
+ * para separar a fatia "Criador" da fatia "Freelancing" nos relatórios do
+ * admin — nunca para bloquear ou exigir um mínimo diferente.
  */
 class SubscriptionWithdrawalGateTest extends TestCase
 {
@@ -63,7 +65,22 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function sem_ganhos_de_assinatura_usa_o_minimo_normal_sem_cooldown(): void
+    public function saque_abaixo_de_20000_e_bloqueado_mesmo_sem_ganhos_de_assinatura(): void
+    {
+        $freelancer = $this->makeFreelancer(50000);
+
+        Livewire::actingAs($freelancer)
+            ->test(FinancialPanel::class)
+            ->set('valorSaque', 15000)
+            ->call('solicitarSaque')
+            ->assertHasErrors('valorSaque');
+
+        $freelancer->wallet->refresh();
+        $this->assertEquals(50000, $freelancer->wallet->saldo); // nada debitado
+    }
+
+    #[Test]
+    public function saque_de_20000_ou_mais_e_aceite_sem_ganhos_de_assinatura(): void
     {
         $freelancer = $this->makeFreelancer(50000);
 
@@ -75,17 +92,23 @@ class SubscriptionWithdrawalGateTest extends TestCase
 
         $freelancer->wallet->refresh();
         $this->assertEquals(25000, $freelancer->wallet->saldo);
+
+        $this->assertDatabaseHas('wallet_logs', [
+            'user_id' => $freelancer->id,
+            'tipo'    => 'saque_solicitado',
+            'fonte'   => null,
+        ]);
     }
 
     #[Test]
-    public function com_ganhos_de_assinatura_por_resgatar_exige_minimo_20000(): void
+    public function com_ganhos_de_assinatura_por_resgatar_o_minimo_continua_20000(): void
     {
         $freelancer = $this->makeFreelancer(300000);
         $this->creditarGanhoAssinatura($freelancer, 250000);
 
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
-            ->set('valorSaque', 15000) // abaixo do mínimo gated
+            ->set('valorSaque', 15000) // abaixo do mínimo geral
             ->call('solicitarSaque')
             ->assertHasErrors('valorSaque');
 
@@ -94,7 +117,7 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function com_ganhos_de_assinatura_saque_de_200000_ou_mais_e_aceite_e_marcado(): void
+    public function com_ganhos_de_assinatura_saque_e_marcado_com_fonte_assinaturas(): void
     {
         $freelancer = $this->makeFreelancer(300000);
         $this->creditarGanhoAssinatura($freelancer, 250000);
@@ -116,7 +139,7 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function segundo_saque_gated_no_mesmo_dia_nao_e_bloqueado_por_tempo(): void
+    public function segundo_saque_no_mesmo_dia_nao_e_bloqueado_por_tempo(): void
     {
         $freelancer = $this->makeFreelancer(600000);
         $this->creditarGanhoAssinatura($freelancer, 500000);
@@ -129,12 +152,11 @@ class SubscriptionWithdrawalGateTest extends TestCase
 
         // Simula a aprovação do 1º saque pelo admin, para isolar o teste da
         // regra genérica "só um saque pendente de cada vez" (que bloquearia
-        // por outro motivo, sem ligação à regra de assinaturas).
+        // por outro motivo, sem ligação à origem do saldo).
         WalletLog::where('user_id', $freelancer->id)->where('tipo', 'saque_solicitado')->update(['tipo' => 'saque_aprovado']);
 
-        // Política actual: sem intervalo de dias — só o mínimo de 20.000
-        // conta. Ainda sobra saldo atribuível (500.000 - 200.000 = 300.000),
-        // mas um segundo saque no mesmo instante não deve ser bloqueado por tempo.
+        // Sem intervalo de dias — um segundo saque no mesmo instante, ainda
+        // com saldo de assinaturas por resgatar, não deve ser bloqueado por tempo.
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
             ->set('valorSaque', 200000)
@@ -146,7 +168,7 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function apos_resgatar_todo_o_saldo_de_assinaturas_deixa_de_estar_gated(): void
+    public function apos_resgatar_todo_o_saldo_de_assinaturas_saque_deixa_de_ser_marcado(): void
     {
         $freelancer = $this->makeFreelancer(300000);
         $this->creditarGanhoAssinatura($freelancer, 200000);
@@ -162,8 +184,8 @@ class SubscriptionWithdrawalGateTest extends TestCase
         // regra genérica "só um saque pendente de cada vez".
         WalletLog::where('user_id', $freelancer->id)->where('tipo', 'saque_solicitado')->update(['tipo' => 'saque_aprovado']);
 
-        // Sem mais saldo de assinaturas por resgatar — volta ao mínimo normal,
-        // sem cooldown, mesmo tendo havido um saque "assinaturas" há pouco.
+        // Sem mais saldo de assinaturas por resgatar — o próximo saque já não
+        // é marcado com fonte='assinaturas', mas o mínimo continua o mesmo (20.000).
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
             ->set('valorSaque', 25000)
@@ -172,5 +194,12 @@ class SubscriptionWithdrawalGateTest extends TestCase
 
         $freelancer->wallet->refresh();
         $this->assertEquals(75000, $freelancer->wallet->saldo);
+
+        $this->assertDatabaseHas('wallet_logs', [
+            'user_id' => $freelancer->id,
+            'tipo'    => 'saque_solicitado',
+            'valor'   => -25000,
+            'fonte'   => null,
+        ]);
     }
 }

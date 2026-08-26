@@ -47,25 +47,6 @@
             </div>
             @endif
 
-            @if($gatedPorAssinaturas)
-            <div class="mb-4 flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
-                <svg class="w-5 h-5 mt-0.5 shrink-0 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                <div>
-                    <p class="font-semibold">Tem saldo de assinaturas por resgatar (Kz {{ number_format($saldoAssinAtribuivel, 0, ',', '.') }}).</p>
-                    <p class="mt-0.5">
-                        @if($cooldownDiasAssinaturas > 0)
-                            Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong>, com um intervalo mínimo de <strong>{{ $cooldownDiasAssinaturas }} dia(s)</strong> entre pedidos.
-                            @if($diasParaProximoSaqueAssin > 0)
-                                Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
-                            @endif
-                        @else
-                            Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong> — assim que atingir esse valor, pode sacar a qualquer momento, sem tempo de espera.
-                        @endif
-                    </p>
-                </div>
-            </div>
-            @endif
-
             <form wire:submit.prevent="solicitarSaque" x-on:input.debounce.300ms="valorSaque = parseFloat($el.querySelector('[wire\\:model]').value) || 0">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Valor a sacar <span class="text-red-400">*</span></label>
@@ -75,12 +56,13 @@
                             type="number"
                             wire:model.live="valorSaque"
                             x-model="valorSaque"
-                            min="{{ $gatedPorAssinaturas ? (int) $saqueMinimoAssinaturas : 1 }}"
+                            min="{{ (int) $saqueMinimo }}"
                             step="100"
-                            placeholder="{{ $gatedPorAssinaturas ? (int) $saqueMinimoAssinaturas : '1000' }}"
+                            placeholder="{{ (int) $saqueMinimo }}"
                             class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>
+                    <p class="text-xs text-gray-400 mt-1.5">Saque mínimo: Kz {{ number_format($saqueMinimo, 0, ',', '.') }} — independentemente da origem do saldo.</p>
                     @error('valorSaque')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
@@ -101,14 +83,9 @@
                 <button
                     type="submit"
                     wire:loading.attr="disabled"
-                    @if($gatedPorAssinaturas && $diasParaProximoSaqueAssin > 0) disabled @endif
                     class="w-full py-3 rounded-xl bg-[#0055ff] hover:bg-[#009de0] text-white font-semibold text-sm transition disabled:opacity-60 flex items-center justify-center gap-2">
                     <span wire:loading.remove>
-                        @if($gatedPorAssinaturas && $diasParaProximoSaqueAssin > 0)
-                            Disponível em {{ $diasParaProximoSaqueAssin }} dia{{ $diasParaProximoSaqueAssin == 1 ? '' : 's' }}
-                        @else
-                            Solicitar saque
-                        @endif
+                        Solicitar saque
                     </span>
                     <span wire:loading class="flex items-center gap-2">
                         <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

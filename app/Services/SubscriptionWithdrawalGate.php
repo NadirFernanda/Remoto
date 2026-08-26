@@ -3,32 +3,24 @@
 namespace App\Services;
 
 use App\Models\WalletLog;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Regra especial para saldo ainda por resgatar vindo de assinaturas de
- * criador: enquanto houver alguma fatia de "ganho_assinatura" ainda não
- * coberta por um saque marcado fonte=assinaturas, o saque no Painel
- * Financeiro fica sujeito a um mínimo maior (SAQUE_MINIMO). Não há
- * intervalo de dias — quem atingir esse mínimo pode sacar a qualquer
- * momento (COOLDOWN_DIAS fica como mecanismo disponível, caso a
- * plataforma volte a querer um intervalo de dias no futuro, mas a
- * política actual é zero).
+ * Atribuição de saldo vindo de assinaturas de criador ainda não "resgatado"
+ * por um saque marcado fonte=assinaturas.
  *
  * Não existe um "saldo de assinaturas" segregado — o saldo da carteira é
- * único e partilhado (ver fix do bug de saque duplicado). Isto é só um
- * controlo de quando/quanto pode ser sacado, aplicado sobre o saque único
- * já existente (FinancialPanel::solicitarSaque), nunca um fluxo de saque à
- * parte.
+ * único e partilhado (ver fix do bug de saque duplicado). Isto não bloqueia
+ * nem impõe um mínimo diferente: o saque no Painel Financeiro exige sempre
+ * o mesmo mínimo geral (withdrawal_min_amount), independentemente da
+ * origem do saldo. Esta classe serve só para marcar fonte='assinaturas' no
+ * WalletLog do saque (FinancialPanel::solicitarSaque), usado pelo
+ * CashFlowService para separar a fatia "Criador" da fatia "Freelancing"
+ * nos relatórios do admin.
  */
 class SubscriptionWithdrawalGate
 {
-    public const SAQUE_MINIMO = 20000.0;
-
-    public const COOLDOWN_DIAS = 0;
-
-    /** Fatia de ganhos de assinaturas que ainda não foi "consumida" por um saque gated. */
+    /** Fatia de ganhos de assinaturas que ainda não foi "consumida" por um saque marcado fonte=assinaturas. */
     public static function saldoAtribuivel(int $userId): float
     {
         $ganhoAssinaturas = (float) WalletLog::where('user_id', $userId)
@@ -44,23 +36,5 @@ class SubscriptionWithdrawalGate
             ->sum(DB::raw('ABS(valor)'));
 
         return max(0, $ganhoAssinaturas - $jaSacadoAssinaturas);
-    }
-
-    /** Dias que faltam até o próximo saque gated ser permitido (0 = já pode). */
-    public static function diasParaProximoSaque(int $userId): int
-    {
-        $ultimo = WalletLog::where('user_id', $userId)
-            ->where('fonte', 'assinaturas')
-            ->whereIn('tipo', ['saque_solicitado', 'saque_aprovado'])
-            ->latest()
-            ->first();
-
-        if (!$ultimo) {
-            return 0;
-        }
-
-        $decorridos = (int) Carbon::parse($ultimo->created_at)->diffInDays(now());
-
-        return max(0, self::COOLDOWN_DIAS - $decorridos);
     }
 }

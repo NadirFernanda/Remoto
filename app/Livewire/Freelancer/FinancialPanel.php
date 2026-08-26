@@ -28,21 +28,19 @@ class FinancialPanel extends Component
 
         $user = Auth::user();
 
-        $minAmount  = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 1000);
+        // Mínimo de saque único e geral para todos — independentemente da
+        // origem do saldo (projectos, assinaturas, etc.). Não há intervalo de
+        // dias nem regra especial por tipo de ganho.
+        $minAmount  = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 20000);
         $feeFixed   = (float) \App\Models\PlatformSetting::get('withdraw_fee_fixed', 0);
         $feePercent = (float) \App\Models\PlatformSetting::get('withdraw_fee_percent', 0);
 
-        $gatedPorAssinaturas = SubscriptionWithdrawalGate::saldoAtribuivel($user->id) > 0;
-
-        if ($gatedPorAssinaturas) {
-            $minAmount = SubscriptionWithdrawalGate::SAQUE_MINIMO;
-
-            $diasRestantes = SubscriptionWithdrawalGate::diasParaProximoSaque($user->id);
-            if ($diasRestantes > 0) {
-                $this->addError('valorSaque', "Tem saldo de assinaturas por resgatar — só pode voltar a sacar daqui a {$diasRestantes} dia(s).");
-                return;
-            }
-        }
+        // Continua a identificar-se saldo de assinaturas por resgatar só
+        // para marcar a origem (fonte='assinaturas') no WalletLog — usado
+        // pelo CashFlowService para separar a fatia "Criador" da fatia
+        // "Freelancing" nos relatórios do admin. Não define o mínimo nem
+        // bloqueia o saque.
+        $temSaldoAssinaturas = SubscriptionWithdrawalGate::saldoAtribuivel($user->id) > 0;
 
         $this->validate([
             'valorSaque' => ['required', 'numeric', 'min:' . $minAmount],
@@ -76,7 +74,7 @@ class FinancialPanel extends Component
         // Mover valor do saldo disponível para saldo_pendente (em análise)
         // Uso de transacção para garantir atomicidade: se WalletLog falhar,
         // os decrements/increments são revertidos automaticamente.
-        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $valorLiquidoSaque, $gatedPorAssinaturas) {
+        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $user, $fee, $valorLiquidoSaque, $temSaldoAssinaturas) {
             $wallet->decrement('saldo', $this->valorSaque);
             $wallet->increment('saldo_pendente', $this->valorSaque);
 
@@ -85,7 +83,7 @@ class FinancialPanel extends Component
                 'wallet_id' => $wallet->id,
                 'valor'     => -$this->valorSaque,
                 'tipo'      => 'saque_solicitado',
-                'fonte'     => $gatedPorAssinaturas ? 'assinaturas' : null,
+                'fonte'     => $temSaldoAssinaturas ? 'assinaturas' : null,
                 'descricao' => "Saque solicitado de " . number_format($this->valorSaque, 2, ',', '.') . " Kz — taxa " . number_format($fee, 2, ',', '.') . " Kz — valor líquido a receber: " . number_format($valorLiquidoSaque, 2, ',', '.') . " Kz — a aguardar aprovação do admin.",
             ]);
         });
@@ -128,9 +126,10 @@ class FinancialPanel extends Component
             ->whereIn('status', ['accepted', 'in_progress', 'delivered'])
             ->get();
 
-        $saldoAssinAtribuivel      = SubscriptionWithdrawalGate::saldoAtribuivel($user->id);
-        $gatedPorAssinaturas       = $saldoAssinAtribuivel > 0;
-        $diasParaProximoSaqueAssin = $gatedPorAssinaturas ? SubscriptionWithdrawalGate::diasParaProximoSaque($user->id) : 0;
+        // Mínimo geral de saque — igual para todos, independentemente da
+        // origem do saldo (ver solicitarSaque() para a mesma regra aplicada
+        // no momento do pedido).
+        $saqueMinimo = (float) \App\Models\PlatformSetting::get('withdrawal_min_amount', 20000);
 
         return view('livewire.freelancer.financial-panel', [
             'wallet'                    => $wallet,
@@ -140,11 +139,7 @@ class FinancialPanel extends Component
             'saques'                    => $saques,
             'reembolsos'                => $reembolsos,
             'pendingServices'           => $pendingServices,
-            'gatedPorAssinaturas'       => $gatedPorAssinaturas,
-            'saldoAssinAtribuivel'      => $saldoAssinAtribuivel,
-            'diasParaProximoSaqueAssin' => $diasParaProximoSaqueAssin,
-            'saqueMinimoAssinaturas'    => SubscriptionWithdrawalGate::SAQUE_MINIMO,
-            'cooldownDiasAssinaturas'   => SubscriptionWithdrawalGate::COOLDOWN_DIAS,
+            'saqueMinimo'               => $saqueMinimo,
         ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
