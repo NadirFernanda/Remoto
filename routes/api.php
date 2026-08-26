@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Modules\Payments\Controllers\PayPalWebhookController;
 use App\Modules\Payments\Controllers\AppyPayWebhookController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\ProposalController;
@@ -24,11 +23,6 @@ use App\Http\Controllers\Api\CspReportController;
 | Obtain a token:  POST /api/auth/login  →  { token, user }
 | Use in requests: Authorization: Bearer <token>
 */
-
-// ─── PayPal Webhooks (sem auth, sem CSRF — verificação por assinatura PayPal) ─
-Route::post('/paypal/webhook', [PayPalWebhookController::class, 'handle'])
-    ->middleware('throttle:60,1')
-    ->name('paypal.webhook');
 
 // ─── AppyPay Webhooks (sem auth, sem CSRF — verificação por segredo partilhado) ─
 Route::post('/appypay/webhook', [AppyPayWebhookController::class, 'handle'])

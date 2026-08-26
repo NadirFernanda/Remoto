@@ -2,17 +2,11 @@
 
 namespace App\Livewire\Client;
 
-use App\Events\PaymentFailed;
 use App\Jobs\InitiateAppyPayChargeJob;
-use App\Jobs\NotifyFreelancersOfNewProject;
 use App\Models\PlatformSetting;
 use App\Models\Service;
-use App\Models\Wallet;
-use App\Models\WalletLog;
 use App\Modules\Payments\Services\AppyPayGateway;
 use App\Modules\Payments\Services\AppyPayReconciliationService;
-use App\Modules\Payments\Services\PaymentGateway;
-use App\Services\AffiliateService;
 use App\Services\FeeService;
 use App\Traits\UserSessionTrait;
 use Illuminate\Support\Facades\Auth;
@@ -29,25 +23,11 @@ class PaymentEscrow extends Component
     public float $taxa         = 0.0;
     public float $valor_liquido = 0;
 
-    public string $payment_method = 'card';
-
-    public $listeners = ['updatedPaymentMethod' => 'render'];
-
-    // Campos de UI apenas — nunca persistidos. Em produção o gateway front-end
-    // gera um token opaco e escreve em $payment_token via Livewire.
-    public string $card_name    = '';
-    public string $card_number  = '';
-    public string $card_expiry  = '';
-    public string $card_cvv     = '';
-    public string $payment_token = '';
-
-    // ── AppyPay (Multicaixa Express / Referência) ─────────────────────────
+    // ── AppyPay: Multicaixa Express (único método de pagamento) ───────────
     public string $phone_number       = '';
-    public string $appypay_step       = 'form'; // form | waiting | reference | done
+    public string $appypay_step       = 'form'; // form | waiting | done
     public ?int   $appypay_service_id = null;
     public ?string $appypay_charge_id = null;
-    public ?string $appypay_reference = null;
-    public ?string $appypay_entity    = null;
     public string $appypay_error      = '';
 
     public function mount(): void
@@ -119,142 +99,10 @@ class PaymentEscrow extends Component
         ]);
     }
 
-    public function confirmPayment()
-    {
-        if (in_array($this->payment_method, ['express', 'bank'])) {
-            // Tratados pelos seus próprios métodos (chargeAppyPayPhone/chargeAppyPayReference).
-            return;
-        }
-
-        // ── Autenticação ─────────────────────────────────────────────────────
-        $user = $this->getCurrentUser();
-        if (!$user) {
-            session()->flash('error', 'É necessário estar autenticado para publicar um projecto.');
-            return redirect()->route('client.payment', ['valor' => $this->valor]);
-        }
-
-        if ($this->valorAbaixoDoMinimo()) {
-            return;
-        }
-
-        // ── Validação do cartão ──────────────────────────────────────────────
-        $this->validate([
-            'payment_token' => 'required|string|min:8',
-            'card_name'     => 'required|string|min:3|max:100',
-        ], [
-            'payment_token.required' => 'Erro ao processar o cartão. Tente novamente.',
-            'card_name.required'     => 'Informe o nome do titular do cartão.',
-        ]);
-
-        // ── Recuperar ou criar o registo de serviço (estado: payment_pending) ─
-        $service = $this->resolveOrCreateService($user);
-        if (!$service) {
-            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
-            return redirect()->route('client.briefing');
-        }
-
-        // ── Cobrar via gateway ───────────────────────────────────────────────
-        $paymentResult = (new PaymentGateway())->charge([
-            'amount'        => $this->valor_total,
-            'payment_token' => $this->payment_token,
-            'card_name'     => $this->card_name,
-            'description'   => 'Pagamento de serviço',
-        ]);
-
-        // Zerar campos sensíveis imediatamente após a chamada ao gateway
-        $this->card_number = '';
-        $this->card_expiry = '';
-        $this->card_cvv    = '';
-
-        if (empty($paymentResult['success'])) {
-            // Marcar o serviço como falhou
-            $service->payment_status = 'failed';
-            $service->save();
-
-            // Disparar evento — processado em background pela queue
-            PaymentFailed::dispatch(
-                $service,
-                $user,
-                $this->valor_total,
-                $paymentResult['message'] ?? 'Falha no processamento do cartão.'
-            );
-
-            session()->flash('error', $paymentResult['message'] ?? 'Falha no pagamento. Verifica os dados e tenta novamente.');
-            return;
-        }
-
-        // ── Pagamento bem-sucedido ───────────────────────────────────────────
-        $transactionId = $paymentResult['transaction_id'] ?? null;
-
-        $service->status          = 'published';
-        $service->payment_status  = 'paid';
-        $service->transaction_id  = $transactionId;
-        $service->save();
-
-        $this->registarEntradaEmEscrow($service, $user->id);
-
-        session()->forget(['client_order', 'briefing', 'briefing_title']);
-
-        (new AffiliateService())->creditCommissionForReferredAction($user, 'publish_service', $service->id);
-        NotifyFreelancersOfNewProject::dispatch($service);
-
-        session()->flash('success', 'Pagamento realizado e projecto publicado com sucesso!');
-        return redirect()->route('client.orders');
-    }
-
     /** A AppyPay exige merchantTransactionId só alfanumérico, entre 1 e 15 caracteres. */
     private function generateMerchantTransactionId(): string
     {
         return strtoupper(Str::random(12));
-    }
-
-    /**
-     * Regista a entrada em escrow no momento em que o pagamento é confirmado
-     * — antes disto, um projecto pago (status='published') não deixava
-     * nenhum rasto em WalletLog, por isso ficava invisível para "Total
-     * Entradas" no Painel Financeiro/Fluxo de Caixa até (e só até) um
-     * freelancer ser escolhido (ver ProjectManager::escolherFreelancer).
-     *
-     * Só o registo — não mexe em saldo/saldo_pendente, porque este projecto
-     * foi pago externamente (cartão/AppyPay), não a partir de saldo já
-     * existente na carteira. A mecânica de saldo/saldo_pendente ao escolher
-     * freelancer (e a sua reversão em ServiceCancel/Client\Dashboard) fica
-     * exactamente como estava — só deixa de criar este MESMO registo outra
-     * vez nesse momento, para não contar a entrada em duplicado.
-     *
-     * A sobretaxa de 10% cobrada ao cliente (taxa_cliente) é registada num
-     * segundo lançamento, separado do escrow do projecto — é receita
-     * imediata da plataforma, não dinheiro reservado para o freelancer, por
-     * isso não deve ser contada como parte do valor "em escrow" do projecto.
-     */
-    private function registarEntradaEmEscrow(Service $service, int $clienteId): void
-    {
-        if (!$service->valor || $service->valor <= 0) {
-            return;
-        }
-
-        $wallet = Wallet::firstOrCreate(
-            ['user_id' => $clienteId],
-            ['saldo' => 0, 'saldo_pendente' => 0, 'saque_minimo' => 1000, 'taxa_saque' => 2]
-        );
-
-        WalletLog::create([
-            'user_id'   => $clienteId,
-            'wallet_id' => $wallet->id,
-            'valor'     => -(float) $service->valor,
-            'tipo'      => 'escrow_retido',
-            'descricao' => 'Pagamento retido em escrow para o projecto: ' . $service->titulo,
-        ]);
-
-        if ((float) $service->taxa_cliente > 0) {
-            WalletLog::create([
-                'user_id'   => $clienteId,
-                'wallet_id' => $wallet->id,
-                'valor'     => -(float) $service->taxa_cliente,
-                'tipo'      => 'taxa_cliente_plataforma',
-                'descricao' => 'Taxa da plataforma (10%) sobre o projecto: ' . $service->titulo,
-            ]);
-        }
     }
 
     /**
@@ -326,77 +174,6 @@ class PaymentEscrow extends Component
         session()->forget(['client_order', 'briefing', 'briefing_title']);
     }
 
-    // ── AppyPay: Referência de pagamento ───────────────────────────────────
-
-    public function chargeAppyPayReference()
-    {
-        $this->appypay_error = '';
-
-        if ($this->valorAbaixoDoMinimo()) {
-            return;
-        }
-
-        $user = $this->getCurrentUser();
-        if (!$user) {
-            session()->flash('error', 'É necessário estar autenticado para publicar um projecto.');
-            return redirect()->route('client.payment', ['valor' => $this->valor]);
-        }
-
-        $service = $this->resolveOrCreateService($user);
-        if (!$service) {
-            session()->flash('error', 'Preencha o briefing antes de prosseguir com o pagamento.');
-            return redirect()->route('client.briefing');
-        }
-
-        $merchantTransactionId = $this->generateMerchantTransactionId();
-        $service->appypay_merchant_transaction_id = $merchantTransactionId;
-        $service->save();
-
-        $result = (new AppyPayGateway())->chargeByReference(
-            $this->valor_total,
-            'Pagamento de serviço #' . $service->id,
-            $merchantTransactionId
-        );
-
-        if (empty($result['success'])) {
-            $this->appypay_error = $result['message'] ?? 'Não foi possível gerar a referência. Tente novamente.';
-            \App\Modules\Admin\Services\AuditLogger::log(
-                'appypay_charge_ambiguous',
-                "Pedido de referência AppyPay falhou/expirou para o serviço #{$service->id} (merchantTransactionId: {$merchantTransactionId}) — estado do pagamento do lado da AppyPay não confirmado, requer verificação manual.",
-                'Service',
-                $service->id
-            );
-            return;
-        }
-
-        $service->payment_method_used = 'appypay_ref';
-        $service->appypay_charge_id   = $result['charge_id'];
-        $service->payment_reference   = $result['reference'];
-        $service->payment_entity      = $result['entity'];
-        $service->save();
-
-        PollAppyPayChargeJob::dispatch($service, $result['charge_id'], 'ref')->delay(now()->addMinutes(5));
-
-        $this->appypay_service_id = $service->id;
-        $this->appypay_charge_id  = $result['charge_id'];
-        $this->appypay_reference  = $result['reference'];
-        $this->appypay_entity     = $result['entity'];
-        $this->appypay_step       = 'reference';
-
-        session()->forget(['client_order', 'briefing', 'briefing_title']);
-    }
-
-    /** Apenas sandbox — simula o pagamento da referência gerada, para testar o fluxo de ponta a ponta. */
-    public function mockConfirmAppyPayReference()
-    {
-        if (config('services.appypay.mode') !== 'sandbox' || !$this->appypay_reference) {
-            return;
-        }
-
-        (new AppyPayGateway())->mockReferencePayment($this->appypay_reference);
-        $this->checkAppyPayStatus();
-    }
-
     /**
      * Chamado via wire:poll no ecrã de espera (a cada 3s) — verifica o estado
      * no NOSSO serviço primeiro, nunca à espera de resposta imediata da
@@ -423,7 +200,7 @@ class PaymentEscrow extends Component
         }
 
         if ($service->payment_status === 'failed') {
-            $this->appypay_error = 'O pagamento não foi confirmado. Tente novamente ou escolha outro método.';
+            $this->appypay_error = 'O pagamento não foi confirmado. Tente novamente.';
             $this->appypay_step  = 'form';
             return;
         }

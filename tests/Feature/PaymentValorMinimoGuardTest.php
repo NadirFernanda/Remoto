@@ -38,19 +38,4 @@ class PaymentValorMinimoGuardTest extends TestCase
             ->assertSet('appypay_step', 'form')
             ->assertSee('valor de pelo menos');
     }
-
-    #[Test]
-    public function nao_tenta_gerar_referencia_quando_valor_esta_abaixo_do_minimo(): void
-    {
-        PlatformSetting::set('project_min_value', '5');
-        session(['client_order' => ['payment' => ['valor' => 0]]]);
-        $client = User::factory()->create(['role' => 'cliente']);
-
-        Livewire::actingAs($client)
-            ->test(PaymentEscrow::class)
-            ->assertSet('valor', 0.0)
-            ->call('chargeAppyPayReference')
-            ->assertSet('appypay_step', 'form')
-            ->assertSee('valor de pelo menos');
-    }
 }

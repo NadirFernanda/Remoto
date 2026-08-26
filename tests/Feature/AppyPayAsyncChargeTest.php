@@ -105,6 +105,6 @@ class AppyPayAsyncChargeTest extends TestCase
             ->set('appypay_step', 'waiting')
             ->call('checkAppyPayStatus')
             ->assertSet('appypay_step', 'form')
-            ->assertSet('appypay_error', 'O pagamento não foi confirmado. Tente novamente ou escolha outro método.');
+            ->assertSet('appypay_error', 'O pagamento não foi confirmado. Tente novamente.');
     }
 }

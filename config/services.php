@@ -35,17 +35,6 @@ return [
         ],
     ],
 
-    'paypal' => [
-        'client_id'     => env('PAYPAL_CLIENT_ID'),
-        'client_secret' => env('PAYPAL_CLIENT_SECRET'),
-        'mode'          => env('PAYPAL_MODE', 'sandbox'), // 'sandbox' ou 'live'
-        'currency'      => env('PAYPAL_CURRENCY', 'USD'),
-        'aoa_usd_rate'  => env('PAYPAL_AOA_USD_RATE', 0.0011),
-        // ID do webhook registado no PayPal Developer Portal → Webhooks
-        // Necessário para verificar a assinatura dos eventos recebidos
-        'webhook_id'    => env('PAYPAL_WEBHOOK_ID', ''),
-    ],
-
     'appypay' => [
         'client_id'           => env('APPYPAY_CLIENT_ID'),
         'client_secret'       => env('APPYPAY_CLIENT_SECRET'),

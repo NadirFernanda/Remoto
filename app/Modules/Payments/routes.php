@@ -6,8 +6,6 @@ use App\Modules\Payments\Controllers\ServiceRefundController;
 use App\Modules\Payments\Controllers\TransactionHistoryController;
 use App\Modules\Payments\Controllers\FinanceHistoryExportController;
 use App\Modules\Payments\Controllers\ReceiptController;
-use App\Modules\Payments\Controllers\PayPalController;
-use App\Modules\Payments\Controllers\PayPalWebhookController;
 
 // ─── Payments Module Routes ───────────────────────────────────────────────────
 
@@ -35,14 +33,5 @@ Route::middleware(['web', 'auth', 'verified', 'role:cliente'])->group(function (
 // Histórico de transações (cross-cutting: ambos os roles)
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/transacoes', [TransactionHistoryController::class, 'index'])->name('transactions.history');
-});
-
-// ─── PayPal Callback Routes (sem role:cliente para permitir retorno do PayPal) ─
-Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/pagamento/paypal/criar', [PayPalController::class, 'create'])->name('paypal.create');
-    Route::get('/pagamento/paypal/retorno', [PayPalController::class, 'capture'])->name('paypal.capture');
-    Route::get('/pagamento/paypal/cancelar', [PayPalController::class, 'cancel'])->name('paypal.cancel');
-    // Página de aprovação local — apenas activa com PAYPAL_MODE=fake
-    Route::get('/pagamento/paypal/simular', [PayPalController::class, 'fakeApprove'])->name('paypal.fake.approve');
 });
 

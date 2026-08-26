@@ -142,7 +142,7 @@ class ProjectManager extends Component
         }
 
         // O valor deste projecto já foi cobrado do cliente no momento da
-        // publicação (cartão/AppyPay — ver PaymentEscrow::confirmPayment()),
+        // publicação (Multicaixa Express — ver PaymentEscrow::chargeAppyPayPhone()),
         // não a partir de saldo de carteira. Nunca exigir/debitar saldo aqui:
         // esse saldo nunca chega a ser creditado para este pagamento, por
         // isso a verificação bloqueava sempre a escolha de freelancer para
