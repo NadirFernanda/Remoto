@@ -67,6 +67,7 @@ class Onboarding extends Component
             return '';
         }
 
-        return view('livewire.freelancer.onboarding', compact('steps', 'completed', 'total'));
+        return view('livewire.freelancer.onboarding', compact('steps', 'completed', 'total'))
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Configuração Inicial']);
     }
 }

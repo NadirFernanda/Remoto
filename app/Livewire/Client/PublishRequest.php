@@ -19,6 +19,7 @@ class PublishRequest extends Component
 
     public function render()
     {
-        return view('livewire.client.publish-request');
+        return view('livewire.client.publish-request')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Publicar Projecto']);
     }
 }

@@ -30,6 +30,7 @@ class FinancePanel extends Component
 
     public function render()
     {
-        return view('livewire.client.finance-panel');
+        return view('livewire.client.finance-panel')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Painel Financeiro']);
     }
 }

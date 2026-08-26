@@ -45,6 +45,7 @@ class SponsorshipPanel extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.sponsorship-panel');
+        return view('livewire.freelancer.sponsorship-panel')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Patrocínio de Perfil']);
     }
 }

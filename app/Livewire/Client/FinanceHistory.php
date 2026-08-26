@@ -82,7 +82,8 @@ class FinanceHistory extends Component
 
     public function render()
     {
-        return view('livewire.client.finance-history');
+        return view('livewire.client.finance-history')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Histórico de Pagamentos']);
     }
        public function downloadReceipt($id)
     {

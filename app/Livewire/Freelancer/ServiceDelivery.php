@@ -149,6 +149,7 @@ class ServiceDelivery extends Component
 
     public function render()
     {
-        return view('livewire.freelancer.service-delivery');
+        return view('livewire.freelancer.service-delivery')
+            ->layout('layouts.dashboard', ['dashboardTitle' => 'Entrega do Serviço']);
     }
 }
