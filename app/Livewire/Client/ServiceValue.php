@@ -37,16 +37,17 @@ class ServiceValue extends Component
     }
 
     /**
-     * Decomposição do valor consoante o modo escolhido:
+     * Decomposição do valor consoante o modo escolhido — a taxa é sempre
+     * "10% do número em causa", nunca uma fórmula inversa:
      *
-     *  - "acrescentar": $valor é o valor do projecto (o que o freelancer usa
-     *    como referência). A plataforma acrescenta 10% por cima — o cliente
-     *    paga $valor + 10%.
-     *  - "descontar": $valor é o TOTAL que o cliente quer mesmo pagar (nem
-     *    mais, nem menos). Para que $base + 10% de $base reproduza esse
-     *    total exactamente, $base = $valor / (1 + taxa) — não uma simples
-     *    subtracção de 10%, que não fecha a conta (ver commit desta
-     *    funcionalidade para o porquê).
+     *  - "acrescentar": $valor é o valor do projecto. A taxa é 10% desse
+     *    valor, acrescentada por cima — o cliente paga $valor + 10%.
+     *  - "descontar": $valor é o TOTAL que o cliente quer mesmo pagar. A
+     *    taxa é 10% desse total (ex.: 10% de 10.000 = 1.000), e o que sobra
+     *    para o projecto é o total menos essa taxa.
+     *
+     * Em ambos os casos, base + taxa_cliente = total sempre — por
+     * construção, nunca por uma fórmula que precise de ser invertida.
      */
     public function getBreakdownProperty(): array
     {
@@ -54,8 +55,8 @@ class ServiceValue extends Component
 
         if ($this->modo === 'descontar') {
             $total       = round($this->valor, 2);
-            $base        = $rate > 0 ? round($total / (1 + $rate), 2) : $total;
-            $taxaCliente = round($total - $base, 2);
+            $taxaCliente = round($total * $rate, 2);
+            $base        = round($total - $taxaCliente, 2);
         } else {
             $base        = round($this->valor, 2);
             $taxaCliente = round($base * $rate, 2);
@@ -91,16 +92,18 @@ class ServiceValue extends Component
 
         $bd = $this->breakdown;
 
-        // Guarda sempre o valor BASE do projecto — é a partir dele que o
-        // ecrã de pagamento (PaymentEscrow) calcula a sobretaxa do cliente
-        // (sempre por acréscimo, ver FeeService::calculateServiceFee), por
-        // isso o modo "descontar" já tem de entregar aqui o valor
-        // back-calculado, não o total que o cliente escreveu.
+        // Guarda o valor BASE do projecto (referência do freelancer) e
+        // também a taxa/total já decompostos aqui — o ecrã de pagamento
+        // (PaymentEscrow) usa estes valores directamente em vez de os
+        // recalcular sempre por acréscimo, para respeitar o modo
+        // "descontar" (o cliente paga exactamente o total que indicou).
         $order['payment'] = [
             'valor'          => $bd['base'],
             'valor_digitado' => $this->valor,
             'modo'           => $this->modo,
-            'taxa'           => $this->taxa,
+            'taxa'           => $bd['taxa_freelancer'],
+            'taxa_cliente'   => $bd['taxa_cliente'],
+            'total_cliente'  => $bd['total'],
             'valor_liquido'  => $bd['liquido'],
         ];
         session([

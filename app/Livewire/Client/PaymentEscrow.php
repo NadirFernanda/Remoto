@@ -40,11 +40,23 @@ class PaymentEscrow extends Component
             ? (float)($pagamento['valor'] ?? $valorMinimo)
             : (float)request()->query('valor', $valorMinimo);
 
-        $fee = (new FeeService())->calculateServiceFee($this->valor);
-        $this->taxa_cliente  = $fee['taxa_cliente'];
-        $this->valor_total   = $fee['total_cliente'];
-        $this->taxa          = $fee['taxa'];
-        $this->valor_liquido = $fee['valor_liquido'];
+        if ($pagamento && isset($pagamento['taxa_cliente'], $pagamento['total_cliente'])) {
+            // Já vem decomposto do ecrã de Investimento (ServiceValue) — usar
+            // directamente em vez de recalcular sempre por acréscimo, para
+            // respeitar o modo "Descontar" escolhido lá (o cliente paga
+            // exactamente o total que indicou, com 10% simples sobre esse
+            // total — não uma fórmula inversa recalculada aqui).
+            $this->taxa_cliente  = (float) $pagamento['taxa_cliente'];
+            $this->valor_total   = (float) $pagamento['total_cliente'];
+            $this->taxa          = (float) ($pagamento['taxa'] ?? 0);
+            $this->valor_liquido = (float) ($pagamento['valor_liquido'] ?? ($this->valor - $this->taxa));
+        } else {
+            $fee = (new FeeService())->calculateServiceFee($this->valor);
+            $this->taxa_cliente  = $fee['taxa_cliente'];
+            $this->valor_total   = $fee['total_cliente'];
+            $this->taxa          = $fee['taxa'];
+            $this->valor_liquido = $fee['valor_liquido'];
+        }
     }
 
     /**
