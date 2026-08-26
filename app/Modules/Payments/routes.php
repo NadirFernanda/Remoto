@@ -26,7 +26,6 @@ Route::middleware(['web', 'auth', 'verified', 'role:cliente'])->group(function (
     Route::get('/cliente/relatorios', \App\Livewire\Client\OrderHistory::class)->name('client.reports');
     Route::get('/cliente/financeiro', \App\Livewire\Client\FinancePanel::class)->name('client.finance');
     Route::get('/cliente/reembolsos', \App\Livewire\Client\RefundsPanel::class)->name('client.refunds');
-    Route::get('/cliente/solicitar-reembolso', \App\Livewire\Client\RefundRequest::class)->name('client.refund.request');
     Route::get('/cliente/publicar-projeto', \App\Livewire\Client\PublishRequest::class)->name('client.publish.request');
 });
 

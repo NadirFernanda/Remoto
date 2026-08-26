@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Gate;
 
 use App\Models\Contract;
 use App\Models\Dispute;
-use App\Models\Refund;
 use App\Models\Review;
 use App\Models\Service;
 use App\Models\SocialPost;
@@ -16,7 +15,6 @@ use App\Models\Wallet;
 
 use App\Policies\ContractPolicy;
 use App\Policies\DisputePolicy;
-use App\Policies\RefundPolicy;
 use App\Policies\ReviewPolicy;
 use App\Policies\ServicePolicy;
 use App\Policies\SocialPostPolicy;
@@ -29,7 +27,6 @@ class AuthServiceProvider extends ServiceProvider
         Service::class    => ServicePolicy::class,
         User::class       => UserPolicy::class,
         Dispute::class    => DisputePolicy::class,
-        Refund::class     => RefundPolicy::class,
         Review::class     => ReviewPolicy::class,
         SocialPost::class => SocialPostPolicy::class,
         Contract::class   => ContractPolicy::class,
