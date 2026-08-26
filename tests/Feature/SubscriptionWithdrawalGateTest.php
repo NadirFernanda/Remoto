@@ -17,7 +17,8 @@ use Tests\TestCase;
  * criador: enquanto houver ganho_assinatura ainda não "resgatado" por um
  * saque fonte=assinaturas, o saque (feito sempre através do Painel
  * Financeiro, único ponto de saque desde o fix do bug de saque duplicado)
- * exige mínimo Kz 20.000 e um intervalo de 14 dias entre pedidos.
+ * exige mínimo Kz 20.000 — sem intervalo de dias entre pedidos (política
+ * actual: quem atingir o mínimo pode sacar a qualquer momento).
  */
 class SubscriptionWithdrawalGateTest extends TestCase
 {
@@ -115,13 +116,8 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function segundo_saque_gated_antes_de_14_dias_e_bloqueado(): void
+    public function segundo_saque_gated_no_mesmo_dia_nao_e_bloqueado_por_tempo(): void
     {
-        // SubscriptionWithdrawalGate::COOLDOWN_DIAS está temporariamente a 0
-        // (pedido em produção para testar o fluxo de saque/IBAN sem esperar
-        // 14 dias) — este teste só volta a fazer sentido depois de repor o
-        // valor real. Reactivar junto com essa reposição.
-        $this->markTestSkipped('COOLDOWN_DIAS temporariamente 0 para teste em produção — ver SubscriptionWithdrawalGate.php');
         $freelancer = $this->makeFreelancer(600000);
         $this->creditarGanhoAssinatura($freelancer, 500000);
 
@@ -131,20 +127,22 @@ class SubscriptionWithdrawalGateTest extends TestCase
             ->call('solicitarSaque')
             ->assertHasNoErrors();
 
-        // Simula a aprovação do 1º saque pelo admin, para isolar o teste do
-        // cooldown de assinaturas da regra genérica "só um saque pendente de
-        // cada vez" (que bloquearia por outro motivo).
+        // Simula a aprovação do 1º saque pelo admin, para isolar o teste da
+        // regra genérica "só um saque pendente de cada vez" (que bloquearia
+        // por outro motivo, sem ligação à regra de assinaturas).
         WalletLog::where('user_id', $freelancer->id)->where('tipo', 'saque_solicitado')->update(['tipo' => 'saque_aprovado']);
 
-        // Ainda sobra saldo atribuível (500.000 - 200.000 = 300.000) — continua gated
+        // Política actual: sem intervalo de dias — só o mínimo de 20.000
+        // conta. Ainda sobra saldo atribuível (500.000 - 200.000 = 300.000),
+        // mas um segundo saque no mesmo instante não deve ser bloqueado por tempo.
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
             ->set('valorSaque', 200000)
             ->call('solicitarSaque')
-            ->assertHasErrors('valorSaque');
+            ->assertHasNoErrors();
 
         $freelancer->wallet->refresh();
-        $this->assertEquals(400000, $freelancer->wallet->saldo); // só o 1º saque debitou
+        $this->assertEquals(200000, $freelancer->wallet->saldo); // 600.000 - 200.000 - 200.000
     }
 
     #[Test]

@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\DB;
  * Regra especial para saldo ainda por resgatar vindo de assinaturas de
  * criador: enquanto houver alguma fatia de "ganho_assinatura" ainda não
  * coberta por um saque marcado fonte=assinaturas, o saque no Painel
- * Financeiro fica sujeito a um mínimo maior e a um intervalo mínimo entre
- * pedidos.
+ * Financeiro fica sujeito a um mínimo maior (SAQUE_MINIMO). Não há
+ * intervalo de dias — quem atingir esse mínimo pode sacar a qualquer
+ * momento (COOLDOWN_DIAS fica como mecanismo disponível, caso a
+ * plataforma volte a querer um intervalo de dias no futuro, mas a
+ * política actual é zero).
  *
  * Não existe um "saldo de assinaturas" segregado — o saldo da carteira é
  * único e partilhado (ver fix do bug de saque duplicado). Isto é só um
@@ -23,8 +26,6 @@ class SubscriptionWithdrawalGate
 {
     public const SAQUE_MINIMO = 20000.0;
 
-    // TEMPORÁRIO — desactivado a pedido para testar o fluxo de saque/IBAN em
-    // produção sem esperar 14 dias. REPOR PARA 14 DEPOIS DO TESTE.
     public const COOLDOWN_DIAS = 0;
 
     /** Fatia de ganhos de assinaturas que ainda não foi "consumida" por um saque gated. */

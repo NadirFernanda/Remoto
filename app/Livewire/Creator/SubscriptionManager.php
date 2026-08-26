@@ -132,6 +132,7 @@ class SubscriptionManager extends Component
         $gatedPorAssinaturas       = $saldoAssinAtribuivel > 0;
         $diasParaProximoSaqueAssin = $gatedPorAssinaturas ? SubscriptionWithdrawalGate::diasParaProximoSaque($user->id) : 0;
         $saqueMinimoAssinaturas    = SubscriptionWithdrawalGate::SAQUE_MINIMO;
+        $cooldownDiasAssinaturas   = SubscriptionWithdrawalGate::COOLDOWN_DIAS;
 
         return view('livewire.creator.subscription-manager', compact(
             'user',
@@ -151,6 +152,7 @@ class SubscriptionManager extends Component
             'gatedPorAssinaturas',
             'diasParaProximoSaqueAssin',
             'saqueMinimoAssinaturas',
+            'cooldownDiasAssinaturas',
         ))->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 

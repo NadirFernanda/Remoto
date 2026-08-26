@@ -53,9 +53,13 @@
                 <div>
                     <p class="font-semibold">Tem saldo de assinaturas por resgatar (Kz {{ number_format($saldoAssinAtribuivel, 0, ',', '.') }}).</p>
                     <p class="mt-0.5">
-                        Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong>, com um intervalo mínimo de <strong>14 dias</strong> entre pedidos.
-                        @if($diasParaProximoSaqueAssin > 0)
-                            Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
+                        @if($cooldownDiasAssinaturas > 0)
+                            Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong>, com um intervalo mínimo de <strong>{{ $cooldownDiasAssinaturas }} dia(s)</strong> entre pedidos.
+                            @if($diasParaProximoSaqueAssin > 0)
+                                Próximo saque disponível daqui a <strong>{{ $diasParaProximoSaqueAssin }} dia(s)</strong>.
+                            @endif
+                        @else
+                            Enquanto isso, o saque mínimo é <strong>Kz {{ number_format($saqueMinimoAssinaturas, 0, ',', '.') }}</strong> — assim que atingir esse valor, pode sacar a qualquer momento, sem tempo de espera.
                         @endif
                     </p>
                 </div>

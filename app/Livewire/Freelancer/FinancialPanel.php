@@ -144,6 +144,7 @@ class FinancialPanel extends Component
             'saldoAssinAtribuivel'      => $saldoAssinAtribuivel,
             'diasParaProximoSaqueAssin' => $diasParaProximoSaqueAssin,
             'saqueMinimoAssinaturas'    => SubscriptionWithdrawalGate::SAQUE_MINIMO,
+            'cooldownDiasAssinaturas'   => SubscriptionWithdrawalGate::COOLDOWN_DIAS,
         ])->layout('layouts.dashboard', ['dashboardTitle' => '']);
     }
 }
