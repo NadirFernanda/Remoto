@@ -27,6 +27,8 @@ class Users extends Component
     public string $adminNotes = '';
     public ?string $noDocsUserName = null;
     public string $verifiedName = '';
+    public bool $verifiedNameFromOcr = false;
+    public ?string $ocrRawText = null;
 
     public function mount(): void
     {
@@ -102,7 +104,7 @@ class Users extends Component
             $this->reviewingSubmissionId = $submission->id;
             $this->adminNotes = '';
             $this->noDocsUserName = null;
-            $this->verifiedName = $submission->user->name;
+            $this->prefillVerifiedNameFromDocument($submission);
         } else {
             $user = User::findOrFail($userId);
             $this->noDocsUserName = strip_tags($user->name);
@@ -116,7 +118,24 @@ class Users extends Component
         $this->reviewingSubmissionId = $submissionId;
         $this->adminNotes = '';
         $this->noDocsUserName = null;
-        $this->verifiedName = $submission->user->name;
+        $this->prefillVerifiedNameFromDocument($submission);
+    }
+
+    /**
+     * Pré-preenche o campo "Nome completo" com uma sugestão extraída da
+     * frente do documento via Google Vision (ver KycVisionService). Se a
+     * chave da API não estiver configurada ou a extracção falhar, cai
+     * sempre no comportamento anterior (copiar o nome do perfil) — o
+     * admin confirma/corrige antes de aprovar em qualquer dos casos.
+     */
+    private function prefillVerifiedNameFromDocument(KycSubmission $submission): void
+    {
+        $ocr = app(\App\Services\KycVisionService::class)
+            ->extractFromDocument($submission->id, $submission->document_front_path);
+
+        $this->ocrRawText = $ocr['raw_text'];
+        $this->verifiedNameFromOcr = (bool) $ocr['name'];
+        $this->verifiedName = $ocr['name'] ?? $submission->user->name;
     }
 
     public function closeKycReview(): void
@@ -125,6 +144,8 @@ class Users extends Component
         $this->adminNotes = '';
         $this->noDocsUserName = null;
         $this->verifiedName = '';
+        $this->verifiedNameFromOcr = false;
+        $this->ocrRawText = null;
     }
 
     public function approveKycSubmission(): void
