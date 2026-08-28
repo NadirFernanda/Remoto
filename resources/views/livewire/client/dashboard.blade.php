@@ -59,6 +59,16 @@
 			   <span class="text-xs text-gray-700">Relatórios</span>
 			   <span class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e0f7fa] text-[#0055ff] font-semibold mt-2">Ver todos</span>
 		   </a>
+		   <a href="{{ route('client.finance') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#0055ff]/50 transition group h-full min-h-[150px]">
+			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#0055ff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+			   <span class="text-xs text-gray-700">Painel Financeiro</span>
+			   <span class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e0f7fa] text-[#0055ff] font-semibold mt-2">Ver saldo</span>
+		   </a>
+		   <a href="{{ route('client.refunds') }}" class="bg-white rounded-2xl border border-gray-200 p-5 flex flex-col items-center justify-center text-center hover:border-[#0055ff]/50 transition group h-full min-h-[150px]">
+			   <svg class="w-6 h-6 mb-2 text-gray-700 group-hover:text-[#0055ff] transition" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+			   <span class="text-xs text-gray-700">Meus Reembolsos</span>
+			   <span class="inline-block px-4 py-1.5 text-xs rounded-full bg-[#e0f7fa] text-[#0055ff] font-semibold mt-2">Ver estado</span>
+		   </a>
 	</div>
 
 
