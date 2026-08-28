@@ -10,20 +10,20 @@ use Illuminate\Support\Facades\Storage;
 class KycVisionService
 {
     /**
-     * Tenta extrair o nome completo e o texto bruto da frente do BI usando
-     * a Google Cloud Vision API. Nunca lança excepção — qualquer falha
-     * (chave em falta, rede, documento ilegível) resulta em ambos os
-     * valores a null, para nunca bloquear a revisão do KYC pelo admin.
-     * O resultado fica em cache por submissão, para reabrir o mesmo
+     * Tenta extrair o nome completo, o número do BI e o texto bruto da
+     * frente do documento usando a Google Cloud Vision API. Nunca lança
+     * excepção — qualquer falha (chave em falta, rede, documento ilegível)
+     * resulta em valores a null, para nunca bloquear a revisão do KYC pelo
+     * admin. O resultado fica em cache por submissão, para reabrir o mesmo
      * pedido não gastar uma nova chamada à API.
      *
-     * @return array{name: ?string, raw_text: ?string}
+     * @return array{name: ?string, document_number: ?string, raw_text: ?string}
      */
     public function extractFromDocument(int $submissionId, string $storagePath): array
     {
         $apiKey = config('services.google_vision.key');
         if (!$apiKey) {
-            return ['name' => null, 'raw_text' => null];
+            return ['name' => null, 'document_number' => null, 'raw_text' => null];
         }
 
         return Cache::remember(
@@ -34,11 +34,11 @@ class KycVisionService
     }
 
     /**
-     * @return array{name: ?string, raw_text: ?string}
+     * @return array{name: ?string, document_number: ?string, raw_text: ?string}
      */
     private function callVisionApi(string $apiKey, string $storagePath): array
     {
-        $empty = ['name' => null, 'raw_text' => null];
+        $empty = ['name' => null, 'document_number' => null, 'raw_text' => null];
 
         try {
             if (!Storage::disk('private')->exists($storagePath)) {
@@ -68,7 +68,11 @@ class KycVisionService
                 return $empty;
             }
 
-            return ['name' => $this->guessNameFromText($text), 'raw_text' => $text];
+            return [
+                'name'            => $this->guessNameFromText($text),
+                'document_number' => $this->guessDocumentNumberFromText($text),
+                'raw_text'        => $text,
+            ];
         } catch (\Throwable $e) {
             Log::warning('KycVisionService: erro ao processar documento', ['error' => $e->getMessage()]);
             return $empty;
@@ -112,5 +116,21 @@ class KycVisionService
         }
 
         return $lines[$index + 1] ?? null;
+    }
+
+    /**
+     * O número do BI angolano tem um formato fixo: 9 dígitos + 2 letras +
+     * 3 dígitos (ex: "003093887BE035", 14 caracteres). Procuramos esse
+     * padrão exacto em qualquer parte do texto extraído — é o campo mais
+     * fácil de identificar com segurança, porque o formato é rígido e não
+     * depende de rótulos que podem variar/faltar na leitura.
+     */
+    private function guessDocumentNumberFromText(string $text): ?string
+    {
+        if (preg_match('/\b(\d{9}[A-Za-z]{2}\d{3})\b/', $text, $m)) {
+            return mb_strtoupper($m[1]);
+        }
+
+        return null;
     }
 }

@@ -28,6 +28,8 @@ class Users extends Component
     public ?string $noDocsUserName = null;
     public string $verifiedName = '';
     public bool $verifiedNameFromOcr = false;
+    public string $documentNumber = '';
+    public bool $documentNumberFromOcr = false;
     public ?string $ocrRawText = null;
 
     public function mount(): void
@@ -122,11 +124,12 @@ class Users extends Component
     }
 
     /**
-     * Pré-preenche o campo "Nome completo" com uma sugestão extraída da
-     * frente do documento via Google Vision (ver KycVisionService). Se a
-     * chave da API não estiver configurada ou a extracção falhar, cai
-     * sempre no comportamento anterior (copiar o nome do perfil) — o
-     * admin confirma/corrige antes de aprovar em qualquer dos casos.
+     * Pré-preenche os campos "Nome completo" e "Número do BI" com sugestões
+     * extraídas da frente do documento via Google Vision (ver
+     * KycVisionService). Se a chave da API não estiver configurada ou a
+     * extracção falhar, cai sempre no comportamento anterior (nome copiado
+     * do perfil, número em branco) — o admin confirma/corrige antes de
+     * aprovar em qualquer dos casos.
      */
     private function prefillVerifiedNameFromDocument(KycSubmission $submission): void
     {
@@ -136,6 +139,8 @@ class Users extends Component
         $this->ocrRawText = $ocr['raw_text'];
         $this->verifiedNameFromOcr = (bool) $ocr['name'];
         $this->verifiedName = $ocr['name'] ?? $submission->user->name;
+        $this->documentNumberFromOcr = (bool) $ocr['document_number'];
+        $this->documentNumber = $ocr['document_number'] ?? ($submission->document_number ?? '');
     }
 
     public function closeKycReview(): void
@@ -145,21 +150,34 @@ class Users extends Component
         $this->noDocsUserName = null;
         $this->verifiedName = '';
         $this->verifiedNameFromOcr = false;
+        $this->documentNumber = '';
+        $this->documentNumberFromOcr = false;
         $this->ocrRawText = null;
     }
 
     public function approveKycSubmission(): void
     {
-        $this->validate([
-            'verifiedName' => 'required|string|max:255',
-        ], [], ['verifiedName' => 'nome completo (conforme o documento)']);
+        // "nullable" só é ignorado pela validação quando o valor é null — um
+        // texto vazio ('', o que o input envia quando fica em branco) ainda
+        // seria verificado contra a restrição de unicidade. Por isso só
+        // aplicamos a regra "unique" quando o admin realmente preencheu algo.
+        $rules = ['verifiedName' => 'required|string|max:255'];
+        if (trim($this->documentNumber) !== '') {
+            $rules['documentNumber'] = 'string|max:50|unique:kyc_submissions,document_number,' . $this->reviewingSubmissionId;
+        }
+
+        $this->validate($rules, [], [
+            'verifiedName'   => 'nome completo (conforme o documento)',
+            'documentNumber' => 'número do documento',
+        ]);
 
         $submission = KycSubmission::findOrFail($this->reviewingSubmissionId);
         $submission->update([
-            'status'      => 'approved',
-            'admin_notes' => $this->adminNotes ?: null,
-            'reviewed_by' => Auth::id(),
-            'reviewed_at' => now(),
+            'status'          => 'approved',
+            'admin_notes'     => $this->adminNotes ?: null,
+            'document_number' => $this->documentNumber !== '' ? $this->documentNumber : null,
+            'reviewed_by'     => Auth::id(),
+            'reviewed_at'     => now(),
         ]);
         $submission->user->kyc_status = 'verified';
         $submission->user->kyc_verified_name = strip_tags($this->verifiedName);

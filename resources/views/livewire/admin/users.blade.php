@@ -181,6 +181,27 @@
                     </div>
 
                     <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-sm font-semibold text-gray-700">Número do BI / documento</label>
+                            @if($documentNumberFromOcr)
+                                <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">
+                                    Sugestão automática (Google Vision)
+                                </span>
+                            @endif
+                        </div>
+                        <input type="text" wire:model="documentNumber"
+                            class="block w-full rounded-xl border border-gray-200 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
+                        @error('documentNumber') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
+                        <p class="text-xs text-gray-400 mt-1">
+                            @if($documentNumberFromOcr)
+                                Sugestão lida automaticamente do documento — confirme com a foto acima.
+                            @else
+                                Não foi possível ler o número automaticamente — pode confirmar/preencher manualmente, ou deixar em branco.
+                            @endif
+                        </p>
+                    </div>
+
+                    <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Observações / motivo (opcional)</label>
                         <textarea wire:model="adminNotes" rows="2" placeholder="Ex.: documento ilegível, expirado, etc."
                             class="block w-full rounded-xl border border-gray-200 py-2.5 px-3 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none"></textarea>
