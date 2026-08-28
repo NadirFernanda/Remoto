@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HttpCacheHeaders::class,
             \App\Http\Middleware\TrackAdminLastSeen::class,
             \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\EnsureNotSuspended::class,
         ]);
 
         $middleware->api(prepend: [

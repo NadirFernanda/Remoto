@@ -24,7 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Campos seguros para mass assignment.
      * NUNCA adicionar: role, admin_role, kyc_status, is_suspended,
-     * email_verified_at, status, *_suspended — atribuir explicitamente via código.
+     * email_verified_at, status, *_suspended, strikes_count,
+     * suspended_until — atribuir explicitamente via código.
      */
     protected $fillable = [
         'name',
@@ -224,6 +225,8 @@ class User extends Authenticatable implements MustVerifyEmail
             'two_factor_secret'         => 'encrypted',
             'two_factor_recovery_codes' => 'array',
             'profile_visibility'        => 'array',
+            'is_suspended'              => 'boolean',
+            'suspended_until'           => 'datetime',
         ];
     }
 

@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\ExpireCreatorSubscriptions::class,
         \App\Console\Commands\SendReviewReminders::class,
         \App\Console\Commands\CloseCashFlowDay::class,
+        \App\Console\Commands\ReactivateExpiredSuspensions::class,
     ];
 
     protected function schedule(Schedule $schedule)
@@ -38,6 +39,14 @@ class Kernel extends ConsoleKernel
         // Fecho diário do fluxo de caixa — snapshot histórico às 23:59
         $schedule->command('cashflow:close')
             ->dailyAt('23:59')
+            ->withoutOverlapping()
+            ->runInBackground();
+
+        // Reactivar suspensões automáticas (por advertências) já expiradas —
+        // rede de segurança para quem nunca mais tenta entrar (a middleware
+        // EnsureNotSuspended já trata disto na hora para quem tenta aceder)
+        $schedule->command('users:reactivate-expired-suspensions')
+            ->hourly()
             ->withoutOverlapping()
             ->runInBackground();
     }

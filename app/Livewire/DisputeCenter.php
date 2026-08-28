@@ -9,6 +9,7 @@ use App\Models\DisputeMessage;
 use App\Models\Service;
 use App\Events\DisputeOpened as DisputeOpenedEvent;
 use App\Notifications\DisputeOpenedNotification;
+use App\Models\Notification;
 
 class DisputeCenter extends Component
 {
@@ -78,9 +79,22 @@ class DisputeCenter extends Component
         if ($otherPartyId) {
             $otherParty = \App\Models\User::find($otherPartyId);
             if ($otherParty) {
+                // Email (canal 'mail' da notificação nativa do Laravel) — mantido
+                // para quem não abre a app com frequência.
                 $otherParty->notify(new DisputeOpenedNotification(
                     $this->dispute, $this->service, Auth::user(), $disputeUrl
                 ));
+
+                // Notificação visível no sino/painel da plataforma — a app inteira
+                // lê de App\Models\Notification, não da tabela nativa do Laravel,
+                // por isso sem isto a outra parte nunca via nada dentro da app.
+                Notification::create([
+                    'user_id'    => $otherPartyId,
+                    'service_id' => $this->service->id,
+                    'type'       => 'dispute_opened',
+                    'title'      => 'Disputa aberta',
+                    'message'    => Auth::user()->name . ' abriu uma disputa no projecto "' . $this->service->titulo . '".',
+                ]);
             }
         }
 

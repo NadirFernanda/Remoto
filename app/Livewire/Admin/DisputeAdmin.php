@@ -10,6 +10,7 @@ use App\Models\Service;
 use App\Models\Wallet;
 use App\Models\WalletLog;
 use App\Models\Notification;
+use App\Models\User;
 use App\Modules\Admin\Services\AuditLogger;
 use Illuminate\Support\Facades\DB;
 
@@ -353,6 +354,60 @@ class DisputeAdmin extends Component
         );
 
         session()->flash('success', 'Cliente reembolsado. ' . number_format($service->valor, 0, ',', '.') . ' Kz creditados na sua carteira.');
+    }
+
+    /**
+     * Advertência manual por incumprimento das responsabilidades num projecto
+     * em disputa. O admin escolhe a quem se destina, caso a caso. Ao atingir
+     * 3 advertências, a conta é suspensa automaticamente por 7 dias e a
+     * contagem reinicia.
+     */
+    public function notifyNonCompliance(int $serviceId, string $target): void
+    {
+        $service = Service::findOrFail($serviceId);
+
+        $targetIds = array_filter(array_unique(match ($target) {
+            'cliente'    => [$service->cliente_id],
+            'freelancer' => [$service->freelancer_id],
+            'both'       => [$service->cliente_id, $service->freelancer_id],
+            default      => [],
+        }));
+
+        foreach ($targetIds as $userId) {
+            $user = User::find($userId);
+            if (!$user) continue;
+
+            $user->strikes_count++;
+            $suspended = $user->strikes_count >= 3;
+
+            if ($suspended) {
+                $user->is_suspended    = true;
+                $user->status          = 'suspended';
+                $user->suspended_until = now()->addDays(7);
+                $user->strikes_count   = 0;
+            }
+            $user->save();
+
+            Notification::create([
+                'user_id'    => $userId,
+                'service_id' => $serviceId,
+                'type'       => $suspended ? 'account_suspended' : 'compliance_warning',
+                'title'      => $suspended ? 'Conta suspensa temporariamente' : 'Advertência por incumprimento',
+                'message'    => $suspended
+                    ? 'Atingiu 3 advertências por incumprimento das suas responsabilidades. A sua conta foi suspensa por 7 dias, até ' . $user->suspended_until->format('d/m/Y') . '.'
+                    : 'Foi registada uma advertência por incumprimento das suas responsabilidades no projecto "' . $service->titulo . '" (disputa administrativa).',
+            ]);
+
+            AuditLogger::log(
+                $suspended ? 'user_auto_suspended' : 'compliance_warning_issued',
+                ($suspended
+                    ? "Utilizador {$user->name} suspenso automaticamente após 3 advertências"
+                    : "Advertência por incumprimento emitida a {$user->name}") . " — projecto: {$service->titulo}",
+                'User', $userId
+            );
+        }
+
+        session()->flash('success', 'Advertência registada e utilizador notificado.');
     }
 
     public function render()
