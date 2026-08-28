@@ -82,6 +82,7 @@ class Notification extends Model
                 'review_reminder'       => $sid ? route('service.review.leave', $sid) : '#',
                 'compliance_warning'    => $sid ? route('service.dispute', $sid) : '#',
                 'account_suspended'     => '#',
+                'dispute_reminder'      => $sid ? route('service.dispute', $sid) : '#',
 
                 // ── Admin message ─────────────────────────────────────
                 'admin_message'        => route('notification.show', $this->id),

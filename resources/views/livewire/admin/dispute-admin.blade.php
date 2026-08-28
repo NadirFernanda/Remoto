@@ -203,6 +203,28 @@
                 </div>
                 @endif
 
+                {{-- Lembrete para quem não responde --}}
+                @if($selected->service && ($selected->service->cliente || $selected->service->freelancer))
+                <div class="bg-blue-50 border border-blue-200 rounded-[10px] p-3">
+                    <p class="text-xs font-semibold text-[#0055ff] mb-2">Lembrete de Resposta</p>
+                    <div class="flex items-center gap-2 flex-wrap text-xs">
+                        @if($selected->service->cliente)
+                            <button wire:click="remindParty({{ $selected->service->id }}, 'cliente')"
+                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
+                                🔔 Lembrar Cliente
+                            </button>
+                        @endif
+                        @if($selected->service->freelancer)
+                            <button wire:click="remindParty({{ $selected->service->id }}, 'freelancer')"
+                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
+                                🔔 Lembrar Freelancer
+                            </button>
+                        @endif
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-1.5">Envia uma notificação a pedir que a pessoa participe na conversa desta disputa.</p>
+                </div>
+                @endif
+
                 {{-- Message thread --}}
                 <div class="space-y-3 max-h-64 overflow-y-auto">
                     @foreach($selected->messages as $msg)

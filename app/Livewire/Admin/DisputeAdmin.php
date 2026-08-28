@@ -410,6 +410,36 @@ class DisputeAdmin extends Component
         session()->flash('success', 'Advertência registada e utilizador notificado.');
     }
 
+    /**
+     * Envia um lembrete pontual a quem ainda não respondeu numa disputa em
+     * aberto — útil quando o admin já escreveu e a outra parte continua
+     * ausente. Não substitui a notificação automática de "disputa aberta"
+     * nem a de resposta do admin, é só um empurrão manual extra.
+     */
+    public function remindParty(int $serviceId, string $target): void
+    {
+        $service = Service::findOrFail($serviceId);
+
+        $targetIds = array_filter(array_unique(match ($target) {
+            'cliente'    => [$service->cliente_id],
+            'freelancer' => [$service->freelancer_id],
+            'both'       => [$service->cliente_id, $service->freelancer_id],
+            default      => [],
+        }));
+
+        foreach ($targetIds as $userId) {
+            Notification::create([
+                'user_id'    => $userId,
+                'service_id' => $serviceId,
+                'type'       => 'dispute_reminder',
+                'title'      => 'Lembrete: disputa aguarda a sua resposta',
+                'message'    => 'Existe uma disputa em aberto no projecto "' . $service->titulo . '" que aguarda a sua resposta. Por favor participe na conversa o quanto antes.',
+            ]);
+        }
+
+        session()->flash('success', 'Lembrete enviado.');
+    }
+
     public function render()
     {
         $query = Dispute::with(['service', 'opener'])
