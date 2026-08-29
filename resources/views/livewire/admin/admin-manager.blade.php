@@ -318,7 +318,7 @@
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
                                     Senha (deixe em branco para manter)
                                 </label>
-                                <input wire:model="password" type="password" placeholder="Mínimo 10 caracteres"
+                                <input wire:model="password" type="password" placeholder="Mín. 10, com maiúscula, minúscula, número e símbolo"
                                     class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>

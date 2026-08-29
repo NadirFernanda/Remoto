@@ -225,7 +225,7 @@ class AdminManager extends Component
             'phone'          => 'nullable|string|max:30',
             'cargo'          => 'nullable|string|max:100',
             'adminRole'      => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
-            'password'       => 'nullable|string|min:10|same:passwordConfirm',
+            'password'       => ['nullable', 'same:passwordConfirm', \Illuminate\Validation\Rules\Password::min(10)->mixedCase()->numbers()->symbols()],
         ], [
             'name.required' => 'O nome do administrador é obrigatório.',
             'name.min'      => 'O nome deve ter pelo menos 2 caracteres.',

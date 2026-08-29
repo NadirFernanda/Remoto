@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password as PasswordRule;
+use App\Models\User;
 
 // Rota GET para exibir o formulário de login
 Route::get('/login', function () {
@@ -103,10 +105,21 @@ Route::get('/password/reset/{token}', function (string $token) {
 })->name('password.reset');
 
 Route::post('/password/reset', function (Request $request) {
+    // Contas de admin exigem uma senha mais forte (mínimo 10, maiúscula +
+    // minúscula + número + símbolo) — o resto dos utilizadores mantém o
+    // mínimo de 8 já usado no registo, para não travar o fluxo normal.
+    $isAdmin = User::where('email', $request->input('email'))->where('role', 'admin')->exists();
+
     $request->validate([
         'token'    => 'required',
         'email'    => 'required|email',
-        'password' => 'required|min:8|confirmed',
+        'password' => [
+            'required',
+            'confirmed',
+            $isAdmin
+                ? PasswordRule::min(10)->mixedCase()->numbers()->symbols()
+                : PasswordRule::min(8),
+        ],
     ]);
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
