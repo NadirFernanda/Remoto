@@ -313,20 +313,27 @@
                             </div>
 
                             {{-- Password --}}
+                            @if($modalMode === 'edit')
                             <div>
                                 <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">
-                                    Senha {{ $modalMode === 'edit' ? '(deixe em branco para manter)' : '*' }}
+                                    Senha (deixe em branco para manter)
                                 </label>
                                 <input wire:model="password" type="password" placeholder="Mínimo 10 caracteres"
                                     class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Confirmar Senha {{ $modalMode === 'create' ? '*' : '' }}</label>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wide">Confirmar Senha</label>
                                 <input wire:model="passwordConfirm" type="password" placeholder="Repita a senha"
                                     class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
                                 @error('passwordConfirm') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                             </div>
+                            @else
+                            <div class="sm:col-span-2 flex items-start gap-3 bg-blue-50 border border-blue-100 rounded-xl p-3.5">
+                                <svg class="w-5 h-5 text-[#0055ff] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                <p class="text-xs text-gray-600">Não é preciso definir uma senha aqui. Ao criar a conta, o administrador recebe um e-mail em <strong>{{ $email ?: '(e-mail de login)' }}</strong> para definir a sua própria palavra-passe, que passará a usar para entrar (junto com a verificação em duas etapas).</p>
+                            </div>
+                            @endif
                         </div>
 
                     {{-- ── TAB: PERMISSÕES ─────────────────────────────────── --}}

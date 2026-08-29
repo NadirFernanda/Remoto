@@ -12,6 +12,8 @@ use App\Modules\Admin\Services\AuditLogger;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class AdminManager extends Component
@@ -150,15 +152,12 @@ class AdminManager extends Component
             'phone'           => 'nullable|string|max:30',
             'cargo'           => 'nullable|string|max:100',
             'adminRole'       => ['required', Rule::in(['master', 'financeiro', 'gestor', 'suporte', 'analista'])],
-            'password'        => 'required|string|min:10|same:passwordConfirm',
         ], [
             'name.required' => 'O nome do administrador é obrigatório.',
             'name.min'      => 'O nome deve ter pelo menos 2 caracteres.',
         ], [
             'name'           => 'Nome',
             'email'          => 'E-mail de login',
-            'password'       => 'Senha',
-            'passwordConfirm'=> 'Confirmação de senha',
         ]);
 
         // Only master can create another master
@@ -173,10 +172,14 @@ class AdminManager extends Component
         }
 
         DB::transaction(function () {
+            // Senha aleatória e nunca revelada — o administrador define a sua
+            // própria ao clicar no link enviado por email (mesmo fluxo de
+            // "Esqueci a senha"), em vez de alguém digitar/partilhar uma senha
+            // inicial por ele.
             $admin = User::create([
                 'name'     => $this->name,
                 'email'    => $this->email,
-                'password' => Hash::make($this->password),
+                'password' => Hash::make(Str::random(40)),
             ]);
             $admin->role                   = 'admin';
             $admin->admin_role             = $this->adminRole === 'master' ? null : $this->adminRole;
@@ -199,9 +202,11 @@ class AdminManager extends Component
             );
         });
 
+        Password::sendResetLink(['email' => $this->email]);
+
         $createdName = $this->name;
         $this->closeModal();
-        session()->flash('success', "Administrador {$createdName} criado com sucesso.");
+        session()->flash('success', "Administrador {$createdName} criado com sucesso. Foi enviado um e-mail para {$this->email} definir a palavra-passe.");
     }
 
     private function updateAdmin(): void
