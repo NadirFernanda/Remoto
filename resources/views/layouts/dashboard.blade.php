@@ -7,6 +7,41 @@
 <div x-data="{ desktopCollapsed: false }"
      :class="desktopCollapsed ? 'dash-sidebar-collapsed' : ''"
      class="dash-wrapper">
+
+    {{-- ── Aviso de segurança ao entrar (negociar só dentro da plataforma) ── --}}
+    @if(session('show_login_notice'))
+    <div x-data="{ open: true }" x-show="open" x-cloak
+         style="position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(3,7,18,.7);backdrop-filter:blur(2px);">
+        <div x-show="open"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             style="max-width:26rem;width:100%;background:#0f1a2e;border:1px solid rgba(251,191,36,.3);border-radius:1.25rem;box-shadow:0 24px 64px rgba(0,0,0,.5);overflow:hidden;">
+            <div style="padding:1.5rem;">
+                <div style="display:flex;align-items:flex-start;gap:.875rem;">
+                    <span style="width:40px;height:40px;border-radius:10px;background:rgba(251,191,36,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <svg width="20" height="20" fill="none" stroke="#fbbf24" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                    </span>
+                    <div>
+                        <h2 style="font-size:1rem;font-weight:800;color:#f1f5f9;margin:0;">Atenção: negoceie sempre dentro da plataforma</h2>
+                    </div>
+                </div>
+                <p style="font-size:.85rem;color:#cbd5e1;line-height:1.6;margin:.875rem 0 0;">
+                    Para sua segurança, realize toda a negociação, comunicação e pagamento com o cliente ou freelancer <strong style="color:#f1f5f9;">dentro da 24 Horas Remoto</strong>. Só assim tem protecção de escrow, suporte e disputas.
+                </p>
+                <p style="font-size:.85rem;color:#cbd5e1;line-height:1.6;margin:.625rem 0 0;">
+                    A <strong style="color:#f1f5f9;">24 Horas Remoto não se responsabiliza</strong> por burlas, fraudes ou prejuízos resultantes de negociações feitas fora da plataforma.
+                </p>
+                <button @click="open = false"
+                        style="margin-top:1.25rem;width:100%;padding:.7rem;border-radius:.75rem;background:#0055ff;color:#fff;font-weight:700;font-size:.85rem;border:none;cursor:pointer;transition:background .15s;"
+                        onmouseover="this.style.background='#0044cc'" onmouseout="this.style.background='#0055ff'">
+                    Entendi
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- FAB (canto inferior direito) --}}
     <button id="dash-fab"
         @click="$store.sidebar.toggle(); desktopCollapsed = !desktopCollapsed"

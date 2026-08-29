@@ -56,6 +56,13 @@ Route::post('/login', function (Request $request) {
     Auth::login($user);
     $request->session()->regenerate();
 
+    // Aviso de segurança sobre negociar dentro da plataforma — mostrado uma
+    // vez a cada login (dados de flash, desaparecem sozinhos na navegação
+    // seguinte), apenas para clientes/freelancers/criadores.
+    if (in_array($user->role, ['cliente', 'freelancer', 'creator'])) {
+        $request->session()->flash('show_login_notice', true);
+    }
+
     // Marca o e-mail como verificado ao fazer login com senha correta
     if (!$user->hasVerifiedEmail()) {
         $user->email_verified_at = now();
