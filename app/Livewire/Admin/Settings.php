@@ -180,7 +180,7 @@ class Settings extends Component
             'creatorPaymentRelease'        => 'required|in:immediate,day_26',
             'infoprodutoPaymentRelease'    => 'required|in:immediate,7_days,14_days',
             'withdrawalProcessing'         => 'required|in:automatic,manual',
-            'withdrawalMinAmount'          => 'required|in:0,20000,60000',
+            'withdrawalMinAmount'          => 'required|numeric|min:0',
             'withdrawalLiquidityAlert'     => 'required|in:500000,1000000',
             'withdrawalMethods'            => 'required|array|min:1',
             'withdrawalMethods.*'          => 'in:bank_transfer,visa,other',

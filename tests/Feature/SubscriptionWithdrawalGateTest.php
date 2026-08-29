@@ -13,7 +13,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 /**
- * Testes para o saque no Painel Financeiro: mínimo geral de Kz 20.000 para
+ * Testes para o saque no Painel Financeiro: mínimo geral de Kz 500 para
  * todos, independentemente da origem do saldo (projectos, assinaturas, ou
  * qualquer outro ganho) — sem intervalo de dias entre pedidos.
  *
@@ -65,13 +65,13 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function saque_abaixo_de_20000_e_bloqueado_mesmo_sem_ganhos_de_assinatura(): void
+    public function saque_abaixo_de_500_e_bloqueado_mesmo_sem_ganhos_de_assinatura(): void
     {
         $freelancer = $this->makeFreelancer(50000);
 
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
-            ->set('valorSaque', 15000)
+            ->set('valorSaque', 400)
             ->call('solicitarSaque')
             ->assertHasErrors('valorSaque');
 
@@ -80,7 +80,7 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function saque_de_20000_ou_mais_e_aceite_sem_ganhos_de_assinatura(): void
+    public function saque_de_500_ou_mais_e_aceite_sem_ganhos_de_assinatura(): void
     {
         $freelancer = $this->makeFreelancer(50000);
 
@@ -101,14 +101,14 @@ class SubscriptionWithdrawalGateTest extends TestCase
     }
 
     #[Test]
-    public function com_ganhos_de_assinatura_por_resgatar_o_minimo_continua_20000(): void
+    public function com_ganhos_de_assinatura_por_resgatar_o_minimo_continua_500(): void
     {
         $freelancer = $this->makeFreelancer(300000);
         $this->creditarGanhoAssinatura($freelancer, 250000);
 
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
-            ->set('valorSaque', 15000) // abaixo do mínimo geral
+            ->set('valorSaque', 400) // abaixo do mínimo geral
             ->call('solicitarSaque')
             ->assertHasErrors('valorSaque');
 
@@ -185,7 +185,7 @@ class SubscriptionWithdrawalGateTest extends TestCase
         WalletLog::where('user_id', $freelancer->id)->where('tipo', 'saque_solicitado')->update(['tipo' => 'saque_aprovado']);
 
         // Sem mais saldo de assinaturas por resgatar — o próximo saque já não
-        // é marcado com fonte='assinaturas', mas o mínimo continua o mesmo (20.000).
+        // é marcado com fonte='assinaturas', mas o mínimo continua o mesmo (500).
         Livewire::actingAs($freelancer)
             ->test(FinancialPanel::class)
             ->set('valorSaque', 25000)

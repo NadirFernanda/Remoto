@@ -302,30 +302,10 @@
 
         {{-- Limite mínimo --}}
         <div class="border-t border-gray-100 pt-5 mb-6">
-            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Limite Mínimo de Saque</p>
-            <div class="flex flex-col gap-2">
-                <label class="flex items-center gap-3 cursor-pointer group">
-                    <input wire:model="withdrawalMinAmount" type="radio" value="20000"
-                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
-                        <strong class="font-medium">a.</strong> 20.000,00 Kz
-                    </span>
-                </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
-                    <input wire:model="withdrawalMinAmount" type="radio" value="60000"
-                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
-                        <strong class="font-medium">b.</strong> 60.000,00 Kz
-                    </span>
-                </label>
-                <label class="flex items-center gap-3 cursor-pointer group">
-                    <input wire:model="withdrawalMinAmount" type="radio" value="0"
-                        class="w-4 h-4 accent-[#0055ff] cursor-pointer">
-                    <span class="text-sm text-gray-700 group-hover:text-[#0055ff] transition-colors">
-                        <strong class="font-medium">c.</strong> Sem limite mínimo
-                    </span>
-                </label>
-            </div>
+            <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-3">Limite Mínimo de Saque (Kz)</p>
+            <input wire:model="withdrawalMinAmount" type="number" min="0" step="1" placeholder="500"
+                class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] @error('withdrawalMinAmount') border-red-400 @enderror">
+            <p class="text-xs text-gray-400 mt-1">Valor mínimo (em Kz) para qualquer utilizador poder solicitar saque. Usa 0 para não ter limite mínimo.</p>
             @error('withdrawalMinAmount') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 

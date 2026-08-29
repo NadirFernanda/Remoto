@@ -56,6 +56,6 @@ class StaleSessionValueLeakTest extends TestCase
         // do projecto A abandonado — deve cair no mínimo actual.
         Livewire::actingAs($client)
             ->test(ServiceValue::class)
-            ->assertSet('valor', 5.0);
+            ->assertSet('valor', 10000.0);
     }
 }
