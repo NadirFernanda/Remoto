@@ -207,6 +207,11 @@ class Users extends Component
 
     public function setAdminRole(int $userId, string $role): void
     {
+        // Sem esta verificação, qualquer admin (ex: "gestor") conseguia
+        // chamar este método em si próprio e tornar-se Master — falha
+        // crítica de escalonamento de privilégio encontrada em auditoria.
+        abort_if(auth()->user()->admin_role !== null, 403, 'Apenas o Admin Master pode alterar níveis de acesso.');
+
         $allowed = ['master', 'gestor', 'financeiro', 'suporte', 'analista', ''];
         if (! in_array($role, $allowed, true)) {
             return;
