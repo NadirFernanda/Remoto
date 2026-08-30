@@ -171,7 +171,7 @@ class AppyPayGateway
             $response = Http::withToken($this->getToken())
                 ->acceptJson()
                 ->timeout(12)->connectTimeout(8)
-                ->get($this->cfg['base_url'] . '/v2.0/charges/' . $chargeId);
+                ->get($this->cfg['base_url'] . '/v2.0/charges/' . rawurlencode($chargeId));
 
             if (!$response->successful()) {
                 Log::warning('AppyPay: getCharge falhou', ['charge_id' => $chargeId, 'status' => $response->status()]);

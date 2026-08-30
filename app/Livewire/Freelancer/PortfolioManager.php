@@ -58,7 +58,11 @@ class PortfolioManager extends Component
         ];
 
         if ($this->tab === 'imagem') {
-            $rules['file'] = ($this->editingId ? 'nullable' : 'required') . '|file|max:8192|mimes:jpg,jpeg,png,gif,webp,svg';
+            // "svg" foi removido: é XML e pode conter <script>, e como o
+            // ImageOptimizer não o reprocessa (fica gravado tal e qual no
+            // disco público), permitia XSS armazenado via ficheiro directo
+            // — encontrado em auditoria de segurança.
+            $rules['file'] = ($this->editingId ? 'nullable' : 'required') . '|file|max:8192|mimes:jpg,jpeg,png,gif,webp';
         } elseif ($this->tab === 'documento') {
             $rules['file'] = ($this->editingId ? 'nullable' : 'required') . '|file|max:20480|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip';
         }

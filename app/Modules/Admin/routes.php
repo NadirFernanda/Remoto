@@ -15,6 +15,18 @@ use App\Modules\Admin\Services\ExchangeRateService;
 // Base group: apenas verifica que o utilizador é admin (qualquer sub-role).
 // Cada rota/grupo aplica depois o seu próprio admin.module:X específico.
 
+// "Sair da personificação" tem de ficar FORA do grupo role:admin abaixo, e
+// registada ANTES de '/admin/impersonar/{user}' — durante a personificação a
+// sessão está autenticada como o UTILIZADOR ALVO (não admin), por isso esta
+// rota nunca seria alcançável para sair caso ficasse dentro desse grupo; e,
+// por vir depois na ordem de registo, '{user}' apanharia "sair" como se
+// fosse um ID de utilizador (dando 404). A única autorização necessária é
+// mesmo a marca de sessão 'impersonating_admin_id', validada dentro do
+// próprio controller. Encontrado em auditoria de segurança.
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/admin/impersonar/sair', [ImpersonateController::class, 'stop'])->name('admin.impersonate.stop');
+});
+
 Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
 
     // Dashboard — acessível a todos os admins
@@ -45,7 +57,6 @@ Route::middleware(['web', 'auth', 'role:admin', '2fa'])->group(function () {
     Route::get('/admin/disputas', \App\Livewire\Admin\DisputeAdmin::class)->name('admin.disputes')->middleware('admin.module:suporte');
     Route::get('/admin/suporte', \App\Livewire\Admin\AdminSupportTickets::class)->name('admin.support')->middleware('admin.module:suporte');
     Route::get('/admin/impersonar/{user}', [ImpersonateController::class, 'start'])->name('admin.impersonate.start')->middleware('admin.module:suporte');
-    Route::get('/admin/impersonar/sair', [ImpersonateController::class, 'stop'])->name('admin.impersonate.stop');
     Route::get('/admin/auditoria', \App\Livewire\Admin\AuditLogs::class)->name('admin.audit')->middleware('admin.module:audit');
     Route::get('/admin/social', \App\Livewire\Admin\SocialModeration::class)->name('admin.social.moderation')->middleware('admin.module:gestor');
     Route::get('/admin/reembolsos', \App\Livewire\Admin\RefundsAdminPanel::class)->name('admin.refunds')->middleware('admin.module:gestor');

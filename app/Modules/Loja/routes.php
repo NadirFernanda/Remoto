@@ -20,7 +20,10 @@ Route::middleware(['web', 'auth', 'role:freelancer'])->group(function () {
     Route::get('/freelancer/loja', \App\Livewire\Freelancer\Loja::class)->name('freelancer.loja');
 });
 
-// Admin loja (guarda feita via admin middleware no módulo Admin)
-Route::middleware(['web', 'auth'])->group(function () {
+// Admin loja — faltava role:admin, 2fa e admin.module aqui (encontrado em
+// auditoria de segurança): dependia só do abort_if interno do componente,
+// sem exigir 2FA nem restringir por admin_role como todas as outras
+// páginas de admin.
+Route::middleware(['web', 'auth', 'role:admin', '2fa', 'admin.module:gestor'])->group(function () {
     Route::get('/admin/loja', \App\Livewire\Admin\LojaAdmin::class)->name('admin.loja');
 });

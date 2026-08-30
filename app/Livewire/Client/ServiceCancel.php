@@ -17,6 +17,11 @@ class ServiceCancel extends Component
 
     public function mount(Service $service)
     {
+        // Sem esta verificação, qualquer cliente conseguia ver o briefing,
+        // valor e estado de um projecto de outro cliente só mudando o ID na
+        // URL — falha de IDOR encontrada em auditoria de segurança.
+        abort_if($service->cliente_id !== Auth::id(), 403);
+
         $this->service = $service;
     }
 
