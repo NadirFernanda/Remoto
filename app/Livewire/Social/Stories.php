@@ -18,13 +18,18 @@ class Stories extends Component
     public string $storyCaption = '';
 
     protected $rules = [
-        'storyFile'    => 'required|file|max:51200',
+        // Sem esta lista, qualquer tipo de ficheiro era aceite e guardado no
+        // disco público — falha crítica de upload sem restrição encontrada
+        // em auditoria (permitia, por exemplo, subir HTML/SVG com script e
+        // servi-lo directamente a partir do domínio da plataforma).
+        'storyFile'    => 'required|file|max:51200|mimes:jpg,jpeg,png,gif,webp,mp4,webm,mov,avi',
         'storyCaption' => 'nullable|string|max:300',
     ];
 
     protected $messages = [
         'storyFile.required' => 'Selecione uma imagem ou vídeo para o story.',
         'storyFile.max'      => 'O ficheiro não pode ultrapassar 50 MB.',
+        'storyFile.mimes'    => 'Formato não suportado. Use JPG, PNG, GIF, WEBP, MP4, WEBM, MOV ou AVI.',
         'storyCaption.max'   => 'A legenda não pode ter mais de 300 caracteres.',
     ];
 
