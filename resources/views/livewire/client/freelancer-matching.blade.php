@@ -62,8 +62,7 @@
                     $fl       = $item['freelancer'];
                     $fp       = $fl->freelancerProfile;
                     $rating   = $item['rating'];
-                    $metrics  = $item['metrics'];
-                    $projects = (int) ($metrics['completed_projects'] ?? 0);
+                    $projects = $item['completed_projects'];
                     $avail    = $fp->availability_status ?? 'unavailable';
                     $availLabel = match($avail) {
                         'available'   => ['Disponível',  'bg-green-100 text-green-700'],

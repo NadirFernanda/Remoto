@@ -85,7 +85,15 @@ class BlackBoxSecurityTest extends TestCase
         $this->assertGuest();
     }
 
-    /** Login com senha errada retorna erro, não autentica */
+    /**
+     * Login com senha errada retorna erro, não autentica.
+     *
+     * O erro fica sob a chave 'email' (mensagem genérica "E-mail ou senha
+     * incorrectos"), de propósito — antes distinguia "email não existe" de
+     * "senha errada" com mensagens diferentes, o que permitia descobrir
+     * quais emails estão registados na plataforma. Corrigido em auditoria
+     * de segurança.
+     */
     public function test_login_with_wrong_password_fails(): void
     {
         $user = User::factory()->create(['password' => bcrypt('senha-correta')]);
@@ -95,7 +103,7 @@ class BlackBoxSecurityTest extends TestCase
             'password' => 'senha-errada',
         ]);
 
-        $response->assertSessionHasErrors(['password']);
+        $response->assertSessionHasErrors(['email']);
         $this->assertGuest();
     }
 

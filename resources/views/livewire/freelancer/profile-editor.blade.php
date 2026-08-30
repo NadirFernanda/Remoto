@@ -172,22 +172,17 @@
             </div>
         </div>
 
-        {{-- Metrics inputs --}}
-        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Projectos concluídos</label>
-                <input type="number" wire:model.defer="metrics_completed_projects" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
-                @error('metrics_completed_projects') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
+        {{-- Métricas: só-leitura, calculadas a partir de dados reais — deixaram
+             de ser um formulário porque qualquer valor aqui influenciava
+             directamente a recomendação de freelancers aos clientes. --}}
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Projectos concluídos</p>
+                <p class="text-lg font-bold text-gray-800">{{ auth()->user()->servicesAsFreelancer()->where('status', 'completed')->count() }}</p>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Avaliação média (0-5)</label>
-                <input type="number" step="0.1" wire:model.defer="metrics_rating" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
-                @error('metrics_rating') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Ganhos totais</label>
-                <input type="number" step="0.01" wire:model.defer="metrics_total_earnings" class="block w-full rounded-lg border border-gray-200 py-2.5 px-3 text-sm text-gray-900 focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff] outline-none">
-                @error('metrics_total_earnings') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
+            <div class="p-3 bg-gray-50 border border-gray-200 rounded-xl">
+                <p class="text-xs text-gray-500 uppercase tracking-wide">Avaliação média</p>
+                <p class="text-lg font-bold text-gray-800">{{ number_format(auth()->user()->averageRating(), 1) }} / 5</p>
             </div>
         </div>
 

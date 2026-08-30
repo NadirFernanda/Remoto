@@ -108,6 +108,7 @@
                                 class="px-2 py-1 bg-orange-100 text-orange-700 border border-orange-300 rounded-lg hover:bg-orange-200 transition">
                                 ❄ Congelar
                             </button>
+                            @if(in_array(auth()->user()->admin_role, [null, 'financeiro'], true))
                             <button wire:click="releasePayment({{ $selected->service->id }})"
                                 wire:confirm="Libertar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
                                 class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition">
@@ -122,6 +123,9 @@
                                 class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition">
                                 ↩ Reembolsar → Cliente
                             </button>
+                            @else
+                            <span class="px-2 py-1 bg-gray-100 text-gray-500 rounded-lg text-xs">Só financeiro/master pode movimentar este pagamento</span>
+                            @endif
                         @else
                             <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já libertado</span>
                         @endif

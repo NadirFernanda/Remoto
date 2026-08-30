@@ -36,19 +36,20 @@ Route::post('/login', function (Request $request) {
         'password.required' => 'A senha é obrigatória.',
     ]);
 
-    // Verifica se o e-mail existe na base de dados
     $user = \App\Models\User::where('email', $request->email)->first();
 
-    if (!$user) {
-        return back()->withErrors([
-            'email' => 'Este e-mail não está registado na plataforma.',
-        ])->withInput($request->only('email'));
-    }
+    // Mensagem única para "email não existe" e "senha errada" — antes eram
+    // distintas, o que permitia a qualquer pessoa descobrir quais emails
+    // estão registados na plataforma só tentando fazer login. O
+    // Hash::check corre sempre, mesmo sem utilizador encontrado (contra um
+    // hash inválido fixo), para o tempo de resposta também não denunciar a
+    // diferença. Encontrado em auditoria de segurança.
+    $dummyHash = '$2y$12$kc/JiiewtECxFV8w7zjjY.zc8ZYeONlVeB5tU.dWN6HUf/Xg4I.M6';
+    $passwordOk = \Illuminate\Support\Facades\Hash::check($request->password, $user->password ?? $dummyHash);
 
-    // E-mail existe — verifica a senha
-    if (!\Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+    if (!$user || !$passwordOk) {
         return back()->withErrors([
-            'password' => 'A senha introduzida está incorrecta.',
+            'email' => 'E-mail ou senha incorrectos.',
         ])->withInput($request->only('email'));
     }
 
@@ -104,9 +105,18 @@ Route::get('/esqueci-senha', function () {
 Route::post('/esqueci-senha', function (Request $request) {
     $request->validate(['email' => 'required|email']);
     $status = Password::sendResetLink($request->only('email'));
-    return $status === Password::RESET_LINK_SENT
-        ? back()->with('status', __($status))
-        : back()->withErrors(['email' => __($status)]);
+
+    // Mesma mensagem quer o email exista quer não (excepto quando é mesmo
+    // um pedido repetido a bloquear por segundos — isso não denuncia se a
+    // conta existe, só que já foi pedido recentemente). Antes dizia
+    // explicitamente "não encontrámos nenhum utilizador com esse endereço",
+    // permitindo descobrir emails registados. Encontrado em auditoria de
+    // segurança.
+    if ($status === Password::RESET_THROTTLED) {
+        return back()->withErrors(['email' => __($status)]);
+    }
+
+    return back()->with('status', 'Se esse e-mail estiver registado na plataforma, foi enviado um link de recuperação de senha.');
 })->name('password.email');
 
 Route::get('/password/reset/{token}', function (string $token) {

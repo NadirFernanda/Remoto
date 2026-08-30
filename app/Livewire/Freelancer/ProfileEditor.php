@@ -34,10 +34,12 @@ class ProfileEditor extends Component
     public $email;
     public $phone;
     public $location;
-    // metrics
-    public $metrics_completed_projects;
-    public $metrics_rating;
-    public $metrics_total_earnings;
+    // Métricas (classificação, projectos concluídos, ganhos) deixaram de ser
+    // editáveis aqui — eram campos livres que qualquer freelancer podia
+    // preencher com valores inventados, e entravam directo no algoritmo que
+    // recomenda freelancers aos clientes. Passam a ser sempre calculadas a
+    // partir de avaliações/projectos reais (ver FreelancerMatchingService e
+    // User::averageRating()) — encontrado em auditoria de segurança.
     public $kyc_status;
 
     // ── Conta bancária (para saques) ─────────────────────────
@@ -103,10 +105,6 @@ class ProfileEditor extends Component
             $this->availability_status = $profile->availability_status;
             $this->skills = is_array($profile->skills) ? implode(',', $profile->skills) : $profile->skills;
             $this->languages = is_array($profile->languages) ? implode(',', $profile->languages) : $profile->languages;
-            $metrics = is_array($profile->metrics) ? $profile->metrics : (json_decode($profile->metrics, true) ?? []);
-            $this->metrics_completed_projects = $metrics['completed_projects'] ?? null;
-            $this->metrics_rating = $metrics['rating'] ?? null;
-            $this->metrics_total_earnings = $metrics['total_earnings'] ?? null;
             $this->kyc_status = $user->kyc_status ?? 'pending';
             $this->bank_name = $profile->bank_name;
             $this->bank_account_holder = $profile->bank_account_holder;
@@ -174,9 +172,6 @@ class ProfileEditor extends Component
             'availability_status' => 'nullable|string|in:available,unavailable,busy',
             'skills' => 'nullable|string|max:1000',
             'languages' => 'nullable|string|max:500',
-            'metrics_completed_projects' => 'nullable|integer|min:0',
-            'metrics_rating' => 'nullable|numeric|min:0|max:5',
-            'metrics_total_earnings' => 'nullable|numeric|min:0',
         ];
     }
 
@@ -204,11 +199,11 @@ class ProfileEditor extends Component
                 'availability_status' => $this->availability_status,
                 'skills' => $this->skills ? array_map('trim', explode(',', $this->skills)) : null,
                 'languages' => $this->languages ? array_map('trim', explode(',', $this->languages)) : null,
-                'metrics' => [
-                    'completed_projects' => $this->metrics_completed_projects ?? 0,
-                    'rating' => $this->metrics_rating ?? null,
-                    'total_earnings' => $this->metrics_total_earnings ?? 0,
-                ],
+                // "metrics" deixou de ser escrito aqui de propósito — antes
+                // isto substituía a coluna inteira, apagando 'rating_medio'/
+                // 'total_avaliacoes' calculados pelo listener
+                // UpdateTargetRatingMetrics sempre que o freelancer guardava
+                // o perfil.
             ]
         );
 

@@ -31,6 +31,23 @@ class DisputeAdmin extends Component
         abort_if(auth()->user()?->role !== 'admin', 403);
     }
 
+    /**
+     * Mediar/mensagear/congelar uma disputa fica acessível a qualquer admin
+     * com acesso a este módulo ("suporte" incluído), mas mover dinheiro de
+     * facto (libertar, dividir ou reembolsar) fica reservado a financeiro/
+     * master — encontrado em auditoria de segurança: "suporte" conseguia
+     * movimentar fundos sem depender de outro admin.
+     */
+    private function guardFinanceiro(): void
+    {
+        $adminRole = auth()->user()?->admin_role;
+        abort_if(
+            $adminRole !== null && $adminRole !== 'financeiro',
+            403,
+            'Só o financeiro ou o Admin Master pode movimentar pagamentos em disputas.'
+        );
+    }
+
     public function updatingStatusFilter(): void
     {
         $this->resetPage();
@@ -129,6 +146,8 @@ class DisputeAdmin extends Component
 
     public function releasePayment(int $serviceId): void
     {
+        $this->guardFinanceiro();
+
         $service = Service::findOrFail($serviceId);
         $before  = ['status' => $service->status, 'is_payment_released' => $service->is_payment_released];
 
@@ -194,6 +213,8 @@ class DisputeAdmin extends Component
 
     public function liberarParcial(int $serviceId): void
     {
+        $this->guardFinanceiro();
+
         $this->validate([
             'percentualFreelancer' => 'required|numeric|min:1|max:99',
         ], [
@@ -289,6 +310,8 @@ class DisputeAdmin extends Component
 
     public function reembolsarCliente(int $serviceId): void
     {
+        $this->guardFinanceiro();
+
         $service = Service::findOrFail($serviceId);
 
         if ($service->is_payment_released) {

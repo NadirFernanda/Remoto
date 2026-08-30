@@ -72,10 +72,13 @@ class FreelancerMatchingService
                 $score += self::W_BUSY;
             }
 
-            // Rating
-            $metrics = is_array($fp->metrics) ? $fp->metrics : (json_decode($fp->metrics, true) ?? []);
-            $rating  = (float) ($metrics['rating'] ?? 0);
-            $score  += $rating * self::W_RATING;
+            // Rating — sempre calculado a partir de avaliações reais, nunca
+            // do valor que o próprio freelancer escreveu no perfil (esse
+            // campo era editável livremente e influenciava esta pontuação;
+            // corrigido em auditoria de segurança).
+            $rating = $freelancer->averageRating();
+            $score += $rating * self::W_RATING;
+            $completedProjects = $freelancer->servicesAsFreelancer()->where('status', 'completed')->count();
 
             // Previous successful collaboration
             if (isset($prevSuccessIds[$freelancer->id])) {
@@ -88,12 +91,12 @@ class FreelancerMatchingService
             }
 
             return [
-                'freelancer'     => $freelancer,
-                'score'          => round($score, 2),
-                'skill_matches'  => array_unique($matches),
-                'rating'         => $rating,
-                'metrics'        => $metrics,
-                'is_candidate'   => isset($alreadyCandidateIds[$freelancer->id]),
+                'freelancer'         => $freelancer,
+                'score'              => round($score, 2),
+                'skill_matches'      => array_unique($matches),
+                'rating'             => $rating,
+                'completed_projects' => $completedProjects,
+                'is_candidate'       => isset($alreadyCandidateIds[$freelancer->id]),
             ];
         })
         ->filter()
