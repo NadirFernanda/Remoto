@@ -10,6 +10,7 @@ use App\Models\Infoproduto;
 use App\Models\InfoprodutoPatrocinioCheckout;
 use App\Modules\Loja\Services\PatrocinioService;
 use App\Modules\Payments\Services\AppyPayGateway;
+use App\Rules\NotDangerousFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -78,7 +79,10 @@ class Loja extends Component
             'tipo'     => 'required|in:ebook,audio,literatura_digital,outro',
             'preco'    => 'required|numeric|min:5000',
             'capa'     => ($this->editingId ? 'nullable' : 'required') . '|image|max:4096',
-            'arquivo'  => ($this->editingId ? 'nullable' : 'required') . '|file|max:102400',
+            // Sem lista fixa de formatos (pode ser PDF, ZIP, vídeo, software,
+            // etc.) — só bloqueia o que é genuinamente perigoso (executáveis,
+            // scripts, páginas web), encontrado em auditoria de segurança.
+            'arquivo'  => [($this->editingId ? 'nullable' : 'required'), 'file', 'max:102400', new NotDangerousFile()],
         ];
 
         $messages = [
