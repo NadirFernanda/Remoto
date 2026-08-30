@@ -107,6 +107,7 @@ class TwoFactorController extends Controller
         if ($request->filled('recovery_code')) {
             if ($this->twoFactor->consumeRecoveryCode($user, $request->string('recovery_code'))) {
                 session(['2fa_passed_at' => now()]);
+                $request->session()->regenerate();
                 AuditLogger::log('2fa_recovery_code_used', "Código de recuperação usado por {$user->name} ({$user->email}). Recomenda-se regenerar os códigos.", 'User', $user->id, category: 'sistema');
 
                 return $this->redirectForRole($user)->with('warning', 'Usou um código de recuperação. Regenere novos códigos em "Meu Perfil".');
@@ -124,6 +125,7 @@ class TwoFactorController extends Controller
         }
 
         session(['2fa_passed_at' => now()]);
+        $request->session()->regenerate();
 
         return $this->redirectForRole($user);
     }

@@ -53,7 +53,9 @@ Route::post('/login', function (Request $request) {
     }
 
     // Credenciais correctas — autenticar
-    Auth::login($user);
+    // (a caixa "lembrar-me" nunca fazia nada — Auth::login() era sempre
+    // chamado sem o 2º parâmetro; encontrado em auditoria de segurança)
+    Auth::login($user, $request->boolean('remember'));
     $request->session()->regenerate();
 
     // Aviso de segurança sobre negociar dentro da plataforma — mostrado uma
