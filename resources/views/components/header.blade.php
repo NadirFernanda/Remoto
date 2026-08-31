@@ -403,7 +403,10 @@
                 </a>
                 <a href="/login" class="nav-link">Login</a>
                 <a href="/register" class="nav-link">Registo</a>
-                <a href="{{ route('client.projects') }}" class="ml-2 px-3 py-1.5 text-sm rounded-lg bg-[#ff2d55] text-white font-semibold hover:bg-[#e60039] transition hp-btn-pulse">Publicar projecto</a>
+                <a href="{{ route('client.projects') }}"
+                   class="hp-btn-pulse"
+                   style="display:flex;align-items:center;padding:.4rem .75rem;border-radius:.6875rem;background:#ff2d55;color:#fff;font-weight:700;font-size:.78rem;text-decoration:none;white-space:nowrap;margin-left:.5rem;transition:background .15s;"
+                   onmouseover="this.style.background='#e60039'" onmouseout="this.style.background='#ff2d55'">Publicar projecto</a>
             @else
                 {{-- ── BARRA AUTENTICADA ────────────────────────────────────── --}}
                 <div style="display:flex;align-items:center;gap:.625rem;">
