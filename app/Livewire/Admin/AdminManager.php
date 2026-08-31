@@ -98,7 +98,7 @@ class AdminManager extends Component
     public function openEdit(int $id): void
     {
         $admin = User::findOrFail($id);
-        $this->guardNotSelf($id);
+        $this->guardNotSelfUnlessMaster($id);
 
         $this->editingId       = $id;
         $this->name            = $admin->name;
@@ -212,7 +212,7 @@ class AdminManager extends Component
     private function updateAdmin(): void
     {
         $admin = User::findOrFail($this->editingId);
-        $this->guardNotSelf($this->editingId);
+        $this->guardNotSelfUnlessMaster($this->editingId);
 
         $this->permTab = 'perfil'; // navegar para o tab com os campos obrigatórios antes de validar
 
@@ -230,6 +230,13 @@ class AdminManager extends Component
             'name.required' => 'O nome do administrador é obrigatório.',
             'name.min'      => 'O nome deve ter pelo menos 2 caracteres.',
         ]);
+
+        // Ao editar-se a si próprio, o Master não pode baixar o seu próprio
+        // nível — perderia acesso a esta página no mesmo instante.
+        if ($this->editingId === auth()->id() && $this->adminRole !== 'master') {
+            $this->addError('adminRole', 'Não pode remover o seu próprio nível de Admin Master.');
+            return;
+        }
 
         $before = $admin->only(['name', 'email', 'admin_role', 'admin_cargo']);
 
@@ -456,6 +463,18 @@ class AdminManager extends Component
     private function guardNotSelf(int $id): void
     {
         if ($id === auth()->id()) {
+            abort(403, 'Não pode editar a sua própria conta nesta secção.');
+        }
+    }
+
+    /**
+     * Mesma regra, mas o Master pode editar o próprio perfil aqui — só
+     * outros papéis continuam impedidos de se auto-editar (na prática só
+     * o Master consegue sequer entrar nesta página, mount() acima).
+     */
+    private function guardNotSelfUnlessMaster(int $id): void
+    {
+        if ($id === auth()->id() && auth()->user()?->admin_role !== null) {
             abort(403, 'Não pode editar a sua própria conta nesta secção.');
         }
     }
