@@ -3,18 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Finder\Finder;
 
 /**
  * Copia os ficheiros que ainda estão em storage/app/public e
- * storage/app/private para os buckets R2 configurados. Constrói os discos
- * de destino directamente a partir das variáveis de ambiente (em vez de
- * usar os discos "public"/"private" do config/filesystems.php), para poder
- * correr ANTES de esse ficheiro ser actualizado para apontar para o R2 —
- * assim os dados já estão no R2 quando a mudança de configuração for feita,
- * sem haver uma janela em que imagens/documentos ficam inacessíveis.
+ * storage/app/private para os discos "public"/"private" configurados em
+ * config/filesystems.php (que já apontam para os buckets R2). Usa
+ * config()/Storage::disk() em vez de env() directo — depois de um
+ * `config:cache`, o Laravel deixa de carregar o .env, e qualquer env()
+ * fora dos ficheiros de config passaria sempre a devolver null.
  */
 class MigrateStorageToR2 extends Command
 {
@@ -22,7 +20,7 @@ class MigrateStorageToR2 extends Command
         {--delete : Apaga o ficheiro local depois de confirmar que a cópia no R2 tem o mesmo tamanho}
         {--dry-run : Só lista o que seria migrado, sem copiar nada}';
 
-    protected $description = 'Copia storage/app/public e storage/app/private para os buckets R2 (AWS_BUCKET e AWS_BUCKET_PRIVATE)';
+    protected $description = 'Copia storage/app/public e storage/app/private para os discos "public"/"private" (R2)';
 
     public function handle(): int
     {
@@ -30,31 +28,31 @@ class MigrateStorageToR2 extends Command
         $delete = (bool) $this->option('delete');
 
         $targets = [
-            'public'  => ['root' => storage_path('app/public'), 'bucket_env' => 'AWS_BUCKET'],
-            'private' => ['root' => storage_path('app/private'), 'bucket_env' => 'AWS_BUCKET_PRIVATE'],
+            'public'  => storage_path('app/public'),
+            'private' => storage_path('app/private'),
         ];
 
-        foreach ($targets as $label => $target) {
-            $this->info("── {$label} ──");
+        foreach ($targets as $diskName => $root) {
+            $this->info("── {$diskName} ──");
 
-            if (!is_dir($target['root'])) {
+            if (!is_dir($root)) {
                 $this->line('  pasta local não existe, nada a migrar.');
                 continue;
             }
 
-            $bucket = env($target['bucket_env']);
+            $bucket = config("filesystems.disks.{$diskName}.bucket");
             if (!$bucket) {
-                $this->error("  {$target['bucket_env']} não está definido no .env — a saltar.");
+                $this->error("  config(filesystems.disks.{$diskName}.bucket) está vazio — confirma o .env e corre php artisan config:cache de novo.");
                 continue;
             }
 
-            $disk = $this->remoteDisk($bucket);
+            $disk = Storage::disk($diskName);
 
             $ok = 0;
             $failed = 0;
             $count = 0;
 
-            foreach (Finder::create()->files()->in($target['root']) as $file) {
+            foreach (Finder::create()->files()->in($root) as $file) {
                 $count++;
                 $relativePath = str_replace('\\', '/', $file->getRelativePathname());
                 $localSize = $file->getSize();
@@ -97,19 +95,5 @@ class MigrateStorageToR2 extends Command
         }
 
         return self::SUCCESS;
-    }
-
-    private function remoteDisk(string $bucket): Filesystem
-    {
-        return Storage::build([
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION', 'auto'),
-            'bucket' => $bucket,
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => filter_var(env('AWS_USE_PATH_STYLE_ENDPOINT', true), FILTER_VALIDATE_BOOLEAN),
-            'throw' => true,
-        ]);
     }
 }
