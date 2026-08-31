@@ -397,8 +397,15 @@ class AdminManager extends Component
         $admin = User::findOrFail($id);
 
         if ($admin->admin_role === null || $admin->admin_role === 'master') {
-            session()->flash('error', 'Não é possível remover o Admin Master principal.');
-            return;
+            $outrosMasters = User::where('role', 'admin')
+                ->where('id', '!=', $id)
+                ->where(fn($q) => $q->whereNull('admin_role')->orWhere('admin_role', 'master'))
+                ->count();
+
+            if ($outrosMasters === 0) {
+                session()->flash('error', 'Não é possível remover o último Admin Master do sistema.');
+                return;
+            }
         }
 
         AuditLogger::log(
