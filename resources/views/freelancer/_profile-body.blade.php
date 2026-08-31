@@ -171,7 +171,7 @@
                 @php
                     $mediaUrl = (Str::startsWith($item->media_path, 'http') || Str::startsWith($item->media_path, '/'))
                         ? $item->media_path
-                        : asset('storage/' . $item->media_path);
+                        : \Illuminate\Support\Facades\Storage::disk('public')->url($item->media_path);
                 @endphp
                 <div class="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
                     <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">

@@ -42,7 +42,7 @@
                 <dt class="text-xs uppercase text-gray-500 tracking-wide mb-1">Documento</dt>
                 <dd>
                     @if($contract->document_path)
-                        <a href="{{ asset('storage/' . $contract->document_path) }}" target="_blank"
+                        <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($contract->document_path) }}" target="_blank"
                            class="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-medium text-sm">
                             📄 Abrir PDF
                         </a>

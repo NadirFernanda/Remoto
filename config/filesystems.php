@@ -38,17 +38,35 @@ return [
             'report' => false,
         ],
 
+        // Ficheiros privados (KYC, infoprodutos pagos) — bucket R2 SEM acesso
+        // público activado. Só alcançável via chamadas assinadas com as
+        // credenciais da aplicação (download()/response()/get()), nunca por
+        // URL directo — é assim que já funcionava com o disco local, mantido
+        // ao mudar para o R2.
         'private' => [
-            'driver' => 'local',
-            'root' => storage_path('app/private'),
-            'serve' => true,
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET_PRIVATE'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+            'report' => false,
         ],
 
+        // Ficheiros públicos (avatares, capas, portfólio, anexos de chat,
+        // publicações sociais) — bucket R2 separado, esse sim com acesso
+        // público activado num domínio próprio (AWS_URL).
         'public' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'driver' => 's3',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

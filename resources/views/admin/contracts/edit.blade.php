@@ -51,7 +51,7 @@
                 <span id="doc-file-name" class="text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
             </div>
             @if($contract->document_path)
-                <a href="{{ asset('storage/' . $contract->document_path) }}" target="_blank" class="text-blue-600 underline text-xs mt-1 inline-block">Ver documento actual</a>
+                <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($contract->document_path) }}" target="_blank" class="text-blue-600 underline text-xs mt-1 inline-block">Ver documento actual</a>
             @endif
             <p class="text-xs text-gray-400 mt-1">PDF até 8MB</p>
         </div>

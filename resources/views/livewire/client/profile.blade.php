@@ -21,7 +21,7 @@
     <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
         {{-- Banner de capa --}}
         <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
-             @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
+             @if($currentCoverPhoto) style="background-image:url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
             <label for="cp-cover-input"
                    class="absolute bottom-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer transition"
                    title="Alterar foto de capa">
@@ -48,7 +48,7 @@
                 <div class="relative flex-shrink-0">
                     <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow bg-gray-100">
                         <img id="cp-avatar-preview" class="w-full h-full object-cover"
-                             src="{{ $currentProfilePhoto ? asset('storage/' . $currentProfilePhoto) : asset('img/default-avatar.svg') }}"
+                             src="{{ $currentProfilePhoto ? \Illuminate\Support\Facades\Storage::disk('public')->url($currentProfilePhoto) : asset('img/default-avatar.svg') }}"
                              alt="Foto de perfil">
                     </div>
                     <label for="cp-photo-input"

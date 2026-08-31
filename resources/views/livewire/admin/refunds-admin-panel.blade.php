@@ -80,7 +80,7 @@
                         <td class="p-3">{{ $refund->created_at->format('d/m/Y H:i') }}</td>
                         <td class="p-3">
                             @if($refund->proof)
-                                <a href="{{ asset('storage/'.$refund->proof) }}" target="_blank" class="text-[#0055ff] hover:underline text-xs">Ver ficheiro</a>
+                                <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($refund->proof) }}" target="_blank" class="text-[#0055ff] hover:underline text-xs">Ver ficheiro</a>
                             @else
                                 -
                             @endif

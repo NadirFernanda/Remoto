@@ -301,7 +301,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         // legacy support: Profile.avatar
         if ($this->profile && isset($this->profile->avatar) && $this->profile->avatar) {
-            return asset('storage/' . $this->profile->avatar);
+            return Storage::disk('public')->url($this->profile->avatar);
         }
         return asset('img/default-avatar.svg');
     }

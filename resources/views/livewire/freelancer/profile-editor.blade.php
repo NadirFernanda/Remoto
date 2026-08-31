@@ -15,7 +15,7 @@
         <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
             {{-- Banner de capa --}}
             <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
-                 @if($currentCoverPhoto) style="background-image:url('{{ asset('storage/'.$currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
+                 @if($currentCoverPhoto) style="background-image:url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
 
                 {{-- Overlay escuro ao hover sobre todo o banner --}}
                 <label for="pe-cover-input"
@@ -63,7 +63,7 @@
                     <div class="relative flex-shrink-0">
                         <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow bg-gray-100">
                             <img id="pe-avatar-preview" class="w-full h-full object-cover"
-                                 src="{{ $currentProfilePhoto ? asset('storage/' . $currentProfilePhoto) : asset('img/default-avatar.svg') }}"
+                                 src="{{ $currentProfilePhoto ? \Illuminate\Support\Facades\Storage::disk('public')->url($currentProfilePhoto) : asset('img/default-avatar.svg') }}"
                                  alt="Foto de perfil">
                         </div>
                         <label for="pe-photo-input"

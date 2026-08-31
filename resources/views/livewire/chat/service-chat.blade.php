@@ -136,15 +136,15 @@
 
                                 @if($msg->anexo)
                                     @if($isImage)
-                                        <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank" class="block mb-1">
-                                            <img src="{{ asset('storage/anexos/' . $msg->anexo) }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
+                                        <a href="{{ $msg->anexo_url }}" target="_blank" class="block mb-1">
+                                            <img src="{{ $msg->anexo_url }}" alt="{{ $displayName }}" class="max-h-48 max-w-full rounded-xl shadow">
                                         </a>
                                     @elseif($isAudio)
                                         <audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg">
-                                            <source src="{{ asset('storage/anexos/' . $msg->anexo) }}">
+                                            <source src="{{ $msg->anexo_url }}">
                                         </audio>
                                     @else
-                                        <a href="{{ asset('storage/anexos/' . $msg->anexo) }}" target="_blank"
+                                        <a href="{{ $msg->anexo_url }}" target="_blank"
                                            title="{{ $displayName }}"
                                            style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};max-width:100%;overflow:hidden;box-sizing:border-box;">
                                             <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
@@ -421,7 +421,7 @@
                     window.appendChatMessage = function(data, isMine) {
                         const container = document.getElementById('chat-messages');
                         if (!container) return;
-                        const storageBase = '{{ rtrim(asset('storage'), '/') }}/';
+                        const storageBase = '{{ rtrim(\Illuminate\Support\Facades\Storage::disk('public')->url(''), '/') }}/';
                         let attachHtml = '';
                         if (data.anexo) {
                             const ext = (data.ext || '').toLowerCase();

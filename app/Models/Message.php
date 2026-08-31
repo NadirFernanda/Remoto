@@ -32,6 +32,6 @@ class Message extends Model
 
     public function getAnexoUrlAttribute()
     {
-        return $this->anexo ? asset('storage/anexos/' . $this->anexo) : null;
+        return $this->anexo ? \Illuminate\Support\Facades\Storage::disk('public')->url('anexos/' . $this->anexo) : null;
     }
 }

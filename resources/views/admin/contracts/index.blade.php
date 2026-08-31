@@ -136,7 +136,7 @@
                     </td>
                     <td class="py-3 px-5 text-sm">
                         @if($contract->document_path)
-                            <a href="{{ asset('storage/' . $contract->document_path) }}" target="_blank" class="text-emerald-600 hover:text-emerald-800 font-medium">Abrir PDF</a>
+                            <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($contract->document_path) }}" target="_blank" class="text-emerald-600 hover:text-emerald-800 font-medium">Abrir PDF</a>
                         @else
                             <span class="text-gray-400">Sem documento</span>
                         @endif

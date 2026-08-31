@@ -106,7 +106,7 @@
                     {{-- Avatar --}}
                     <div class="relative flex-shrink-0">
                         @if($admin->profile_photo)
-                            <img src="{{ asset('storage/' . $admin->profile_photo) }}"
+                            <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($admin->profile_photo) }}"
                                  alt="{{ $admin->name }}"
                                  class="w-12 h-12 rounded-xl object-cover">
                         @else
