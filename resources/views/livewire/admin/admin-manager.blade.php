@@ -146,7 +146,7 @@
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 012.828 2.828L11.414 16H9v-2.586z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18"/></svg>
                                         Editar
                                     </button>
-                                    @if(!$isMaster)
+                                    @if(!$isMaster || $totalMasters > 1)
                                         <button
                                             x-on:click="confirmDelete = {{ $admin->id }}"
                                             class="inline-flex items-center gap-1.5 text-xs text-red-500 hover:text-red-700 hover:bg-red-50 border border-red-200 rounded-lg px-3 py-1.5 transition">

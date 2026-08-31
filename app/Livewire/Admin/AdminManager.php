@@ -543,7 +543,11 @@ class AdminManager extends Component
 
         $modules = AdminPermission::MODULES;
 
-        return view('livewire.admin.admin-manager', compact('admins', 'modules'))
+        $totalMasters = User::where('role', 'admin')
+            ->where(fn($q) => $q->whereNull('admin_role')->orWhere('admin_role', 'master'))
+            ->count();
+
+        return view('livewire.admin.admin-manager', compact('admins', 'modules', 'totalMasters'))
             ->layout('layouts.dashboard', ['dashboardTitle' => 'Gestão de Administradores']);
     }
 }
