@@ -41,8 +41,12 @@
                         <table cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                             <tr>
                                 <td style="background:#00baff;border-radius:8px;">
-                                    <a href="{{ url('/freelancer/projetos') }}" style="display:inline-block;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">
-                                        Ver Outros Projetos →
+                                    <a href="{{ url('/freelancer/projetos') }}" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">
+                                        <span>Ver Outros Projetos</span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M5 12h14"/>
+                                            <path d="M13 5l7 7-7 7"/>
+                                        </svg>
                                     </a>
                                 </td>
                             </tr>
