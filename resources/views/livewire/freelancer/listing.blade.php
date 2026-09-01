@@ -91,10 +91,10 @@
     border-color: #ade8ff;transform: translateY(-3px);
 }
 .fsp-card-cover {
-    height: 70px;flex-shrink: 0;position: relative;
-    background: linear-gradient(120deg, #0575e6 0%, #0055ff 100%);
-}
-.fsp-card-avatar {
+height: 70px;flex-shrink: 0;position: relative;
+background: linear-gradient(120deg, #0575e6 0%, #0055ff 100%);
+overflow: hidden;
+}.fsp-card-avatar {
     position: absolute;bottom: -22px;left: 15px;z-index: 1;
 }
 .fsp-card-avatar img {
@@ -252,7 +252,7 @@
             <div wire:key="freelancer-listing-{{ $freelancer->id }}" class="fsp-card" onclick="window.location='{{ route('freelancer.show', $freelancer) }}'">
 
                 {{-- Cover --}}
-                <div class="fsp-card-cover">
+                <div class="fsp-card-cover" @if($freelancer->coverPhotoUrl()) style="background-image: url('{{ $freelancer->coverPhotoUrl() }}'); background-size: cover; background-position: center;" @endif>
                     @if($freelancer->kyc_status === 'verified')
                         <div class="fsp-badge-verified">
                             <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -261,6 +261,7 @@
                             Verificado
                         </div>
                     @endif
+
                     <div class="fsp-card-avatar">
                         <div style="position:relative;display:inline-block;">
                             <img src="{{ $freelancer->avatarUrl() }}" alt="{{ $freelancer->name }}" loading="lazy"
