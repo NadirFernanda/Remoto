@@ -13,7 +13,9 @@
     </div>
 
     <div class="js-pwa-installed-msg" style="background:#141928;border:1px solid rgba(16,185,129,.25);border-radius:1rem;padding:1.75rem;text-align:center;">
-        <div style="font-size:2rem;margin-bottom:.5rem;">✅</div>
+        <div style="font-size:2rem;margin-bottom:.5rem;display:flex;justify-content:center;align-items:center;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 9.2 16.7 19 6.9"/></svg>
+        </div>
         <h2 style="font-size:1rem;font-weight:700;color:#f1f5f9;margin:0;">Já está instalada</h2>
         <p style="color:#94a3b8;font-size:.875rem;margin:.5rem 0 0;">Encontra o ícone no seu ecrã principal ou lista de aplicações.</p>
         <p style="margin:1rem 0 0;">
@@ -26,7 +28,9 @@
 
     <div class="js-pwa-install-cta" style="background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:1.75rem;text-align:center;">
         @if($isIos)
-            <div style="font-size:2rem;margin-bottom:.5rem;">📲</div>
+            <div style="font-size:2rem;margin-bottom:.5rem;display:flex;justify-content:center;align-items:center;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M10 18h4"/></svg>
+            </div>
             <div style="text-align:left;background:rgba(255,255,255,.04);border-radius:.75rem;padding:1rem 1.25rem;">
                 <p style="color:#cbd5e1;font-size:.875rem;line-height:1.7;margin:0;">
                     1. Toque no ícone <strong>Partilhar</strong>

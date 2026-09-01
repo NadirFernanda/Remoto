@@ -23,7 +23,7 @@
 </head>
 <body>
     <div class="err-box">
-        <div class="err-icon">🔒</div>
+        <div class="err-icon"><svg class="err-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg></div>
         <div class="err-code">403</div>
         <h1 class="err-title">Acesso negado</h1>
         <p class="err-msg">

@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Log;
  * a interface lenta sem necessidade — se falhar, tenta-se de novo no
  * próximo ciclo.
  *
- * ⚠️ Se algum chamador voltar a fazer chargeByPhone()/chargeByReference()
+ * Atenção: se algum chamador voltar a fazer chargeByPhone()/chargeByReference()
  * de forma síncrona num pedido web, o timeout de 45s exige
  * max_execution_time do PHP-FPM >= 75s (ver histórico deste ficheiro) —
  * caso contrário o PHP pode matar o processo a meio antes do try/catch

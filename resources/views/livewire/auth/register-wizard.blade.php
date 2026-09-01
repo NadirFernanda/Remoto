@@ -441,7 +441,7 @@
                 </div>
 
                 <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.75rem 1rem;font-size:.78rem;color:#1d4ed8;margin-bottom:1rem;">
-                    <p style="font-weight:700;margin-bottom:.2rem;">🔒 Os seus documentos estão seguros</p>
+                    <p style="font-weight:700;margin-bottom:.2rem;display:flex;align-items:center;gap:.5rem;"><svg style="width:16px;height:16px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg> Os seus documentos estão seguros</p>
                     <p>Armazenados de forma privada, apenas acessíveis pela equipa de verificação da 24HORAS.</p>
                 </div>
 

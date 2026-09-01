@@ -271,10 +271,10 @@
                         Eliminar seleccionados
                     </button>
                     <button wire:click="bulkDeleteSelected(true)"
-                        wire:confirm="⚠ FORÇAR ELIMINAÇÃO de {{ count($selected) }} utilizador(es)?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois.&#10;&#10;Só confirme se tiver a certeza absoluta de que nenhuma destas contas tem dinheiro ou actividade real."
+                        wire:confirm="FORÇAR ELIMINAÇÃO de {{ count($selected) }} utilizador(es)?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois.&#10;&#10;Só confirme se tiver a certeza absoluta de que nenhuma destas contas tem dinheiro ou actividade real."
                         title="Ignora a protecção de saldo/projectos/assinaturas — usar com muito cuidado"
                         class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-red-700 rounded-lg hover:bg-red-800 transition">
-                        ⚠ Forçar eliminação
+                        Forçar eliminação
                     </button>
                 @endif
                 <button wire:click="$set('selected', []); $set('selectPage', false)" class="text-xs text-gray-400 hover:text-gray-600 transition px-2">
@@ -455,10 +455,10 @@
                                                 Eliminar conta
                                             </button>
                                             <button wire:click="deleteUser({{ $user->id }}, true)" @click="open = false"
-                                                wire:confirm="⚠ FORÇAR ELIMINAÇÃO de &quot;{{ $user->name }}&quot; ({{ $user->email }})?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois."
+                                                wire:confirm="FORÇAR ELIMINAÇÃO de &quot;{{ $user->name }}&quot; ({{ $user->email }})?&#10;&#10;Isto IGNORA a protecção de saldo/projectos/assinaturas e apaga tudo PERMANENTEMENTE — incluindo saldo em carteira real, se existir. Não há forma de recuperar depois."
                                                 title="Ignora a protecção de saldo/projectos/assinaturas — usar com muito cuidado"
                                                 class="w-full flex items-center gap-2.5 px-3.5 py-2 text-xs font-bold text-white bg-red-700/90 hover:bg-red-700 transition text-left">
-                                                ⚠ Forçar eliminação
+                                                Forçar eliminação
                                             </button>
                                         @endif
                                     </div>

@@ -108,7 +108,7 @@
 
         @if($business_type1 && $business_type1 !== 'Outro' && !empty($currentTemplate))
             <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-2">💡 Dica para o seu briefing</p>
+                <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-2 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica para o seu briefing</p>
                 <p class="text-sm text-amber-800">{{ $currentTemplate['tips'] ?? '' }}</p>
             </div>
         @endif
@@ -182,7 +182,7 @@
                 </div>
                 @if(!empty($currentTemplate['tips']))
                 <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1">💡 Dica</p>
+                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica</p>
                     <p class="text-xs text-amber-800 leading-relaxed">{{ $currentTemplate['tips'] }}</p>
                 </div>
                 @endif

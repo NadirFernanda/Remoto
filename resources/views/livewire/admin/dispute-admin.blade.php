@@ -6,7 +6,7 @@
     {{-- Projectos em moderação sem disputa formal --}}
     @if($orphanModerations->count() > 0)
         <div class="mb-5 bg-orange-50 border border-orange-200 rounded-2xl p-4">
-            <h3 class="text-sm font-bold text-orange-800 mb-3">⚠ Projectos em moderação sem disputa formal ({{ $orphanModerations->count() }})</h3>
+            <h3 class="text-sm font-bold text-orange-800 mb-3">Projectos em moderação sem disputa formal ({{ $orphanModerations->count() }})</h3>
             <div class="space-y-2">
                 @foreach($orphanModerations as $svc)
                     <div class="flex items-center justify-between bg-white border border-orange-100 rounded-xl px-4 py-2 text-sm">
@@ -188,7 +188,7 @@
                             <button wire:click="notifyNonCompliance({{ $selected->service->id }}, 'cliente')"
                                 wire:confirm="Registar advertência por incumprimento ao cliente {{ $selected->service->cliente->name }}? Ao chegar a 3, a conta é suspensa automaticamente por 7 dias."
                                 class="px-2 py-1 bg-red-100 text-red-700 border border-red-300 rounded-lg hover:bg-red-200 transition">
-                                ⚠ Advertir Cliente
+                                Advertir Cliente
                             </button>
                             <span class="text-gray-300">·</span>
                         @endif
@@ -199,7 +199,7 @@
                             <button wire:click="notifyNonCompliance({{ $selected->service->id }}, 'freelancer')"
                                 wire:confirm="Registar advertência por incumprimento ao freelancer {{ $selected->service->freelancer->name }}? Ao chegar a 3, a conta é suspensa automaticamente por 7 dias."
                                 class="px-2 py-1 bg-red-100 text-red-700 border border-red-300 rounded-lg hover:bg-red-200 transition">
-                                ⚠ Advertir Freelancer
+                                Advertir Freelancer
                             </button>
                         @endif
                     </div>
@@ -215,13 +215,13 @@
                         @if($selected->service->cliente)
                             <button wire:click="remindParty({{ $selected->service->id }}, 'cliente')"
                                 class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
-                                🔔 Lembrar Cliente
+                                Lembrar Cliente
                             </button>
                         @endif
                         @if($selected->service->freelancer)
                             <button wire:click="remindParty({{ $selected->service->id }}, 'freelancer')"
                                 class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
-                                🔔 Lembrar Freelancer
+                                Lembrar Freelancer
                             </button>
                         @endif
                     </div>

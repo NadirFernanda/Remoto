@@ -11,18 +11,18 @@ const logoutBtn = document.getElementById('logout-btn');
 function quickLinksFor(role) {
   const dashboardPath = { admin: '/admin/dashboard', freelancer: '/freelancer/dashboard' }[role] || '/cliente/dashboard';
   const links = [
-    { label: '📊 Painel', path: dashboardPath },
-    { label: '💬 Mensagens', path: '/mensagens' },
+    { label: 'Painel', path: dashboardPath },
+    { label: 'Mensagens', path: '/mensagens' },
   ];
 
   if (role === 'freelancer') {
-    links.push({ label: '🔔 Notificações', path: '/freelancer/notificacoes' });
-    links.push({ label: '💰 Carteira', path: '/freelancer/carteira' });
+    links.push({ label: 'Notificações', path: '/freelancer/notificacoes' });
+    links.push({ label: 'Carteira', path: '/freelancer/carteira' });
   } else if (role === 'admin') {
-    links.push({ label: '💰 Financeiro', path: '/admin/financeiro' });
+    links.push({ label: 'Financeiro', path: '/admin/financeiro' });
   } else {
-    links.push({ label: '🔔 Notificações', path: '/notificacoes' });
-    links.push({ label: '💰 Financeiro', path: '/cliente/financeiro' });
+    links.push({ label: 'Notificações', path: '/notificacoes' });
+    links.push({ label: 'Financeiro', path: '/cliente/financeiro' });
   }
 
   return links;

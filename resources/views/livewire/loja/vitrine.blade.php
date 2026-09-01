@@ -6,7 +6,8 @@
         <div class="absolute right-16 bottom-[-3rem] w-40 h-40 rounded-full bg-white/10"></div>
         <div class="relative">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/15 backdrop-blur-sm mb-3">
-                🛍️ Loja Oficial
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+                Loja Oficial
             </span>
             <h2 class="text-2xl sm:text-3xl font-extrabold">Loja de Infoprodutos</h2>
             <p class="text-sm text-white/80 mt-1.5 max-w-md">E-books, áudios, literatura digital e muito mais, feitos pelos melhores freelancers da plataforma.</p>
@@ -39,7 +40,7 @@
     @if($maisVendidos->isNotEmpty())
     <div>
         <div class="flex items-center gap-2 mb-3">
-            <span class="text-lg">🔥</span>
+            <svg class="w-5 h-5 text-amber-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2c.7 3.3-1.6 5.1-2.7 7.1C9.3 11.9 9 13.9 9 15.3A4.5 4.5 0 0 0 17 15.3c0-3.4-2.9-5.3-4-8.3Z"/><path d="M12 14c-1.5 0-2.8 1-3.2 2.5-.5 1.8 1 3.5 3.2 3.5s3.7-1.7 3.2-3.5A3.3 3.3 0 0 0 12 14Z"/></svg>
             <h3 class="text-white font-bold text-base">Mais vendidos</h3>
         </div>
         <div class="flex gap-4 overflow-x-auto pb-2 -mx-1 px-1" style="scrollbar-width:thin;">

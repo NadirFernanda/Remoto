@@ -171,7 +171,7 @@
                         </div>
                     @else
                         <div class="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-xs text-red-600">
-                            ⚠ Post #{{ $r->reportable_id }} não encontrado (pode já ter sido eliminado).
+                            Post #{{ $r->reportable_id }} não encontrado (pode já ter sido eliminado).
                         </div>
                     @endif
                 @elseif($r->reportable_type === 'user')
@@ -198,7 +198,7 @@
                                 @endif
                             </div>
                         @else
-                            <p class="text-xs text-red-600">⚠ Utilizador #{{ $r->reportable_id }} não encontrado.</p>
+                            <p class="text-xs text-red-600">Utilizador #{{ $r->reportable_id }} não encontrado.</p>
                         @endif
                     </div>
                 @endif

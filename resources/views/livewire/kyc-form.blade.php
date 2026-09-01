@@ -158,7 +158,7 @@
             </div>
 
             <div class="p-4 bg-blue-50 border border-blue-100 rounded-lg text-blue-700 text-sm mb-6">
-                <p class="font-semibold mb-1">🔒 Os seus documentos estão seguros</p>
+                <p class="font-semibold mb-1 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/></svg> Os seus documentos estão seguros</p>
                 <p>Os ficheiros são armazenados de forma privada e apenas acessíveis pela equipa de verificação da 24HORAS. Não são partilhados com terceiros.</p>
             </div>
 

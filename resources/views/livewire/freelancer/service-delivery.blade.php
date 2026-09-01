@@ -19,7 +19,8 @@
     @endphp
     <div class="bg-white rounded-lg shadow p-6 mb-6 border-l-4 border-sky-400">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-sky-500">📋</span> Resumo do Projecto
+            <svg class="w-4 h-4 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h12"/><path d="M8 12h12"/><path d="M8 18h12"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+            Resumo do Projecto
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
 
@@ -98,7 +99,8 @@
         <div class="mt-4 pt-4 border-t border-gray-100 flex justify-end">
             <a href="{{ route('service.chat', $service->id) }}"
                class="inline-flex items-center gap-1 text-xs text-sky-600 hover:text-sky-800 font-semibold">
-                💬 Ir para o chat do projecto
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 8h8"/><path d="M8 12h8"/></svg>
+                Ir para o chat do projecto
             </a>
         </div>
     </div>
@@ -106,7 +108,7 @@
     {{-- ── Formulário de entrega ── --}}
     <div class="bg-white rounded-lg shadow p-6 mb-6">
         <h3 class="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
-            <span class="text-sky-500">📤</span>
+            <svg class="w-4 h-4 text-sky-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m16 17-4 4-4-4"/><path d="M4 14v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             @if($service->status === 'revision_requested')
                 Re-entregar Serviço (Revisão Pedida)
             @elseif($service->status === 'delivered')
@@ -125,7 +127,7 @@
         </div>
         @elseif($service->status === 'delivered')
         <div class="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-lg text-orange-700 text-sm">
-            <p class="font-semibold">⚠️ Este projecto já foi entregue e aguarda aprovação do cliente.</p>
+            <p class="font-semibold flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 9v3.75"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg> Este projecto já foi entregue e aguarda aprovação do cliente.</p>
             <p class="mt-1">Se o cliente pediu revisões, pode submeter uma nova entrega abaixo. O pagamento só será libertado quando o cliente aprovar.</p>
         </div>
         @endif

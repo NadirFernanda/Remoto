@@ -36,7 +36,7 @@
             <select wire:model="category" class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 <option value="">Selecione uma categoria</option>
                 <option value="pagamento">💳 Pagamento</option>
-                <option value="projecto">📁 Projecto</option>
+                <option value="projecto">Projecto</option>
                 <option value="conta">👤 Conta</option>
                 <option value="tecnico">🔧 Técnico</option>
                 <option value="outro">❓ Outro</option>

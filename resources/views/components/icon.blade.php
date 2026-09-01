@@ -1,5 +1,6 @@
 @php
-    // Simple inline icon include. Usage: @include('components.icon', ['name' => 'save', 'class' => 'mr-2'])
+    // Lucide-inspired inline icon system for Blade.
+    // Usage: @include('components.icon', ['name' => 'save', 'class' => 'mr-2'])
     $icon = $name ?? null;
     $c = $class ?? '';
     if (! $icon) {
@@ -101,6 +102,56 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+        @break
+    @case('star')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2.75l2.8 5.67 6.25.91-4.53 4.42 1.07 6.24L12 0.35l-5.59 2.94 1.07-6.24L2.95 9.33l6.25-.91L12 2.75z"></path>
+        </svg>
+        @break
+    @case('sparkles')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.8 4.7L18.5 9l-4.7 1.3L12 15l-1.8-4.7L5.5 9l4.7-1.3L12 3z"></path>
+            <path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"></path>
+            <path d="M5 15l.9 2.1L8 18l-2.1.9L5 21l-.9-2.1L2 18l2.1-.9L5 15z"></path>
+        </svg>
+        @break
+    @case('shield-check')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v6c0 4.5-2.8 8.3-7 10-4.2-1.7-7-5.5-7-10V6l7-3z"></path>
+            <path d="M9.5 12.5l1.5 1.5 3.5-4"></path>
+        </svg>
+        @break
+    @case('briefcase')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="7" width="18" height="12" rx="2"></rect>
+            <path d="M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"></path>
+            <path d="M3 12h18"></path>
+        </svg>
+        @break
+    @case('globe')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"></path>
+        </svg>
+        @break
+    @case('chart')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 18h18"></path>
+            <path d="M7 14l3-3 3 2 5-7"></path>
+            <path d="M17 6h3v3"></path>
+        </svg>
+        @break
+    @case('store')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 9h16l-1 10H5L4 9z"></path>
+            <path d="M8 9V7a4 4 0 1 1 8 0v2"></path>
+        </svg>
+        @break
+    @case('badge-check')
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon {{ $c }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 12l3 3 7-7"></path>
+            <path d="M12 3.5l7 3v5c0 4-2.7 7.5-7 9.5-4.3-2-7-5.5-7-9.5v-5l7-3z"></path>
         </svg>
         @break
     @default

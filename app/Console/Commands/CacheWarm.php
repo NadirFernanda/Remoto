@@ -18,7 +18,7 @@ class CacheWarm extends Command
 
     public function handle(): int
     {
-        $this->info('🔥 A aquecer cache...');
+        $this->info('A aquecer cache...');
 
         // ── 1. Projetos públicos (primeiras 3 páginas) ────────────────────────
         $this->task('Projetos públicos (pág. 1-3)', function () {
@@ -92,7 +92,7 @@ class CacheWarm extends Command
                 });
         });
 
-        $this->info('✅ Cache aquecido com sucesso!');
+        $this->info('Cache aquecido com sucesso!');
         return self::SUCCESS;
     }
 

@@ -14,15 +14,24 @@
             <h2 class="text-xl md:text-2xl font-extrabold text-[#0f172a] mb-4">Por que trabalhar na 24 Horas Remoto?</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-1">🚀 Missão com impacto</div>
+                    <div class="text-[#00baff] font-extrabold mb-1 flex items-center gap-2">
+                        @include('components.icon', ['name' => 'sparkles', 'class' => 'w-4 h-4'])
+                        Missão com impacto
+                    </div>
                     <p class="text-[#64748b] text-base m-0 leading-relaxed">O seu trabalho muda directamente a vida de freelancers e empresas angolanas.</p>
                 </div>
                 <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-1">🌍 100% Remoto</div>
+                    <div class="text-[#00baff] font-extrabold mb-1 flex items-center gap-2">
+                        @include('components.icon', ['name' => 'globe', 'class' => 'w-4 h-4'])
+                        100% Remoto
+                    </div>
                     <p class="text-[#64748b] text-base m-0 leading-relaxed">Trabalhe de qualquer lugar de Angola — ou do mundo — com flexibilidade total.</p>
                 </div>
                 <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-1">📈 Crescimento acelerado</div>
+                    <div class="text-[#00baff] font-extrabold mb-1 flex items-center gap-2">
+                        @include('components.icon', ['name' => 'chart', 'class' => 'w-4 h-4'])
+                        Crescimento acelerado
+                    </div>
                     <p class="text-[#64748b] text-base m-0 leading-relaxed">Equipa pequena, decisões rápidas, visibilidade real do seu trabalho desde o primeiro dia.</p>
                 </div>
             </div>

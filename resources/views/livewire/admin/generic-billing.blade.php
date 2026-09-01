@@ -17,9 +17,9 @@
         <select wire:model.live="tipo"
             class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-gray-600 focus:ring-2 focus:ring-[#0070ff]/30 focus:outline-none">
             <option value="">Todos os serviços</option>
-            <option value="projetos">📁 Meus Projectos</option>
-            <option value="infoprodutos">🛒 Infoprodutos</option>
-            <option value="assinaturas">⭐ Assinaturas</option>
+            <option value="projetos">Meus Projectos</option>
+            <option value="infoprodutos">Infoprodutos</option>
+            <option value="assinaturas">Assinaturas</option>
         </select>
 
         {{-- Datas --}}
@@ -76,10 +76,10 @@
                 default        => 'bg-gray-50 border-gray-200 text-gray-700',
             };
             $icon = match($tipoNome) {
-                'Projectos'    => '📁',
-                'Infoprodutos' => '🛒',
-                'Assinaturas'  => '⭐',
-                default        => '📄',
+                'Projectos'    => '•',
+                'Infoprodutos' => '•',
+                'Assinaturas'  => '•',
+                default        => '•',
             };
         @endphp
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-medium {{ $cor }}">

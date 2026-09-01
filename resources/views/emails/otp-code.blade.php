@@ -33,7 +33,7 @@
                             </tr>
                         </table>
                         <p style="color:#ef4444;font-size:14px;line-height:1.6;margin:0 0 16px;">
-                            ⚠️ Nunca partilhe este código com ninguém. A nossa equipa jamais solicitará o seu código de verificação.
+                            Atenção: nunca partilhe este código com ninguém. A nossa equipa jamais solicitará o seu código de verificação.
                         </p>
                         <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0;">
                             Se não foi você a solicitar este código, pode ignorar este e-mail com segurança.

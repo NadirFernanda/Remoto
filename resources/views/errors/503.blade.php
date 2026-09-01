@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="err-box">
-        <div class="err-icon">🛠️</div>
+        <div class="err-icon"><svg class="err-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 1 1.4 0l1.6 1.6a1 1 0 0 1 0 1.4l-8.7 8.7-3.4 1.1 1.1-3.4 8.7-8.7Z"/><path d="M14 7l3 3"/><path d="M6 18l3 1"/></svg></div>
         <div class="err-code">503</div>
         <h1 class="err-title">Em manutenção</h1>
         <span class="err-badge">Voltamos em breve</span>

@@ -488,7 +488,7 @@ class ServiceChat extends Component
         }
 
         $valor    = number_format($valorNumerico, 2, ',', '.');
-        $mensagem = "💰 Proposta de valor: {$valor} Kz\nPode confirmar o pagamento usando o botão \"Inserir Valor\".";
+        $mensagem = "Proposta de valor: {$valor} Kz\nPode confirmar o pagamento usando o botão \"Inserir Valor\".";
 
         try {
             app(ChatService::class)->send($this->service, Auth::user(), $mensagem);

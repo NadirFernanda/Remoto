@@ -321,7 +321,7 @@
                         <button @click="tab = 'entrega'"
                             :class="tab === 'entrega' ? 'border-b-2 border-[#0055ff] text-[#0055ff] font-medium' : 'text-gray-500 hover:text-gray-700'"
                             class="px-5 py-3 text-sm transition whitespace-nowrap font-semibold">
-                            📦 Entrega
+                            Entrega
                         </button>
                         @endif
                         <button @click="tab = 'milestones'"
