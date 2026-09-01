@@ -142,11 +142,20 @@
                         @endif
                     </td>
                     <td class="py-3 px-5 whitespace-nowrap flex flex-wrap gap-2">
-                        <a href="{{ route('admin.comercial.show', $contract) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition"><span>🔎</span>Ver</a>
-                        <a href="{{ route('admin.comercial.edit', $contract) }}" class="inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 font-medium transition"><span>✏️</span>Editar</a>
+                        <a href="{{ route('admin.comercial.show', $contract) }}" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium transition">
+                            @include('components.icon', ['name' => 'search', 'class' => 'w-3.5 h-3.5'])
+                            Ver
+                        </a>
+                        <a href="{{ route('admin.comercial.edit', $contract) }}" class="inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 font-medium transition">
+                            @include('components.icon', ['name' => 'pencil', 'class' => 'w-3.5 h-3.5'])
+                            Editar
+                        </a>
                         <form action="{{ route('admin.comercial.destroy', $contract) }}" method="POST" class="inline">
                             @csrf @method('DELETE')
-                            <button type="submit" class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 font-medium transition" onclick="return confirm('Remover este contrato/parceria?')"><span>🗑️</span>Remover</button>
+                            <button type="submit" class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 font-medium transition" onclick="return confirm('Remover este contrato/parceria?')">
+                                @include('components.icon', ['name' => 'trash', 'class' => 'w-3.5 h-3.5'])
+                                Remover
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -154,7 +163,7 @@
                 <tr>
                     <td colspan="8" class="py-8 text-center text-gray-400 text-lg">
                         <div class="flex flex-col items-center gap-2">
-                            <span class="text-5xl">📄</span>
+                            @include('components.icon', ['name' => 'file', 'class' => 'w-10 h-10'])
                             Nenhum contrato/parceria registado.
                         </div>
                     </td>

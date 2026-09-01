@@ -36,10 +36,10 @@
                     @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-500 mb-1">Ícone (emoji)</label>
+                    <label class="block text-xs text-gray-500 mb-1">Identificador visual</label>
                     <input wire:model="icon" type="text" maxlength="20"
                         class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]"
-                        placeholder="🎨">
+                        placeholder="palette">
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs text-gray-500 mb-1">Descrição</label>
@@ -113,12 +113,14 @@
                         <td class="py-3 px-5 whitespace-nowrap">
                             <button wire:click="openEdit({{ $cat->id }})"
                                 class="inline-flex items-center gap-1 text-yellow-600 hover:text-yellow-800 font-medium transition text-xs">
-                                ✏️ Editar
+                                @include('components.icon', ['name' => 'pencil', 'class' => 'w-3.5 h-3.5'])
+                                Editar
                             </button>
                             <button wire:click="delete({{ $cat->id }})"
                                 wire:confirm="Tem a certeza que quer remover a categoria «{{ $cat->name }}»?"
                                 class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 font-medium transition text-xs ml-3">
-                                🗑️ Remover
+                                @include('components.icon', ['name' => 'trash', 'class' => 'w-3.5 h-3.5'])
+                                Remover
                             </button>
                         </td>
                     </tr>
@@ -126,7 +128,7 @@
                     <tr>
                         <td colspan="5" class="py-10 text-center text-gray-400">
                             <div class="flex flex-col items-center gap-2">
-                                <span class="text-4xl">🗂️</span>
+                                @include('components.icon', ['name' => 'folder', 'class' => 'w-8 h-8'])
                                 @if($search)
                                     Nenhuma categoria encontrada para «{{ $search }}».
                                 @else

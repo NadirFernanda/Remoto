@@ -35,11 +35,11 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">Categoria *</label>
             <select wire:model="category" class="w-full rounded-xl border border-gray-200 bg-white text-gray-900 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                 <option value="">Selecione uma categoria</option>
-                <option value="pagamento">💳 Pagamento</option>
+                <option value="pagamento">Pagamento</option>
                 <option value="projecto">Projecto</option>
-                <option value="conta">👤 Conta</option>
-                <option value="tecnico">🔧 Técnico</option>
-                <option value="outro">❓ Outro</option>
+                <option value="conta">Conta</option>
+                <option value="tecnico">Técnico</option>
+                <option value="outro">Outro</option>
             </select>
             @error('category') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
         </div>
@@ -228,7 +228,7 @@
                     <div class="flex items-center gap-2 mb-2">
                         <img src="{{ $reply->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover">
                         <span class="text-sm font-semibold {{ $isAdmin ? 'text-blue-800' : 'text-gray-800' }}">
-                            {{ $isAdmin ? '🛡 Suporte · ' . $reply->user->name : $reply->user->name }}
+                            {{ $isAdmin ? 'Suporte · ' . $reply->user->name : $reply->user->name }}
                         </span>
                         <span class="text-xs text-gray-400">· {{ $reply->created_at->diffForHumans() }}</span>
                     </div>

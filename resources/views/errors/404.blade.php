@@ -23,7 +23,12 @@
 </head>
 <body>
     <div class="err-box">
-        <div class="err-icon">🔍</div>
+        <div class="err-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <circle cx="11" cy="11" r="5.35"></circle>
+                <path d="M16 16L21 21"></path>
+            </svg>
+        </div>
         <div class="err-code">404</div>
         <h1 class="err-title">Página não encontrada</h1>
         <p class="err-msg">

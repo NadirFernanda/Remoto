@@ -337,7 +337,9 @@
                         {{-- File preview badge --}}
                         <div x-show="hasFile" x-cloak
                              class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
-                            <span>&#128204;</span>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h7.5L19.5 9v10.5A1.5 1.5 0 0 1 18 21H7.5A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H7zm7.5 0v5.25H19.5"/>
+                            </svg>
                             <span class="truncate" x-text="fileName"></span>
                             <button type="button" @click="cancelFile()" class="ml-1 text-[#0284c7] hover:text-red-500 transition leading-none font-bold">&times;</button>
                         </div>
@@ -350,8 +352,14 @@
                                    placeholder="Escreva uma mensagem...">
                             <button type="button"
                                     onclick="toggleEmojiPicker()"
-                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-yellow-400 transition text-lg leading-none">
-                                &#128522;
+                                    aria-label="Abrir seletor de emojis"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-yellow-400 transition leading-none">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="8"></circle>
+                                    <path d="M8.5 14.5c.9 1.2 2 1.8 3.5 1.8s2.6-.6 3.5-1.8" stroke-linecap="round"></path>
+                                    <circle cx="9" cy="10" r=".8" fill="currentColor" stroke="none"></circle>
+                                    <circle cx="15" cy="10" r=".8" fill="currentColor" stroke="none"></circle>
+                                </svg>
                             </button>
                         </div>
 
@@ -434,7 +442,7 @@
                                 attachHtml = `<audio controls style="display:block;width:100%;max-width:100%;box-sizing:border-box;" class="mb-1 rounded-lg"><source src="${url}"><\/audio>`;
                             } else {
                                 const bg = isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9';
-                                attachHtml = `<a href="${url}" target="_blank" title="${name}" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:${bg};max-width:100%;overflow:hidden;box-sizing:border-box;"><span style="font-size:1.25rem;flex-shrink:0;">📄<\/span><span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${short}<\/span><span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">${data.ext}<\/span><\/a>`;
+                                attachHtml = `<a href="${url}" target="_blank" title="${name}" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:${bg};max-width:100%;overflow:hidden;box-sizing:border-box;"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h7.5L19.5 9v10.5A1.5 1.5 0 0 1 18 21H7.5A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H7zm7.5 0v5.25H19.5"/><\/svg><span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">${short}<\/span><span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">${data.ext}<\/span><\/a>`;
                             }
                         }
                         const contentHtml = data.conteudo ? `<p class="text-sm leading-relaxed whitespace-pre-wrap break-words">${data.conteudo.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<\/p>` : '';

@@ -72,7 +72,7 @@ $categoryIcons = [
                 <x-file-input
                     wire:model="file"
                     accept="{{ $tab === 'imagem' ? 'image/*' : '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx' }}"
-                    label="{{ $tab === 'imagem' ? '🖼 Escolher imagem' : '📄 Escolher documento' }}"
+                    label="{{ $tab === 'imagem' ? 'Escolher imagem' : 'Escolher documento' }}"
                     loading-target="file"
                 >
                     @error('file') <p class="text-red-500 text-xs">{{ $message }}</p> @enderror

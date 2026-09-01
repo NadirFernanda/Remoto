@@ -276,13 +276,17 @@
                 <div class="reg-role-grid">
                     <label class="reg-role-card {{ $role === 'freelancer' ? 'active' : '' }}" wire:click="$set('role', 'freelancer')">
                         <input type="radio" style="display:none;">
-                        <div class="reg-role-icon">💼</div>
+                        <div class="reg-role-icon">
+                            @include('components.icon', ['name' => 'briefcase', 'class' => 'w-6 h-6'])
+                        </div>
                         <div class="reg-role-title">Freelancer<br><span>Criador</span></div>
                         <div class="reg-role-desc">Ofereço serviços &amp; crio conteúdos</div>
                     </label>
                     <label class="reg-role-card {{ $role === 'cliente' ? 'active' : '' }}" wire:click="$set('role', 'cliente')">
                         <input type="radio" style="display:none;">
-                        <div class="reg-role-icon">🏢</div>
+                        <div class="reg-role-icon">
+                            @include('components.icon', ['name' => 'store', 'class' => 'w-6 h-6'])
+                        </div>
                         <div class="reg-role-title">Cliente<br><span>Seguidor</span></div>
                         <div class="reg-role-desc">Contrato serviços &amp; sigo criadores</div>
                     </label>

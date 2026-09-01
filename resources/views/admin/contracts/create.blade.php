@@ -46,7 +46,8 @@
             <div class="flex items-center gap-3">
                 <input type="file" name="documento" id="doc-input" accept="application/pdf" class="hidden" onchange="document.getElementById('doc-file-name').textContent = this.files[0] ? this.files[0].name : 'Nenhum ficheiro seleccionado';">
                 <button type="button" onclick="document.getElementById('doc-input').click();" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#00baff] text-[#00baff] bg-white hover:bg-[#00baff]/10 cursor-pointer text-base font-medium transition">
-                    <span class="text-lg">📄</span> Escolher ficheiro
+                    @include('components.icon', ['name' => 'file', 'class' => 'w-4 h-4'])
+                    Escolher ficheiro
                 </button>
                 <span id="doc-file-name" class="text-sm text-gray-500">Nenhum ficheiro seleccionado</span>
             </div>

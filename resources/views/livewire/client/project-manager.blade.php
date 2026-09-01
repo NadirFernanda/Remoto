@@ -483,7 +483,15 @@
                                 @endphp
                                 <div class="flex items-center gap-3 bg-white rounded-2xl border border-gray-200 p-4">
                                     <div class="w-10 h-10 rounded-xl bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0 text-xl">
-                                        @if($isImg) 🖼️ @else 📄 @endif
+                                        @if($isImg)
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75A2.25 2.25 0 0 1 6 4.5h12a2.25 2.25 0 0 1 2.25 2.25v10.5A2.25 2.25 0 0 1 18 19.5H6a2.25 2.25 0 0 1-2.25-2.25V6.75zm2.25 1.5l4.5 4.5 2.25-2.25 5.25 5.25"/>
+                                            </svg>
+                                        @else
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h7.5L19.5 9v10.5A1.5 1.5 0 0 1 18 21H7.5A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H7zm7.5 0v5.25H19.5"/>
+                                            </svg>
+                                        @endif
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="text-sm font-semibold text-gray-800 truncate">{{ $att->filename }}</p>
@@ -625,7 +633,7 @@
                     <div x-show="tab === 'attachments'" class="p-5 space-y-4">
 
                         {{-- Upload --}}
-                        <x-file-input wire:model="attachmentFile" label="📎 Enviar ficheiro" loading-target="attachmentFile">
+                        <x-file-input wire:model="attachmentFile" label="Enviar ficheiro" loading-target="attachmentFile">
                             @error('attachmentFile') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             <p class="text-xs text-gray-500">Qualquer tipo · máx. 20 MB</p>
                         </x-file-input>

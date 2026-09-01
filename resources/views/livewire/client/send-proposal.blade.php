@@ -97,7 +97,7 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                             Anexos <span class="text-gray-400 font-normal">(opcional)</span>
                         </label>
-                        <x-file-input wire:model="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,image/*,.zip" multiple label="📎 Adicionar ficheiros" loading-target="attachments">
+                        <x-file-input wire:model="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,image/*,.zip" multiple label="Adicionar ficheiros" loading-target="attachments">
                             @error('attachments') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                             @error('attachments.*') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                         </x-file-input>

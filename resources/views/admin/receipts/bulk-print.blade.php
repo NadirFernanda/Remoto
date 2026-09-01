@@ -126,7 +126,7 @@
     </div>
     <span><strong>{{ count($services) }}</strong> recibo(s) seleccionado(s)</span>
     <button class="btn-print" onclick="window.print()">
-        🖨 Imprimir / Guardar PDF
+        <span class="inline-flex items-center gap-2"><svg class="w-4 h-4" ...> ... </svg>Imprimir / Guardar PDF</span>
     </button>
 </div>
 

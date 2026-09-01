@@ -78,17 +78,23 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="text-3xl mb-3">📧</div>
+                <div class="mb-3 flex justify-center text-[#00baff]">
+                    @include('components.icon', ['name' => 'mail', 'class' => 'w-8 h-8'])
+                </div>
                 <div class="font-bold text-[#0f172a] mb-1">Email</div>
                 <a href="mailto:contacto@24horas.ao" class="text-[#00baff] font-semibold text-sm hover:underline">contacto@24horas.ao</a>
             </div>
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="text-3xl mb-3">⏱</div>
+                <div class="mb-3 flex justify-center text-[#00baff]">
+                    @include('components.icon', ['name' => 'clock', 'class' => 'w-8 h-8'])
+                </div>
                 <div class="font-bold text-[#0f172a] mb-1">Tempo de resposta</div>
                 <p class="text-[#64748b] text-sm m-0">Respondemos em até 24 horas úteis</p>
             </div>
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="text-3xl mb-3">📖</div>
+                <div class="mb-3 flex justify-center text-[#00baff]">
+                    @include('components.icon', ['name' => 'file-text', 'class' => 'w-8 h-8'])
+                </div>
                 <div class="font-bold text-[#0f172a] mb-1">Como funciona</div>
                 <a href="{{ route('sobre.como-funciona') }}" class="text-[#00baff] font-semibold text-sm hover:underline">Ver guia rápido</a>
             </div>

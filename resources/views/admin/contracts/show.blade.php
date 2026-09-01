@@ -6,7 +6,8 @@
         <div class="flex gap-3 flex-wrap">
             <a href="{{ route('admin.comercial.edit', $contract) }}"
                class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#00baff] text-[#00baff] hover:bg-[#00baff]/10 font-semibold text-sm transition">
-                ✏️ Editar
+                @include('components.icon', ['name' => 'pencil', 'class' => 'w-4 h-4'])
+                Editar
             </a>
             <a href="{{ route('admin.comercial.index') }}"
                class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm transition">
@@ -44,7 +45,8 @@
                     @if($contract->document_path)
                         <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($contract->document_path) }}" target="_blank"
                            class="inline-flex items-center gap-1 text-emerald-600 hover:text-emerald-800 font-medium text-sm">
-                            📄 Abrir PDF
+                            @include('components.icon', ['name' => 'file-text', 'class' => 'w-4 h-4'])
+                            Abrir PDF
                         </a>
                     @else
                         <span class="text-gray-400 text-sm">Sem documento anexado</span>

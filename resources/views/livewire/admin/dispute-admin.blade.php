@@ -105,23 +105,27 @@
                         @if(!$selected->service->is_payment_released)
                             <button wire:click="freezePayment({{ $selected->service->id }})"
                                 wire:confirm="Congelar o pagamento deste projecto (colocar em moderação)?"
-                                class="px-2 py-1 bg-orange-100 text-orange-700 border border-orange-300 rounded-lg hover:bg-orange-200 transition">
-                                ❄ Congelar
+                                class="px-2 py-1 bg-orange-100 text-orange-700 border border-orange-300 rounded-lg hover:bg-orange-200 transition inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9.5A4 4 0 0 1 12 5a4 4 0 0 1 4 4.5v1.5c.6.3 1 1 1 1.75V16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-3.25c0-.75.4-1.45 1-1.75V9.5zm2 0V8a2 2 0 1 1 4 0v1.5"/></svg>
+                                Congelar
                             </button>
                             @if(in_array(auth()->user()->admin_role, [null, 'financeiro'], true))
                             <button wire:click="releasePayment({{ $selected->service->id }})"
                                 wire:confirm="Libertar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
-                                class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition">
-                                ✓ Libertar → Freelancer
+                                class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 9.5 17 19 7.5"/></svg>
+                                Libertar → Freelancer
                             </button>
                             <button wire:click="toggleParcialForm"
-                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition">
-                                ⚖ Liberar Parcial
+                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16M12 4v16"/></svg>
+                                Liberar Parcial
                             </button>
                             <button wire:click="reembolsarCliente({{ $selected->service->id }})"
                                 wire:confirm="Reembolsar o cliente? O escrow será devolvido à carteira do cliente e o projecto cancelado."
-                                class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition">
-                                ↩ Reembolsar → Cliente
+                                class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14 4 9l5-5M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+                                Reembolsar → Cliente
                             </button>
                             @else
                             <span class="px-2 py-1 bg-gray-100 text-gray-500 rounded-lg text-xs">Só financeiro/master pode movimentar este pagamento</span>
@@ -134,7 +138,10 @@
                     {{-- Formulário de Liberação Parcial --}}
                     @if($showParcialForm && !$selected->service->is_payment_released)
                         <div class="mt-3 bg-blue-50 border border-blue-200 rounded-[10px] p-3">
-                            <p class="text-xs font-semibold text-[#0055ff] mb-2">⚖ Divisão Parcial do Pagamento</p>
+                            <p class="text-xs font-semibold text-[#0055ff] mb-2 inline-flex items-center gap-1.5">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16M12 4v16"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10H7z"/></svg>
+                                Divisão Parcial do Pagamento
+                            </p>
                             <p class="text-xs text-gray-500 mb-3">
                                 Valor total em escrow: <strong>{{ number_format($selected->service->valor, 0, ',', '.') }} Kz</strong>
                                 · Valor líquido freelancer (100%): <strong>{{ number_format($selected->service->valor_liquido ?? $selected->service->valor, 0, ',', '.') }} Kz</strong>
@@ -146,13 +153,13 @@
                                         class="w-20 border border-blue-300 rounded-lg px-2 py-1 text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-300">
                                     <span class="text-xs text-gray-500">%</span>
                                 </div>
-                                <div class="text-xs text-gray-600 bg-white rounded-lg px-3 py-1.5 border border-gray-200">
-                                    🟢 Freelancer recebe:
+                                <div class="text-xs text-gray-600 bg-white rounded-lg px-3 py-1.5 border border-gray-200 inline-flex items-center gap-2 flex-wrap">
+                                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"></span>Freelancer recebe:</span>
                                     <strong class="text-green-700">
                                         {{ number_format(round(($selected->service->valor_liquido ?? $selected->service->valor) * ($percentualFreelancer / 100), 2), 0, ',', '.') }} Kz
                                     </strong>
-                                    &nbsp;|&nbsp;
-                                    🔵 Cliente recebe:
+                                    <span class="text-gray-300">|</span>
+                                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>Cliente recebe:</span>
                                     <strong class="text-blue-700">
                                         {{ number_format(round($selected->service->valor * ((100 - $percentualFreelancer) / 100), 2), 0, ',', '.') }} Kz
                                     </strong>

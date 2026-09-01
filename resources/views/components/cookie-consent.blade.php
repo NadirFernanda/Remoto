@@ -35,7 +35,9 @@
 >
     <div class="max-w-4xl mx-auto rounded-xl border border-white/10 bg-[#021018]/95 backdrop-blur-md shadow-2xl px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <!-- Icon -->
-        <div class="shrink-0 text-[#0055ff] text-2xl" aria-hidden="true">🍪</div>
+        <div class="shrink-0 text-[#0055ff]" aria-hidden="true">
+            @include('components.icon', ['name' => 'cookie', 'class' => 'w-7 h-7'])
+        </div>
 
         <!-- Text -->
         <div class="flex-1 text-sm text-gray-300 leading-relaxed">

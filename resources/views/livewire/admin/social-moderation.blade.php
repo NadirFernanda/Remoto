@@ -131,7 +131,10 @@
                     @php $post = \App\Models\SocialPost::with(['images', 'media', 'user'])->find($r->reportable_id); @endphp
                     @if($post)
                         <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4">
-                            <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide">📄 Conteúdo denunciado (Post #{{ $post->id }})</p>
+                            <p class="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wide flex items-center gap-2">
+                                @include('components.icon', ['name' => 'file-text', 'class' => 'w-3.5 h-3.5'])
+                                Conteúdo denunciado (Post #{{ $post->id }})
+                            </p>
                             {{-- Author --}}
                             @if($post->user)
                                 <div class="flex items-center gap-2 mb-2">
@@ -157,7 +160,10 @@
                                         @if(str_starts_with($m->type ?? '', 'image') || str_ends_with($m->path ?? '', ['.jpg','.jpeg','.png','.gif','.webp']))
                                             <img src="{{ Storage::url($m->path) }}" class="w-20 h-20 object-cover rounded-lg border border-gray-200">
                                         @else
-                                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">📎 {{ basename($m->path) }}</span>
+                                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-lg inline-flex items-center gap-1.5">
+                                                @include('components.icon', ['name' => 'paperclip', 'class' => 'w-3.5 h-3.5'])
+                                                {{ basename($m->path) }}
+                                            </span>
                                         @endif
                                     @endforeach
                                 </div>
@@ -177,7 +183,10 @@
                 @elseif($r->reportable_type === 'user')
                     @php $reported = \App\Models\User::find($r->reportable_id); @endphp
                     <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
-                        <p class="text-xs font-semibold text-orange-700 mb-2 uppercase tracking-wide">👤 Utilizador Denunciado</p>
+                        <p class="text-xs font-semibold text-orange-700 mb-2 uppercase tracking-wide flex items-center gap-2">
+                            @include('components.icon', ['name' => 'user-round', 'class' => 'w-3.5 h-3.5'])
+                            Utilizador Denunciado
+                        </p>
                         @if($reported)
                             <div class="flex items-center gap-3 mb-3">
                                 <img src="{{ $reported->avatarUrl() }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-orange-200">

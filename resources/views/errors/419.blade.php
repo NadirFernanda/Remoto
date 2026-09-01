@@ -23,7 +23,9 @@
 </head>
 <body>
     <div class="err-box">
-        <div class="err-icon">⏱️</div>
+        <div class="err-icon">
+            @include('components.icon', ['name' => 'clock', 'class' => 'w-16 h-16 text-sky-400'])
+        </div>
         <h1 class="err-title">Sessão expirada</h1>
         <p class="err-msg">
             A sua sessão expirou por inactividade. Por favor, recarregue a página para continuar.
