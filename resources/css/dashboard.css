@@ -42,7 +42,7 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: #0055ff;
+    background: var(--color-primary);
     color: #fff;
     border: none;
     box-shadow: 0 4px 16px rgba(0,85,255,.30);
@@ -127,7 +127,7 @@
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     /* default neutral style to avoid one item looking different */
-    background: #0055ff; color: #fff;
+    background: var(--color-primary); color: #fff;
     border: 0;
 }
 
@@ -215,7 +215,7 @@
     box-shadow: none;
     transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
 }
-.action-btn:hover{ transform:translateY(-3px); background: #0055ff; color:#fff; box-shadow:none; }
+.action-btn:hover{ transform:translateY(-3px); background: var(--color-primary); color:#fff; box-shadow:none; }
 .action-btn:focus{ outline:3px solid rgba(0,186,255,0.12); outline-offset:2px; }
 
 .dash-main .action-item {
