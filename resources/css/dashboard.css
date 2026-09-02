@@ -26,6 +26,7 @@
     flex: 1;
     min-width: 0; /* prevent flex child overflow */
     padding: 0.875rem 1.25rem 1.5rem;
+    background: #0d1424;
 }
 
 /* Sidebar toggle — only on desktop (mobile uses header hamburger) */
@@ -157,6 +158,35 @@
 .dashboard-title{ font-size:1.35rem; font-weight:800; color:#f1f5f9; letter-spacing:-.02em; }
 .search-input{ min-width:320px; max-width:480px; width:100%; padding:.6rem .9rem; border-radius:10px; border:1px solid rgba(148,163,184,.25); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
 .filters-row{ display:flex; gap:.5rem; align-items:center; }
+
+/* Solid layered surfaces add hierarchy without using gradients. */
+.workspace-layout .dashboard-header {
+    padding: .85rem 1rem;
+    border-left: 3px solid var(--color-primary);
+    border-bottom: 1px solid rgba(226,232,240,.10);
+    background: #111c30;
+    border-radius: .75rem;
+}
+
+.workspace-layout .dashboard-title {
+    color: #fff;
+}
+
+.workspace-layout .kpi-grid > *,
+.workspace-layout .grid > .bg-white {
+    border-top: 3px solid var(--color-primary) !important;
+}
+
+.workspace-layout .snav-item.snav-active {
+    background: var(--color-primary) !important;
+    color: #fff !important;
+    border-left-color: var(--color-primary) !important;
+}
+
+.workspace-layout .snav-item:hover:not(.snav-active) {
+    background: rgba(0,85,255,.12) !important;
+    color: #fff !important;
+}
 
 /* Dashboard density reduction */
 .dash-main .space-y-6 > :not(:first-child) { margin-top: 1.25rem; }

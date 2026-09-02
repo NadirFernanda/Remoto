@@ -2186,6 +2186,54 @@ li.list-item {
     border-color: rgba(226,232,240,.16) !important;
 }
 
+.workspace-layout .bg-white:not(button):not(input):not(select):not(textarea) {
+    box-shadow: 0 10px 24px rgba(0,0,0,.18) !important;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.workspace-layout .bg-white:not(button):not(input):not(select):not(textarea):hover {
+    border-color: rgba(0,85,255,.5) !important;
+    box-shadow: 0 14px 30px rgba(0,0,0,.24) !important;
+}
+
+.workspace-layout .grid > .bg-white:not(button):not(input):not(select):not(textarea) {
+    position: relative;
+    overflow: hidden;
+}
+
+.workspace-layout .grid > .bg-white:not(button):not(input):not(select):not(textarea)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-primary);
+    opacity: .85;
+}
+
+.workspace-layout .grid > .bg-white:not(button):not(input):not(select):not(textarea) > svg,
+.workspace-layout .grid > .bg-white:not(button):not(input):not(select):not(textarea) > div > svg {
+    color: var(--color-primary) !important;
+}
+
+.workspace-layout .period-filter-pills button {
+    border-color: rgba(226,232,240,.16) !important;
+    color: #e2e8f0 !important;
+}
+
+.workspace-layout .period-filter-pills button:hover,
+.workspace-layout .period-filter-pills button.bg-white {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: #fff !important;
+}
+
+.workspace-layout .dash-main,
+.workspace-layout .dash-wrapper {
+    background-color: #0d1424 !important;
+}
+
 .creator-profile-page > .bg-white {
     background: #162238 !important;
     border-color: rgba(226,232,240,.12) !important;
