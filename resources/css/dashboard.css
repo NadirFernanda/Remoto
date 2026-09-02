@@ -178,14 +178,20 @@
     border: 1px solid rgba(226,232,240,.10);
     border-left: 3px solid var(--color-primary);
     border-radius: 1rem;
-    background: #111c30;
-    box-shadow: 0 8px 20px rgba(0,0,0,.16);
+    background: var(--color-primary);
+    border-color: rgba(125,167,255,.45);
+    box-shadow: 0 12px 26px rgba(0,85,255,.18);
 }
 
 .workspace-layout .dashboard-page-header h1 {
     color: #fff !important;
     font-size: clamp(1.25rem, 2vw, 1.65rem);
     letter-spacing: -.025em;
+}
+
+.workspace-layout .dashboard-page-header a,
+.workspace-layout .dashboard-page-header button {
+    border-color: rgba(255,255,255,.35) !important;
 }
 
 .workspace-layout .dashboard-page-header > div:last-child {

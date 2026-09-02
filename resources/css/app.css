@@ -2041,9 +2041,39 @@ li.list-item {
 }
 
 .creator-subscriptions-page > div:first-child,
-.freelancer-store-page > div:first-child,
-.available-projects-page > div:first-child {
-    background: transparent !important;
+.freelancer-store-page > div:first-child {
+    background: #0055ff !important;
+    color: #fff !important;
+    border: 1px solid rgba(125,167,255,.45);
+    border-radius: 1rem !important;
+    padding: 1.5rem 1.75rem !important;
+    box-shadow: 0 12px 26px rgba(0,85,255,.18);
+}
+
+.creator-subscriptions-page > div:first-child h1,
+.creator-subscriptions-page > div:first-child h2,
+.creator-subscriptions-page > div:first-child p,
+.freelancer-store-page > div:first-child h1,
+.freelancer-store-page > div:first-child h2,
+.freelancer-store-page > div:first-child p {
+    color: #fff !important;
+}
+
+.available-projects-page > div.available-projects-hero {
+    background: #0055ff !important;
+    border: 1px solid rgba(125,167,255,.45);
+    border-radius: 1rem !important;
+    padding: 1.5rem 1.75rem !important;
+    box-shadow: 0 12px 26px rgba(0,85,255,.18);
+}
+
+.available-projects-page > .available-projects-hero h2,
+.available-projects-page > .available-projects-hero p {
+    color: #fff !important;
+}
+
+.available-projects-page > .available-projects-hero h2 {
+    letter-spacing: -.025em;
 }
 
 .creator-subscriptions-page h1,

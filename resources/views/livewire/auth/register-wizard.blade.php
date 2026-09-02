@@ -213,6 +213,60 @@
     .rr-stats-text { font-size: .82rem; color: rgba(255,255,255,.75); font-weight: 600; line-height: 1.45; }
     .rr-stats-text span { color: #7da7ff; }
 
+    /* Keep the registration form readable when global theme rules are loaded. */
+    .reg-wrap .reg-left {
+        color: #0f172a;
+    }
+    .reg-wrap .reg-left .lf-label,
+    .reg-wrap .reg-left > form > label {
+        color: #334155 !important;
+    }
+    .reg-wrap .reg-left .reg-step-label {
+        color: #64748b !important;
+    }
+    .reg-wrap .reg-left .reg-step-label.active {
+        color: #0f172a !important;
+    }
+    .reg-wrap .reg-left .lf-icon,
+    .reg-wrap .reg-left .lf-eye {
+        color: #0055ff !important;
+    }
+    .reg-wrap .reg-left .lf-group > .lf-icon,
+    .reg-wrap .reg-left .lf-group > .lf-eye {
+        top: 4rem;
+        z-index: 3;
+    }
+    .reg-wrap .reg-left .lf-input {
+        color: #1e293b !important;
+        background: #fff !important;
+        border-color: #dbe3ef !important;
+    }
+    .reg-wrap .reg-left .lf-input::placeholder {
+        color: #64748b !important;
+        opacity: 1;
+    }
+    .reg-wrap .reg-left .lf-input:focus {
+        border-color: #0055ff !important;
+        box-shadow: 0 0 0 3px rgba(0,85,255,.12) !important;
+    }
+    .reg-wrap .reg-left .reg-role-icon svg {
+        color: #0055ff !important;
+        stroke: #0055ff !important;
+    }
+    .reg-wrap .reg-left .lf-submit {
+        min-height: 3.25rem;
+        border-radius: 12px;
+        background: #0055ff !important;
+        box-shadow: 0 8px 20px rgba(0,85,255,.2);
+    }
+    .reg-wrap .reg-left .lf-submit:hover {
+        background: #0044dd !important;
+        opacity: 1;
+    }
+    .reg-wrap .reg-left .reg-login-link a {
+        color: #0055ff !important;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
         .reg-wrap { flex-direction: column; }
