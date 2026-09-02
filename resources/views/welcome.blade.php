@@ -173,7 +173,9 @@
 ============================== --}}
 <section class="hp-section hp-section--white hp-benefits-section">
     <div class="hp-container" style="text-align:center;">
-        <h2 class="hp-title hp-benefits-section-title" style="text-align:center;margin-bottom:2.5rem;">Por que nós</h2>
+        <p class="hp-label">Por que nós</p>
+        <h2 class="hp-title">Trabalhe com segurança e confiança</h2>
+        <p class="hp-subtitle">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
         <div class="hp-benefits-grid">
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
