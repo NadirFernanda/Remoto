@@ -1827,6 +1827,12 @@ li.list-item {
     justify-content: center;
     margin-top: 2.5rem;
 }
+.hp-benefits-section-title {
+    display: block !important;
+    width: 100% !important;
+    color: var(--color-text-primary) !important;
+    text-align: center !important;
+}
 
 /* The benefits heading follows the same centred hierarchy as Explore. */
 .hp-section .hp-benefits-grid .hp-benefits-heading {

@@ -173,7 +173,7 @@
 ============================== --}}
 <section class="hp-section hp-section--white hp-benefits-section">
     <div class="hp-container" style="text-align:center;">
-        <p class="hp-label" style="text-align:center;margin-bottom:2rem;">Por que nós</p>
+        <h2 class="hp-title hp-benefits-section-title" style="text-align:center;margin-bottom:2.5rem;">Por que nós</h2>
         <div class="hp-benefits-grid">
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
