@@ -1841,6 +1841,22 @@ li.list-item {
     background: rgba(255,255,255,.08) !important;
     border-color: rgba(255,255,255,.16) !important;
 }
+.hp-comunidade-cards > div > div[style*="width:3rem"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    color: #0055ff !important;
+}
+.hp-comunidade-cards > div > div[style*="width:3rem"] svg {
+    stroke: #0055ff !important;
+}
+.hp-comunidade-cards > div > h3,
+.hp-comunidade-cards > div > p {
+    text-align: center !important;
+}
+.hp-comunidade-cards > div > a {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
 .hp-comunidade-cards > div > ul li > span {
     background: rgba(255,255,255,.08) !important;
 }
