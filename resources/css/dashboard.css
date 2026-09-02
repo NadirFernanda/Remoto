@@ -172,6 +172,28 @@
     color: #fff;
 }
 
+.workspace-layout .dashboard-page-header {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.15rem;
+    border: 1px solid rgba(226,232,240,.10);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 1rem;
+    background: #111c30;
+    box-shadow: 0 8px 20px rgba(0,0,0,.16);
+}
+
+.workspace-layout .dashboard-page-header h1 {
+    color: #fff !important;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    letter-spacing: -.025em;
+}
+
+.workspace-layout .dashboard-page-header > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+}
+
 .workspace-layout .kpi-grid > *,
 .workspace-layout .grid > .bg-white {
     border-top: 3px solid var(--color-primary) !important;
@@ -186,6 +208,109 @@
 .workspace-layout .snav-item:hover:not(.snav-active) {
     background: rgba(0,85,255,.12) !important;
     color: #fff !important;
+}
+
+.workspace-layout .kpi-grid > *,
+.workspace-layout .grid.grid-cols-2 > .bg-white,
+.workspace-layout .grid.grid-cols-1 > .bg-white {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem !important;
+}
+
+.workspace-layout .kpi-grid > *::before,
+.workspace-layout .grid.grid-cols-2 > .bg-white::before,
+.workspace-layout .grid.grid-cols-1 > .bg-white::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--color-primary);
+}
+
+.workspace-layout .kpi-grid > *:hover,
+.workspace-layout .grid.grid-cols-2 > .bg-white:hover,
+.workspace-layout .grid.grid-cols-1 > .bg-white:hover {
+    transform: translateY(-2px);
+}
+
+.workspace-layout .period-filter-pills {
+    padding: .7rem .85rem;
+    border: 1px solid rgba(226,232,240,.10);
+    border-radius: .9rem;
+    background: #111c30;
+}
+
+.workspace-layout .period-filter-pills > span {
+    color: #e2e8f0 !important;
+    font-weight: 700;
+}
+
+/* Shared dashboard card language for Admin, Freelancer and Client. */
+.workspace-layout .dashboard-screen .bg-white {
+    color: #e2e8f0 !important;
+    background: #162238 !important;
+    border-color: rgba(226,232,240,.11) !important;
+    box-shadow: 0 8px 22px rgba(0,0,0,.16);
+}
+
+.workspace-layout .dashboard-screen .text-gray-900,
+.workspace-layout .dashboard-screen .text-gray-800,
+.workspace-layout .dashboard-screen .text-gray-700,
+.workspace-layout .dashboard-screen .text-gray-600,
+.workspace-layout .dashboard-screen .text-gray-500,
+.workspace-layout .dashboard-screen .text-gray-400,
+.workspace-layout .dashboard-screen .text-slate-900,
+.workspace-layout .dashboard-screen .text-slate-700,
+.workspace-layout .dashboard-screen .text-slate-600,
+.workspace-layout .dashboard-screen .text-slate-500,
+.workspace-layout .dashboard-screen .text-slate-400 {
+    color: #e2e8f0 !important;
+}
+
+.workspace-layout .dashboard-screen .text-gray-400,
+.workspace-layout .dashboard-screen .text-gray-500,
+.workspace-layout .dashboard-screen .text-slate-400,
+.workspace-layout .dashboard-screen .text-slate-500 {
+    color: #94a3b8 !important;
+}
+
+.workspace-layout .dashboard-screen .text-green-500,
+.workspace-layout .dashboard-screen .text-green-600,
+.workspace-layout .dashboard-screen .text-indigo-600,
+.workspace-layout .dashboard-screen .text-yellow-500,
+.workspace-layout .dashboard-screen .text-orange-500 {
+    color: var(--color-primary) !important;
+}
+
+.workspace-layout .dashboard-screen > div > .grid:not(.kpi-grid) > a,
+.workspace-layout .dashboard-screen > div > .grid:not(.kpi-grid) > div {
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.workspace-layout .dashboard-screen svg {
+    color: var(--color-primary);
+}
+
+.workspace-layout .dashboard-screen .period-filter-pills button:not([class*="bg-[#0055ff]"]) {
+    color: #e2e8f0 !important;
+    background: #1b2a44 !important;
+    border-color: rgba(226,232,240,.14) !important;
+}
+
+.workspace-layout .dashboard-screen .bg-gray-100,
+.workspace-layout .dashboard-screen .bg-gray-50 {
+    background: #1b2a44 !important;
+}
+
+@media (max-width: 640px) {
+    .workspace-layout .dashboard-page-header {
+        align-items: flex-start;
+    }
+
+    .workspace-layout .dashboard-screen .grid.grid-cols-2 {
+        gap: .7rem;
+    }
 }
 
 /* Dashboard density reduction */

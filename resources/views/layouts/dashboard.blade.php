@@ -178,7 +178,7 @@
             </script>
         @endif
 
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
+        <div class="dashboard-page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
             @php $renderedTitle = $title ?? trim($__env->yieldContent('dashboard-title')) ?? ''; @endphp
             @if($renderedTitle)
             <h1 class="text-xl sm:text-2xl font-bold text-gray-100">{{ $renderedTitle }}</h1>

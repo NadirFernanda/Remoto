@@ -1,4 +1,4 @@
-<div x-data="{}">
+<div x-data="{}" class="dashboard-screen">
 
     {{-- ─── Period filter ──────────────────────────────────────── --}}
     <div class="flex items-center flex-wrap gap-x-3 gap-y-2 mb-6 period-filter-pills">
