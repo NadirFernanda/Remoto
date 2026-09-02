@@ -34,10 +34,11 @@
     .login-alert-ok    { background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: .75rem 1rem; color: #16a34a; font-size: .875rem; margin-bottom: 1.25rem; }
 
     .lf-group { position: relative; margin-bottom: 1rem; }
-    .lf-icon  { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; pointer-events: none; }
+    .lf-icon  { position: absolute; left: 1rem; top: 50%; width: 1.25rem; height: 1.25rem; transform: translateY(-50%); color: #0055ff; pointer-events: none; z-index: 2; display: flex; align-items: center; justify-content: center; }
+    .lf-icon svg { display: block; width: 18px; height: 18px; }
     .lf-input {
         width: 100%;
-        padding: .88rem 1rem .88rem 2.8rem;
+        padding: .88rem 1rem .88rem 3.25rem !important;
         border: 1.5px solid #e2e8f0;
         border-radius: 10px;
         font-size: .95rem;
@@ -49,7 +50,7 @@
     }
     .lf-input:focus { border-color: #0055ff; box-shadow: 0 0 0 3px rgba(0,80,255,.12); background: #fff; }
     .lf-input.has-error { border-color: #dc2626; }
-    .lf-eye  { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 0; }
+    .lf-eye  { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 0; z-index: 2; display: flex; align-items: center; justify-content: center; }
     .lf-error { color: #dc2626; font-size: .78rem; margin-top: .3rem; display: none; }
     .lf-error.show { display: block; }
 

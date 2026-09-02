@@ -269,13 +269,7 @@
 
     <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;">
 
-        {{-- Badge --}}
-        <div style="text-align:center;margin-bottom:1.25rem;">
-            <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);color:#cbd5e1;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem 1rem;border-radius:999px;">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                Novidade · Comunidade 24 Horas
-            </span>
-        </div>
+        <p class="hp-label" style="text-align:center;">Novidade · Comunidade 24 Horas</p>
 
         {{-- Título --}}
         <h2 style="text-align:center;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;">

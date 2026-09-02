@@ -1,4 +1,4 @@
-<div>
+<div class="admin-users-page">
     {{-- Flash --}}
     @if(session('success'))
         <div class="mb-4 p-3 bg-green-50 text-green-800 rounded-xl border border-green-200 text-sm">{{ session('success') }}</div>
