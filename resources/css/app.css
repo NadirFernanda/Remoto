@@ -1688,3 +1688,34 @@ li.list-item {
     border-top-color: rgba(148,163,184,.18) !important;
     padding-top: 2.25rem !important;
 }
+
+/* Keep the two homepage feature sections inside the same horizontal rhythm. */
+.hp-benefits-grid {
+    grid-template-columns: minmax(280px, .88fr) minmax(0, 1.12fr) !important;
+    gap: clamp(2.5rem, 6vw, 5rem) !important;
+    width: 100%;
+}
+.hp-benefit-list {
+    width: 100%;
+}
+.hp-comunidade-section > div[style*="max-width:1200px"] {
+    width: min(1200px, 100%);
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+}
+.hp-comunidade-section .hp-comunidade-cards,
+.hp-comunidade-section .hp-comunidade-stats {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .hp-benefits-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+    .hp-comunidade-section > div[style*="max-width:1200px"] {
+        padding-left: .25rem;
+        padding-right: .25rem;
+    }
+}
