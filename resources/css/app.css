@@ -2110,3 +2110,78 @@ li.list-item {
 .available-projects-page button {
     background-image: none !important;
 }
+
+/* Apply the same dark surface, readable text and solid-blue actions to every
+   authenticated workspace page, not only the pages with a dedicated wrapper. */
+.workspace-layout {
+    color: #e2e8f0;
+}
+
+.workspace-layout .bg-white,
+.workspace-layout .bg-gray-50,
+.workspace-layout .bg-gray-100,
+.workspace-layout .bg-slate-50,
+.workspace-layout .bg-slate-100,
+.workspace-layout .bg-neutral-50,
+.workspace-layout .bg-neutral-100 {
+    background-color: #162238 !important;
+    border-color: rgba(226,232,240,.12) !important;
+}
+
+.workspace-layout .text-gray-900,
+.workspace-layout .text-gray-800,
+.workspace-layout .text-gray-700,
+.workspace-layout .text-gray-600,
+.workspace-layout .text-gray-500,
+.workspace-layout .text-gray-400,
+.workspace-layout .text-slate-900,
+.workspace-layout .text-slate-800,
+.workspace-layout .text-slate-700,
+.workspace-layout .text-slate-600,
+.workspace-layout .text-slate-500,
+.workspace-layout .text-slate-400 {
+    color: #e2e8f0 !important;
+}
+
+.workspace-layout .bg-green-50,
+.workspace-layout .bg-green-100,
+.workspace-layout .bg-emerald-50,
+.workspace-layout .bg-emerald-100,
+.workspace-layout .bg-sky-50,
+.workspace-layout .bg-blue-50 {
+    background-color: rgba(0,85,255,.12) !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(0,85,255,.35) !important;
+}
+
+.workspace-layout .text-green-800,
+.workspace-layout .text-green-700,
+.workspace-layout .text-green-600,
+.workspace-layout .text-emerald-700,
+.workspace-layout .text-emerald-600,
+.workspace-layout .text-sky-700,
+.workspace-layout .text-sky-600,
+.workspace-layout .text-blue-700,
+.workspace-layout .text-blue-600 {
+    color: #0055ff !important;
+}
+
+.workspace-layout button.bg-green-500,
+.workspace-layout button.bg-green-600,
+.workspace-layout button.bg-emerald-500,
+.workspace-layout button.bg-emerald-600,
+.workspace-layout a.bg-green-500,
+.workspace-layout a.bg-green-600,
+.workspace-layout a.bg-emerald-500,
+.workspace-layout a.bg-emerald-600 {
+    background-color: #0055ff !important;
+    color: #fff !important;
+}
+
+.workspace-layout input:not([type="checkbox"]):not([type="radio"]),
+.workspace-layout select,
+.workspace-layout textarea {
+    background-color: #1b2a44 !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(226,232,240,.16) !important;
+}

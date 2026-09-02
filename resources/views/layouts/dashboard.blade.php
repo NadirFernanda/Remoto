@@ -63,7 +63,7 @@
     </aside>
 
     {{-- Main content --}}
-    <main class="dash-main {{ Route::is('admin.*') ? 'admin-layout' : '' }}">
+    <main class="dash-main workspace-layout {{ Route::is('admin.*') ? 'admin-layout' : '' }}">
         @if(session('role_redirect'))
             @php $requiredRole = session('role_redirect'); $__authUser = auth()->user(); @endphp
             <div class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm">
