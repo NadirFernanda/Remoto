@@ -10,7 +10,7 @@
             </a>
 
             {{-- Ícone de e-mail --}}
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#e0f7ff,#b3eeff);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+            <div style="width:64px;height:64px;border-radius:50%;background:#0b1220;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00baff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>

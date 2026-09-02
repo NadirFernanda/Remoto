@@ -118,10 +118,7 @@
                     <td class="py-3 px-5 font-medium text-white">{{ $contract->partner_name }}</td>
                     <td class="py-3 px-5 text-slate-200">{{ ucfirst($contract->type) }}</td>
                     <td class="py-3 px-5">
-                        <span class="inline-flex px-2 py-1 rounded-full text-xs font-bold
-                            @if($contract->status=='ativo') bg-emerald-500/15 text-emerald-300 border border-emerald-400/20
-                            @elseif($contract->status=='pendente') bg-amber-500/15 text-amber-300 border border-amber-400/20
-                            @else bg-slate-700 text-slate-200 border border-slate-600 @endif">
+                        <span class="inline-flex px-2 py-1 rounded-full text-xs font-bold @if($contract->status=='ativo') bg-emerald-500/15 text-emerald-300 border border-emerald-400/20 @elseif($contract->status=='pendente') bg-amber-500/15 text-amber-300 border border-amber-400/20 @else bg-slate-700 text-slate-200 border border-slate-600 @endif">
                             {{ ucfirst($contract->status) }}
                         </span>
                     </td>

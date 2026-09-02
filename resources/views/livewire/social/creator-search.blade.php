@@ -66,7 +66,7 @@
                     <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
 
                         {{-- Cover photo --}}
-                        <div class="relative h-24" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+                        <div class="relative h-24" style="background: #0055ff">
                             @if($creator->coverPhotoUrl())
                                 <img src="{{ $creator->coverPhotoUrl() }}"
                                      alt="capa"

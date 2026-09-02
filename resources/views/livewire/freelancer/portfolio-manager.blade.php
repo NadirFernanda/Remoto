@@ -11,7 +11,7 @@ $categoryIcons = [
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold">Meu Portfólio</h1>
             <p class="text-sm text-white/75 mt-1">Apresente os seus trabalhos, certificações e estudos de caso</p>
@@ -49,8 +49,7 @@ $categoryIcons = [
             @foreach($categories as $key => $label)
             <button wire:click="$set('tab', '{{ $key }}')"
                     type="button"
-                    class="px-3 py-1.5 rounded-full text-sm font-medium border transition
-                        {{ $tab === $key ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]' }}">
+                    class="px-3 py-1.5 rounded-full text-sm font-medium border transition {{ $tab === $key ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]' }}">
                 {{ $label }}
             </button>
             @endforeach

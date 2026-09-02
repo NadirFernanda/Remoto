@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
             <div>
                 <h2 class="text-2xl font-extrabold">Assinaturas</h2>
@@ -87,8 +87,7 @@
             <div class="flex gap-1.5">
                 @foreach($years as $yr)
                     <button wire:click="$set('selectedYear', {{ $yr }})"
-                        class="px-3 py-1 rounded-lg text-xs font-bold border transition
-                            {{ $selectedYear == $yr ? 'bg-[#0055ff]/10 border-[#0055ff] text-[#0055ff]' : 'border-gray-200 text-gray-500 hover:border-gray-300' }}">
+                        class="px-3 py-1 rounded-lg text-xs font-bold border transition {{ $selectedYear == $yr ? 'bg-[#0055ff]/10 border-[#0055ff] text-[#0055ff]' : 'border-gray-200 text-gray-500 hover:border-gray-300' }}">
                         {{ $yr }}
                     </button>
                 @endforeach
@@ -105,7 +104,7 @@
                         <span class="text-xs font-bold text-[#0055ff]">{{ $data['new'] }}</span>
                     @endif
                     <div class="w-full rounded-t-md transition-all"
-                         style="height:{{ max(3, $pct) }}%;background:{{ $data['new'] > 0 ? 'linear-gradient(180deg,#00c8ff,#0033cc)' : '#f1f5f9' }}"></div>
+                         style="height:{{ max(3, $pct) }}%;background:{{ $data['new'] > 0 ? '#0055ff' : '#f1f5f9' }}"></div>
                 </div>
             @endforeach
         </div>
@@ -176,7 +175,7 @@
         @forelse($recentSubscribers as $sub)
             @php $subscriber = $sub->subscriber; @endphp
             <div class="flex items-center gap-3 px-6 py-3.5 hover:bg-gray-50 transition-colors">
-                <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#00c8ff] to-[#0033cc] flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
                     @if($subscriber?->profile_photo)
                         <img src="{{ $subscriber->avatarUrl() }}" class="w-9 h-9 object-cover" loading="lazy">
                     @else

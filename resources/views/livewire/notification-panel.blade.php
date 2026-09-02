@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto" x-data x-init="setInterval(() => $wire.refresh(), 60000)">
 
     {{-- ─── Gradient Header Card ───────────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
             <h2 class="text-2xl font-extrabold flex items-center gap-2">
                 Notificações
@@ -82,10 +82,7 @@
             @endphp
 
             <a href="{{ route('notification.open', $notification->id) }}"
-               class="flex items-start gap-4 p-4 rounded-2xl border transition-all group
-                      {{ $isUnread
-                           ? 'bg-blue-50 border-blue-100 hover:border-blue-200'
-                           : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-sm' }}">
+               class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-blue-100 hover:border-blue-200' : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-sm' }}">
 
                 {{-- Icon --}}
                 <div class="w-10 h-10 rounded-xl {{ $iconBg }} flex items-center justify-center flex-shrink-0 mt-0.5">

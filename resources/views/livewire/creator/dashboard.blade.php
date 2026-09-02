@@ -1,6 +1,6 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Painel do Criador</h2>
         <p class="text-sm text-white/90 mt-1">Gerencie as suas assinaturas, conteúdos e ganhos.</p>
     </div>
@@ -53,7 +53,7 @@
     </div>
 
     {{-- Share links --}}
-    <div class="bg-gradient-to-r from-[#00c8ff]/10 to-sky-50 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
+    <div class="/10 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
         <div class="flex-1">
             <p class="text-sm font-semibold text-gray-900 mb-1">Partilhe o seu perfil nas redes sociais</p>
             <p class="text-xs text-gray-500">Use estes links como marketing para atrair novos assinantes.</p>

@@ -87,21 +87,13 @@
         .tear-top {
             width: 100%;
             height: 16px;
-            background: repeating-linear-gradient(
-                90deg,
-                #fff 0, #fff 8px,
-                transparent 8px, transparent 16px
-            );
+            background: repeating-#0055ff;
             background-color: #e5e7eb;
         }
         .tear-bottom {
             width: 100%;
             height: 16px;
-            background: repeating-linear-gradient(
-                90deg,
-                #fff 0, #fff 8px,
-                transparent 8px, transparent 16px
-            );
+            background: repeating-#0055ff;
             background-color: #e5e7eb;
         }
 
@@ -388,7 +380,7 @@
 
         /* Header band */
         .inv-header {
-            background: linear-gradient(135deg, #0052cc 0%, #0a1228 100%);
+            background: #0b1220;
             color: #fff;
             padding: 32px 36px 28px;
             display: flex;

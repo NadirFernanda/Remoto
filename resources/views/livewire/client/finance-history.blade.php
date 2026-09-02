@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
@@ -73,7 +73,7 @@
                     'date_end'   => $filter_date_end,
                 ]) }}"
                 target="_blank"
-                class="flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md shadow-sky-200/40 transition-all whitespace-nowrap">
+                class="flex items-center gap-2 hover: hover: text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md shadow-sky-200/40 transition-all whitespace-nowrap">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
@@ -87,7 +87,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm">
                 <thead>
-                    <tr class="bg-gradient-to-r from-slate-50 to-sky-50/60 border-b border-slate-100">
+                    <tr class="border-b border-slate-100">
                         <th class="py-3.5 px-5 font-semibold text-slate-600 text-xs uppercase tracking-wide">#</th>
                         <th class="py-3.5 px-5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Título</th>
                         <th class="py-3.5 px-5 font-semibold text-slate-600 text-xs uppercase tracking-wide">Valor</th>

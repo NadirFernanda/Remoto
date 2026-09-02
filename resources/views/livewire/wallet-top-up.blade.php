@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@
                     @error('phone_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                     <button type="submit" wire:loading.attr="disabled" wire:target="chargeAppyPayPhone"
-                        class="w-full mt-4 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
+                        class="w-full mt-4 hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
                         <span wire:loading.remove wire:target="chargeAppyPayPhone">Recarregar {{ number_format($valor, 0, ',', '.') }} Kz via Express</span>
                         <span wire:loading wire:target="chargeAppyPayPhone" class="flex items-center gap-2">
                             <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

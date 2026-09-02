@@ -26,7 +26,7 @@
     @endif
 
     {{-- ── HEADER ─────────────────────────────────────────────────────────── --}}
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl text-white" style="background:linear-gradient(135deg,#0055ff 0%,#0033cc 100%)">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 rounded-2xl text-white" style="background:#0055ff">
         <div>
             <h1 class="text-xl font-bold tracking-tight">Gestão de Administradores</h1>
             <p class="text-slate-300 text-sm mt-0.5">Cadastre, edite e defina permissões de cada administrador da plataforma.</p>
@@ -91,7 +91,7 @@
                             {{-- Name + avatar --}}
                             <td class="py-3.5 px-5">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-slate-700 to-slate-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0 overflow-hidden">
+                                    <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0 overflow-hidden">
                                         @if($admin->profile_photo)
                                             <img src="{{ $admin->avatarUrl() }}" class="w-full h-full object-cover">
                                         @else
@@ -230,8 +230,7 @@
                         'notificacoes'  => ['icon' => 'M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0', 'label' => 'Notificações'],
                     ] as $tab => $info)
                         <button wire:click="$set('permTab', '{{ $tab }}')"
-                            class="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3.5 text-sm font-medium whitespace-nowrap transition border-b-2
-                                {{ $permTab === $tab ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                            class="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-3.5 text-sm font-medium whitespace-nowrap transition border-b-2 {{ $permTab === $tab ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="{{ $info['icon'] }}"/>
                             </svg>
@@ -371,8 +370,7 @@
                                         @foreach($levels as $level => $info)
                                         <label class="flex-1 cursor-pointer">
                                             <input type="radio" wire:model.live="permissions.{{ $modKey }}" value="{{ $level }}" class="sr-only">
-                                            <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0
-                                                {{ $currentAccess === $level ? $info['active'] : 'bg-white text-gray-500 hover:bg-gray-50' }}">
+                                            <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0 {{ $currentAccess === $level ? $info['active'] : 'bg-white text-gray-500 hover:bg-gray-50' }}">
                                                 {{ $info['label'] }}
                                             </span>
                                         </label>
@@ -481,8 +479,7 @@
                                     @foreach(['email' => 'E-mail', 'system' => 'Painel', 'both' => 'Ambos'] as $val => $lbl)
                                     <label class="cursor-pointer">
                                         <input type="radio" wire:model="notifyChannel" value="{{ $val }}" class="sr-only">
-                                        <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0
-                                            {{ $notifyChannel === $val ? 'bg-[#0055ff] text-white' : 'bg-white text-gray-500 hover:bg-gray-50' }}">
+                                        <span class="flex items-center justify-center px-3 py-1.5 text-xs font-semibold transition border-r border-gray-200 last:border-r-0 {{ $notifyChannel === $val ? 'bg-[#0055ff] text-white' : 'bg-white text-gray-500 hover:bg-gray-50' }}">
                                             {{ $lbl }}
                                         </span>
                                     </label>

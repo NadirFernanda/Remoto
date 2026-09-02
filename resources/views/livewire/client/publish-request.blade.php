@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -40,7 +40,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2">
+                    class="w-full hover: hover: text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2">
                     Continuar
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                 </button>

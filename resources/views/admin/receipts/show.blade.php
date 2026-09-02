@@ -21,7 +21,7 @@
     <span class="text-gray-300">|</span>
     <button onclick="window.print()"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white shadow"
-            style="background:linear-gradient(135deg,#0070ff,#00baff);">
+            style="background:#0055ff;">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
         </svg>
@@ -41,7 +41,7 @@
 <div class="receipt-card bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-2xl mx-auto" id="receipt-print">
 
     {{-- Cabeçalho da empresa --}}
-    <div style="background:linear-gradient(135deg,#0052cc,#0a1228);padding:2rem 2.5rem 1.5rem;">
+    <div style="background:#0b1220;padding:2rem 2.5rem 1.5rem;">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;">
             <div>
                 <div style="font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.02em;">24 HORAS</div>
@@ -64,7 +64,7 @@
     <div style="padding:1rem 2.5rem;background:#eff6ff;border-bottom:1px solid #dbeafe;">
         <p style="font-size:.65rem;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;">Utilizador da Plataforma</p>
         <div style="display:flex;align-items:center;gap:.75rem;">
-            <div style="width:2rem;height:2rem;border-radius:50%;background:linear-gradient(135deg,#0070ff,#00baff);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">
+            <div style="width:2rem;height:2rem;border-radius:50%;background:#0055ff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;">
                 {{ strtoupper(substr($recibo->user->name, 0, 1)) }}
             </div>
             <div>

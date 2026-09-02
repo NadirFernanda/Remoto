@@ -258,14 +258,14 @@
 
     {{-- Imagem de fundo --}}
     <div style="position:absolute;inset:0;background-image:url('{{ site_image_url('site_background_image', asset('img/login.jpeg')) }}');background-size:cover;background-position:center 20%;"></div>
-    <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(6,14,36,.75) 0%,rgba(10,22,40,.68) 50%,rgba(6,16,30,.78) 100%);"></div>
+    <div style="position:absolute;inset:0;background:#0b1220;"></div>
 
     {{-- Overlay escuro (mantém a cor #0a0f1e) --}}
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
 
     {{-- Glow decorativo --}}
-    <div class="hp-comunidade-glow" style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
-    <div class="hp-comunidade-glow" style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
+    <div class="hp-comunidade-glow" style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:#0b1220;pointer-events:none;z-index:1;"></div>
+    <div class="hp-comunidade-glow" style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:#0b1220;pointer-events:none;z-index:1;"></div>
 
     <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;">
 
@@ -285,7 +285,7 @@
 
             {{-- Card Criador --}}
             <div style="background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.12);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.22);transition:.3s' : 'transition:.3s'">
-                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);pointer-events:none;"></div>
+                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:#0b1220;pointer-events:none;"></div>
                 <div style="width:3rem;height:3rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
                     <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                 </div>
@@ -324,9 +324,9 @@
             </div>
 
             {{-- Card Assinante --}}
-            <div style="background:linear-gradient(135deg,rgba(255,140,0,.07),rgba(255,60,0,.02));border:1px solid rgba(255,140,0,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(255,140,0,.12);transition:.3s' : 'transition:.3s'">
-                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;"></div>
-                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#f59e0b,#ef4444);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <div style="background:#0b1220;border:1px solid rgba(255,140,0,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(255,140,0,.12);transition:.3s' : 'transition:.3s'">
+                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:#0b1220;pointer-events:none;"></div>
+                <div style="width:3rem;height:3rem;background:#0055ff;border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
                     <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 </div>
                 <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Assinantes</h3>
@@ -375,7 +375,7 @@
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publicações mensais</p>
             </div>
             <div>
-                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">3.000 KZS</p>
+                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:#0055ff;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">3.000 KZS</p>
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
             </div>
             <div>

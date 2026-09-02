@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16"
+<div class="min-h-screen pb-16"
     x-data="{
         selected: [],
         toggleAll(checked, ids) {
@@ -13,7 +13,7 @@
     <div class="bg-white border-b border-slate-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00c8ff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-200">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
@@ -56,7 +56,7 @@
             x-transition:enter="transition ease-out duration-200"
             x-transition:enter-start="opacity-0 -translate-y-2"
             x-transition:enter-end="opacity-100 translate-y-0"
-            class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl px-5 py-3.5 mb-4 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
+            class="rounded-2xl px-5 py-3.5 mb-4 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
             <span class="text-white text-sm font-semibold" x-text="selected.length + ' serviço(s) seleccionado(s)'"></span>
             <div class="flex items-center gap-3">
                 <button @click="selected = []"
@@ -108,16 +108,7 @@
                             <td class="py-3 px-4 font-medium text-slate-800">{{ $service->titulo }}</td>
                             <td class="py-3 px-4 text-slate-600">{{ $service->cliente->name ?? '—' }}</td>
                             <td class="py-3 px-4">
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold
-                                    {{ match($service->status) {
-                                        'completed', 'delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-                                        'in_progress', 'accepted' => 'bg-sky-50 text-sky-700 border border-sky-200',
-                                        'cancelled' => 'bg-red-50 text-red-700 border border-red-200',
-                                        'negotiating' => 'bg-violet-50 text-violet-700 border border-violet-200',
-                                        'em_moderacao', 'payment_pending' => 'bg-orange-50 text-orange-700 border border-orange-200',
-                                        'draft' => 'bg-slate-100 text-slate-500 border border-slate-200',
-                                        default => 'bg-amber-50 text-amber-700 border border-amber-200',
-                                    } }}">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold {{ match($service->status) { 'completed', 'delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'in_progress', 'accepted' => 'bg-sky-50 text-sky-700 border border-sky-200', 'cancelled' => 'bg-red-50 text-red-700 border border-red-200', 'negotiating' => 'bg-violet-50 text-violet-700 border border-violet-200', 'em_moderacao', 'payment_pending' => 'bg-orange-50 text-orange-700 border border-orange-200', 'draft' => 'bg-slate-100 text-slate-500 border border-slate-200', default => 'bg-amber-50 text-amber-700 border border-amber-200', } }}">
                                     {{ match($service->status) {
                                         'draft'           => 'Rascunho',
                                         'payment_pending' => 'Pagamento Pendente',

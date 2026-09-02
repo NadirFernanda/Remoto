@@ -25,7 +25,7 @@
     <div style="background:#fff;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,.07);overflow:hidden;">
 
         {{-- Header azul escuro --}}
-        <div style="background:linear-gradient(135deg,#0052cc 0%,#0a1228 100%);padding:2rem 2rem 1.75rem;">
+        <div style="background:#0b1220;padding:2rem 2rem 1.75rem;">
             {{-- Badge --}}
             <div style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:50px;padding:.3rem .9rem;margin-bottom:1.25rem;">
                 <svg style="width:13px;height:13px;color:#00baff;flex-shrink:0;" fill="none" stroke="#00baff" stroke-width="2" viewBox="0 0 24 24">
@@ -47,7 +47,7 @@
 
             {{-- Avatar + nome + data --}}
             <div style="display:flex;align-items:center;gap:.75rem;">
-                <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#00baff,#0070ff);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,186,255,.4);">
+                <div style="width:38px;height:38px;border-radius:50%;background:#0055ff;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,186,255,.4);">
                     {{ $initial }}
                 </div>
                 <div>

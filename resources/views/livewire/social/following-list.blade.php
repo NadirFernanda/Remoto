@@ -1,7 +1,7 @@
 <div class="space-y-6">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">A Seguir</h2>
             <p class="text-sm text-white/75 mt-1">
@@ -63,15 +63,13 @@
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="flex items-center border-b border-gray-100">
                     <button wire:click="$set('tab','seguindo')"
-                        class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition
-                            {{ $tab === 'seguindo' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                        class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition {{ $tab === 'seguindo' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                         A Seguir
                         <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold {{ $tab === 'seguindo' ? 'bg-[#0055ff] text-white' : 'bg-gray-100 text-gray-500' }}">{{ $totalFollowing }}</span>
                     </button>
                     <button wire:click="$set('tab','assinaturas')"
-                        class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition
-                            {{ $tab === 'assinaturas' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                        class="flex items-center gap-2 px-5 py-3.5 text-sm font-semibold border-b-2 transition {{ $tab === 'assinaturas' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Assinaturas Activas
                         <span class="text-xs px-1.5 py-0.5 rounded-full font-semibold {{ $tab === 'assinaturas' ? 'bg-[#0055ff] text-white' : 'bg-gray-100 text-gray-500' }}">{{ $totalSubscriptions }}</span>

@@ -1,6 +1,6 @@
 @if(isset($steps))
 <div class="bg-white border border-[#0055ff]/30 rounded-2xl shadow-sm mb-6 overflow-hidden">
-    <div class="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#00c8ff]/10 to-transparent">
+    <div class="flex items-center justify-between px-5 py-4 /10">
         <div>
             <h2 class="font-semibold text-gray-800">Configure a sua conta</h2>
             <p class="text-sm text-gray-500">Complete os passos para começar a receber projectos</p>
@@ -29,8 +29,7 @@
         <a href="{{ $step['link'] }}"
            class="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 transition group {{ $step['done'] ? 'opacity-60' : '' }}">
             {{-- Status icon --}}
-            <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center
-                {{ $step['done'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400 group-hover:bg-[#0055ff]/10 group-hover:text-[#0055ff]' }}">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center {{ $step['done'] ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400 group-hover:bg-[#0055ff]/10 group-hover:text-[#0055ff]' }}">
                 @if($step['done'])
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>

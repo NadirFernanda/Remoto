@@ -5,7 +5,7 @@
 <style>
 /* ── Hero ─────────────────────────────────────────────── */
 .fsp-hero {
-    background: linear-gradient(135deg, #071428 0%, #0a2040 50%, #003d66 100%);
+    background: #0b1220;
     padding: 3.5rem 1.25rem 2.75rem;
     text-align: center;
     position: relative;
@@ -15,7 +15,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,80,255,.18) 0%, transparent 70%);
+    background: #0b1220;
     pointer-events: none;
 }
 .fsp-hero-eyebrow {
@@ -131,7 +131,7 @@
 }
 .fsp-card-cover {
     height: 70px;flex-shrink: 0;position: relative;
-    background: linear-gradient(120deg, #0575e6 0%, #0055ff 100%);
+    background: #0055ff;
 }
 .fsp-card-avatar {
     position: absolute;bottom: -22px;left: 15px;z-index: 1;

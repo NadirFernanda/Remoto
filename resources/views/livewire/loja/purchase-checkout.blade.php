@@ -1,7 +1,7 @@
 <div class="max-w-2xl mx-auto space-y-5">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 @if($produto->capa_path)
@@ -37,10 +37,7 @@
         <div class="grid {{ auth()->user()->activeRole() === 'cliente' ? 'grid-cols-1' : 'grid-cols-2' }} gap-3 mb-6">
             @if(auth()->user()->activeRole() !== 'cliente')
             <button type="button" wire:click="$set('payment_method', 'wallet')"
-                class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
-                    {{ $payment_method === 'wallet'
-                        ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm'
-                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
+                class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all {{ $payment_method === 'wallet' ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm' : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
@@ -48,10 +45,7 @@
             </button>
             @endif
             <button type="button" wire:click="$set('payment_method', 'express')"
-                class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all
-                    {{ $payment_method === 'express'
-                        ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm'
-                        : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
+                class="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all {{ $payment_method === 'express' ? 'border-[#0055ff] bg-[#0055ff]/5 text-[#0055ff] shadow-sm' : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-[#0055ff]/40 hover:bg-[#0055ff]/5 hover:text-[#0055ff]' }}">
                 <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express" class="w-5 h-5 rounded object-cover">
                 <span class="text-xs font-semibold">Express</span>
             </button>
@@ -66,7 +60,7 @@
                 </span>
             </div>
             <button type="button" wire:click="chargeWallet" wire:loading.attr="disabled" wire:target="chargeWallet"
-                class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-base">
+                class="w-full hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-base">
                 <span wire:loading.remove wire:target="chargeWallet">Pagar {{ number_format($price, 0, ',', '.') }} Kz com saldo da carteira</span>
                 <span wire:loading wire:target="chargeWallet" class="flex items-center gap-2">
                     <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
@@ -86,7 +80,7 @@
                     @error('phone_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                     <button type="submit" wire:loading.attr="disabled" wire:target="chargeAppyPayPhone"
-                        class="w-full mt-4 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-base">
+                        class="w-full mt-4 hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-base">
                         <span wire:loading.remove wire:target="chargeAppyPayPhone">Pagar {{ number_format($price, 0, ',', '.') }} Kz via Express</span>
                         <span wire:loading wire:target="chargeAppyPayPhone" class="flex items-center gap-2">
                             <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

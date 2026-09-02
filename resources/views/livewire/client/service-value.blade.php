@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -21,10 +21,7 @@
             @foreach([1 => 'Briefing', 2 => 'Investimento', 3 => 'Pagamento'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all
-                            {{ $n < 2  ? 'bg-gradient-to-br from-emerald-400 to-emerald-500 text-white' :
-                               ($n === 2 ? 'bg-gradient-to-br from-[#00c8ff] to-[#0055ff] text-white shadow-sky-200/60' :
-                                          'bg-slate-100 text-slate-400') }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $n < 2 ? ' text-white' : ($n === 2 ? ' text-white shadow-sky-200/60' : 'bg-slate-100 text-slate-400') }}">
                             @if($n < 2)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -34,7 +31,7 @@
                         <span class="text-sm font-semibold {{ $n <= 2 ? 'text-slate-800' : 'text-slate-400' }} hidden sm:inline">{{ $label }}</span>
                     </div>
                     @if(!$loop->last)
-                        <div class="flex-1 h-1 mx-3 rounded-full {{ $n < 2 ? 'bg-gradient-to-r from-[#00c8ff] to-[#0055ff]' : 'bg-slate-100' }}"></div>
+                        <div class="flex-1 h-1 mx-3 rounded-full {{ $n < 2 ? ' ' : 'bg-slate-100' }}"></div>
                     @endif
                 </div>
             @endforeach
@@ -230,7 +227,7 @@
                     </div>
 
                     <button type="submit" wire:loading.attr="disabled"
-                        class="w-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
+                        class="w-full hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
                         <span wire:loading.remove>
                             Continuar para pagamento
                             <svg class="w-4 h-4 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>

@@ -6,10 +6,7 @@
             class="border border-gray-200 rounded-[10px] px-3 py-2 text-sm w-56 focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
         @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $label)
             <button wire:click="$set('period', '{{ $val }}')"
-                class="px-3 py-1.5 rounded-[10px] text-xs border transition
-                    {{ $period === $val
-                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
+                class="px-3 py-1.5 rounded-[10px] text-xs border transition {{ $period === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach

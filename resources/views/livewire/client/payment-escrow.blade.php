@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -21,9 +21,7 @@
             @foreach([1 => 'Briefing', 2 => 'Investimento', 3 => 'Pagamento'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm
-                            {{ $n < 3  ? 'bg-gradient-to-br from-emerald-400 to-emerald-500 text-white' :
-                               'bg-gradient-to-br from-[#00c8ff] to-[#0055ff] text-white shadow-sky-200/60' }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm {{ $n < 3 ? ' text-white' : ' text-white shadow-sky-200/60' }}">
                             @if($n < 3)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -33,7 +31,7 @@
                         <span class="text-sm font-semibold text-slate-800 hidden sm:inline">{{ $label }}</span>
                     </div>
                     @if(!$loop->last)
-                        <div class="flex-1 h-1 mx-3 rounded-full bg-gradient-to-r from-[#00c8ff] to-[#0055ff]"></div>
+                        <div class="flex-1 h-1 mx-3 rounded-full"></div>
                     @endif
                 </div>
             @endforeach
@@ -84,7 +82,7 @@
                         @error('phone_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                         <button type="submit" wire:loading.attr="disabled" wire:target="chargeAppyPayPhone"
-                            class="w-full mt-4 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
+                            class="w-full mt-4 hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
                             <span wire:loading.remove wire:target="chargeAppyPayPhone">Pagar {{ number_format($valor_total, 0, ',', '.') }} Kz via Express</span>
                             <span wire:loading wire:target="chargeAppyPayPhone" class="flex items-center gap-2">
                                 <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>

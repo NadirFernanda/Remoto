@@ -105,7 +105,7 @@
                             <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" loading="lazy" decoding="async" style="width:100%;height:160px;object-fit:cover;">
                         </a>
                     @else
-                        <div style="width:100%;height:80px;background:linear-gradient(135deg,rgba(0,186,255,.12),rgba(0,186,255,.05));display:flex;align-items:center;justify-content:center;">
+                        <div style="width:100%;height:80px;background:#0b1220;display:flex;align-items:center;justify-content:center;">
                             <span style="font-size:2rem;font-weight:900;color:rgba(0,186,255,.3);">{{ strtoupper(substr($project->titulo, 0, 1)) }}</span>
                         </div>
                     @endif

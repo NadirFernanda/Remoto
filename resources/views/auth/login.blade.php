@@ -62,7 +62,7 @@
     .lf-submit {
         width: 100%;
         padding: 1rem;
-        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+        background: #0055ff;
         color: #fff;
         font-weight: 800;
         font-size: 1rem;
@@ -112,7 +112,7 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #0055ff, #0033cc);
+        background: #0055ff;
         display: flex;
         align-items: center;
         justify-content: center;

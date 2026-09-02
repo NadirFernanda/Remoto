@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Gestão de Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o progresso, milestones e entregas dos seus projectos.</p>
@@ -32,10 +32,7 @@
         @foreach($tabs as $val => $label)
             <button
                 wire:click="$set('statusFilter', '{{ $val }}')"
-                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition
-                    {{ $statusFilter === $val
-                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}"
+                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}"
             >
                 {{ $label }}
                 @if($val && ($pipeline[$val] ?? 0))
@@ -82,8 +79,7 @@
                 <button
                     wire:key="project-list-{{ $project->id }}"
                     wire:click="selectService({{ $project->id }})"
-                    class="w-full text-left bg-white rounded-2xl border p-4 transition
-                        {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}"
+                    class="w-full text-left bg-white rounded-2xl border p-4 transition {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}"
                 >
                     <div class="flex items-start justify-between gap-2">
                         <p class="text-sm font-semibold text-gray-800 line-clamp-1 flex-1">{{ $project->titulo }}</p>
@@ -285,8 +281,7 @@
                                 @php $active = $currentStep !== false && $i <= $currentStep; @endphp
                                 <div class="flex items-center flex-shrink-0">
                                     <div class="flex flex-col items-center gap-1">
-                                        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold
-                                            {{ $active ? 'bg-[#0055ff] text-white' : 'bg-gray-100 text-gray-400' }}">
+                                        <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold {{ $active ? 'bg-[#0055ff] text-white' : 'bg-gray-100 text-gray-400' }}">
                                             @if($active && $i < $currentStep)
                                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                                             @else
@@ -551,7 +546,7 @@
                                     <span>{{ $doneMilestones }}/{{ $totalMilestones }} ({{ round($doneMilestones/$totalMilestones*100) }}%)</span>
                                 </div>
                                 <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-full transition-all"
+                                    <div class="h-full rounded-full transition-all"
                                          style="width: {{ round($doneMilestones/$totalMilestones*100) }}%"></div>
                                 </div>
                             </div>
@@ -560,11 +555,9 @@
                         {{-- Milestone list --}}
                         <div class="space-y-2">
                             @forelse($selected->milestones as $milestone)
-                                <div wire:key="milestone-{{ $milestone->id }}" class="flex items-start gap-3 p-3 rounded-[10px] border
-                                    {{ $milestone->completed ? 'bg-green-50 border-green-100' : 'bg-gray-50 border-gray-100' }}">
+                                <div wire:key="milestone-{{ $milestone->id }}" class="flex items-start gap-3 p-3 rounded-[10px] border {{ $milestone->completed ? 'bg-green-50 border-green-100' : 'bg-gray-50 border-gray-100' }}">
                                     <button wire:click="toggleMilestone({{ $milestone->id }})"
-                                        class="mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition
-                                            {{ $milestone->completed ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-[#0055ff]' }}">
+                                        class="mt-0.5 flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition {{ $milestone->completed ? 'bg-green-500 border-green-500' : 'border-gray-300 hover:border-[#0055ff]' }}">
                                         @if($milestone->completed)
                                             <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>

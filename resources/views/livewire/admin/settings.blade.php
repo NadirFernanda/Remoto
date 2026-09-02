@@ -15,8 +15,7 @@
         </div>
 
         @if($profileMsg)
-            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
-                {{ $profileMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border {{ $profileMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
                 {{ $profileMsg }}
             </div>
         @endif
@@ -49,7 +48,7 @@
         </div>
 
         <button wire:click="saveProfile" wire:loading.attr="disabled"
-            class="px-5 py-2 bg-gradient-to-r from-[#00c8ff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+            class="px-5 py-2 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
             <span wire:loading.remove wire:target="saveProfile">Guardar Perfil</span>
             <span wire:loading wire:target="saveProfile">A guardar...</span>
         </button>
@@ -68,8 +67,7 @@
         </div>
 
         @if($twoFaMsg)
-            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border
-                {{ $twoFaMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm font-medium border {{ $twoFaMsgType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
                 {{ $twoFaMsg }}
             </div>
         @endif
@@ -103,7 +101,7 @@
                 </div>
             </div>
         @else
-            <a href="{{ route('2fa.setup') }}" class="inline-flex items-center px-5 py-2 bg-gradient-to-r from-[#00c8ff] to-blue-600 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition">
+            <a href="{{ route('2fa.setup') }}" class="inline-flex items-center px-5 py-2 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition">
                 Configurar agora
             </a>
         @endif

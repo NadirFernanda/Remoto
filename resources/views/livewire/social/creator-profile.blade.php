@@ -30,7 +30,7 @@
                 </div>
             </x-image-lightbox>
         @else
-            <div class="h-32 sm:h-44 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
+            <div class="h-32 sm:h-44 /40 relative">
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
                 <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
             </div>
@@ -42,7 +42,7 @@
                 {{-- Avatar --}}
                 <div class="relative flex-shrink-0">
                     <x-image-lightbox :src="$creator->avatarUrl()" :alt="$creator->name">
-                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-white shadow-md' }}">
+                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? ' ' : 'bg-white shadow-md' }}">
                             <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-xl' : '' }}">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
@@ -86,10 +86,7 @@
                     @auth
                         @if(auth()->id() !== $creator->id)
                             <button wire:click="toggleFollow"
-                                class="px-5 py-2 text-sm font-bold rounded-xl border-2 transition
-                                    {{ $isFollowing
-                                        ? 'border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-600'
-                                        : 'border-[#0055ff] bg-[#0055ff] text-white hover:bg-[#0033cc] hover:border-[#0033cc]' }}">
+                                class="px-5 py-2 text-sm font-bold rounded-xl border-2 transition {{ $isFollowing ? 'border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-600' : 'border-[#0055ff] bg-[#0055ff] text-white hover:bg-[#0033cc] hover:border-[#0033cc]' }}">
                                 @if($isFollowing)
                                     <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>A seguir</span>
                                 @else
@@ -104,7 +101,7 @@
                                     </span>
                                 @else
                                     <a href="{{ route('social.creator.subscribe', $creator) }}"
-                                        class="px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 transition shadow-sm">
+                                        class="px-5 py-2 text-sm font-bold rounded-xl text-white hover: hover: transition shadow-sm">
                                         <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.53 5.13 5.66.82-4.1 3.99 0.97 5.62L12 0.25 6.94 18.06l0.97-5.62L3.81 8.45l5.66-.82L12 2.5z"/></svg>Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês</span>
                                     </a>
                                 @endif
@@ -279,7 +276,7 @@
                                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                          alt="" loading="lazy">
                                 @else
-                                    <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center">
+                                    <div class="w-full h-full flex items-center justify-center">
                                         <svg class="w-8 h-8 text-white/50" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                     </div>
                                 @endif
@@ -287,7 +284,7 @@
                                     <svg class="w-4 h-4 text-white drop-shadow" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                                 </div>
                             @else
-                                <div class="w-full h-full bg-gradient-to-br from-[#00c8ff]/10 to-blue-50 flex items-center justify-center p-3">
+                                <div class="w-full h-full /10 flex items-center justify-center p-3">
                                     <p class="text-xs text-gray-500 line-clamp-4 text-center leading-relaxed">{{ Str::limit(strip_tags($post->content ?? ''), 80) }}</p>
                                 </div>
                             @endif

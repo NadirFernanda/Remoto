@@ -20,7 +20,7 @@
     }
     .reg-headline { font-size: 1.6rem; font-weight: 900; color: #0a0f1e; line-height: 1.2; margin-bottom: .4rem; }
     .reg-headline .grad {
-        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+        background: #0055ff;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -34,7 +34,7 @@
         font-size: .75rem; font-weight: 800; color: #94a3b8; background: #f1f5f9; border: 2px solid #e2e8f0;
         flex-shrink: 0;
     }
-    .reg-step-dot.active { color: #fff; background: linear-gradient(135deg, #00c8ff 0%, #0055ff 100%); border-color: transparent; }
+    .reg-step-dot.active { color: #fff; background: #0055ff; border-color: transparent; }
     .reg-step-dot.done { color: #fff; background: #16a34a; border-color: transparent; }
     .reg-step-label { font-size: .78rem; font-weight: 700; color: #64748b; }
     .reg-step-label.active { color: #0f172a; }
@@ -86,7 +86,7 @@
     .lf-submit {
         width: 100%;
         padding: .9rem;
-        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+        background: #0055ff;
         color: #fff;
         font-weight: 800;
         font-size: 1rem;
@@ -128,7 +128,7 @@
         flex: 1;
         position: relative;
         overflow: hidden;
-        background: linear-gradient(160deg, #0a1628 0%, #060e24 60%, #0a1035 100%);
+        background: #0b1220;
         display: flex;
         align-items: flex-start;
     }
@@ -146,7 +146,7 @@
         left: 20%;
         width: 380px;
         height: 380px;
-        background: radial-gradient(circle, rgba(0,85,255,.18) 0%, transparent 70%);
+        background: #0b1220;
         border-radius: 50%;
         z-index: 1;
         pointer-events: none;
@@ -158,7 +158,7 @@
         right: 10%;
         width: 260px;
         height: 260px;
-        background: radial-gradient(circle, rgba(0,200,255,.12) 0%, transparent 70%);
+        background: #0b1220;
         border-radius: 50%;
         z-index: 1;
         pointer-events: none;
@@ -179,7 +179,7 @@
 
     .rr-headline { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1.18; margin-bottom: .75rem; }
     .rr-headline .rr-accent {
-        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 100%);
+        background: #0055ff;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;

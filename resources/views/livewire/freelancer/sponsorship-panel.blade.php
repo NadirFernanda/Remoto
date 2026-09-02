@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Patrocinio de Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Destaque o seu perfil com patrocinio.</p>
     </div>

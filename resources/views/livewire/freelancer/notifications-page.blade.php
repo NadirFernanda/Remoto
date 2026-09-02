@@ -7,7 +7,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Notificações</h2>
             <p class="text-sm text-white/75 mt-1">Actualizações sobre os seus projectos e actividade</p>
@@ -41,10 +41,7 @@
         @foreach($recent as $notification)
             @php $isUnread = !$notification->read; @endphp
             <a href="{{ $notification->getUrl() }}"
-               class="flex items-start gap-4 p-4 rounded-2xl border transition-all group
-                   {{ $isUnread
-                       ? 'bg-blue-50 border-[#0052cc]/25 shadow-sm hover:shadow-md'
-                       : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
+               class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-[#0052cc]/25 shadow-sm hover:shadow-md' : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                 <div class="flex-shrink-0 mt-1">
                     <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc] animate-pulse' : 'bg-gray-200' }}"></span>
                 </div>
@@ -77,10 +74,7 @@
                     $isUnread = !$notification->read;
                 @endphp
                 <a href="{{ $notification->getUrl() }}"
-                   class="flex items-start gap-4 p-4 rounded-2xl border transition-all group
-                       {{ $isUnread
-                           ? 'bg-blue-50 border-[#0052cc]/20 shadow-sm hover:shadow-md'
-                           : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
+                   class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-[#0052cc]/20 shadow-sm hover:shadow-md' : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                     <div class="flex-shrink-0 mt-1">
                         <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc]' : 'bg-gray-200' }}"></span>
                     </div>

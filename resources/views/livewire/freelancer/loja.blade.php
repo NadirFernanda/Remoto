@@ -1,7 +1,7 @@
 <div class="max-w-6xl mx-auto space-y-6">
 
     {{-- ── Hero Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold">Minha Loja</h1>
             <p class="text-sm text-white/75 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
@@ -15,8 +15,7 @@
 
     {{-- Feedback --}}
     @if($feedback)
-        <div class="mb-6 px-4 py-3 rounded-2xl text-sm font-medium border shadow-sm
-            {{ $feedbackType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
+        <div class="mb-6 px-4 py-3 rounded-2xl text-sm font-medium border shadow-sm {{ $feedbackType === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-red-50 text-red-700 border-red-200' }}">
             {{ $feedback }}
         </div>
     @endif
@@ -50,7 +49,7 @@
                 Ver Loja pública
             </a>
             <a href="{{ route('freelancer.financial') }}"
-                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white transition shadow-sm">
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 text-white transition shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 Sacar no Painel Financeiro
             </a>
@@ -163,7 +162,7 @@
 
         <div class="flex items-center gap-3 mt-6">
             <button wire:click="saveProduto" wire:loading.attr="disabled"
-                class="px-5 py-2.5 bg-gradient-to-r from-[#00c8ff] to-[#0033cc] text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                class="px-5 py-2.5 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
             </button>
@@ -196,7 +195,7 @@
                         class="w-full h-full object-cover">
                 </div>
                 @else
-                <div class="sm:w-36 h-32 sm:h-auto flex-shrink-0 bg-gradient-to-br from-[#00c8ff]/10 to-[#0055ff]/30 flex items-center justify-center">
+                <div class="sm:w-36 h-32 sm:h-auto flex-shrink-0 /10 /30 flex items-center justify-center">
                     <svg class="w-12 h-12 text-[#0055ff]/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
@@ -214,11 +213,7 @@
                                     {{ $produto->tipoLabel() }}
                                 </span>
                                 {{-- Status badge --}}
-                                <span class="px-2 py-0.5 rounded-full text-xs font-medium
-                                    @if($produto->status === 'ativo') bg-green-100 text-green-700
-                                    @elseif($produto->status === 'em_moderacao') bg-yellow-100 text-yellow-700
-                                    @elseif($produto->status === 'inativo') bg-red-100 text-red-700
-                                    @else bg-gray-100 text-gray-700 @endif">
+                                <span class="px-2 py-0.5 rounded-full text-xs font-medium @if($produto->status === 'ativo') bg-green-100 text-green-700 @elseif($produto->status === 'em_moderacao') bg-yellow-100 text-yellow-700 @elseif($produto->status === 'inativo') bg-red-100 text-red-700 @else bg-gray-100 text-gray-700 @endif">
                                     {{ $produto->statusLabel() }}
                                 </span>
                                 {{-- Sponsored badge --}}
@@ -244,8 +239,7 @@
                         {{-- Sponsor button (only if active) --}}
                         @if($produto->status === 'ativo')
                         <button wire:click="openSponsor({{ $produto->id }})"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
-                                {{ $produto->isPatrocinado() ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100' : 'bg-[#0055ff]/10 text-[#0055ff] hover:bg-[#0055ff]/20' }} transition">
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg {{ $produto->isPatrocinado() ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100' : 'bg-[#0055ff]/10 text-[#0055ff] hover:bg-[#0055ff]/20' }} transition">
                             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             {{ $produto->isPatrocinado() ? 'Renovar Patrocínio' : 'Patrocinar' }}
                         </button>
@@ -337,20 +331,14 @@
             <label class="block text-sm font-medium text-gray-700 mb-2">Método de pagamento</label>
             <div class="grid grid-cols-2 gap-3">
                 <button type="button" wire:click="$set('sponsor_payment_method', 'wallet')"
-                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
-                        {{ $sponsor_payment_method === 'wallet'
-                            ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
-                            : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
+                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all {{ $sponsor_payment_method === 'wallet' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                     </svg>
                     <span class="text-xs font-semibold">Saldo</span>
                 </button>
                 <button type="button" wire:click="$set('sponsor_payment_method', 'express')"
-                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all
-                        {{ $sponsor_payment_method === 'express'
-                            ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm'
-                            : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
+                    class="flex flex-col items-center gap-2 p-3 rounded-xl border-2 transition-all {{ $sponsor_payment_method === 'express' ? 'border-amber-500 bg-amber-50 text-amber-700 shadow-sm' : 'border-gray-100 bg-gray-50 text-gray-400 hover:border-amber-300 hover:bg-amber-50' }}">
                     <img src="{{ asset('img/payment/multicaixa-express.jpg') }}" alt="Multicaixa Express" class="w-5 h-5 rounded object-cover">
                     <span class="text-xs font-semibold">Express</span>
                 </button>

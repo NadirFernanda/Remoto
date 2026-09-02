@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Meu Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Atualize os seus dados pessoais e preferencias.</p>
     </div>
@@ -20,7 +20,7 @@
     {{-- Foto de capa + foto de perfil --}}
     <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
         {{-- Banner de capa --}}
-        <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
+        <div class="relative h-48"
              @if($currentCoverPhoto) style="background-image:url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
             <label for="cp-cover-input"
                    class="absolute bottom-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 cursor-pointer transition"

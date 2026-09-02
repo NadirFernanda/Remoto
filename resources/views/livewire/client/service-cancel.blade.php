@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex items-center gap-4">
+    <div class="rounded-2xl p-6 text-white flex items-center gap-4">
         <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"/>
@@ -55,14 +55,7 @@
                         Editar título
                     </button>
                 </div>
-                <span class="flex-shrink-0 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border
-                    @if($service->status === 'published') bg-blue-50 text-blue-700 border-blue-200
-                    @elseif($service->status === 'cancelled') bg-red-50 text-red-700 border-red-200
-                    @elseif($service->status === 'accepted') bg-violet-50 text-violet-700 border-violet-200
-                    @elseif($service->status === 'in_progress') bg-amber-50 text-amber-700 border-amber-200
-                    @elseif($service->status === 'delivered') bg-teal-50 text-teal-700 border-teal-200
-                    @elseif($service->status === 'completed') bg-emerald-50 text-emerald-700 border-emerald-200
-                    @else bg-slate-100 text-slate-600 border-slate-200 @endif">
+                <span class="flex-shrink-0 inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border @if($service->status === 'published') bg-blue-50 text-blue-700 border-blue-200 @elseif($service->status === 'cancelled') bg-red-50 text-red-700 border-red-200 @elseif($service->status === 'accepted') bg-violet-50 text-violet-700 border-violet-200 @elseif($service->status === 'in_progress') bg-amber-50 text-amber-700 border-amber-200 @elseif($service->status === 'delivered') bg-teal-50 text-teal-700 border-teal-200 @elseif($service->status === 'completed') bg-emerald-50 text-emerald-700 border-emerald-200 @else bg-slate-100 text-slate-600 border-slate-200 @endif">
                     @if($service->status === 'published') Publicado
                     @elseif($service->status === 'cancelled') Cancelado
                     @elseif($service->status === 'accepted') Aceite

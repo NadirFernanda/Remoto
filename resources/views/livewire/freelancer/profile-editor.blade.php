@@ -14,7 +14,7 @@
         {{-- Foto de capa + foto de perfil --}}
         <div class="mb-6 rounded-xl border border-gray-200 overflow-hidden">
             {{-- Banner de capa --}}
-            <div class="relative h-48 bg-gradient-to-r from-[#00c8ff] to-[#6a5acd]"
+            <div class="relative h-48"
                  @if($currentCoverPhoto) style="background-image:url('{{ \Illuminate\Support\Facades\Storage::disk('public')->url($currentCoverPhoto) }}');background-size:cover;background-position:center;" @endif>
 
                 {{-- Overlay escuro ao hover sobre todo o banner --}}

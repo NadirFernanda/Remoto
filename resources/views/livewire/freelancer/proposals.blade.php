@@ -12,7 +12,7 @@
     @endif
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Propostas Recebidas</h2>
             <p class="text-sm text-white/75 mt-1">Convites directos de clientes para trabalhar em projectos</p>
@@ -34,12 +34,10 @@
     <div class="flex flex-wrap gap-2">
         @foreach(['pending' => 'Pendentes', 'accepted' => 'Aceites', 'rejected' => 'Recusadas'] as $key => $label)
             <button wire:click="setTab('{{ $key }}')"
-                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition
-                    {{ $tab === $key ? 'bg-[#0052cc] text-white border-[#0052cc] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300' }}">
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition {{ $tab === $key ? 'bg-[#0052cc] text-white border-[#0052cc] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300' }}">
                 {{ $label }}
                 @if(($counts[$key] ?? 0) > 0)
-                    <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold
-                        {{ $tab === $key ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600' }}">{{ $counts[$key] }}</span>
+                    <span class="px-1.5 py-0.5 rounded-full text-[10px] font-bold {{ $tab === $key ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-600' }}">{{ $counts[$key] }}</span>
                 @endif
             </button>
         @endforeach

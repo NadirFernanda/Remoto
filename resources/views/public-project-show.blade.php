@@ -64,7 +64,7 @@
                     <img src="{{ asset('img/' . $briefing['thumbnail']) }}" alt="{{ $service->titulo }}"
                         style="width:100%;max-width:200px;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px;">
                 @else
-                    <div class="pshow-avatar" style="width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,rgba(0,186,255,.18),rgba(0,186,255,.06));display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <div class="pshow-avatar" style="width:80px;height:80px;border-radius:16px;background:#0b1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                         <span style="font-size:1.75rem;font-weight:900;color:#00baff;">{{ strtoupper(substr($service->titulo,0,1)) }}</span>
                     </div>
                 @endif

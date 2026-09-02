@@ -1,7 +1,7 @@
 <div class="max-w-4xl mx-auto space-y-6">
 
         {{-- Gradient Header --}}
-        <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="text-2xl font-extrabold">Histórico de Projectos</h2>
                 <p class="text-sm text-white/75 mt-1">Acompanhe o estado dos seus projectos</p>

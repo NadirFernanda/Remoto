@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center text-white/90 hover:text-white text-sm font-semibold mb-3">
             &larr; Voltar ao dashboard
         </a>

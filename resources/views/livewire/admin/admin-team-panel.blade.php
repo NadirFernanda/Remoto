@@ -67,8 +67,7 @@
             <div class="flex rounded-xl border border-slate-700 overflow-hidden">
                 @foreach(['hoje' => 'Hoje', 'semana' => 'Semana', 'mes' => 'Mês'] as $val => $label)
                     <button wire:click="$set('periodo', '{{ $val }}')"
-                        class="px-3 py-1.5 text-xs font-semibold transition
-                            {{ $periodo === $val ? 'bg-[#0055ff] text-white' : 'bg-transparent text-slate-400 hover:text-white' }}">
+                        class="px-3 py-1.5 text-xs font-semibold transition {{ $periodo === $val ? 'bg-[#0055ff] text-white' : 'bg-transparent text-slate-400 hover:text-white' }}">
                         {{ $label }}
                     </button>
                 @endforeach
@@ -98,8 +97,7 @@
 
             <div wire:key="admin-team-{{ $admin->id }}"
                  wire:click="selectAdmin({{ $admin->id }})"
-                 class="bg-white rounded-2xl border shadow-sm p-5 cursor-pointer transition-all duration-150
-                     {{ $isSelected ? 'border-[#0055ff] ring-2 ring-[#0055ff]/20' : 'border-gray-100 hover:border-slate-300' }}">
+                 class="bg-white rounded-2xl border shadow-sm p-5 cursor-pointer transition-all duration-150 {{ $isSelected ? 'border-[#0055ff] ring-2 ring-[#0055ff]/20' : 'border-gray-100 hover:border-slate-300' }}">
 
                 {{-- Header do card --}}
                 <div class="flex items-start gap-4">
@@ -110,7 +108,7 @@
                                  alt="{{ $admin->name }}"
                                  class="w-12 h-12 rounded-xl object-cover">
                         @else
-                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00c8ff] to-[#0033cc] flex items-center justify-center text-white font-bold text-lg">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                                 {{ $initial }}
                             </div>
                         @endif

@@ -7,10 +7,7 @@
         <div class="flex gap-2">
             @foreach(['week' => 'Semana', 'month' => 'Mês', 'year' => 'Ano'] as $val => $label)
                 <button wire:click="$set('period', '{{ $val }}')"
-                    class="flex-1 sm:flex-none px-3 py-1.5 rounded-[10px] text-xs border transition
-                        {{ $period === $val
-                            ? 'bg-[#0055ff] text-white border-[#0055ff]'
-                            : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
+                    class="flex-1 sm:flex-none px-3 py-1.5 rounded-[10px] text-xs border transition {{ $period === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                     {{ $label }}
                 </button>
             @endforeach
@@ -196,8 +193,7 @@
                     <tr class="hover:bg-gray-50">
                         <td class="py-3 px-4 text-xs text-gray-400 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
                         <td class="py-3 px-4 text-sm text-gray-700">{{ $log->user->name ?? '—' }}</td>
-                        <td class="py-3 px-4 text-sm text-right font-medium
-                            {{ $log->tipo === 'saque_rejeitado' ? 'text-gray-400 line-through' : 'text-red-500' }}">
+                        <td class="py-3 px-4 text-sm text-right font-medium {{ $log->tipo === 'saque_rejeitado' ? 'text-gray-400 line-through' : 'text-red-500' }}">
                             {{ money_aoa(abs($log->valor), false) }}
                         </td>
                         <td class="py-3 px-4">

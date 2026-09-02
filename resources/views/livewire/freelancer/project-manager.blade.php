@@ -37,7 +37,7 @@
     @endphp
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Os Meus Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o estado e actue sobre os seus projectos activos.</p>
@@ -63,7 +63,7 @@
         </div>
         <div class="flex items-center gap-3 ml-auto flex-wrap">
             <a href="{{ route('freelancer.financial') }}"
-                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white transition shadow-sm">
+                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 text-white transition shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 Sacar no Painel Financeiro
             </a>
@@ -81,8 +81,7 @@
     <div class="flex flex-wrap gap-2">
         @foreach(['accepted' => 'Aceite', 'negotiating' => 'Em Negociação', 'in_progress' => 'Em Andamento', 'revision_requested' => 'Revisão Pedida', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
             <button wire:click="$set('status', '{{ $key }}')"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border transition
-                    {{ $status === $key ? 'border-[#0052cc] text-[#0052cc] shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300' }}">
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border transition {{ $status === $key ? 'border-[#0052cc] text-[#0052cc] shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300' }}">
                 <span class="w-2 h-2 rounded-full {{ $statusDots[$key] ?? 'bg-gray-400' }}"></span>
                 {{ $label }}: <span class="font-bold">{{ $statusCounts[$key] ?? 0 }}</span>
             </button>

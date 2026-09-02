@@ -12,7 +12,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <div class="flex gap-6 items-start flex-wrap">
-                <div class="w-14 h-14 min-w-[3.25rem] rounded-full bg-gradient-to-br from-[#00baff] to-[#0077cc] flex items-center justify-center text-white font-black text-2xl">A</div>
+                <div class="w-14 h-14 min-w-[3.25rem] rounded-full flex items-center justify-center text-white font-black text-2xl">A</div>
                 <div class="flex-1 min-w-[200px]">
                     <div class="font-extrabold text-[#0f172a] mb-1">Ana Fernandes — Desenvolvedora Web, Luanda</div>
                     <div class="text-[#94a3b8] text-xs mb-3">Freelancer verificada · 48 projectos concluídos</div>
@@ -23,7 +23,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <div class="flex gap-6 items-start flex-wrap">
-                <div class="w-14 h-14 min-w-[3.25rem] rounded-full bg-gradient-to-br from-[#06b6d4] to-[#0077cc] flex items-center justify-center text-white font-black text-2xl">M</div>
+                <div class="w-14 h-14 min-w-[3.25rem] rounded-full flex items-center justify-center text-white font-black text-2xl">M</div>
                 <div class="flex-1 min-w-[200px]">
                     <div class="font-extrabold text-[#0f172a] mb-1">Manuel Costa — CEO, Startup de Logística, Benguela</div>
                     <div class="text-[#94a3b8] text-xs mb-3">Cliente · 12 projectos contratados</div>
@@ -34,7 +34,7 @@
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <div class="flex gap-6 items-start flex-wrap">
-                <div class="w-14 h-14 min-w-[3.25rem] rounded-full bg-gradient-to-br from-[#10b981] to-[#0077cc] flex items-center justify-center text-white font-black text-2xl">S</div>
+                <div class="w-14 h-14 min-w-[3.25rem] rounded-full flex items-center justify-center text-white font-black text-2xl">S</div>
                 <div class="flex-1 min-w-[200px]">
                     <div class="font-extrabold text-[#0f172a] mb-1">Sofia Mbala — Designer Gráfico, Huambo</div>
                     <div class="text-[#94a3b8] text-xs mb-3">Freelancer verificada · 31 projectos concluídos</div>

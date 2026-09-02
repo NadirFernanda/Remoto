@@ -19,7 +19,7 @@
                 </div>
             </x-image-lightbox>
         @else
-            <div class="h-32 sm:h-44 bg-gradient-to-br from-[#00c8ff]/40 via-blue-200/30 to-indigo-200/20 relative">
+            <div class="h-32 sm:h-44 /40 relative">
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
             </div>
         @endif

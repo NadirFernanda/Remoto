@@ -32,10 +32,7 @@
             <div>
                 <dt class="text-xs uppercase tracking-wide mb-1 text-slate-400">Status</dt>
                 <dd>
-                    <span class="inline-flex px-3 py-1 rounded-full text-sm font-bold
-                        @if($contract->status=='ativo') bg-emerald-500/15 text-emerald-300 border border-emerald-400/20
-                        @elseif($contract->status=='pendente') bg-amber-500/15 text-amber-300 border border-amber-400/20
-                        @else bg-slate-700 text-slate-200 border border-slate-600 @endif">
+                    <span class="inline-flex px-3 py-1 rounded-full text-sm font-bold @if($contract->status=='ativo') bg-emerald-500/15 text-emerald-300 border border-emerald-400/20 @elseif($contract->status=='pendente') bg-amber-500/15 text-amber-300 border border-amber-400/20 @else bg-slate-700 text-slate-200 border border-slate-600 @endif">
                         {{ ucfirst($contract->status) }}
                     </span>
                 </dd>

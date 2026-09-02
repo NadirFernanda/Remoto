@@ -44,7 +44,7 @@
                     <img src="{{ asset('img/' . $briefing['thumbnail']) }}" alt="{{ $service->titulo }}"
                         class="w-20 h-20 rounded-2xl object-cover flex-shrink-0">
                 @else
-                    <div class="w-20 h-20 rounded-2xl flex-shrink-0 flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100">
+                    <div class="w-20 h-20 rounded-2xl flex-shrink-0 flex items-center justify-center">
                         <span class="text-2xl font-black text-sky-500">{{ strtoupper(substr($service->titulo, 0, 1)) }}</span>
                     </div>
                 @endif
@@ -102,7 +102,7 @@
                 @elseif($service->status === 'published')
                     <form method="POST" action="{{ route('service.candidatar', $service->id) }}">
                         @csrf
-                        <button type="submit" class="bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
+                        <button type="submit" class="hover: hover: text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
                             Candidatar-me a este projecto
                         </button>
                     </form>
@@ -113,12 +113,12 @@
                 @if(auth()->user()->canSwitchRole())
                     <form method="POST" action="{{ route('switch.role') }}">
                         @csrf
-                        <button type="submit" class="bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
+                        <button type="submit" class="hover: hover: text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
                             Mudar para Freelancer e aceitar
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('register') }}" class="bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
+                    <a href="{{ route('register') }}" class="hover: hover: text-white font-semibold py-2.5 px-5 rounded-lg transition-all text-sm shadow-sm">
                         Criar perfil Freelancer
                     </a>
                 @endif

@@ -1,7 +1,7 @@
 <div class="space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">
                 @if($hashtag) #{{ $hashtag }}
@@ -43,7 +43,7 @@
                     {{-- User card --}}
                     @auth
                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-                        <div class="h-16 bg-gradient-to-br from-[#00c8ff]/30 via-blue-100/40 to-indigo-100/20"></div>
+                        <div class="h-16 /30"></div>
                         <div class="px-4 pb-4 -mt-7">
                             <a href="{{ route('social.creator', auth()->user()) }}" class="inline-block group">
                                 <img src="{{ auth()->user()->avatarUrl() }}"
@@ -121,7 +121,7 @@
                     {{-- Create post CTA --}}
                     @auth
                         @if(in_array(auth()->user()->activeRole(), ['freelancer', 'creator']))
-                        <div class="bg-gradient-to-br from-[#00c8ff] to-blue-600 rounded-2xl p-4 text-white shadow-md">
+                        <div class="rounded-2xl p-4 text-white shadow-md">
                             <p class="text-sm font-bold mb-1">Partilhe o seu trabalho</p>
                             <p class="text-xs text-white/80 mb-3 leading-relaxed">Publique conteúdo e ganhe visibilidade junto dos clientes.</p>
                             <a href="{{ route('social.create') }}"
@@ -193,7 +193,7 @@
                 {{-- Empty state --}}
                 @if($isEmpty)
                     <div class="bg-white border border-gray-100 rounded-2xl p-10 text-center shadow-sm">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00c8ff]/10 to-blue-100/30 flex items-center justify-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl /10 flex items-center justify-center">
                             <svg class="w-8 h-8 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
@@ -302,7 +302,7 @@
                     </div>
 
                     {{-- Branding badge --}}
-                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 text-white shadow-md">
+                    <div class="rounded-2xl p-4 text-white shadow-md">
                         <p class="text-sm font-bold mb-0.5">24h Remoto</p>
                         <p class="text-xs text-white/50 mb-3">Trabalho remoto em Angola</p>
                         <div class="flex flex-wrap gap-1.5">

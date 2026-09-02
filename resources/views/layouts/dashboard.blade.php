@@ -130,7 +130,7 @@
              style="position:fixed;top:5.5rem;left:50%;transform:translateX(-50%);z-index:9999;min-width:260px;max-width:calc(100vw - 2rem);"
              class="w-auto">
             <div class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl border border-[#0055ff]/30"
-                 style="background:linear-gradient(135deg,#0f1a2e 0%,#0a1628 100%);color:#f1f5f9;">
+                 style="background:#0b1220;color:#f1f5f9;">
                 <span style="width:36px;height:36px;border-radius:10px;background:rgba(0,80,255,.18);border:1px solid rgba(0,80,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                     <svg width="18" height="18" fill="none" stroke="#0055ff" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                 </span>

@@ -1,7 +1,7 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/40 pb-16">
+<div class="min-h-screen pb-16">
 
     {{-- ── Header ── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white mb-8">
+    <div class="rounded-2xl p-6 text-white mb-8">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -21,10 +21,7 @@
             @foreach([1 => 'Tipo de Serviço', 2 => 'Detalhes', 3 => 'Revisão'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all
-                            {{ $step > $n  ? 'bg-gradient-to-br from-emerald-400 to-emerald-500 text-white' :
-                               ($step === $n ? 'bg-gradient-to-br from-[#00c8ff] to-[#0055ff] text-white shadow-sky-200/60' :
-                                              'bg-slate-100 text-slate-400') }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $step > $n ? ' text-white' : ($step === $n ? ' text-white shadow-sky-200/60' : 'bg-slate-100 text-slate-400') }}">
                             @if($step > $n)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -34,7 +31,7 @@
                         <span class="text-sm font-semibold {{ $step >= $n ? 'text-slate-800' : 'text-slate-400' }} hidden sm:inline">{{ $label }}</span>
                     </div>
                     @if(!$loop->last)
-                        <div class="flex-1 h-1 mx-3 rounded-full {{ $step > $n ? 'bg-gradient-to-r from-[#00c8ff] to-[#0055ff]' : 'bg-slate-100' }}"></div>
+                        <div class="flex-1 h-1 mx-3 rounded-full {{ $step > $n ? ' ' : 'bg-slate-100' }}"></div>
                     @endif
                 </div>
             @endforeach
@@ -84,10 +81,7 @@
                         $selected = $business_type1 === $cat;
                     @endphp
                     <button type="button" wire:click="$set('business_type1', '{{ $cat }}')"
-                        class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer
-                            {{ $selected
-                                ? 'border-sky-400 bg-gradient-to-br from-sky-50 to-blue-50 shadow-md shadow-sky-100'
-                                : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/60' }}">
+                        class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer {{ $selected ? 'border-sky-400 shadow-md shadow-sky-100' : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/60' }}">
                         <div class="w-10 h-10 {{ $selected ? 'text-[#0033cc]' : 'text-[#0055ff]' }} transition-colors">
                             {!! $meta['icon'] !!}
                         </div>
@@ -115,7 +109,7 @@
 
         <div class="flex justify-end">
             <button type="button" wire:click="goToStep2"
-                class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
+                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
                 Continuar
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -197,7 +191,7 @@
                 Voltar
             </button>
             <button type="button" wire:click="goToStep3"
-                class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
+                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
                 Gerar descrição
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -253,7 +247,7 @@
                 Voltar
             </button>
             <button type="button" wire:click="submitBriefing" wire:loading.attr="disabled"
-                class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40 disabled:opacity-60">
+                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40 disabled:opacity-60">
                 <span wire:loading.remove>
                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     Publicar projecto

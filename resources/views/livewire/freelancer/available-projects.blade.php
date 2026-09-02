@@ -1,5 +1,5 @@
 <div class="max-w-6xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Projetos Disponíveis</h2>
         <p class="text-sm text-white/90 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
     </div>
@@ -138,7 +138,7 @@
                         </a>
                     @else
                         <button type="button" wire:click="acceptService({{ $project->id }})"
-                            class="bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm shadow-sm">
+                            class="hover: hover: text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm shadow-sm">
                             Aceitar projecto
                         </button>
                         <button type="button" wire:click="showProposalModal({{ $project->id }})"
@@ -243,7 +243,7 @@
                             Cancelar
                         </button>
                         <button type="submit"
-                            class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#00c8ff] to-[#0055ff] hover:from-sky-400 hover:to-blue-600 text-white text-sm font-semibold transition shadow-sm">
+                            class="px-5 py-2.5 rounded-xl hover: hover: text-white text-sm font-semibold transition shadow-sm">
                             Enviar proposta
                         </button>
                     </div>

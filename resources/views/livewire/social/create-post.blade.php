@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
 
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Nova Publicação</h2>
         <p class="text-sm text-white/75 mt-1">Partilhe conteúdo com a comunidade 24Horas</p>
     </div>
@@ -123,7 +123,7 @@
                         <input type="file" wire:model="audio" accept="audio/mpeg,audio/mp4,audio/ogg,audio/wav,audio/x-wav" class="hidden">
                     </label>
                 @else
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50/40 rounded-xl p-4 flex items-center gap-4">
+                    <div class="rounded-xl p-4 flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
                             <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163z"/>

@@ -30,7 +30,7 @@
 
         {{-- Avatar com ring de criador --}}
         <a href="{{ route('social.creator', $post->user) }}" class="flex-shrink-0">
-            <div class="p-0.5 rounded-full {{ $isCreator ? 'bg-gradient-to-tr from-[#00c8ff] via-blue-400 to-violet-500' : 'bg-transparent' }}">
+            <div class="p-0.5 rounded-full {{ $isCreator ? ' ' : 'bg-transparent' }}">
                 <div class="{{ $isCreator ? 'bg-white rounded-full p-0.5' : '' }}">
                     <img src="{{ $post->user->avatarUrl() }}"
                          alt="{{ $post->user->name }}"
@@ -139,12 +139,12 @@
                 @elseif($firstMedia->type === 'video' && $firstMedia->thumbnailUrl())
                     <img src="{{ $firstMedia->thumbnailUrl() }}" class="w-full object-cover blur-2xl scale-110 opacity-60" style="max-height:340px;" alt="">
                 @else
-                    <div class="w-full bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center" style="height:260px;">
+                    <div class="w-full flex items-center justify-center" style="height:260px;">
                         <svg class="w-20 h-20 text-white/10" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </div>
                 @endif
             @else
-                <div class="w-full bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center" style="height:260px;">
+                <div class="w-full flex items-center justify-center" style="height:260px;">
                     @if($post->content)
                         <p class="text-sm text-gray-500 blur-sm px-6 text-center line-clamp-3">{{ Str::limit(strip_tags($post->content), 80) }}</p>
                     @endif
@@ -152,7 +152,7 @@
             @endif
 
             {{-- Lock overlay --}}
-            <div class="absolute inset-0 flex flex-col items-center justify-end pb-8 cursor-pointer bg-gradient-to-t from-black/80 via-black/30 to-transparent"
+            <div class="absolute inset-0 flex flex-col items-center justify-end pb-8 cursor-pointer"
                  @click="showModal = true">
                 <div class="flex flex-col items-center gap-2">
                     <div class="w-14 h-14 rounded-full bg-white/10 border-2 border-white/20 flex items-center justify-center backdrop-blur-sm">
@@ -171,7 +171,7 @@
              class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/60"
              @click.self="showModal = false">
             <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-7 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00c8ff]/10 to-blue-100 flex items-center justify-center">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-2xl /10 flex items-center justify-center">
                     <svg class="w-7 h-7 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
                     </svg>
@@ -180,7 +180,7 @@
                 <p class="text-sm text-gray-500 mb-1">Para assinantes de</p>
                 <p class="text-base font-bold text-gray-900 mb-5">{{ $post->user->name }}</p>
                 <a href="{{ route('social.creator', $post->user) }}"
-                   class="inline-flex items-center gap-2 bg-gradient-to-r from-[#00c8ff] to-blue-500 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition w-full justify-center">
+                   class="inline-flex items-center gap-2 text-white text-sm font-bold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition w-full justify-center">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
                     </svg>
@@ -253,7 +253,7 @@
     {{-- AUDIO --}}
     @elseif(isset($post->type) && $post->type === 'audio' && $post->media->where('type','audio')->isNotEmpty())
         @php $aud = $post->media->where('type','audio')->first(); @endphp
-        <div class="mx-4 mb-1 bg-gradient-to-r from-[#00c8ff]/5 to-blue-50/40 border border-[#0055ff]/10 rounded-2xl p-4">
+        <div class="mx-4 mb-1 /5 border border-[#0055ff]/10 rounded-2xl p-4">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl bg-[#0055ff]/10 flex items-center justify-center flex-shrink-0">
                     <svg class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -281,7 +281,7 @@
                     <img src="{{ $post->link_image }}" class="w-full max-h-52 object-cover" alt="" loading="lazy"
                          onerror="this.parentElement.removeChild(this)">
                 @else
-                    <div class="w-full h-20 bg-gradient-to-r from-gray-100 to-gray-200 flex items-center justify-center">
+                    <div class="w-full h-20 flex items-center justify-center">
                         <svg class="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
                         </svg>

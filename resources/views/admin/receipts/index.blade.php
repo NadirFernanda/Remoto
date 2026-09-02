@@ -44,7 +44,7 @@
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 -translate-y-2"
         x-transition:enter-end="opacity-100 translate-y-0"
-        class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl px-5 py-3.5 mb-3 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
+        class="rounded-2xl px-5 py-3.5 mb-3 flex items-center justify-between gap-4 shadow-md shadow-sky-200/40">
         <span class="text-white text-sm font-semibold" x-text="selected.length + ' comprovativo(s) seleccionado(s)'"></span>
         <div class="flex items-center gap-3">
             <button @click="selected = []" class="text-white/70 hover:text-white text-xs font-medium transition">
@@ -102,13 +102,7 @@
                         <td class="px-4 py-3 text-gray-600 whitespace-nowrap">{{ $service->freelancer?->name ?? '—' }}</td>
                         <td class="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{{ money_aoa($service->valor ?? 0) }}</td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold
-                                {{ match($service->status) {
-                                    'completed','concluido','delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200',
-                                    'in_progress','accepted','em_andamento','em andamento' => 'bg-sky-50 text-sky-700 border border-sky-200',
-                                    'cancelled','cancelado' => 'bg-red-50 text-red-700 border border-red-200',
-                                    default => 'bg-amber-50 text-amber-700 border border-amber-200',
-                                } }}">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold {{ match($service->status) { 'completed','concluido','delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'in_progress','accepted','em_andamento','em andamento' => 'bg-sky-50 text-sky-700 border border-sky-200', 'cancelled','cancelado' => 'bg-red-50 text-red-700 border border-red-200', default => 'bg-amber-50 text-amber-700 border border-amber-200', } }}">
                                 {{ match($service->status) {
                                     'published'       => 'Publicado',
                                     'accepted'        => 'Aceite',
@@ -125,7 +119,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <a href="{{ route('admin.service.receipt', $service) }}" target="_blank"
                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white whitespace-nowrap"
-                               style="background:linear-gradient(135deg,#0070ff,#00baff);">
+                               style="background:#0055ff;">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                                 </svg>
@@ -157,7 +151,7 @@
         </div>
         <a href="{{ route('admin.recibos.create') }}"
            class="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold text-white shadow"
-           style="background:linear-gradient(135deg,#0070ff,#00baff);">
+           style="background:#0055ff;">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Novo Recibo
         </a>
@@ -194,7 +188,7 @@
                             @if($receipt->user)
                                 <div class="flex items-center gap-2">
                                     <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                                        style="background:linear-gradient(135deg,#0070ff,#00baff);">
+                                        style="background:#0055ff;">
                                         {{ strtoupper(substr($receipt->user->name, 0, 1)) }}
                                     </div>
                                     <div class="min-w-0">

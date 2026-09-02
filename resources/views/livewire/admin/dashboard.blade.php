@@ -6,10 +6,7 @@
         @foreach([7 => '7 dias', 30 => '30 dias', 90 => '90 dias'] as $days => $label)
             <button
                 wire:click="$set('period', {{ $days }})"
-                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition
-                    {{ $period === $days
-                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}"
+                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition {{ $period === $days ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}"
             >{{ $label }}</button>
         @endforeach
     </div>

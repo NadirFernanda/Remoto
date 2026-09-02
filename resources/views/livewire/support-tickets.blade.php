@@ -1,7 +1,7 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Suporte</h2>
             <p class="text-sm text-white/75 mt-1">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>
@@ -51,8 +51,7 @@
                 @foreach(['normal' => ['Normal', 'bg-gray-100 text-gray-700', 'bg-gray-500'], 'alta' => ['Alta', 'bg-amber-100 text-amber-700', 'bg-amber-500'], 'urgente' => ['Urgente', 'bg-red-100 text-red-700', 'bg-red-500']] as $val => [$label, $cls, $dot])
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio" wire:model="priority" value="{{ $val }}" class="sr-only">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition cursor-pointer
-                        {{ $priority === $val ? $cls . ' border-current' : 'bg-white text-gray-500 border-gray-200' }}">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition cursor-pointer {{ $priority === $val ? $cls . ' border-current' : 'bg-white text-gray-500 border-gray-200' }}">
                         <span class="w-1.5 h-1.5 rounded-full {{ $dot }}"></span>
                         {{ $label }}
                     </span>
@@ -121,8 +120,7 @@
             <div class="flex gap-2 flex-wrap">
                 @foreach(['' => 'Todos', 'aberto' => 'Abertos', 'em_andamento' => 'Em Andamento', 'fechado' => 'Fechados'] as $val => $label)
                 <button wire:click="$set('statusFilter', '{{ $val }}')"
-                    class="px-3 py-1 rounded-full text-xs font-medium border transition
-                        {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#0055ff]' }}">
+                    class="px-3 py-1 rounded-full text-xs font-medium border transition {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#0055ff]' }}">
                     {{ $label }}
                 </button>
                 @endforeach
@@ -145,8 +143,7 @@
             @endphp
             <button wire:key="my-support-ticket-{{ $ticket->id }}"
                 wire:click="selectTicket({{ $ticket->id }})"
-                class="w-full text-left bg-white rounded-2xl border p-4 transition
-                    {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
+                class="w-full text-left bg-white rounded-2xl border p-4 transition {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
                 <div class="flex items-start justify-between gap-2 mb-1">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2 h-2 rounded-full flex-shrink-0 {{ $priorityDot }}"></span>

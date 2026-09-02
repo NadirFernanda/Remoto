@@ -1,6 +1,6 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Ativar Perfil</h2>
         <p class="text-sm text-white/90 mt-1">Ative perfis adicionais para aceder a mais funcionalidades.</p>
     </div>
@@ -29,7 +29,7 @@
         {{-- Creator activation form --}}
         <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 bg-gradient-to-br from-[#00c8ff] to-[#0055ff] rounded-xl flex items-center justify-center">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/>
                     </svg>
@@ -69,7 +69,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-[#00c8ff] to-sky-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
+                    class="w-full text-white font-bold py-3 rounded-xl hover:opacity-90 transition"
                     wire:loading.attr="disabled" wire:loading.class="opacity-70">
                     <span wire:loading.remove>Ativar Perfil de Criador</span>
                     <span wire:loading>A ativar...</span>

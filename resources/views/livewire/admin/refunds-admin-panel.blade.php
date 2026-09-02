@@ -1,5 +1,5 @@
 <div class="max-w-6xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
             <h2 class="text-2xl font-extrabold">Painel de Reembolsos</h2>
             <p class="text-sm text-white/90 mt-1">Acompanhe pedidos, estados e aprovacoes. Pode aprovar reembolsos parciais.</p>
@@ -71,10 +71,7 @@
                             @endif
                         </td>
                         <td class="p-3">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold {{
-                                $refund->status === 'aprovado' ? 'bg-emerald-100 text-emerald-700' :
-                                ($refund->status === 'rejeitado' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700')
-                            }}">
+                            <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $refund->status === 'aprovado' ? 'bg-emerald-100 text-emerald-700' : ($refund->status === 'rejeitado' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">
                                 {{ ucfirst($refund->status) }}
                             </span>
                         </td>

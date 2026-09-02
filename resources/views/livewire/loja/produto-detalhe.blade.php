@@ -1,7 +1,7 @@
 <div class="space-y-5">
 
     {{-- Gradient header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center gap-4">
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap items-center gap-2 mb-2">
                 <a href="{{ route('loja.index') }}"
@@ -49,7 +49,7 @@
         <div class="flex flex-col md:flex-row md:items-start">
 
             {{-- Cover image --}}
-            <div class="md:w-[22rem] h-72 md:h-[26rem] flex-shrink-0" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+            <div class="md:w-[22rem] h-72 md:h-[26rem] flex-shrink-0" style="background: #0055ff">
                 @if($produto->capa_path)
                     <x-image-lightbox :src="\Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path)" :alt="$produto->titulo" trigger-class="block w-full h-full">
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
@@ -105,7 +105,7 @@
                             </span>
                             <button wire:click="downloadArquivo"
                                 class="inline-flex items-center gap-1.5 px-4 py-2 text-white rounded-xl text-sm font-semibold transition"
-                                style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+                                style="background: #0055ff">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                 Fazer Download
                             </button>
@@ -116,7 +116,7 @@
                         <div class="w-full">
                             <a href="{{ route('loja.purchase', $produto->slug) }}"
                                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 text-white rounded-xl font-semibold text-sm transition shadow hover:shadow-lg"
-                                style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+                                style="background: #0055ff">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                                 Comprar agora
                             </a>
@@ -125,7 +125,7 @@
                     @else
                     <a href="{{ route('login') }}"
                         class="inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-xl font-semibold text-sm transition shadow"
-                        style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%)">
+                        style="background: #0055ff">
                         Entrar para comprar
                     </a>
                     @endauth
@@ -179,7 +179,7 @@
             @foreach($relacionados as $rel)
             <a href="{{ route('loja.show', $rel->slug) }}"
                 class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-1 transition-all overflow-hidden">
-                <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, {{ $rel->tipoColor() }}18, {{ $rel->tipoColor() }}35);">
+                <div class="relative h-32 overflow-hidden" style="background: #0b1220;">
                     @if($rel->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($rel->capa_path) }}"
                             alt="{{ $rel->titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">

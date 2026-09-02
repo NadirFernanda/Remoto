@@ -77,7 +77,7 @@
 
                     {{-- Match score bar --}}
                     <div class="h-1 bg-gray-100">
-                        <div class="h-full bg-gradient-to-r from-[#00c8ff] to-[#0033cc] transition-all" style="width: {{ $pct }}%"></div>
+                        <div class="h-full transition-all" style="width: {{ $pct }}%"></div>
                     </div>
 
                     <div class="p-5 flex flex-col gap-3 flex-1">

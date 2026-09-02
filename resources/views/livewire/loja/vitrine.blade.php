@@ -1,7 +1,7 @@
 <div class="space-y-8">
 
     {{-- Hero --}}
-    <div class="relative overflow-hidden rounded-2xl p-7 sm:p-9 text-white" style="background: linear-gradient(135deg, #00c8ff 0%, #0055ff 55%, #0033cc 100%);">
+    <div class="relative overflow-hidden rounded-2xl p-7 sm:p-9 text-white" style="background: #0055ff;">
         <div class="absolute -right-10 -top-10 w-56 h-56 rounded-full bg-white/10"></div>
         <div class="absolute right-16 bottom-[-3rem] w-40 h-40 rounded-full bg-white/10"></div>
         <div class="relative">
@@ -47,7 +47,7 @@
             @foreach($maisVendidos as $produto)
             <a href="{{ route('loja.show', $produto->slug) }}"
                 class="group bg-white rounded-2xl border border-gray-200 hover:border-[#0055ff]/50 hover:shadow-lg hover:-translate-y-1 transition-all flex-shrink-0 w-44 overflow-hidden">
-                <div class="relative h-32 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
+                <div class="relative h-32 overflow-hidden" style="background: #0b1220;">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
@@ -78,8 +78,7 @@
             @endphp
             @foreach($tipos as $value => $label)
                 <button type="button" wire:click="$set('tipo', '{{ $value }}')"
-                    class="px-4 py-2 rounded-full text-sm font-semibold transition border
-                        {{ $tipo === $value ? 'bg-[#0055ff] text-white border-[#0055ff] shadow' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]/50 hover:text-[#0055ff]' }}">
+                    class="px-4 py-2 rounded-full text-sm font-semibold transition border {{ $tipo === $value ? 'bg-[#0055ff] text-white border-[#0055ff] shadow' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]/50 hover:text-[#0055ff]' }}">
                     {{ $label }}
                 </button>
             @endforeach
@@ -109,9 +108,8 @@
             @foreach($produtos as $produto)
             @php $isPatrocinado = $produto->patrocinado ?? $produto->isPatrocinado(); @endphp
             <div wire:key="produto-{{ $produto->id }}"
-                style="animation: loja-card-in .45s ease-out backwards; animation-delay: {{ min($loop->index * 45, 300) }}ms; {{ $isPatrocinado ? 'background: linear-gradient(160deg, #0055ff 0%, #0033cc 100%);' : '' }}"
-                class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0055ff]/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col
-                    {{ $isPatrocinado ? 'text-white' : 'bg-white border border-gray-200/70 text-gray-900 hover:border-[#0055ff]/40' }}">
+                style="animation: loja-card-in .45s ease-out backwards; animation-delay: {{ min($loop->index * 45, 300) }}ms; {{ $isPatrocinado ? 'background: #0055ff;' : '' }}"
+                class="group relative rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-[#0055ff]/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col {{ $isPatrocinado ? 'text-white' : 'bg-white border border-gray-200/70 text-gray-900 hover:border-[#0055ff]/40' }}">
 
                 @if($isPatrocinado)
                 <span class="absolute top-0 right-0 z-10 px-4 py-1.5 text-[11px] font-extrabold tracking-wide bg-amber-400 text-white rounded-bl-2xl shadow flex items-center gap-1">
@@ -123,7 +121,7 @@
                 <a href="{{ route('loja.show', $produto->slug) }}" class="flex flex-col flex-1">
 
                 {{-- Cover --}}
-                <div class="relative h-48 overflow-hidden" style="background: linear-gradient(135deg, {{ $produto->tipoColor() }}18, {{ $produto->tipoColor() }}35);">
+                <div class="relative h-48 overflow-hidden" style="background: #0b1220;">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}"
@@ -174,10 +172,7 @@
                             <span class="text-2xl font-extrabold tracking-tight">{{ number_format($produto->preco, 0, ',', '.') }}</span>
                             <span class="text-xs font-bold {{ $isPatrocinado ? 'text-white/70' : 'text-gray-400' }}">Kz</span>
                         </div>
-                        <span class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors
-                            {{ $isPatrocinado
-                                ? 'bg-white text-[#0033cc] group-hover:bg-amber-400 group-hover:text-white'
-                                : 'bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white' }}">
+                        <span class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-white text-[#0033cc] group-hover:bg-amber-400 group-hover:text-white' : 'bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white' }}">
                             Ver produto
                         </span>
                     </div>
@@ -186,10 +181,7 @@
 
                 <div class="px-5 pb-5 {{ $isPatrocinado ? '' : '-mt-1' }}">
                     <a href="{{ route('loja.purchase', $produto->slug) }}"
-                        class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors
-                            {{ $isPatrocinado
-                                ? 'bg-amber-400 text-white hover:bg-amber-300'
-                                : 'bg-[#0055ff] text-white hover:bg-[#0033cc]' }}">
+                        class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-amber-400 text-white hover:bg-amber-300' : 'bg-[#0055ff] text-white hover:bg-[#0033cc]' }}">
                         Comprar
                     </a>
                 </div>

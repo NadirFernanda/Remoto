@@ -66,7 +66,7 @@
         .tear-top, .tear-bottom {
             width: 100%;
             height: 16px;
-            background: repeating-linear-gradient(90deg, #fff 0, #fff 8px, transparent 8px, transparent 16px);
+            background: repeating-#0055ff;
             background-color: #e5e7eb;
         }
 

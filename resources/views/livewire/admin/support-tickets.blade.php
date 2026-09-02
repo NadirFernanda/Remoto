@@ -84,8 +84,7 @@
             @endphp
             <button wire:key="support-ticket-{{ $ticket->id }}"
                 wire:click="selectTicket({{ $ticket->id }})"
-                class="w-full text-left bg-white rounded-2xl border p-4 transition
-                    {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
+                class="w-full text-left bg-white rounded-2xl border p-4 transition {{ $isSelected ? 'border-[#0055ff] ring-1 ring-[#0055ff]/30 shadow-sm' : 'border-gray-200 hover:border-[#0055ff]/40 hover:shadow-sm' }}">
                 <div class="flex items-center justify-between gap-2 mb-1">
                     <div class="flex items-center gap-2 min-w-0">
                         <span class="w-2 h-2 rounded-full flex-shrink-0 {{ $dot }}"></span>
@@ -183,14 +182,12 @@
             {{-- ── TABS: Conversa / Conta Completa ──────────────────────── --}}
             <div class="flex border-b border-gray-200 bg-white rounded-t-2xl overflow-hidden">
                 <button wire:click="$set('detailTab','conversa')"
-                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition
-                        {{ $detailTab === 'conversa' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition {{ $detailTab === 'conversa' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     Conversa
                 </button>
                 <button wire:click="$set('detailTab','conta')"
-                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition
-                        {{ $detailTab === 'conta' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
+                    class="flex items-center gap-2 px-5 py-3 text-sm font-medium border-b-2 transition {{ $detailTab === 'conta' ? 'border-[#0055ff] text-[#0055ff]' : 'border-transparent text-gray-500 hover:text-gray-700' }}">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     Conta Completa
                     @if($userServices->count())

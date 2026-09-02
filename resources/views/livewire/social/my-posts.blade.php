@@ -7,7 +7,7 @@
         </div>
     @endif
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white">
+    <div class="rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
             <div>
                 <h2 class="text-2xl font-extrabold">Minhas Publicações</h2>
@@ -33,8 +33,7 @@
         <div class="flex gap-1 p-4 border-b border-gray-100">
             @foreach(['all' => 'Todas', 'active' => 'Activas', 'archived' => 'Arquivadas'] as $val => $label)
                 <button wire:click="$set('filter', '{{ $val }}')"
-                    class="px-4 py-1.5 rounded-xl text-sm font-semibold transition
-                        {{ $filter === $val ? 'bg-[#0055ff] text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
+                    class="px-4 py-1.5 rounded-xl text-sm font-semibold transition {{ $filter === $val ? 'bg-[#0055ff] text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
                     {{ $label }}
                 </button>
             @endforeach
@@ -79,8 +78,7 @@
                         @if($post->visibility === 'followers')
                             <span class="text-xs bg-amber-100 text-amber-700 rounded-md px-1.5 py-0.5 font-semibold">Apenas assinantes</span>
                         @endif
-                        <span class="text-xs rounded-md px-1.5 py-0.5 font-semibold
-                            {{ $isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                        <span class="text-xs rounded-md px-1.5 py-0.5 font-semibold {{ $isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
                             {{ $isActive ? 'Activa' : 'Arquivada' }}
                         </span>
                     </div>

@@ -17,7 +17,7 @@
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
 
         <div class="mb-4 flex items-center gap-3">
-            <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#00c8ff,#0033cc);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
+            <div style="width:56px;height:56px;border-radius:12px;background:#0055ff;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:1.4rem;flex-shrink:0;">{{ strtoupper(mb_substr($service->titulo,0,1)) }}</div>
             <div>
                 <div class="font-bold text-lg text-gray-800">{{ $service->titulo }}</div>
             </div>

@@ -34,7 +34,7 @@
         .action-bar strong { color: #fff; }
         .btn-print {
             display: inline-flex; align-items: center; gap: 6px;
-            background: linear-gradient(135deg, #00c8ff, #0055ff);
+            background: #0055ff;
             color: #fff; border: none;
             padding: 9px 22px; border-radius: 20px;
             font-family: Arial, sans-serif; font-size: 13px;
@@ -66,7 +66,7 @@
         }
         .tear-top, .tear-bottom {
             width: 100%; height: 14px;
-            background: repeating-linear-gradient(90deg, #fff 0, #fff 8px, transparent 8px, transparent 16px);
+            background: repeating-#0055ff;
             background-color: #e5e7eb;
         }
         .slip-header {
@@ -111,7 +111,7 @@
         }
         .slip-footer strong { color: #6b7280; }
         .slip-index {
-            background: linear-gradient(135deg, #00c8ff, #0055ff);
+            background: #0055ff;
             color: #fff; font-family: Arial, sans-serif; font-size: 10px;
             font-weight: 700; text-align: center; padding: 4px;
             letter-spacing: 1px;

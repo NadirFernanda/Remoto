@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-sky-50/30 pb-20">
+<div class="min-h-screen pb-20">
 
     {{-- ── Hero Header ── --}}
     <div class="bg-white border-b border-slate-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00c8ff] to-blue-600 flex items-center justify-center shadow-lg shadow-sky-200">
+                <div class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-200">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h11M7 13L5.4 5M9 21a1 1 0 102 0 1 1 0 00-2 0m8 0a1 1 0 102 0 1 1 0 00-2 0"/>
                     </svg>
@@ -21,7 +21,7 @@
                     Dashboard
                 </a>
                 <a href="{{ route('loja.index') }}" target="_blank"
-                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00c8ff] to-blue-600 hover:opacity-90 text-white text-sm font-medium transition-all duration-150 shadow-md shadow-sky-200">
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl hover:opacity-90 text-white text-sm font-medium transition-all duration-150 shadow-md shadow-sky-200">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                     Ver Loja
                 </a>
@@ -172,7 +172,7 @@
                             {{-- Produto --}}
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center flex-shrink-0">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0">
                                         @if($produto->tipo === 'ebook')
                                             <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                         @elseif($produto->tipo === 'audio')

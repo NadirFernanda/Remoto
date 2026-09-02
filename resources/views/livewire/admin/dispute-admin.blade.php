@@ -25,10 +25,7 @@
     <div class="flex gap-2 flex-wrap mb-5">
         @foreach(['' => 'Todas', 'aberta' => 'Abertas', 'em_mediacao' => 'Em Mediação', 'resolvida' => 'Resolvidas', 'encerrada' => 'Encerradas'] as $val => $label)
             <button wire:click="$set('statusFilter', '{{ $val }}')"
-                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition
-                    {{ $statusFilter === $val
-                        ? 'bg-[#0055ff] text-white border-[#0055ff]'
-                        : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
+                class="px-3 py-1.5 rounded-[10px] text-xs font-medium border transition {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff] hover:text-[#0055ff]' }}">
                 {{ $label }}
             </button>
         @endforeach
@@ -39,17 +36,11 @@
         <div class="{{ $selected ? 'hidden lg:block' : '' }} lg:w-80 w-full flex-shrink-0 space-y-2">
             @forelse($disputes as $d)
             <button wire:key="dispute-{{ $d->id }}" wire:click="select({{ $d->id }})"
-                class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#0055ff]/40 transition
-                    {{ $selectedId === $d->id ? 'border-[#0055ff] ring-1 ring-[#0055ff]/20' : 'border-gray-200' }}"
+                class="w-full text-left bg-white border rounded-2xl p-4 shadow-sm hover:border-[#0055ff]/40 transition {{ $selectedId === $d->id ? 'border-[#0055ff] ring-1 ring-[#0055ff]/20' : 'border-gray-200' }}"
             >
                 <div class="flex items-center justify-between gap-2">
                     <span class="font-medium text-sm text-gray-800 truncate flex-1">{{ $d->service->titulo ?? 'Serviço #'.$d->service_id }}</span>
-                    <span class="text-xs px-2 py-0.5 rounded-full font-semibold flex-shrink-0
-                        {{ $d->status === 'aberta'     ? 'bg-red-100 text-red-700' : '' }}
-                        {{ $d->status === 'em_mediacao'? 'bg-yellow-100 text-yellow-700' : '' }}
-                        {{ $d->status === 'resolvida'  ? 'bg-green-100 text-green-700' : '' }}
-                        {{ $d->status === 'encerrada'  ? 'bg-gray-100 text-gray-600' : '' }}
-                    ">{{ ucfirst(str_replace('_',' ',$d->status)) }}</span>
+                    <span class="text-xs px-2 py-0.5 rounded-full font-semibold flex-shrink-0 {{ $d->status === 'aberta' ? 'bg-red-100 text-red-700' : '' }} {{ $d->status === 'em_mediacao'? 'bg-yellow-100 text-yellow-700' : '' }} {{ $d->status === 'resolvida' ? 'bg-green-100 text-green-700' : '' }} {{ $d->status === 'encerrada' ? 'bg-gray-100 text-gray-600' : '' }}">{{ ucfirst(str_replace('_',' ',$d->status)) }}</span>
                 </div>
                 <div class="text-xs text-gray-500 mt-1">{{ $d->opener->name ?? '—' }} · {{ $d->created_at->diffForHumans() }}</div>
                 <div class="text-xs text-gray-400 truncate mt-0.5">{{ \App\Models\Dispute::$reasons[$d->reason] ?? $d->reason }}</div>

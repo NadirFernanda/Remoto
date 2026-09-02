@@ -4,7 +4,7 @@
 
 @section('dashboard-content')
 <div class="max-w-6xl mx-auto space-y-6">
-    <div class="bg-gradient-to-r from-[#00baff] to-[#0095cc] rounded-2xl p-6 text-white shadow-lg">
+    <div class="rounded-2xl p-6 text-white shadow-lg">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div class="max-w-2xl">
                 <h2 class="text-2xl font-extrabold">Movimentos de Carteira</h2>

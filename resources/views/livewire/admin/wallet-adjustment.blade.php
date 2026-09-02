@@ -1,6 +1,6 @@
 <div class="max-w-5xl mx-auto space-y-6">
     {{-- Header --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+    <div class="rounded-2xl p-6 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
             <h2 class="text-2xl font-extrabold">Ajuste Manual de Saldo</h2>
             <p class="text-sm text-white/90 mt-1">Credita ou debita a carteira de qualquer utilizador. Toda a acção fica registada na auditoria.</p>

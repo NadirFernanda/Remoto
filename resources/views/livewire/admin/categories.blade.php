@@ -116,8 +116,7 @@
                         <td class="py-3 px-5 text-center text-gray-500">{{ $cat->sort_order }}</td>
                         <td class="py-3 px-5 text-center">
                             <button wire:click="toggleActive({{ $cat->id }})"
-                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold transition
-                                    {{ $cat->active ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200' }}">
+                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold transition {{ $cat->active ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200' }}">
                                 {{ $cat->active ? 'Activa' : 'Inactiva' }}
                             </button>
                         </td>

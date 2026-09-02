@@ -9,7 +9,7 @@
     @endif
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="bg-gradient-to-r from-[#00c8ff] to-[#0033cc] rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Mensagens</h2>
             <p class="text-sm text-white/75 mt-1">Todas as conversas dos seus projectos</p>
@@ -80,17 +80,13 @@
             @endphp
 
             <a href="{{ route('service.chat', $service->id) }}"
-               class="flex items-center gap-4 p-4 bg-white rounded-2xl border transition-all group
-                   {{ $unread > 0
-                       ? 'border-[#0055ff]/30 shadow-sm shadow-blue-100 hover:shadow-md hover:shadow-blue-100'
-                       : 'border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
+               class="flex items-center gap-4 p-4 bg-white rounded-2xl border transition-all group {{ $unread > 0 ? 'border-[#0055ff]/30 shadow-sm shadow-blue-100 hover:shadow-md hover:shadow-blue-100' : 'border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
 
                 {{-- Avatar com badge não lidas --}}
                 <div class="relative flex-shrink-0">
                     <img src="{{ $other?->avatarUrl() ?? asset('img/default-avatar.svg') }}"
                          alt="{{ $other?->name ?? 'Utilizador' }}"
-                         class="w-13 h-13 w-[52px] h-[52px] rounded-xl object-cover ring-2
-                             {{ $unread > 0 ? 'ring-[#0055ff]/30' : 'ring-gray-100' }}">
+                         class="w-13 h-13 w-[52px] h-[52px] rounded-xl object-cover ring-2 {{ $unread > 0 ? 'ring-[#0055ff]/30' : 'ring-gray-100' }}">
                     @if($unread > 0)
                         <span class="absolute -top-1.5 -right-1.5 min-w-[20px] h-5 px-1 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center font-bold leading-none">
                             {{ $unread > 9 ? '9+' : $unread }}

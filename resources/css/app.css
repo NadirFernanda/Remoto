@@ -2032,30 +2032,3 @@ li.list-item {
         grid-template-columns: 1fr;
     }
 }
-
-/* Remove gradients from legacy inline styles as well as stylesheet rules. */
-[style*="linear-gradient"],
-[style*="radial-gradient"],
-[style*="conic-gradient"] {
-    background: #0b1220 !important;
-    background-image: none !important;
-    -webkit-text-fill-color: currentColor !important;
-}
-
-/* Keep actionable controls on the same solid-blue button standard. */
-button[style*="linear-gradient"],
-button[style*="radial-gradient"],
-a[style*="linear-gradient"],
-a[style*="radial-gradient"],
-[class*="badge"][style*="linear-gradient"],
-[class*="badge"][style*="radial-gradient"],
-[class*="chip"][style*="linear-gradient"],
-[class*="chip"][style*="radial-gradient"],
-[class*="tag"][style*="linear-gradient"],
-[class*="tag"][style*="radial-gradient"],
-[class*="pill"][style*="linear-gradient"],
-[class*="pill"][style*="radial-gradient"] {
-    background: #0055ff !important;
-    background-image: none !important;
-    color: #fff !important;
-}

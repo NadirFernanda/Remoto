@@ -42,7 +42,7 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00c8ff 0%, #0055ff 100%);
+    background: #0055ff;
     color: #fff;
     border: none;
     box-shadow: 0 4px 16px rgba(0,85,255,.30);
@@ -127,7 +127,7 @@
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
     /* default neutral style to avoid one item looking different */
-    background: linear-gradient(135deg,#00c8ff,#0055ff); color: #fff;
+    background: #0055ff; color: #fff;
     border: 0;
 }
 
@@ -183,7 +183,7 @@
 
 /* Status badge */
 .status-pill{ display:inline-block; padding:.35rem .6rem; border-radius:999px; font-weight:700; font-size:.82rem; color:#021018; }
-.status-published{ background: linear-gradient(90deg,var(--accent-2),var(--accent-v)); }
+.status-published{ background: #0b1220; }
 .status-accepted{ background:#10b981; }
 .status-in_progress{ background:#f59e0b; }
 .status-delivered{ background:#06b6d4; }
@@ -209,7 +209,7 @@
     align-items:center;
     justify-content:center;
     border-radius:10px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    background: #0b1220;
     color: var(--accent-v);
     border:1px solid var(--glass-border);
     box-shadow: none;
@@ -279,16 +279,6 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main .bg-neutral-100 { background-color: rgba(255,255,255,.07) !important; }
 /* Respostas de admin no suporte (bg-blue-50) */
 .dash-main .bg-blue-50 { background-color: rgba(0,85,255,.10) !important; }
-
-/* Fundo em gradiente claro (bg-gradient-to-br from-slate-50 via-white to-*)
-   usado como wrapper em várias páginas — .bg-white/.bg-slate-50 não apanham
-   isto porque um gradiente Tailwind define background-image via custom
-   properties (--tw-gradient-*), não background-color. Sem isto, a página
-   inteira fica com um fundo claro por baixo de tudo o resto já convertido. */
-.dash-main .bg-gradient-to-br.from-slate-50 {
-    background-image: none !important;
-    background-color: transparent !important;
-}
 
 /* ── Badges brancos ─────────────────────────────────── */
 /* Converte badges bg-white em dark glass */
@@ -468,4 +458,3 @@ main::before, main::after { display: none !important; content: none !important; 
 
 /* ── Period filter pills: wrap on small screens ───────── */
 .period-filter { flex-wrap: wrap; gap: .4rem; }
-

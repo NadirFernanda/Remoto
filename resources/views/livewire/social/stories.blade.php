@@ -93,7 +93,7 @@
                 <template x-for="(group, gIdx) in groups" :key="group.user_id">
                     <div class="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer"
                          @click="openGroup(gIdx)">
-                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 bg-gradient-to-br from-[#00c8ff] to-[#0055ff]'"
+                        <div :class="group.all_viewed ? 'p-0.5 bg-gray-200' : 'p-0.5 '"
                              class="w-14 h-14 rounded-full">
                             <img :src="group.avatar" :alt="group.name"
                                  class="w-full h-full rounded-full object-cover border-2 border-white"
@@ -156,7 +156,7 @@
 
                 {{-- Caption --}}
                 <template x-if="currentStory() && currentStory().caption">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-2xl">
+                    <div class="absolute bottom-0 left-0 right-0 p-4 rounded-b-2xl">
                         <p class="text-white text-sm" x-text="currentStory().caption"></p>
                     </div>
                 </template>
