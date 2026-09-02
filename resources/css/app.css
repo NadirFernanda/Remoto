@@ -1721,6 +1721,38 @@ li.list-item {
     color: #64748b !important;
 }
 
+/* Public dark surfaces: keep body copy bright and readable. Blue labels and
+   semantic status colours remain governed by their more specific selectors. */
+.homepage .hp-step p,
+.homepage .hp-benefit-item p,
+.homepage .hp-testimonial-text,
+.homepage .hp-testimonial-role,
+.homepage .hp-footer-brand p,
+.homepage .hp-footer-col ul li a,
+.homepage .hp-footer-bar-copy,
+.homepage .hp-footer-bar-links a,
+.homepage .hp-comunidade-section > div > p,
+.homepage .hp-comunidade-cards > div > p,
+.homepage .hp-comunidade-stats > div > p:last-child {
+    color: #f8fafc !important;
+}
+.homepage .hp-subtitle {
+    color: #f8fafc !important;
+}
+.homepage .hp-cat-card .hp-cat-label,
+.homepage .hp-benefit-item h4,
+.homepage .hp-testimonial-name,
+.homepage .hp-comunidade-cards > div h3 {
+    color: #f8fafc !important;
+}
+.pub-page .pub-hero-sub,
+.pub-page .pub-auth-sub,
+.pub-page .pub-field label,
+.pub-page .pub-sidebar-block label,
+.pub-page .pub-empty {
+    color: #f8fafc !important;
+}
+
 /* ── Cookie consent: full-width on mobile ──────────────── */
 @media (max-width: 540px) {
     .cookie-banner { left: 0 !important; right: 0 !important; bottom: 0 !important;
