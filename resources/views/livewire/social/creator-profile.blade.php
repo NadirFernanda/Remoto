@@ -1,4 +1,4 @@
-<div class="space-y-5">
+<div class="space-y-5 creator-profile-page">
 
     {{-- Flash messages --}}
     @if(session('success'))
@@ -42,11 +42,11 @@
                 {{-- Avatar --}}
                 <div class="relative flex-shrink-0">
                     <x-image-lightbox :src="$creator->avatarUrl()" :alt="$creator->name">
-                        <div class="p-1 rounded-2xl {{ $creator->has_creator_profile ? ' ' : 'bg-white shadow-md' }}">
-                            <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-xl' : '' }}">
+                        <div class="p-1 rounded-full {{ $creator->has_creator_profile ? ' ' : 'bg-white shadow-md' }}">
+                            <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-full' : '' }}">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
-                                     class="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover block"
+                                     class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover block"
                                      onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                     </span>
                                 @else
                                     <a href="{{ route('social.creator.subscribe', $creator) }}"
-                                        class="px-5 py-2 text-sm font-bold rounded-xl text-white hover: hover: transition shadow-sm">
+                                        class="px-5 py-2 text-sm font-bold rounded-xl bg-[#0055ff] text-white hover:bg-[#0047d9] transition shadow-sm">
                                         <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.53 5.13 5.66.82-4.1 3.99 0.97 5.62L12 0.25 6.94 18.06l0.97-5.62L3.81 8.45l5.66-.82L12 2.5z"/></svg>Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês</span>
                                     </a>
                                 @endif

@@ -2185,3 +2185,57 @@ li.list-item {
     color: #e2e8f0 !important;
     border-color: rgba(226,232,240,.16) !important;
 }
+
+.creator-profile-page > .bg-white {
+    background: #162238 !important;
+    border-color: rgba(226,232,240,.12) !important;
+}
+
+.creator-profile-page > .bg-white > .h-32,
+.creator-profile-page > .bg-white > .sm\:h-44 {
+    background: #1b2a44 !important;
+}
+
+.creator-profile-page .creator-profile-page,
+.creator-profile-page .rounded-xl,
+.creator-profile-page .rounded-2xl {
+    border-radius: var(--radius-lg);
+}
+
+.creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end {
+    align-items: center;
+}
+
+.creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex-1 {
+    width: 100%;
+}
+
+.creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex.flex-wrap {
+    justify-content: center;
+}
+
+@media (max-width: 640px) {
+    .creator-profile-page > .bg-white > .px-5 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end {
+        gap: .75rem;
+    }
+
+    .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex-1 > .flex {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex.flex-wrap {
+        width: 100%;
+    }
+
+    .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex.flex-wrap > * {
+        flex: 1 1 auto;
+        justify-content: center;
+        text-align: center;
+    }
+}
