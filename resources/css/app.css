@@ -350,7 +350,7 @@ html, body {
     /* Tema claro — header/footer escuros, conteúdo claro */
     --bg-v: #080d1a;          /* header / footer dark */
     --accent-v: var(--color-primary);       /* brand cyan */
-    --accent-2: #06b6d4;       /* secondary cyan */
+    --accent-2: #7da7ff;       /* secondary brand blue */
     --muted-v: #94a3b8;        /* muted text */
     --card-bg: rgba(255,255,255,.05);         /* card background */
     --glass-border: rgba(255,255,255,.08);    /* card border */
