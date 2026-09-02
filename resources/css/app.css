@@ -1734,23 +1734,23 @@ li.list-item {
 .homepage .hp-comunidade-section > div > p,
 .homepage .hp-comunidade-cards > div > p,
 .homepage .hp-comunidade-stats > div > p:last-child {
-    color: #f8fafc !important;
+    color: #e2e8f0 !important;
 }
 .homepage .hp-subtitle {
-    color: #f8fafc !important;
+    color: #e2e8f0 !important;
 }
 .homepage .hp-cat-card .hp-cat-label,
 .homepage .hp-benefit-item h4,
 .homepage .hp-testimonial-name,
 .homepage .hp-comunidade-cards > div h3 {
-    color: #f8fafc !important;
+    color: #e2e8f0 !important;
 }
 .pub-page .pub-hero-sub,
 .pub-page .pub-auth-sub,
 .pub-page .pub-field label,
 .pub-page .pub-sidebar-block label,
 .pub-page .pub-empty {
-    color: #f8fafc !important;
+    color: #e2e8f0 !important;
 }
 
 /* ── Cookie consent: full-width on mobile ──────────────── */
