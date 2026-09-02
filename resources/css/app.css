@@ -1810,7 +1810,8 @@ li.list-item {
     margin-right: auto;
 }
 .homepage .hp-benefits-text {
-    max-width: 680px !important;
+    width: 100% !important;
+    max-width: none !important;
     margin-bottom: 2.5rem !important;
 }
 .homepage .hp-benefit-list {

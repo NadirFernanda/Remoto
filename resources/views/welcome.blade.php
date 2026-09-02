@@ -172,7 +172,7 @@
      POR QUÊ ESCOLHER
 ============================== --}}
 <section class="hp-section hp-section--white">
-    <div class="hp-container">
+    <div class="hp-container" style="text-align:center;">
         <div class="hp-benefits-grid">
             <div class="hp-benefits-text">
                 <p class="hp-label">Por que nós</p>
