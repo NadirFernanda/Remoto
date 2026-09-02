@@ -178,8 +178,9 @@
             </script>
         @endif
 
-        <div class="dashboard-page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
-            @php $renderedTitle = $title ?? trim($__env->yieldContent('dashboard-title')) ?? ''; @endphp
+        @php $renderedTitle = $title ?? trim($__env->yieldContent('dashboard-title')) ?? ''; @endphp
+        @if($renderedTitle || !empty($actions) || View::hasSection('dashboard-actions'))
+        <div class="dashboard-page-header dashboard-brand-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
             @if($renderedTitle)
             <h1 class="text-xl sm:text-2xl font-bold text-gray-100">{{ $renderedTitle }}</h1>
             @endif
@@ -191,13 +192,14 @@
                 @endif
             </div>
         </div>
+        @endif
 
         {{-- Render either the Livewire slot content or the blade section content. --}}
         @php $slotContent = (isset($slot) ? trim((string) $slot) : ''); @endphp
         @if($slotContent !== '')
-            {!! $slot !!}
+            <div class="dashboard-content-stack">{!! $slot !!}</div>
         @else
-            @yield('dashboard-content')
+            <div class="dashboard-content-stack">@yield('dashboard-content')</div>
         @endif
     </main>
 </div>

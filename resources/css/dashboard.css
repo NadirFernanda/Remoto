@@ -183,6 +183,19 @@
     box-shadow: 0 12px 26px rgba(0,85,255,.18);
 }
 
+.workspace-layout .dashboard-brand-card {
+    min-height: 5.75rem;
+}
+
+.workspace-layout .dashboard-content-stack {
+    width: 100%;
+}
+
+.workspace-layout .dashboard-content-stack > .rounded-2xl,
+.workspace-layout .dashboard-content-stack > .rounded-xl {
+    border-color: rgba(226,232,240,.12);
+}
+
 .workspace-layout .dashboard-page-header h1 {
     color: #fff !important;
     font-size: clamp(1.25rem, 2vw, 1.65rem);
