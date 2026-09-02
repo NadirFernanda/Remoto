@@ -1,4 +1,4 @@
-<div class="max-w-6xl mx-auto space-y-6">
+<div class="max-w-6xl mx-auto space-y-6 creator-subscriptions-page">
 
     {{-- Header --}}
     <div class="rounded-2xl p-6 text-white">

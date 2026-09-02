@@ -2032,3 +2032,81 @@ li.list-item {
         grid-template-columns: 1fr;
     }
 }
+
+/* Shared dark visual standard for freelancer and creator workspaces. */
+.creator-subscriptions-page,
+.freelancer-store-page,
+.available-projects-page {
+    color: #e2e8f0;
+}
+
+.creator-subscriptions-page > div:first-child,
+.freelancer-store-page > div:first-child,
+.available-projects-page > div:first-child {
+    background: transparent !important;
+}
+
+.creator-subscriptions-page h1,
+.creator-subscriptions-page h2,
+.freelancer-store-page h1,
+.freelancer-store-page h2,
+.available-projects-page h1,
+.available-projects-page h2 {
+    color: #0055ff !important;
+}
+
+.creator-subscriptions-page .bg-white,
+.freelancer-store-page .bg-white,
+.available-projects-page .bg-white {
+    background-color: #162238 !important;
+    border-color: rgba(226,232,240,.12) !important;
+}
+
+.creator-subscriptions-page [class*="text-gray-"],
+.creator-subscriptions-page [class*="text-slate-"],
+.freelancer-store-page [class*="text-gray-"],
+.freelancer-store-page [class*="text-slate-"],
+.available-projects-page [class*="text-gray-"],
+.available-projects-page [class*="text-slate-"] {
+    color: #e2e8f0 !important;
+}
+
+.creator-subscriptions-page [class*="bg-emerald-"],
+.freelancer-store-page [class*="bg-emerald-"],
+.available-projects-page [class*="bg-emerald-"],
+.creator-subscriptions-page [class*="bg-green-"],
+.freelancer-store-page [class*="bg-green-"],
+.available-projects-page [class*="bg-green-"] {
+    background-color: #0055ff !important;
+    color: #fff !important;
+    border-color: #0055ff !important;
+}
+
+.creator-subscriptions-page [class*="text-emerald-"],
+.freelancer-store-page [class*="text-emerald-"],
+.available-projects-page [class*="text-emerald-"],
+.creator-subscriptions-page [class*="text-green-"],
+.freelancer-store-page [class*="text-green-"],
+.available-projects-page [class*="text-green-"] {
+    color: #0055ff !important;
+}
+
+.creator-subscriptions-page input,
+.creator-subscriptions-page select,
+.creator-subscriptions-page textarea,
+.freelancer-store-page input,
+.freelancer-store-page select,
+.freelancer-store-page textarea,
+.available-projects-page input,
+.available-projects-page select,
+.available-projects-page textarea {
+    background-color: #1b2a44 !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(226,232,240,.16) !important;
+}
+
+.creator-subscriptions-page button,
+.freelancer-store-page button,
+.available-projects-page button {
+    background-image: none !important;
+}

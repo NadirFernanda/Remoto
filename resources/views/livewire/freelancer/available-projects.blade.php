@@ -1,4 +1,4 @@
-<div class="max-w-6xl mx-auto space-y-6">
+<div class="max-w-6xl mx-auto space-y-6 available-projects-page">
     <div class="rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Projetos Disponíveis</h2>
         <p class="text-sm text-white/90 mt-1">Escolha os projectos que combinam com o seu perfil e agenda.</p>
