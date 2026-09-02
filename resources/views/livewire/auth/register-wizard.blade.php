@@ -250,7 +250,13 @@
 
         {{-- Indicador de passos --}}
         <div class="reg-steps">
-            <div class="reg-step-dot {{ $step === 1 ? 'active' : 'done' }}">{{ $step === 1 ? '1' : '✓' }}</div>
+            <div class="reg-step-dot {{ $step === 1 ? 'active' : 'done' }}">
+                @if($step === 1)
+                    1
+                @else
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>
+                @endif
+            </div>
             <span class="reg-step-label {{ $step === 1 ? 'active' : '' }}">Dados da conta</span>
             <div class="reg-step-line"></div>
             <div class="reg-step-dot {{ $step === 2 ? 'active' : '' }}">2</div>
@@ -411,7 +417,7 @@
                     </div>
                     <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentFront') <p class="lf-error show">{{ $message }}</p> @enderror
-                    @if($documentFront) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;">✓ {{ $documentFront->getClientOriginalName() }}</p> @endif
+                    @if($documentFront) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;display:flex;align-items:center;gap:.35rem;"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $documentFront->getClientOriginalName() }}</p> @endif
                 </div>
 
                 <div class="lf-group">
@@ -426,7 +432,7 @@
                     </div>
                     <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentBack') <p class="lf-error show">{{ $message }}</p> @enderror
-                    @if($documentBack) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;">✓ {{ $documentBack->getClientOriginalName() }}</p> @endif
+                    @if($documentBack) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;display:flex;align-items:center;gap:.35rem;"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $documentBack->getClientOriginalName() }}</p> @endif
                 </div>
 
                 <div class="lf-group">
@@ -441,7 +447,7 @@
                     </div>
                     <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">Foto segurando o documento ao lado do rosto · JPG ou PNG · máx. 10MB</p>
                     @error('selfie') <p class="lf-error show">{{ $message }}</p> @enderror
-                    @if($selfie) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;">✓ {{ $selfie->getClientOriginalName() }}</p> @endif
+                    @if($selfie) <p style="font-size:.72rem;color:#16a34a;margin-top:.2rem;display:flex;align-items:center;gap:.35rem;"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $selfie->getClientOriginalName() }}</p> @endif
                 </div>
 
                 <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:.75rem 1rem;font-size:.78rem;color:#1d4ed8;margin-bottom:1rem;">

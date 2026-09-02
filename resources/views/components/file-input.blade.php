@@ -31,7 +31,7 @@
             });
         }
     }"
-    class="space-y-2"
+    class="form-field"
 >
     {{--
         Real input hidden with inline CSS (sr-only Tailwind class may not compile in all contexts).
@@ -49,7 +49,7 @@
     {{-- Styled label — clicking it opens the native file picker (browser behaviour, no JS) --}}
     <label
         for="{{ $uid }}"
-        class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#0055ff] text-[#0055ff] bg-white hover:bg-[#0055ff]/5 active:scale-95 transition text-sm font-medium cursor-pointer"
+        class="btn-outline cursor-pointer"
     >
         <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
@@ -59,7 +59,7 @@
 
     {{-- Upload spinner --}}
     @if($loadingTarget)
-        <div wire:loading wire:target="{{ $loadingTarget }}" class="flex items-center gap-1.5 text-xs text-[#0055ff]">
+        <div wire:loading wire:target="{{ $loadingTarget }}" class="form-help inline-flex items-center gap-1.5 text-[#0055ff]">
             <svg class="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>

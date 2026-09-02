@@ -14,21 +14,39 @@
             <div class="text-xs text-[#94a3b8] font-semibold mb-1">20 de Janeiro de 2025</div>
             <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto lança verificação de identidade em tempo real para freelancers angolanos</h3>
             <p class="text-[#64748b] text-base leading-relaxed mb-3">O novo sistema KYC (Know Your Customer) da 24 Horas Remoto permite que os freelancers verifiquem a sua identidade em menos de 10 minutos usando documento de identificação e selfie...</p>
-            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition inline-flex items-center gap-2">
+                <span>Ler comunicado completo</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/>
+                    <path d="M13 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
             <div class="text-xs text-[#94a3b8] font-semibold mb-1">15 de Novembro de 2024</div>
             <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto atinge 5.000 utilizadores e 1.200 projectos publicados em menos de um ano</h3>
             <p class="text-[#64748b] text-base leading-relaxed mb-3">A plataforma angolana de freelancing celebra o primeiro ano de operações com crescimento acelerado, superando as metas iniciais de utilizadores em 250%...</p>
-            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition inline-flex items-center gap-2">
+                <span>Ler comunicado completo</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/>
+                    <path d="M13 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-5 border border-[#e6f3fa] transition hover:shadow-2xl">
             <div class="text-xs text-[#94a3b8] font-semibold mb-1">3 de Outubro de 2024</div>
             <h3 class="text-lg font-extrabold text-[#0f172a] mb-2">24 Horas Remoto abre Centro de Disputas Mediadas para resolução de conflitos</h3>
             <p class="text-[#64748b] text-base leading-relaxed mb-3">O novo módulo de gestão de disputas garante que qualquer conflito entre cliente e freelancer seja resolvido de forma justa, documentada e transparente por mediadores especializados...</p>
-            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition">Ler comunicado completo →</a>
+            <a href="#" class="text-[#00baff] text-base font-bold hover:underline transition inline-flex items-center gap-2">
+                <span>Ler comunicado completo</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/>
+                    <path d="M13 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
 
         <div class="bg-[#f8fafc] border border-[#e6f3fa] rounded-3xl shadow-xl p-8 md:p-10 mb-5 transition hover:shadow-2xl">

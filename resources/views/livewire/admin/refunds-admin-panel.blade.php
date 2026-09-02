@@ -5,7 +5,8 @@
             <p class="text-sm text-white/90 mt-1">Acompanhe pedidos, estados e aprovacoes. Pode aprovar reembolsos parciais.</p>
         </div>
         <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-4 py-2 rounded-xl">
-            ← Voltar ao Dashboard
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+            Voltar ao Dashboard
         </a>
     </div>
 

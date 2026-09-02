@@ -43,7 +43,9 @@
                                 @mouseleave="hover = 0"
                                 @click="selected = {{ $i }}"
                                 :class="(hover >= {{ $i }} || selected >= {{ $i }}) ? 'text-yellow-400' : 'text-gray-300'"
-                                class="text-3xl transition-colors focus:outline-none">★</button>
+                                class="transition-colors focus:outline-none" aria-label="Avaliar {{ $i }} estrelas">
+                                <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.75l2.93 5.93 6.54.95-4.73 4.61 1.12 6.5L12 0.25 6.14 19.84l1.12-6.5L2.53 8.63l6.54-.95L12 1.75z"/></svg>
+                            </button>
                         @endfor
                     </div>
                     @error('rating') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

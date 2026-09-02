@@ -90,7 +90,11 @@
                                     {{ $isFollowing
                                         ? 'border-gray-200 text-gray-600 hover:border-red-300 hover:text-red-600'
                                         : 'border-[#0055ff] bg-[#0055ff] text-white hover:bg-[#0033cc] hover:border-[#0033cc]' }}">
-                                {{ $isFollowing ? 'A seguir ✓' : 'Seguir' }}
+                                @if($isFollowing)
+                                    <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>A seguir</span>
+                                @else
+                                    Seguir
+                                @endif
                             </button>
                             @if($creator->has_creator_profile)
                                 @if($isSubscribed)
@@ -101,7 +105,7 @@
                                 @else
                                     <a href="{{ route('social.creator.subscribe', $creator) }}"
                                         class="px-5 py-2 text-sm font-bold rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white hover:from-amber-500 hover:to-orange-600 transition shadow-sm">
-                                        ★ Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês
+                                        <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.53 5.13 5.66.82-4.1 3.99 0.97 5.62L12 0.25 6.94 18.06l0.97-5.62L3.81 8.45l5.66-.82L12 2.5z"/></svg>Assinar · {{ number_format($subscriptionPrice, 0) }} KZS/mês</span>
                                     </a>
                                 @endif
                             @endif

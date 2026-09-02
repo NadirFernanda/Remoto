@@ -72,13 +72,15 @@
                 <div class="flex items-center gap-2">
                     <button wire:click="aprovarSaque({{ $log->id }})"
                         wire:confirm="Aprovar este saque de {{ money_aoa(abs($log->valor), false) }}?"
-                        class="flex-1 py-2 rounded-[10px] bg-green-100 text-green-700 border border-green-300 hover:bg-green-600 hover:text-white text-xs font-semibold transition">
-                        ✓ Aprovar
+                        class="flex-1 py-2 rounded-[10px] bg-green-100 text-green-700 border border-green-300 hover:bg-green-600 hover:text-white text-xs font-semibold transition inline-flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>
+                        Aprovar
                     </button>
                     <button wire:click="rejeitarSaque({{ $log->id }})"
                         wire:confirm="Rejeitar e devolver o valor ao freelancer?"
-                        class="flex-1 py-2 rounded-[10px] bg-red-100 text-red-700 border border-red-300 hover:bg-red-600 hover:text-white text-xs font-semibold transition">
-                        ✕ Rejeitar
+                        class="flex-1 py-2 rounded-[10px] bg-red-100 text-red-700 border border-red-300 hover:bg-red-600 hover:text-white text-xs font-semibold transition inline-flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                        Rejeitar
                     </button>
                 </div>
             </div>
@@ -119,13 +121,15 @@
                             <div class="flex items-center justify-center gap-2">
                                 <button wire:click="aprovarSaque({{ $log->id }})"
                                     wire:confirm="Aprovar este saque de {{ money_aoa(abs($log->valor), false) }}?"
-                                    class="px-3 py-1 rounded-[8px] bg-green-100 text-green-700 border border-green-300 hover:bg-green-600 hover:text-white text-xs font-semibold transition">
-                                    ✓ Aprovar
+                                    class="px-3 py-1 rounded-[8px] bg-green-100 text-green-700 border border-green-300 hover:bg-green-600 hover:text-white text-xs font-semibold transition inline-flex items-center justify-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>
+                                    Aprovar
                                 </button>
                                 <button wire:click="rejeitarSaque({{ $log->id }})"
                                     wire:confirm="Rejeitar e devolver o valor ao freelancer?"
-                                    class="px-3 py-1 rounded-[8px] bg-red-100 text-red-700 border border-red-300 hover:bg-red-600 hover:text-white text-xs font-semibold transition">
-                                    ✕ Rejeitar
+                                    class="px-3 py-1 rounded-[8px] bg-red-100 text-red-700 border border-red-300 hover:bg-red-600 hover:text-white text-xs font-semibold transition inline-flex items-center justify-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                                    Rejeitar
                                 </button>
                             </div>
                         </td>

@@ -211,7 +211,7 @@
 {{-- Action bar --}}
 <div class="action-bar no-print">
     <a href="javascript:history.back()" class="btn-back">
-        ← Voltar
+        @include('components.icon', ['name' => 'arrow-left', 'class' => 'w-4 h-4']) Voltar
     </a>
     <button class="btn-print" onclick="window.print()">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">

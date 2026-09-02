@@ -135,7 +135,10 @@
                 </div>
             @endif
             <div class="mt-4 pt-3 border-t border-gray-100">
-                <a href="{{ route('admin.users') }}" class="text-xs text-[#0055ff] hover:underline">Gerir utilizadores →</a>
+                <a href="{{ route('admin.users') }}" class="text-xs text-[#0055ff] hover:underline inline-flex items-center gap-1.5">
+                    <span>Gerir utilizadores</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </div>
 
@@ -156,7 +159,10 @@
                 </div>
             </div>
             <div class="mt-4 pt-3 border-t border-gray-100">
-                <a href="{{ route('admin.disputes') }}" class="text-xs text-[#0055ff] hover:underline">Ver todas as disputas →</a>
+                <a href="{{ route('admin.disputes') }}" class="inline-flex items-center gap-1.5 text-xs text-[#0055ff] hover:underline">
+                    <span>Ver todas as disputas</span>
+                    @include('components.icon', ['name' => 'arrow-right', 'class' => 'w-3.5 h-3.5'])
+                </a>
             </div>
         </div>
     </div>
@@ -165,7 +171,10 @@
     <div class="bg-white rounded-2xl border border-gray-200 p-5 mb-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-sm font-bold text-gray-700">Actividade Recente</h2>
-            <a href="{{ route('admin.audit') }}" class="text-xs text-[#0055ff] hover:underline">Ver todos →</a>
+            <a href="{{ route('admin.audit') }}" class="inline-flex items-center gap-1.5 text-xs text-[#0055ff] hover:underline">
+                <span>Ver todos</span>
+                @include('components.icon', ['name' => 'arrow-right', 'class' => 'w-3.5 h-3.5'])
+            </a>
         </div>
         <div class="space-y-1">
             @forelse($recentLogs as $log)

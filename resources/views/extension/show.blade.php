@@ -70,7 +70,19 @@
                             window.deferredPwaPrompt.prompt();
                             window.deferredPwaPrompt.userChoice.finally(function () {
                                 window.deferredPwaPrompt = null;
-                                btn.textContent = 'Instalado ✓';
+                                btn.textContent = 'Instalado';
+                        var ok = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        ok.setAttribute('viewBox', '0 0 24 24');
+                        ok.setAttribute('width', '18');
+                        ok.setAttribute('height', '18');
+                        ok.setAttribute('fill', 'none');
+                        ok.setAttribute('stroke', 'currentColor');
+                        ok.setAttribute('stroke-width', '2.2');
+                        ok.setAttribute('stroke-linecap', 'round');
+                        ok.setAttribute('stroke-linejoin', 'round');
+                        ok.setAttribute('aria-hidden', 'true');
+                        ok.innerHTML = '<path d="M5 12.5 9.2 16.7 19 6.9"/>';
+                        btn.appendChild(ok);
                             });
                         } else if (!ready && btn.dataset.fallback === '1') {
                             window.location.reload();
@@ -97,7 +109,7 @@
     <div class="js-pwa-install-cta" style="text-align:left;background:rgba(255,255,255,.03);border-radius:.75rem;padding:1.25rem 1.5rem;margin-top:1.25rem;">
         <p style="color:#94a3b8;font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin:0 0 .6rem;">Onde encontrar o ícone depois de instalar</p>
         <ul style="color:#cbd5e1;font-size:.85rem;line-height:1.8;margin:0;padding-left:1.1rem;">
-            <li><strong>Computador (Windows):</strong> Menu Iniciar, ou afixe na Barra de Tarefas (clique direito no ícone → "Afixar").</li>
+            <li><strong>Computador (Windows):</strong> Menu Iniciar, ou afixe na Barra de Tarefas (clique direito no ícone e escolha "Afixar").</li>
             <li><strong>Computador (Mac):</strong> Launchpad ou pasta Aplicações.</li>
             <li><strong>Android:</strong> gaveta de aplicações ou ecrã principal, como qualquer app.</li>
             <li><strong>iPhone:</strong> ecrã principal, como qualquer app.</li>

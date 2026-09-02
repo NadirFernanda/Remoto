@@ -95,7 +95,8 @@
                         <p class="font-medium text-sm">{{ $search ? 'Nenhum resultado para "' . $search . '"' : 'Ainda não segue ninguém.' }}</p>
                         @if(!$search)
                         <a href="{{ route('social.creators') }}" class="mt-3 inline-flex items-center gap-1.5 text-sm text-[#0055ff] hover:underline font-medium">
-                            Descobrir criadores →
+                            <span>Descobrir criadores</span>
+                            @include('components.icon', ['name' => 'arrow-right', 'class' => 'w-3.5 h-3.5'])
                         </a>
                         @endif
                     </div>
@@ -150,7 +151,8 @@
                         <p class="font-medium text-sm">{{ $search ? 'Nenhum resultado para "' . $search . '"' : 'Sem assinaturas activas.' }}</p>
                         @if(!$search)
                         <a href="{{ route('social.creators') }}" class="mt-3 inline-flex items-center gap-1.5 text-sm text-[#0055ff] hover:underline font-medium">
-                            Descobrir criadores →
+                            <span>Descobrir criadores</span>
+                            @include('components.icon', ['name' => 'arrow-right', 'class' => 'w-3.5 h-3.5'])
                         </a>
                         @endif
                     </div>

@@ -40,11 +40,11 @@
                 </div>
             </div>
 
-            <div class="bg-blue-50 rounded-xl p-4 mb-6 text-sm text-gray-600 space-y-1">
-                <p>✦ Define o preço da sua assinatura (mínimo <strong>3.000 KZS/mês</strong>) — 75% para si, 25% para a plataforma</p>
-                <p>✦ Venda infoprodutos com <strong>80% dos ganhos</strong> para si</p>
-                <p>✦ Patrocine conteúdos por <strong>600 KZS/dia</strong></p>
-                <p>✦ Ganhos unificados com os seus outros perfis</p>
+            <div class="bg-blue-50 rounded-xl p-4 mb-6 text-sm text-gray-600 space-y-2">
+                <p class="flex items-start gap-2"><svg class="w-4 h-4 mt-0.5 text-[#0055ff] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><span>Define o preço da sua assinatura (mínimo <strong>3.000 KZS/mês</strong>) — 75% para si, 25% para a plataforma</span></p>
+                <p class="flex items-start gap-2"><svg class="w-4 h-4 mt-0.5 text-[#0055ff] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><span>Venda infoprodutos com <strong>80% dos ganhos</strong> para si</span></p>
+                <p class="flex items-start gap-2"><svg class="w-4 h-4 mt-0.5 text-[#0055ff] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><span>Patrocine conteúdos por <strong>600 KZS/dia</strong></span></p>
+                <p class="flex items-start gap-2"><svg class="w-4 h-4 mt-0.5 text-[#0055ff] shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><span>Ganhos unificados com os seus outros perfis</span></p>
             </div>
 
             <form wire:submit.prevent="activate" class="space-y-5">

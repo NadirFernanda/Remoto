@@ -114,8 +114,9 @@
                     {{ $isPatrocinado ? 'text-white' : 'bg-white border border-gray-200/70 text-gray-900 hover:border-[#0055ff]/40' }}">
 
                 @if($isPatrocinado)
-                <span class="absolute top-0 right-0 z-10 px-4 py-1.5 text-[11px] font-extrabold tracking-wide bg-amber-400 text-white rounded-bl-2xl shadow">
-                    ★ PATROCINADO
+                <span class="absolute top-0 right-0 z-10 px-4 py-1.5 text-[11px] font-extrabold tracking-wide bg-amber-400 text-white rounded-bl-2xl shadow flex items-center gap-1">
+                    <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.5 5.07 5.6.82-4.05 3.95 0.95 5.57L12 0.5 6.95 18.91l0.95-5.57L3.85 8.39l5.6-.82L12 2.5z"/></svg>
+                    PATROCINADO
                 </span>
                 @endif
 

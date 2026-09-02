@@ -124,40 +124,46 @@
         <p class="hp-subtitle">Encontre o profissional certo para cada tipo de projecto.</p>
         <div class="hp-categories">
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.121 2.121 0 0 0-3-3L5 17v3"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10.5-10.5a2.121 2.121 0 0 0-3-3L5 17v3"/></svg></span>
                 <span class="hp-cat-label">Design & Arte</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
                 <span class="hp-cat-label">Desenvolvimento Web</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></span>
                 <span class="hp-cat-label">Apps Mobile</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
                 <span class="hp-cat-label">Redação & Conteúdo</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
                 <span class="hp-cat-label">Marketing Digital</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
                 <span class="hp-cat-label">Vídeo & Áudio</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
                 <span class="hp-cat-label">SEO & Analytics</span>
             </a>
             <a href="{{ route('freelancers.index') }}" class="hp-cat-card">
-                <span class="hp-cat-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+                <span class="hp-cat-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
                 <span class="hp-cat-label">Suporte & Admin</span>
             </a>
         </div>
         <div style="margin-top:2.5rem;">
-            <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary">Ver todas as categorias →</a>
+            <a href="{{ route('freelancers.index') }}" class="hp-btn hp-btn-primary" style="display:inline-flex;align-items:center;gap:.6rem;">
+                <span>Ver todas as categorias</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14"/>
+                    <path d="M13 5l7 7-7 7"/>
+                </svg>
+            </a>
         </div>
     </div>
 </section>
@@ -206,7 +212,11 @@
         <p class="hp-subtitle">Histórias reais de clientes e freelancers que transformaram os seus negócios.</p>
         <div class="hp-testimonials">
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">★★★★★</div>
+                <div class="hp-testimonial-stars" aria-label="5 estrelas">
+                    @for($i = 0; $i < 5; $i++)
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                    @endfor
+                </div>
                 <p class="hp-testimonial-text">"Publiquei o projecto e já tinha 8 propostas em menos de 2 horas. Contratei uma designer incrível e o logótipo ficou perfeito!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">C</div>
@@ -214,7 +224,11 @@
                 </div>
             </div>
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">★★★★★</div>
+                <div class="hp-testimonial-stars" aria-label="5 estrelas">
+                    @for($i = 0; $i < 5; $i++)
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                    @endfor
+                </div>
                 <p class="hp-testimonial-text">"Já consegui 15 clientes pela plataforma. O sistema de pagamento é seguro e o suporte responde rapidinho."</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">J</div>
@@ -222,7 +236,11 @@
                 </div>
             </div>
             <div class="hp-testimonial">
-                <div class="hp-testimonial-stars">★★★★★</div>
+                <div class="hp-testimonial-stars" aria-label="5 estrelas">
+                    @for($i = 0; $i < 5; $i++)
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                    @endfor
+                </div>
                 <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicação excelente e dentro do orçamento!"</p>
                 <div class="hp-testimonial-author">
                     <div class="hp-testimonial-avatar">R</div>

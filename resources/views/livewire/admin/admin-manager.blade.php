@@ -349,7 +349,10 @@
                         @else
                             <div class="flex items-center justify-between mb-3">
                                 <p class="text-xs text-gray-500">Perfil: <span class="font-semibold text-gray-700">{{ $adminRole }}</span></p>
-                                <button wire:click="applyRoleDefaults" class="text-xs text-[#0055ff] hover:underline font-medium">↺ Repor padrões do perfil</button>
+                                <button wire:click="applyRoleDefaults" class="inline-flex items-center gap-1.5 text-xs text-[#0055ff] hover:underline font-medium">
+                                    @include('components.icon', ['name' => 'rotate-cw', 'class' => 'w-3.5 h-3.5'])
+                                    <span>Repor padrões do perfil</span>
+                                </button>
                             </div>
                             <div class="space-y-2">
                                 @foreach($modules as $modKey => $modLabel)
@@ -534,13 +537,15 @@
                         @if(!$isFirst)
                             <button wire:click="$set('permTab', '{{ $tabs[$idx - 1] }}')"
                                 class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
-                                ← Anterior
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                                Anterior
                             </button>
                         @endif
                         @if(!$isLast)
                             <button wire:click="$set('permTab', '{{ $tabs[$idx + 1] }}')"
                                 class="inline-flex items-center gap-1.5 text-sm font-medium text-gray-600 border border-gray-200 hover:bg-gray-100 rounded-xl px-4 py-2.5 transition">
-                                Próximo →
+                                Próximo
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                             </button>
                         @endif
                         @if($permTab === 'notificacoes')

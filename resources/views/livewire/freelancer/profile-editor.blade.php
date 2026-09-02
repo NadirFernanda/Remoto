@@ -85,7 +85,7 @@
                         Clique nos ícones de câmara para alterar as fotos · jpg, png ou webp · máx. 8 MB
                         @error('profilePhoto') <div class="text-red-600 text-xs mt-1">{{ $message }}</div> @enderror
                         @if($photoMessage)
-                            <div class="mt-1 text-sm font-semibold text-green-600">✓ {{ $photoMessage }}</div>
+                            <div class="mt-1 text-sm font-semibold text-green-600 flex items-center gap-1.5"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $photoMessage }}</div>
                         @endif
                     </div>
                 </div>
@@ -147,7 +147,10 @@
                 <div class="flex items-center gap-3 mt-1">
                     <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $kycClass }}">{{ $kycLabel }}</span>
                     @if(($kyc_status ?? 'pending') !== 'verified')
-                        <a href="{{ route('kyc.submit') }}" class="text-sm text-[#0055ff] hover:underline">Verificar identidade →</a>
+                        <a href="{{ route('kyc.submit') }}" class="text-sm text-[#0055ff] hover:underline inline-flex items-center gap-1.5">
+                            <span>Verificar identidade</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </a>
                     @endif
                 </div>
             </div>

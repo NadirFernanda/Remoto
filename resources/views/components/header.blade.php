@@ -123,7 +123,13 @@
                                         </a>
                                         <a href="{{ route('freelancers.search') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                                             <div style="height:82px;overflow:hidden;position:relative;background:#1e293b;display:flex;align-items:center;justify-content:center;"><svg width="28" height="28" fill="none" stroke="#0033cc" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#0033cc;">Ver todas →</div>
+                                            <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#0033cc;display:flex;align-items:center;gap:.45rem;">
+                                                <span>Ver todas</span>
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                    <path d="M5 12h14"/>
+                                                    <path d="M13 5l7 7-7 7"/>
+                                                </svg>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>
@@ -256,15 +262,15 @@
                                     <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Trabalhos por idioma</p>
                                     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;margin-bottom:.875rem;">
                                         <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇦🇴</div>
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:800;letter-spacing:.08em;color:#e2e8f0;">AO</div>
                                             <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Português</div>
                                         </a>
                                         <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇬🇧</div>
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:800;letter-spacing:.08em;color:#e2e8f0;">EN</div>
                                             <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Inglês</div>
                                         </a>
                                         <a href="{{ route('public.projects') }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🇫🇷</div>
+                                            <div style="height:82px;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:1.75rem;font-weight:800;letter-spacing:.08em;color:#e2e8f0;">FR</div>
                                             <div style="background:#1e2a3a;padding:.45rem .7rem;font-size:.73rem;font-weight:700;color:#e2e8f0;">Francês</div>
                                         </a>
                                     </div>

@@ -65,7 +65,7 @@
                 </svg>
                 <span class="truncate max-w-48">{{ url(route('social.creator', $user)) }}</span>
                 <button
-                    onclick="navigator.clipboard.writeText('{{ url(route('social.creator', $user)) }}'); this.textContent = '✓'"
+                    onclick="navigator.clipboard.writeText('{{ url(route('social.creator', $user)) }}'); this.innerHTML = '<svg class=\'w-4 h-4\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\' aria-hidden=\'true\'><path d=\'M5 13l4 4L19 3\'/></svg>'; setTimeout(() => this.innerHTML = '<svg class=\'w-4 h-4\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\' aria-hidden=\'true\'><path d=\'M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 1 0-7.07-7.07L11 5\'/><path d=\'M14 11a5 5 0 0 0-7.07 0L5.52 12.41a5 5 0 1 0 7.07 7.07L13 19\'/></svg> Copiar link', 2000)"
                     class="text-[#0055ff] font-semibold flex-shrink-0 hover:underline">Copiar</button>
             </div>
         </div>
@@ -108,7 +108,10 @@
                     </svg>
                     Infoprodutos
                 </h2>
-                <a href="{{ route('loja.index') }}" class="text-xs text-[#0055ff] font-semibold hover:underline">Ver loja →</a>
+                <a href="{{ route('loja.index') }}" class="text-xs text-[#0055ff] font-semibold hover:underline inline-flex items-center gap-1.5">
+                    <span>Ver loja</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </a>
             </div>
             @forelse($infoprodutos as $produto)
                 <div class="flex items-center gap-3 py-2 border-b border-gray-50 last:border-0">
@@ -126,7 +129,10 @@
             @empty
                 <div class="text-center py-6">
                     <p class="text-sm text-gray-400 mb-3">Ainda não criou infoprodutos.</p>
-                    <a href="{{ route('loja.index') }}" class="text-xs text-[#0055ff] font-semibold hover:underline">Criar produto →</a>
+                    <a href="{{ route('loja.index') }}" class="text-xs text-[#0055ff] font-semibold hover:underline inline-flex items-center gap-1.5">
+                        <span>Criar produto</span>
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </a>
                 </div>
             @endforelse
         </div>
@@ -160,7 +166,10 @@
                     </div>
                     <div>
                         <p class="text-sm font-semibold text-gray-800">Perfil Freelancer ativo</p>
-                        <p class="text-xs text-[#0055ff] font-medium">Ir para painel →</p>
+                        <p class="text-xs text-[#0055ff] font-medium inline-flex items-center gap-1.5">
+                            <span>Ir para painel</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </p>
                     </div>
                 </a>
             @endif
@@ -188,7 +197,10 @@
                     </div>
                     <div>
                         <p class="text-sm font-semibold text-gray-800">Perfil Cliente ativo</p>
-                        <p class="text-xs text-[#0055ff] font-medium">Ir para painel →</p>
+                        <p class="text-xs text-[#0055ff] font-medium inline-flex items-center gap-1.5">
+                            <span>Ir para painel</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </p>
                     </div>
                 </a>
             @endif

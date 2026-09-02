@@ -36,13 +36,20 @@ class ReviewReceivedNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable): MailMessage
     {
-        $stars = str_repeat('★', $this->review->rating) . str_repeat('☆', 5 - $this->review->rating);
+        $ratingText = match ($this->review->rating) {
+            5 => '5/5 — excelente',
+            4 => '4/5 — muito bom',
+            3 => '3/5 — bom',
+            2 => '2/5 — aceitável',
+            1 => '1/5 — fraco',
+            default => $this->review->rating . '/5',
+        };
 
         return (new MailMessage)
             ->subject('Recebeu uma nova avaliação')
             ->greeting('Olá ' . $notifiable->name . ',')
             ->line('**' . $this->author->name . '** deixou uma avaliação sobre o seu trabalho.')
-            ->line('**Classificação:** ' . $stars . ' (' . $this->review->rating . '/5)')
+            ->line('**Classificação:** ' . $ratingText)
             ->line('**Comentário:** ' . ($this->review->comment ?? 'Sem comentário adicional.'))
             ->action('Ver Perfil', $this->profileUrl)
             ->line('Avaliações positivas aumentam a sua visibilidade na plataforma!');

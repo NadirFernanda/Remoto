@@ -41,8 +41,9 @@
          quando o envio falha (upload que não chegou a completar, erro no
          servidor, etc.). --}}
     @if($errorMessage)
-        <div class="mb-5 p-3 bg-red-100 text-red-700 rounded-lg font-semibold text-sm">
-            ✗ {{ $errorMessage }}
+        <div class="mb-5 p-3 bg-red-100 text-red-700 rounded-lg font-semibold text-sm flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>
+            {{ $errorMessage }}
         </div>
     @endif
 
@@ -62,14 +63,21 @@
 
     {{-- Submission already approved --}}
     @if($currentKyc === 'verified' || ($existing && $existing->status === 'approved'))
-        <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-medium">
-            ✓ A sua identidade foi verificada com sucesso. Não é necessário enviar novamente.
+        <div class="p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>
+            A sua identidade foi verificada com sucesso. Não é necessário enviar novamente.
         </div>
 
     {{-- Pending submission --}}
     @elseif($existing && $existing->status === 'pending')
         <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
-            <p class="font-semibold mb-1">⏳ Submissão em análise</p>
+            <p class="font-semibold mb-1 flex items-center gap-2">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3 2"/>
+                </svg>
+                Submissão em análise
+            </p>
             <p class="text-sm">Os seus documentos foram recebidos e estão a ser analisados pela equipa 24HORAS. Receberá uma notificação assim que a verificação estiver concluída.</p>
             <p class="text-xs text-yellow-600 mt-2">Submetido em: {{ $existing->created_at->format('d/m/Y H:i') }}</p>
         </div>
@@ -78,7 +86,7 @@
         {{-- Rejected: show reason --}}
         @if($existing && $existing->status === 'rejected')
             <div class="mb-5 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-                <p class="font-semibold mb-1">✗ Submissão anterior rejeitada</p>
+                <p class="font-semibold mb-1 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18L18 6M6 6l12 12"/></svg>Submissão anterior rejeitada</p>
                 @if($existing->admin_notes)
                     <p class="text-sm">Motivo: {{ $existing->admin_notes }}</p>
                 @endif
@@ -114,7 +122,7 @@
                     <p class="text-xs text-gray-400 mt-1">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentFront') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                     @if($documentFront)
-                        <p class="text-xs text-green-600 mt-1">✓ {{ $documentFront->getClientOriginalName() }}</p>
+                        <p class="text-xs text-green-600 mt-1 flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $documentFront->getClientOriginalName() }}</p>
                     @endif
                 </div>
 
@@ -133,7 +141,7 @@
                     <p class="text-xs text-gray-400 mt-1">JPG, PNG ou PDF · máx. 10MB</p>
                     @error('documentBack') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                     @if($documentBack)
-                        <p class="text-xs text-green-600 mt-1">✓ {{ $documentBack->getClientOriginalName() }}</p>
+                        <p class="text-xs text-green-600 mt-1 flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $documentBack->getClientOriginalName() }}</p>
                     @endif
                 </div>
             </div>
@@ -153,7 +161,7 @@
                 <p class="text-xs text-gray-400 mt-1">Foto segurando o documento ao lado do rosto · JPG ou PNG · máx. 10MB</p>
                 @error('selfie') <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span> @enderror
                 @if($selfie)
-                    <p class="text-xs text-green-600 mt-1">✓ {{ $selfie->getClientOriginalName() }}</p>
+                    <p class="text-xs text-green-600 mt-1 flex items-center gap-1.5"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 13l4 4L19 3"/></svg>{{ $selfie->getClientOriginalName() }}</p>
                 @endif
             </div>
 

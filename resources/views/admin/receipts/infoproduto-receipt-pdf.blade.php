@@ -149,7 +149,7 @@
 <body>
 
 <div class="action-bar no-print">
-    <a href="javascript:history.back()" class="btn-back">← Voltar</a>
+    <a href="javascript:history.back()" class="btn-back">@include('components.icon', ['name' => 'arrow-left', 'class' => 'w-4 h-4']) Voltar</a>
     <button class="btn-print" onclick="window.print()">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M7 9V4h10v5M7 16h10v4H7zm12-4H5a2 2 0 0 0-2 2v4h18v-4a2 2 0 0 0-2-2z"/>

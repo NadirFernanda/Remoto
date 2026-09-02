@@ -153,10 +153,22 @@
 .kpi-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; margin-bottom:1.25rem; }
 
 /* Dashboard header */
-.dashboard-header{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; }
-.dashboard-title{ font-size:1.35rem; font-weight:800; color:#f1f5f9; }
-.search-input{ min-width:320px; max-width:480px; width:100%; padding:.6rem .9rem; border-radius:10px; border:1px solid #e6eef6; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6); }
+.dashboard-header{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.2rem; padding: .25rem 0; }
+.dashboard-title{ font-size:1.35rem; font-weight:800; color:#f1f5f9; letter-spacing:-.02em; }
+.search-input{ min-width:320px; max-width:480px; width:100%; padding:.6rem .9rem; border-radius:10px; border:1px solid rgba(148,163,184,.25); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
 .filters-row{ display:flex; gap:.5rem; align-items:center; }
+
+/* Dashboard density reduction */
+.dash-main .space-y-6 > :not(:first-child) { margin-top: 1.25rem; }
+.dash-main .space-y-4 > :not(:first-child) { margin-top: .9rem; }
+.dash-main [class*="rounded-2xl"],
+.dash-main [class*="rounded-xl"],
+.dash-main [class*="rounded-lg"] {
+    border-color: rgba(148, 163, 184, 0.12) !important;
+}
+.dash-main .p-5, .dash-main .p-6 { padding: 1rem 1.1rem !important; }
+.dash-main .px-5, .dash-main .px-6 { padding-left: 1rem !important; padding-right: 1rem !important; }
+.dash-main .py-4, .dash-main .py-5 { padding-top: .8rem !important; padding-bottom: .8rem !important; }
 
 /* subtle entrance animation */
 .fade-up{ transform: translateY(8px); opacity: 0; animation: fadeUp .48s ease forwards; }
@@ -178,6 +190,17 @@
 .status-completed{ background:#64748b; }
 .status-cancelled{ background:#ef4444; }
 
+/* Stronger information hierarchy for dashboard actions */
+.dash-main .action-btn,
+.dash-main .btn-nowrap,
+.dash-main .btn-primary,
+.dash-main .btn-outline,
+.dash-main .btn-danger {
+    border-radius: .75rem;
+    font-weight: 700;
+    box-shadow: none;
+}
+
 /* Small icon action buttons that respect brand */
  .action-btn{
     width:44px;
@@ -194,6 +217,11 @@
 }
 .action-btn:hover{ transform:translateY(-3px); background: #0055ff; color:#fff; box-shadow:none; }
 .action-btn:focus{ outline:3px solid rgba(0,186,255,0.12); outline-offset:2px; }
+
+.dash-main .action-item {
+    gap: .5rem;
+    align-items: center;
+}
 
 /* labels next to action icons: visible on desktop, hidden on small screens */
 .action-label{ display:none; color:var(--text-strong); font-weight:700; font-size:.95rem; }

@@ -51,7 +51,7 @@
                     <label class="block text-xs text-gray-500 mb-1">Ordenação</label>
                     <input wire:model="sort_order" type="number" min="0"
                         class="w-full border border-gray-200 rounded-[10px] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
-                    <p class="text-xs text-gray-400 mt-0.5">Menor número → aparece primeiro.</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Menor número aparece primeiro.</p>
                 </div>
                 <div class="flex items-center gap-3 mt-5">
                     <label class="relative inline-flex items-center cursor-pointer">
@@ -89,12 +89,23 @@
             </thead>
             <tbody>
                 @forelse($categories as $cat)
+                    @php
+                        $rawCategoryIcon = trim((string) ($cat->icon ?? ''));
+                        $safeCategoryIcon = preg_match('/^[a-z0-9_-]+$/i', $rawCategoryIcon) ? strtolower($rawCategoryIcon) : null;
+                        $categoryIconName = in_array($safeCategoryIcon, ['save','edit','eye','chat','check','close','menu','search','file','folder','briefcase','globe','chart','store','wallet','user','bell','settings','shield-check','badge-check','star','sparkles'], true)
+                            ? $safeCategoryIcon
+                            : 'folder';
+                    @endphp
                     <tr wire:key="category-{{ $cat->id }}" class="border-b last:border-0 hover:bg-gray-50 transition">
                         <td class="py-3 px-5">
                             <div class="flex items-center gap-2">
-                                @if($cat->icon)
-                                    <span class="text-xl leading-none">{{ $cat->icon }}</span>
-                                @endif
+                                <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0055ff]/10 text-[#0055ff] ring-1 ring-[#0055ff]/15">
+                                    @if($safeCategoryIcon)
+                                        @include('components.icon', ['name' => $categoryIconName, 'class' => 'w-4 h-4'])
+                                    @else
+                                        <span class="text-xs font-bold">{{ strtoupper(substr($cat->name, 0, 1)) }}</span>
+                                    @endif
+                                </div>
                                 <span class="font-medium text-gray-900">{{ $cat->name }}</span>
                             </div>
                             <div class="text-xs text-gray-400 mt-0.5">{{ $cat->slug }}</div>

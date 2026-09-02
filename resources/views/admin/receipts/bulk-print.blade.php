@@ -122,7 +122,7 @@
 
 <div class="action-bar no-print">
     <div>
-        <a href="javascript:history.back()" class="btn-back">← Voltar</a>
+        <a href="javascript:history.back()" class="btn-back">@include('components.icon', ['name' => 'arrow-left', 'class' => 'w-4 h-4']) Voltar</a>
     </div>
     <span><strong>{{ count($services) }}</strong> recibo(s) seleccionado(s)</span>
     <button class="btn-print" onclick="window.print()">

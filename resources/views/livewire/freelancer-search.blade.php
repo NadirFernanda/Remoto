@@ -276,7 +276,7 @@
             <div class="fsp-filter-group">
                 <label class="fsp-filter-label">Avaliação mínima</label>
                 <div style="display:flex;flex-direction:column;gap:.38rem;margin-top:.05rem;">
-                    @foreach(['0'=>'Qualquer','3'=>'3★ ou mais','4'=>'4★ ou mais','4.5'=>'4.5★ ou mais','5'=>'Apenas 5★'] as $val => $label)
+                    @foreach(['0'=>'Qualquer','3'=>'3 estrelas ou mais','4'=>'4 estrelas ou mais','4.5'=>'4.5 estrelas ou mais','5'=>'Apenas 5 estrelas'] as $val => $label)
                         <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
                             <input type="radio" wire:model.live="minRating" value="{{ $val }}"
                                    style="accent-color:#0055ff;width:14px;height:14px;">

@@ -147,7 +147,9 @@
                                         <a href="{{ $msg->anexo_url }}" target="_blank"
                                            title="{{ $displayName }}"
                                            style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem;padding:.5rem .75rem;border-radius:.75rem;text-decoration:none;background:{{ $isMine ? 'rgba(255,255,255,.15)' : '#f1f5f9' }};max-width:100%;overflow:hidden;box-sizing:border-box;">
-                                            <span style="font-size:1.25rem;flex-shrink:0;">&#128196;</span>
+                                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="flex-shrink:0;">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h7.5L19.5 9v10.5A1.5 1.5 0 0 1 18 21H7.5A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H7zm7.5 0v5.25H19.5"/>
+                                            </svg>
                                             <span style="font-size:.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0;">{{ $shortName }}</span>
                                             <span style="font-size:.7rem;opacity:.65;text-transform:uppercase;flex-shrink:0;margin-left:.25rem;">{{ strtoupper($ext) }}</span>
                                         </a>
@@ -220,9 +222,11 @@
             @if($chat_bloqueado)
                 <div class="flex items-center justify-center gap-2 py-2 text-slate-400 text-sm">
                     @if($service->status === 'completed')
-                        &#9989; Projeto concluído — o chat está em modo de leitura
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        Projeto concluído — o chat está em modo de leitura
                     @else
-                        &#128274; Chat disponível após aceitação do serviço
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 1 1 8 0v4"/></svg>
+                        Chat disponível após aceitação do serviço
                     @endif
                 </div>
             @else
@@ -481,6 +485,7 @@
                                 if (!input) return;
                                 input.value += e.detail.unicode;
                                 picker.style.display = 'none';
+                                input.focus();
                             });
                             picker.appendChild(ep);
                         }
