@@ -71,13 +71,15 @@
         border: 1.5px solid #e2e8f0;
         border-radius: 10px;
         font-size: .9rem;
-        color: #1e293b;
+        color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
+        caret-color: #0055ff;
         background: #f8fafc;
         outline: none;
         transition: border-color .18s, box-shadow .18s;
         font-family: inherit;
     }
-    .lf-input:focus { border-color: #0055ff; box-shadow: 0 0 0 3px rgba(0,80,255,.1); background: #fff; }
+    .lf-input:focus { color: #1e293b !important; -webkit-text-fill-color: #1e293b !important; border-color: #0055ff; box-shadow: 0 0 0 3px rgba(0,80,255,.1); background: #fff; }
     .lf-input.has-error { border-color: #dc2626; }
     .lf-eye  { position: absolute; right: .9rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 0; }
     .lf-error { color: #dc2626; font-size: .78rem; margin-top: .3rem; display: none; }

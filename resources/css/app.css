@@ -644,6 +644,7 @@ textarea {
     border: 1px solid var(--color-border);
     background: rgba(15, 23, 42, 0.02);
     color: var(--color-text-primary);
+    -webkit-text-fill-color: var(--color-text-primary);
     font-size: var(--font-size-body);
     line-height: 1.4;
     transition: border-color .16s ease, box-shadow .16s ease, background-color .16s ease;
@@ -655,10 +656,23 @@ textarea::placeholder {
     color: var(--color-text-secondary);
 }
 
+/* Keep browser autofill and focused values readable instead of inheriting
+   transparent or background-clipped text from a parent utility. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-text-fill-color: var(--color-text-primary) !important;
+    caret-color: var(--color-text-primary);
+}
+
 input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus,
 select:focus,
 textarea:focus {
     border-color: var(--color-primary);
+    color: var(--color-text-primary);
+    -webkit-text-fill-color: var(--color-text-primary);
     background: rgba(255, 255, 255, 0.02);
     box-shadow: 0 0 0 3px rgba(0, 85, 255, 0.12);
     outline: none;
@@ -1393,7 +1407,8 @@ li.list-item {
 .pub-filters { background: rgba(255,255,255,.04); border-radius: 14px; border: 1px solid rgba(255,255,255,.08); padding: 1.5rem; margin-bottom: 2rem; }
 .pub-filter-label { display: block; font-size: .72rem; font-weight: 700; color: #64748b; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .4rem; }
 .pub-input { width: 100%; background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12); color: #f1f5f9; padding: .55rem .8rem; border-radius: 10px; font-size: .9rem; font-family: 'Inter', system-ui, sans-serif; transition: border-color .18s, box-shadow .18s; }
-.pub-input:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0,80,255,.1); outline: none; }
+.pub-input { -webkit-text-fill-color: #f1f5f9; }
+.pub-input:focus { border-color: var(--color-primary); color: #f1f5f9; -webkit-text-fill-color: #f1f5f9; box-shadow: 0 0 0 3px rgba(0,80,255,.1); outline: none; }
 .pub-input::placeholder { color: #94a3b8; }
 .pub-select { width: 100%; background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12); color: #f1f5f9; padding: .55rem .8rem; border-radius: 10px; font-size: .9rem; font-family: 'Inter', system-ui, sans-serif; transition: border-color .18s, box-shadow .18s; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .75rem center; padding-right: 2.5rem; cursor: pointer; }
 .pub-select:focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(0,80,255,.1); outline: none; }
@@ -1591,6 +1606,71 @@ li.list-item {
         border-radius: 16px !important;
         margin-top: 0 !important;
     }
+}
+
+/* Final form-colour contract: utility classes must never make entered values
+   depend on an inherited gray or transparent text colour. */
+html body input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+html body textarea,
+html body select {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    caret-color: #0055ff;
+}
+
+html body input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus,
+html body textarea:focus,
+html body select:focus {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+html body input::placeholder,
+html body textarea::placeholder {
+    color: #94a3b8 !important;
+    -webkit-text-fill-color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+/* These authentication forms intentionally use light fields. */
+html body .login-left .lf-input,
+html body .reg-wrap .lf-input {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+}
+
+html body .login-left .lf-input::placeholder,
+html body .reg-wrap .lf-input::placeholder {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+}
+
+/* The administrative modal is the one light dashboard surface. */
+html body .admin-light-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+html body .admin-light-modal textarea,
+html body .admin-light-modal select {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
+    background-color: #ffffff !important;
+}
+
+/* Higher-specificity dashboard selectors win over legacy text-gray-* classes
+   even when those utilities appear directly on the form control. */
+html body .workspace-layout input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+html body .workspace-layout textarea,
+html body .workspace-layout select,
+html body .admin-layout input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+html body .admin-layout textarea,
+html body .admin-layout select {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+}
+
+html body .admin-layout .admin-light-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
+html body .admin-layout .admin-light-modal textarea,
+html body .admin-layout .admin-light-modal select {
+    color: #111827 !important;
+    -webkit-text-fill-color: #111827 !important;
 }
 
 /* Admin users: use the dashboard dark surface instead of the legacy light
