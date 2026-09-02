@@ -1164,10 +1164,30 @@ li.list-item {
 
 .hp-benefits-text {
     max-width: 420px;
+    text-align: left !important;
 }
 
 .hp-section .hp-container > *:first-child,
 .hp-section .hp-container > *:first-child + * { text-align: center; }
+
+/* The benefits section is a two-column content layout, not a centred
+   section heading. Keep its copy and feature cards aligned to their grid. */
+.hp-benefits-grid {
+    text-align: left !important;
+    align-items: center;
+}
+.hp-benefits-grid .hp-title,
+.hp-benefits-grid .hp-subtitle,
+.hp-benefits-grid .hp-benefit-item {
+    text-align: left !important;
+}
+.hp-benefit-item {
+    align-items: center;
+    min-height: 104px;
+}
+.hp-benefit-item > div:last-child {
+    min-width: 0;
+}
 
 .hp-section--white .hp-container,
 .hp-section--gray .hp-container,
