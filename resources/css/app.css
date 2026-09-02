@@ -1624,6 +1624,56 @@ li.list-item {
     .onboarding-step { padding: .75rem 1rem !important; }
 }
 
+/* Final homepage rhythm: every content section shares the same vertical and
+   horizontal scale, including the sections with custom internal grids. */
+.homepage .hp-section {
+    padding: clamp(4rem, 6vw, 6.5rem) clamp(1.25rem, 4vw, 1.5rem) !important;
+}
+.homepage .hp-section .hp-container,
+.homepage .hp-section .hp-container--narrow {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+.homepage .hp-section .hp-container--narrow {
+    max-width: 720px;
+}
+.homepage .hp-benefits-grid {
+    width: 100%;
+    grid-template-columns: minmax(280px, .88fr) minmax(0, 1.12fr) !important;
+    gap: clamp(2rem, 5vw, 4.5rem) !important;
+}
+.homepage .hp-benefit-list {
+    width: 100%;
+    gap: 1rem;
+}
+.homepage .hp-comunidade-section {
+    padding: clamp(4rem, 6vw, 6.5rem) clamp(1.25rem, 4vw, 1.5rem) !important;
+}
+.homepage .hp-comunidade-section > div[style*="max-width:1200px"] {
+    width: 100%;
+    max-width: 1200px !important;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+@media (max-width: 768px) {
+    .homepage .hp-benefits-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .homepage .hp-section,
+    .homepage .hp-comunidade-section {
+        padding: 3.25rem .875rem !important;
+    }
+}
+
 /* Homepage community section: keep the same surface, spacing and hierarchy
    as the other homepage sections instead of using a separate visual language. */
 .hp-comunidade-section {
