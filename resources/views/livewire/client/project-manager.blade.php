@@ -224,7 +224,9 @@
                             @endif
                             @if($selected->status === 'revision_requested')
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold">
-                                    <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                                    <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
                                     Revisão pedida — aguardando nova entrega
                                 </span>
                             @endif

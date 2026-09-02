@@ -23,17 +23,6 @@
             'cancelled'          => 'bg-gray-100 text-gray-500 border-gray-200',
             'em_moderacao'       => 'bg-blue-100 text-[#0055ff] border-blue-200',
         ];
-        $statusDots = [
-            'negotiating'        => 'bg-amber-400',
-            'published'          => 'bg-blue-400',
-            'accepted'           => 'bg-indigo-400',
-            'in_progress'        => 'bg-yellow-400',
-            'revision_requested' => 'bg-red-500',
-            'delivered'          => 'bg-orange-400',
-            'completed'          => 'bg-green-500',
-            'cancelled'          => 'bg-gray-400',
-            'em_moderacao'       => 'bg-[#0055ff]',
-        ];
     @endphp
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
@@ -82,7 +71,9 @@
         @foreach(['accepted' => 'Aceite', 'negotiating' => 'Em Negociação', 'in_progress' => 'Em Andamento', 'revision_requested' => 'Revisão Pedida', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
             <button wire:click="$set('status', '{{ $key }}')"
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border transition {{ $status === $key ? 'border-[#0052cc] text-[#0052cc] shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300' }}">
-                <span class="w-2 h-2 rounded-full {{ $statusDots[$key] ?? 'bg-gray-400' }}"></span>
+                <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
                 {{ $label }}: <span class="font-bold">{{ $statusCounts[$key] ?? 0 }}</span>
             </button>
         @endforeach
@@ -120,7 +111,6 @@
             @php
                 $sc    = $statusColors[$project->status] ?? 'bg-gray-100 text-gray-500 border-gray-200';
                 $sl    = $statusLabels[$project->status] ?? $project->status;
-                $dot   = $statusDots[$project->status]   ?? 'bg-gray-400';
                 $isRevision = $project->status === 'revision_requested';
                 $isDelivered = $project->status === 'delivered';
                 $valor = $project->valor_liquido ?? ($project->valor * 0.9);
@@ -134,7 +124,9 @@
                             {{ $project->titulo ?? 'Projecto #' . $project->id }}
                         </h3>
                         <span class="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border {{ $sc }}">
-                            <span class="w-1.5 h-1.5 rounded-full {{ $dot }} {{ $isRevision ? 'animate-pulse' : '' }}"></span>
+                            <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
                             {{ $sl }}
                         </span>
                     </div>
