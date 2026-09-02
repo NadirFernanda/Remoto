@@ -22,10 +22,9 @@
     }
     .login-headline { font-size: 1.85rem; font-weight: 900; color: #0a0f1e; line-height: 1.18; margin-bottom: .65rem; }
     .login-headline .grad {
-        background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        background: none;
+        color: #0055ff;
+        -webkit-text-fill-color: #0055ff;
     }
     .login-sub { color: #64748b; font-size: .95rem; line-height: 1.65; margin-bottom: 2rem; }
     .login-sub span { color: #0055ff; font-weight: 700; }

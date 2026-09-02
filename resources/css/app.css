@@ -684,12 +684,7 @@ input[type="file"] {
     display: none;
 }
 
-/* Pulsing ring animation — botão "Publicar projecto" */
-@keyframes hp-btn-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255,45,85,0.55), 0 4px 14px rgba(255,45,85,0.25); }
-    60%       { box-shadow: 0 0 0 12px rgba(255,45,85,0), 0 4px 14px rgba(255,45,85,0.25); }
-}
-.hp-btn-pulse { animation: hp-btn-pulse 2.2s ease-out infinite; }
+.hp-btn-pulse { animation: none !important; }
 
 .btn-ghost{ background:transparent; border:1px solid rgba(0,80,255,0.12); color:var(--accent-v); padding:.5rem .9rem; border-radius:.6875rem; }
 
@@ -1199,8 +1194,8 @@ li.list-item {
 
 /* buttons */
 .hp-btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .9rem 1.4rem; border-radius: var(--radius-md); font-weight: 800; font-size: 1rem; text-decoration: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease; }
-.hp-btn-primary          { background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%); color: #fff; box-shadow: var(--shadow-sm); }
-.hp-btn-primary:hover    { background: linear-gradient(135deg, #00d8ff 0%, #0066ff 60%, #0044dd 100%); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.hp-btn-primary          { background: #0055ff; color: #fff; box-shadow: var(--shadow-sm); }
+.hp-btn-primary:hover    { background: #0044dd; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 .hp-btn-secondary        { background: transparent; color: var(--color-primary); border: 1px solid var(--color-border-strong); }
 .hp-btn-secondary:hover  { background: var(--color-primary-soft); border-color: var(--color-primary); }
 .hp-btn-white            { background: #ffffff; color: #0044cc; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
@@ -2038,4 +2033,22 @@ li.list-item {
     .homepage .hp-benefit-list {
         grid-template-columns: 1fr;
     }
+}
+
+/* Keep actionable controls on the same solid-blue button standard. */
+button[style*="linear-gradient"],
+button[style*="radial-gradient"],
+a[style*="linear-gradient"],
+a[style*="radial-gradient"],
+[class*="badge"][style*="linear-gradient"],
+[class*="badge"][style*="radial-gradient"],
+[class*="chip"][style*="linear-gradient"],
+[class*="chip"][style*="radial-gradient"],
+[class*="tag"][style*="linear-gradient"],
+[class*="tag"][style*="radial-gradient"],
+[class*="pill"][style*="linear-gradient"],
+[class*="pill"][style*="radial-gradient"] {
+    background: #0055ff !important;
+    background-image: none !important;
+    color: #fff !important;
 }

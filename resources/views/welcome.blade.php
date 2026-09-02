@@ -357,7 +357,7 @@
                         Pagamento seguro via carteira digital integrada
                     </li>
                 </ul>
-                <a href="{{ route('social.feed') }}" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                <a href="{{ route('social.feed') }}" style="display:inline-flex;align-items:center;gap:.5rem;background:#0055ff;color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
                     Explorar comunidade
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                 </a>

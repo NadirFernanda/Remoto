@@ -1137,7 +1137,7 @@
         <form method="POST" action="{{ route('switch.role') }}" style="display:flex;flex-direction:column;gap:.5rem;">
             @csrf
             <button type="submit"
-                    style="width:100%;padding:.72rem 1rem;border-radius:.75rem;background:linear-gradient(135deg,#00c8ff 0%,#0055ff 60%,#0033cc 100%);color:#021018;font-weight:800;font-size:.9rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .15s;box-shadow:0 4px 18px rgba(0,80,255,.25);"
+                    style="width:100%;padding:.72rem 1rem;border-radius:.75rem;background:#0055ff;color:#fff;font-weight:800;font-size:.9rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .15s;box-shadow:0 4px 18px rgba(0,80,255,.25);"
                     onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
                 Mudar de Modo agora
