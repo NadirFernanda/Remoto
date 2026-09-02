@@ -214,7 +214,7 @@
             <div class="hp-testimonial">
                 <div class="hp-testimonial-stars" aria-label="5 estrelas">
                     @for($i = 0; $i < 5; $i++)
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26 6.91 1.01-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
                     @endfor
                 </div>
                 <p class="hp-testimonial-text">"Publiquei o projecto e já tinha 8 propostas em menos de 2 horas. Contratei uma designer incrível e o logótipo ficou perfeito!"</p>
@@ -226,7 +226,7 @@
             <div class="hp-testimonial">
                 <div class="hp-testimonial-stars" aria-label="5 estrelas">
                     @for($i = 0; $i < 5; $i++)
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26 6.91 1.01-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
                     @endfor
                 </div>
                 <p class="hp-testimonial-text">"Já consegui 15 clientes pela plataforma. O sistema de pagamento é seguro e o suporte responde rapidinho."</p>
@@ -238,7 +238,7 @@
             <div class="hp-testimonial">
                 <div class="hp-testimonial-stars" aria-label="5 estrelas">
                     @for($i = 0; $i < 5; $i++)
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.8l2.87 5.82 6.42.94-4.65 4.53 1.1 6.39L12 0.2l-5.74 3.01 1.1-6.39L2.71 8.56l6.42-.94L12 1.8Z"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26 6.91 1.01-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
                     @endfor
                 </div>
                 <p class="hp-testimonial-text">"Meu site foi desenvolvido em 5 dias. Qualidade profissional, comunicação excelente e dentro do orçamento!"</p>
