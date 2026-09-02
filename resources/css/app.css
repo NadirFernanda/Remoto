@@ -1603,3 +1603,68 @@ li.list-item {
 @media (max-width: 480px) {
     .onboarding-step { padding: .75rem 1rem !important; }
 }
+
+/* Homepage community section: keep the same surface, spacing and hierarchy
+   as the other homepage sections instead of using a separate visual language. */
+.hp-comunidade-section {
+    background: #080d1a !important;
+    padding: clamp(4rem, 6vw, 6rem) 1.5rem !important;
+}
+.hp-comunidade-section > div[style*="position:absolute"] {
+    display: none !important;
+}
+.hp-comunidade-section > div[style*="max-width:1200px"] {
+    max-width: 1200px !important;
+}
+.hp-comunidade-section h2 {
+    font-size: clamp(1.8rem, 4vw, 2.75rem) !important;
+    line-height: 1.15 !important;
+    margin-bottom: 1rem !important;
+}
+.hp-comunidade-section h2 span {
+    background: none !important;
+    color: #38bdf8 !important;
+    -webkit-text-fill-color: #38bdf8 !important;
+}
+.hp-comunidade-section > div > p {
+    max-width: 680px !important;
+    font-size: 1rem !important;
+    margin-bottom: 2.5rem !important;
+}
+.hp-comunidade-cards {
+    gap: 1.75rem !important;
+    margin-bottom: 3rem !important;
+}
+.hp-comunidade-cards > div {
+    background: #0d1424 !important;
+    border: 1px solid rgba(148,163,184,.18) !important;
+    border-radius: 1rem !important;
+    padding: 2rem !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25) !important;
+}
+.hp-comunidade-cards > div > div[style*="width:3rem"] {
+    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+}
+.hp-comunidade-cards > div:nth-child(2) > div[style*="width:3rem"] {
+    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+}
+.hp-comunidade-cards > div > ul li > span {
+    background: rgba(0,186,255,.12) !important;
+}
+.hp-comunidade-cards > div > ul li > span svg {
+    stroke: #38bdf8 !important;
+}
+.hp-comunidade-cards > div h3 {
+    font-size: 1.25rem !important;
+    margin-bottom: .6rem !important;
+}
+.hp-comunidade-cards > div a {
+    border-radius: .75rem !important;
+}
+.hp-comunidade-cards > div > a {
+    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+}
+.hp-comunidade-stats {
+    border-top-color: rgba(148,163,184,.18) !important;
+    padding-top: 2.25rem !important;
+}
