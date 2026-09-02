@@ -20,27 +20,27 @@
     @endif
 
     {{-- ── PROFILE CARD ──────────────────────────────────────────────────────── --}}
-    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="creator-profile-card bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
 
         {{-- Cover --}}
         @if($creator->coverPhotoUrl())
             <x-image-lightbox :src="$creator->coverPhotoUrl()" :alt="$creator->name . ' — capa'">
-                <div class="h-32 sm:h-44 relative">
+                <div class="creator-profile-cover h-32 sm:h-44 relative">
                     <img src="{{ $creator->coverPhotoUrl() }}" alt="{{ $creator->name }} — capa" class="w-full h-full object-cover">
                 </div>
             </x-image-lightbox>
         @else
-            <div class="h-32 sm:h-44 /40 relative">
+            <div class="creator-profile-cover h-32 sm:h-44 bg-[#1b2a44] relative">
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
                 <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
             </div>
         @endif
 
-        <div class="px-5 sm:px-8 pb-6">
-            <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
+        <div class="creator-profile-content px-5 sm:px-8 pb-6">
+            <div class="creator-profile-meta flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
 
                 {{-- Avatar --}}
-                <div class="relative flex-shrink-0">
+                <div class="creator-profile-avatar relative flex-shrink-0">
                     <x-image-lightbox :src="$creator->avatarUrl()" :alt="$creator->name">
                         <div class="p-1 rounded-full {{ $creator->has_creator_profile ? ' ' : 'bg-white shadow-md' }}">
                             <div class="{{ $creator->has_creator_profile ? 'p-0.5 bg-white rounded-full' : '' }}">
@@ -59,7 +59,7 @@
                 </div>
 
                 {{-- Stats --}}
-                <div class="flex-1 sm:pb-1">
+                <div class="creator-profile-stats flex-1 sm:pb-1">
                     <div class="flex items-center gap-6 sm:gap-10">
                         <div class="text-center">
                             <p class="text-lg font-bold text-gray-900 leading-tight">{{ $posts->total() }}</p>
@@ -82,7 +82,7 @@
                 </div>
 
                 {{-- Action buttons --}}
-                <div class="flex flex-wrap gap-2 sm:pb-1">
+                <div class="creator-profile-actions flex flex-wrap gap-2 sm:pb-1">
                     @auth
                         @if(auth()->id() !== $creator->id)
                             <button wire:click="toggleFollow"

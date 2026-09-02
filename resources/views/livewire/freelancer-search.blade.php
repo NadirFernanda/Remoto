@@ -179,11 +179,17 @@
 .fsp-rate { font-size: .98rem;font-weight: 900;color: #0f172a; }
 .fsp-rate-unit { font-size: .66rem;color: #94a3b8;font-weight: 400; }
 .fsp-btn-view {
-    background: #0055ff;color: #fff;font-size: .73rem;font-weight: 700;
-    padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
-    white-space: nowrap;transition: background .17s;
+    display: inline-flex;align-items: center;justify-content: center;
+    min-height: 38px;padding: .62rem 1rem;
+    background: #0055ff;color: #fff;font-size: .78rem;font-weight: 800;
+    border: 1px solid #0055ff;border-radius: 10px;
+    text-decoration: none;white-space: nowrap;
+    transition: transform .15s ease,background .15s ease,box-shadow .15s ease;
 }
-.fsp-btn-view:hover { background: #0099d4;color: #fff; }
+.fsp-btn-view:hover {
+    background: #0044dd;color: #fff;transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,85,255,.22);
+}
 .fsp-empty {
     grid-column: 1/-1;padding: 4rem 1rem;text-align: center;
 }
@@ -449,4 +455,3 @@
 
 </div>
 </div>
-

@@ -303,6 +303,37 @@
     background: #1b2a44 !important;
 }
 
+.workspace-layout .dashboard-screen [class*="bg-blue-50"],
+.workspace-layout .dashboard-screen [class*="bg-indigo-50"],
+.workspace-layout .dashboard-screen [class*="bg-yellow-50"],
+.workspace-layout .dashboard-screen [class*="bg-orange-50"],
+.workspace-layout .dashboard-screen [class*="bg-red-50"],
+.workspace-layout .dashboard-screen [class*="bg-green-50"] {
+    background: #162238 !important;
+    border-color: rgba(0,85,255,.24) !important;
+    color: #e2e8f0 !important;
+}
+
+.workspace-layout .dashboard-screen [class*="bg-blue-400"],
+.workspace-layout .dashboard-screen [class*="bg-indigo-400"],
+.workspace-layout .dashboard-screen [class*="bg-green-500"],
+.workspace-layout .dashboard-screen [class*="bg-yellow-500"],
+.workspace-layout .dashboard-screen [class*="bg-orange-500"] {
+    background: var(--color-primary) !important;
+}
+
+.workspace-layout .dashboard-screen .grid > [class*="border"] {
+    box-shadow: 0 8px 22px rgba(0,0,0,.14);
+}
+
+.workspace-layout .dashboard-screen .grid > [class*="border"] > p:first-child {
+    color: #fff !important;
+}
+
+.workspace-layout .dashboard-screen .grid > [class*="border"] > p:last-child {
+    color: #94a3b8 !important;
+}
+
 @media (max-width: 640px) {
     .workspace-layout .dashboard-page-header {
         align-items: flex-start;
@@ -310,6 +341,124 @@
 
     .workspace-layout .dashboard-screen .grid.grid-cols-2 {
         gap: .7rem;
+    }
+}
+
+/* Dashboard presentation layer: structured surfaces and clear actions. */
+.workspace-layout .dashboard-screen {
+    padding-bottom: 1.5rem;
+}
+
+.workspace-layout .dashboard-screen > .grid,
+.workspace-layout .dashboard-screen > .space-y-6 > *,
+.workspace-layout .dashboard-screen > .space-y-5 > * {
+    position: relative;
+}
+
+.workspace-layout .dashboard-screen h2,
+.workspace-layout .dashboard-screen h3 {
+    color: #f8fafc !important;
+    letter-spacing: -.015em;
+}
+
+.workspace-layout .dashboard-screen .btn-primary,
+.workspace-layout .dashboard-screen .btn-outline,
+.workspace-layout .dashboard-screen .btn-eq,
+.workspace-layout .dashboard-screen button[class*="bg-[#0055ff]"],
+.workspace-layout .dashboard-screen a[class*="bg-[#0055ff]"] {
+    min-height: 2.5rem;
+    border-radius: .65rem !important;
+    font-weight: 800 !important;
+    transition: transform .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+
+.workspace-layout .dashboard-screen .btn-primary:hover,
+.workspace-layout .dashboard-screen .btn-eq.btn-primary:hover,
+.workspace-layout .dashboard-screen button[class*="bg-[#0055ff]"]:hover,
+.workspace-layout .dashboard-screen a[class*="bg-[#0055ff]"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0,85,255,.22);
+}
+
+.workspace-layout .dashboard-screen table {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border: 1px solid rgba(226,232,240,.10);
+    border-radius: .85rem;
+}
+
+.workspace-layout .dashboard-screen thead {
+    background: #111c30 !important;
+}
+
+.workspace-layout .dashboard-screen th {
+    color: #94a3b8 !important;
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.workspace-layout .dashboard-screen td {
+    border-color: rgba(226,232,240,.08) !important;
+    color: #e2e8f0 !important;
+}
+
+.workspace-layout .dashboard-screen tbody tr {
+    transition: background-color .15s ease;
+}
+
+.workspace-layout .dashboard-screen tbody tr:hover {
+    background: rgba(0,85,255,.07) !important;
+}
+
+.workspace-layout .dashboard-screen .rounded-full {
+    font-weight: 800;
+}
+
+.workspace-layout .dashboard-screen .kpi-grid > *,
+.workspace-layout .dashboard-screen > .grid.grid-cols-2.lg\:grid-cols-4 > * {
+    min-height: 7.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.workspace-layout .dashboard-screen > .grid.grid-cols-2.sm\:grid-cols-4 > a {
+    min-height: 8.5rem;
+    justify-content: center;
+    background: #111c30 !important;
+}
+
+.workspace-layout .dashboard-screen > .grid.grid-cols-2.sm\:grid-cols-4 > a svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    padding: .35rem;
+    margin-bottom: .55rem;
+    color: var(--color-primary) !important;
+    background: rgba(0,85,255,.12);
+    border-radius: .65rem;
+}
+
+.workspace-layout .dashboard-screen > .grid.grid-cols-2.sm\:grid-cols-4 > a span:last-child {
+    background: rgba(0,85,255,.14) !important;
+    color: #7da7ff !important;
+    border: 1px solid rgba(0,85,255,.24);
+}
+
+.workspace-layout .dashboard-screen .funnel-row-label {
+    color: #cbd5e1 !important;
+    font-weight: 700;
+}
+
+@media (max-width: 640px) {
+    .workspace-layout .dashboard-screen > .grid.grid-cols-2.lg\:grid-cols-4 > * {
+        min-height: 6.5rem;
+    }
+
+    .workspace-layout .dashboard-screen > .grid.grid-cols-2.sm\:grid-cols-4 > a {
+        min-height: 7.5rem;
     }
 }
 

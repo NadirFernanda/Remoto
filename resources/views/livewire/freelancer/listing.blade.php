@@ -140,16 +140,29 @@ overflow: hidden;
 .fsp-rate { font-size: .98rem;font-weight: 900;color: #0f172a; }
 .fsp-rate-unit { font-size: .66rem;color: #94a3b8;font-weight: 400; }
 .fsp-btn-view {
-    background: #f1f5f9;color: #0f172a;font-size: .73rem;font-weight: 700;
-    padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
-    white-space: nowrap;transition: background .17s;
+    display: inline-flex;align-items: center;justify-content: center;
+    min-height: 38px;padding: .62rem 1rem;
+    background: transparent;color: #0055ff;font-size: .78rem;font-weight: 800;
+    border: 1px solid rgba(0,85,255,.55);border-radius: 10px;
+    text-decoration: none;white-space: nowrap;
+    transition: transform .15s ease,background .15s ease,border-color .15s ease;
 }
-.fsp-btn-view:hover { background: #e2e8f0;color: #0f172a; }
-.fsp-btn-hire { background: #0055ff;color: #fff;font-size: .73rem;font-weight: 700;
-    padding: .4rem .95rem;border-radius: 9px;text-decoration: none;
-    white-space: nowrap;border:none;cursor:pointer;transition: background .17s;
+.fsp-btn-view:hover {
+    background: rgba(0,85,255,.10);color: #0055ff;
+    border-color: #0055ff;transform: translateY(-1px);
 }
-.fsp-btn-hire:hover { background: #0099d4; }
+.fsp-btn-hire {
+    display: inline-flex;align-items: center;justify-content: center;
+    min-height: 38px;padding: .62rem 1rem;
+    background: #0055ff;color: #fff;font-size: .78rem;font-weight: 800;
+    border: 1px solid #0055ff;border-radius: 10px;
+    text-decoration: none;white-space: nowrap;cursor:pointer;
+    transition: transform .15s ease,background .15s ease,box-shadow .15s ease;
+}
+.fsp-btn-hire:hover {
+    background: #0044dd;color: #fff;transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0,85,255,.22);
+}
 .fsp-empty {
     grid-column: 1/-1;padding: 4rem 1rem;text-align: center;
 }

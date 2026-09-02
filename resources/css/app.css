@@ -2290,6 +2290,51 @@ li.list-item {
     border-color: rgba(226,232,240,.12) !important;
 }
 
+.creator-profile-card {
+    position: relative;
+}
+
+.creator-profile-cover {
+    isolation: isolate;
+    background: #1b2a44 !important;
+}
+
+.creator-profile-cover img {
+    display: block;
+}
+
+.creator-profile-content {
+    position: relative;
+    z-index: 2;
+}
+
+.creator-profile-meta {
+    position: relative;
+    z-index: 3;
+    margin-top: 1rem !important;
+    align-items: center !important;
+}
+
+.creator-profile-avatar {
+    z-index: 4;
+    margin-top: -3.5rem;
+}
+
+.creator-profile-stats,
+.creator-profile-actions {
+    position: relative;
+    z-index: 5;
+}
+
+.creator-profile-actions > * {
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .65rem !important;
+    white-space: nowrap;
+}
+
 .creator-profile-page > .bg-white > .h-32,
 .creator-profile-page > .bg-white > .sm\:h-44 {
     background: #1b2a44 !important;
@@ -2321,6 +2366,35 @@ li.list-item {
 
     .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end {
         gap: .75rem;
+    }
+
+    .creator-profile-meta {
+        margin-top: 0 !important;
+        align-items: stretch;
+    }
+
+    .creator-profile-avatar {
+        align-self: center;
+        margin-top: -2.75rem;
+        margin-bottom: -.75rem;
+    }
+
+    .creator-profile-stats {
+        width: 100%;
+        padding-top: .25rem;
+    }
+
+    .creator-profile-actions {
+        width: 100%;
+        justify-content: stretch;
+        padding-top: .25rem;
+    }
+
+    .creator-profile-actions > * {
+        flex: 1 1 0;
+        min-width: 0;
+        padding-left: .7rem !important;
+        padding-right: .7rem !important;
     }
 
     .creator-profile-page .flex.flex-col.sm\:flex-row.sm\:items-end > .flex-1 > .flex {
