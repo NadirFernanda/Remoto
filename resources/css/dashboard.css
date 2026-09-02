@@ -314,6 +314,19 @@
     color: #e2e8f0 !important;
 }
 
+/* Preserve the dashboard pipeline cards as visible solid brand surfaces.
+   Only gradients are forbidden; solid colour cards remain part of the visual hierarchy. */
+.workspace-layout .dashboard-screen .dashboard-pipeline-card {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(0,85,255,.18);
+}
+
+.workspace-layout .dashboard-screen .dashboard-pipeline-card > p {
+    color: #fff !important;
+}
+
 .workspace-layout .dashboard-screen [class*="bg-blue-400"],
 .workspace-layout .dashboard-screen [class*="bg-indigo-400"],
 .workspace-layout .dashboard-screen [class*="bg-green-500"],

@@ -48,7 +48,7 @@
             ];
         @endphp
         @foreach($pipeCards as $card)
-            <div class="rounded-2xl border p-3 text-center {{ $card['cls'] }}">
+            <div class="dashboard-pipeline-card rounded-2xl border p-3 text-center {{ $card['cls'] }}">
                 <p class="text-xl font-bold">{{ $card['val'] }}</p>
                 <p class="text-[11px] font-medium mt-1">{{ $card['label'] }}</p>
             </div>
