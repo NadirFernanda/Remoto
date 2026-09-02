@@ -59,9 +59,7 @@ html {
 body {
     overflow-x: hidden;
     max-width: 100%;
-    background:
-        radial-gradient(circle at top, rgba(0, 85, 255, 0.16), transparent 28%),
-        linear-gradient(180deg, #071320 0%, #0b1220 100%);
+    background: #0b1220;
     color: var(--color-text-primary);
 }
 
@@ -242,7 +240,7 @@ html, body {
     top: 0;
     left: 0;
     height: 3px;
-    background: linear-gradient(90deg, #00c8ff, #0033cc);
+    background: #0055ff;
     transition: width .1s linear;
     z-index: 9999;
     border-radius: 0 2px 2px 0;
@@ -1138,7 +1136,7 @@ li.list-item {
 .hp-section { padding: 5rem 1.5rem; }
 .hp-section--white  { background: #0d1424; }
 .hp-section--gray   { background: #080d1a; }
-.hp-section--blue   { background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%); }
+.hp-section--blue   { background: #0055ff; }
 
 /* section typography */
 .hp-label    { color: var(--color-primary); font-weight: 700; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .5rem; }
@@ -1220,7 +1218,7 @@ li.list-item {
 }
 
 .hp-section--blue {
-    background: linear-gradient(135deg, #00c8ff 0%, #0055ff 60%, #0033cc 100%);
+    background: #0055ff;
 }
 
 .hp-steps,
@@ -1284,7 +1282,7 @@ li.list-item {
 .hp-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 2rem; }
 .hp-step { background: rgba(255,255,255,.04); border-radius: 16px; padding: 2rem 1.5rem; text-align: center; border: 1px solid rgba(255,255,255,.08); transition: box-shadow .2s; }
 .hp-step:hover { box-shadow: 0 8px 30px rgba(0,80,255,.18); border-color: rgba(0,80,255,.35); }
-.hp-step-icon { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg,#00c8ff,#0033cc); color: #fff; font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+.hp-step-icon { width: 52px; height: 52px; border-radius: 50%; background: #0055ff; color: #fff; font-size: 1.4rem; font-weight: 900; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
 .hp-step h3 { font-size: 1.05rem; font-weight: 800; color: #f1f5f9; margin-bottom: .5rem; }
 .hp-step p  { color: #94a3b8; font-size: .9rem; line-height: 1.55; margin: 0; }
 
@@ -1292,7 +1290,7 @@ li.list-item {
 .hp-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px,1fr)); gap: 1.25rem; }
 .hp-cat-card { background: rgba(255,255,255,.04); border-radius: 14px; padding: 1.5rem 1rem; text-align: center; border: 1px solid rgba(255,255,255,.08); text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: .6rem; transition: border-color .2s, box-shadow .2s, transform .2s; }
 .hp-cat-card:hover { border-color: rgba(0,80,255,.5); box-shadow: 0 6px 20px rgba(0,80,255,.2); background: rgba(0,80,255,.06); transform: translateY(-3px); }
-.hp-cat-card .hp-cat-icon { font-size: 0; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,85,255,0.1), rgba(0,51,204,0.15)); border: 1.5px solid rgba(0,80,255,0.2); display: flex; align-items: center; justify-content: center; color: #0055ff; margin: 0 auto .75rem; }
+.hp-cat-card .hp-cat-icon { font-size: 0; width: 56px; height: 56px; border-radius: 50%; background: rgba(0,85,255,0.1); border: 1.5px solid rgba(0,80,255,0.2); display: flex; align-items: center; justify-content: center; color: #0055ff; margin: 0 auto .75rem; }
 .hp-cat-card .hp-cat-icon svg { width: 26px; height: 26px; }
 .hp-cat-card .hp-cat-label { font-size: .85rem; font-weight: 700; color: #e2e8f0; }
 
@@ -1306,7 +1304,7 @@ li.list-item {
 .hp-benefits-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 3rem; align-items: center; }
 .hp-benefit-list { display: flex; flex-direction: column; gap: 1.25rem; }
 .hp-benefit-item { display: flex; gap: 1rem; align-items: flex-start; background: rgba(255,255,255,.04); border-radius: 12px; padding: 1.25rem; border: 1px solid rgba(255,255,255,.08); }
-.hp-benefit-icon { width: 44px; height: 44px; min-width: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(0,85,255,0.1), rgba(0,51,204,0.15)); border: 1.5px solid rgba(0,80,255,0.2); display: flex; align-items: center; justify-content: center; color: #0055ff; }
+.hp-benefit-icon { width: 44px; height: 44px; min-width: 44px; border-radius: 12px; background: rgba(0,85,255,0.1); border: 1.5px solid rgba(0,80,255,0.2); display: flex; align-items: center; justify-content: center; color: #0055ff; }
 .hp-benefit-icon svg { width: 22px; height: 22px; }
 .hp-benefit-item h4 { font-weight: 800; color: #f1f5f9; font-size: .95rem; margin: 0 0 .25rem; }
 .hp-benefit-item p  { color: #94a3b8; font-size: .88rem; line-height: 1.5; margin: 0; }
@@ -1318,7 +1316,7 @@ li.list-item {
 .hp-testimonial-stars svg { display: block; width: 18px; height: 18px; flex: 0 0 18px; }
 .hp-testimonial-text   { color: #cbd5e1; font-size: .95rem; line-height: 1.65; margin-bottom: 1.5rem; font-style: italic; }
 .hp-testimonial-author { display: flex; align-items: center; gap: .75rem; }
-.hp-testimonial-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg,#00c8ff,#0033cc); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1rem; flex-shrink: 0; }
+.hp-testimonial-avatar { width: 42px; height: 42px; border-radius: 50%; background: #0055ff; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; font-size: 1rem; flex-shrink: 0; }
 .hp-testimonial-name   { font-weight: 800; color: #f1f5f9; font-size: .9rem; }
 .hp-testimonial-role   { color: #94a3b8; font-size: .78rem; }
 
@@ -1460,14 +1458,14 @@ li.list-item {
     content: '';
     display: block;
     height: 2px;
-    background: linear-gradient(to right, transparent 0%, rgba(0,80,255,0.55) 30%, rgba(0,80,255,0.9) 50%, rgba(0,80,255,0.55) 70%, transparent 100%);
+    background: #0055ff;
 }
 
 .hp-footer {
     position: relative;
     /* dark brand overlay on top of the photo — keeps all text readable */
     background:
-        linear-gradient(160deg, rgba(2,6,23,0.91) 0%, rgba(7,20,45,0.87) 45%, rgba(2,8,26,0.93) 100%),
+        rgba(2,6,23,0.91),
         url('/img/heru2.jpg') center 30% / cover no-repeat;
     color: #cbd5e1;
     font-family: 'Inter', system-ui, sans-serif;
@@ -2033,6 +2031,15 @@ li.list-item {
     .homepage .hp-benefit-list {
         grid-template-columns: 1fr;
     }
+}
+
+/* Remove gradients from legacy inline styles as well as stylesheet rules. */
+[style*="linear-gradient"],
+[style*="radial-gradient"],
+[style*="conic-gradient"] {
+    background: #0b1220 !important;
+    background-image: none !important;
+    -webkit-text-fill-color: currentColor !important;
 }
 
 /* Keep actionable controls on the same solid-blue button standard. */
