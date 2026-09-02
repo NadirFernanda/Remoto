@@ -1693,8 +1693,8 @@ li.list-item {
 }
 .hp-comunidade-section h2 span {
     background: none !important;
-    color: #38bdf8 !important;
-    -webkit-text-fill-color: #38bdf8 !important;
+    color: #f1f5f9 !important;
+    -webkit-text-fill-color: #f1f5f9 !important;
 }
 .hp-comunidade-section > div > p {
     max-width: 680px !important;
@@ -1713,16 +1713,18 @@ li.list-item {
     box-shadow: 0 2px 12px rgba(0,0,0,.25) !important;
 }
 .hp-comunidade-cards > div > div[style*="width:3rem"] {
-    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+    background: rgba(255,255,255,.08) !important;
+    border-color: rgba(255,255,255,.16) !important;
 }
 .hp-comunidade-cards > div:nth-child(2) > div[style*="width:3rem"] {
-    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+    background: rgba(255,255,255,.08) !important;
+    border-color: rgba(255,255,255,.16) !important;
 }
 .hp-comunidade-cards > div > ul li > span {
-    background: rgba(0,186,255,.12) !important;
+    background: rgba(255,255,255,.08) !important;
 }
 .hp-comunidade-cards > div > ul li > span svg {
-    stroke: #38bdf8 !important;
+    stroke: #cbd5e1 !important;
 }
 .hp-comunidade-cards > div h3 {
     font-size: 1.25rem !important;
@@ -1732,7 +1734,7 @@ li.list-item {
     border-radius: .75rem !important;
 }
 .hp-comunidade-cards > div > a {
-    background: linear-gradient(135deg, #00c8ff, #0055ff) !important;
+    background: #0055ff !important;
 }
 .hp-comunidade-stats {
     border-top-color: rgba(148,163,184,.18) !important;
@@ -1767,5 +1769,35 @@ li.list-item {
     .hp-comunidade-section > div[style*="max-width:1200px"] {
         padding-left: .25rem;
         padding-right: .25rem;
+    }
+}
+
+/* Final horizontal alignment: every homepage section uses one shared content
+   edge; the benefits grid must not introduce an additional lateral offset. */
+.homepage .hp-section > .hp-container {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box;
+}
+.homepage .hp-benefits-grid {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.homepage .hp-benefits-text,
+.homepage .hp-benefit-list {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .homepage .hp-section {
+        padding-left: clamp(1rem, 4vw, 1.5rem) !important;
+        padding-right: clamp(1rem, 4vw, 1.5rem) !important;
     }
 }

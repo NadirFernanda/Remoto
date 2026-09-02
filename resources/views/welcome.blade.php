@@ -264,14 +264,14 @@
     <div style="position:absolute;inset:0;background:#0a0f1e;opacity:.88;"></div>
 
     {{-- Glow decorativo --}}
-    <div class="hp-comunidade-glow" style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(0,186,255,.12) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
+    <div class="hp-comunidade-glow" style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(255,255,255,.05) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
     <div class="hp-comunidade-glow" style="position:absolute;bottom:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(255,140,0,.08) 0%,transparent 70%);pointer-events:none;z-index:1;"></div>
 
     <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;">
 
         {{-- Badge --}}
         <div style="text-align:center;margin-bottom:1.25rem;">
-            <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,186,255,.12);border:1px solid rgba(0,186,255,.3);color:#00baff;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem 1rem;border-radius:999px;">
+            <span style="display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);color:#cbd5e1;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.4rem 1rem;border-radius:999px;">
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 Novidade · Comunidade 24 Horas
             </span>
@@ -280,7 +280,7 @@
         {{-- Título --}}
         <h2 style="text-align:center;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;">
             Muito mais do que freelancing.<br>
-            <span style="background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">É uma comunidade.</span>
+            <span style="color:#f1f5f9;">É uma comunidade.</span>
         </h2>
         <p style="text-align:center;color:#94a3b8;font-size:1.125rem;max-width:620px;margin:0 auto 3.5rem;line-height:1.7;">
             Partilhe o seu conhecimento, crie conteúdo exclusivo, construa a sua audiência — e ganhe dinheiro por isso. Ou subscreva os criadores que mais inspira e aceda a conteúdo premium.
@@ -290,40 +290,40 @@
         <div class="hp-comunidade-cards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:4rem;">
 
             {{-- Card Criador --}}
-            <div style="background:linear-gradient(135deg,rgba(0,186,255,.08),rgba(0,186,255,.02));border:1px solid rgba(0,186,255,.2);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,186,255,.15);transition:.3s' : 'transition:.3s'">
-                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(0,186,255,.1) 0%,transparent 70%);pointer-events:none;"></div>
-                <div style="width:3rem;height:3rem;background:linear-gradient(135deg,#00baff,#0070ff);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+            <div style="background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.12);border-radius:1.5rem;padding:2rem;position:relative;overflow:hidden;" x-data="{hover:false}" @mouseenter="hover=true" @mouseleave="hover=false" :style="hover ? 'transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.22);transition:.3s' : 'transition:.3s'">
+                <div style="position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%);pointer-events:none;"></div>
+                <div style="width:3rem;height:3rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:.875rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
                     <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
                 </div>
                 <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:.6rem;">Para Criadores</h3>
                 <p style="color:#94a3b8;font-size:.9rem;line-height:1.7;margin-bottom:1.5rem;">Partilhe artigos, vídeos, áudios e dicas exclusivas. Defina o preço da sua subscrição e receba mensalmente dos seus fãs. A sua audiência, o seu negócio.</p>
                 <ul style="list-style:none;padding:0;margin:0 0 1.75rem;display:flex;flex-direction:column;gap:.65rem;">
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#cbd5e1" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
                         Publicações com texto, imagens e vídeos
                     </li>
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#cbd5e1" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
                         Conteúdo exclusivo bloqueado para não-assinantes
                     </li>
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#cbd5e1" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
                         Receba 75% de cada subscrição directamente na carteira
                     </li>
                     <li style="display:flex;align-items:center;gap:.6rem;color:#e2e8f0;font-size:.875rem;">
-                        <span style="width:1.25rem;height:1.25rem;background:rgba(0,186,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                            <svg width="10" height="10" fill="none" stroke="#00baff" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                        <span style="width:1.25rem;height:1.25rem;background:rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <svg width="10" height="10" fill="none" stroke="#cbd5e1" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                         </span>
                         Estatísticas de seguidores, alcance e receita
                     </li>
                 </ul>
-                <a href="/register" style="display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#00baff,#0070ff);color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                <a href="/register" style="display:inline-flex;align-items:center;gap:.5rem;background:#0055ff;color:#fff;font-size:.9rem;font-weight:700;padding:.7rem 1.5rem;border-radius:.875rem;text-decoration:none;transition:.2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
                     Começar a criar
                     <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                 </a>
@@ -373,11 +373,11 @@
         {{-- Stats de prova social --}}
         <div class="hp-comunidade-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;border-top:1px solid rgba(255,255,255,.07);padding-top:3rem;text-align:center;">
             <div>
-                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">{{ \App\Services\PlatformStatsService::format($totalCriadores) }}</p>
+                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;color:#f1f5f9;line-height:1;">{{ \App\Services\PlatformStatsService::format($totalCriadores) }}</p>
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Criadores activos</p>
             </div>
             <div>
-                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">{{ \App\Services\PlatformStatsService::format($totalPosts30d) }}</p>
+                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;color:#f1f5f9;line-height:1;">{{ \App\Services\PlatformStatsService::format($totalPosts30d) }}</p>
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Publicações mensais</p>
             </div>
             <div>
@@ -385,7 +385,7 @@
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Por subscrição/mês</p>
             </div>
             <div>
-                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;background:linear-gradient(90deg,#00baff,#0070ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">75%</p>
+                <p class="hp-comunidade-stat-value" style="font-size:2.25rem;font-weight:900;color:#f1f5f9;line-height:1;">75%</p>
                 <p style="color:#94a3b8;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Receita para o criador</p>
             </div>
         </div>
