@@ -1828,6 +1828,23 @@ li.list-item {
     margin-top: 2.5rem;
 }
 
+/* The benefits heading follows the same centred hierarchy as Explore. */
+.hp-section .hp-benefits-grid .hp-benefits-text {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: none !important;
+}
+.hp-section .hp-benefits-grid .hp-benefits-text .hp-label,
+.hp-section .hp-benefits-grid .hp-benefits-text .hp-title,
+.hp-section .hp-benefits-grid .hp-benefits-text > p {
+    text-align: center !important;
+}
+.hp-section .hp-benefits-grid .hp-benefits-text > p:last-of-type {
+    max-width: 680px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
 @media (max-width: 768px) {
     .homepage .hp-section {
         padding-left: clamp(1rem, 4vw, 1.5rem) !important;
