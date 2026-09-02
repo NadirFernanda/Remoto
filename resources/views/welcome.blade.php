@@ -178,7 +178,6 @@
                 <p class="hp-label">Por que nós</p>
                 <h2 class="hp-title">Trabalhe com<br>segurança e confiança</h2>
                 <p style="color:#94a3b8; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
-                <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
             </div>
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
@@ -197,6 +196,9 @@
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
                     <div><h4>Resultados rápidos</h4><p>Receba propostas em minutos e inicie o seu projecto em menos de 24 horas.</p></div>
                 </div>
+            </div>
+            <div class="hp-benefits-cta">
+                <a href="/register" class="hp-btn hp-btn-primary">Criar conta gratuita</a>
             </div>
         </div>
     </div>
