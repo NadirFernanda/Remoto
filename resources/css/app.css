@@ -1779,8 +1779,8 @@ li.list-item {
     max-width: 1200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
     box-sizing: border-box;
 }
 .homepage .hp-benefits-grid {
@@ -1799,5 +1799,9 @@ li.list-item {
     .homepage .hp-section {
         padding-left: clamp(1rem, 4vw, 1.5rem) !important;
         padding-right: clamp(1rem, 4vw, 1.5rem) !important;
+    }
+    .homepage .hp-section > .hp-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 }
