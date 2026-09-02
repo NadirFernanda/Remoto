@@ -171,14 +171,9 @@
 {{-- ============================
      POR QUÊ ESCOLHER
 ============================== --}}
-<section class="hp-section hp-section--white">
+<section class="hp-section hp-section--white hp-benefits-section">
     <div class="hp-container" style="text-align:center;">
         <div class="hp-benefits-grid">
-            <div class="hp-benefits-text">
-                <p class="hp-label">Por que nós</p>
-                <h2 class="hp-title">Trabalhe com<br>segurança e confiança</h2>
-                <p style="color:#94a3b8; font-size:1.05rem; line-height:1.7; margin-bottom:2rem;">A nossa plataforma protege clientes e freelancers com sistema de custódia, verificação de identidade e suporte dedicado.</p>
-            </div>
             <div class="hp-benefit-list">
                 <div class="hp-benefit-item">
                     <div class="hp-benefit-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>

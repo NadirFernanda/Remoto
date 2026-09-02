@@ -1789,27 +1789,27 @@ li.list-item {
     margin-right: 0 !important;
     display: block !important;
 }
-.homepage .hp-benefits-text,
+.homepage .hp-benefits-heading,
 .homepage .hp-benefit-list {
     width: 100%;
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
-.homepage .hp-benefits-text {
+.homepage .hp-benefits-heading {
     text-align: center !important;
     margin-left: auto !important;
     margin-right: auto !important;
 }
-.homepage .hp-benefits-text .hp-title,
-.homepage .hp-benefits-text .hp-label,
-.homepage .hp-benefits-text > p {
+.homepage .hp-benefits-heading .hp-title,
+.homepage .hp-benefits-heading .hp-label,
+.homepage .hp-benefits-heading > p {
     text-align: center !important;
 }
-.homepage .hp-benefits-text .hp-btn {
+.homepage .hp-benefits-heading .hp-btn {
     margin-left: auto;
     margin-right: auto;
 }
-.homepage .hp-benefits-text {
+.homepage .hp-benefits-heading {
     width: 100% !important;
     max-width: none !important;
     margin-bottom: 2.5rem !important;
@@ -1829,17 +1829,17 @@ li.list-item {
 }
 
 /* The benefits heading follows the same centred hierarchy as Explore. */
-.hp-section .hp-benefits-grid .hp-benefits-text {
+.hp-section .hp-benefits-grid .hp-benefits-heading {
     text-align: center !important;
     width: 100% !important;
     max-width: none !important;
 }
-.hp-section .hp-benefits-grid .hp-benefits-text .hp-label,
-.hp-section .hp-benefits-grid .hp-benefits-text .hp-title,
-.hp-section .hp-benefits-grid .hp-benefits-text > p {
+.hp-section .hp-benefits-grid .hp-benefits-heading .hp-label,
+.hp-section .hp-benefits-grid .hp-benefits-heading .hp-title,
+.hp-section .hp-benefits-grid .hp-benefits-heading > p {
     text-align: center !important;
 }
-.hp-section .hp-benefits-grid .hp-benefits-text > p:last-of-type {
+.hp-section .hp-benefits-grid .hp-benefits-heading > p:last-of-type {
     max-width: 680px;
     margin-left: auto !important;
     margin-right: auto !important;
