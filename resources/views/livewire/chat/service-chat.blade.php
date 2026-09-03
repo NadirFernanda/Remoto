@@ -554,12 +554,12 @@
                 <form style="margin:0;" wire:submit="enviarPropostaValor">
                     <div style="margin-bottom:.75rem;">
                         <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">
-                            {{ $pb['is_negotiating'] ? 'Valor proposto (Kz)' : 'Novo valor total proposto (Kz)' }}
+                            {{ $pb['is_negotiating'] ? 'Nova contraproposta (Kz)' : 'Novo valor total proposto (Kz)' }}
                         </label>
                         <input wire:model.live.debounce.400ms="valorProposto"
                                type="text"
                                inputmode="decimal"
-                               placeholder="Ex.: 50000"
+                               placeholder="Ex.: 10000"
                                style="width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#f1f5f9;outline:none;box-sizing:border-box;transition:border-color .15s;"
                                onfocus="this.style.borderColor='#10b981'"
                                onblur="this.style.borderColor='rgba(255,255,255,.12)'">

@@ -467,12 +467,9 @@ class ServiceChat extends Component
     {
         $this->skipRender();
         $this->resetErrorBag();
-        // Permitir ao freelancer rever o valor apresentado pelo cliente
-        // antes do pagamento, enviando uma contraproposta no chat.
-        $this->valorProposto = $this->service->payment_status !== 'paid'
-            && (float) $this->service->valor > 0
-            ? (string) $this->service->valor
-            : '';
+        // A proposta original é imutável; o freelancer envia uma nova
+        // contraproposta para manter todo o histórico auditável.
+        $this->valorProposto = '';
         $this->showProporValorModal = true;
         $this->dispatch('open-propor-valor-modal');
     }
