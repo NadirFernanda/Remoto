@@ -131,7 +131,9 @@ class AppyPayReconciliationService
             // Sem freelancer associado é o fluxo normal de marketplace: fica
             // 'published', à espera de alguém escolher um candidato.
             $jaTemFreelancer          = (bool) $service->freelancer_id;
-            $service->status         = $jaTemFreelancer ? 'in_progress' : 'published';
+            $service->status         = $service->status === 'delivered'
+                ? 'delivered'
+                : ($jaTemFreelancer ? 'in_progress' : 'published');
             $service->payment_status = 'paid';
             $service->transaction_id = 'APPYPAY-' . $chargeId;
             $service->save();

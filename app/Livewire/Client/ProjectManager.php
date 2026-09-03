@@ -386,22 +386,30 @@ class ProjectManager extends Component
 
     public function requestRevision(int $serviceId): void
     {
-        $service = Service::where('id', $serviceId)->where('cliente_id', auth()->id())->firstOrFail();
+        $service = Service::where('id', $serviceId)
+            ->where('cliente_id', auth()->id())
+            ->where('status', 'delivered')
+            ->whereNotNull('freelancer_id')
+            ->firstOrFail();
 
-        if ($service->status !== 'delivered') {
-            session()->flash('error', 'Ação inválida para o estado atual.');
-            return;
-        }
+        \Illuminate\Support\Facades\DB::transaction(function () use ($service) {
+            $service = Service::whereKey($service->id)
+                ->where('cliente_id', auth()->id())
+                ->where('status', 'delivered')
+                ->whereNotNull('freelancer_id')
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        $service->update(['status' => 'revision_requested']);
+            $service->update(['status' => 'revision_requested']);
 
-        \App\Models\Notification::create([
-            'user_id'    => $service->freelancer_id,
-            'service_id' => $service->id,
-            'type'       => 'revision_requested',
-            'title'      => 'Revisão solicitada — Re-entre com a entrega',
-            'message'    => 'O cliente solicitou revisão no projeto "' . $service->titulo . '". Por favor submeta uma nova entrega.',
-        ]);
+            Notification::create([
+                'user_id'    => $service->freelancer_id,
+                'service_id' => $service->id,
+                'type'       => 'revision_requested',
+                'title'      => 'Revisão solicitada — Re-entre com a entrega',
+                'message'    => 'O cliente solicitou revisão no projeto "' . $service->titulo . '". Por favor submeta uma nova entrega.',
+            ]);
+        });
 
         session()->flash('success', 'Revisão solicitada. O freelancer foi notificado e deve re-entregar.');
     }

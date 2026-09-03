@@ -61,14 +61,19 @@ class ServiceChat extends Component
 
         $this->mostrarBotaoValor = $this->isCliente
             && !$this->chat_bloqueado
-            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress', 'delivered'])
+            && ($service->payment_status !== 'paid' || $service->status !== 'delivered');
 
         $this->mostrarBotaoFreelancerValor = !$this->isCliente
             && !$this->chat_bloqueado
             && ($isFreelancer || $isCandidate)
-            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
+            && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress'])
+            && ($service->payment_status !== 'paid' || $service->status !== 'in_progress');
 
-        if ($this->isCliente && request()->boolean('payment') && $service->status === 'accepted' && $service->freelancer_id) {
+        if ($this->isCliente && request()->boolean('payment')
+            && in_array($service->status, ['accepted', 'delivered'], true)
+            && $service->freelancer_id
+            && $service->payment_status !== 'paid') {
             $this->novoValorTotal = (string) $service->valor;
             $this->valorPaymentMethod = 'express';
             $this->showValorModal = true;
@@ -87,7 +92,10 @@ class ServiceChat extends Component
             || ($this->service->status === 'accepted'
                 && $this->service->freelancer_id
                 && ($this->service->service_type === 'direct_invite'
-                    || $this->service->payment_status !== 'paid'));
+                    || $this->service->payment_status !== 'paid'))
+            || ($this->service->status === 'delivered'
+                && $this->service->freelancer_id
+                && $this->service->payment_status !== 'paid');
     }
 
     public function getExtraBreakdownProperty(): array
@@ -315,7 +323,7 @@ class ServiceChat extends Component
             $service->payment_status = 'paid';
             $service->payment_method_used = 'wallet';
 
-            if ($isDirect) {
+            if ($isDirect && $service->status !== 'delivered') {
                 $service->status = 'in_progress';
             } else {
                 $service->valor_ajuste      = $extra;
@@ -459,7 +467,12 @@ class ServiceChat extends Component
     {
         $this->skipRender();
         $this->resetErrorBag();
-        $this->valorProposto = '';
+        // Permitir ao freelancer rever o valor apresentado pelo cliente
+        // antes do pagamento, enviando uma contraproposta no chat.
+        $this->valorProposto = $this->service->payment_status !== 'paid'
+            && (float) $this->service->valor > 0
+            ? (string) $this->service->valor
+            : '';
         $this->showProporValorModal = true;
         $this->dispatch('open-propor-valor-modal');
     }
