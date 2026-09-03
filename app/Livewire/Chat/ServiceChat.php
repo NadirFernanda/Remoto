@@ -28,7 +28,7 @@ class ServiceChat extends Component
     // ── Inserir Valor modal (cliente) ────────────────────────────────────────
     public bool $showValorModal = false;
     public string $novoValorTotal = '';
-    public string $valorPaymentMethod = 'wallet'; // wallet | express — só se aplica quando isDirectNegotiation
+    public string $valorPaymentMethod = 'express'; // wallet | express
     public string $valorPhoneNumber = '';
     public string $valorAppyPayStep = 'form'; // form | waiting
     public string $valorAppyPayError = '';
@@ -68,6 +68,12 @@ class ServiceChat extends Component
             && ($isFreelancer || $isCandidate)
             && in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress']);
 
+        if ($this->isCliente && request()->boolean('payment') && $service->status === 'accepted' && $service->freelancer_id) {
+            $this->novoValorTotal = (string) $service->valor;
+            $this->valorPaymentMethod = 'express';
+            $this->showValorModal = true;
+        }
+
         if ($user) {
             app(ChatService::class)->markRead($service, $user);
         }
@@ -78,7 +84,10 @@ class ServiceChat extends Component
     public function getIsDirectNegotiationProperty(): bool
     {
         return $this->service->status === 'negotiating'
-            || ($this->service->status === 'accepted' && $this->service->service_type === 'direct_invite');
+            || ($this->service->status === 'accepted'
+                && $this->service->freelancer_id
+                && ($this->service->service_type === 'direct_invite'
+                    || $this->service->payment_status !== 'paid'));
     }
 
     public function getExtraBreakdownProperty(): array
@@ -188,7 +197,7 @@ class ServiceChat extends Component
         $this->skipRender();
         $this->showValorModal   = false;
         $this->novoValorTotal   = '';
-        $this->valorPaymentMethod = 'wallet';
+        $this->valorPaymentMethod = 'express';
         $this->valorPhoneNumber  = '';
         $this->valorAppyPayStep  = 'form';
         $this->valorAppyPayError = '';
@@ -216,10 +225,9 @@ class ServiceChat extends Component
             'novoValorTotal.min'      => 'O valor deve ser maior que zero.',
         ]);
 
-        // Multicaixa Express só está disponível para a primeira confirmação
-        // de valor (isDirectNegotiation) — o pagamento inicial de um projecto
-        // negociado directamente por chat. Ajustes de valor num projecto já
-        // em curso continuam só por saldo (ver pagarValorExtra abaixo).
+        // O pagamento inicial de uma proposta aceite também passa pelo
+        // Multicaixa Express; apenas ajustes de projectos já em andamento
+        // continuam a usar o saldo interno.
         if ($this->isDirectNegotiation && $this->valorPaymentMethod === 'express') {
             $this->pagarValorExtraAppyPay();
             return;
@@ -557,4 +565,3 @@ class ServiceChat extends Component
     }
 
 }
-

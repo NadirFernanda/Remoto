@@ -396,7 +396,7 @@
                     </span>
                     <input class="lf-input @error('password') has-error @enderror"
                            type="password" id="reg-password" wire:model="password"
-                           placeholder="••••••••" style="padding-right:2.6rem;">
+                           placeholder="••••••••" style="padding-right:2.6rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
                     <button type="button" class="lf-eye" onclick="togglePw('reg-password','eye-show-pw','eye-hide-pw')" aria-label="Mostrar/ocultar">
                         <svg id="eye-show-pw" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -420,7 +420,7 @@
                     </span>
                     <input class="lf-input @error('password_confirmation') has-error @enderror"
                            type="password" id="reg-password-confirm" wire:model="password_confirmation"
-                           placeholder="••••••••" style="padding-right:2.6rem;">
+                           placeholder="••••••••" style="padding-right:2.6rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
                     <button type="button" class="lf-eye" onclick="togglePw('reg-password-confirm','eye-show-pwc','eye-hide-pwc')" aria-label="Mostrar/ocultar">
                         <svg id="eye-show-pwc" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
