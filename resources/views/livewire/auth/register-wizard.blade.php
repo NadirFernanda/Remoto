@@ -240,6 +240,8 @@
     }
     .reg-wrap .reg-left .lf-input {
         color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
+        caret-color: #0055ff !important;
         background: #fff !important;
         border-color: #dbe3ef !important;
     }
@@ -248,6 +250,8 @@
         opacity: 1;
     }
     .reg-wrap .reg-left .lf-input:focus {
+        color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
         border-color: #0055ff !important;
         box-shadow: 0 0 0 3px rgba(0,85,255,.12) !important;
     }

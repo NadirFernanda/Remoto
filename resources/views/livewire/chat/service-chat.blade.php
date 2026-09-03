@@ -1,3 +1,25 @@
+<style>
+    .chat-window .chat-message-mine,
+    .chat-window .chat-message-mine p,
+    .chat-window .chat-message-mine span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    .chat-window .chat-message-mine {
+        background: #0055ff !important;
+    }
+    .chat-window #mensagemInput {
+        color: #f8fafc !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        background: #1b2a44 !important;
+        caret-color: #ffffff;
+    }
+    .chat-window #mensagemInput::placeholder {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+    }
+</style>
+
 <div class="chat-outer min-h-screen flex items-center justify-center py-6 px-2">
     <div class="chat-window w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
@@ -8,7 +30,7 @@
             </div>
             <div class="flex-1 min-w-0">
                 <div class="font-semibold text-base leading-tight truncate">{{ $service->titulo ?? 'Chat do Servico' }}</div>
-                <div class="text-xs text-blue-100 mt-0.5">
+                <div class="text-xs mt-0.5" style="color:#dbeafe;">
                     @php
                         $statusLabels = ['published'=>'Publicado','negotiating'=>'Em negociação','accepted'=>'Aceite','in_progress'=>'Em andamento','delivered'=>'Entregue','completed'=>'Concluído','cancelled'=>'Cancelado'];
                     @endphp
@@ -132,7 +154,7 @@
                             @endif
 
                             {{-- Bubble --}}
-                            <div class="px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
+                            <div class="px-4 py-2.5 rounded-2xl shadow-sm {{ $isMine ? 'chat-message-mine bg-[#0055ff] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100' }}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
 
                                 @if($msg->anexo)
                                     @if($isImage)
@@ -191,11 +213,11 @@
                                         <button @click="editing = false; editText = @js($msg->conteudo ?? '')"
                                                 class="px-2 py-0.5 rounded text-[11px] bg-white/20 hover:bg-white/30 text-white transition">Cancelar</button>
                                         <button @click="editarMensagem({{ $msg->id }}, editText, $el.closest('[wire\\:key]')); editing = false"
-                                                class="px-2 py-0.5 rounded text-[11px] bg-white text-[#0ea5e9] font-semibold hover:bg-blue-50 transition">Guardar</button>
+                                                class="px-2 py-0.5 rounded text-[11px] bg-white text-[#0055ff] font-semibold hover:bg-blue-50 transition">Guardar</button>
                                     </div>
                                 </div>
 
-                                <span class="block text-right text-[10px] mt-1 {{ $isMine ? 'text-blue-100' : 'text-slate-400' }}">
+                                <span class="block text-right text-[10px] mt-1 {{ $isMine ? 'chat-message-mine-time' : 'text-slate-400' }}">
                                     {{ $msg->created_at->format('H:i') }}@if($msg->edited_at) <span class="opacity-70">(editado)</span>@endif
                                 </span>
                             </div>
@@ -327,32 +349,32 @@
                     <div class="flex items-end gap-2">
                         {{-- Attach button --}}
                         <label class="flex-shrink-0 cursor-pointer group" title="Anexar ficheiro">
-                            <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0ea5e9]/10 flex items-center justify-center transition">
-                                <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0ea5e9]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                                <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0ea5e9] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                            <div class="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-[#0055ff]/10 flex items-center justify-center transition">
+                                <svg x-show="hasFile || uploading" class="w-5 h-5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+                                <svg x-show="!hasFile && !uploading" class="w-5 h-5 text-slate-400 group-hover:text-[#0055ff] transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
                             </div>
                             <input type="file" x-ref="fileInput" @change="handleFile($event)"
                                    style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden">
                         </label>
 
                         {{-- Upload progress --}}
-                        <div x-show="uploading" x-cloak class="text-xs text-[#0ea5e9] flex-shrink-0">A carregar...</div>
+                        <div x-show="uploading" x-cloak class="text-xs text-[#0055ff] flex-shrink-0">A carregar...</div>
 
                         {{-- File preview badge --}}
                         <div x-show="hasFile" x-cloak
-                             class="flex items-center gap-1.5 bg-[#0ea5e9]/10 text-[#0284c7] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
+                             class="flex items-center gap-1.5 bg-[#0055ff]/10 text-[#0055ff] text-xs font-medium px-3 py-1.5 rounded-full flex-shrink-0 max-w-[180px]">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7 3.75h7.5L19.5 9v10.5A1.5 1.5 0 0 1 18 21H7.5A1.5 1.5 0 0 1 6 19.5v-14A1.5 1.5 0 0 1 7.5 4H7zm7.5 0v5.25H19.5"/>
                             </svg>
                             <span class="truncate" x-text="fileName"></span>
-                            <button type="button" @click="cancelFile()" class="ml-1 text-[#0284c7] hover:text-red-500 transition leading-none font-bold">&times;</button>
+                            <button type="button" @click="cancelFile()" class="ml-1 text-[#0055ff] hover:text-red-500 transition leading-none font-bold">&times;</button>
                         </div>
 
                         <div class="flex-1 relative">
                             <input type="text"
                                    id="mensagemInput"
                                    @keydown.enter.prevent="submit()"
-                                   class="w-full bg-slate-100 rounded-full px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/40 placeholder-slate-400"
+                                   class="w-full bg-slate-100 rounded-full px-4 py-2.5 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/40 placeholder-slate-400"
                                    placeholder="Escreva uma mensagem...">
                             <button type="button"
                                     onclick="toggleEmojiPicker()"
@@ -368,7 +390,7 @@
                         </div>
 
                         <button type="button" @click="submit()" :disabled="sending"
-                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow transition active:scale-95 disabled:opacity-60">
+                            class="flex-shrink-0 w-10 h-10 rounded-full bg-[#0055ff] hover:bg-[#0047d9] text-white flex items-center justify-center shadow transition active:scale-95 disabled:opacity-60">
                             <svg x-show="!sending" class="w-5 h-5 rotate-45 -mr-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
                             <svg x-show="sending" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
                         </button>
@@ -450,7 +472,7 @@
                             }
                         }
                         const contentHtml = data.conteudo ? `<p class="text-sm leading-relaxed whitespace-pre-wrap break-words">${data.conteudo.replace(/</g,'&lt;').replace(/>/g,'&gt;')}<\/p>` : '';
-                        const bubbleClass = isMine ? 'bg-[#0ea5e9] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100';
+                        const bubbleClass = isMine ? 'bg-[#0055ff] text-white rounded-br-sm' : 'bg-white text-slate-800 rounded-bl-sm border border-slate-100';
                         const wrapClass  = isMine ? 'justify-end' : 'justify-start';
                         const itemClass  = isMine ? 'items-end' : 'items-start';
                         const avatarHtml = `<img src="${data.avatar}" alt="${data.name}" class="w-8 h-8 rounded-full object-cover flex-shrink-0 shadow">`;
@@ -462,9 +484,9 @@
                             ${!isMine ? avatarHtml : ''}
                             <div class="flex flex-col ${itemClass}" style="min-width:0;max-width:min(72%, calc(100vw - 110px));">
                                 ${nameHtml}
-                                <div class="relative px-4 py-2.5 rounded-2xl shadow-sm ${bubbleClass}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
+                                <div class="relative px-4 py-2.5 rounded-2xl shadow-sm ${isMine ? 'chat-message-mine ' : ''}${bubbleClass}" style="overflow:hidden;word-break:break-word;max-width:100%;box-sizing:border-box;">
                                     ${attachHtml}${contentHtml}
-                                    <span class="block text-right text-[10px] mt-1 ${isMine ? 'text-blue-100' : 'text-slate-400'}">${data.time}<\/span>
+                                    <span class="block text-right text-[10px] mt-1 ${isMine ? 'chat-message-mine-time' : 'text-slate-400'}">${data.time}<\/span>
                                 <\/div>
                             <\/div>
                             ${isMine ? avatarHtml : ''}`;
@@ -652,7 +674,7 @@
                                step="0.01"
                                placeholder="Ex.: 80000"
                                style="width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:.65rem;padding:.65rem .85rem;font-size:.95rem;color:#f1f5f9;outline:none;box-sizing:border-box;transition:border-color .15s;"
-                               onfocus="this.style.borderColor='#0ea5e9'"
+                               onfocus="this.style.borderColor='#0055ff'"
                                onblur="this.style.borderColor='rgba(255,255,255,.12)'">
                         @error('novoValorTotal')
                             <p style="margin:.35rem 0 0;font-size:.75rem;color:#f87171;">{{ $message }}</p>
@@ -723,7 +745,7 @@
                             <label style="display:block;font-size:.8rem;font-weight:600;color:#cbd5e1;margin-bottom:.4rem;">Método de pagamento</label>
                             <div style="display:flex;gap:.6rem;">
                                 <button type="button" wire:click="$set('valorPaymentMethod', 'wallet')"
-                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'wallet' ? '#0ea5e9' : 'rgba(255,255,255,.12)' }};background:{{ $valorPaymentMethod === 'wallet' ? 'rgba(14,165,233,.15)' : 'transparent' }};color:{{ $valorPaymentMethod === 'wallet' ? '#38bdf8' : '#94a3b8' }};">
+                                        style="flex:1;padding:.55rem;border-radius:.6rem;font-size:.8rem;font-weight:600;cursor:pointer;border:1.5px solid {{ $valorPaymentMethod === 'wallet' ? '#0055ff' : 'rgba(255,255,255,.12)' }};background:{{ $valorPaymentMethod === 'wallet' ? 'rgba(0,85,255,.15)' : 'transparent' }};color:{{ $valorPaymentMethod === 'wallet' ? '#7da7ff' : '#94a3b8' }};">
                                     Saldo
                                 </button>
                                 <button type="button" wire:click="$set('valorPaymentMethod', 'express')"

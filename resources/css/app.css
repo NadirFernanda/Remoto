@@ -2,7 +2,7 @@
     --color-primary: #0055ff;
     --color-primary-hover: #0047d9;
     --color-primary-soft: rgba(0, 85, 255, 0.12);
-    --color-secondary: #06b6d4;
+    --color-secondary: #7da7ff;
     --color-background: #080d1a;
     --color-background-alt: #0f172a;
     --color-surface: rgba(255, 255, 255, 0.05);
@@ -1671,6 +1671,29 @@ html body .admin-layout .admin-light-modal textarea,
 html body .admin-layout .admin-light-modal select {
     color: #111827 !important;
     -webkit-text-fill-color: #111827 !important;
+}
+
+/* Chat bubbles are rendered both by Blade and by the live message appender.
+   Keep the brand blue and message content white in both paths. */
+html body .chat-window .chat-message-mine,
+html body .chat-window .chat-message-mine p,
+html body .chat-window .chat-message-mine span {
+    background-color: #0055ff !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+html body .chat-window .chat-message-mine p,
+html body .chat-window .chat-message-mine span,
+html body .chat-window .chat-message-mine a {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+html body .chat-window .chat-message-mine-time {
+    color: #dbeafe !important;
+    -webkit-text-fill-color: #dbeafe !important;
 }
 
 /* Admin users: use the dashboard dark surface instead of the legacy light

@@ -52,6 +52,7 @@
     .lf-input:focus {
         color: #1e293b !important;
         -webkit-text-fill-color: #1e293b !important;
+        caret-color: #0055ff !important;
         border-color: #0055ff;
         box-shadow: 0 0 0 3px rgba(0,80,255,.12);
         background: #fff;
