@@ -67,8 +67,10 @@ class ServiceDelivery extends Component
 
         $releaseMode = \App\Models\PlatformSetting::get('freelancer_payment_release', 'after_confirmation');
 
+        $deliveryAllowed = true;
+
         try {
-            \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path, $releaseMode) {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path, $releaseMode, &$deliveryAllowed) {
                 // Lock the latest row so a stale Livewire request cannot
                 // submit a delivery against an unpaid project.
                 $this->service = Service::whereKey($this->service->id)
@@ -77,7 +79,8 @@ class ServiceDelivery extends Component
                     ->firstOrFail();
 
                 if ($this->service->payment_status !== 'paid' || (float) $this->service->valor <= 0) {
-                    throw new \RuntimeException('O pagamento deste projecto ainda não foi confirmado.');
+                    $deliveryAllowed = false;
+                    return;
                 }
 
                 // Guardar o ficheiro como anexo de entrega
@@ -152,6 +155,12 @@ class ServiceDelivery extends Component
             // Limpar o ficheiro órfão se a transacção falhou
             Storage::disk('public')->delete($path);
             throw $e;
+        }
+
+        if (!$deliveryAllowed) {
+            Storage::disk('public')->delete($path);
+            session()->flash('error', 'O pagamento deste projecto ainda não foi confirmado. A entrega está bloqueada.');
+            return redirect()->route('freelancer.projects');
         }
 
         // Email fora da transacção (side-effect tolerável)

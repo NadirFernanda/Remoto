@@ -127,9 +127,9 @@ class Proposals extends Component
                     $service->status = 'accepted';
                 }
             } else {
-                // Sem valor acordado — iniciar directamente
-                $service->status = 'in_progress';
-                $escrowHandled = true;
+                // Sem valor acordado não existe pagamento autorizado:
+                // aguardar que o cliente defina o valor e pague.
+                $service->status = 'accepted';
             }
             $service->save();
 
