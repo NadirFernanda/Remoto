@@ -323,8 +323,20 @@ class ProjectManager extends Component
             session()->flash('error', 'Apenas serviços entregues podem ser aprovados.');
             return;
         }
+        if ($service->payment_status !== 'paid') {
+            session()->flash('error', 'Este projecto foi entregue antes da confirmação do pagamento. Regularize o pagamento antes de aprovar a entrega.');
+            return;
+        }
 
         \Illuminate\Support\Facades\DB::transaction(function () use ($service) {
+            $service = Service::whereKey($service->id)
+                ->where('cliente_id', auth()->id())
+                ->where('status', 'delivered')
+                ->where('payment_status', 'paid')
+                ->where('is_payment_released', false)
+                ->lockForUpdate()
+                ->firstOrFail();
+
             $service->update([
                 'status'               => 'completed',
                 'is_payment_released'  => true,

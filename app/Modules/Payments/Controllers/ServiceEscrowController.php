@@ -33,6 +33,9 @@ class ServiceEscrowController extends Controller
         if (!in_array($service->status, ['delivered', 'completed'])) {
             return redirect()->back()->with('error', 'O serviço ainda não foi entregue.');
         }
+        if ($service->payment_status !== 'paid') {
+            return redirect()->back()->with('error', 'O pagamento deste projecto ainda não foi confirmado. A libertação do escrow está bloqueada.');
+        }
 
         $invoicePath = null;
 
