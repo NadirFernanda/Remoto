@@ -529,6 +529,28 @@ p {
     transition: background-color .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease, opacity .16s ease;
 }
 
+/* Project actions use the same compact geometry as the header install CTA. */
+.project-manager .btn,
+.project-manager .btn-primary,
+.project-manager .btn-secondary,
+.project-manager .btn-outline,
+.project-manager .btn-danger {
+    min-height: 2.25rem;
+    padding: .4rem .75rem;
+    border-radius: .6875rem;
+    font-size: .78rem;
+    line-height: 1.25rem;
+}
+
+.project-manager .btn svg,
+.project-manager .btn-primary svg,
+.project-manager .btn-secondary svg,
+.project-manager .btn-outline svg,
+.project-manager .btn-danger svg {
+    width: .9375rem;
+    height: .9375rem;
+}
+
 .btn-primary{ background: var(--color-primary); color:#fff; box-shadow: var(--shadow-sm); }
 .nav-link.btn-primary{ margin-left:0.75rem; }
 .btn-primary:hover:not(:disabled),
