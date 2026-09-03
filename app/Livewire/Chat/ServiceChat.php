@@ -312,6 +312,8 @@ class ServiceChat extends Component
             $service->taxa_cliente  = round($novo * $clientRate, 2);
             $service->total_cliente = round($novo + $service->taxa_cliente, 2);
             $service->valor_liquido = round($novo - $service->taxa, 2);
+            $service->payment_status = 'paid';
+            $service->payment_method_used = 'wallet';
 
             if ($isDirect) {
                 $service->status = 'in_progress';

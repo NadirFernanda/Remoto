@@ -34,8 +34,8 @@ class ServiceDelivery extends Component
             session()->flash('error', 'Este projecto não está disponível para entrega.');
             return redirect()->route('freelancer.projects');
         }
-        // Bloquear accepted sem pagamento (direct_invite não pago)
-        if (in_array($service->status, ['accepted', 'revision_requested']) && (float) $service->valor === 0.0) {
+        // Nenhuma entrega pode ser submetida antes da confirmação do pagamento.
+        if ($service->payment_status !== 'paid' || (float) $service->valor <= 0) {
             session()->flash('error', 'O cliente ainda não confirmou o pagamento deste projecto.');
             return redirect()->route('freelancer.projects');
         }
@@ -45,6 +45,16 @@ class ServiceDelivery extends Component
 
     public function entregarServico()
     {
+        // Revalidar no pedido Livewire: o estado pode ter mudado depois do mount.
+        $this->service = Service::whereKey($this->service->id)
+            ->where('freelancer_id', auth()->id())
+            ->firstOrFail();
+
+        if ($this->service->payment_status !== 'paid' || (float) $this->service->valor <= 0) {
+            session()->flash('error', 'O pagamento deste projecto ainda não foi confirmado. A entrega está bloqueada.');
+            return redirect()->route('freelancer.projects');
+        }
+
         $this->validate([
             'entrega_arquivo'  => 'required|file|max:51200|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,jpg,jpeg,png,gif,webp,mp4,webm,mov,avi,mp3,ogg,wav', // 50MB
             'entrega_mensagem' => 'nullable|string|max:2000',
@@ -59,6 +69,17 @@ class ServiceDelivery extends Component
 
         try {
             \Illuminate\Support\Facades\DB::transaction(function () use ($file, $path, $releaseMode) {
+                // Lock the latest row so a stale Livewire request cannot
+                // submit a delivery against an unpaid project.
+                $this->service = Service::whereKey($this->service->id)
+                    ->where('freelancer_id', auth()->id())
+                    ->lockForUpdate()
+                    ->firstOrFail();
+
+                if ($this->service->payment_status !== 'paid' || (float) $this->service->valor <= 0) {
+                    throw new \RuntimeException('O pagamento deste projecto ainda não foi confirmado.');
+                }
+
                 // Guardar o ficheiro como anexo de entrega
                 ServiceAttachment::create([
                     'service_id' => $this->service->id,

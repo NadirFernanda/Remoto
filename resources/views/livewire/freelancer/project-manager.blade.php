@@ -162,7 +162,7 @@
                     </a>
 
                     {{-- Entregar / Re-entregar --}}
-                    @if(in_array($project->status, ['accepted', 'in_progress', 'revision_requested', 'delivered']))
+                    @if($project->payment_status === 'paid' && in_array($project->status, ['accepted', 'in_progress', 'revision_requested', 'delivered']))
                         @php
                             $btnClass = $isRevision
                                 ? 'bg-red-600 text-white hover:bg-red-700'

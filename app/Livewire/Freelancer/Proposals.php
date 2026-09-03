@@ -118,6 +118,8 @@ class Proposals extends Component
                     }
                     $service->taxa_cliente  = $taxaCliente;
                     $service->total_cliente = $totalCliente;
+                    $service->payment_status = 'paid';
+                    $service->payment_method_used = 'wallet';
                     $service->status        = 'in_progress';
                     $escrowHandled = true;
                 } else {
