@@ -57,6 +57,14 @@
         box-shadow: 0 0 0 3px rgba(0,80,255,.12);
         background: #fff;
     }
+    html body .login-wrap .lf-input,
+    html body .login-wrap .lf-input:focus,
+    html body .login-wrap .lf-input:-webkit-autofill,
+    html body .login-wrap .lf-input:-webkit-autofill:focus {
+        color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
+        caret-color: #0055ff !important;
+    }
     .lf-input.has-error { border-color: #dc2626; }
     .lf-eye  { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94a3b8; padding: 0; z-index: 2; display: flex; align-items: center; justify-content: center; }
     .lf-error { color: #dc2626; font-size: .78rem; margin-top: .3rem; display: none; }
@@ -174,7 +182,8 @@
                 <input type="text" name="email" id="lf-email"
                        class="lf-input {{ $errors->has('email') ? 'has-error' : '' }}"
                        placeholder="Usuário ou e-mail"
-                       value="{{ old('email') }}" required autofocus>
+                       value="{{ old('email') }}" required autofocus
+                       style="color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
                 <p class="lf-error {{ $errors->has('email') ? 'show' : '' }}" id="lf-email-err">
                     {{ $errors->first('email') }}
                 </p>
@@ -191,7 +200,7 @@
                 <input type="password" name="password" id="lf-pw"
                        class="lf-input {{ $errors->has('password') ? 'has-error' : '' }}"
                        placeholder="Palavra-passe"
-                       style="padding-right:2.8rem;"
+                       style="padding-right:2.8rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;"
                        required>
                 <button type="button" class="lf-eye" onclick="togglePw()" aria-label="Mostrar/ocultar senha">
                     <svg id="eye-show" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
