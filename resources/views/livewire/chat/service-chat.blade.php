@@ -50,9 +50,9 @@
                 @if($mostrarBotaoValor)
                     <button wire:click="abrirModalValor"
                             class="chat-header-btn"
-                            style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#ff2d55;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(255,45,85,.45);"
+                            style="background:#0055ff;color:#fff;"
                             title="Inserir valor adicional acordado com o freelancer">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
                         </svg>
                         Inserir Valor
@@ -62,12 +62,12 @@
                     <button type="button"
                             @click="window.dispatchEvent(new CustomEvent('open-propor-valor-modal'))"
                             class="chat-header-btn"
-                            style="display:flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:.5rem;background:#10b981;color:#fff;font-size:.75rem;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(16,185,129,.45);"
-                            title="Propor um valor ao cliente">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            style="background:#0055ff;color:#fff;"
+                            title="Enviar uma nova contraproposta ao cliente">
+                        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12M6 12h12"/>
                         </svg>
-                        Propor Valor
+                        Nova Contraproposta
                     </button>
                 @endif
             </div>
@@ -607,8 +607,9 @@
                         <button type="submit"
                                 wire:loading.attr="disabled"
                                 wire:target="enviarPropostaValor"
-                                style="flex:2;padding:.65rem;border-radius:.65rem;border:none;background:#10b981;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;box-shadow:0 2px 12px rgba(16,185,129,.35);">
-                            <span wire:loading.remove wire:target="enviarPropostaValor">Enviar Proposta</span>
+                                class="chat-header-btn"
+                                style="flex:2;background:#0055ff;color:#fff;">
+                            <span wire:loading.remove wire:target="enviarPropostaValor">Enviar Contraproposta</span>
                             <span wire:loading wire:target="enviarPropostaValor">A enviar...</span>
                         </button>
                     </div>
