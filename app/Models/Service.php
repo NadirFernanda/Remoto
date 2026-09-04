@@ -8,6 +8,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Service extends Model
 {
     use SoftDeletes;
+
+    protected static function booted(): void
+    {
+        static::saving(function (Service $service): void {
+            if (($service->isDirty('status') || !$service->exists)
+                && in_array($service->status, ['in_progress', 'delivered', 'completed'], true)
+                && $service->payment_status !== 'paid') {
+                throw new \LogicException(
+                    'Um projecto não pode avançar sem pagamento confirmado.'
+                );
+            }
+        });
+    }
+
     public function candidates()
     {
         return $this->hasMany(ServiceCandidate::class);

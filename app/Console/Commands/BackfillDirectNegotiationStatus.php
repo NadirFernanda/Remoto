@@ -74,10 +74,12 @@ class BackfillDirectNegotiationStatus extends Command
                 $log->created_at->format('d/m/Y H:i')
             ));
 
-            if ($apply) {
+            if ($apply && $service->payment_status === 'paid') {
                 $service->status = 'in_progress';
                 $service->save();
                 $this->info('  -> corrigido para in_progress');
+            } elseif ($apply) {
+                $this->warn('  -> ignorado: pagamento não confirmado');
             }
 
             $corrigidos++;

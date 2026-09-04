@@ -266,7 +266,9 @@ class Dashboard extends Component
             $service->candidates()->where('id', '!=', $candidate->id)->update(['status' => 'rejected']);
             // Atualiza o projecto
             $service->freelancer_id = $freelancerId;
-            $service->status = 'in_progress';
+            $service->status = $service->payment_status === 'paid'
+                ? 'in_progress'
+                : 'accepted';
             $service->save();
 
             // Notificar freelancer escolhido

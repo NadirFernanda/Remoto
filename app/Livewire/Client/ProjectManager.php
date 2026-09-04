@@ -175,7 +175,9 @@ class ProjectManager extends Component
 
             // Atualiza o projeto
             $service->freelancer_id = $freelancerId;
-            $service->status = 'in_progress';
+            $service->status = $service->payment_status === 'paid'
+                ? 'in_progress'
+                : 'accepted';
             $service->save();
 
             // Notifica o freelancer escolhido
