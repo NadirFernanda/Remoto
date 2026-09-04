@@ -190,7 +190,7 @@
                                             @if(!empty($propostaMatch[1]))
                                             <div class="mt-2 pt-2 border-t border-slate-200">
                                                 <button type="button"
-                                                        wire:click="abrirModalComValor(@js($propostaMatch[1]))"
+                                                        wire:click="pagarPropostaEntregue(@js($propostaMatch[1]))"
                                                         wire:loading.attr="disabled"
                                                         wire:target="abrirModalComValor"
                                                         class="chat-header-btn"

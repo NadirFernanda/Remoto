@@ -188,6 +188,11 @@ class ServiceChat extends Component
         $this->dispatch('open-valor-modal');
     }
 
+    public function pagarPropostaEntregue(string $valorFormatado): void
+    {
+        $this->abrirModalComValor($valorFormatado);
+    }
+
     // ── Acções do modal ──────────────────────────────────────────────────────
 
     public function abrirModalValor(): void
@@ -256,7 +261,8 @@ class ServiceChat extends Component
         // O pagamento inicial de uma proposta aceite também passa pelo
         // Multicaixa Express; apenas ajustes de projectos já em andamento
         // continuam a usar o saldo interno.
-        if ($this->isDirectNegotiation && $this->valorPaymentMethod === 'express') {
+        if (($this->isDirectNegotiation || $this->service->status === 'delivered')
+            && $this->valorPaymentMethod === 'express') {
             $this->pagarValorExtraAppyPay();
             return;
         }
