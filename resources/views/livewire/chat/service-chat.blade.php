@@ -624,7 +624,7 @@
         {{-- Modal: Inserir Valor --}}
         @php $bd = $this->extraBreakdown; @endphp
         <div wire:key="modal-inserir-valor"
-             x-data="{ open: false }"
+             x-data="{ open: $wire.entangle('showValorModal') }"
              @open-valor-modal.window="open = true"
              @close-valor-modal.window="open = false"
              x-show="open" x-cloak
