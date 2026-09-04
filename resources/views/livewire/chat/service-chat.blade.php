@@ -1,26 +1,25 @@
-<style>
-    .chat-window .chat-message-mine,
-    .chat-window .chat-message-mine p,
-    .chat-window .chat-message-mine span {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-    }
-    .chat-window .chat-message-mine {
-        background: #0055ff !important;
-    }
-    .chat-window #mensagemInput {
-        color: #f8fafc !important;
-        -webkit-text-fill-color: #f8fafc !important;
-        background: #1b2a44 !important;
-        caret-color: #ffffff;
-    }
-    .chat-window #mensagemInput::placeholder {
-        color: #94a3b8 !important;
-        -webkit-text-fill-color: #94a3b8 !important;
-    }
-</style>
-
 <div class="chat-outer min-h-screen flex items-center justify-center py-6 px-2">
+    <style>
+        .chat-window .chat-message-mine,
+        .chat-window .chat-message-mine p,
+        .chat-window .chat-message-mine span {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        .chat-window .chat-message-mine {
+            background: #0055ff !important;
+        }
+        .chat-window #mensagemInput {
+            color: #f8fafc !important;
+            -webkit-text-fill-color: #f8fafc !important;
+            background: #1b2a44 !important;
+            caret-color: #ffffff;
+        }
+        .chat-window #mensagemInput::placeholder {
+            color: #94a3b8 !important;
+            -webkit-text-fill-color: #94a3b8 !important;
+        }
+    </style>
     <div class="chat-window w-full max-w-2xl flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden" style="height: 80vh; min-height: 400px; max-height: 100dvh;">
 
         {{-- Header --}}
