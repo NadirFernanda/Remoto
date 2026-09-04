@@ -222,13 +222,13 @@
                                     Iniciar Projecto
                                 </button>
                             @endif
-                            @if(in_array($selected->status, ['negotiating', 'delivered']) && $selected->freelancer_id && $selected->payment_status !== 'paid')
+                            @if(in_array($selected->status, ['negotiating', 'delivered']) && $selected->payment_status !== 'paid')
                                 <a href="{{ route('service.chat', ['service' => $selected->id, 'payment' => 1]) }}"
                                    class="btn-primary text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3"/>
                                     </svg>
-                                    Pagar Projecto
+                                    {{ $selected->status === 'negotiating' ? 'Pagar e Iniciar Projecto' : 'Pagar Projecto' }}
                                 </a>
                             @endif
                             @if($selected->status === 'revision_requested')
