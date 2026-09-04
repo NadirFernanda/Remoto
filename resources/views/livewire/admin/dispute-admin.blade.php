@@ -81,40 +81,40 @@
 
                 {{-- Payment control --}}
                 @if($selected->service)
-                <div class="bg-orange-50 border border-orange-200 rounded-[10px] p-3">
-                    <p class="text-xs font-semibold text-orange-700 mb-2">Controlo de Pagamento</p>
+                <div class="admin-dispute-panel admin-dispute-payment rounded-[10px] p-3">
+                    <p class="text-xs font-semibold mb-2">Controlo de Pagamento</p>
                     <div class="flex items-center gap-2 flex-wrap text-xs">
-                        <span class="text-gray-600">Status do serviço:
-                            <span class="font-semibold text-gray-800">{{ $selected->service->status }}</span>
+                        <span>Status do serviço:
+                            <span class="font-semibold">{{ $selected->service->status }}</span>
                         </span>
-                        <span class="text-gray-400">·</span>
-                        <span class="text-gray-600">Pagamento libertado:
-                            <span class="font-semibold {{ $selected->service->is_payment_released ? 'text-green-600' : 'text-red-500' }}">
+                        <span class="admin-dispute-muted">·</span>
+                        <span>Pagamento libertado:
+                            <span class="font-semibold {{ $selected->service->is_payment_released ? 'admin-dispute-success' : 'admin-dispute-danger' }}">
                                 {{ $selected->service->is_payment_released ? 'Sim' : 'Não' }}
                             </span>
                         </span>
                         @if(!$selected->service->is_payment_released)
                             <button wire:click="freezePayment({{ $selected->service->id }})"
                                 wire:confirm="Congelar o pagamento deste projecto (colocar em moderação)?"
-                                class="px-2 py-1 bg-orange-100 text-orange-700 border border-orange-300 rounded-lg hover:bg-orange-200 transition inline-flex items-center gap-1.5">
+                                class="admin-dispute-button admin-dispute-button-warn">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9.5A4 4 0 0 1 12 5a4 4 0 0 1 4 4.5v1.5c.6.3 1 1 1 1.75V16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-3.25c0-.75.4-1.45 1-1.75V9.5zm2 0V8a2 2 0 1 1 4 0v1.5"/></svg>
                                 Congelar
                             </button>
                             @if(in_array(auth()->user()->admin_role, [null, 'financeiro'], true))
                             <button wire:click="releasePayment({{ $selected->service->id }})"
                                 wire:confirm="Libertar o pagamento ao freelancer? O valor líquido será creditado na sua carteira."
-                                class="px-2 py-1 bg-green-100 text-green-700 border border-green-300 rounded-lg hover:bg-green-200 transition inline-flex items-center gap-1.5">
+                                class="admin-dispute-button admin-dispute-button-success">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12.5 9.5 17 19 7.5"/></svg>
                                 <span class="inline-flex items-center gap-1.5">Libertar <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg> Freelancer</span>
                             </button>
                             <button wire:click="toggleParcialForm"
-                                class="px-2 py-1 bg-blue-100 text-[#0055ff] border border-blue-300 rounded-lg hover:bg-blue-200 transition inline-flex items-center gap-1.5">
+                                class="admin-dispute-button admin-dispute-button-primary">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 12h16M12 4v16"/></svg>
                                 Liberar Parcial
                             </button>
                             <button wire:click="reembolsarCliente({{ $selected->service->id }})"
                                 wire:confirm="Reembolsar o cliente? O escrow será devolvido à carteira do cliente e o projecto cancelado."
-                                class="px-2 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-200 transition inline-flex items-center gap-1.5">
+                                class="admin-dispute-button admin-dispute-button-primary">
                                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14 4 9l5-5M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
                                 <span class="inline-flex items-center gap-1.5">Reembolsar <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg> Cliente</span>
                             </button>
@@ -122,7 +122,7 @@
                             <span class="px-2 py-1 bg-gray-100 text-gray-500 rounded-lg text-xs">Só financeiro/master pode movimentar este pagamento</span>
                             @endif
                         @else
-                            <span class="px-2 py-1 bg-green-100 text-green-600 rounded-lg text-xs">Pagamento já libertado</span>
+                            <span class="admin-dispute-success-badge">Pagamento já libertado</span>
                         @endif
                     </div>
 
@@ -176,8 +176,8 @@
 
                 {{-- Advertências por incumprimento --}}
                 @if($selected->service && ($selected->service->cliente || $selected->service->freelancer))
-                <div class="bg-red-50 border border-red-200 rounded-[10px] p-3">
-                    <p class="text-xs font-semibold text-red-700 mb-2">Advertências por Incumprimento</p>
+                <div class="admin-dispute-panel admin-dispute-warning rounded-[10px] p-3">
+                    <p class="text-xs font-semibold mb-2">Advertências por Incumprimento</p>
                     <div class="flex items-center gap-2 flex-wrap text-xs">
                         @if($selected->service->cliente)
                             <span class="text-gray-600">Cliente ({{ $selected->service->cliente->name }}):
