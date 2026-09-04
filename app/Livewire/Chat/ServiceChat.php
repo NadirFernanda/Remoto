@@ -161,9 +161,19 @@ class ServiceChat extends Component
      */
     public function abrirModalComValor(string $valorFormatado): void
     {
+        if (!$this->isCliente || !$this->mostrarBotaoValor) {
+            return;
+        }
+
         $this->resetErrorBag();
-        $plain = str_replace(['.', ','], ['', '.'], $valorFormatado);
-        $this->novoValorTotal = $plain;
+        $valorNumerico = $this->normalizarValorMonetario($valorFormatado);
+        if ($valorNumerico === null || $valorNumerico <= 0) {
+            $this->addError('novoValorTotal', 'A proposta contém um valor inválido.');
+            return;
+        }
+
+        $this->novoValorTotal = (string) $valorNumerico;
+        $this->valorPaymentMethod = 'express';
         $this->showValorModal = true;
         $this->dispatch('open-valor-modal');
     }

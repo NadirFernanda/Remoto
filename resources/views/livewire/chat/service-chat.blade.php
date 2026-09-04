@@ -189,11 +189,13 @@
                                             @endphp
                                             @if(!empty($propostaMatch[1]))
                                             <div class="mt-2 pt-2 border-t border-slate-200">
-                                                <button wire:click="abrirModalComValor('{{ $propostaMatch[1] }}')"
-                                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-[#ff2d55] text-white shadow hover:opacity-90 transition active:scale-95"
+                                                <button type="button"
+                                                        wire:click.stop="abrirModalComValor('{{ $propostaMatch[1] }}')"
+                                                        class="chat-header-btn"
+                                                        style="background:#0055ff;color:#fff;"
                                                         title="Confirmar este valor e efectuar o pagamento">
-                                                    <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                                                    Aceitar & Pagar {{ $propostaMatch[1] }} Kz
+                                                    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                                    Aceitar e Pagar {{ $propostaMatch[1] }} Kz
                                                 </button>
                                             </div>
                                             @endif
