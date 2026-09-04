@@ -32,7 +32,7 @@ class Dashboard extends Component
     private function loadStats(): void
     {
         $period = $this->period;
-        $cacheKey = "admin_dashboard_stats_{$period}";
+        $cacheKey = "admin_dashboard_stats_v2_{$period}";
 
         // Cache por 3 minutos — evita 20+ queries DB em cada mudança de período
         $cached = Cache::remember($cacheKey, 180, function () use ($period) {
@@ -55,7 +55,7 @@ class Dashboard extends Component
 
             $paidServices = Service::where('payment_status', 'paid');
 
-            $revenueByDay = (clone $paidServices)->whereIn('status', ['completed', 'delivered'])
+            $revenueByDay = (clone $paidServices)->whereNotIn('status', ['draft', 'payment_pending'])
                 ->where('updated_at', '>=', $since)
                 ->selectRaw('DATE(updated_at) as day, SUM(taxa) as total')
                 ->groupBy('day')
@@ -64,9 +64,10 @@ class Dashboard extends Component
                 ->toArray();
 
             $stats = [
-                'gmv_total'          => (clone $paidServices)->whereIn('status', ['completed', 'delivered'])->sum('valor'),
-                'gmv_period'         => (clone $paidServices)->whereIn('status', ['completed', 'delivered'])->where('updated_at', '>=', $since)->sum('valor'),
+                'gmv_total'          => (clone $paidServices)->whereNotIn('status', ['draft', 'payment_pending'])->sum('valor'),
+                'gmv_period'         => (clone $paidServices)->whereNotIn('status', ['draft', 'payment_pending'])->where('updated_at', '>=', $since)->sum('valor'),
                 'projects_total'     => Service::count(),
+                'projects_negotiating'=> Service::where('status', 'negotiating')->count(),
                 'projects_active'    => Service::where('status', 'in_progress')->count(),
                 'projects_published' => Service::where('status', 'published')->count(),
                 'projects_delivered' => Service::where('status', 'delivered')->count(),
@@ -74,8 +75,8 @@ class Dashboard extends Component
                 'projects_cancelled' => Service::where('status', 'cancelled')->count(),
                 'projects_period'    => Service::where('created_at', '>=', $since)->count(),
                 'conversion_rate'    => round($completedCount / $totalServices * 100, 1),
-                'revenue_total'      => (clone $paidServices)->whereIn('status', ['completed', 'delivered'])->sum('taxa'),
-                'revenue_period'     => (clone $paidServices)->whereIn('status', ['completed', 'delivered'])->where('updated_at', '>=', $since)->sum('taxa'),
+                'revenue_total'      => (clone $paidServices)->whereNotIn('status', ['draft', 'payment_pending'])->sum('taxa'),
+                'revenue_period'    => (clone $paidServices)->whereNotIn('status', ['draft', 'payment_pending'])->where('updated_at', '>=', $since)->sum('taxa'),
                 'users_total'        => User::count(),
                 'users_new_period'   => User::where('created_at', '>=', $since)->count(),
                 'users_clients'      => User::where('role', 'cliente')->count(),

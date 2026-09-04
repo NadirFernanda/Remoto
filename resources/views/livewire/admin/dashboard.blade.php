@@ -36,9 +36,10 @@
     </div>
 
     {{-- ─── Projects pipeline ──────────────────────────────────── --}}
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3 mb-6">
         @php
             $pipeCards = [
+                ['label' => 'Em Negociação', 'val' => $stats['projects_negotiating'], 'cls' => 'bg-amber-50 text-amber-700 border-amber-100'],
                 ['label' => 'Publicados',   'val' => $stats['projects_published'], 'cls' => 'bg-blue-50 text-blue-700 border-blue-100'],
                 ['label' => 'Em Andamento', 'val' => $stats['projects_active'],    'cls' => 'bg-yellow-50 text-yellow-700 border-yellow-100'],
                 ['label' => 'Entregues',    'val' => $stats['projects_delivered'], 'cls' => 'bg-orange-50 text-orange-700 border-orange-100'],
