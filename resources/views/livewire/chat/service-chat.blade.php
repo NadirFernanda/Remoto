@@ -190,7 +190,9 @@
                                             @if(!empty($propostaMatch[1]))
                                             <div class="mt-2 pt-2 border-t border-slate-200">
                                                 <button type="button"
-                                                        wire:click.stop="abrirModalComValor('{{ $propostaMatch[1] }}')"
+                                                        wire:click="abrirModalComValor(@js($propostaMatch[1]))"
+                                                        wire:loading.attr="disabled"
+                                                        wire:target="abrirModalComValor"
                                                         class="chat-header-btn"
                                                         style="background:#0055ff;color:#fff;"
                                                         title="Confirmar este valor e efectuar o pagamento">

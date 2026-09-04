@@ -161,10 +161,20 @@ class ServiceChat extends Component
      */
     public function abrirModalComValor(string $valorFormatado): void
     {
-        if (!$this->isCliente || !$this->mostrarBotaoValor) {
+        $service = Service::whereKey($this->service->id)->firstOrFail();
+        $user = Auth::user();
+
+        if (!$user || $user->id !== $service->cliente_id) {
+            $this->addError('novoValorTotal', 'Apenas o cliente pode aceitar e pagar uma proposta.');
             return;
         }
 
+        if (!in_array($service->status, ['published', 'negotiating', 'accepted', 'in_progress', 'delivered'], true)) {
+            $this->addError('novoValorTotal', 'Esta proposta já não está disponível para pagamento.');
+            return;
+        }
+
+        $this->service = $service;
         $this->resetErrorBag();
         $valorNumerico = $this->normalizarValorMonetario($valorFormatado);
         if ($valorNumerico === null || $valorNumerico <= 0) {
