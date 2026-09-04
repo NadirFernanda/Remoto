@@ -171,7 +171,6 @@
                         </div>
                     @endif
                     </div>
-                </div>
                 @endif
 
                 {{-- Advertências por incumprimento --}}
@@ -180,28 +179,28 @@
                     <p class="text-xs font-semibold mb-2">Advertências por Incumprimento</p>
                     <div class="flex items-center gap-2 flex-wrap text-xs">
                         @if($selected->service->cliente)
-                            <span class="text-gray-600">Cliente ({{ $selected->service->cliente->name }}):
-                                <strong class="text-gray-800">{{ $selected->service->cliente->strikes_count }}/3</strong>
+                            <span>Cliente ({{ $selected->service->cliente->name }}):
+                                <strong>{{ $selected->service->cliente->strikes_count }}/3</strong>
                             </span>
                             <button wire:click="notifyNonCompliance({{ $selected->service->id }}, 'cliente')"
                                 wire:confirm="Registar advertência por incumprimento ao cliente {{ $selected->service->cliente->name }}? Ao chegar a 3, a conta é suspensa automaticamente por 7 dias."
-                                class="px-2 py-1 bg-red-100 text-red-700 border border-red-300 rounded-lg hover:bg-red-200 transition">
+                                class="admin-dispute-button admin-dispute-button-danger">
                                 Advertir Cliente
                             </button>
-                            <span class="text-gray-300">·</span>
+                            <span class="admin-dispute-muted">·</span>
                         @endif
                         @if($selected->service->freelancer)
-                            <span class="text-gray-600">Freelancer ({{ $selected->service->freelancer->name }}):
-                                <strong class="text-gray-800">{{ $selected->service->freelancer->strikes_count }}/3</strong>
+                            <span>Freelancer ({{ $selected->service->freelancer->name }}):
+                                <strong>{{ $selected->service->freelancer->strikes_count }}/3</strong>
                             </span>
                             <button wire:click="notifyNonCompliance({{ $selected->service->id }}, 'freelancer')"
                                 wire:confirm="Registar advertência por incumprimento ao freelancer {{ $selected->service->freelancer->name }}? Ao chegar a 3, a conta é suspensa automaticamente por 7 dias."
-                                class="px-2 py-1 bg-red-100 text-red-700 border border-red-300 rounded-lg hover:bg-red-200 transition">
+                                class="admin-dispute-button admin-dispute-button-danger">
                                 Advertir Freelancer
                             </button>
                         @endif
                     </div>
-                    <p class="text-[10px] text-gray-400 mt-1.5">Ao atingir 3 advertências, a conta é suspensa automaticamente por 7 dias.</p>
+                    <p class="admin-dispute-note mt-1.5">Ao atingir 3 advertências, a conta é suspensa automaticamente por 7 dias.</p>
                 </div>
                 @endif
 
