@@ -37,6 +37,11 @@ class ServiceStateService
      */
     public function canTransition(Service $service, string $to): bool
     {
+        if (in_array($to, ['in_progress', 'delivered', 'completed'], true)
+            && $service->payment_status !== 'paid') {
+            return false;
+        }
+
         $allowed = self::TRANSITIONS[$service->status] ?? [];
         return in_array($to, $allowed, true);
     }

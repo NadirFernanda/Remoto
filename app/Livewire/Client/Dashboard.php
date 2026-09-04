@@ -34,6 +34,10 @@ class Dashboard extends Component
             session()->flash('error', 'Só é possível liberar pagamento para projectos entregues.');
             return;
         }
+        if ($serviceCheck->payment_status !== 'paid') {
+            session()->flash('error', 'O pagamento do projecto ainda não foi confirmado. A libertação está bloqueada.');
+            return;
+        }
         if ($serviceCheck->is_payment_released) {
             session()->flash('info', 'O pagamento já foi liberado para este projecto.');
             return;
@@ -44,6 +48,8 @@ class Dashboard extends Component
         \Illuminate\Support\Facades\DB::transaction(function () use ($serviceId, $user, &$freelancerPago) {
             $service = Service::where('id', $serviceId)
                 ->where('cliente_id', $user->id)
+                ->where('status', 'delivered')
+                ->where('payment_status', 'paid')
                 ->where('is_payment_released', false) // re-verifica no lock
                 ->lockForUpdate()
                 ->firstOrFail();
