@@ -27,7 +27,7 @@ class Dashboard extends Component
         $user = $this->getCurrentUser();
 
         $this->services = Service::where('freelancer_id', $user->id)
-            ->whereIn('status', ['accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
+            ->whereIn('status', ['negotiating', 'accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
             ->orderByDesc('created_at')
             ->get();
 
@@ -114,7 +114,7 @@ class Dashboard extends Component
         session()->flash('success', 'Serviço enviado para moderação. A equipa de suporte foi notificada.');
 
         $this->services = Service::where('freelancer_id', $user->id)
-            ->whereIn('status', ['accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
+            ->whereIn('status', ['negotiating', 'accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'])
             ->orderByDesc('created_at')
             ->get();
     }

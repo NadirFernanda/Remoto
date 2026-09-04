@@ -71,7 +71,7 @@ class ServiceChat extends Component
             && ($service->payment_status !== 'paid' || $service->status !== 'in_progress');
 
         if ($this->isCliente && request()->boolean('payment')
-            && in_array($service->status, ['accepted', 'delivered'], true)
+            && in_array($service->status, ['negotiating', 'accepted', 'delivered'], true)
             && $service->freelancer_id
             && $service->payment_status !== 'paid') {
             $this->novoValorTotal = (string) $service->valor;

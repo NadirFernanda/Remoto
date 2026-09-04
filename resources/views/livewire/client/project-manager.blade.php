@@ -195,7 +195,7 @@
                                     Comprovativo
                                 </a>
                             @endif
-                            @if(($selected->freelancer_id || $selected->status === 'negotiating') && in_array($selected->status, ['in_progress', 'delivered']))
+                            @if(($selected->freelancer_id || $selected->status === 'negotiating') && in_array($selected->status, ['negotiating', 'in_progress', 'delivered']))
                                 <a href="{{ route('service.chat', $selected->id) }}" class="btn-outline text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
@@ -222,7 +222,7 @@
                                     Iniciar Projecto
                                 </button>
                             @endif
-                            @if($selected->status === 'delivered' && $selected->freelancer_id && $selected->payment_status !== 'paid')
+                            @if(in_array($selected->status, ['negotiating', 'delivered']) && $selected->freelancer_id && $selected->payment_status !== 'paid')
                                 <a href="{{ route('service.chat', ['service' => $selected->id, 'payment' => 1]) }}"
                                    class="btn-primary text-xs">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">

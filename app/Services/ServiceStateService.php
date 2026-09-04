@@ -11,7 +11,7 @@ class ServiceStateService
      */
     private const TRANSITIONS = [
         'published'   => ['negotiating', 'accepted', 'cancelled', 'em_moderacao'],
-        'negotiating' => ['accepted', 'published', 'cancelled'],
+        'negotiating' => ['accepted', 'in_progress', 'published', 'cancelled'],
         'accepted'    => ['in_progress', 'cancelled'],
         'in_progress' => ['delivered', 'disputed', 'cancelled'],
         'delivered'   => ['completed', 'disputed', 'in_progress'],
