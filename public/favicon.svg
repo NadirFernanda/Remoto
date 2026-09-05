@@ -7,8 +7,5 @@
   </defs>
   <rect width="64" height="64" rx="16" fill="#08111f"/>
   <rect x="7" y="7" width="50" height="50" rx="14" fill="url(#g1)" opacity="0.95"/>
-  <path d="M23 18h5.5v28h-5.5zM37.5 18h5.5v28h-5.5z" fill="#f8fbff" opacity="0.96"/>
-  <path d="M20 23.5h24v6H20zm0 11h24v6H20z" fill="#f8fbff" opacity="0.96"/>
-  <circle cx="18" cy="18" r="5" fill="#08111f" opacity="0.22"/>
-  <circle cx="46" cy="46" r="5" fill="#08111f" opacity="0.22"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-2" fill="#f8fbff">24h</text>
 </svg>
