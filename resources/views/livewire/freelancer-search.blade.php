@@ -338,7 +338,7 @@
                 <label class="fsp-filter-label">Disponibilidade</label>
                 <div style="display:flex;flex-direction:column;gap:.38rem;margin-top:.05rem;">
                     @foreach(['' => ['Qualquer',''], 'available' => ['Disponível','#22c55e'], 'busy' => ['Ocupado','#eab308'], 'unavailable' => ['Férias','#94a3b8']] as $val => [$label, $color])
-                        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
+                        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#f1f5f9;">
                             <input type="radio" wire:model.live="availability" value="{{ $val }}"
                                    style="accent-color:#0055ff;width:14px;height:14px;flex-shrink:0;">
                             @if($color)
@@ -354,7 +354,7 @@
                 <label class="fsp-filter-label">Avaliação mínima</label>
                 <div style="display:flex;flex-direction:column;gap:.38rem;margin-top:.05rem;">
                     @foreach(['0'=>'Qualquer','3'=>'3 estrelas ou mais','4'=>'4 estrelas ou mais','4.5'=>'4.5 estrelas ou mais','5'=>'Apenas 5 estrelas'] as $val => $label)
-                        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#475569;">
+                        <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#f1f5f9;">
                             <input type="radio" wire:model.live="minRating" value="{{ $val }}"
                                    style="accent-color:#0055ff;width:14px;height:14px;">
                             {{ $label }}
