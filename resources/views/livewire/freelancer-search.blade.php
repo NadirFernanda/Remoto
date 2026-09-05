@@ -193,6 +193,77 @@
 .fsp-empty {
     grid-column: 1/-1;padding: 4rem 1rem;text-align: center;
 }
+
+/* Public-page visual contract: keep discovery surfaces on the same dark
+   canvas as the homepage and public profiles. */
+.fsp-hero {
+    background: #0d1424;
+    border-bottom: 1px solid rgba(148,163,184,.12);
+}
+.fsp-hero::before {
+    background: radial-gradient(circle at 50% -40%, rgba(0,85,255,.2), transparent 60%);
+}
+.fsp-body {
+    max-width: 1200px;
+    background: #0d1424;
+}
+.fsp-filter-card,
+.fsp-card {
+    background: #111c31;
+    border-color: rgba(148,163,184,.18);
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.fsp-filter-head,
+.fsp-filter-group,
+.fsp-card-footer {
+    border-color: rgba(148,163,184,.14);
+}
+.fsp-filter-head h3,
+.fsp-card-name,
+.fsp-rate,
+.fsp-count strong {
+    color: #f1f5f9;
+}
+.fsp-filter-label,
+.fsp-count,
+.fsp-card-headline,
+.fsp-rate-unit {
+    color: #94a3b8;
+}
+.fsp-input,
+.fsp-select {
+    color: #e2e8f0;
+    background: #0d1424;
+    border-color: rgba(148,163,184,.25);
+}
+.fsp-input:focus,
+.fsp-select:focus {
+    background: #111c31;
+}
+.fsp-sort-pill {
+    color: #cbd5e1;
+    background: #111c31;
+    border-color: rgba(148,163,184,.25);
+}
+.fsp-sort-pill:hover {
+    border-color: #0055ff;
+    color: #fff;
+}
+.fsp-card:hover {
+    border-color: rgba(0,85,255,.7);
+    box-shadow: 0 12px 32px rgba(0,85,255,.16);
+}
+.fsp-card-name:hover {
+    color: #7da7ff;
+}
+.fsp-skill-tag {
+    color: #b9d0ff;
+    background: rgba(0,85,255,.14);
+    border-color: rgba(0,85,255,.35);
+}
+.fsp-empty p {
+    color: #cbd5e1 !important;
+}
 </style>
 
 
