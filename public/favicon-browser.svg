@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="24 Horas">
+  <defs>
+    <linearGradient id="brand" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#00baff"/>
+      <stop offset="100%" stop-color="#0055ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#08111f"/>
+  <rect x="6" y="6" width="52" height="52" rx="15" fill="url(#brand)"/>
+  <text x="32" y="41" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="800" letter-spacing="-2" fill="#fff">24h</text>
+</svg>
