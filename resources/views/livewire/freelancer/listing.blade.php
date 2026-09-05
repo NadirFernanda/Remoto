@@ -3,10 +3,11 @@
 /* ── Hero ─────────────────────────────────────────────── */
 .fl-hero {
     background: #0b1220;
-    padding: 3.5rem 1.25rem 2.75rem;
+    padding: 2.25rem 1.25rem 2rem;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 0;
 }
 .fl-hero::before {
     content: '';
@@ -14,6 +15,10 @@
     inset: 0;
     background: #0b1220;
     pointer-events: none;
+}
+.fl-hero > * {
+    position: relative;
+    z-index: 1;
 }
 .fl-hero-eyebrow {
     display: inline-flex;align-items: center;gap: .4rem;
@@ -65,12 +70,12 @@
 /* ── Body ─────────────────────────────────────────────── */
 .fl-body {
     max-width: 1220px;margin: 0 auto;
-    padding: 2rem 1.25rem 3rem;
+    padding: 1.35rem 1.25rem 2.5rem;
 }
 .fl-sortbar {
     display: flex;align-items: center;
     justify-content: space-between;gap: 1rem;
-    margin-bottom: 1.2rem;flex-wrap: wrap;
+    margin-bottom: .9rem;flex-wrap: wrap;
 }
 .fl-count { font-size: .82rem;color: #64748b; }
 .fl-count strong { color: #0f172a;font-weight: 700; }
@@ -166,21 +171,78 @@ overflow: hidden;
 .fsp-empty {
     grid-column: 1/-1;padding: 4rem 1rem;text-align: center;
 }
+.fl-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    color: #94a3b8;
+}
+.fl-pagination-summary {
+    margin: 0;
+    font-size: .82rem;
+}
+.fl-pagination-summary strong {
+    color: #e2e8f0;
+    font-weight: 700;
+}
+.fl-pagination-pages {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(148,163,184,.35);
+    border-radius: 14px;
+    background: rgba(13,20,36,.72);
+}
+.fl-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 42px;
+    padding: 0 .75rem;
+    border: 0;
+    border-right: 1px solid rgba(148,163,184,.28);
+    background: transparent;
+    color: #cbd5e1;
+    font: inherit;
+    font-size: .88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+}
+.fl-page:last-child { border-right: 0; }
+button.fl-page:hover {
+    background: rgba(0,85,255,.16);
+    color: #fff;
+}
+.fl-page-current {
+    background: #0055ff;
+    color: #fff;
+}
+.fl-page-disabled {
+    color: #64748b;
+    cursor: default;
+}
 
 /* ── Mobile responsive ──────────────────────────────────── */
 @media (max-width: 640px) {
-    .fl-hero { padding: 2.5rem 1rem 2rem; }
+    .fl-hero { padding: 1.75rem 1rem 1.5rem; }
     .fl-searchbar { flex-direction: column; gap: .5rem; }
     .fl-searchbar input { padding: .75rem 1rem .75rem 2.6rem; font-size: .88rem; }
     .fl-searchbar-icon { top: 1.35rem; }
     .fl-searchbar-skill { width: 100%; flex-shrink: unset; }
-    .fl-body { padding: 1.25rem .875rem 2rem; }
+    .fl-body { padding: 1rem .875rem 2rem; }
     .fsp-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .75rem; }
     .fsp-card-body { padding: 28px 10px 10px; gap: 6px; }
     .fsp-card-footer { flex-wrap: wrap; }
     .fl-sortbar { flex-direction: column; align-items: flex-start; gap: .4rem; }
     .fl-hero-stat strong { font-size: 1rem !important; }
     .fl-hero-stats { gap: 1.25rem; margin-top: 1.2rem; }
+    .fl-pagination { flex-direction: column; gap: .75rem; }
 }
 @media (max-width: 400px) {
     .fsp-grid { grid-template-columns: 1fr; }
@@ -367,8 +429,8 @@ overflow: hidden;
     </div>
 
     {{-- Paginação --}}
-    <div style="display:flex;justify-content:center;margin-top:2rem;">
-        {{ $freelancers->links() }}
+    <div style="display:flex;justify-content:center;margin-top:1.5rem;">
+        {{ $freelancers->links('vendor.livewire.freelancer-listing-pagination') }}
     </div>
 
 </div>
