@@ -383,7 +383,8 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('name') has-error @enderror"
-                           type="text" id="reg-name" wire:model="name" placeholder="O seu nome completo" spellcheck="false">
+                           type="text" id="reg-name" wire:model="name" placeholder="O seu nome completo" spellcheck="false"
+                           style="color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;opacity:1 !important;">
                     @error('name') <p class="lf-error show">{{ $message }}</p> @enderror
                 </div>
 
@@ -396,7 +397,8 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('email') has-error @enderror"
-                           type="email" id="reg-email" wire:model="email" placeholder="seu@email.com" spellcheck="false">
+                           type="email" id="reg-email" wire:model="email" placeholder="seu@email.com" spellcheck="false"
+                           style="color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;opacity:1 !important;">
                     @error('email') <p class="lf-error show">{{ $message }}</p> @enderror
                 </div>
 
