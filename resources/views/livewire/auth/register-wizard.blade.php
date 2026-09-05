@@ -368,7 +368,7 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('name') has-error @enderror"
-                           type="text" id="reg-name" wire:model="name" placeholder="O seu nome completo">
+                           type="text" id="reg-name" wire:model.blur="name" placeholder="O seu nome completo">
                     @error('name') <p class="lf-error show">{{ $message }}</p> @enderror
                 </div>
 
@@ -381,7 +381,7 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('email') has-error @enderror"
-                           type="email" id="reg-email" wire:model="email" placeholder="seu@email.com">
+                           type="email" id="reg-email" wire:model.blur="email" placeholder="seu@email.com">
                     @error('email') <p class="lf-error show">{{ $message }}</p> @enderror
                 </div>
 
@@ -395,7 +395,7 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('password') has-error @enderror"
-                           type="password" id="reg-password" wire:model="password"
+                           type="password" id="reg-password" wire:model.blur="password"
                            placeholder="••••••••" style="padding-right:2.6rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
                     <button type="button" class="lf-eye" onclick="togglePw('reg-password','eye-show-pw','eye-hide-pw')" aria-label="Mostrar/ocultar">
                         <svg id="eye-show-pw" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
@@ -419,7 +419,7 @@
                         </svg>
                     </span>
                     <input class="lf-input @error('password_confirmation') has-error @enderror"
-                           type="password" id="reg-password-confirm" wire:model="password_confirmation"
+                           type="password" id="reg-password-confirm" wire:model.blur="password_confirmation"
                            placeholder="••••••••" style="padding-right:2.6rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
                     <button type="button" class="lf-eye" onclick="togglePw('reg-password-confirm','eye-show-pwc','eye-hide-pwc')" aria-label="Mostrar/ocultar">
                         <svg id="eye-show-pwc" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;">
@@ -459,7 +459,7 @@
                 <div class="lf-group">
                     <label class="lf-label" for="reg-document-number">Número do documento</label>
                     <input class="lf-input @error('documentNumber') has-error @enderror"
-                           type="text" id="reg-document-number" wire:model="documentNumber"
+                           type="text" id="reg-document-number" wire:model.blur="documentNumber"
                            style="padding-left:1rem;" placeholder="Ex.: 003456789LA042">
                     <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">Usado apenas para impedir contas duplicadas — não é partilhado publicamente.</p>
                     @error('documentNumber') <p class="lf-error show">{{ $message }}</p> @enderror
