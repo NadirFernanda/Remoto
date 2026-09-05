@@ -106,8 +106,9 @@
 .fsp-count strong { color: #0f172a;font-weight: 700; }
 .fsp-sort-pills { display: flex;gap: .38rem;flex-wrap: wrap; }
 .fsp-sort-pill {
-    padding: .34rem .82rem;border-radius: 20px;font-size: .73rem;font-weight: 600;
-    border: 1.5px solid #e2e8f0;color: #64748b;background: #fff;
+    min-height: 2.25rem;padding: .4rem .75rem;border-radius: .6875rem;
+    font-size: .78rem;font-weight: 700;line-height: 1.25rem;
+    border: 1px solid rgba(148,163,184,.28);color: #f1f5f9;background: transparent;
     cursor: pointer;transition: all .17s;white-space: nowrap;
 }
 .fsp-sort-pill:hover { border-color: #0055ff;color: #0055ff; }
@@ -242,7 +243,7 @@
 }
 .fsp-sort-pill {
     color: #cbd5e1;
-    background: #111c31;
+    background: transparent;
     border-color: rgba(148,163,184,.25);
 }
 .fsp-sort-pill:hover {
