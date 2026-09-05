@@ -235,21 +235,24 @@
     }
     .reg-wrap .reg-left .lf-group > .lf-icon,
     .reg-wrap .reg-left .lf-group > .lf-eye {
-        top: 4rem;
+        /* Position relative to the input, not to the whole label + field group. */
+        top: 3rem;
         z-index: 3;
     }
-    .reg-wrap .reg-left .lf-input {
+    html body .reg-wrap .reg-left .lf-input {
         color: #1e293b !important;
         -webkit-text-fill-color: #1e293b !important;
         caret-color: #0055ff !important;
         background: #fff !important;
         border-color: #dbe3ef !important;
+        line-height: 1.4;
     }
-    .reg-wrap .reg-left .lf-input::placeholder {
+    html body .reg-wrap .reg-left .lf-input::placeholder {
         color: #64748b !important;
+        -webkit-text-fill-color: #64748b !important;
         opacity: 1;
     }
-    .reg-wrap .reg-left .lf-input:focus {
+    html body .reg-wrap .reg-left .lf-input:focus {
         color: #1e293b !important;
         -webkit-text-fill-color: #1e293b !important;
         border-color: #0055ff !important;
