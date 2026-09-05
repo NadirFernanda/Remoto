@@ -242,10 +242,18 @@
     html body .reg-wrap .reg-left .lf-input {
         color: #1e293b !important;
         -webkit-text-fill-color: #1e293b !important;
+        text-shadow: none !important;
+        background-clip: border-box !important;
         caret-color: #0055ff !important;
         background: #fff !important;
         border-color: #dbe3ef !important;
         line-height: 1.4;
+    }
+    html body .reg-wrap .reg-left input.lf-input[type="text"],
+    html body .reg-wrap .reg-left input.lf-input[type="email"],
+    html body .reg-wrap .reg-left input.lf-input[type="password"] {
+        color: rgb(30, 41, 59) !important;
+        -webkit-text-fill-color: rgb(30, 41, 59) !important;
     }
     html body .reg-wrap .reg-left .lf-input::placeholder {
         color: #64748b !important;
