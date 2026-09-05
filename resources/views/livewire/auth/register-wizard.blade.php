@@ -247,7 +247,11 @@
         caret-color: #0055ff !important;
         background: #fff !important;
         border-color: #dbe3ef !important;
+        padding-left: 2.6rem !important;
         line-height: 1.4;
+    }
+    html body .reg-wrap .reg-left input.lf-input[type="password"] {
+        padding-right: 2.6rem !important;
     }
     html body .reg-wrap .reg-left input.lf-input[type="text"],
     html body .reg-wrap .reg-left input.lf-input[type="email"],
