@@ -67,9 +67,9 @@
             </div>
         </div>
 
-        <div class="bg-[#f8fafc] border border-[#e6f3fa] rounded-3xl shadow-xl p-8 md:p-10 mb-5 transition hover:shadow-2xl">
-            <h3 class="text-base font-extrabold text-[#0f172a] mb-2">Não encontrou a vaga certa?</h3>
-            <p class="text-[#475569] text-base leading-relaxed m-0">Envie o seu CV e carta de motivação através do <a href="{{ route('suporte', ['assunto' => 'Candidatura espontânea']) }}" class="text-[#0055ff] font-semibold hover:underline">formulário de suporte</a>. Guardamos o seu perfil e contactamos assim que surgir uma oportunidade adequada.</p>
+        <div class="bg-[#0d1424] border border-white/10 rounded-3xl shadow-xl p-8 md:p-10 mb-5 transition hover:shadow-2xl">
+            <h3 class="text-base font-extrabold text-[#f1f5f9] mb-2">Não encontrou a vaga certa?</h3>
+            <p class="text-[#cbd5e1] text-base leading-relaxed m-0">Envie o seu CV e carta de motivação através do <a href="{{ route('suporte', ['assunto' => 'Candidatura espontânea']) }}" class="text-[#5b8cff] font-semibold hover:underline">formulário de suporte</a>. Guardamos o seu perfil e contactamos assim que surgir uma oportunidade adequada.</p>
         </div>
 
     </div>
