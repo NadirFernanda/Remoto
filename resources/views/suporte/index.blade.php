@@ -2,6 +2,27 @@
 
 @section('content')
 <div class="pub-page" style="padding-top:0">
+    <style>
+        #support-form input:-webkit-autofill,
+        #support-form input:-webkit-autofill:hover,
+        #support-form input:-webkit-autofill:focus,
+        #support-form textarea:-webkit-autofill,
+        #support-form select:-webkit-autofill {
+            -webkit-text-fill-color: #0f172a;
+            -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
+            caret-color: #0f172a;
+        }
+        .support-field-error {
+            display: none;
+            color: #dc2626;
+            font-size: .8rem;
+            margin-top: .35rem;
+        }
+        .support-field-error.is-visible { display: block; }
+        #support-form .support-invalid {
+            border-color: #dc2626;
+        }
+    </style>
     <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:4rem;">
 
         <div class="pub-hero" style="margin-bottom:2.5rem;">
@@ -32,7 +53,7 @@
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa]">
             <h2 class="text-xl font-extrabold text-[#0f172a] mb-6">Enviar mensagem</h2>
 
-            <form method="POST" action="{{ route('suporte.enviar') }}" class="space-y-5" data-portuguese-validation>
+            <form id="support-form" method="POST" action="{{ route('suporte.enviar') }}" class="space-y-5" novalidate>
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -40,24 +61,23 @@
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Nome <span class="text-red-500">*</span></label>
                         <input type="text" name="nome" value="{{ old('nome', auth()->user()?->name) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
-                            placeholder="O seu nome completo" required maxlength="100"
-                            data-required-message="Indique o seu nome.">
+                            placeholder="O seu nome completo" maxlength="100">
+                        <p class="support-field-error @error('nome') is-visible @enderror" data-error-for="nome">@error('nome'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Email <span class="text-red-500">*</span></label>
                         <input type="email" name="email" value="{{ old('email', auth()->user()?->email) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
-                            placeholder="o.seu@email.com" required maxlength="150"
-                            data-required-message="Indique o seu email."
-                            data-type-message="Indique um email válido.">
+                            placeholder="o.seu@email.com" maxlength="150">
+                        <p class="support-field-error @error('email') is-visible @enderror" data-error-for="email">@error('email'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Assunto <span class="text-red-500">*</span></label>
-                    <select name="assunto" required
+                    <select name="assunto"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white"
-                        data-required-message="Selecione um assunto.">
+                        >
                         <option value="">Selecione um assunto</option>
                         <option value="Dúvida geral" @selected(old('assunto')=='Dúvida geral')>Dúvida geral</option>
                         <option value="Problema técnico" @selected(old('assunto')=='Problema técnico')>Problema técnico</option>
@@ -67,14 +87,15 @@
                         <option value="Reportar conteúdo" @selected(old('assunto')=='Reportar conteúdo')>Reportar conteúdo</option>
                         <option value="Outro" @selected(old('assunto')=='Outro')>Outro</option>
                     </select>
+                    <p class="support-field-error @error('assunto') is-visible @enderror" data-error-for="assunto">@error('assunto'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Mensagem <span class="text-red-500">*</span></label>
-                    <textarea name="mensagem" rows="6" required maxlength="2000"
+                    <textarea name="mensagem" rows="6" maxlength="2000"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition resize-none"
-                        placeholder="Descreva o seu problema ou dúvida em detalhe..."
-                        data-required-message="Escreva a sua mensagem.">{{ old('mensagem') }}</textarea>
+                        placeholder="Descreva o seu problema ou dúvida em detalhe...">{{ old('mensagem') }}</textarea>
+                    <p class="support-field-error @error('mensagem') is-visible @enderror" data-error-for="mensagem">@error('mensagem'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                 </div>
 
                 <button type="submit"
@@ -84,22 +105,49 @@
             </form>
             <script>
                 (() => {
-                    const form = document.querySelector('[data-portuguese-validation]');
+                    const form = document.getElementById('support-form');
                     if (!form) return;
 
-                    const fields = form.querySelectorAll('input, select, textarea');
+                    const fields = [...form.querySelectorAll('input, select, textarea')];
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                    const showError = (field, message) => {
+                        const error = form.querySelector(`[data-error-for="${field.name}"]`);
+                        if (!error) return;
+                        error.textContent = message;
+                        error.classList.add('is-visible');
+                        field.classList.add('support-invalid');
+                    };
+
+                    const clearError = (field) => {
+                        const error = form.querySelector(`[data-error-for="${field.name}"]`);
+                        if (error) error.classList.remove('is-visible');
+                        field.classList.remove('support-invalid');
+                    };
+
                     fields.forEach((field) => {
-                        field.addEventListener('invalid', () => {
-                            if (field.validity.valueMissing) {
-                                field.setCustomValidity(field.dataset.requiredMessage || 'Preencha este campo.');
-                            } else if (field.validity.typeMismatch) {
-                                field.setCustomValidity(field.dataset.typeMessage || 'Indique um valor válido.');
-                            } else {
-                                field.setCustomValidity('Verifique o valor indicado.');
+                        field.addEventListener('input', () => clearError(field));
+                        field.addEventListener('change', () => clearError(field));
+                    });
+
+                    form.addEventListener('submit', (event) => {
+                        let valid = true;
+                        fields.forEach((field) => {
+                            clearError(field);
+                            if (!field.value.trim()) {
+                                showError(field, 'Este campo é obrigatório.');
+                                valid = false;
+                            } else if (field.name === 'email' && !emailPattern.test(field.value.trim())) {
+                                showError(field, 'Indique um email válido.');
+                                valid = false;
                             }
                         });
-                        field.addEventListener('input', () => field.setCustomValidity(''));
-                        field.addEventListener('change', () => field.setCustomValidity(''));
+
+                        if (!valid) {
+                            event.preventDefault();
+                            const firstInvalid = form.querySelector('.support-invalid');
+                            if (firstInvalid) firstInvalid.focus();
+                        }
                     });
                 })();
             </script>
