@@ -73,6 +73,19 @@ Route::post('/suporte', function (\Illuminate\Http\Request $request) {
         'email'    => ['required', 'email', 'max:150'],
         'assunto'  => ['required', 'string', 'max:100'],
         'mensagem' => ['required', 'string', 'max:2000'],
+    ], [
+        'nome.required' => 'Indique o seu nome.',
+        'nome.string' => 'O nome indicado não é válido.',
+        'nome.max' => 'O nome não pode ter mais de 100 caracteres.',
+        'email.required' => 'Indique o seu email.',
+        'email.email' => 'Indique um email válido.',
+        'email.max' => 'O email não pode ter mais de 150 caracteres.',
+        'assunto.required' => 'Selecione um assunto.',
+        'assunto.string' => 'O assunto indicado não é válido.',
+        'assunto.max' => 'O assunto não pode ter mais de 100 caracteres.',
+        'mensagem.required' => 'Escreva a sua mensagem.',
+        'mensagem.string' => 'A mensagem indicada não é válida.',
+        'mensagem.max' => 'A mensagem não pode ter mais de 2.000 caracteres.',
     ]);
 
     \Illuminate\Support\Facades\Mail::raw(

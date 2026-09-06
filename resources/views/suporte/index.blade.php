@@ -39,13 +39,13 @@
                     <div>
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Nome <span class="text-red-500">*</span></label>
                         <input type="text" name="nome" value="{{ old('nome', auth()->user()?->name) }}"
-                            class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#00baff] transition"
+                            class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
                             placeholder="O seu nome completo" required maxlength="100">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Email <span class="text-red-500">*</span></label>
                         <input type="email" name="email" value="{{ old('email', auth()->user()?->email) }}"
-                            class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#00baff] transition"
+                            class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
                             placeholder="o.seu@email.com" required maxlength="150">
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Assunto <span class="text-red-500">*</span></label>
                     <select name="assunto" required
-                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#00baff] transition bg-white">
+                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white">
                         <option value="">Selecione um assunto</option>
                         <option value="Dúvida geral" @selected(old('assunto')=='Dúvida geral')>Dúvida geral</option>
                         <option value="Problema técnico" @selected(old('assunto')=='Problema técnico')>Problema técnico</option>
@@ -68,7 +68,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Mensagem <span class="text-red-500">*</span></label>
                     <textarea name="mensagem" rows="6" required maxlength="2000"
-                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#00baff] transition resize-none"
+                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition resize-none"
                         placeholder="Descreva o seu problema ou dúvida em detalhe...">{{ old('mensagem') }}</textarea>
                 </div>
 
@@ -81,25 +81,25 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="mb-3 flex justify-center text-[#00baff]">
+                <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'mail', 'class' => 'w-8 h-8'])
                 </div>
                 <div class="font-bold text-[#0f172a] mb-1">Email</div>
-                <a href="mailto:contacto@24horas.ao" class="text-[#00baff] font-semibold text-sm hover:underline">contacto@24horas.ao</a>
+                <a href="mailto:contacto@24horas.ao" class="text-[#0055ff] font-semibold text-sm hover:underline">contacto@24horas.ao</a>
             </div>
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="mb-3 flex justify-center text-[#00baff]">
+                <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'clock', 'class' => 'w-8 h-8'])
                 </div>
                 <div class="font-bold text-[#0f172a] mb-1">Tempo de resposta</div>
                 <p class="text-[#64748b] text-sm m-0">Respondemos em até 24 horas úteis</p>
             </div>
             <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
-                <div class="mb-3 flex justify-center text-[#00baff]">
+                <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'file-text', 'class' => 'w-8 h-8'])
                 </div>
                 <div class="font-bold text-[#0f172a] mb-1">Como funciona</div>
-                <a href="{{ route('sobre.como-funciona') }}" class="text-[#00baff] font-semibold text-sm hover:underline">Ver guia rápido</a>
+                <a href="{{ route('sobre.como-funciona') }}" class="text-[#0055ff] font-semibold text-sm hover:underline">Ver guia rápido</a>
             </div>
         </div>
 
