@@ -50,22 +50,22 @@
         </div>
         @endif
 
-        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa]">
-            <h2 class="text-xl font-extrabold text-[#0f172a] mb-6">Enviar mensagem</h2>
+        <div class="rounded-3xl shadow-xl p-8 md:p-10 border border-white/10" style="background:#0d1424;">
+            <h2 class="text-xl font-extrabold text-[#f1f5f9] mb-6">Enviar mensagem</h2>
 
             <form id="support-form" method="POST" action="{{ route('suporte.enviar') }}" class="space-y-5" novalidate>
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                        <label class="block text-sm font-semibold text-[#374151] mb-1">Nome <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-[#cbd5e1] mb-1">Nome <span class="text-red-500">*</span></label>
                         <input type="text" name="nome" value="{{ old('nome', auth()->user()?->name) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
                             placeholder="O seu nome completo" maxlength="100">
                         <p class="support-field-error @error('nome') is-visible @enderror" data-error-for="nome">@error('nome'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-[#374151] mb-1">Email <span class="text-red-500">*</span></label>
+                        <label class="block text-sm font-semibold text-[#cbd5e1] mb-1">Email <span class="text-red-500">*</span></label>
                         <input type="email" name="email" value="{{ old('email', auth()->user()?->email) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
                             placeholder="o.seu@email.com" maxlength="150">
@@ -74,7 +74,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-[#374151] mb-1">Assunto <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-semibold text-[#cbd5e1] mb-1">Assunto <span class="text-red-500">*</span></label>
                     <select name="assunto"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white"
                         >
@@ -96,7 +96,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-[#374151] mb-1">Mensagem <span class="text-red-500">*</span></label>
+                    <label class="block text-sm font-semibold text-[#cbd5e1] mb-1">Mensagem <span class="text-red-500">*</span></label>
                     <textarea name="mensagem" rows="6" maxlength="2000"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition resize-none"
                         placeholder="Descreva o seu problema ou dúvida em detalhe...">{{ old('mensagem') }}</textarea>
@@ -159,25 +159,25 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
-            <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
+            <div class="rounded-2xl border border-white/10 shadow p-6 text-center" style="background:#111c31;">
                 <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'mail', 'class' => 'w-8 h-8'])
                 </div>
-                <div class="font-bold text-[#0f172a] mb-1">Email</div>
+                <div class="font-bold text-[#f1f5f9] mb-1">Email</div>
                 <a href="mailto:contacto@24horas.ao" class="text-[#0055ff] font-semibold text-sm hover:underline">contacto@24horas.ao</a>
             </div>
-            <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
+            <div class="rounded-2xl border border-white/10 shadow p-6 text-center" style="background:#111c31;">
                 <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'clock', 'class' => 'w-8 h-8'])
                 </div>
-                <div class="font-bold text-[#0f172a] mb-1">Tempo de resposta</div>
-                <p class="text-[#64748b] text-sm m-0">Respondemos em até 24 horas úteis</p>
+                <div class="font-bold text-[#f1f5f9] mb-1">Tempo de resposta</div>
+                <p class="text-[#cbd5e1] text-sm m-0">Respondemos em até 24 horas úteis</p>
             </div>
-            <div class="bg-white rounded-2xl border border-[#e6f3fa] shadow p-6 text-center">
+            <div class="rounded-2xl border border-white/10 shadow p-6 text-center" style="background:#111c31;">
                 <div class="mb-3 flex justify-center text-[#0055ff]">
                     @include('components.icon', ['name' => 'file-text', 'class' => 'w-8 h-8'])
                 </div>
-                <div class="font-bold text-[#0f172a] mb-1">Como funciona</div>
+                <div class="font-bold text-[#f1f5f9] mb-1">Como funciona</div>
                 <a href="{{ route('sobre.como-funciona') }}" class="text-[#0055ff] font-semibold text-sm hover:underline">Ver guia rápido</a>
             </div>
         </div>
