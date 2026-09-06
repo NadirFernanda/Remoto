@@ -296,11 +296,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function avatarUrl()
     {
-        if ($this->profile_photo) {
+        if (is_string($this->profile_photo) && trim($this->profile_photo) !== '') {
             return Storage::url($this->profile_photo);
         }
         // legacy support: Profile.avatar
-        if ($this->profile && isset($this->profile->avatar) && $this->profile->avatar) {
+        if ($this->profile && is_string($this->profile->avatar) && trim($this->profile->avatar) !== '') {
             return Storage::disk('public')->url($this->profile->avatar);
         }
         return asset('img/default-avatar.svg');
@@ -308,7 +308,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function coverPhotoUrl(): ?string
     {
-        return $this->cover_photo ? Storage::url($this->cover_photo) : null;
+        return is_string($this->cover_photo) && trim($this->cover_photo) !== ''
+            ? Storage::url($this->cover_photo)
+            : null;
     }
 
     // ── Admin Relations ──────────────────────────────────────────────────────

@@ -169,10 +169,12 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
             @foreach($user->portfolios as $item)
                 @php
-                    $mediaUrl = (Str::startsWith($item->media_path, 'http') || Str::startsWith($item->media_path, '/'))
-                        ? $item->media_path
-                        : \Illuminate\Support\Facades\Storage::disk('public')->url($item->media_path);
+                    $mediaPath = is_string($item->media_path) ? trim($item->media_path) : '';
+                    $mediaUrl = (Str::startsWith($mediaPath, 'http') || Str::startsWith($mediaPath, '/'))
+                        ? $mediaPath
+                        : ($mediaPath !== '' ? \Illuminate\Support\Facades\Storage::disk('public')->url($mediaPath) : null);
                 @endphp
+                @if($mediaUrl)
                 <div class="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
                     <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
                         <img src="{{ $mediaUrl }}" alt="portfolio" loading="lazy" decoding="async" class="w-full h-32 object-cover">
@@ -186,6 +188,7 @@
                     </div>
                     @endif
                 </div>
+                @endif
             @endforeach
         </div>
     </div>
