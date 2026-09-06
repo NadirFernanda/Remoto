@@ -71,14 +71,15 @@
 .fl-body {
     max-width: 1220px;margin: 0 auto;
     padding: 1.35rem 1.25rem 2.5rem;
+    background: #0d1424;
 }
 .fl-sortbar {
     display: flex;align-items: center;
     justify-content: space-between;gap: 1rem;
     margin-bottom: .9rem;flex-wrap: wrap;
 }
-.fl-count { font-size: .82rem;color: #64748b; }
-.fl-count strong { color: #0f172a;font-weight: 700; }
+.fl-count { font-size: .82rem;color: #94a3b8; }
+.fl-count strong { color: #f8fafc;font-weight: 700; }
 /* ── Cards ─────────────────────────────────────────────── */
 .fsp-grid {
     display: grid;
@@ -86,25 +87,27 @@
     gap: 1.1rem;
 }
 .fsp-card {
-    background: #fff;border-radius: 18px;
-    border: 1.5px solid #eef2f7;overflow: hidden;
-    display: flex;flex-direction: column;
+    background: #0f172a;border-radius: 18px;
+    border: 1.5px solid rgba(148,163,184,.18);
+    overflow: visible;display: flex;flex-direction: column;
     transition: box-shadow .22s,border-color .22s,transform .22s;cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
 }
 .fsp-card:hover {
-    box-shadow: 0 10px 32px rgba(0,80,255,.14);
-    border-color: #ade8ff;transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(0,80,255,.18);
+    border-color: rgba(96,165,250,.7);transform: translateY(-3px);
 }
 .fsp-card-cover {
 height: 70px;flex-shrink: 0;position: relative;
-background: #0055ff;
-overflow: hidden;
+background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+overflow: visible;
 }.fsp-card-avatar {
-    position: absolute;bottom: -22px;left: 15px;z-index: 1;
+    position: absolute;bottom: -24px;left: 15px;z-index: 2;
 }
 .fsp-card-avatar img {
-    width: 50px;height: 50px;border-radius: 50%;object-fit: cover;
-    border: 3px solid #fff;box-shadow: 0 2px 10px rgba(0,0,0,.18);display: block;
+    width: 54px;height: 54px;border-radius: 50%;object-fit: cover;
+    border: 3px solid #0f172a;box-shadow: 0 4px 12px rgba(15,23,42,.2);display: block;
+    background: #e2e8f0;
 }
 .fsp-avail-dot {
     position: absolute;bottom: 2px;right: 2px;
@@ -120,29 +123,30 @@ overflow: hidden;
 .fsp-card-body {
     padding: 30px 15px 15px;flex: 1;
     display: flex;flex-direction: column;gap: 8px;
+    background: #0f172a;
 }
 .fsp-card-name {
-    font-size: .92rem;font-weight: 800;color: #0f172a;text-decoration: none;
+    font-size: .92rem;font-weight: 800;color: #f8fafc;text-decoration: none;
     display: block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
     line-height: 1.2;
 }
-.fsp-card-name:hover { color: #0055ff; }
+.fsp-card-name:hover { color: #bfdbfe; }
 .fsp-card-headline {
-    font-size: .73rem;color: #64748b;margin: 0;
+    font-size: .73rem;color: #cbd5e1;margin: 0;
     white-space: nowrap;overflow: hidden;text-overflow: ellipsis;line-height: 1.3;
 }
 .fsp-stars { display: flex;align-items: center;gap: .28rem; }
 .fsp-star-row { display: flex;gap: 1px; }
 .fsp-skills { display: flex;flex-wrap: wrap;gap: .26rem; }
 .fsp-skill-tag {
-    background: #f0f9ff;color: #0369a1;font-size: .66rem;
-    font-weight: 600;padding: .17rem .52rem;border-radius: 20px;border: 1px solid #bae6fd;
+    background: rgba(59,130,246,.16);color: #dbeafe;font-size: .66rem;
+    font-weight: 600;padding: .17rem .52rem;border-radius: 20px;border: 1px solid rgba(96,165,250,.5);
 }
 .fsp-card-footer {
-    margin-top: auto;padding-top: .65rem;border-top: 1px solid #f1f5f9;
+    margin-top: auto;padding-top: .65rem;border-top: 1px solid rgba(148,163,184,.16);
     display: flex;align-items: center;justify-content: space-between;gap: .5rem;
 }
-.fsp-rate { font-size: .98rem;font-weight: 900;color: #0f172a; }
+.fsp-rate { font-size: .98rem;font-weight: 900;color: #f8fafc; }
 .fsp-rate-unit { font-size: .66rem;color: #94a3b8;font-weight: 400; }
 .fsp-btn-view {
     display: inline-flex;align-items: center;justify-content: center;
