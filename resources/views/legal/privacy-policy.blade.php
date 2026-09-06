@@ -2,11 +2,15 @@
 
 @section('content')
 <div class="pub-page" style="padding-top:0">
-<div class="max-w-3xl mx-auto px-4 py-10 md:py-14 text-[#cbd5e1]">
-    <h1 class="text-3xl font-bold text-[#f1f5f9] mb-2">Política de Privacidade</h1>
-    <p class="text-sm text-[#94a3b8] mb-10">Última actualização: março de 2026</p>
+<div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:4rem;">
+    <div class="pub-hero" style="margin-bottom:2.5rem;">
+        <div class="pub-hero-label">Legal</div>
+        <h1 class="pub-hero-title">Política de Privacidade</h1>
+        <p class="pub-hero-sub">Saiba como recolhemos, utilizamos e protegemos os seus dados pessoais.</p>
+        <p class="text-sm text-[#94a3b8] mt-3">Última actualização: março de 2026</p>
+    </div>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">1. Responsável pelo tratamento</h2>
         <p>
             O responsável pelo tratamento dos seus dados pessoais é a
@@ -18,7 +22,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">2. Dados recolhidos</h2>
         <ul class="list-disc pl-5 space-y-1">
             <li>Dados de identificação: nome, endereço de e-mail, número de telefone.</li>
@@ -28,7 +32,7 @@
         </ul>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">3. Finalidade e base legal</h2>
         <ul class="list-disc pl-5 space-y-1">
             <li><strong class="text-[#f1f5f9]">Execução contratual</strong> — prestação dos serviços da plataforma (Art. 6.º, n.º 1, al. b) RGPD / Art. 7.º Lei 22/11).</li>
@@ -38,7 +42,7 @@
         </ul>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">4. Cookies</h2>
         <p class="mb-2">Utilizamos dois tipos de cookies:</p>
         <ul class="list-disc pl-5 space-y-1">
@@ -48,21 +52,21 @@
         <p class="mt-2">Pode alterar as suas preferências a qualquer momento clicando em «Apenas essenciais» no banner de cookies.</p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">5. Partilha de dados</h2>
         <p>
             Os seus dados não são vendidos a terceiros. Podem ser partilhados com prestadores de serviços técnicos (processamento de pagamentos, envio de e-mails) sujeitos a contratos de tratamento de dados compatíveis com a legislação aplicável.
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">6. Transferências internacionais</h2>
         <p>
             Alguns dos nossos fornecedores estão localizados fora de Angola. Nestas situações garantimos salvaguardas adequadas (cláusulas contratuais-tipo ou decisão de adequação da Comissão Europeia).
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">7. Os seus direitos</h2>
         <p class="mb-2">Ao abrigo da Lei n.º 22/11 e do RGPD, tem direito a:</p>
         <ul class="list-disc pl-5 space-y-1">
@@ -79,14 +83,14 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">8. Conservação dos dados</h2>
         <p>
             Os dados são conservados pelo período necessário à prestação dos serviços e, posteriormente, pelo período mínimo exigido por obrigações legais (regra geral, 5 anos para dados fiscais).
         </p>
     </section>
 
-    <section>
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 border border-white/10" style="background:#111c31;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">9. Actualizações</h2>
         <p>
             Esta política pode ser actualizada periodicamente. Em caso de alterações materiais, notificamo-lo por e-mail ou através de um aviso na plataforma.

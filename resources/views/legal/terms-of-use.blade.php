@@ -2,11 +2,15 @@
 
 @section('content')
 <div class="pub-page" style="padding-top:0">
-<div class="max-w-3xl mx-auto px-4 py-10 md:py-14 text-[#cbd5e1]">
-    <h1 class="text-3xl font-bold text-[#f1f5f9] mb-2">Termos de Uso</h1>
-    <p class="text-sm text-[#94a3b8] mb-10">Última actualização: março de 2026</p>
+<div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:4rem;">
+    <div class="pub-hero" style="margin-bottom:2.5rem;">
+        <div class="pub-hero-label">Legal</div>
+        <h1 class="pub-hero-title">Termos de Uso</h1>
+        <p class="pub-hero-sub">Conheça as regras para utilizar a plataforma 24 Horas Remoto.</p>
+        <p class="text-sm text-[#94a3b8] mt-3">Última actualização: março de 2026</p>
+    </div>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">1. Aceitação dos termos</h2>
         <p>
             Ao aceder ou utilizar a plataforma <strong class="text-[#f1f5f9]">24h_Remoto</strong> ("<strong>Plataforma</strong>"),
@@ -16,7 +20,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">2. Descrição do serviço</h2>
         <p>
             A 24h_Remoto é um marketplace digital que conecta clientes angolanos e freelancers para a prestação de
@@ -25,7 +29,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">3. Elegibilidade</h2>
         <ul class="list-disc pl-5 space-y-1">
             <li>Para criar uma conta é necessário ter 18 anos ou mais.</li>
@@ -35,7 +39,7 @@
         </ul>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">4. Responsabilidades do utilizador</h2>
         <ul class="list-disc pl-5 space-y-1">
             <li>Utilizar a plataforma de forma lícita e de boa-fé.</li>
@@ -46,7 +50,7 @@
         </ul>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">5. Pagamentos e comissões</h2>
         <p class="mb-2">
             Todos os pagamentos são processados através da plataforma com recurso a sistema de <em>escrow</em>
@@ -58,7 +62,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">6. Disputa e resolução de conflitos</h2>
         <p>
             Em caso de disputa entre cliente e freelancer, ambas as partes podem activar o Centro de Disputas
@@ -67,7 +71,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">7. Propriedade intelectual</h2>
         <p>
             O trabalho entregue pelo freelancer é, salvo acordo expresso em contrário, propriedade do cliente
@@ -76,7 +80,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">8. Conteúdo proibido</h2>
         <ul class="list-disc pl-5 space-y-1">
             <li>Conteúdo ilegal, pornográfico, difamatório ou discriminatório.</li>
@@ -86,7 +90,7 @@
         </ul>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">9. Suspensão e encerramento de conta</h2>
         <p>
             A 24h_Remoto pode suspender ou encerrar contas que violem estes termos, sem aviso prévio em casos
@@ -95,7 +99,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">10. Limitação de responsabilidade</h2>
         <p>
             A 24h_Remoto não se responsabiliza por perdas ou danos resultantes de falhas técnicas,
@@ -105,7 +109,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 mb-5 border border-white/10" style="background:#0d1424;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">11. Alterações aos termos</h2>
         <p>
             Reservamo-nos o direito de actualizar estes Termos de Uso a qualquer momento. As alterações
@@ -114,7 +118,7 @@
         </p>
     </section>
 
-    <section class="mb-8">
+    <section class="rounded-3xl shadow-xl p-7 md:p-8 border border-white/10" style="background:#111c31;">
         <h2 class="text-xl font-semibold text-[#f1f5f9] mb-3">12. Contacto</h2>
         <p>
             Para questões relativas a estes termos, contacte-nos através de
