@@ -208,11 +208,35 @@
     max-width: 1200px;
     background: #0d1424;
 }
+.fsp-body {
+    min-height: 100%;
+}
 .fsp-filter-card,
 .fsp-card {
     background: #111c31;
     border-color: rgba(148,163,184,.18);
     box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.fsp-card {
+    overflow: visible;
+}
+.fsp-card-cover {
+    overflow: visible;
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+}
+.fsp-card-avatar {
+    bottom: -24px;
+    z-index: 2;
+}
+.fsp-card-avatar img {
+    width: 54px;
+    height: 54px;
+    border-color: #111c31;
+    box-shadow: 0 4px 12px rgba(15,23,42,.2);
+    background: #e2e8f0;
+}
+.fsp-card-body {
+    background: #111c31;
 }
 .fsp-filter-head,
 .fsp-filter-group,
@@ -230,6 +254,9 @@
 .fsp-card-headline,
 .fsp-rate-unit {
     color: #94a3b8;
+}
+.fsp-card-headline {
+    color: #cbd5e1;
 }
 .fsp-input,
 .fsp-select {
