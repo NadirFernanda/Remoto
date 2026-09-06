@@ -12,11 +12,11 @@
         body { margin:0; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#021018; font-family:'Inter',system-ui,sans-serif; padding:1.5rem; }
         .err-box { text-align:center; max-width:460px; width:100%; }
         .err-icon { font-size:3.5rem; margin-bottom:1.25rem; }
-        .err-code { font-size:5rem; font-weight:900; color:#00baff; line-height:1; margin:0 0 .5rem; }
+        .err-code { font-size:5rem; font-weight:900; color:#60a5fa; line-height:1; margin:0 0 .5rem; }
         .err-title { font-size:1.85rem; font-weight:900; color:#f1f5f9; margin:0 0 .75rem; }
         .err-msg { color:#94a3b8; font-size:1rem; line-height:1.6; margin:0 0 2rem; }
-        .err-btn-primary { display:inline-block; background:#00baff; color:#021018; padding:.75rem 2rem; border-radius:10px; font-weight:700; font-size:1rem; text-decoration:none; transition:background .2s; }
-        .err-btn-primary:hover { background:#0099dd; }
+        .err-btn-primary { display:inline-block; background:#2563eb; color:#fff; padding:.75rem 2rem; border-radius:10px; font-weight:700; font-size:1rem; text-decoration:none; transition:background .2s; }
+        .err-btn-primary:hover { background:#1d4ed8; }
         .err-btn-home { display:inline-block; margin-top:1rem; color:#64748b; font-size:.875rem; text-decoration:none; }
         .err-btn-home:hover { color:#94a3b8; }
     </style>

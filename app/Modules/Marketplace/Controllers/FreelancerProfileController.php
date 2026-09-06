@@ -12,6 +12,12 @@ class FreelancerProfileController extends Controller
         $viewer = auth()->user();
         $isOwnerOrAdmin = $viewer && ($viewer->id === $user->id || $viewer->role === 'admin');
 
+        // A direct URL can target any user ID; client accounts without a
+        // freelancer profile must not enter this view.
+        if ($user->role !== 'freelancer' && !$user->freelancerProfile) {
+            return view('profile-unavailable');
+        }
+
         if ($user->kyc_status !== 'verified' && !$isOwnerOrAdmin) {
             return view('profile-unavailable');
         }

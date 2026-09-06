@@ -71,7 +71,7 @@
 }
 
 /* ── Sidebar ─────────────────────────────────────────── */
-.fsp-aside { width: 244px;flex-shrink: 0;position: sticky;top: 76px; }
+.fsp-aside { width: 244px;flex-shrink: 0;position: static; }
 .fsp-filter-card {
     background: #fff;border-radius: 18px;
     border: 1px solid #e8edf3;
@@ -207,9 +207,6 @@
 .fsp-body {
     max-width: 1200px;
     background: #0d1424;
-}
-.fsp-body {
-    min-height: 100%;
 }
 .fsp-filter-card,
 .fsp-card {
