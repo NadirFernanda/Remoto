@@ -49,7 +49,7 @@
                     <li><a href="{{ route('suporte') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Suporte</a></li>
                     <li><a href="{{ route('legal.privacy') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Política de privacidade</a></li>
                     <li><a href="{{ route('legal.terms') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Termos de uso</a></li>
-                    <li><a href="{{ route('como-funciona') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Como funciona</a></li>
+                    <li><a href="{{ route('sobre.como-funciona') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Como funciona</a></li>
                 </ul>
             </div>
         </div>
