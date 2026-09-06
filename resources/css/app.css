@@ -2558,6 +2558,31 @@ html body .chat-window .chat-message-mine-time {
 
 .freelancer-profile-card {
     position: relative;
+    overflow: visible !important;
+}
+
+.freelancer-profile-card > .freelancer-profile-cover {
+    overflow: hidden;
+    border-radius: 1.15rem 1.15rem 0 0;
+}
+
+.freelancer-profile-avatar {
+    overflow: visible !important;
+    position: relative;
+    z-index: 6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.freelancer-profile-avatar-image {
+    object-fit: cover;
+    object-position: center center;
+}
+
+.freelancer-profile-card > .px-5 {
+    position: relative;
+    z-index: 4;
 }
 
 .freelancer-profile-card::before {
@@ -2579,6 +2604,18 @@ html body .chat-window .chat-message-mine-time {
 .freelancer-profile-cover img {
     display: block;
     filter: saturate(.9) brightness(.82);
+}
+
+.freelancer-profile-card .px-5 .-mt-10,
+.freelancer-profile-card .px-5 .sm\:-mt-12 {
+    position: relative;
+    z-index: 5;
+}
+
+.freelancer-profile-card .px-5 .-mt-10 > div:first-child,
+.freelancer-profile-card .px-5 .sm\:-mt-12 > div:first-child {
+    position: relative;
+    z-index: 6;
 }
 
 .freelancer-profile-card .bg-white {
