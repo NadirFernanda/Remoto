@@ -24,15 +24,15 @@
             <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-6">Camadas de protecção técnica</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <div class="bg-[#f8fafc] rounded-2xl p-6 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-2 text-lg">HTTPS / TLS</div>
+                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">HTTPS / TLS</div>
                     <p class="text-[#64748b] text-base leading-relaxed m-0">Toda a comunicação entre o seu browser e os nossos servidores é cifrada com TLS 1.3.</p>
                 </div>
                 <div class="bg-[#f8fafc] rounded-2xl p-6 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-2 text-lg">Autenticação 2FA</div>
+                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">Autenticação 2FA</div>
                     <p class="text-[#64748b] text-base leading-relaxed m-0">Activa a verificação em dois passos para proteger o acesso à sua conta mesmo que a palavra-passe seja comprometida.</p>
                 </div>
                 <div class="bg-[#f8fafc] rounded-2xl p-6 border border-[#e2e8f0]">
-                    <div class="text-[#00baff] font-extrabold mb-2 text-lg">Logs de auditoria</div>
+                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">Logs de auditoria</div>
                     <p class="text-[#64748b] text-base leading-relaxed m-0">Cada acção crítica (login, transferência, alteração de dados) fica registada com timestamp e endereço IP para rastreabilidade.</p>
                 </div>
             </div>
