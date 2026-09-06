@@ -13,26 +13,26 @@
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <h2 class="text-xl md:text-2xl font-extrabold text-[#0f172a] mb-4">Por que trabalhar na 24 Horas Remoto?</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#0055ff] font-extrabold mb-1 flex items-center gap-2">
+                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
+                    <div class="text-[#5b8cff] font-extrabold mb-2 flex items-start gap-2">
                         @include('components.icon', ['name' => 'sparkles', 'class' => 'w-4 h-4'])
                         Missão com impacto
                     </div>
-                    <p class="text-[#64748b] text-base m-0 leading-relaxed">O seu trabalho muda directamente a vida de freelancers e empresas angolanas.</p>
+                    <p class="text-[#cbd5e1] text-sm m-0 leading-relaxed">O seu trabalho muda directamente a vida de freelancers e empresas angolanas.</p>
                 </div>
-                <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#0055ff] font-extrabold mb-1 flex items-center gap-2">
+                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
+                    <div class="text-[#5b8cff] font-extrabold mb-2 flex items-start gap-2">
                         @include('components.icon', ['name' => 'globe', 'class' => 'w-4 h-4'])
                         100% Remoto
                     </div>
-                    <p class="text-[#64748b] text-base m-0 leading-relaxed">Trabalhe de qualquer lugar de Angola — ou do mundo — com flexibilidade total.</p>
+                    <p class="text-[#cbd5e1] text-sm m-0 leading-relaxed">Trabalhe de qualquer lugar de Angola — ou do mundo — com flexibilidade total.</p>
                 </div>
-                <div class="bg-[#f8fafc] rounded-xl p-5 border border-[#e2e8f0]">
-                    <div class="text-[#0055ff] font-extrabold mb-1 flex items-center gap-2">
+                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
+                    <div class="text-[#5b8cff] font-extrabold mb-2 flex items-start gap-2">
                         @include('components.icon', ['name' => 'chart', 'class' => 'w-4 h-4'])
                         Crescimento acelerado
                     </div>
-                    <p class="text-[#64748b] text-base m-0 leading-relaxed">Equipa pequena, decisões rápidas, visibilidade real do seu trabalho desde o primeiro dia.</p>
+                    <p class="text-[#cbd5e1] text-sm m-0 leading-relaxed">Equipa pequena, decisões rápidas, visibilidade real do seu trabalho desde o primeiro dia.</p>
                 </div>
             </div>
         </div>
