@@ -27,7 +27,7 @@
             <h4>Para Clientes</h4>
             <ul>
                 <li><a href="/register">Criar conta gratuita</a></li>
-                <li><a href="{{ route('public.projects') }}">Publicar projecto</a></li>
+                <li><a href="{{ route('public.projects') }}">Projectos disponíveis</a></li>
                 <li><a href="{{ route('freelancers.index') }}">Encontrar freelancers</a></li>
                 <li><a href="{{ route('freelancers.search') }}">Pesquisa avançada</a></li>
                 <li><a href="/login">Entrar</a></li>

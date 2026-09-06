@@ -1,3 +1,8 @@
+<style>
+    .site-header div[style*="background:#0b1220"] {
+        background: rgba(11, 18, 32, .35) !important;
+    }
+</style>
 <header x-data="{open:false, scrolled:false}" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
     <div class="header-container px-4" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
 
@@ -72,7 +77,7 @@
                                     <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Profissionais por habilidade</p>
                                     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
                                         <a href="{{ route('freelancers.search', ['skill' => 'UI/UX Design,Figma,Adobe Photoshop,Adobe Illustrator']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
-                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;background:#0b1220;"></div></div>
+                                            <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;                                            background:rgba(11,18,32,.35);"></div></div>
                                             <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Designers Gráficos</div>
                                         </a>
                                         <a href="{{ route('freelancers.search', ['skill' => 'WordPress,Laravel,PHP,Node.js,React,HTML,CSS']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">

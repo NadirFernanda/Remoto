@@ -10,7 +10,7 @@
             <p class="pub-hero-sub">Encontre rapidamente qualquer página e funcionalidade da plataforma 24 Horas Remoto.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             <div class="rounded-3xl shadow-xl p-7 md:p-8 border border-white/10 transition hover:shadow-2xl" style="background:#0d1424;">
                 <h2 class="text-base font-extrabold text-[#5b8cff] mb-4 uppercase tracking-wide">Público</h2>
                 <ul class="flex flex-col gap-2">
@@ -23,8 +23,8 @@
             <div class="rounded-3xl shadow-xl p-7 md:p-8 border border-white/10 transition hover:shadow-2xl" style="background:#0d1424;">
                 <h2 class="text-base font-extrabold text-[#5b8cff] mb-4 uppercase tracking-wide">Conta</h2>
                 <ul class="flex flex-col gap-2">
-                    <li><a href="/login" class="text-[#cbd5e1] text-sm hover:text-white transition">Entrar</a></li>
                     <li><a href="/register" class="text-[#cbd5e1] text-sm hover:text-white transition">Criar conta</a></li>
+                    <li><a href="/login" class="text-[#cbd5e1] text-sm hover:text-white transition">Entrar</a></li>
                     <li><a href="{{ route('dashboard') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Painel do utilizador</a></li>
                 </ul>
             </div>
@@ -41,6 +41,15 @@
                     <li><a href="{{ route('sobre.premios') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Prémios</a></li>
                     <li><a href="{{ route('sobre.comunicados') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Comunicados de imprensa</a></li>
                     <li><a href="{{ route('sobre.carreiras') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Carreiras</a></li>
+                </ul>
+            </div>
+            <div class="rounded-3xl shadow-xl p-7 md:p-8 border border-white/10 transition hover:shadow-2xl" style="background:#0d1424;">
+                <h2 class="text-base font-extrabold text-[#5b8cff] mb-4 uppercase tracking-wide">Ajuda e legal</h2>
+                <ul class="flex flex-col gap-2">
+                    <li><a href="{{ route('suporte') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Suporte</a></li>
+                    <li><a href="{{ route('legal.privacy') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Política de privacidade</a></li>
+                    <li><a href="{{ route('legal.terms') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Termos de uso</a></li>
+                    <li><a href="{{ route('como-funciona') }}" class="text-[#cbd5e1] text-sm hover:text-white transition">Como funciona</a></li>
                 </ul>
             </div>
         </div>
