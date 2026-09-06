@@ -32,7 +32,7 @@
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 border border-[#e6f3fa]">
             <h2 class="text-xl font-extrabold text-[#0f172a] mb-6">Enviar mensagem</h2>
 
-            <form method="POST" action="{{ route('suporte.enviar') }}" class="space-y-5">
+            <form method="POST" action="{{ route('suporte.enviar') }}" class="space-y-5" data-portuguese-validation>
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -40,20 +40,24 @@
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Nome <span class="text-red-500">*</span></label>
                         <input type="text" name="nome" value="{{ old('nome', auth()->user()?->name) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
-                            placeholder="O seu nome completo" required maxlength="100">
+                            placeholder="O seu nome completo" required maxlength="100"
+                            data-required-message="Indique o seu nome.">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-[#374151] mb-1">Email <span class="text-red-500">*</span></label>
                         <input type="email" name="email" value="{{ old('email', auth()->user()?->email) }}"
                             class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition"
-                            placeholder="o.seu@email.com" required maxlength="150">
+                            placeholder="o.seu@email.com" required maxlength="150"
+                            data-required-message="Indique o seu email."
+                            data-type-message="Indique um email válido.">
                     </div>
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Assunto <span class="text-red-500">*</span></label>
                     <select name="assunto" required
-                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white">
+                        class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white"
+                        data-required-message="Selecione um assunto.">
                         <option value="">Selecione um assunto</option>
                         <option value="Dúvida geral" @selected(old('assunto')=='Dúvida geral')>Dúvida geral</option>
                         <option value="Problema técnico" @selected(old('assunto')=='Problema técnico')>Problema técnico</option>
@@ -69,7 +73,8 @@
                     <label class="block text-sm font-semibold text-[#374151] mb-1">Mensagem <span class="text-red-500">*</span></label>
                     <textarea name="mensagem" rows="6" required maxlength="2000"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition resize-none"
-                        placeholder="Descreva o seu problema ou dúvida em detalhe...">{{ old('mensagem') }}</textarea>
+                        placeholder="Descreva o seu problema ou dúvida em detalhe..."
+                        data-required-message="Escreva a sua mensagem.">{{ old('mensagem') }}</textarea>
                 </div>
 
                 <button type="submit"
@@ -77,6 +82,27 @@
                     Enviar mensagem
                 </button>
             </form>
+            <script>
+                (() => {
+                    const form = document.querySelector('[data-portuguese-validation]');
+                    if (!form) return;
+
+                    const fields = form.querySelectorAll('input, select, textarea');
+                    fields.forEach((field) => {
+                        field.addEventListener('invalid', () => {
+                            if (field.validity.valueMissing) {
+                                field.setCustomValidity(field.dataset.requiredMessage || 'Preencha este campo.');
+                            } else if (field.validity.typeMismatch) {
+                                field.setCustomValidity(field.dataset.typeMessage || 'Indique um valor válido.');
+                            } else {
+                                field.setCustomValidity('Verifique o valor indicado.');
+                            }
+                        });
+                        field.addEventListener('input', () => field.setCustomValidity(''));
+                        field.addEventListener('change', () => field.setCustomValidity(''));
+                    });
+                })();
+            </script>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8">
