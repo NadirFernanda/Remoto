@@ -23,17 +23,17 @@
         <div class="bg-white rounded-3xl shadow-xl p-8 md:p-10 mb-6 border border-[#e6f3fa] transition hover:shadow-2xl">
             <h2 class="text-2xl md:text-3xl font-extrabold text-[#0f172a] mb-6">Os nossos valores</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
-                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">Confiança</div>
-                    <p class="text-[#cbd5e1] text-sm leading-relaxed m-0">Cada transação é protegida por um sistema de escrow que libera o pagamento apenas quando o trabalho é entregue e aprovado.</p>
+                <div class="rounded-2xl p-5 border border-white/10" style="background:#111c31;">
+                    <div class="font-extrabold mb-2 text-lg" style="color:#5b8cff;">Confiança</div>
+                    <p class="text-sm leading-relaxed m-0" style="color:#cbd5e1;">Cada transação é protegida por um sistema de escrow que libera o pagamento apenas quando o trabalho é entregue e aprovado.</p>
                 </div>
-                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
-                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">Transparência</div>
-                    <p class="text-[#cbd5e1] text-sm leading-relaxed m-0">Preços claros, avaliações reais e histórico de projectos visível para que todos tomem decisões informadas.</p>
+                <div class="rounded-2xl p-5 border border-white/10" style="background:#111c31;">
+                    <div class="font-extrabold mb-2 text-lg" style="color:#5b8cff;">Transparência</div>
+                    <p class="text-sm leading-relaxed m-0" style="color:#cbd5e1;">Preços claros, avaliações reais e histórico de projectos visível para que todos tomem decisões informadas.</p>
                 </div>
-                <div class="bg-[#111c31] rounded-2xl p-5 border border-white/10">
-                    <div class="text-[#0055ff] font-extrabold mb-2 text-lg">Excelência</div>
-                    <p class="text-[#cbd5e1] text-sm leading-relaxed m-0">Verificamos a identidade dos freelancers e incentivamos a formação contínua para manter o padrão de qualidade elevado.</p>
+                <div class="rounded-2xl p-5 border border-white/10" style="background:#111c31;">
+                    <div class="font-extrabold mb-2 text-lg" style="color:#5b8cff;">Excelência</div>
+                    <p class="text-sm leading-relaxed m-0" style="color:#cbd5e1;">Verificamos a identidade dos freelancers e incentivamos a formação contínua para manter o padrão de qualidade elevado.</p>
                 </div>
             </div>
         </div>
