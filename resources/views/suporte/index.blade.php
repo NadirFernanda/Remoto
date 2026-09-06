@@ -78,14 +78,19 @@
                     <select name="assunto"
                         class="w-full border border-[#cbd5e1] rounded-xl px-4 py-3 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#0055ff] transition bg-white"
                         >
+                        @php($assunto = old('assunto', request('assunto')))
                         <option value="">Selecione um assunto</option>
-                        <option value="Dúvida geral" @selected(old('assunto')=='Dúvida geral')>Dúvida geral</option>
-                        <option value="Problema técnico" @selected(old('assunto')=='Problema técnico')>Problema técnico</option>
-                        <option value="Pagamentos e faturas" @selected(old('assunto')=='Pagamentos e faturas')>Pagamentos e faturas</option>
-                        <option value="Conta e acesso" @selected(old('assunto')=='Conta e acesso')>Conta e acesso</option>
-                        <option value="Disputa entre utilizadores" @selected(old('assunto')=='Disputa entre utilizadores')>Disputa entre utilizadores</option>
-                        <option value="Reportar conteúdo" @selected(old('assunto')=='Reportar conteúdo')>Reportar conteúdo</option>
-                        <option value="Outro" @selected(old('assunto')=='Outro')>Outro</option>
+                        <option value="Dúvida geral" @selected($assunto == 'Dúvida geral')>Dúvida geral</option>
+                        <option value="Problema técnico" @selected($assunto == 'Problema técnico')>Problema técnico</option>
+                        <option value="Pagamentos e faturas" @selected($assunto == 'Pagamentos e faturas')>Pagamentos e faturas</option>
+                        <option value="Conta e acesso" @selected($assunto == 'Conta e acesso')>Conta e acesso</option>
+                        <option value="Disputa entre utilizadores" @selected($assunto == 'Disputa entre utilizadores')>Disputa entre utilizadores</option>
+                        <option value="Reportar conteúdo" @selected($assunto == 'Reportar conteúdo')>Reportar conteúdo</option>
+                        <option value="Candidatura — Full-Stack" @selected($assunto == 'Candidatura — Full-Stack')>Candidatura — Full-Stack</option>
+                        <option value="Candidatura — Designer UI/UX" @selected($assunto == 'Candidatura — Designer UI/UX')>Candidatura — Designer UI/UX</option>
+                        <option value="Candidatura — Suporte e Comunidade" @selected($assunto == 'Candidatura — Suporte e Comunidade')>Candidatura — Suporte e Comunidade</option>
+                        <option value="Candidatura espontânea" @selected($assunto == 'Candidatura espontânea')>Candidatura espontânea</option>
+                        <option value="Outro" @selected($assunto == 'Outro')>Outro</option>
                     </select>
                     <p class="support-field-error @error('assunto') is-visible @enderror" data-error-for="assunto">@error('assunto'){{ $message }}@else Este campo é obrigatório.@enderror</p>
                 </div>
