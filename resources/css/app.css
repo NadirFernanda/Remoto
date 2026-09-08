@@ -2353,6 +2353,14 @@ html body .chat-window .chat-message-mine-time {
     transform: translateY(-50%);
 }
 
+/* Product covers keep their full artwork visible instead of cropping it. */
+.loja-cover-image {
+    display: block;
+    object-fit: contain !important;
+    object-position: center;
+    background: #0b1220;
+}
+
 .freelancer-store-page {
     --loja-blue: #0055ff;
     --loja-blue-dark: #0047d9;

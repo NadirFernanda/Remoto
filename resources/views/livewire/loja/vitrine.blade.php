@@ -50,7 +50,7 @@
                 <div class="relative h-32 overflow-hidden" style="background: #0b1220;">
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
-                            alt="{{ $produto->titulo }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            alt="{{ $produto->titulo }}" loading="lazy" decoding="async"                             class="loja-cover-image w-full h-full object-contain group-hover:scale-105 transition-transform duration-300">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-10 h-10" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
@@ -125,7 +125,7 @@
                     @if($produto->capa_path)
                         <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}"
                             alt="{{ $produto->titulo }}"
-                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            class="loja-cover-image w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-16 h-16 transition-transform duration-500 group-hover:scale-110" style="color: {{ $produto->tipoColor() }}66;" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">

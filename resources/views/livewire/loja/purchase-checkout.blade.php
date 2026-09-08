@@ -5,7 +5,7 @@
         <div class="flex items-center gap-4">
             <div class="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 @if($produto->capa_path)
-                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}" alt="{{ $produto->titulo }}" class="w-full h-full object-cover">
+                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($produto->capa_path) }}" alt="{{ $produto->titulo }}" class="loja-cover-image w-full h-full object-contain">
                 @else
                     <svg class="w-6 h-6 text-white/80" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $produto->tipoIcon() }}"/></svg>
                 @endif
