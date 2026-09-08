@@ -13,7 +13,11 @@ use App\Repositories\Eloquent\WalletRepository;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Features\SupportFileUploads\FileUploadController;
+use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
+use Livewire\Mechanisms\HandleRequests\HandleRequests;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,25 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Keep Livewire endpoints outside the default /livewire-* prefix.
+        // Some production Nginx rules treat that prefix as a static path and
+        // return 404 before the request reaches Laravel.
+        app(FrontendAssets::class)->setScriptRoute(function ($handle) {
+            return Route::get('/lw-assets/livewire.min.js', $handle)
+                ->middleware('web')
+                ->name('custom.livewire.script');
+        });
+
+        app(HandleRequests::class)->setUpdateRoute(function ($handle) {
+            return Route::post('/lw-update', $handle)
+                ->middleware('web')
+                ->name('custom.livewire.update');
+        });
+
+        Route::post('/lw-upload', [FileUploadController::class, 'handle'])
+            ->middleware('web')
+            ->name('livewire.upload-file');
+
         // ── API throttle ──────────────────────────────────────────────────────
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
