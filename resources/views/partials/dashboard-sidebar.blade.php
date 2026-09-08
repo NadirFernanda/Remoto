@@ -87,7 +87,7 @@
     }
     .snav-item.snav-active {
         background: rgba(0,85,255,.15);
-        color: #60a5fa;
+        color: #0055ff;
         font-weight: 600;
     }
     .snav-item svg { flex-shrink: 0; opacity: 0.7; }

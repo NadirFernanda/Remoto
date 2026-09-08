@@ -2309,6 +2309,21 @@ html body .chat-window .chat-message-mine-time {
     background-image: none !important;
 }
 
+.available-projects-page button.bg-\[\#0055ff\] {
+    background-color: #0055ff !important;
+    color: #fff !important;
+}
+
+.available-projects-page button.bg-\[\#0055ff\]:hover {
+    background-color: #0047d9 !important;
+}
+
+.available-projects-page .available-project-status {
+    background-color: rgba(0, 85, 255, .16) !important;
+    border: 1px solid rgba(96, 165, 250, .35);
+    color: #93c5fd !important;
+}
+
 /* Apply the same dark surface, readable text and solid-blue actions to every
    authenticated workspace page, not only the pages with a dedicated wrapper. */
 .workspace-layout {

@@ -102,7 +102,7 @@
                                 </span>
                             @endif
                         </div>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 font-semibold">
+                        <span class="available-project-status inline-flex items-center px-2 py-0.5 rounded-full font-semibold">
                             {{ $statusLabel }}
                         </span>
                     </div>
@@ -138,7 +138,7 @@
                         </a>
                     @else
                         <button type="button" wire:click="acceptService({{ $project->id }})"
-                            class="hover: hover: text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm shadow-sm">
+                            class="bg-[#0055ff] hover:bg-[#0047d9] text-white font-semibold py-2.5 px-4 rounded-lg w-full block text-center transition-all text-sm shadow-sm">
                             Aceitar projecto
                         </button>
                         <button type="button" wire:click="showProposalModal({{ $project->id }})"
