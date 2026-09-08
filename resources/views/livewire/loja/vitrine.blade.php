@@ -14,9 +14,9 @@
 
             <div class="max-w-lg mt-5">
                 <div class="relative">
-                    <svg class="absolute left-3.5 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <svg class="loja-search-icon absolute left-3.5 top-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     <input wire:model.live.debounce.400ms="busca" type="text"
-                        class="w-full pl-11 pr-4 py-3.5 rounded-xl text-sm text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/60"
+                        class="loja-search-input w-full pr-4 py-3.5 rounded-xl text-sm text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/60"
                         placeholder="Buscar e-books, áudios, literatura...">
                 </div>
             </div>

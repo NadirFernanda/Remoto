@@ -2345,6 +2345,14 @@ html body .chat-window .chat-message-mine-time {
     line-height: 1.25rem;
 }
 
+.loja-search-input {
+    padding-left: 3.5rem !important;
+}
+
+.loja-search-icon {
+    transform: translateY(-50%);
+}
+
 /* Apply the same dark surface, readable text and solid-blue actions to every
    authenticated workspace page, not only the pages with a dedicated wrapper. */
 .workspace-layout {
