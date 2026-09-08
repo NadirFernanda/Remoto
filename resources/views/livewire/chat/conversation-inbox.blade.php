@@ -14,21 +14,21 @@
             <h2 class="text-2xl font-extrabold">Mensagens</h2>
             <p class="text-sm text-white/75 mt-1">Todas as conversas dos seus projectos</p>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="chat-inbox-summary flex items-center gap-3">
             @if($totalUnread > 0)
-                <div class="flex items-center gap-2 bg-red-500/20 border border-red-400/40 rounded-xl px-4 py-2.5">
+                <div class="chat-inbox-metric chat-inbox-unread">
                     <span class="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse"></span>
                     <span class="text-sm font-bold text-white">{{ $totalUnread }} não {{ $totalUnread === 1 ? 'lida' : 'lidas' }}</span>
                 </div>
             @else
-                <div class="flex items-center gap-2 bg-white/10 border border-white/20 rounded-xl px-4 py-2.5">
+                <div class="chat-inbox-metric chat-inbox-unread">
                     <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
                     <span class="text-sm font-semibold text-white/80">Tudo lido</span>
                 </div>
             @endif
-            <div class="text-center bg-white/10 border border-white/20 rounded-xl px-4 py-2">
-                <div class="text-xs text-white/60 font-medium">Conversas</div>
-                <div class="text-xl font-extrabold">{{ $services->count() }}</div>
+            <div class="chat-inbox-metric chat-inbox-count">
+                <div class="chat-inbox-metric-label">Conversas</div>
+                <div class="chat-inbox-metric-value">{{ $services->count() }}</div>
             </div>
         </div>
     </div>

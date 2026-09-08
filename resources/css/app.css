@@ -2345,6 +2345,61 @@ html body .chat-window .chat-message-mine-time {
     line-height: 1.25rem;
 }
 
+.chat-inbox-page .chat-inbox-summary {
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.chat-inbox-page .chat-inbox-metric {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    min-width: 10.5rem;
+    min-height: 4.25rem;
+    padding: .75rem 1rem;
+    border: 1px solid rgba(148, 163, 184, .22);
+    border-radius: 1.25rem;
+    background: rgba(255, 255, 255, .08);
+    box-sizing: border-box;
+}
+
+.chat-inbox-page .chat-inbox-unread {
+    color: #f8fafc;
+}
+
+.chat-inbox-page .chat-inbox-count {
+    flex-direction: column;
+    gap: .05rem;
+    min-width: 8.75rem;
+    text-align: center;
+}
+
+.chat-inbox-page .chat-inbox-metric-label {
+    color: rgba(226, 232, 240, .72);
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.chat-inbox-page .chat-inbox-metric-value {
+    color: #f8fafc;
+    font-size: 1.65rem;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+@media (max-width: 640px) {
+    .chat-inbox-page .chat-inbox-summary {
+        width: 100%;
+    }
+
+    .chat-inbox-page .chat-inbox-metric {
+        flex: 1 1 9rem;
+        min-width: 0;
+    }
+}
+
 .loja-search-input {
     padding-left: 3.5rem !important;
 }
