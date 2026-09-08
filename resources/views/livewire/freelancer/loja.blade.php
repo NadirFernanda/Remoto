@@ -63,7 +63,6 @@
             {{ $editingId ? 'Editar Infoproduto' : 'Novo Infoproduto' }}
         </h2>
 
-        <form wire:submit.prevent="saveProduto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             {{-- Título --}}
             <div class="md:col-span-2">
@@ -162,7 +161,7 @@
         </div>
 
         <div class="flex items-center gap-3 mt-6">
-            <button type="submit" wire:loading.attr="disabled" wire:target="saveProduto"
+            <button type="button" wire:click="saveProduto" wire:loading.attr="disabled" wire:target="saveProduto"
                 class="px-5 py-2.5 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
@@ -171,7 +170,6 @@
                 Cancelar
             </button>
         </div>
-        </form>
     </div>
     @endif
 
