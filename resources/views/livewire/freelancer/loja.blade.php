@@ -1,13 +1,13 @@
 <div class="max-w-6xl mx-auto space-y-6 freelancer-store-page">
 
     {{-- ── Hero Header ── --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="loja-hero rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-extrabold">Minha Loja</h1>
             <p class="text-sm text-white/75 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
         </div>
         <button wire:click="openCreate"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 border border-white/30 hover:bg-white/25 text-white text-sm font-semibold transition">
+            class="loja-action loja-action-primary">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Novo Infoproduto
         </button>
@@ -21,7 +21,7 @@
     @endif
 
     {{-- Wallet summary --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-6 items-center">
+    <div class="loja-summary bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-wrap gap-6 items-center">
         <div>
             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide mb-1">Ganhos da loja</div>
             <div class="text-2xl font-bold text-green-600">Kz {{ number_format($totalGanhoLoja, 2, ',', '.') }}</div>
@@ -44,12 +44,12 @@
         </div>
         <div class="flex items-center gap-3 ml-auto flex-wrap">
             <a href="{{ route('loja.index') }}" target="_blank"
-                class="flex items-center gap-1.5 text-sm text-[#0055ff] hover:underline">
+                class="loja-action loja-action-secondary">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 Ver Loja pública
             </a>
             <a href="{{ route('freelancer.financial') }}"
-                class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold hover:opacity-90 text-white transition shadow-sm">
+                class="loja-action loja-action-primary">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 Sacar no Painel Financeiro
             </a>
@@ -58,7 +58,7 @@
 
     {{-- Product form --}}
     @if($showForm)
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-8">
+    <div class="loja-form bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-8">
         <h2 class="text-lg font-bold text-gray-800 mb-5">
             {{ $editingId ? 'Editar Infoproduto' : 'Novo Infoproduto' }}
         </h2>
@@ -106,7 +106,7 @@
                 </label>
                 <div class="flex items-center gap-3">
                     <label for="loja-capa-input"
-                           class="inline-flex items-center gap-2 cursor-pointer bg-[#0055ff]/10 hover:bg-[#0055ff]/20 text-[#0055ff] font-semibold text-sm px-4 py-2 rounded-lg transition flex-shrink-0">
+                           class="loja-action loja-action-secondary cursor-pointer flex-shrink-0">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
@@ -129,7 +129,7 @@
                 </label>
                 <div class="flex items-center gap-3">
                     <label for="loja-arquivo-input"
-                           class="inline-flex items-center gap-2 cursor-pointer bg-[#0055ff]/10 hover:bg-[#0055ff]/20 text-[#0055ff] font-semibold text-sm px-4 py-2 rounded-lg transition flex-shrink-0">
+                           class="loja-action loja-action-secondary cursor-pointer flex-shrink-0">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
                         </svg>
@@ -162,11 +162,11 @@
 
         <div class="flex items-center gap-3 mt-6">
             <button type="button" wire:click.prevent="saveProduto"
-                class="px-5 py-2.5 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
+                class="loja-action loja-action-primary disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
             </button>
-            <button type="button" wire:click="cancelForm" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
+            <button type="button" wire:click="cancelForm" class="loja-action loja-action-ghost">
                 Cancelar
             </button>
         </div>
@@ -175,7 +175,7 @@
 
     {{-- Products list --}}
     @if($produtos->isEmpty() && !$showForm)
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center">
+    <div class="loja-empty bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center">
         <svg class="w-16 h-16 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
         </svg>
@@ -185,7 +185,7 @@
     @else
     <div class="grid grid-cols-1 gap-5">
         @foreach($produtos as $produto)
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
+        <div class="loja-product-card bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
             <div class="flex flex-col sm:flex-row">
                 {{-- Cover --}}
                 @if($produto->capa_path)
@@ -195,7 +195,7 @@
                         class="w-full h-full object-cover">
                 </div>
                 @else
-                <div class="sm:w-36 h-32 sm:h-auto flex-shrink-0 /10 /30 flex items-center justify-center">
+                <div class="sm:w-36 h-32 sm:h-auto flex-shrink-0 bg-[#0055ff]/10 flex items-center justify-center">
                     <svg class="w-12 h-12 text-[#0055ff]/40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
@@ -239,7 +239,7 @@
                         {{-- Sponsor button (only if active) --}}
                         @if($produto->status === 'ativo')
                         <button wire:click="openSponsor({{ $produto->id }})"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg {{ $produto->isPatrocinado() ? 'bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100' : 'bg-[#0055ff]/10 text-[#0055ff] hover:bg-[#0055ff]/20' }} transition">
+                            class="loja-action loja-action-secondary {{ $produto->isPatrocinado() ? 'loja-action-sponsor-active' : '' }}">
                             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                             {{ $produto->isPatrocinado() ? 'Renovar Patrocínio' : 'Patrocinar' }}
                         </button>
@@ -249,27 +249,27 @@
                         @if($produto->status === 'ativo')
                         <button x-data
                             x-on:click='navigator.clipboard.writeText("{{ route("loja.show", $produto->slug) }}"); $el.textContent = "Link copiado!"; setTimeout(()=>$el.textContent="Copiar Link", 2000)'
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                            class="loja-action loja-action-secondary">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
                             Copiar Link
                         </button>
 
                         <a href="{{ route('loja.show', $produto->slug) }}" target="_blank"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                            class="loja-action loja-action-secondary">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                             Ver Produto
                         </a>
                         @endif
 
                         <button wire:click="openEdit({{ $produto->id }})"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                            class="loja-action loja-action-secondary">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             Editar
                         </button>
 
                         <button wire:click="deleteProduto({{ $produto->id }})"
                             wire:confirm="Tem certeza que deseja excluir este produto?"
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                            class="loja-action loja-action-danger">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                             Excluir
                         </button>
