@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto space-y-6" x-data x-init="setInterval(() => $wire.$refresh(), 30000)">
+<div class="max-w-4xl mx-auto space-y-6 chat-inbox-page" x-data x-init="setInterval(() => $wire.$refresh(), 30000)">
 
     {{-- Flash --}}
     @if(session('success'))
@@ -125,7 +125,7 @@
                                 <span class="italic">Sem mensagens ainda</span>
                             @endif
                         </p>
-                        <span class="flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full font-semibold border {{ $statusColor }}">
+                        <span class="chat-status-{{ $service->status }} flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full font-semibold border {{ $statusColor }}">
                             {{ $statusLabel }}
                         </span>
                     </div>

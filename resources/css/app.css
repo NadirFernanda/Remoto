@@ -2335,6 +2335,16 @@ html body .chat-window .chat-message-mine-time {
     font-weight: 600;
 }
 
+.chat-inbox-page .chat-status-negotiating {
+    background-color: #0055ff !important;
+    border-color: #0055ff !important;
+    color: #fff !important;
+    border-radius: 10px;
+    padding: .375rem .75rem;
+    font-size: .75rem;
+    line-height: 1.25rem;
+}
+
 /* Apply the same dark surface, readable text and solid-blue actions to every
    authenticated workspace page, not only the pages with a dedicated wrapper. */
 .workspace-layout {
