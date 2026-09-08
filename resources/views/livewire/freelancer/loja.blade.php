@@ -63,6 +63,7 @@
             {{ $editingId ? 'Editar Infoproduto' : 'Novo Infoproduto' }}
         </h2>
 
+        <form wire:submit.prevent="saveProduto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
             {{-- Título --}}
             <div class="md:col-span-2">
@@ -89,9 +90,9 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Preço (Kz) <span class="text-red-500">*</span></label>
                 <div class="relative">
-                    <span class="absolute left-3 top-2 text-sm text-gray-400">Kz</span>
+                    <span class="price-currency" aria-hidden="true">Kz</span>
                     <input type="number" wire:model="preco" min="5000" step="100"
-                        class="w-full border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400"
+                        class="price-input w-full border border-slate-200 rounded-lg pr-3 py-2 text-sm focus:ring-2 focus:ring-sky-200 focus:border-sky-400"
                         placeholder="5000">
                 </div>
                 <p class="text-xs text-gray-400 mt-1">Mínimo: 5.000 Kz</p>
@@ -161,15 +162,16 @@
         </div>
 
         <div class="flex items-center gap-3 mt-6">
-            <button wire:click="saveProduto" wire:loading.attr="disabled"
+            <button type="submit" wire:loading.attr="disabled" wire:target="saveProduto,capa,arquivo"
                 class="px-5 py-2.5 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
             </button>
-            <button wire:click="cancelForm" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
+            <button type="button" wire:click="cancelForm" class="px-4 py-2.5 text-sm text-gray-600 hover:text-gray-900 transition">
                 Cancelar
             </button>
         </div>
+        </form>
     </div>
     @endif
 

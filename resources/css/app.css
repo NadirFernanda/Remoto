@@ -2287,6 +2287,22 @@ html body .chat-window .chat-message-mine-time {
     border-color: rgba(226,232,240,.16) !important;
 }
 
+.freelancer-store-page .price-input {
+    padding-left: 2.75rem !important;
+}
+
+.freelancer-store-page .price-currency {
+    position: absolute;
+    left: .75rem;
+    top: 50%;
+    z-index: 1;
+    color: #94a3b8;
+    font-size: .875rem;
+    line-height: 1;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
 .creator-subscriptions-page button,
 .freelancer-store-page button,
 .available-projects-page button {
