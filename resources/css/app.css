@@ -2319,9 +2319,20 @@ html body .chat-window .chat-message-mine-time {
 }
 
 .available-projects-page .available-project-status {
-    background-color: rgba(0, 85, 255, .16) !important;
-    border: 1px solid rgba(96, 165, 250, .35);
-    color: #93c5fd !important;
+    background-color: #0055ff !important;
+    border: 0;
+    color: #fff !important;
+    border-radius: 10px;
+    font-size: .75rem;
+    line-height: 1.25rem;
+    padding: .375rem .75rem;
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.available-projects-page .available-project-created {
+    color: #cbd5e1 !important;
+    font-weight: 600;
 }
 
 /* Apply the same dark surface, readable text and solid-blue actions to every

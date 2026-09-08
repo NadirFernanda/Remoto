@@ -96,7 +96,7 @@
                     <div class="flex items-center justify-between text-[11px] text-gray-500 mb-3">
                         <div class="flex items-center gap-2">
                             @if($createdAt)
-                                <span class="inline-flex items-center gap-1">
+                                <span class="available-project-created inline-flex items-center gap-1">
                                     <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
                                     <span>Criado em {{ $createdAt }}</span>
                                 </span>
