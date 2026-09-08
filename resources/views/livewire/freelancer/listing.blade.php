@@ -98,8 +98,12 @@
     border-color: rgba(96,165,250,.7);transform: translateY(-3px);
 }
 .fsp-card-cover {
-height: 70px;flex-shrink: 0;position: relative;
-background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+height: 110px;flex-shrink: 0;position: relative;
+background-color: #2563eb;
+background-image: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+background-size: contain !important;
+background-position: center !important;
+background-repeat: no-repeat !important;
 overflow: visible;
 }.fsp-card-avatar {
     position: absolute;bottom: -24px;left: 15px;z-index: 2;
@@ -121,7 +125,7 @@ overflow: visible;
     display: flex;align-items: center;gap: 3px;backdrop-filter: blur(4px);
 }
 .fsp-card-body {
-    padding: 30px 15px 15px;flex: 1;
+    padding: 38px 18px 18px;flex: 1;
     display: flex;flex-direction: column;gap: 8px;
     background: #0f172a;
 }
@@ -331,7 +335,7 @@ button.fl-page:hover {
             <div wire:key="freelancer-listing-{{ $freelancer->id }}" class="fsp-card" onclick="window.location='{{ route('freelancer.show', $freelancer) }}'">
 
                 {{-- Cover --}}
-                <div class="fsp-card-cover" @if($freelancer->coverPhotoUrl()) style="background-image: url('{{ $freelancer->coverPhotoUrl() }}'); background-size: cover; background-position: center;" @endif>
+                <div class="fsp-card-cover" @if($freelancer->coverPhotoUrl()) style="background-image: url('{{ $freelancer->coverPhotoUrl() }}');" @endif>
                     @if($freelancer->kyc_status === 'verified')
                         <div class="fsp-badge-verified">
                             <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
