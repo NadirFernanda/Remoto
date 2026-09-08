@@ -490,7 +490,7 @@
                 @csrf
                 <button type="submit"
                     class="snav-item w-full text-left font-semibold"
-                    style="margin:0; border-radius:0.625rem; color:#0ea5e9; background:rgba(14,165,233,.08);">
+                    style="margin:0; border-radius:0.625rem; color:#0055ff; background:rgba(0,85,255,.12);">
                     <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
