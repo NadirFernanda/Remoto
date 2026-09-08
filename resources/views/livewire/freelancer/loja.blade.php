@@ -161,7 +161,7 @@
         </div>
 
         <div class="flex items-center gap-3 mt-6">
-            <button type="button" wire:click="saveProduto" wire:loading.attr="disabled" wire:target="saveProduto"
+            <button type="button" wire:click.prevent="saveProduto"
                 class="px-5 py-2.5 text-white rounded-xl text-sm font-semibold hover:opacity-90 transition disabled:opacity-50">
                 <span wire:loading.remove wire:target="saveProduto">{{ $editingId ? 'Atualizar' : 'Criar Produto' }}</span>
                 <span wire:loading wire:target="saveProduto">A processar...</span>
