@@ -1,22 +1,7 @@
 <div class="min-h-screen pb-16">
 
-    {{-- ── Header ── --}}
-    <div class="rounded-2xl p-6 text-white mb-8">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-            </div>
-            <div>
-                <h1 class="text-xl font-bold leading-tight">Novo Projecto</h1>
-                <p class="text-sm text-white/80 mt-0.5">Descreva o seu projecto e encontre o freelancer ideal</p>
-            </div>
-        </div>
-    </div>
-
     {{-- ── Progress bar ── --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm px-6 py-5 mb-8">
+    <div class="briefing-progress bg-white rounded-2xl border border-slate-100 shadow-sm px-6 py-5 mb-8">
         <div class="flex items-center gap-2">
             @foreach([1 => 'Tipo de Serviço', 2 => 'Detalhes', 3 => 'Revisão'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
