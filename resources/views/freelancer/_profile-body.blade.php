@@ -166,7 +166,7 @@
     @if($user->portfolios && $user->portfolios->count() && $user->isFieldPublic('portfolio'))
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <h3 class="text-sm font-bold uppercase tracking-wider text-gray-400 mb-4">Portfólio</h3>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div class="freelancer-portfolio-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach($user->portfolios as $item)
                 @php
                     $mediaPath = is_string($item->media_path) ? trim($item->media_path) : '';
@@ -175,15 +175,17 @@
                         : ($mediaPath !== '' ? \Illuminate\Support\Facades\Storage::disk('public')->url($mediaPath) : null);
                 @endphp
                 @if($mediaUrl)
-                <div class="rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
+                <div class="freelancer-portfolio-item rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
                     <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
-                        <img src="{{ $mediaUrl }}" alt="portfolio" loading="lazy" decoding="async" class="w-full h-32 object-cover">
+                        <div class="freelancer-portfolio-image">
+                            <img src="{{ $mediaUrl }}" alt="{{ $item->title ?? 'Portfólio' }}" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                        </div>
                     </x-image-lightbox>
                     @if($item->title)
-                    <div class="p-3">
-                        <p class="text-xs font-bold text-gray-900 truncate">{{ $item->title }}</p>
+                    <div class="freelancer-portfolio-copy p-4">
+                        <p class="text-sm font-bold text-gray-900 leading-snug break-words">{{ $item->title }}</p>
                         @if($item->description)
-                            <p class="text-xs text-gray-400 mt-0.5 line-clamp-2">{{ $item->description }}</p>
+                            <p class="text-xs text-gray-400 mt-2 leading-relaxed line-clamp-3">{{ $item->description }}</p>
                         @endif
                     </div>
                     @endif
