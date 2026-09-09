@@ -99,7 +99,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
         </div>
 
         {{-- Notification list --}}
-        <div x-show="loaded" class="max-h-80 overflow-y-auto">
+        <div x-show="loaded" class="notification-list max-h-80 overflow-y-auto">
             <template x-if="items.length === 0">
                 <div class="px-4 py-8 text-center text-sm text-slate-500">
                     <svg class="w-8 h-8 mx-auto mb-2 text-slate-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">

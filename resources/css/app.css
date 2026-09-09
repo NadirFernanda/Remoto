@@ -1633,6 +1633,29 @@ li.list-item {
 /* ── Tabs on Livewire pages: scroll horizontally ─────────── */
 .tab-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; white-space: nowrap; }
 .tab-scroll::-webkit-scrollbar { display: none; }
+
+.notification-list {
+    scrollbar-color: #0055ff #141928;
+    scrollbar-width: thin;
+}
+
+.notification-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background: #141928;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: #0055ff;
+    border: 2px solid #141928;
+    border-radius: 999px;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+    background: #3377ff;
+}
 .tab-scroll button, .tab-scroll a { flex-shrink: 0; }
 
 /* ── Privacy / legal pages: better mobile padding ────────── */
