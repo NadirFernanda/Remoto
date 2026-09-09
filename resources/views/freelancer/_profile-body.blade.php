@@ -169,10 +169,7 @@
         <div class="freelancer-portfolio-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach($user->portfolios as $item)
                 @php
-                    $mediaPath = is_string($item->media_path) ? trim($item->media_path) : '';
-                    $mediaUrl = (Str::startsWith($mediaPath, 'http') || Str::startsWith($mediaPath, '/'))
-                        ? $mediaPath
-                        : ($mediaPath !== '' ? \Illuminate\Support\Facades\Storage::disk('public')->url($mediaPath) : null);
+                    $mediaUrl = $item->mediaUrl();
                 @endphp
                 @if($mediaUrl)
                 <div class="freelancer-portfolio-item rounded-xl overflow-hidden border border-gray-100 bg-gray-50">

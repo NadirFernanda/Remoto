@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Portfolio extends Model
 {
@@ -20,5 +22,25 @@ class Portfolio extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function mediaUrl(): ?string
+    {
+        $path = is_string($this->media_path) ? trim($this->media_path) : '';
+
+        if ($path === '') {
+            return null;
+        }
+
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+        $path = Str::startsWith($path, 'storage/')
+            ? Str::after($path, 'storage/')
+            : $path;
+
+        return Storage::disk('public')->url($path);
     }
 }

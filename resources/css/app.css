@@ -2994,6 +2994,9 @@ html body .chat-window .chat-message-mine-time {
 
 .creator-profile-cover img {
     display: block;
+    object-fit: contain;
+    object-position: center;
+    background: #0f172a;
 }
 
 .creator-profile-content {
