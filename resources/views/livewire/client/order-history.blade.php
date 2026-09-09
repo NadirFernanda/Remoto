@@ -25,11 +25,11 @@
                 <div class="text-xs text-gray-400 mt-1">Total</div>
             </div>
             <div class="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
-                <div class="text-2xl font-bold text-yellow-500">{{ $publicado + $andamento }}</div>
+                <div class="text-2xl font-bold text-[#0055ff]">{{ $publicado + $andamento }}</div>
                 <div class="text-xs text-gray-400 mt-1">Em aberto</div>
             </div>
             <div class="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
-                <div class="text-2xl font-bold text-green-500">{{ $concluido }}</div>
+                <div class="text-2xl font-bold text-[#0055ff]">{{ $concluido }}</div>
                 <div class="text-xs text-gray-400 mt-1">Concluídos</div>
             </div>
         </div>
@@ -41,30 +41,40 @@
                     $s = $order->status;
                     $isDraft = in_array($s, ['draft', 'payment_pending']);
                     if ($s === 'published') {
-                        $badge = ['label' => 'Publicado',    'color' => 'bg-sky-50 text-sky-700 border-sky-200'];
+                        $badge = ['label' => 'Publicado',    'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
                         $dot   = 'bg-[#0055ff]';
                     } elseif (in_array($s, ['em_andamento','em andamento','in_progress'])) {
-                        $badge = ['label' => 'Em andamento', 'color' => 'bg-yellow-50 text-yellow-700 border-yellow-200'];
-                        $dot   = 'bg-yellow-400';
+                        $badge = ['label' => 'Em andamento', 'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
+                    } elseif ($s === 'negotiating') {
+                        $badge = ['label' => 'Em negociação', 'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
                     } elseif ($s === 'concluido') {
-                        $badge = ['label' => 'Concluído',    'color' => 'bg-green-50 text-green-700 border-green-200'];
-                        $dot   = 'bg-green-500';
+                        $badge = ['label' => 'Concluído',    'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
                     } elseif ($s === 'cancelado') {
-                        $badge = ['label' => 'Cancelado',    'color' => 'bg-red-50 text-red-600 border-red-200'];
-                        $dot   = 'bg-red-500';
+                        $badge = ['label' => 'Cancelado',    'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
                     } elseif ($isDraft) {
-                        $badge = ['label' => 'Rascunho',     'color' => 'bg-amber-50 text-amber-700 border-amber-200'];
-                        $dot   = 'bg-amber-400';
+                        $badge = ['label' => 'Rascunho',     'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
                     } else {
-                        $badge = ['label' => ucfirst($s),    'color' => 'bg-gray-100 text-gray-500 border-gray-200'];
-                        $dot   = 'bg-gray-400';
+                        $labels = [
+                            'accepted' => 'Proposta aceite',
+                            'delivered' => 'Aguardando revisão',
+                            'revision_requested' => 'Revisão solicitada',
+                            'completed' => 'Concluído',
+                            'cancelled' => 'Cancelado',
+                        ];
+                        $badge = ['label' => $labels[$s] ?? 'Em processamento', 'color' => 'bg-[#0055ff]/10 text-[#0055ff] border-[#0055ff]/30'];
+                        $dot   = 'bg-[#0055ff]';
                     }
                 @endphp
 
                 {{-- Rascunhos não podem ser "cancelados" (nunca houve pagamento) —
                      levam à Gestão de Projectos, onde há acções de Publicar/Eliminar. --}}
                 <a href="{{ $isDraft ? route('client.projects', ['service' => $order->id]) : route('client.service.cancel', $order->id) }}"
-                   class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-sky-100 hover:-translate-y-0.5">
+                   class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-[#0055ff]/40 hover:-translate-y-0.5">
 
                     {{-- Number badge --}}
                     <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-50 border border-gray-100">
@@ -113,7 +123,7 @@
                 @endif
             @empty
                 <div class="bg-white rounded-2xl p-12 text-center border border-dashed border-gray-200">
-                    <div class="w-16 h-16 rounded-2xl bg-sky-50 flex items-center justify-center mx-auto mb-4">
+                    <div class="w-16 h-16 rounded-2xl bg-[#0055ff]/10 flex items-center justify-center mx-auto mb-4">
                         <svg class="w-8 h-8 text-[#0055ff]/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
