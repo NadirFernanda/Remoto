@@ -64,14 +64,10 @@
                 @php
                     $isSelected = $selected && $selected->id === $project->id;
                     $statusColor = match($project->status) {
-                        'published'    => 'bg-blue-100 text-blue-700',
-                        'accepted'     => 'bg-indigo-100 text-indigo-700',
-                        'in_progress'  => 'bg-yellow-100 text-yellow-700',
-                        'delivered'    => 'bg-orange-100 text-orange-700',
-                        'completed'    => 'bg-green-100 text-green-700',
-                        'cancelled'    => 'bg-red-100 text-red-600',
-                        'em_moderacao' => 'bg-blue-100 text-[#0055ff]',
-                        default        => 'bg-gray-100 text-gray-600',
+                        'published', 'accepted', 'in_progress', 'delivered', 'completed', 'em_moderacao'
+                            => 'bg-[#0055ff]/10 text-[#0055ff]',
+                        'cancelled'    => 'bg-[#0055ff]/10 text-[#0055ff]',
+                        default        => 'bg-[#0055ff]/10 text-[#0055ff]',
                     };
                     $done = $project->milestones->where('completed', true)->count();
                     $total = $project->milestones->count();
@@ -141,15 +137,10 @@
                             <div class="flex items-center gap-2 mt-1">
                                 @php
                                     $sc = match($selected->status) {
-                                        'draft', 'payment_pending' => 'bg-amber-100 text-amber-700',
-                                        'published'    => 'bg-blue-100 text-blue-700',
-                                        'accepted'     => 'bg-indigo-100 text-indigo-700',
-                                        'in_progress'  => 'bg-yellow-100 text-yellow-700',
-                                        'delivered'    => 'bg-orange-100 text-orange-700',
-                                        'completed'    => 'bg-green-100 text-green-700',
-                                        'cancelled'    => 'bg-red-100 text-red-600',
-                                        'em_moderacao' => 'bg-blue-100 text-[#0055ff]',
-                                        default        => 'bg-gray-100 text-gray-600',
+                                        'draft', 'payment_pending', 'published', 'accepted', 'in_progress',
+                                        'delivered', 'completed', 'cancelled', 'em_moderacao'
+                                            => 'bg-[#0055ff]/10 text-[#0055ff]',
+                                        default        => 'bg-[#0055ff]/10 text-[#0055ff]',
                                     };
                                 @endphp
                                 <span class="text-xs px-2.5 py-1 rounded-full font-medium {{ $sc }}">
@@ -375,12 +366,12 @@
                                         $fp = $fl?->freelancerProfile;
                                         $isPending = in_array($candidate->status, ['pending', 'proposal_sent', 'invited']);
                                         $statusBadge = match($candidate->status) {
-                                            'pending'       => ['Candidatura', 'bg-blue-100 text-blue-700'],
-                                            'proposal_sent' => ['Proposta', 'bg-indigo-100 text-indigo-700'],
-                                            'invited'       => ['Convidado', 'bg-yellow-100 text-yellow-700'],
-                                            'chosen'        => ['Escolhido', 'bg-green-100 text-green-700'],
-                                            'rejected'      => ['Rejeitado', 'bg-red-100 text-red-500'],
-                                            default         => [$candidate->status, 'bg-gray-100 text-gray-500'],
+                                            'pending'       => ['Candidatura', 'bg-[#0055ff]/10 text-[#0055ff]'],
+                                            'proposal_sent' => ['Proposta', 'bg-[#0055ff]/10 text-[#0055ff]'],
+                                            'invited'       => ['Convidado', 'bg-[#0055ff]/10 text-[#0055ff]'],
+                                            'chosen'        => ['Escolhido', 'bg-[#0055ff]/10 text-[#0055ff]'],
+                                            'rejected'      => ['Rejeitado', 'bg-[#0055ff]/10 text-[#0055ff]'],
+                                            default         => [$candidate->status, 'bg-[#0055ff]/10 text-[#0055ff]'],
                                         };
                                     @endphp
                                     <div wire:key="candidate-{{ $candidate->id }}" class="rounded-2xl border {{ $isPending ? 'border-gray-200' : 'border-gray-100 opacity-60' }} p-4 space-y-3">
@@ -557,7 +548,7 @@
                                     <span>{{ $doneMilestones }}/{{ $totalMilestones }} ({{ round($doneMilestones/$totalMilestones*100) }}%)</span>
                                 </div>
                                 <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div class="h-full rounded-full transition-all"
+                                    <div class="h-full rounded-full bg-[#0055ff] transition-all"
                                          style="width: {{ round($doneMilestones/$totalMilestones*100) }}%"></div>
                                 </div>
                             </div>
