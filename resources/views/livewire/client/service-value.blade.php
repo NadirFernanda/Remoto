@@ -21,7 +21,7 @@
             @foreach([1 => 'Briefing', 2 => 'Investimento', 3 => 'Pagamento'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $n < 2 ? ' text-white' : ($n === 2 ? ' text-white shadow-sky-200/60' : 'bg-slate-100 text-slate-400') }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $n <= 2 ? 'bg-[#0055ff] text-white' : 'bg-slate-100 text-slate-400' }}">
                             @if($n < 2)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -61,13 +61,13 @@
                         <label class="block text-sm font-semibold text-slate-700 mb-2">Como quer calcular a taxa da plataforma?</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             <button type="button" wire:click="$set('modo', 'acrescentar')"
-                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'acrescentar' ? 'border-sky-400 bg-sky-50' : 'border-slate-200 bg-white hover:border-slate-300' }}">
-                                <span class="block text-sm font-semibold {{ $modo === 'acrescentar' ? 'text-sky-700' : 'text-slate-700' }}">Acrescentar ao valor</span>
+                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'acrescentar' ? 'border-[#0055ff] bg-blue-50' : 'border-slate-200 bg-white hover:border-[#0055ff]' }}">
+                                <span class="block text-sm font-semibold {{ $modo === 'acrescentar' ? 'text-[#0055ff]' : 'text-slate-700' }}">Acrescentar ao valor</span>
                                 <span class="block text-xs text-slate-400 mt-0.5">Indico o valor do projecto e pago +10% por cima</span>
                             </button>
                             <button type="button" wire:click="$set('modo', 'descontar')"
-                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'descontar' ? 'border-sky-400 bg-sky-50' : 'border-slate-200 bg-white hover:border-slate-300' }}">
-                                <span class="block text-sm font-semibold {{ $modo === 'descontar' ? 'text-sky-700' : 'text-slate-700' }}">Descontar do valor</span>
+                                class="text-left rounded-xl border-2 px-4 py-3 transition {{ $modo === 'descontar' ? 'border-[#0055ff] bg-blue-50' : 'border-slate-200 bg-white hover:border-[#0055ff]' }}">
+                                <span class="block text-sm font-semibold {{ $modo === 'descontar' ? 'text-[#0055ff]' : 'text-slate-700' }}">Descontar do valor</span>
                                 <span class="block text-xs text-slate-400 mt-0.5">Indico o total que quero pagar e a taxa sai dali</span>
                             </button>
                         </div>
@@ -83,7 +83,7 @@
                                 <span class="text-slate-400 text-sm font-semibold">Kz</span>
                             </div>
                             <input type="number" wire:model.live.debounce.300ms="valor" min="{{ $valorMinimo }}" step="1"
-                                class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl pl-10 pr-4 py-3.5 text-lg font-bold focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
+                                class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl pl-10 pr-4 py-3.5 text-lg font-bold focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
                                 placeholder="{{ $valorMinimo }}">
                         </div>
                         @error('valor')
@@ -146,8 +146,8 @@
 
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
                                     </div>
                                     <div>
                                         <p class="text-sm text-slate-700 font-medium">= Valor do projecto</p>
@@ -162,8 +162,8 @@
                                  depois a taxa a somar, para chegar ao total a pagar. --}}
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg>
                                     </div>
                                     <div>
                                         <p class="text-sm text-slate-700 font-bold">Valor do projecto</p>
@@ -177,15 +177,15 @@
 
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>
                                     </div>
                                     <div>
                                         <p class="text-sm text-slate-700 font-medium">Taxa da plataforma ({{ $pctLabel }}%)</p>
                                         <p class="text-xs text-slate-400">Acrescida por cima do valor do projecto</p>
                                     </div>
                                 </div>
-                                <span class="text-sm font-bold text-sky-600">+ {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
+                                <span class="text-sm font-bold text-[#0055ff]">+ {{ number_format($bd['taxa_cliente'], 2, ',', '.') }} Kz</span>
                             </div>
 
                             <div class="border-t border-slate-200"></div>
@@ -221,13 +221,13 @@
                     </div>
 
                     {{-- Info box --}}
-                    <div class="bg-sky-50 border border-sky-200 rounded-2xl px-4 py-3 flex gap-3 items-start mb-6">
-                        <svg class="w-4 h-4 text-sky-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <p class="text-xs text-sky-800 leading-relaxed">O valor é retido em garantia (escrow) e só é transferido para o freelancer após a entrega ser aprovada por si. Pode solicitar reembolso em caso de insatisfação.</p>
+                    <div class="bg-blue-50 border border-blue-200 rounded-2xl px-4 py-3 flex gap-3 items-start mb-6">
+                        <svg class="w-4 h-4 text-[#0055ff] mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p class="text-xs text-blue-900 leading-relaxed">O valor é retido em garantia (escrow) e só é transferido para o freelancer após a entrega ser aprovada por si. Pode solicitar reembolso em caso de insatisfação.</p>
                     </div>
 
                     <button type="submit" wire:loading.attr="disabled"
-                        class="w-full hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
+                        class="w-full bg-[#0055ff] hover:bg-[#0047d9] disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-blue-200/40 flex items-center justify-center gap-2 text-base">
                         <span wire:loading.remove>
                             Continuar para pagamento
                             <svg class="w-4 h-4 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -247,8 +247,8 @@
             {{-- Resumo do projecto --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-4">
-                    <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-                    <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">Resumo do projecto</p>
+                    <span class="w-2 h-2 rounded-full bg-[#0055ff]"></span>
+                    <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide">Resumo do projecto</p>
                 </div>
                 @php
                     $order = session('client_order', []);
@@ -263,7 +263,7 @@
                 @if(!empty($b['business_type']))
                     <div class="mb-3">
                         <p class="text-[11px] text-slate-400 uppercase tracking-wide mb-0.5">Tipo de serviço</p>
-                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-semibold">{{ $b['business_type'] }}</span>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-blue-50 text-[#0055ff] text-xs font-semibold">{{ $b['business_type'] }}</span>
                     </div>
                 @endif
                 @if(!empty($b['necessity']))
