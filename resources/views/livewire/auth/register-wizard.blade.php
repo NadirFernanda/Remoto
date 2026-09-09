@@ -207,6 +207,8 @@
         border-radius: 16px; padding: .9rem 1.1rem;
     }
     .rr-stats-avatars { display: flex; }
+    .rr-stats-avatars a { display: block; border-radius: 50%; transition: transform .16s ease, filter .16s ease; }
+    .rr-stats-avatars a:hover { transform: translateY(-2px); filter: brightness(1.12); }
     .rr-stats-avatars img {
         width: 32px; height: 32px; border-radius: 50%; border: 2px solid #060e24;
         object-fit: cover; margin-left: -9px;
@@ -604,9 +606,14 @@
             <div class="rr-stats">
                 <div class="rr-stats-avatars">
                     @forelse($activeFreelancers as $freelancer)
-                        <img src="{{ $freelancer->avatarUrl() }}" alt="{{ $freelancer->name }}">
+                        <a href="{{ route('freelancer.show', $freelancer) }}"
+                           aria-label="Ver perfil de {{ $freelancer->name }}">
+                            <img src="{{ $freelancer->avatarUrl() }}" alt="{{ $freelancer->name }}">
+                        </a>
                     @empty
-                        <img src="{{ asset('img/default-avatar.svg') }}" alt="">
+                        <a href="{{ route('freelancers.index') }}" aria-label="Ver freelancers">
+                            <img src="{{ asset('img/default-avatar.svg') }}" alt="Ver freelancers">
+                        </a>
                     @endforelse
                 </div>
                 <p class="rr-stats-text">
