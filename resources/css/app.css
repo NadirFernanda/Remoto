@@ -3051,12 +3051,12 @@ html body .chat-window .chat-message-mine-time {
 }
 
 .freelancer-profile-back {
-    color: #93c5fd !important;
+    color: #0055ff !important;
     transition: color .18s ease, transform .18s ease;
 }
 
 .freelancer-profile-back:hover {
-    color: #dbeafe !important;
+    color: #0047d9 !important;
     transform: translateX(-2px);
 }
 
@@ -3204,24 +3204,16 @@ html body .chat-window .chat-message-mine-time {
     overflow-wrap: anywhere;
 }
 
-.freelancer-profile-content .bg-violet-50 {
-    background: rgba(139,92,246,.14) !important;
-}
-
-.freelancer-profile-content .text-violet-500 {
-    color: #c4b5fd !important;
-}
-
 .freelancer-profile-content .freelancer-profile-card .text-\[\#0055ff\] {
-    color: #93c5fd !important;
+    color: #0055ff !important;
 }
 
 .freelancer-profile-content .freelancer-profile-card .bg-\[\#0055ff\]\/8 {
-    background: rgba(37,99,235,.16) !important;
+    background: rgba(0,85,255,.12) !important;
 }
 
 .freelancer-profile-content .freelancer-profile-card .border-\[\#0055ff\]\/20 {
-    border-color: rgba(96,165,250,.35) !important;
+    border-color: rgba(0,85,255,.35) !important;
 }
 
 .freelancer-profile-content .rounded-2xl,

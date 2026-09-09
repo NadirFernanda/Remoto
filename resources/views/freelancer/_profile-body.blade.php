@@ -146,8 +146,8 @@
         <div class="flex flex-col gap-4">
             @foreach($user->educations as $edu)
                 <div class="flex gap-3">
-                    <div class="w-9 h-9 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                    <div class="w-9 h-9 rounded-lg bg-[#0055ff]/8 flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-bold text-gray-900">{{ $edu->escola }}</p>
