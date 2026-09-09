@@ -6,7 +6,7 @@
             @foreach([1 => 'Tipo de Serviço', 2 => 'Detalhes', 3 => 'Revisão'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $step > $n ? ' text-white' : ($step === $n ? ' text-white shadow-sky-200/60' : 'bg-slate-100 text-slate-400') }}">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm transition-all {{ $step >= $n ? 'bg-[#0055ff] text-white' : 'bg-slate-100 text-slate-400' }}">
                             @if($step > $n)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -66,11 +66,11 @@
                         $selected = $business_type1 === $cat;
                     @endphp
                     <button type="button" wire:click="$set('business_type1', '{{ $cat }}')"
-                        class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer {{ $selected ? 'border-sky-400 shadow-md shadow-sky-100' : 'border-slate-200 bg-white hover:border-sky-300 hover:bg-sky-50/60' }}">
+                        class="flex flex-col items-center gap-3 p-5 rounded-2xl border-2 transition-all text-center cursor-pointer {{ $selected ? 'border-[#0055ff] shadow-md shadow-blue-100' : 'border-slate-200 bg-white hover:border-[#0055ff] hover:bg-blue-50/60' }}">
                         <div class="w-10 h-10 {{ $selected ? 'text-[#0033cc]' : 'text-[#0055ff]' }} transition-colors">
                             {!! $meta['icon'] !!}
                         </div>
-                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-sky-700' : 'text-slate-700' }}">{{ $meta['short'] }}</span>
+                        <span class="text-xs font-semibold leading-tight {{ $selected ? 'text-[#0055ff]' : 'text-slate-700' }}">{{ $meta['short'] }}</span>
                     </button>
                 @endforeach
             </div>
@@ -79,7 +79,7 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-slate-700 mb-1.5">Descreva o tipo de serviço</label>
                     <input type="text" wire:model.defer="business_type1_outro"
-                        class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition"
+                        class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none transition"
                         placeholder="Ex: Tradução de contratos jurídicos">
                 </div>
             @endif
@@ -120,7 +120,7 @@
                             Título do projecto <span class="text-red-500">*</span>
                         </label>
                         <input type="text" wire:model.defer="title1" maxlength="100"
-                            class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('title1') border-red-400 @enderror"
+                            class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none transition @error('title1') border-red-400 @enderror"
                             placeholder="Ex: Site institucional para empresa de consultoria">
                         @error('title1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
@@ -133,7 +133,7 @@
                             <p class="text-xs text-slate-400 mb-2">Exemplo: <em>{{ $currentTemplate['example'] }}</em></p>
                         @endif
                         <textarea wire:model.defer="necessity1" rows="7" maxlength="2000"
-                            class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none resize-none transition @error('necessity1') border-red-400 @enderror"
+                            class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white text-slate-800 focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none resize-none transition @error('necessity1') border-red-400 @enderror"
                             placeholder="Descreva o que precisa, objectivos, funcionalidades desejadas..."></textarea>
                         @error('necessity1')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
@@ -145,15 +145,15 @@
             <div class="lg:col-span-1 space-y-4">
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-7 h-7 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/></svg>
+                        <div class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/></svg>
                         </div>
-                        <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">Perguntas guia</p>
+                        <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide">Perguntas guia</p>
                     </div>
                     <ul class="space-y-3">
                         @foreach($currentTemplate['questions'] ?? [] as $q)
                             <li class="flex items-start gap-2.5 text-xs text-slate-600">
-                                <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
+                                <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-[#0055ff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
                                 {{ $q }}
                             </li>
                         @endforeach
@@ -213,14 +213,14 @@
                     <span class="text-slate-400 font-normal">(editável)</span>
                 </label>
                 <textarea wire:model="generated_description" rows="8"
-                    class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 bg-slate-50 focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none resize-none transition"></textarea>
+                    class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 bg-slate-50 focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none resize-none transition"></textarea>
                 @error('generated_description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
         </div>
 
-        <div class="bg-sky-50 border border-sky-200 rounded-2xl p-4 flex items-start gap-3">
-            <svg class="w-5 h-5 text-sky-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <p class="text-sm text-sky-800">
+        <div class="briefing-tip rounded-2xl p-4 flex items-start gap-3">
+            <svg class="w-5 h-5 text-[#0055ff] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="briefing-tip-text text-sm">
                 <strong>O que acontece a seguir?</strong> Após submeter, poderá definir o orçamento e o projecto será publicado para que freelancers enviem propostas.
             </p>
         </div>
