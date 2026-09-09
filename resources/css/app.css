@@ -2427,6 +2427,28 @@ html body .chat-window .chat-message-mine-time {
     line-height: 1.55;
 }
 
+.briefing-guide-icon {
+    background: rgba(0, 85, 255, .16) !important;
+    color: #0055ff !important;
+}
+
+.briefing-guide-number {
+    background: #0055ff !important;
+    color: #fff !important;
+}
+
+.briefing-guide-card .briefing-guide-question {
+    color: #f8fafc !important;
+    line-height: 1.45;
+}
+
+.briefing-progress,
+.briefing-progress span,
+.briefing-progress .text-slate-800,
+.briefing-progress .text-slate-400 {
+    color: #f8fafc !important;
+}
+
 .briefing-primary {
     background: #0055ff !important;
     border: 1px solid #0055ff !important;

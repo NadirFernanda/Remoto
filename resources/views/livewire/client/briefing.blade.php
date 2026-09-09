@@ -143,17 +143,17 @@
             {{-- Dicas --}}
             @if(!empty($currentTemplate))
             <div class="lg:col-span-1 space-y-4">
-                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+                <div class="briefing-guide-card bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <div class="briefing-guide-icon w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0">
                             <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M5 5h14a2 2 0 012 2v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/></svg>
                         </div>
                         <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide">Perguntas guia</p>
                     </div>
                     <ul class="space-y-3">
                         @foreach($currentTemplate['questions'] ?? [] as $q)
-                            <li class="flex items-start gap-2.5 text-xs text-slate-600">
-                                <span class="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-[#0055ff] flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
+                            <li class="briefing-guide-question flex items-start gap-2.5 text-xs">
+                                <span class="briefing-guide-number mt-0.5 flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold">{{ $loop->iteration }}</span>
                                 {{ $q }}
                             </li>
                         @endforeach
