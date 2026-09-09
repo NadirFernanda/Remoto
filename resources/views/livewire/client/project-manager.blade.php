@@ -1,12 +1,12 @@
-<div class="project-manager max-w-6xl mx-auto space-y-6">
+<div class="project-manager project-manager-page max-w-6xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ────────────────────────────────── --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="project-manager-header rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Gestão de Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o progresso, milestones e entregas dos seus projectos.</p>
         </div>
-        <a href="{{ route('client.briefing') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-white/15 border border-white/30 hover:bg-white/25 text-white transition self-start">
+        <a href="{{ route('client.briefing') }}" class="project-manager-primary inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition self-start">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
             </svg>

@@ -2408,6 +2408,70 @@ html body .chat-window .chat-message-mine-time {
     transform: translateY(-50%);
 }
 
+.briefing-tip {
+    background: rgba(0, 85, 255, .1) !important;
+    border: 1px solid rgba(96, 165, 250, .3) !important;
+    color: #dbeafe !important;
+}
+
+.briefing-tip-title {
+    color: #93c5fd !important;
+}
+
+.briefing-tip-title svg {
+    color: #60a5fa !important;
+}
+
+.briefing-tip-text {
+    color: #cbd5e1 !important;
+    line-height: 1.55;
+}
+
+.briefing-primary {
+    background: #0055ff !important;
+    border: 1px solid #0055ff !important;
+    min-height: 2.75rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-shadow: 0 8px 18px rgba(0, 85, 255, .22);
+}
+
+.briefing-primary:hover {
+    background: #0047d9 !important;
+    border-color: #0047d9 !important;
+    transform: translateY(-1px);
+}
+
+.project-manager-page .project-manager-header {
+    background:
+        radial-gradient(circle at 88% 8%, rgba(96, 165, 250, .28), transparent 34%),
+        linear-gradient(135deg, #101b31 0%, #162b52 100%) !important;
+    border: 1px solid rgba(96, 165, 250, .28);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .14);
+}
+
+.project-manager-page .project-manager-primary {
+    min-height: 2.75rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    background: #0055ff !important;
+    border: 1px solid #0055ff !important;
+    box-shadow: 0 8px 18px rgba(0, 85, 255, .22);
+}
+
+.project-manager-page .project-manager-primary:hover {
+    background: #0047d9 !important;
+    border-color: #0047d9 !important;
+    transform: translateY(-1px);
+}
+
+.project-manager-page .project-manager-header + .flex button {
+    min-height: 2.75rem;
+    padding: .65rem 1rem;
+    border-radius: .75rem;
+    font-weight: 700;
+}
+
 /* Product covers keep their full artwork visible instead of cropping it. */
 .loja-cover-image {
     display: block;

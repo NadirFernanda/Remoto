@@ -86,15 +86,15 @@
         </div>
 
         @if($business_type1 && $business_type1 !== 'Outro' && !empty($currentTemplate))
-            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-2 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica para o seu briefing</p>
-                <p class="text-sm text-amber-800">{{ $currentTemplate['tips'] ?? '' }}</p>
+            <div class="briefing-tip rounded-2xl p-4">
+                <p class="briefing-tip-title text-xs font-bold uppercase tracking-wide mb-2 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica para o seu briefing</p>
+                <p class="briefing-tip-text text-sm">{{ $currentTemplate['tips'] ?? '' }}</p>
             </div>
         @endif
 
         <div class="flex justify-end">
             <button type="button" wire:click="goToStep2"
-                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
+                class="briefing-primary inline-flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all">
                 Continuar
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -160,9 +160,9 @@
                     </ul>
                 </div>
                 @if(!empty($currentTemplate['tips']))
-                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide mb-1 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica</p>
-                    <p class="text-xs text-amber-800 leading-relaxed">{{ $currentTemplate['tips'] }}</p>
+                <div class="briefing-tip rounded-2xl p-4">
+                    <p class="briefing-tip-title text-xs font-bold uppercase tracking-wide mb-1 flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18h.01"/><path d="M9.09 9a3 3 0 1 1 5.82 1c-.88 1.56-2.2 2.08-2.2 3.5"/><circle cx="12" cy="12" r="9"/></svg> Dica</p>
+                    <p class="briefing-tip-text text-xs leading-relaxed">{{ $currentTemplate['tips'] }}</p>
                 </div>
                 @endif
             </div>
@@ -176,7 +176,7 @@
                 Voltar
             </button>
             <button type="button" wire:click="goToStep3"
-                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40">
+                class="briefing-primary inline-flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all">
                 Gerar descrição
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
@@ -232,7 +232,7 @@
                 Voltar
             </button>
             <button type="button" wire:click="submitBriefing" wire:loading.attr="disabled"
-                class="inline-flex items-center gap-2 hover: hover: text-white font-semibold px-8 py-3 rounded-xl transition-all shadow-md shadow-sky-200/40 disabled:opacity-60">
+                class="briefing-primary inline-flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all disabled:opacity-60">
                 <span wire:loading.remove>
                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     Publicar projecto
