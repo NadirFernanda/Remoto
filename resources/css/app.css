@@ -3199,6 +3199,15 @@ html body .chat-window .chat-message-mine-time {
     object-position: center;
 }
 
+.freelancer-portfolio-document {
+    background: #0b1220;
+    color: #0055ff;
+}
+
+.freelancer-portfolio-document:hover {
+    background: #152542;
+}
+
 .freelancer-portfolio-copy {
     flex: 1;
     min-width: 0;

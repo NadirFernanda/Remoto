@@ -182,7 +182,7 @@
                         </x-image-lightbox>
                     @else
                         <a href="{{ $mediaUrl }}" target="_blank" rel="noopener noreferrer"
-                           class="freelancer-portfolio-document flex min-h-48 flex-col items-center justify-center gap-3 p-6 text-center hover:bg-gray-100 transition"
+                           class="freelancer-portfolio-document flex min-h-48 flex-col items-center justify-center gap-3 p-6 text-center transition"
                            aria-label="Abrir {{ $item->title ?? 'documento do portfólio' }}">
                             <svg class="w-12 h-12 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
