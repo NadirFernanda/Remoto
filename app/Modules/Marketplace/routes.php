@@ -6,6 +6,7 @@ use App\Modules\Marketplace\Controllers\FreelancerProfileController;
 use App\Modules\Marketplace\Controllers\ClientProfileController;
 use App\Modules\Marketplace\Controllers\PublicProjectsController;
 use App\Modules\Marketplace\Controllers\ServiceTitleController;
+use App\Modules\Marketplace\Controllers\PortfolioMediaController;
 
 // ─── Marketplace Module Routes ────────────────────────────────────────────────
 
@@ -14,6 +15,7 @@ Route::middleware('web')->group(function () {
     Route::get('/freelancers', [FreelancerListingController::class, 'index'])->name('freelancers.index');
     Route::get('/freelancers/buscar', \App\Livewire\FreelancerSearch::class)->name('freelancers.search');
     Route::get('/freelancers/{user}', [FreelancerProfileController::class, 'show'])->name('freelancer.show');
+    Route::get('/portfolio/{portfolio}/arquivo', [PortfolioMediaController::class, 'show'])->name('portfolio.media');
     Route::get('/clientes/{user}', [ClientProfileController::class, 'show'])->name('client.public');
     Route::get('/projetos', [PublicProjectsController::class, 'index'])->name('public.projects');
     Route::get('/projetos/{service}', [PublicProjectsController::class, 'show'])->name('public.project.show');
