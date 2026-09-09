@@ -42,6 +42,9 @@
                 <div class="absolute bottom-0 left-0 right-0 text-xs text-white bg-red-600/90 px-3 py-1">{{ $message }}</div>
             @enderror
         </div>
+        <p class="px-4 py-2 text-xs text-gray-500 bg-gray-50 border-t border-gray-200">
+            Para a capa ficar bem enquadrada, use uma imagem horizontal de <strong>1600 × 400 px</strong> (proporção 4:1).
+        </p>
         {{-- Avatar sobreposto na capa --}}
         <div class="relative px-6 pb-4 bg-white">
             <div class="flex items-end gap-4 -mt-10">

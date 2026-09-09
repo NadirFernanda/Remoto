@@ -26,7 +26,7 @@
         @if($creator->coverPhotoUrl())
             <x-image-lightbox :src="$creator->coverPhotoUrl()" :alt="$creator->name . ' — capa'">
                 <div class="platform-cover creator-profile-cover h-24 sm:h-32 relative">
-                    <img src="{{ $creator->coverPhotoUrl() }}" alt="{{ $creator->name }} — capa" class="w-full h-full object-contain object-center bg-[#0f172a]">
+                    <img src="{{ $creator->coverPhotoUrl() }}" alt="{{ $creator->name }} — capa" class="w-full h-full object-cover object-center">
                 </div>
             </x-image-lightbox>
         @else
