@@ -113,19 +113,19 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
                    class="flex items-start gap-3 px-4 py-3 transition"
                    style="border-bottom:1px solid rgba(255,255,255,.06);"
                    onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'"
-                   :class="notif.read ? 'opacity-60' : ''">
+                   :class="notif.read ? 'bg-white/[0.01]' : ''">
                     <span class="mt-1.5 w-2 h-2 flex-shrink-0 rounded-full"
                           :style="notif.read ? 'background:#475569' : 'background:' + dotColor(notif.type)"></span>
                     <div class="flex-1 min-w-0">
                         <p x-show="notif.sender_name || notif.type === 'admin_message' || notif.type === 'support_ticket_reply' || notif.type === 'support_ticket_new'"
                            x-text="(notif.type === 'support_ticket_reply' || notif.type === 'support_ticket_new') ? 'Suporte: ' + (notif.sender_name || 'Suporte') : 'Admin: ' + (notif.sender_name || 'Administração')"
-                           class="text-[10px] font-medium text-[#5b9dff] mb-0.5"></p>
+                           class="text-[10px] font-medium text-white mb-0.5"></p>
                         <p x-show="notif.title" x-text="notif.title"
-                           class="text-xs font-semibold text-gray-100 truncate"></p>
+                           class="text-xs font-semibold text-white truncate"></p>
                         <p x-text="notif.message"
-                           class="text-xs text-slate-400 leading-snug line-clamp-2 mt-0.5"></p>
+                           class="text-xs text-white leading-snug line-clamp-2 mt-0.5"></p>
                         <p x-text="notif.created_at"
-                           class="text-[11px] text-slate-500 mt-1"></p>
+                           class="text-[11px] text-white/60 mt-1"></p>
                     </div>
                 </a>
             </template>
