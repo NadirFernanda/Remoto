@@ -170,14 +170,26 @@
             @foreach($user->portfolios as $item)
                 @php
                     $mediaUrl = $item->mediaUrl();
+                    $isImage = ($item->media_type === 'image') || ($item->category === 'imagem');
                 @endphp
                 @if($mediaUrl)
                 <div class="freelancer-portfolio-item rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
-                    <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
-                        <div class="freelancer-portfolio-image">
-                            <img src="{{ $mediaUrl }}" alt="{{ $item->title ?? 'Portfólio' }}" loading="lazy" decoding="async" class="w-full h-full object-contain">
-                        </div>
-                    </x-image-lightbox>
+                    @if($isImage)
+                        <x-image-lightbox :src="$mediaUrl" :alt="$item->title ?? 'Portfólio'" trigger-class="block">
+                            <div class="freelancer-portfolio-image">
+                                <img src="{{ $mediaUrl }}" alt="{{ $item->title ?? 'Portfólio' }}" loading="lazy" decoding="async" class="w-full h-full object-contain">
+                            </div>
+                        </x-image-lightbox>
+                    @else
+                        <a href="{{ $mediaUrl }}" target="_blank" rel="noopener noreferrer"
+                           class="freelancer-portfolio-document flex min-h-48 flex-col items-center justify-center gap-3 p-6 text-center hover:bg-gray-100 transition"
+                           aria-label="Abrir {{ $item->title ?? 'documento do portfólio' }}">
+                            <svg class="w-12 h-12 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span class="text-sm font-semibold text-[#0055ff]">Abrir documento</span>
+                        </a>
+                    @endif
                     @if($item->title)
                     <div class="freelancer-portfolio-copy p-4">
                         <p class="text-sm font-bold text-gray-900 leading-snug break-words">{{ $item->title }}</p>
