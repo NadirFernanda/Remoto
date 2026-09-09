@@ -603,9 +603,11 @@
 
             <div class="rr-stats">
                 <div class="rr-stats-avatars">
-                    <img src="{{ asset('img/default-avatar.svg') }}" alt="">
-                    <img src="{{ asset('img/default-avatar.svg') }}" alt="">
-                    <img src="{{ asset('img/default-avatar.svg') }}" alt="">
+                    @forelse($activeFreelancers as $freelancer)
+                        <img src="{{ $freelancer->avatarUrl() }}" alt="{{ $freelancer->name }}">
+                    @empty
+                        <img src="{{ asset('img/default-avatar.svg') }}" alt="">
+                    @endforelse
                 </div>
                 <p class="rr-stats-text">
                     <span>{{ \App\Services\PlatformStatsService::format($totalFreelancers) }}</span> freelancers activos<br>

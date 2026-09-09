@@ -7,31 +7,44 @@ use App\Models\Review;
 use App\Models\Service;
 use App\Models\SocialPost;
 use App\Models\User;
-use Illuminate\Support\Facades\Cache;
-
 class PlatformStatsService
 {
     public static function get(): array
     {
-        return Cache::remember('platform_stats', 3600, function () {
-            $totalUsers       = User::count();
-            $totalFreelancers = User::where('role', 'freelancer')->count();
-            $totalServicos    = Service::count();
-            $totalCriadores   = CreatorProfile::count();
-            $totalPosts30d    = SocialPost::where('created_at', '>=', now()->subDays(30))->count();
+        $activeFreelancers = User::query()
+            ->where('role', 'freelancer')
+            ->where('kyc_status', 'verified')
+            ->where(function ($query) {
+                $query->whereNull('is_suspended')->orWhere('is_suspended', false);
+            })
+            ->latest()
+            ->get(['id', 'name', 'profile_photo'])
+            ->take(3);
 
-            $avgRating        = Review::avg('rating') ?? 0;
-            $satisfacao       = $avgRating > 0 ? round(($avgRating / 5) * 100) : 0;
+        $totalUsers       = User::count();
+        $totalFreelancers = User::query()
+            ->where('role', 'freelancer')
+            ->where('kyc_status', 'verified')
+            ->where(function ($query) {
+                $query->whereNull('is_suspended')->orWhere('is_suspended', false);
+            })
+            ->count();
+        $totalServicos    = Service::where('status', 'published')->count();
+        $totalCriadores   = CreatorProfile::count();
+        $totalPosts30d    = SocialPost::where('created_at', '>=', now()->subDays(30))->count();
 
-            return compact(
-                'totalUsers',
-                'totalFreelancers',
-                'totalServicos',
-                'totalCriadores',
-                'totalPosts30d',
-                'satisfacao',
-            );
-        });
+        $avgRating        = Review::avg('rating') ?? 0;
+        $satisfacao       = $avgRating > 0 ? round(($avgRating / 5) * 100) : 0;
+
+        return compact(
+            'totalUsers',
+            'totalFreelancers',
+            'totalServicos',
+            'totalCriadores',
+            'totalPosts30d',
+            'satisfacao',
+            'activeFreelancers',
+        );
     }
 
     public static function flush(): void
