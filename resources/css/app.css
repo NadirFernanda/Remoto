@@ -2799,6 +2799,11 @@ html body .chat-window .chat-message-mine-time {
     background: rgba(245, 158, 11, .28) !important;
 }
 
+.loja-public-action {
+    border-radius: .6875rem !important;
+    box-sizing: border-box;
+}
+
 /* Apply the same dark surface, readable text and solid-blue actions to every
    authenticated workspace page, not only the pages with a dedicated wrapper. */
 .workspace-layout {

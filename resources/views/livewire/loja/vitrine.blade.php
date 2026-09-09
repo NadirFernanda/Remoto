@@ -172,7 +172,7 @@
                             <span class="text-2xl font-extrabold tracking-tight">{{ number_format($produto->preco, 0, ',', '.') }}</span>
                             <span class="text-xs font-bold {{ $isPatrocinado ? 'text-white/70' : 'text-gray-400' }}">Kz</span>
                         </div>
-                        <span class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-white text-[#0033cc] group-hover:bg-amber-400 group-hover:text-white' : 'bg-[#0055ff]/10 text-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white' }}">
+                        <span class="loja-public-action block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-white text-[#0033cc] border border-white group-hover:bg-amber-400 group-hover:border-amber-400 group-hover:text-white' : 'bg-[#0055ff]/10 text-[#0055ff] border border-[#0055ff] group-hover:bg-[#0055ff] group-hover:text-white' }}">
                             Ver produto
                         </span>
                     </div>
@@ -181,7 +181,7 @@
 
                 <div class="px-5 pb-5 {{ $isPatrocinado ? '' : '-mt-1' }}">
                     <a href="{{ route('loja.purchase', $produto->slug) }}"
-                        class="block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-amber-400 text-white hover:bg-amber-300' : 'bg-[#0055ff] text-white hover:bg-[#0033cc]' }}">
+                        class="loja-public-action block w-full text-center py-2.5 rounded-xl font-bold text-sm transition-colors {{ $isPatrocinado ? 'bg-amber-400 text-white border border-amber-400 hover:bg-amber-300 hover:border-amber-300' : 'bg-[#0055ff] text-white border border-[#0055ff] hover:bg-[#0033cc] hover:border-[#0033cc]' }}">
                         Comprar
                     </a>
                 </div>
