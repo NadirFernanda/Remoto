@@ -15,13 +15,15 @@
 
     <div x-show="open" x-cloak x-transition.opacity
          @click="open = false" @keydown.escape.window="open = false"
-         class="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8"
          style="background:rgba(0,0,0,.9)">
         <button @click.stop="open = false" type="button"
-                class="absolute top-4 right-4 text-white/80 hover:text-white transition"
+                class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition flex items-center justify-center"
                 aria-label="Fechar">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <img @click.stop src="{{ $src }}" alt="{{ $alt }}" class="max-w-full max-h-[90vh] rounded-lg object-contain">
+        <div @click.stop class="flex max-w-[min(90vw,900px)] max-h-[82vh] items-center justify-center rounded-2xl bg-[#0f172a] p-2 shadow-2xl">
+            <img src="{{ $src }}" alt="{{ $alt }}" class="block max-h-[78vh] max-w-[min(86vw,860px)] rounded-xl object-contain">
+        </div>
     </div>
 </div>
