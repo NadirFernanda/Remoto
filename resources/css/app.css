@@ -3115,6 +3115,9 @@ html body .chat-window .chat-message-mine-time {
 .freelancer-profile-cover img {
     display: block;
     filter: saturate(.9) brightness(.82);
+    object-fit: contain;
+    object-position: center;
+    background: #0f172a;
 }
 
 .freelancer-profile-card .px-5 .-mt-10,

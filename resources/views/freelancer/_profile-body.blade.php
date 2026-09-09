@@ -14,7 +14,7 @@
         @if($user->coverPhotoUrl())
             <x-image-lightbox :src="$user->coverPhotoUrl()" :alt="$user->name . ' — capa'">
                 <div class="platform-cover h-24 sm:h-32">
-                    <img src="{{ $user->coverPhotoUrl() }}" alt="{{ $user->name }} — capa" class="w-full h-full object-cover">
+                    <img src="{{ $user->coverPhotoUrl() }}" alt="{{ $user->name }} — capa" class="w-full h-full object-contain object-center">
                 </div>
             </x-image-lightbox>
         @else
