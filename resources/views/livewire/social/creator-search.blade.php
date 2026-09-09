@@ -56,17 +56,17 @@
         @else
             <p class="text-xs text-gray-400 mb-4">{{ $creators->total() }} criador(es) encontrado(s)</p>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="creator-card-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach($creators as $creator)
                     @php
                         $profile  = $creator->creatorProfile;
                         $isSubbed = in_array($creator->id, $subscribedCreatorIds);
                         $catLabel = \App\Models\CreatorProfile::categories()[$profile?->category ?? ''] ?? null;
                     @endphp
-                    <div class="cover-card bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
+                    <div class="creator-card cover-card">
 
                         {{-- Cover photo --}}
-                        <div class="platform-cover relative h-24" style="background: #0055ff">
+                        <div class="creator-card-cover platform-cover relative" style="background: #0055ff">
                             @if($creator->coverPhotoUrl())
                                 <img src="{{ $creator->coverPhotoUrl() }}"
                                      alt="capa"
@@ -74,7 +74,7 @@
                                      class="absolute inset-0 w-full h-full platform-cover-image object-cover">
                             @endif
                             {{-- Avatar --}}
-                            <div class="platform-cover-avatar absolute -bottom-6 left-4">
+                            <div class="creator-card-avatar platform-cover-avatar absolute">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
                                      loading="lazy" decoding="async"
@@ -83,34 +83,34 @@
                             </div>
                         </div>
 
-                        <div class="pt-8 pb-4 px-4">
+                        <div class="creator-card-body">
                             {{-- Name & category --}}
                             <div class="flex items-start justify-between gap-2 mb-1">
                                 <div class="min-w-0">
-                                    <p class="font-semibold text-sm text-gray-900 truncate">{{ $creator->name }}</p>
+                                    <p class="creator-card-name">{{ $creator->name }}</p>
                                     @if($catLabel)
-                                        <span class="inline-block text-xs text-[#0055ff] bg-[#e0f7fa] rounded-full px-2 py-0.5 mt-0.5">{{ $catLabel }}</span>
+                                        <span class="creator-card-category">{{ $catLabel }}</span>
                                     @endif
                                 </div>
                                 @if($isSubbed)
-                                    <span class="flex-shrink-0 text-xs text-green-600 bg-green-50 border border-green-100 rounded-full px-2 py-0.5 font-medium">Assinado</span>
+                                    <span class="creator-card-subscribed">Assinado</span>
                                 @endif
                             </div>
 
                             {{-- Bio snippet --}}
                             @if($profile?->bio)
-                                <p class="text-xs text-gray-400 mt-2 line-clamp-2">{{ $profile->bio }}</p>
+                                <p class="creator-card-bio">{{ $profile->bio }}</p>
                             @endif
 
                             {{-- Stats --}}
-                            <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                            <div class="creator-card-stats">
                                 <span class="flex items-center gap-1">
                                     <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
                                     {{ number_format($creator->active_subscribers_count ?? 0) }} assinantes
                                 </span>
-                                <span class="flex items-center gap-1 font-medium text-gray-700">
+                                <span class="flex items-center gap-1 font-medium">
                                     <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
@@ -119,9 +119,9 @@
                             </div>
 
                             {{-- Actions --}}
-                            <div class="mt-4 flex gap-2">
+                            <div class="creator-card-actions">
                                 <a href="{{ route('social.creator', $creator) }}"
-                                   class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl border border-gray-200 text-gray-600 hover:border-[#0055ff] hover:text-[#0055ff] transition">
+                                   class="creator-card-view">
                                     Ver perfil
                                 </a>
                                 @auth
@@ -129,19 +129,19 @@
                                         {{-- own profile: no subscribe button --}}
                                     @elseif($isSubbed)
                                         <a href="{{ route('social.creator', $creator) }}"
-                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-green-50 text-green-600 border border-green-100 hover:bg-green-100 transition">
+                                           class="creator-card-view">
                                             Ver conteúdo
                                         </a>
                                     @else
                                         <a href="{{ route('social.creator.subscribe', $creator) }}"
-                                           class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition">
+                                           class="creator-card-subscribe">
                                             Assinar
                                         </a>
                                     @endif
                                 @endauth
                                 @guest
                                     <a href="{{ route('login') }}"
-                                       class="flex-1 text-center text-xs font-medium px-3 py-2 rounded-xl bg-[#0055ff] text-white hover:bg-[#009ad6] transition">
+                                       class="creator-card-subscribe">
                                         Assinar
                                     </a>
                                 @endguest
