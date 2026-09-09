@@ -233,8 +233,8 @@
             </button>
             <button type="button" wire:click="submitBriefing" wire:loading.attr="disabled"
                 class="briefing-primary inline-flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all disabled:opacity-60">
-                <span wire:loading.remove>
-                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                <span wire:loading.remove class="inline-flex items-center gap-2">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     Publicar projecto
                 </span>
                 <span wire:loading class="flex items-center gap-2">
