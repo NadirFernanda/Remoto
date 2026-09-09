@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Livewire\Features\SupportFileUploads\FileUploadController;
 use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
 use Livewire\Mechanisms\HandleRequests\HandleRequests;
 
@@ -45,10 +44,6 @@ class AppServiceProvider extends ServiceProvider
                 ->middleware('web')
                 ->name('custom.livewire.update');
         });
-
-        Route::post('/lw-upload', [FileUploadController::class, 'handle'])
-            ->middleware('web')
-            ->name('livewire.upload-file');
 
         // ── API throttle ──────────────────────────────────────────────────────
         RateLimiter::for('api', function (Request $request) {
