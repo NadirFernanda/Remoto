@@ -1,4 +1,4 @@
-<div class="min-h-screen pb-16">
+<div class="payment-escrow-page min-h-screen pb-16">
 
     {{-- ── Header ── --}}
     <div class="rounded-2xl p-6 text-white mb-8">
@@ -21,7 +21,7 @@
             @foreach([1 => 'Briefing', 2 => 'Investimento', 3 => 'Pagamento'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-sm {{ $n < 3 ? ' text-white' : ' text-white shadow-sky-200/60' }}">
+                        <div class="w-9 h-9 rounded-full bg-[#0055ff] text-white flex items-center justify-center text-sm font-bold shadow-sm">
                             @if($n < 3)
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                             @else
@@ -31,7 +31,7 @@
                         <span class="text-sm font-semibold text-slate-800 hidden sm:inline">{{ $label }}</span>
                     </div>
                     @if(!$loop->last)
-                        <div class="flex-1 h-1 mx-3 rounded-full"></div>
+                        <div class="flex-1 h-1 mx-3 rounded-full bg-[#0055ff]/20"></div>
                     @endif
                 </div>
             @endforeach
@@ -77,12 +77,12 @@
                     <form wire:submit.prevent="chargeAppyPayPhone">
                         <label class="block text-sm font-semibold text-slate-700 mb-1.5">Número de telefone <span class="text-red-500">*</span></label>
                         <input type="tel" wire:model.defer="phone_number" maxlength="9"
-                            class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-sky-200 focus:border-sky-400 outline-none transition @error('phone_number') border-red-400 @enderror"
+                            class="w-full bg-white text-slate-800 border border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:ring-2 focus:ring-[#0055ff]/20 focus:border-[#0055ff] outline-none transition @error('phone_number') border-red-400 @enderror"
                             placeholder="923456789">
                         @error('phone_number') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                         <button type="submit" wire:loading.attr="disabled" wire:target="chargeAppyPayPhone"
-                            class="w-full mt-4 hover: hover: disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-sky-200/40 flex items-center justify-center gap-2 text-base">
+                            class="w-full mt-4 bg-[#0055ff] hover:bg-[#0047d9] disabled:opacity-60 text-white font-bold py-4 rounded-2xl transition-all shadow-md shadow-[#0055ff]/20 flex items-center justify-center gap-2 text-base">
                             <span wire:loading.remove wire:target="chargeAppyPayPhone">Pagar {{ number_format($valor_total, 0, ',', '.') }} Kz via Express</span>
                             <span wire:loading wire:target="chargeAppyPayPhone" class="flex items-center gap-2">
                                 <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
@@ -94,7 +94,7 @@
 
                 @if($appypay_step === 'waiting')
                     <div wire:poll.3s="checkAppyPayStatus" class="flex flex-col items-center justify-center py-8 text-center gap-3">
-                        <svg class="animate-spin w-10 h-10 text-sky-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                        <svg class="animate-spin w-10 h-10 text-[#0055ff]" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
                         <p class="text-base font-semibold text-slate-700">Aguarde a aprovação no seu telemóvel</p>
                         <p class="text-sm text-slate-400 max-w-xs">Abra a app Multicaixa Express e aprove o pedido de pagamento. Esta página actualiza-se automaticamente.</p>
                     </div>
@@ -118,8 +118,8 @@
             {{-- Resumo financeiro --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
                 <div class="flex items-center gap-2 mb-4">
-                    <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-                    <p class="text-xs font-bold text-sky-700 uppercase tracking-wide">Resumo financeiro</p>
+                    <span class="w-2 h-2 rounded-full bg-[#0055ff]"></span>
+                    <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide">Resumo financeiro</p>
                 </div>
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
@@ -134,7 +134,7 @@
                     @endif
                     <div class="border-t border-slate-100 pt-3 flex justify-between items-center">
                         <span class="text-sm font-bold text-slate-700">Total a pagar</span>
-                        <span class="text-lg font-bold text-sky-700">{{ number_format($valor_total, 0, ',', '.') }} Kz</span>
+                        <span class="text-lg font-bold text-[#0055ff]">{{ number_format($valor_total, 0, ',', '.') }} Kz</span>
                     </div>
                     <div class="bg-emerald-50 border border-emerald-100 rounded-xl px-3 py-2 flex justify-between items-center">
                         <span class="text-xs text-emerald-700">Freelancer recebe (após comissão)</span>
@@ -174,12 +174,12 @@
             </div>
 
             {{-- Garantia de reembolso --}}
-            <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4">
+            <div class="bg-[#0055ff]/10 border border-[#0055ff]/20 rounded-2xl p-4">
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                    <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">Garantia de reembolso</p>
+                    <span class="w-2 h-2 rounded-full bg-[#0055ff]"></span>
+                    <p class="text-xs font-bold text-[#0055ff] uppercase tracking-wide">Garantia de reembolso</p>
                 </div>
-                <p class="text-xs text-amber-700 leading-relaxed">
+                <p class="text-xs text-slate-600 leading-relaxed">
                     O valor fica em escrow e só é transferido para o freelancer após confirmar a entrega. Pode solicitar reembolso em caso de insatisfação.
                 </p>
             </div>
