@@ -63,18 +63,18 @@
                         $isSubbed = in_array($creator->id, $subscribedCreatorIds);
                         $catLabel = \App\Models\CreatorProfile::categories()[$profile?->category ?? ''] ?? null;
                     @endphp
-                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
+                    <div class="cover-card bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
 
                         {{-- Cover photo --}}
-                        <div class="relative h-24" style="background: #0055ff">
+                        <div class="platform-cover relative h-24" style="background: #0055ff">
                             @if($creator->coverPhotoUrl())
                                 <img src="{{ $creator->coverPhotoUrl() }}"
                                      alt="capa"
                                      loading="lazy" decoding="async"
-                                     class="absolute inset-0 w-full h-full object-cover">
+                                     class="absolute inset-0 w-full h-full platform-cover-image object-cover">
                             @endif
                             {{-- Avatar --}}
-                            <div class="absolute -bottom-6 left-4">
+                            <div class="platform-cover-avatar absolute -bottom-6 left-4">
                                 <img src="{{ $creator->avatarUrl() }}"
                                      alt="{{ $creator->name }}"
                                      loading="lazy" decoding="async"

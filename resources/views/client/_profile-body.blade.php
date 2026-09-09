@@ -14,18 +14,18 @@
         {{-- Cover --}}
         @if($user->coverPhotoUrl())
             <x-image-lightbox :src="$user->coverPhotoUrl()" :alt="$user->name . ' — capa'">
-                <div class="h-32 sm:h-44">
+                <div class="platform-cover h-24 sm:h-32">
                     <img src="{{ $user->coverPhotoUrl() }}" alt="{{ $user->name }} — capa" class="w-full h-full object-cover">
                 </div>
             </x-image-lightbox>
         @else
-            <div class="h-32 sm:h-44 /40 relative">
+            <div class="platform-cover h-24 sm:h-32 bg-[#0055ff] relative">
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
             </div>
         @endif
 
         <div class="px-5 sm:px-8 pb-6">
-            <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-end gap-4 -mt-8 sm:-mt-10 mb-4">
                 {{-- Avatar --}}
                 <x-image-lightbox :src="$user->avatarUrl()" :alt="$user->name">
                     <div class="p-1 rounded-full bg-white shadow-md">

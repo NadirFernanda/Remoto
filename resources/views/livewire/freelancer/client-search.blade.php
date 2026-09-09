@@ -47,18 +47,18 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($clients as $client)
-                    <div class="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
+                    <div class="cover-card bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:border-[#0055ff]/50 transition group">
 
                         {{-- Cover photo --}}
-                        <div class="relative h-24" style="background: #0055ff">
+                        <div class="platform-cover relative h-24" style="background: #0055ff">
                             @if($client->coverPhotoUrl())
                                 <img src="{{ $client->coverPhotoUrl() }}"
                                      alt="capa"
                                      loading="lazy" decoding="async"
-                                     class="absolute inset-0 w-full h-full object-cover">
+                                     class="absolute inset-0 w-full h-full platform-cover-image object-cover">
                             @endif
                             {{-- Avatar --}}
-                            <div class="absolute -bottom-6 left-4">
+                            <div class="platform-cover-avatar absolute -bottom-6 left-4">
                                 <img src="{{ $client->avatarUrl() }}"
                                      alt="{{ $client->name }}"
                                      loading="lazy" decoding="async"

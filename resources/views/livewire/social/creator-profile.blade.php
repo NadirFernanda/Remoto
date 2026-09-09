@@ -25,19 +25,19 @@
         {{-- Cover --}}
         @if($creator->coverPhotoUrl())
             <x-image-lightbox :src="$creator->coverPhotoUrl()" :alt="$creator->name . ' — capa'">
-                <div class="creator-profile-cover h-32 sm:h-44 relative">
+                <div class="platform-cover creator-profile-cover h-24 sm:h-32 relative">
                     <img src="{{ $creator->coverPhotoUrl() }}" alt="{{ $creator->name }} — capa" class="w-full h-full object-cover">
                 </div>
             </x-image-lightbox>
         @else
-            <div class="creator-profile-cover h-32 sm:h-44 bg-[#1b2a44] relative">
+            <div class="platform-cover creator-profile-cover h-24 sm:h-32 bg-[#1b2a44] relative">
                 <div class="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full"></div>
                 <div class="absolute top-4 right-20 w-20 h-20 bg-white/10 rounded-full"></div>
             </div>
         @endif
 
         <div class="creator-profile-content px-5 sm:px-8 pb-6">
-            <div class="creator-profile-meta flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 sm:-mt-12 mb-4">
+            <div class="creator-profile-meta flex flex-col sm:flex-row sm:items-end gap-4 -mt-8 sm:-mt-10 mb-4">
 
                 {{-- Avatar --}}
                 <div class="creator-profile-avatar relative flex-shrink-0">

@@ -335,7 +335,7 @@ button.fl-page:hover {
             <div wire:key="freelancer-listing-{{ $freelancer->id }}" class="fsp-card" onclick="window.location='{{ route('freelancer.show', $freelancer) }}'">
 
                 {{-- Cover --}}
-                <div class="fsp-card-cover" @if($freelancer->coverPhotoUrl()) style="background-image: url('{{ $freelancer->coverPhotoUrl() }}');" @endif>
+                <div class="platform-cover fsp-card-cover" @if($freelancer->coverPhotoUrl()) style="background-image: url('{{ $freelancer->coverPhotoUrl() }}');" @endif>
                     @if($freelancer->kyc_status === 'verified')
                         <div class="fsp-badge-verified">
                             <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
