@@ -838,16 +838,8 @@
                         <div class="font-semibold text-white text-sm truncate">{{ auth()->user()->name }}</div>
                     </div>
                 </a>
-                {{-- Dashboard --}}
-                @if(in_array(auth()->user()->activeRole(), ['cliente','client']))
-                    <a href="{{ route('client.dashboard') }}" class="nav-link">Dashboard</a>
-                @elseif(auth()->user()->activeRole() === 'freelancer')
-                    <a href="{{ route('freelancer.dashboard') }}" class="nav-link">Dashboard</a>
-                @else
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link">Dashboard</a>
-                @endif
-                <a href="{{ route('extension.show') }}" class="nav-link flex items-center gap-2 js-pwa-install-cta" style="color:#5b9dff;">
-                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                <a href="{{ route('extension.show') }}" class="nav-link flex items-center gap-2 js-pwa-install-cta" style="color:#0055ff;">
+                    <svg width="14" height="14" fill="none" stroke="#0055ff" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                     Instalar app
                 </a>
                 {{-- Publicar / Notificação --}}
