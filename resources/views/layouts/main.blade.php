@@ -122,7 +122,7 @@
         // Start the transition in capture phase so notification links that
         // resolve to chat cannot briefly reveal an open mobile menu.
         document.addEventListener('click', function (event) {
-            const link = event.target.closest('a[href*="/notificacao/"]');
+            const link = event.target.closest('a[href*="/notificacao/"], a[data-layout-transition]');
             if (!link || event.defaultPrevented || event.button !== 0
                 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
                 || link.target === '_blank' || link.hasAttribute('download')) {

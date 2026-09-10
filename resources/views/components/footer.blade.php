@@ -30,7 +30,7 @@
                 <li><a href="{{ route('public.projects') }}">Projectos disponíveis</a></li>
                 <li><a href="{{ route('freelancers.index') }}">Encontrar freelancers</a></li>
                 <li><a href="{{ route('freelancers.search') }}">Pesquisa avançada</a></li>
-                <li><a href="{{ route('loja.index') }}">Loja de infoprodutos</a></li>
+                <li><a href="{{ route('loja.index') }}" data-layout-transition>Loja de infoprodutos</a></li>
                 <li><a href="/login">Entrar</a></li>
             </ul>
         </div>
