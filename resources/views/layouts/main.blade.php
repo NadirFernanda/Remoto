@@ -7,10 +7,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-browser.svg') . '?v=' . filemtime(public_path('favicon-browser.svg')) }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="{{ asset('favicon-browser.png') . '?v=' . filemtime(public_path('favicon-browser.png')) }}">
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
-    <link rel="apple-touch-icon" href="{{ asset('img/pwa/icon-192.png') . '?v=' . filemtime(public_path('img/pwa/icon-192.png')) }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon-browser.png') . '?v=' . filemtime(public_path('favicon-browser.png')) }}">
     <meta name="theme-color" content="#080d1a">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -114,6 +115,27 @@
                 open: false,
                 toggle() { this.open = !this.open; },
                 close() { this.open = false; }
+            });
+
+            // Keep dashboard navigation inside Livewire so the old layout is
+            // not briefly replaced by an intermediate full-page response.
+            document.addEventListener('click', (event) => {
+                const link = event.target.closest('.dash-sidebar a[href]');
+                if (!link || event.defaultPrevented || event.button !== 0
+                    || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
+                    || link.target === '_blank' || link.hasAttribute('download')) {
+                    return;
+                }
+
+                const destination = new URL(link.href, window.location.href);
+                if (destination.origin !== window.location.origin
+                    || (destination.pathname === window.location.pathname && destination.hash)) {
+                    return;
+                }
+
+                event.preventDefault();
+                Alpine.store('sidebar').close();
+                Alpine.navigate(link.href);
             });
         });
     </script>

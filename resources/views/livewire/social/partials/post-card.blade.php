@@ -21,6 +21,7 @@
                          && !$isOwner
                          && !($authUser && in_array($post->user_id, $subscribedCreatorIds ?? []));
     $isCreator = (bool)($post->user->has_creator_profile ?? false);
+    $canRepost = $authUser && in_array($authUser->activeRole(), ['freelancer', 'creator']);
 @endphp
 
 <article class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200" wire:key="post-{{ $post->id }}">
@@ -395,7 +396,7 @@
             </button>
 
             {{-- Share / Repost --}}
-            @auth
+            @if($canRepost)
                 @if(!$isOwner && ($post->type ?? 'text') !== 'repost')
                     <a href="{{ route('social.create') }}?repost_id={{ $post->id }}"
                        class="text-gray-800 hover:text-green-600 transition">
@@ -404,7 +405,7 @@
                         </svg>
                     </a>
                 @endif
-            @endauth
+            @endif
         </div>
 
         {{-- Bookmark — right side --}}

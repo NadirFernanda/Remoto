@@ -122,6 +122,17 @@
         box-shadow: 4px 0 20px rgba(0,0,0,.12);
         padding-top: 4.375rem; /* clear the fixed header on mobile */
     }
+    .dash-sidebar .snav-item svg {
+        color: #0055ff;
+    }
+    .dash-sidebar form button.text-red-500 {
+        color: #0055ff !important;
+    }
+    .dash-sidebar form button.text-red-500:hover,
+    .dash-sidebar form button.text-red-500:focus-visible {
+        color: #0047d9 !important;
+        background: rgba(0, 85, 255, .12);
+    }
     .dash-sidebar--open {
         transform: translateX(0);
     }
