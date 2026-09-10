@@ -856,6 +856,92 @@ main::before, main::after { display: none !important; content: none !important; 
     padding-left: 4.25rem !important;
 }
 
+/* Avaliações: cards and metrics use one consistent authenticated-page layout. */
+.reviews-page {
+    width: 100%;
+    max-width: 56rem;
+    color: #e2e8f0;
+}
+
+.reviews-page .reviews-header {
+    background: linear-gradient(135deg, #172b52 0%, #10213d 100%) !important;
+    border: 1px solid rgba(0, 85, 255, .28);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+}
+
+.reviews-page .reviews-header h2 {
+    color: #f8fafc !important;
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+}
+
+.reviews-page .reviews-header p {
+    color: rgba(226, 232, 240, .78) !important;
+}
+
+.reviews-page .reviews-stats {
+    align-items: stretch;
+}
+
+.reviews-page .reviews-stat {
+    min-width: 7rem;
+    background: rgba(255, 255, 255, .08) !important;
+    border-color: rgba(255, 255, 255, .18) !important;
+}
+
+.reviews-page .reviews-stat > div {
+    color: #f8fafc !important;
+}
+
+.reviews-page .reviews-tabs {
+    flex-wrap: wrap;
+}
+
+.reviews-page .reviews-tabs button {
+    min-height: 2.75rem;
+    border-radius: .6875rem !important;
+    border-color: rgba(148, 163, 184, .24);
+}
+
+.reviews-page .review-card {
+    background: #131f35 !important;
+    border-color: rgba(148, 163, 184, .18) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .16) !important;
+}
+
+.reviews-page .review-card-heading {
+    min-width: 0;
+}
+
+.reviews-page .review-card-heading > div {
+    min-width: 0;
+}
+
+.reviews-page .review-card-heading p {
+    overflow-wrap: anywhere;
+}
+
+.reviews-page .review-card img {
+    width: 3rem;
+    height: 3rem;
+    border-color: rgba(148, 163, 184, .2) !important;
+}
+
+.reviews-page .review-comment {
+    overflow-wrap: anywhere;
+    background: rgba(255, 255, 255, .045) !important;
+    border-color: rgba(148, 163, 184, .16) !important;
+    color: #cbd5e1 !important;
+}
+
+.reviews-page .review-card .text-gray-900,
+.reviews-page .review-card .text-gray-700 {
+    color: #f1f5f9 !important;
+}
+
+.reviews-page .review-card .text-gray-400 {
+    color: #94a3b8 !important;
+}
+
 @media (max-width: 768px) {
     .service-value-page {
         width: 100%;
@@ -869,6 +955,63 @@ main::before, main::after { display: none !important; content: none !important; 
     .service-value-page .value-amount-input {
         padding-left: 3.75rem !important;
         min-width: 0;
+    }
+
+    .reviews-page {
+        max-width: 100%;
+        gap: 1rem;
+    }
+
+    .reviews-page .reviews-header {
+        padding: 1rem !important;
+    }
+
+    .reviews-page .reviews-header > div {
+        gap: .875rem;
+    }
+
+    .reviews-page .reviews-stats {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .5rem;
+        width: 100%;
+    }
+
+    .reviews-page .reviews-stat {
+        min-width: 0;
+        padding: .75rem .5rem !important;
+    }
+
+    .reviews-page .reviews-tabs {
+        width: 100%;
+    }
+
+    .reviews-page .reviews-tabs button {
+        flex: 1 1 0;
+        justify-content: center;
+        min-width: 0;
+        padding-inline: .75rem;
+    }
+
+    .reviews-page .review-card {
+        padding: 1rem !important;
+    }
+
+    .reviews-page .review-card > .flex {
+        align-items: flex-start;
+        gap: .75rem;
+    }
+
+    .reviews-page .review-card-heading {
+        gap: .35rem;
+    }
+
+    .reviews-page .review-card-heading > span {
+        width: 100%;
+    }
+
+    .reviews-page .review-comment {
+        padding: .75rem !important;
     }
 }
 

@@ -3,18 +3,18 @@
     $avgGiven    = $reviewsGiven->count()    > 0 ? round($reviewsGiven->avg('rating'), 1)    : null;
 @endphp
 
-<div class="max-w-4xl mx-auto space-y-6" x-data="{ tab: 'received' }">
+<div class="reviews-page max-w-4xl mx-auto space-y-6" x-data="{ tab: 'received' }">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="rounded-2xl p-6 text-white">
+    <div class="reviews-header rounded-2xl p-6 text-white">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <div>
                 <h2 class="text-2xl font-extrabold">Avaliações</h2>
                 <p class="text-sm text-white/75 mt-1">O seu historial de avaliações recebidas e feitas</p>
             </div>
-            <div class="flex gap-3 flex-wrap">
+            <div class="reviews-stats flex gap-3 flex-wrap">
                 {{-- Recebidas --}}
-                <div class="bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center min-w-[110px]">
+                <div class="reviews-stat bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center min-w-[110px]">
                     <div class="text-xs text-white/60 font-medium mb-1">Recebidas</div>
                     <div class="text-2xl font-extrabold">{{ $reviewsReceived->count() }}</div>
                     @if($avgReceived)
@@ -27,7 +27,7 @@
                     @endif
                 </div>
                 {{-- Feitas --}}
-                <div class="bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center min-w-[110px]">
+                <div class="reviews-stat bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center min-w-[110px]">
                     <div class="text-xs text-white/60 font-medium mb-1">Feitas</div>
                     <div class="text-2xl font-extrabold">{{ $reviewsGiven->count() }}</div>
                     @if($avgGiven)
@@ -44,7 +44,7 @@
     </div>
 
     {{-- ─── Tabs ─────────────────────────────────────────────── --}}
-    <div class="flex gap-2">
+    <div class="reviews-tabs flex gap-2">
         <button @click="tab = 'received'"
             :class="tab === 'received' ? 'bg-[#0055ff] text-white border-[#0055ff] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
             class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition">
@@ -64,12 +64,12 @@
     {{-- ─── Avaliações Recebidas ─────────────────────────────── --}}
     <div x-show="tab === 'received'" class="space-y-4">
         @forelse($reviewsReceived as $review)
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all p-5">
+            <div class="review-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all p-5">
                 <div class="flex items-start gap-4">
                     <img src="{{ $review->author->avatarUrl() }}" alt="{{ $review->author->name ?? '' }}"
                         class="w-12 h-12 rounded-xl object-cover border border-gray-100 flex-shrink-0">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-2 flex-wrap mb-2">
+                        <div class="review-card-heading flex items-start justify-between gap-2 flex-wrap mb-2">
                             <div>
                                 <p class="font-bold text-gray-900 text-sm">{{ $review->author->name ?? 'Utilizador' }}</p>
                                 @if($review->service)
@@ -86,7 +86,7 @@
                             <span class="text-sm font-extrabold text-yellow-500 ml-1">{{ $review->rating }}<span class="text-gray-300 font-normal">/5</span></span>
                         </div>
                         @if($review->comment)
-                            <p class="text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 leading-relaxed">
+                            <p class="review-comment text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 leading-relaxed">
                                 "{{ $review->comment }}"
                             </p>
                         @endif
@@ -105,12 +105,12 @@
     {{-- ─── Avaliações Feitas ────────────────────────────────── --}}
     <div x-show="tab === 'given'" class="space-y-4">
         @forelse($reviewsGiven as $review)
-            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all p-5">
+            <div class="review-card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all p-5">
                 <div class="flex items-start gap-4">
                     <img src="{{ $review->target->avatarUrl() }}" alt="{{ $review->target->name ?? '' }}"
                         class="w-12 h-12 rounded-xl object-cover border border-gray-100 flex-shrink-0">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-start justify-between gap-2 flex-wrap mb-2">
+                        <div class="review-card-heading flex items-start justify-between gap-2 flex-wrap mb-2">
                             <div>
                                 <p class="font-bold text-gray-900 text-sm">{{ $review->target->name ?? 'Utilizador' }}</p>
                                 @if($review->service)
@@ -127,7 +127,7 @@
                             <span class="text-sm font-extrabold text-yellow-500 ml-1">{{ $review->rating }}<span class="text-gray-300 font-normal">/5</span></span>
                         </div>
                         @if($review->comment)
-                            <p class="text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 leading-relaxed">
+                            <p class="review-comment text-sm text-gray-700 bg-gray-50 rounded-xl px-4 py-3 border border-gray-100 leading-relaxed">
                                 "{{ $review->comment }}"
                             </p>
                         @endif
