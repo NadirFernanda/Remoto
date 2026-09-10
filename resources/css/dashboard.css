@@ -844,6 +844,34 @@ main::before, main::after { display: none !important; content: none !important; 
     line-height: 1;
 }
 
+.service-value-page .value-currency {
+    left: 1rem;
+    z-index: 1;
+    pointer-events: none;
+    line-height: 1;
+}
+
+.service-value-page .value-amount-input {
+    box-sizing: border-box;
+    padding-left: 4.25rem !important;
+}
+
+@media (max-width: 768px) {
+    .service-value-page {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .service-value-page .value-currency {
+        left: .875rem;
+    }
+
+    .service-value-page .value-amount-input {
+        padding-left: 3.75rem !important;
+        min-width: 0;
+    }
+}
+
 .notification-pagination nav {
     gap: .75rem;
 }
