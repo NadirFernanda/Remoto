@@ -29,6 +29,25 @@ class NotificationRedirectController extends Controller
         $activeRole = Auth::user()->activeRole();
         $role       = Auth::user()->role; // DB column — used for types that depend on who RECEIVED the notif
 
+        // Destination pages are protected by the active-role middleware. Align
+        // the session role before redirecting, otherwise valid notification
+        // links are bounced to the generic dashboard.
+        $destinationRole = match ($notification->type) {
+            'service_chosen', 'revision_requested', 'project_started',
+            'payment_adjustment', 'delivery_approved', 'payment_released',
+            'saque_aprovado', 'saque_rejeitado', 'service_rejected',
+            'project_invite', 'direct_invite' => 'freelancer',
+            'proposal_accepted', 'proposal_rejected', 'delivery_submitted',
+            'refund_processed', 'refund_approved', 'refund_rejected' => 'cliente',
+            'proposal_received', 'nova_mensagem', 'project_cancelled',
+            'support_ticket_reply' => $role === 'freelancer' ? 'freelancer' : 'cliente',
+            default => null,
+        };
+
+        if ($destinationRole && $activeRole !== $destinationRole && Auth::user()->canSwitchRole()) {
+            session(['active_role' => $destinationRole]);
+        }
+
         $url = match ($notification->type) {
             // ── Freelancer-bound ─────────────────────────────────────────────
             'novo_projeto'         => $sid ? route('public.project.show', $sid)
