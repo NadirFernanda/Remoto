@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="order-history-page max-w-4xl mx-auto space-y-6">
 
         {{-- Gradient Header --}}
         <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -74,7 +74,7 @@
                 {{-- Rascunhos não podem ser "cancelados" (nunca houve pagamento) —
                      levam à Gestão de Projectos, onde há acções de Publicar/Eliminar. --}}
                 <a href="{{ $isDraft ? route('client.projects', ['service' => $order->id]) : route('client.service.cancel', $order->id) }}"
-                   class="group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-[#0055ff]/40 hover:-translate-y-0.5">
+                   class="order-history-card group flex items-center gap-4 bg-white rounded-2xl px-5 py-4 shadow-sm border border-gray-100 transition-all hover:shadow-md hover:border-[#0055ff]/40 hover:-translate-y-0.5">
 
                     {{-- Number badge --}}
                     <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-50 border border-gray-100">
@@ -82,7 +82,7 @@
                     </div>
 
                     {{-- Title + date --}}
-                    <div class="flex-1 min-w-0">
+                    <div class="order-history-summary flex-1 min-w-0">
                         <div class="text-gray-800 font-semibold truncate group-hover:text-[#0055ff] transition-colors">
                             {{ $order->titulo ?? 'Sem título' }}
                         </div>
@@ -98,7 +98,7 @@
                     </div>
 
                     {{-- Status badge + arrow --}}
-                    <div class="flex-shrink-0 flex items-center gap-2">
+                    <div class="order-history-status flex-shrink-0 flex items-center gap-2">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border {{ $badge['color'] }}">
                             <span class="w-1.5 h-1.5 rounded-full {{ $dot }}"></span>
                             {{ $badge['label'] }}

@@ -942,6 +942,37 @@ main::before, main::after { display: none !important; content: none !important; 
     color: #94a3b8 !important;
 }
 
+.order-history-page {
+    width: 100%;
+    max-width: 56rem;
+}
+
+.order-history-page .order-history-card {
+    min-width: 0;
+    background: #131f35 !important;
+    border-color: rgba(148, 163, 184, .18) !important;
+}
+
+.order-history-page .order-history-summary {
+    min-width: 0;
+}
+
+.order-history-page .order-history-summary > div:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.order-history-page .order-history-status {
+    max-width: 42%;
+}
+
+.order-history-page .order-history-status > span {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .service-value-page {
         width: 100%;
@@ -1012,6 +1043,59 @@ main::before, main::after { display: none !important; content: none !important; 
 
     .reviews-page .review-comment {
         padding: .75rem !important;
+    }
+
+    .order-history-page {
+        max-width: 100%;
+    }
+
+    .order-history-page .order-history-card {
+        display: grid;
+        grid-template-columns: 2.75rem minmax(0, 1fr) auto;
+        align-items: center;
+        gap: .625rem;
+        padding: .75rem !important;
+    }
+
+    .order-history-page .order-history-card > :first-child {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+
+    .order-history-page .order-history-summary {
+        min-width: 0;
+    }
+
+    .order-history-page .order-history-summary > div:first-child {
+        font-size: .78rem;
+    }
+
+    .order-history-page .order-history-summary > div:last-child {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: .15rem;
+        line-height: 1.25;
+    }
+
+    .order-history-page .order-history-status {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 1rem;
+        align-items: center;
+        gap: .35rem;
+        max-width: 7.75rem;
+        min-width: 0;
+    }
+
+    .order-history-page .order-history-status > span {
+        min-width: 0;
+        padding: .35rem .45rem;
+        line-height: 1.15;
+        overflow-wrap: anywhere;
+    }
+
+    .order-history-page .order-history-status > svg {
+        width: 1rem;
+        height: 1rem;
     }
 }
 
