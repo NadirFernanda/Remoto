@@ -499,6 +499,20 @@ p {
     .mobile-menu-dropdown .nav-link:hover,
     .mobile-menu-dropdown .nav-link:focus-visible{ background: rgba(0,80,255,0.08); color: var(--accent-v) !important; }
     .mobile-menu-dropdown .nav-link.btn-primary{ color: #fff !important; margin-left: 0; }
+    .mobile-menu-dropdown .nav-link svg,
+    .mobile-menu-dropdown .nav-link svg[stroke],
+    .mobile-menu-dropdown .nav-link svg[style] {
+        color: #0055ff !important;
+        stroke: #0055ff !important;
+    }
+    .mobile-menu-dropdown .nav-link svg path,
+    .mobile-menu-dropdown .nav-link svg rect,
+    .mobile-menu-dropdown .nav-link svg circle,
+    .mobile-menu-dropdown .nav-link svg line,
+    .mobile-menu-dropdown .nav-link svg polyline,
+    .mobile-menu-dropdown .nav-link svg polygon {
+        stroke: #0055ff !important;
+    }
 }
 
 /* Footer */
