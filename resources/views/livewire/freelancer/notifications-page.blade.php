@@ -4,7 +4,7 @@
     $recentIds   = $recent->pluck('id')->all();
 @endphp
 
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="notification-page max-w-4xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
     <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -103,7 +103,7 @@
 
     {{-- Paginação --}}
     @if($notifications->hasPages())
-        <div class="py-2">{{ $notifications->links() }}</div>
+        <div class="notification-pagination py-2">{{ $notifications->links() }}</div>
     @endif
 
 </div>

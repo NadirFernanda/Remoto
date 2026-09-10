@@ -778,6 +778,15 @@ main::before, main::after { display: none !important; content: none !important; 
     color: #0055ff !important;
 }
 
+.notification-pagination nav {
+    gap: .75rem;
+}
+
+.notification-pagination nav button,
+.notification-pagination nav span {
+    border-radius: .6875rem !important;
+}
+
 @media (max-width: 768px) {
     .financial-page {
         width: 100%;
@@ -833,6 +842,55 @@ main::before, main::after { display: none !important; content: none !important; 
 
     .financial-page > div:nth-child(3) > div:last-child {
         gap: 1rem;
+    }
+
+    .notification-page {
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .notification-page > div:first-child {
+        padding: 1.125rem;
+        margin-bottom: 0;
+    }
+
+    .notification-page > div:first-child > div:last-child {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .5rem;
+    }
+
+    .notification-page > div:first-child > div:last-child > div {
+        min-width: 0;
+        padding: .55rem .5rem;
+    }
+
+    .notification-page > div:nth-child(2) a,
+    .notification-page > div:nth-child(3) a {
+        padding: .875rem;
+        gap: .65rem;
+        border-radius: .6875rem !important;
+    }
+
+    .notification-pagination nav {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .notification-pagination nav > div:first-child {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        gap: .5rem;
+    }
+
+    .notification-pagination nav button,
+    .notification-pagination nav span {
+        margin: 0 !important;
+        min-height: 2.5rem;
+        padding: .55rem .75rem;
+        text-align: center;
     }
 }
 
