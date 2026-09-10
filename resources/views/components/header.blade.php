@@ -1074,8 +1074,8 @@
     action: '',
     get title() { return this.action==='projeto' ? 'Modo Cliente necessário' : 'Modo Freelancer necessário' },
     get desc()  { return this.action==='projeto'
-        ? 'Para publicar um projecto e contratar freelancers, precisa de estar no <strong style=\'color:#5b9dff\'>Modo Cliente</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.'
-        : 'Para publicar conteúdo, posts e artigos, precisa de estar no <strong style=\'color:#5b9dff\'>Modo Freelancer</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.' },
+        ? 'Para publicar um projecto e contratar freelancers, precisa de estar no <strong style=\'color:#0055ff\'>Modo Cliente</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.'
+        : 'Para publicar conteúdo, posts e artigos, precisa de estar no <strong style=\'color:#0055ff\'>Modo Freelancer</strong>. A troca é instantânea — pode voltar ao modo anterior a qualquer momento.' },
     get targetMode() { return this.action==='projeto' ? 'Cliente' : 'Freelancer' }
 }"
     @open-role-switch-modal.window="show=true; action=$event.detail.action"
@@ -1125,7 +1125,7 @@
             <svg width="18" height="18" fill="none" stroke="#64748b" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
             <div style="text-align:center;">
                 <div style="font-size:.6rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Modo necessário</div>
-                <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#5b9dff;background:rgba(0,80,255,.15);border:1px solid rgba(0,80,255,.3);border-radius:.45rem;padding:.18rem .6rem;"></span>
+                <span x-text="targetMode" style="font-size:.8rem;font-weight:700;color:#0055ff;background:rgba(0,85,255,.15);border:1px solid rgba(0,85,255,.3);border-radius:.45rem;padding:.18rem .6rem;"></span>
             </div>
         </div>
 
