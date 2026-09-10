@@ -114,6 +114,13 @@ class NotificationRedirectController extends Controller
             default                => route('notification.show', $notification->id),
         };
 
+        if ($sid && in_array($notification->type, [
+            'nova_mensagem', 'project_started', 'payment_adjustment',
+            'delivery_approved', 'proposal_received',
+        ], true) && str_contains($url, '/chat/servico/')) {
+            session()->flash('notification_chat_transition', true);
+        }
+
         return redirect($url);
     }
 

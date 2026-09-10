@@ -70,7 +70,8 @@
     </script>
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
-<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
+@php $chatNotificationTransition = session('notification_chat_transition', false); @endphp
+<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }} {{ $chatNotificationTransition ? 'notification-chat-transition' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
     {{-- Banner de impersonation --}}
     @if(session('impersonating_admin_id'))
     <div style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#dc2626;color:#fff;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 16px;font-size:13px;font-weight:600;font-family:Arial,sans-serif;">
@@ -101,6 +102,14 @@
     </div>
     @livewireScripts
     <script>
+        @if($chatNotificationTransition)
+        window.addEventListener('load', function () {
+            window.setTimeout(function () {
+                document.body.classList.remove('notification-chat-transition');
+            }, 80);
+        });
+        @endif
+
         // Detecção de bfcache: quando o browser restaura uma página a partir do cache
         // de navegação (back/forward), os snapshots Livewire já não existem no servidor.
         // Forçar reload garante que o componente é inicializado de novo.
