@@ -49,7 +49,7 @@ Route::post('/login', function (Request $request) {
 
     if (!$user || !$passwordOk) {
         return back()->withErrors([
-            'email' => 'E-mail ou senha incorrectos.',
+            'credentials' => 'Não foi possível entrar. Verifique o e-mail e a palavra-passe e tente novamente.',
         ])->withInput($request->only('email'));
     }
 

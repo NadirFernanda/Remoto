@@ -162,7 +162,9 @@
             sua empresa, <span>24 horas</span> por dia.
         </p>
 
-        @if($errors->any())
+        @if($errors->has('credentials'))
+            <div class="login-alert-error">{{ $errors->first('credentials') }}</div>
+        @elseif($errors->any())
             <div class="login-alert-error">{{ $errors->first() }}</div>
         @endif
         @if(session('status'))
@@ -180,7 +182,7 @@
                     </svg>
                 </span>
                 <input type="text" name="email" id="lf-email"
-                       class="lf-input {{ $errors->has('email') ? 'has-error' : '' }}"
+                       class="lf-input {{ $errors->has('email') || $errors->has('credentials') ? 'has-error' : '' }}"
                        placeholder="Usuário ou e-mail"
                        value="{{ old('email') }}" required autofocus
                        style="color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;">
@@ -198,7 +200,7 @@
                     </svg>
                 </span>
                 <input type="password" name="password" id="lf-pw"
-                       class="lf-input {{ $errors->has('password') ? 'has-error' : '' }}"
+                       class="lf-input {{ $errors->has('password') || $errors->has('credentials') ? 'has-error' : '' }}"
                        placeholder="Palavra-passe"
                        style="padding-right:2.8rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;"
                        required>
