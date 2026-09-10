@@ -120,11 +120,14 @@
                 return;
             }
 
+            event.preventDefault();
             document.documentElement.classList.add('notification-navigating');
             document.body.classList.add('notification-navigating');
             const header = document.querySelector('.site-header');
             if (header) header.style.visibility = 'hidden';
             window.dispatchEvent(new CustomEvent('close-mobile-navigation'));
+            const destination = link.href;
+            window.setTimeout(() => window.location.assign(destination), 40);
         }, true);
 
         document.addEventListener('alpine:init', () => {
