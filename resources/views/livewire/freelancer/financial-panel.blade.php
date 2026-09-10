@@ -51,7 +51,7 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Valor a sacar <span class="text-red-400">*</span></label>
                     <div class="relative">
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Kz</span>
+                        <span class="financial-currency absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">Kz</span>
                         <input
                             type="number"
                             wire:model.live="valorSaque"
@@ -59,7 +59,7 @@
                             min="{{ (int) $saqueMinimo }}"
                             step="100"
                             placeholder="{{ (int) $saqueMinimo }}"
-                            class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
+                            class="financial-amount-input w-full pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>
                     <p class="text-xs text-gray-400 mt-1.5">Saque mínimo: Kz {{ number_format($saqueMinimo, 0, ',', '.') }} — independentemente da origem do saldo.</p>

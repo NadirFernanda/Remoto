@@ -784,6 +784,17 @@ main::before, main::after { display: none !important; content: none !important; 
     color: #0055ff !important;
 }
 
+.financial-page .financial-amount-input {
+    box-sizing: border-box;
+    padding-left: 3rem !important;
+}
+
+.financial-page .financial-currency {
+    z-index: 1;
+    pointer-events: none;
+    line-height: 1;
+}
+
 .notification-pagination nav {
     gap: .75rem;
 }
