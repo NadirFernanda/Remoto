@@ -3225,10 +3225,16 @@ html body .chat-window .chat-message-mine-time {
     flex: 0 0 auto;
 }
 
+.role-switch-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
 @media (max-width: 480px) {
     .role-switch-close {
-        top: .7rem !important;
-        right: .7rem !important;
         width: 28px !important;
         height: 28px !important;
     }
@@ -3242,7 +3248,6 @@ html body .chat-window .chat-message-mine-time {
         width: 48px !important;
         height: 48px !important;
         border-radius: 12px !important;
-        margin-bottom: 1rem !important;
     }
 
     .role-switch-icon svg {

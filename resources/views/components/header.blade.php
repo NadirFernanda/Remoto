@@ -1094,20 +1094,20 @@
          x-transition:leave-end="opacity-0 scale-95"
          style="position:relative;background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1.25rem;padding:2rem;max-width:420px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.45);">
 
-        {{-- Close --}}
-        <button @click="show=false" class="role-switch-close"
-                style="position:absolute;top:.875rem;right:.875rem;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-
-        {{-- Icon --}}
-        <div class="role-switch-icon" style="width:56px;height:56px;border-radius:14px;background:#0b1220;border:1px solid rgba(0,80,255,.22);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-            <template x-if="action==='projeto'">
-                <svg width="26" height="26" fill="none" stroke="#0055ff" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h.01M12 15h.01"/></svg>
-            </template>
-            <template x-if="action==='conteudo'">
-                <svg width="26" height="26" fill="none" stroke="#0055ff" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
-            </template>
+        {{-- Modal header: icon and close control stay aligned on one row. --}}
+        <div class="role-switch-header">
+            <div class="role-switch-icon" style="width:56px;height:56px;border-radius:14px;background:#0b1220;border:1px solid rgba(0,80,255,.22);display:flex;align-items:center;justify-content:center;">
+                <template x-if="action==='projeto'">
+                    <svg width="26" height="26" fill="none" stroke="#0055ff" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M12 11h.01M12 15h.01"/></svg>
+                </template>
+                <template x-if="action==='conteudo'">
+                    <svg width="26" height="26" fill="none" stroke="#0055ff" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"/></svg>
+                </template>
+            </div>
+            <button @click="show=false" class="role-switch-close"
+                    style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
 
         {{-- Title --}}
