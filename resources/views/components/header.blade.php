@@ -1105,8 +1105,8 @@
                 </template>
             </div>
             <button @click="show=false" class="role-switch-close"
-                    style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
-                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    style="width:56px;height:56px;border-radius:14px;background:#0b1220;border:1px solid rgba(0,80,255,.22);color:#0055ff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;">
+                <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
             </button>
         </div>
 
