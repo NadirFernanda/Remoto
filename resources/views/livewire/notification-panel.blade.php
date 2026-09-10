@@ -82,6 +82,7 @@
             @endphp
 
             <a href="{{ route('notification.open', $notification->id) }}"
+               onclick="document.body.classList.add('notification-navigating')"
                class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-blue-100 hover:border-blue-200' : 'bg-white border-gray-100 hover:border-gray-200 hover:shadow-sm' }}">
 
                 {{-- Icon --}}

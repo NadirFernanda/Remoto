@@ -40,7 +40,8 @@
         <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-1">Mais recentes</h3>
         @foreach($recent as $notification)
             @php $isUnread = !$notification->read; @endphp
-            <a href="{{ $notification->getUrl() }}"
+            <a href="{{ route('notification.open', $notification->id) }}"
+               onclick="document.body.classList.add('notification-navigating')"
                class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-[#0052cc]/25 shadow-sm hover:shadow-md' : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                 <div class="flex-shrink-0 mt-1">
                     <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc] animate-pulse' : 'bg-gray-200' }}"></span>
@@ -73,7 +74,8 @@
                     $shown++;
                     $isUnread = !$notification->read;
                 @endphp
-                <a href="{{ $notification->getUrl() }}"
+                <a href="{{ route('notification.open', $notification->id) }}"
+                   onclick="document.body.classList.add('notification-navigating')"
                    class="flex items-start gap-4 p-4 rounded-2xl border transition-all group {{ $isUnread ? 'bg-blue-50 border-[#0052cc]/20 shadow-sm hover:shadow-md' : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5' }}">
                     <div class="flex-shrink-0 mt-1">
                         <span class="w-2.5 h-2.5 block rounded-full {{ $isUnread ? 'bg-[#0052cc]' : 'bg-gray-200' }}"></span>

@@ -110,6 +110,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
             </template>
             <template x-for="notif in items" :key="notif.id">
                 <a :href="notif.url"
+                   @click="open = false; document.body.classList.add('notification-navigating')"
                    class="flex items-start gap-3 px-4 py-3 transition"
                    style="border-bottom:1px solid rgba(255,255,255,.06);"
                    onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'"

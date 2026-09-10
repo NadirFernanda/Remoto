@@ -63,6 +63,34 @@ body {
     color: var(--color-text-primary);
 }
 
+body.notification-navigating::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: rgba(8, 13, 26, .96);
+    pointer-events: all;
+}
+
+body.notification-navigating::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 99999;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin: -.875rem 0 0 -.875rem;
+    border: 3px solid rgba(255, 255, 255, .2);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: notification-navigation-spin .7s linear infinite;
+}
+
+@keyframes notification-navigation-spin {
+    to { transform: rotate(360deg); }
+}
+
 /* Global neutral palette harmonization for Tailwind utilities used across app modules */
 .bg-white,
 .bg-gray-50,
