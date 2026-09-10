@@ -1,8 +1,8 @@
-<div class="min-h-screen pb-16">
+<div class="briefing-page min-h-screen pb-16">
 
     {{-- ── Progress bar ── --}}
     <div class="briefing-progress bg-white rounded-2xl border border-slate-100 shadow-sm px-6 py-5 mb-8">
-        <div class="flex items-center gap-2">
+        <div class="briefing-progress-track flex items-center gap-2">
             @foreach([1 => 'Tipo de Serviço', 2 => 'Detalhes', 3 => 'Revisão'] as $n => $label)
                 <div class="flex items-center {{ $loop->last ? '' : 'flex-1' }}">
                     <div class="flex items-center gap-2.5">
@@ -92,7 +92,7 @@
             </div>
         @endif
 
-        <div class="flex justify-end">
+        <div class="briefing-actions flex justify-end">
             <button type="button" wire:click="goToStep2"
                 class="briefing-primary inline-flex items-center gap-2 text-white font-semibold px-8 py-3 rounded-xl transition-all">
                 Continuar
@@ -169,7 +169,7 @@
             @endif
         </div>
 
-        <div class="flex justify-between">
+        <div class="briefing-actions flex justify-between">
             <button type="button" wire:click="prevStep"
                 class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium px-6 py-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -225,7 +225,7 @@
             </p>
         </div>
 
-        <div class="flex justify-between">
+        <div class="briefing-actions flex justify-between">
             <button type="button" wire:click="prevStep"
                 class="inline-flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium px-6 py-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all text-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>

@@ -2501,6 +2501,102 @@ html body .chat-window .chat-message-mine-time {
     transform: translateY(-1px);
 }
 
+@media (max-width: 768px) {
+    .briefing-page {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .briefing-page .briefing-progress {
+        padding: .875rem;
+        margin-bottom: 1rem;
+    }
+
+    .briefing-page .briefing-progress-track {
+        width: 100%;
+        gap: .35rem;
+    }
+
+    .briefing-page .briefing-progress-track > div {
+        min-width: 0;
+    }
+
+    .briefing-page .briefing-progress-track > div:not(:last-child) {
+        flex: 1;
+    }
+
+    .briefing-page .briefing-progress-track > div > div {
+        gap: 0;
+    }
+
+    .briefing-page .briefing-progress-track > div > div > div:first-child {
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+    }
+
+    .briefing-page .briefing-progress-track > div > div > div:first-child svg {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .briefing-page .briefing-progress-track > div > div + div {
+        min-width: 0;
+        margin-inline: .25rem;
+    }
+
+    .briefing-page > .space-y-6 > .bg-white,
+    .briefing-page > .space-y-6 .briefing-guide-card,
+    .briefing-page > .space-y-6 .briefing-tip {
+        padding: 1rem;
+        border-radius: .6875rem !important;
+    }
+
+    .briefing-page .grid.grid-cols-2 {
+        gap: .5rem;
+    }
+
+    .briefing-page .grid.grid-cols-2 > button {
+        min-width: 0;
+        padding: .75rem .4rem;
+        gap: .5rem;
+        border-radius: .6875rem !important;
+    }
+
+    .briefing-page .grid.grid-cols-2 > button > div {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .briefing-page .briefing-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .625rem;
+        width: 100%;
+    }
+
+    .briefing-page .briefing-actions > button {
+        width: 100%;
+        min-width: 0;
+        justify-content: center;
+        padding-inline: .75rem;
+        min-height: 2.75rem;
+        border-radius: .6875rem !important;
+    }
+
+    .briefing-page .briefing-actions > button:only-child {
+        grid-column: 1 / -1;
+    }
+
+    .briefing-page textarea {
+        min-height: 9rem;
+    }
+
+    .briefing-page .briefing-guide-question {
+        overflow-wrap: anywhere;
+    }
+}
+
 /* Shared cover-card treatment used by creator, client and freelancer surfaces. */
 .platform-cover {
     position: relative;
