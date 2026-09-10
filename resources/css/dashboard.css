@@ -757,6 +757,54 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
 .dash-main ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
+/* Shared back link: same compact geometry as the install-app CTA. */
+.dash-back-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.dash-back-link {
+    min-height: 2.25rem;
+    padding: .4rem .75rem;
+    gap: .4rem;
+    border: 1px solid rgba(0, 85, 255, .3);
+    border-radius: .6875rem;
+    background: rgba(0, 85, 255, .08);
+    color: #0055ff !important;
+    text-decoration: none;
+    line-height: 1;
+}
+
+.dash-back-link svg {
+    color: #0055ff !important;
+    flex-shrink: 0;
+}
+
+.dash-back-link:hover,
+.dash-back-link:focus-visible {
+    background: #0055ff;
+    border-color: #0055ff;
+    color: #fff !important;
+}
+
+.dash-back-link:hover svg,
+.dash-back-link:focus-visible svg {
+    color: #fff !important;
+}
+
+@media (max-width: 768px) {
+    .dash-back-wrap {
+        margin-bottom: .75rem !important;
+    }
+
+    .dash-back-link {
+        min-height: 2.5rem;
+        padding: .55rem .8rem;
+        font-size: .8rem;
+        width: fit-content;
+    }
+}
+
 /* Freelancer proposals */
 .proposal-page svg {
     color: #0055ff !important;

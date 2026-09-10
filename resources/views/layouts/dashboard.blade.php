@@ -159,10 +159,10 @@
 
         {{-- Universal back button — shown on all sub-pages --}}
         @if(!$isMainDashboard)
-            <div class="mb-3" id="dash-back-btn" style="display:none;">
+            <div class="dash-back-wrap mb-3" id="dash-back-btn" style="display:none;">
                 <a href="javascript:history.back()"
-                   class="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white font-medium transition group">
-                    <svg class="w-4 h-4 text-slate-500 group-hover:text-white transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                   class="dash-back-link inline-flex items-center gap-1.5 text-sm font-semibold transition group">
+                    <svg class="w-4 h-4 transition" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
                     Voltar
