@@ -1071,10 +1071,17 @@ main::before, main::after { display: none !important; content: none !important; 
     }
 
     .order-history-page .order-history-summary > div:last-child {
+        min-width: 0;
         display: flex;
         flex-wrap: wrap;
         row-gap: .15rem;
         line-height: 1.25;
+    }
+
+    .order-history-page .order-history-value {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
     }
 
     .order-history-page .order-history-status {
