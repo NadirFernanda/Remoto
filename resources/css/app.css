@@ -87,6 +87,11 @@ body.notification-navigating::after {
     animation: notification-navigation-spin .7s linear infinite;
 }
 
+/* Hide an open mobile menu before the browser starts the new request. */
+body.notification-navigating .site-header {
+    visibility: hidden;
+}
+
 @keyframes notification-navigation-spin {
     to { transform: rotate(360deg); }
 }
