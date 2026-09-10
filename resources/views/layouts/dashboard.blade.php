@@ -6,7 +6,7 @@
 @section('content')
 <div x-data="{ desktopCollapsed: false }"
      :class="desktopCollapsed ? 'dash-sidebar-collapsed' : ''"
-     class="dash-wrapper">
+     class="dash-wrapper authenticated-shell">
 
     {{-- ── Aviso de segurança ao entrar (negociar só dentro da plataforma) ── --}}
     @if(session('show_login_notice'))

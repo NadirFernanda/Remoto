@@ -135,6 +135,55 @@
     .dash-main {
         padding: 0.75rem 0.625rem 1rem;
     }
+
+    /* Keep authenticated mobile pages on the same design system as desktop.
+       Only the layout direction and density change at this breakpoint. */
+    .authenticated-shell .dash-main {
+        --mobile-control-height: 2.5rem;
+        --mobile-radius: .6875rem;
+    }
+
+    .authenticated-shell .dash-main > * {
+        max-width: 100%;
+    }
+
+    .authenticated-shell .dash-main .rounded,
+    .authenticated-shell .dash-main .rounded-md,
+    .authenticated-shell .dash-main .rounded-lg,
+    .authenticated-shell .dash-main .rounded-xl,
+    .authenticated-shell .dash-main .rounded-2xl,
+    .authenticated-shell .dash-main .rounded-3xl {
+        border-radius: var(--mobile-radius) !important;
+    }
+
+    .authenticated-shell .dash-main .btn,
+    .authenticated-shell .dash-main .btn-primary,
+    .authenticated-shell .dash-main .btn-secondary,
+    .authenticated-shell .dash-main .btn-outline,
+    .authenticated-shell .dash-main .btn-danger,
+    .authenticated-shell .dash-main .btn-eq,
+    .authenticated-shell .dash-main .btn-nowrap,
+    .authenticated-shell .dash-main button[class*="bg-"],
+    .authenticated-shell .dash-main a[class*="bg-"] {
+        min-height: var(--mobile-control-height);
+        border-radius: var(--mobile-radius) !important;
+    }
+
+    .authenticated-shell .dash-main input:not([type="checkbox"]):not([type="radio"]),
+    .authenticated-shell .dash-main select,
+    .authenticated-shell .dash-main textarea {
+        min-height: var(--mobile-control-height);
+        border-radius: var(--mobile-radius) !important;
+    }
+
+    .authenticated-shell .dash-main .flex.items-center.justify-between {
+        align-items: center;
+    }
+
+    .authenticated-shell .dash-main .overflow-x-auto {
+        max-width: 100%;
+        border-radius: var(--mobile-radius);
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
