@@ -88,6 +88,7 @@ class CreatePost extends Component
 
     public function mount(?int $repost_id = null): void
     {
+        $repost_id ??= request()->integer('repost_id') ?: null;
         $canPublish = Auth::check() && in_array(Auth::user()->activeRole(), ['freelancer', 'creator']);
         if (!$canPublish && !$repost_id) {
             abort(403, 'Apenas freelancers e criadores podem publicar conteúdo.');
