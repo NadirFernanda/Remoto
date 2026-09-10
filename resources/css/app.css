@@ -63,6 +63,7 @@ body {
     color: var(--color-text-primary);
 }
 
+html.notification-navigating::before,
 body.notification-navigating::before {
     content: '';
     position: fixed;
@@ -72,6 +73,7 @@ body.notification-navigating::before {
     pointer-events: all;
 }
 
+html.notification-navigating::after,
 body.notification-navigating::after {
     content: '';
     position: fixed;
