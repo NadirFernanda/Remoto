@@ -88,15 +88,19 @@ class NotificationRedirectController extends Controller
             'refund_rejected'      => $this->clientRefundRedirect(),
 
             // ── Dispute / shared ─────────────────────────────────────────────
-            'moderation_requested' => $sid ? route('service.dispute', $sid) : route('dashboard'),
-            'dispute_admin_reply'  => $sid ? route('service.dispute', $sid) : route('dashboard'),
-            'dispute_opened'       => $sid ? route('service.dispute', $sid) : route('dashboard'),
-            'dispute_opened_admin' => route('admin.disputes'),
-            'dispute_resolved'     => $sid ? route('service.dispute', $sid) : route('dashboard'),
-            'review_reminder'      => $sid ? route('service.review.leave', $sid) : route('dashboard'),
+            'moderation_requested' => $sid ? route('service.dispute', $sid) : route('notification.show', $notification->id),
+            'dispute_admin_reply'  => $sid ? route('service.dispute', $sid) : route('notification.show', $notification->id),
+            'dispute_opened'       => $sid ? route('service.dispute', $sid) : route('notification.show', $notification->id),
+            'dispute_opened_admin' => $role === 'admin'
+                ? route('admin.disputes')
+                : route('notification.show', $notification->id),
+            'dispute_resolved'     => $sid ? route('service.dispute', $sid) : route('notification.show', $notification->id),
+            'review_reminder'      => $sid ? route('service.review.leave', $sid) : route('notification.show', $notification->id),
 
             // ── Support Tickets ───────────────────────────────────────────────
-            'support_ticket_new'   => route('admin.support'),
+            'support_ticket_new'   => $role === 'admin'
+                ? route('admin.support')
+                : route('notification.show', $notification->id),
             'support_ticket_reply' => $role === 'freelancer' ? route('freelancer.support') : route('client.support'),
 
             // ── Admin messages ────────────────────────────────────────────────
@@ -107,9 +111,7 @@ class NotificationRedirectController extends Controller
             'kyc_verified'         => route('kyc.submit'),
             'kyc_submission_new'   => route('admin.users'),
 
-            default                => $role === 'freelancer'
-                ? route('freelancer.notifications')
-                : route('notifications'),
+            default                => route('notification.show', $notification->id),
         };
 
         return redirect($url);
