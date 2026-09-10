@@ -757,6 +757,110 @@ main::before, main::after { display: none !important; content: none !important; 
 .dash-main ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
 .dash-main ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
 
+/* Freelancer proposals */
+.proposal-page svg {
+    color: #0055ff !important;
+}
+
+.proposal-page button,
+.proposal-page .proposal-status,
+.proposal-page .proposal-message {
+    border-radius: .6875rem !important;
+}
+
+.proposal-page .proposal-status {
+    border-width: 1px;
+}
+
+@media (max-width: 768px) {
+    .proposal-page {
+        width: 100%;
+        margin: 0;
+        gap: 1rem;
+    }
+
+    .proposal-page .proposal-hero {
+        padding: 1.125rem;
+        border-radius: .6875rem;
+    }
+
+    .proposal-page .proposal-hero h2 {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    .proposal-page .proposal-hero p {
+        font-size: .75rem;
+        line-height: 1.45;
+    }
+
+    .proposal-page .proposal-hero > div:last-child {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .5rem;
+    }
+
+    .proposal-page .proposal-hero > div:last-child > div {
+        min-width: 0;
+        padding: .5rem .25rem;
+    }
+
+    .proposal-page .proposal-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .5rem;
+    }
+
+    .proposal-page .proposal-tabs button {
+        justify-content: center;
+        min-width: 0;
+        padding: .625rem .35rem;
+        font-size: .72rem;
+    }
+
+    .proposal-page .proposal-list > div {
+        border-radius: .6875rem !important;
+    }
+
+    .proposal-page .proposal-list > div > div {
+        padding: 1rem;
+        gap: .75rem;
+    }
+
+    .proposal-page .proposal-list > div > div > div:nth-child(2) {
+        min-width: 0;
+    }
+
+    .proposal-page .proposal-list h3 {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+    .proposal-page .proposal-list .proposal-message {
+        padding: .75rem;
+        font-size: .8125rem;
+    }
+
+    .proposal-page .proposal-list > div > div > div:nth-child(2) > div:last-child {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .proposal-page .proposal-list > div > div > div:nth-child(2) > div:last-child > div:last-child {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .proposal-page .proposal-list button,
+    .proposal-page .proposal-list .proposal-status {
+        width: 100%;
+        justify-content: center;
+        padding: .625rem .5rem;
+        border-radius: .6875rem !important;
+    }
+}
+
 /* ═══════════════════════════════════════════════════════
    ADMIN LIGHT MODAL — anula o tema escuro para modais
    com fundo branco dentro do .dash-main

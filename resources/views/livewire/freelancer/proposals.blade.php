@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto space-y-6">
+<div class="proposal-page max-w-5xl mx-auto space-y-6">
 
     {{-- Flash messages --}}
     @if(session('success'))
@@ -12,7 +12,7 @@
     @endif
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="proposal-hero rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Propostas Recebidas</h2>
             <p class="text-sm text-white/75 mt-1">Convites directos de clientes para trabalhar em projectos</p>
@@ -31,7 +31,7 @@
     </div>
 
     {{-- ─── Tabs ─────────────────────────────────────────────── --}}
-    <div class="flex flex-wrap gap-2">
+    <div class="proposal-tabs flex flex-wrap gap-2">
         @foreach(['pending' => 'Pendentes', 'accepted' => 'Aceites', 'rejected' => 'Recusadas'] as $key => $label)
             <button wire:click="setTab('{{ $key }}')"
                 class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold border transition {{ $tab === $key ? 'bg-[#0052cc] text-white border-[#0052cc] shadow-sm' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300' }}">
@@ -44,7 +44,7 @@
     </div>
 
     {{-- ─── Cards de Propostas ──────────────────────────────── --}}
-    <div class="space-y-4">
+    <div class="proposal-list space-y-4">
         @forelse($proposals as $proposal)
             @php
                 $badgeMap = [
@@ -70,7 +70,7 @@
                             <h3 class="font-bold text-gray-900 text-sm leading-snug">
                                 {{ $proposal->title ?? 'Sem título' }}
                             </h3>
-                            <span class="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border {{ $badge['class'] }}">
+                            <span class="proposal-status flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border {{ $badge['class'] }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $badge['dot'] }} {{ $proposal->status === 'pending' ? 'animate-pulse' : '' }}"></span>
                                 {{ $badge['label'] }}
                             </span>
@@ -84,7 +84,7 @@
 
                         {{-- Mensagem --}}
                         @if($proposal->message)
-                            <div class="text-sm text-gray-600 bg-gray-50 rounded-xl px-4 py-3 leading-relaxed mb-4 border border-gray-100">
+                            <div class="proposal-message text-sm text-gray-600 bg-gray-50 rounded-xl px-4 py-3 leading-relaxed mb-4 border border-gray-100">
                                 {!! nl2br(e(Str::limit($proposal->message, 300))) !!}
                             </div>
                         @endif
@@ -134,7 +134,7 @@
                                         Ir ao Chat
                                     </button>
                                 @else
-                                    <span class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-400 text-xs font-semibold border border-red-100">
+                                    <span class="proposal-status inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-400 text-xs font-semibold border border-red-100">
                                         Recusada
                                     </span>
                                 @endif
