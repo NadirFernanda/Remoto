@@ -3,7 +3,7 @@
         background: rgba(11, 18, 32, .35) !important;
     }
 </style>
-<header x-data="{open:false, scrolled:false}" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
+<header x-data="{open:false, scrolled:false}" @close-mobile-navigation.window="open=false" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
     <div class="header-container px-4" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
 
         <!-- Esquerda: Logo + Nav agrupados -->

@@ -120,7 +120,9 @@
                 return;
             }
 
+            document.documentElement.classList.add('notification-navigating');
             document.body.classList.add('notification-navigating');
+            window.dispatchEvent(new CustomEvent('close-mobile-navigation'));
         }, true);
 
         document.addEventListener('alpine:init', () => {

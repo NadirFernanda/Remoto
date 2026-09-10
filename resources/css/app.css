@@ -88,6 +88,8 @@ body.notification-navigating::after {
 }
 
 /* Hide an open mobile menu before the browser starts the new request. */
+html.notification-navigating .site-header,
+html.notification-navigating .mobile-menu-dropdown,
 body.notification-navigating .site-header,
 body.notification-navigating .mobile-menu-dropdown {
     visibility: hidden;

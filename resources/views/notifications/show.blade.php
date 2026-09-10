@@ -12,7 +12,7 @@
         : route('client.support');
 @endphp
 
-<div style="min-height:100%;background:#f8fafc;padding:2.5rem 1rem;">
+<div style="min-height:100%;background:#0b1220;padding:2.5rem 1rem;">
 <div style="max-width:680px;margin:0 auto;">
 
     {{-- Breadcrumb --}}
@@ -22,7 +22,7 @@
     </a>
 
     {{-- Card principal --}}
-    <div style="background:#fff;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,.07);overflow:hidden;">
+    <div style="background:#141928;border:1px solid rgba(255,255,255,.08);border-radius:1rem;box-shadow:0 18px 48px rgba(0,0,0,.28);overflow:hidden;">
 
         {{-- Header azul escuro --}}
         <div style="background:#0055ff;padding:2rem 2rem 1.75rem;">
@@ -58,12 +58,12 @@
         </div>
 
         {{-- Corpo da mensagem --}}
-        <div style="padding:2rem;">
-            <p style="font-size:1rem;color:#334155;line-height:1.75;margin:0;white-space:pre-line;">{{ $notification->message }}</p>
+        <div style="padding:2rem;background:#141928;">
+            <p style="font-size:1rem;color:#e2e8f0;line-height:1.75;margin:0;white-space:pre-line;">{{ $notification->message }}</p>
         </div>
 
         {{-- Footer com CTA de suporte --}}
-        <div style="border-top:1px solid #f1f5f9;padding:1.25rem 2rem;background:#f8fafc;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;">
+        <div style="border-top:1px solid rgba(255,255,255,.08);padding:1.25rem 2rem;background:#101625;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;">
             <span style="font-size:.8rem;color:#94a3b8;">Tem dúvidas sobre esta mensagem?</span>
             <a href="{{ $supportRoute }}" style="display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;font-weight:600;color:#0055ff;text-decoration:none;border:1px solid #bfdbfe;border-radius:8px;padding:.4rem .9rem;background:#eff6ff;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
                 <svg style="width:14px;height:14px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
