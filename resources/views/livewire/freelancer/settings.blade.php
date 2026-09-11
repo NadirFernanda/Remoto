@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto space-y-6">
-    <div class="rounded-2xl p-6 text-white">
+    <div class="platform-page-header rounded-2xl p-6 text-white">
         <a href="{{ route('freelancer.dashboard') }}" class="inline-flex items-center text-white/90 hover:text-white text-sm font-semibold mb-3">
             &larr; Voltar ao dashboard
         </a>

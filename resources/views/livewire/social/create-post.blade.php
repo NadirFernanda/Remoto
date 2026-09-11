@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
 
     {{-- Header --}}
-    <div class="rounded-2xl p-6 text-white">
+    <div class="platform-page-header rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Nova Publicação</h2>
         <p class="text-sm text-white/75 mt-1">Partilhe conteúdo com a comunidade 24Horas</p>
     </div>
@@ -260,4 +260,3 @@
 
     </div>
 </div>
-

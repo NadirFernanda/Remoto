@@ -7,7 +7,7 @@
         </div>
     @endif
     {{-- Header --}}
-    <div class="rounded-2xl p-6 text-white">
+    <div class="platform-page-header rounded-2xl p-6 text-white">
         <div class="flex items-center justify-between gap-4 flex-wrap">
             <div>
                 <h2 class="text-2xl font-extrabold">Minhas Publicações</h2>

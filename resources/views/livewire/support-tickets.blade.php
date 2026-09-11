@@ -1,7 +1,7 @@
 <div class="max-w-5xl mx-auto space-y-6">
 
     {{-- Gradient Header --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="platform-page-header rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Suporte</h2>
             <p class="text-sm text-white/75 mt-1">Abra um ticket para a nossa equipa e acompanhe as respostas.</p>

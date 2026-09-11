@@ -26,7 +26,7 @@
     @endphp
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="platform-page-header rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Os Meus Projectos</h2>
             <p class="text-sm text-white/75 mt-1">Acompanhe o estado e actue sobre os seus projectos activos.</p>
