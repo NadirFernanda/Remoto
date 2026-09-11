@@ -12,7 +12,7 @@
     @endif
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="proposal-hero rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="platform-page-header proposal-hero rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Propostas Recebidas</h2>
             <p class="text-sm text-white/75 mt-1">Convites directos de clientes para trabalhar em projectos</p>

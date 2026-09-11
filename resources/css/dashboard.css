@@ -317,6 +317,30 @@ input[type="search"] {
     gap: .6rem;
 }
 
+/* Component-local headers use the same compact card as the layout header. */
+.workspace-layout .platform-page-header {
+    margin-bottom: 1.25rem;
+    padding: 1rem 1.15rem !important;
+    border: 1px solid rgba(125,167,255,.45);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 1rem !important;
+    background: var(--color-primary) !important;
+    box-shadow: 0 12px 26px rgba(0,85,255,.18);
+}
+
+.workspace-layout .platform-page-header h1,
+.workspace-layout .platform-page-header h2,
+.workspace-layout .platform-page-header p {
+    color: #fff !important;
+}
+
+.workspace-layout .platform-page-header h1,
+.workspace-layout .platform-page-header h2 {
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    line-height: 1.2;
+    letter-spacing: -.025em;
+}
+
 /* Legacy Livewire screens keep their header inside the component. Keep it
    visually identical to the layout header without affecting content cards. */
 .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {
@@ -507,6 +531,11 @@ input[type="search"] {
 @media (max-width: 640px) {
     .workspace-layout .dashboard-page-header {
         align-items: flex-start;
+    }
+
+    .workspace-layout .platform-page-header {
+        padding: .9rem 1rem !important;
+        border-radius: .875rem !important;
     }
 
     .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {

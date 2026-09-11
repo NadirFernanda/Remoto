@@ -7,7 +7,7 @@
 <div class="notification-page max-w-4xl mx-auto space-y-6">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="platform-page-header rounded-2xl p-6 text-white flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h2 class="text-2xl font-extrabold">Notificações</h2>
             <p class="text-sm text-white/75 mt-1">Actualizações sobre os seus projectos e actividade</p>

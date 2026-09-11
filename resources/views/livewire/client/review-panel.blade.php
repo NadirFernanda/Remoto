@@ -6,7 +6,7 @@
 <div class="reviews-page max-w-4xl mx-auto space-y-6" x-data="{ tab: 'received' }">
 
     {{-- ─── Gradient Header ──────────────────────────────────── --}}
-    <div class="reviews-header rounded-2xl p-6 text-white">
+    <div class="platform-page-header reviews-header rounded-2xl p-6 text-white">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
             <div>
                 <h2 class="text-2xl font-extrabold">Avaliações</h2>
