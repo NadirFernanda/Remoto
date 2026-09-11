@@ -950,9 +950,10 @@ main::before, main::after { display: none !important; content: none !important; 
 }
 
 .reviews-page .reviews-header {
-    background: linear-gradient(135deg, #172b52 0%, #10213d 100%) !important;
-    border: 1px solid rgba(0, 85, 255, .28);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+    background: var(--color-primary) !important;
+    border: 1px solid rgba(125,167,255,.45);
+    border-left: 3px solid var(--color-primary);
+    box-shadow: 0 12px 26px rgba(0,85,255,.18);
 }
 
 .reviews-page .reviews-header h2 {
