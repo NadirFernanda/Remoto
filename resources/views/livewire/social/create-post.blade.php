@@ -1,4 +1,4 @@
-<div class="social-create-page max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
+<div class="social-create-page max-w-4xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
 
     {{-- Header --}}
     <div class="platform-page-header rounded-2xl p-6 text-white">
