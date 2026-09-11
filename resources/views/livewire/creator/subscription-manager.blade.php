@@ -35,13 +35,13 @@
         </div>
 
         {{-- Comissão Plataforma --}}
-        <div class="bg-white rounded-2xl border border-amber-100 shadow-sm p-5">
-            <p class="text-xs font-bold text-amber-700/70 uppercase tracking-wide mb-2">
+        <div class="bg-white rounded-2xl border border-[#0055ff]/30 shadow-sm p-5">
+            <p class="text-xs font-bold text-[#9bbcff] uppercase tracking-wide mb-2">
                 Comissão Plataforma
-                <span class="bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded text-xs font-bold ml-1">25%</span>
+                <span class="bg-[#0055ff]/20 text-[#c9d9ff] border border-[#7da7ff]/35 px-1.5 py-0.5 rounded text-xs font-bold ml-1">25%</span>
             </p>
-            <p class="text-3xl font-black text-amber-600 leading-none">{{ money_aoa($comissaoTotal, false) }}</p>
-            <p class="text-sm text-amber-500 mt-1">por assinante, ao preço actual</p>
+            <p class="text-3xl font-black text-[#7da7ff] leading-none">{{ money_aoa($comissaoTotal, false) }}</p>
+            <p class="text-sm text-[#9bbcff] mt-1">por assinante, ao preço actual</p>
         </div>
 
         {{-- Valor da Assinatura --}}
