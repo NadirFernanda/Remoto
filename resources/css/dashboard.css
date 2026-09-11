@@ -588,10 +588,35 @@ input[type="search"] {
     .workspace-layout .platform-page-header {
         padding: .9rem 1rem !important;
         border-radius: .875rem !important;
+        gap: .75rem !important;
+    }
+
+    .workspace-layout .platform-page-header > div:last-child {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: .5rem;
+    }
+
+    .workspace-layout .platform-page-header > div:last-child > * {
+        max-width: 100%;
     }
 
     .workspace-layout .platform-empty-state > p {
+        max-width: calc(100% - 1rem);
         padding-inline: 1.25rem;
+    }
+
+    .workspace-layout .available-projects-page .platform-flash {
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    .workspace-layout .dashboard-shortcut-action {
+        min-height: 2.5rem;
+        padding-inline: .7rem !important;
+        white-space: normal;
+        text-align: center;
     }
 
     .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {
@@ -1387,6 +1412,11 @@ main::before, main::after { display: none !important; content: none !important; 
         min-height: 2.5rem;
         padding: .55rem .75rem;
         text-align: center;
+    }
+
+    .notification-pagination nav button {
+        flex: 1 1 auto;
+        min-width: 0;
     }
 }
 
