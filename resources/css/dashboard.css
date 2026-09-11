@@ -1371,6 +1371,17 @@ main::before, main::after { display: none !important; content: none !important; 
     border-width: 1px;
 }
 
+.proposal-page .proposal-empty {
+    text-align: center;
+}
+
+.proposal-page .proposal-empty-title,
+.proposal-page .proposal-empty-message {
+    max-width: 28rem;
+    padding-inline: .75rem;
+    overflow-wrap: anywhere;
+}
+
 @media (max-width: 768px) {
     .proposal-page {
         width: 100%;
@@ -1438,6 +1449,10 @@ main::before, main::after { display: none !important; content: none !important; 
     .proposal-page .proposal-list .proposal-message {
         padding: .75rem;
         font-size: .8125rem;
+    }
+
+    .proposal-page .proposal-empty {
+        padding-inline: 1rem;
     }
 
     .proposal-page .proposal-list > div > div > div:nth-child(2) > div:last-child {
