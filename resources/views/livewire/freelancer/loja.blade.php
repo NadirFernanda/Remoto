@@ -7,7 +7,7 @@
             <p class="text-sm text-white/75 mt-1">Gerencie e venda os seus infoprodutos digitais</p>
         </div>
         <button wire:click="openCreate"
-            class="loja-action loja-action-primary">
+            class="loja-action loja-action-primary self-start">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
             Novo Infoproduto
         </button>

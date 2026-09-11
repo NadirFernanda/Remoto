@@ -3221,6 +3221,16 @@ html body .chat-window .chat-message-mine-time {
         color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
+@media (max-width: 639px) {
+    .freelancer-store-page .loja-hero {
+        align-items: flex-start;
+    }
+
+    .freelancer-store-page .loja-hero .loja-action {
+        align-self: flex-start;
+    }
+}
+
 .freelancer-store-page .loja-action:hover {
     transform: translateY(-1px);
 }
