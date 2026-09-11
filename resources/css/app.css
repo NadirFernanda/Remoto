@@ -205,6 +205,69 @@ body {
     color: var(--color-text-primary);
 }
 
+/* Social publishing form shares the same dark surface and control language. */
+.social-create-card {
+    background: #162238;
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.social-create-tabs {
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--color-border);
+}
+
+.social-create-tab {
+    color: var(--color-text-secondary);
+}
+
+.social-create-tab:hover,
+.social-create-tab:focus-visible {
+    color: #fff;
+    background: rgba(0,85,255,.14);
+}
+
+.social-create-tab.bg-white {
+    background: var(--color-primary) !important;
+    color: #fff !important;
+}
+
+.social-create-page label,
+.social-create-page .text-gray-700,
+.social-create-page .text-gray-800 {
+    color: var(--color-text-primary) !important;
+}
+
+.social-create-page input:not([type="radio"]):not([type="checkbox"]),
+.social-create-page textarea,
+.social-create-page select {
+    background: rgba(255,255,255,.045) !important;
+    border-color: var(--color-border) !important;
+    color: var(--color-text-primary) !important;
+}
+
+.social-create-page input::placeholder,
+.social-create-page textarea::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.social-create-submit {
+    box-shadow: 0 8px 18px rgba(0,85,255,.2);
+}
+
+.social-create-cancel {
+    border-color: var(--color-border) !important;
+    color: var(--color-text-secondary) !important;
+    background: rgba(255,255,255,.04);
+}
+
+.social-create-cancel:hover,
+.social-create-cancel:focus-visible {
+    border-color: var(--color-primary) !important;
+    color: #fff !important;
+    background: rgba(0,85,255,.14);
+}
+
 .social-my-posts-tabs {
     border-color: var(--color-border);
 }

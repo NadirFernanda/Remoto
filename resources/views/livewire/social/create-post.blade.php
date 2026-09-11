@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
+<div class="social-create-page max-w-3xl mx-auto space-y-6" x-data="{ tab: @entangle('postType') }">
 
     {{-- Header --}}
     <div class="platform-page-header rounded-2xl p-6 text-white">
@@ -6,14 +6,14 @@
         <p class="text-sm text-white/75 mt-1">Partilhe conteúdo com a comunidade 24Horas</p>
     </div>
 
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
+    <div class="social-create-card rounded-2xl border shadow-sm p-6 space-y-5">
 
     @if(session('success'))
         <div class="p-3 bg-green-100 text-green-700 rounded-lg text-sm font-medium">{{ session('success') }}</div>
     @endif
 
     {{-- Type tabs --}}
-    <div class="flex gap-1 bg-gray-100 rounded-2xl p-1 mb-6 overflow-x-auto">
+    <div class="social-create-tabs flex gap-1 rounded-2xl p-1 mb-6 overflow-x-auto">
         @foreach([
             ['type' => 'text',   'icon' => 'M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12', 'label' => 'Texto'],
             ['type' => 'image',  'icon' => 'M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 19.5h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm1.5-10.5h.008v.008H5.25V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z', 'label' => 'Imagem'],
@@ -24,7 +24,7 @@
         ] as $t)
             <button type="button" wire:click="setType('{{ $t['type'] }}')"
                 :class="tab === '{{ $t['type'] }}' ? 'bg-white text-[#0055ff] shadow-sm' : 'text-gray-500 hover:text-gray-700'"
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap flex-shrink-0">
+                class="social-create-tab flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition whitespace-nowrap flex-shrink-0">
                 <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="{{ $t['icon'] }}"/>
                 </svg>
@@ -245,13 +245,13 @@
         {{-- Submit --}}
         <div class="flex gap-3 pt-2">
             <button type="submit"
-                class="flex-1 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold py-3 rounded-xl transition"
+                class="social-create-submit flex-1 bg-[#0055ff] hover:bg-[#0047d9] text-white text-sm font-semibold py-3 rounded-xl transition"
                 wire:loading.attr="disabled" wire:loading.class="opacity-70 cursor-not-allowed">
                 <span wire:loading.remove wire:target="save">Publicar</span>
                 <span wire:loading wire:target="save">A publicar...</span>
             </button>
             <a href="{{ route('social.feed') }}"
-               class="px-6 py-3 border border-gray-200 text-gray-600 text-sm font-medium rounded-xl hover:bg-gray-50 transition text-center">
+               class="social-create-cancel px-6 py-3 border text-sm font-medium rounded-xl transition text-center">
                 Cancelar
             </a>
         </div>
