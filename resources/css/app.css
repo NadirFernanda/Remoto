@@ -268,6 +268,58 @@ body {
     background: rgba(0,85,255,.14);
 }
 
+@media (max-width: 640px) {
+    .social-create-page {
+        width: 100%;
+        max-width: none;
+        margin-inline: 0;
+        gap: 1rem;
+    }
+
+    .social-create-page .platform-page-header {
+        margin-bottom: 0;
+        padding: 1rem !important;
+        border-radius: .875rem !important;
+    }
+
+    .social-create-page .platform-page-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .social-create-page .platform-page-header p {
+        font-size: .8rem;
+        line-height: 1.45;
+    }
+
+    .social-create-card {
+        padding: 1rem !important;
+        border-radius: .875rem !important;
+    }
+
+    .social-create-tabs {
+        gap: .25rem;
+        margin-bottom: 1.25rem;
+        padding: .3rem;
+    }
+
+    .social-create-tab {
+        min-height: 2.35rem;
+        flex: 1 0 auto;
+        justify-content: center;
+        padding-inline: .65rem !important;
+    }
+
+    .social-create-page form > .flex:last-child {
+        flex-direction: column;
+    }
+
+    .social-create-submit,
+    .social-create-cancel {
+        width: 100%;
+        min-height: 2.75rem;
+    }
+}
+
 .social-my-posts-tabs {
     border-color: var(--color-border);
 }
