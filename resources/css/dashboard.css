@@ -547,6 +547,28 @@ input[type="search"] {
     transform: translateY(-1px);
 }
 
+.workspace-layout .available-projects-page .platform-flash {
+    border: 1px solid rgba(148,163,184,.18);
+    background: #162238;
+    color: #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0,0,0,.12);
+}
+
+.workspace-layout .available-projects-page .platform-flash-error {
+    border-color: rgba(248,113,113,.35);
+    color: #fecaca;
+}
+
+.workspace-layout .available-projects-page .platform-flash-success {
+    border-color: rgba(52,211,153,.32);
+    color: #a7f3d0;
+}
+
+.workspace-layout .available-projects-page .platform-flash-info {
+    border-color: rgba(125,167,255,.35);
+    color: #bfdbfe;
+}
+
 .workspace-layout .platform-empty-state > p {
     max-width: 32rem;
     padding-inline: 1rem;

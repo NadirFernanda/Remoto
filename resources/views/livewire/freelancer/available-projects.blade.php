@@ -5,17 +5,17 @@
     </div>
 
     @if(session('error'))
-        <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div class="platform-flash platform-flash-error rounded-xl px-4 py-3 text-sm">
             {{ session('error') }}
         </div>
     @endif
     @if(session('success'))
-        <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div class="platform-flash platform-flash-success rounded-xl px-4 py-3 text-sm">
             {{ session('success') }}
         </div>
     @endif
     @if(session('info'))
-        <div class="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-700">
+        <div class="platform-flash platform-flash-info rounded-xl px-4 py-3 text-sm">
             {{ session('info') }}
         </div>
     @endif
