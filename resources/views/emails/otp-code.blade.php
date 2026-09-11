@@ -27,7 +27,7 @@
                         {{-- OTP box --}}
                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                             <tr>
-                                <td style="background:#f0f9ff;border:2px dashed #00baff;border-radius:10px;padding:28px;text-align:center;">
+                                <td style="background:#f0f9ff;border:2px dashed #0055ff;border-radius:10px;padding:28px;text-align:center;">
                                     <span style="font-size:42px;font-weight:800;letter-spacing:12px;color:#0f172a;font-family:'Courier New',monospace;">{{ $otp }}</span>
                                 </td>
                             </tr>

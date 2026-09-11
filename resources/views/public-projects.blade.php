@@ -100,19 +100,17 @@
                     $thumb    = is_array($briefing) ? ($briefing['thumbnail'] ?? null) : null;
                 @endphp
                 <div class="pub-card" style="display:flex;flex-direction:column;overflow:hidden;padding:0;">
-                    @if($thumb && file_exists(public_path('img/' . $thumb)))
-                        <a href="{{ route('public.project.show', $project->id) }}" style="display:block;">
-                            <img src="{{ asset('img/' . $thumb) }}" alt="{{ $project->titulo }}" loading="lazy" decoding="async" style="width:100%;height:160px;object-fit:cover;">
-                        </a>
-                    @else
-                        <div style="width:100%;height:80px;background:#0b1220;display:flex;align-items:center;justify-content:center;">
-                            <span style="font-size:2rem;font-weight:900;color:rgba(0,186,255,.3);">{{ strtoupper(substr($project->titulo, 0, 1)) }}</span>
-                        </div>
-                    @endif
+                    <a href="{{ route('public.project.show', $project->id) }}"
+                       class="project-visual-tile"
+                       aria-label="Ver projecto: {{ $project->titulo }}">
+                        <span class="project-visual-orbit project-visual-orbit--one"></span>
+                        <span class="project-visual-orbit project-visual-orbit--two"></span>
+                        <span class="project-visual-mark">{{ strtoupper(mb_substr($project->titulo, 0, 2)) }}</span>
+                    </a>
 
                     <div style="padding:1.25rem;display:flex;flex-direction:column;flex:1;">
                         <a href="{{ route('public.project.show', $project->id) }}" style="text-decoration:none;">
-                            <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:0 0 .6rem;line-height:1.3;transition:color .2s;" onmouseover="this.style.color='#00baff'" onmouseout="this.style.color='#0f172a'">{{ $project->titulo }}</h3>
+                            <h3 style="font-size:1rem;font-weight:800;color:#0f172a;margin:0 0 .6rem;line-height:1.3;transition:color .2s;" onmouseover="this.style.color='#0055ff'" onmouseout="this.style.color='#0f172a'">{{ $project->titulo }}</h3>
                         </a>
 
                         <span class="pub-status-{{ $project->status }}" style="display:inline-block;width:fit-content;margin-bottom:.75rem;">

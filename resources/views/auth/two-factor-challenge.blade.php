@@ -44,7 +44,7 @@
                 <button type="submit" class="pub-btn-primary" style="width:100%;padding:.75rem;font-size:1rem;">Verificar</button>
             </form>
 
-            <button type="button" @click="useRecovery = !useRecovery" style="background:none;border:none;color:#00baff;font-weight:700;font-size:.875rem;cursor:pointer;font-family:inherit;text-decoration:underline;margin-top:1.25rem;">
+            <button type="button" @click="useRecovery = !useRecovery" style="background:none;border:none;color:#0055ff;font-weight:700;font-size:.875rem;cursor:pointer;font-family:inherit;text-decoration:underline;margin-top:1.25rem;">
                 <span x-show="!useRecovery">Usar código de recuperação</span>
                 <span x-show="useRecovery" x-cloak>Usar código da app autenticadora</span>
             </button>

@@ -4,11 +4,11 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 class="text-3xl font-bold text-white">Gestão Comercial</h2>
         <div class="flex items-center gap-3 flex-wrap">
-            <a href="{{ route('admin.recibos.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#00baff] text-[#00baff] bg-slate-900/60 hover:bg-[#00baff]/10 font-semibold shadow-sm transition text-base">
+            <a href="{{ route('admin.recibos.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#0055ff] text-[#0055ff] bg-slate-900/60 hover:bg-[#0055ff]/10 font-semibold shadow-sm transition text-base">
                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 Gerar Recibo
             </a>
-            <a href="{{ route('admin.comercial.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold shadow transition text-base">
+            <a href="{{ route('admin.comercial.create') }}" class="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold shadow transition text-base">
                 <span class="text-lg">
                     <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 4v14M4 11h14" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
                 </span>
@@ -48,16 +48,16 @@
             <div class="lg:col-span-2">
                 <label class="block text-xs text-slate-400 mb-1">Pesquisar parceiro, tipo ou notas</label>
                 <input type="text" name="q" value="{{ $filters['q'] }}" placeholder="Pesquisar termo livre"
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Tipo</label>
                 <input list="contract-types" name="type" value="{{ $filters['type'] }}" placeholder="Fornecedor, Cliente..."
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Status</label>
-                <select name="status" class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                <select name="status" class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
                     <option value="">Todos os status</option>
                     <option value="ativo" @selected($filters['status'] === 'ativo')>Activo</option>
                     <option value="pendente" @selected($filters['status'] === 'pendente')>Pendente</option>
@@ -69,26 +69,26 @@
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Início (De)</label>
                 <input type="date" name="start_date_from" value="{{ $filters['start_date_from'] }}"
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Início (Até)</label>
                 <input type="date" name="start_date_to" value="{{ $filters['start_date_to'] }}"
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Fim (De)</label>
                 <input type="date" name="end_date_from" value="{{ $filters['end_date_from'] }}"
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
             <div>
                 <label class="block text-xs text-slate-400 mb-1">Fim (Até)</label>
                 <input type="date" name="end_date_to" value="{{ $filters['end_date_to'] }}"
-                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#00baff]/30 focus:border-[#00baff]">
+                    class="w-full border border-white/10 bg-slate-950/60 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0055ff]/30 focus:border-[#0055ff]">
             </div>
         </div>
         <div class="flex flex-wrap gap-2">
-            <button type="submit" class="bg-[#00baff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg text-sm shadow transition">Filtrar</button>
+            <button type="submit" class="bg-[#0055ff] hover:bg-[#009ad6] text-white font-semibold px-5 py-2 rounded-lg text-sm shadow transition">Filtrar</button>
             <a href="{{ route('admin.comercial.index') }}" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-5 py-2 rounded-lg text-sm shadow transition">Limpar</a>
         </div>
         <datalist id="contract-types">
@@ -101,7 +101,7 @@
     <div class="overflow-x-auto rounded-2xl shadow bg-slate-900/70 border border-white/10">
         <table class="min-w-full text-base">
             <thead>
-                <tr class="bg-slate-950/60 text-[#00baff] uppercase text-xs tracking-wider">
+                <tr class="bg-slate-950/60 text-[#0055ff] uppercase text-xs tracking-wider">
                     <th class="py-3 px-5 text-left font-semibold">Parceiro</th>
                     <th class="py-3 px-5 text-left font-semibold">Tipo</th>
                     <th class="py-3 px-5 text-left font-semibold">Status</th>

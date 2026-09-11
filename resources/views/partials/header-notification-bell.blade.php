@@ -47,7 +47,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
             if (red.includes(type))    return '#f87171';
             if (yellow.includes(type)) return '#eab308';
             if (indigo.includes(type)) return '#0055ff';
-            return '#00baff';
+            return '#0055ff';
         }
      }"
      x-init="setInterval(async () => {
@@ -85,7 +85,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
         <div class="flex items-center justify-between px-4 py-3" style="border-bottom:1px solid rgba(255,255,255,.07);">
             <span class="text-sm font-bold text-gray-100">Notificações</span>
             <button x-show="unread > 0" @click="markAllRead()"
-                    class="text-xs text-[#00baff] hover:underline font-medium">
+                    class="text-xs text-[#0055ff] hover:underline font-medium">
                 Marcar todas como lidas
             </button>
         </div>
@@ -134,7 +134,7 @@ $_bellNotifUrl = $_bellIsFreelancer ? route('freelancer.notifications') : route(
 
         {{-- Footer --}}
         <div class="px-4 py-2.5" style="border-top:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.02);">
-            <a href="{{ $_bellNotifUrl }}" class="block text-center text-xs text-[#00baff] font-medium hover:underline">
+            <a href="{{ $_bellNotifUrl }}" class="block text-center text-xs text-[#0055ff] font-medium hover:underline">
                 Ver todas as notificações
             </a>
         </div>

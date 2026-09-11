@@ -17,7 +17,7 @@
             'accepted', 'negotiating'                    => ['label' => 'PAGO — EM NEGOCIAÇÃO',    'color' => '#6366f1'],
             'in_progress','em_andamento','em andamento'  => ['label' => 'PAGO — EM EXECUÇÃO',      'color' => '#d97706'],
             'revision_requested'                         => ['label' => 'PAGO — REVISÃO PEDIDA',   'color' => '#ea580c'],
-            'delivered'                                  => ['label' => 'PAGO — AGUARDA REVISÃO',  'color' => '#0891b2'],
+            'delivered'                                  => ['label' => 'PAGO — AGUARDA REVISÃO',  'color' => '#0055ff'],
             'completed','concluido'                      => ['label' => 'PAGO — CONCLUÍDO',        'color' => '#16a34a'],
             'cancelled','cancelado'                      => ['label' => 'CANCELADO',               'color' => '#dc2626'],
             default                                      => ['label' => strtoupper($service->status), 'color' => '#64748b'],
@@ -87,13 +87,13 @@
         .tear-top {
             width: 100%;
             height: 16px;
-            background: repeating-#0055ff;
+            background: repeating-linear-gradient(135deg, #0055ff 0 4px, transparent 4px 8px);
             background-color: #e5e7eb;
         }
         .tear-bottom {
             width: 100%;
             height: 16px;
-            background: repeating-#0055ff;
+            background: repeating-linear-gradient(135deg, #0055ff 0 4px, transparent 4px 8px);
             background-color: #e5e7eb;
         }
 

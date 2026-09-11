@@ -52,7 +52,7 @@
 <div class="pub-page" style="padding-top:0">
     <div class="pub-container--md" style="padding-top:0.75rem;padding-bottom:3rem;">
 
-        <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#00baff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
+        <a href="{{ route('public.projects') }}" class="pub-back" style="display:inline-flex;align-items:center;gap:.4rem;color:#0055ff;font-weight:700;font-size:.875rem;text-decoration:none;margin-bottom:1.5rem;">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19l-7-7 7-7"/></svg>
             Voltar aos projectos
         </a>
@@ -65,7 +65,7 @@
                         style="width:100%;max-width:200px;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px;">
                 @else
                     <div class="pshow-avatar" style="width:80px;height:80px;border-radius:16px;background:#0b1220;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <span style="font-size:1.75rem;font-weight:900;color:#00baff;">{{ strtoupper(substr($service->titulo,0,1)) }}</span>
+                        <span style="font-size:1.75rem;font-weight:900;color:#0055ff;">{{ strtoupper(substr($service->titulo,0,1)) }}</span>
                     </div>
                 @endif
 
@@ -112,7 +112,7 @@
                         </div>
                         <a href="{{ route('client.public', $service->cliente) }}"
                            class="pshow-client-btn"
-                           style="flex-shrink:0;font-size:.8rem;font-weight:700;color:#00baff;text-decoration:none;border:1.5px solid #00baff;border-radius:8px;padding:.35rem .85rem;white-space:nowrap;"
+                           style="flex-shrink:0;font-size:.8rem;font-weight:700;color:#0055ff;text-decoration:none;border:1.5px solid #0055ff;border-radius:8px;padding:.35rem .85rem;white-space:nowrap;"
                            onmouseover="this.style.background='rgba(0,186,255,.08)'" onmouseout="this.style.background='transparent'">
                             Ver perfil
                         </a>

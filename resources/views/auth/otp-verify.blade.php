@@ -11,7 +11,7 @@
 
             {{-- Ícone de e-mail --}}
             <div style="width:64px;height:64px;border-radius:50%;background:#0b1220;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00baff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0055ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                 </svg>
@@ -45,7 +45,7 @@
 
             <form method="POST" action="{{ route('otp.send') }}" style="margin-top:1.25rem;">
                 @csrf
-                <button type="submit" style="background:none;border:none;color:#00baff;font-weight:700;font-size:.875rem;cursor:pointer;font-family:inherit;text-decoration:underline;">
+                <button type="submit" style="background:none;border:none;color:#0055ff;font-weight:700;font-size:.875rem;cursor:pointer;font-family:inherit;text-decoration:underline;">
                     Reenviar código
                 </button>
             </form>

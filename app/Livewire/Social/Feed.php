@@ -214,11 +214,11 @@ class Feed extends Component
             $this->cancelReport();
             return;
         }
-        RateLimiter::hit($rateLimitKey, 3600);
 
         $this->validateOnly('reportReason');
 
         $id = $this->reportType === 'post' ? $this->reportingPostId : $this->reportingUserId;
+        RateLimiter::hit($rateLimitKey, 3600);
         app(SocialInteractionService::class)->report($user, $this->reportType, $id, $this->reportReason);
 
         $this->cancelReport();

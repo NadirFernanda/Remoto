@@ -162,8 +162,8 @@
             sua empresa, <span>24 horas</span> por dia.
         </p>
 
-        @if($errors->has('credentials'))
-            <div class="login-alert-error">{{ $errors->first('credentials') }}</div>
+        @if($errors->has('credentials') || $errors->has('email'))
+            <div class="login-alert-error">{{ $errors->first('credentials') ?: $errors->first('email') }}</div>
         @elseif($errors->any())
             <div class="login-alert-error">{{ $errors->first() }}</div>
         @endif

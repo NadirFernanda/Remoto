@@ -26,7 +26,7 @@
                         {{-- Project name badge --}}
                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
                             <tr>
-                                <td style="background:#f8fafc;border-left:4px solid #00baff;border-radius:4px;padding:14px 18px;">
+                                <td style="background:#f8fafc;border-left:4px solid #0055ff;border-radius:4px;padding:14px 18px;">
                                     <span style="font-size:13px;color:#64748b;display:block;margin-bottom:4px;">Projeto</span>
                                     <span style="font-size:16px;font-weight:700;color:#0f172a;">{{ $service->titulo }}</span>
                                 </td>
@@ -40,7 +40,7 @@
                         </p>
                         <table cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                             <tr>
-                                <td style="background:#00baff;border-radius:8px;">
+                                <td style="background:#0055ff;border-radius:8px;">
                                     <a href="{{ url('/freelancer/projetos') }}" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">
                                         <span>Ver Outros Projetos</span>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

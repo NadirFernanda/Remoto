@@ -36,7 +36,7 @@
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">
                 Lembrou a palavra-passe?
-                <a href="/login" style="color:#00baff;font-weight:700;text-decoration:none;">Entrar</a>
+                <a href="/login" style="color:#0055ff;font-weight:700;text-decoration:none;">Entrar</a>
             </p>
         </div>
     </div>

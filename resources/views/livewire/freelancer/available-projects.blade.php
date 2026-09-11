@@ -230,7 +230,7 @@
                             <span style="font-weight:600;color:#e2e8f0;">Kz {{ number_format($pb['taxa'], 2, ',', '.') }}</span>
                         </div>
                         <div style="border-top:1px solid rgba(14,165,233,.25);margin:.5rem 0;"></div>
-                        <div style="display:flex;justify-content:space-between;color:#38bdf8;font-weight:700;font-size:.92rem;">
+                        <div style="display:flex;justify-content:space-between;color:#7da7ff;font-weight:700;font-size:.92rem;">
                             <span>Vais receber</span>
                             <span>Kz {{ number_format($pb['valor_liquido'], 2, ',', '.') }}</span>
                         </div>

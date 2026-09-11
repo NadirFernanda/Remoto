@@ -30,7 +30,7 @@
             </p>
 
             <details style="text-align:left;margin:0 auto 1.5rem;max-width:420px;">
-                <summary style="cursor:pointer;font-size:.8rem;color:#00baff;font-weight:600;">Não tem uma app autenticadora? Ver alternativas</summary>
+                <summary style="cursor:pointer;font-size:.8rem;color:#0055ff;font-weight:600;">Não tem uma app autenticadora? Ver alternativas</summary>
                 <div style="font-size:.8rem;color:#94a3b8;line-height:1.7;margin-top:.6rem;padding:.85rem 1rem;background:#f8fafc;border-radius:8px;">
                     <strong style="color:#334155;">Sem telemóvel — extensão do navegador:</strong> instale a extensão
                     "Authenticator" no Chrome/Edge, cole a chave manual acima e gera o código no computador.<br><br>

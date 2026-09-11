@@ -152,12 +152,12 @@ class AvailableProjects extends Component
             session()->flash('error', "Muitas propostas enviadas. Aguarde {$seconds}s antes de tentar novamente.");
             return;
         }
-        RateLimiter::hit($rateLimitKey, 600);
 
         $this->validate([
             'proposalMessage' => 'required|string|max:2000',
             'proposalValue' => 'nullable|numeric|min:0',
         ]);
+        RateLimiter::hit($rateLimitKey, 600);
 
         // Limite de 6 propostas — verificado dentro de um lock para evitar race conditions
         $created = false;

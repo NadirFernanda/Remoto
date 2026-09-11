@@ -106,7 +106,6 @@ class RegisterWizard extends Component
 
             return;
         }
-        RateLimiter::hit($throttleKey, 600);
 
         // Normaliza antes de validar: garante que o regex do BI e a
         // verificação de duplicidade não são contornáveis por diferenças
@@ -114,6 +113,7 @@ class RegisterWizard extends Component
         $this->documentNumber = strtoupper(str_replace(' ', '', trim($this->documentNumber)));
 
         $this->validate($this->step2Rules(), $this->step2Messages());
+        RateLimiter::hit($throttleKey, 600);
 
         // Impede reenvio da MESMA foto do documento associada a um número
         // diferente — a verificação de duplicidade acima só olha para o

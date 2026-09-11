@@ -66,7 +66,7 @@
 
     <section class="mb-8">
         <h2 class="text-xl font-semibold text-gray-900 mb-3">5. Contacto</h2>
-        <p>Para questões sobre esta política, contacte-nos em <a href="mailto:contacto@24horas.ao" class="text-[#00baff] hover:underline">contacto@24horas.ao</a>.</p>
+        <p>Para questões sobre esta política, contacte-nos em <a href="mailto:contacto@24horas.ao" class="text-[#0055ff] hover:underline">contacto@24horas.ao</a>.</p>
     </section>
 </div>
 @endsection

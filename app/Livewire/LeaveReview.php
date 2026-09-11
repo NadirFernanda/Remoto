@@ -52,7 +52,6 @@ class LeaveReview extends Component
             session()->flash('error', "Limite de avaliações atingido. Tente novamente em {$seconds}s.");
             return;
         }
-        RateLimiter::hit($rateLimitKey, 3600);
 
         $this->validate([
             'rating'  => 'required|integer|min:1|max:5',
@@ -68,6 +67,7 @@ class LeaveReview extends Component
             session()->flash('error', 'Só é possível avaliar projetos concluídos.');
             return;
         }
+        RateLimiter::hit($rateLimitKey, 3600);
 
         $review = Review::create([
             'author_id' => $user->id,

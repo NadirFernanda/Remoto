@@ -38,7 +38,6 @@ class ChatSendController extends Controller
         if (RateLimiter::tooManyAttempts($key, 30)) {
             return response()->json(['error' => 'Enviou muitas mensagens. Aguarde um momento.'], 429);
         }
-        RateLimiter::hit($key, 60);
 
         $request->validate([
             'mensagem'           => 'nullable|string|max:5000',
@@ -53,6 +52,7 @@ class ChatSendController extends Controller
         if ($mensagem === '' && $attachPath === '') {
             return response()->json(['error' => 'A mensagem não pode estar vazia.'], 422);
         }
+        RateLimiter::hit($key, 60);
 
         $msg = app(ChatService::class)->send(
             $service,

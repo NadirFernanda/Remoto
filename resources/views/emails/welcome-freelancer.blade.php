@@ -21,7 +21,7 @@
                     <td style="padding:40px 40px 32px;">
                         <h1 style="color:#0f172a;font-size:24px;font-weight:700;margin:0 0 16px;display:flex;align-items:center;gap:10px;">
                             <span>Olá, {{ $user->name }}!</span>
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00baff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0055ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;">
                                 <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
                                 <path d="M9 9h.01M15 9h.01"/>
                                 <circle cx="12" cy="12" r="9"/>
@@ -37,7 +37,7 @@
                         </p>
                         <table cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
                             <tr>
-                                <td style="background:#00baff;border-radius:8px;">
+                                <td style="background:#0055ff;border-radius:8px;">
                                     <a href="{{ url('/freelancer/dashboard') }}" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;">
                                         <span>Aceder ao Meu Painel</span>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

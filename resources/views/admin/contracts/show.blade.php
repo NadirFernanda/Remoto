@@ -5,7 +5,7 @@
         <h2 class="text-3xl font-bold text-white">Detalhes do Contrato/Parceria</h2>
         <div class="flex gap-3 flex-wrap">
             <a href="{{ route('admin.comercial.edit', $contract) }}"
-               class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#00baff] text-[#00baff] hover:bg-[#00baff]/10 font-semibold text-sm transition">
+               class="inline-flex items-center gap-2 px-5 py-2 rounded-lg border border-[#0055ff] text-[#0055ff] hover:bg-[#0055ff]/10 font-semibold text-sm transition">
                 @include('components.icon', ['name' => 'pencil', 'class' => 'w-4 h-4'])
                 Editar
             </a>

@@ -639,7 +639,7 @@ input[type="search"] {
 .status-published{ background: #0b1220; }
 .status-accepted{ background:#10b981; }
 .status-in_progress{ background:#f59e0b; }
-.status-delivered{ background:#06b6d4; }
+.status-delivered{ background:#0055ff; }
 .status-completed{ background:#64748b; }
 .status-cancelled{ background:#ef4444; }
 

@@ -62,7 +62,7 @@
             </button>
             <button
                 @click="accept()"
-                class="px-4 py-2 rounded-lg bg-[#0055ff] hover:bg-[#00a8e6] text-[#021018] font-semibold text-sm transition"
+                class="px-4 py-2 rounded-lg bg-[#0055ff] hover:bg-[#0047d9] text-[#021018] font-semibold text-sm transition"
             >
                 Aceitar todos
             </button>

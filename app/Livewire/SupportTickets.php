@@ -47,7 +47,6 @@ class SupportTickets extends Component
             session()->flash('error', "Muitos pedidos enviados. Aguarde {$secs}s.");
             return;
         }
-        RateLimiter::hit($rateLimitKey, 600);
 
         $this->validate([
             'category' => 'required|in:pagamento,projecto,conta,tecnico,outro',
@@ -65,6 +64,7 @@ class SupportTickets extends Component
             'message.min'       => 'Descreva com pelo menos 20 caracteres.',
             'contactEmail.email' => 'Email de contato inválido.',
         ]);
+        RateLimiter::hit($rateLimitKey, 600);
 
         $ticket = SupportTicket::create([
             'user_id'  => Auth::id(),

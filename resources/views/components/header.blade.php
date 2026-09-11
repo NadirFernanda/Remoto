@@ -2,6 +2,55 @@
     .site-header div[style*="background:#0b1220"] {
         background: rgba(11, 18, 32, .35) !important;
     }
+
+    .menu-card-visual {
+        height: 82px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(0, 153, 214, .38), transparent 42%),
+            linear-gradient(135deg, #111c36 0%, #071226 100%);
+        transition: background .2s ease, transform .2s ease;
+    }
+
+    .menu-card-visual::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.12), transparent 70%);
+        transform: translateX(-100%);
+        transition: transform .45s ease;
+    }
+
+    .menu-card-visual span {
+        position: relative;
+        z-index: 1;
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(125, 211, 252, .45);
+        border-radius: 14px;
+        color: #c7d5ff;
+        background: rgba(8, 47, 73, .7);
+        font-size: .78rem;
+        font-weight: 900;
+        letter-spacing: .08em;
+        box-shadow: 0 10px 24px rgba(0,0,0,.2);
+    }
+
+    .site-header a:has(.menu-card-visual):hover .menu-card-visual {
+        background:
+            radial-gradient(circle at 80% 20%, rgba(0, 204, 255, .42), transparent 44%),
+            linear-gradient(135deg, #14345d 0%, #071226 100%);
+        transform: scale(1.02);
+    }
+
+    .site-header a:has(.menu-card-visual):hover .menu-card-visual::after {
+        transform: translateX(100%);
+    }
 </style>
 <header x-data="{open:false, scrolled:false}" @close-mobile-navigation.window="open=false" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
     <div class="header-container px-4" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
@@ -84,7 +133,7 @@
                                 <div x-show="tab==='habilidade'">
                                     <p style="font-size:.68rem;font-weight:700;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin:0 0 .875rem .25rem;">Profissionais por habilidade</p>
                                     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.625rem;">
-                                        <a href="{{ route('freelancers.search', ['skill' => 'UI/UX Design,Figma,Adobe Photoshop,Adobe Illustrator']) }}" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+                                        <a href="{{ route('freelancers.search', ['skill' => 'UI/UX Design,Figma,Adobe Photoshop,Adobe Illustrator']) }}" class="menu-card-link" style="border-radius:.875rem;overflow:hidden;text-decoration:none;display:block;transition:transform .18s,box-shadow .18s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 10px 30px rgba(0,0,0,.18)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                                             <div style="height:82px;overflow:hidden;position:relative;"><img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=240&h=90&fit=crop&auto=format" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;inset:0;                                            background:rgba(11,18,32,.35);"></div></div>
                                             <div style="background:#1e293b;padding:.45rem .7rem;font-size:.75rem;font-weight:700;color:#f1f5f9;">Designers Gráficos</div>
                                         </a>
@@ -1162,3 +1211,25 @@
 </div>
 @endauth
 </header>
+
+<script>
+    // Keep navigation visuals fast, accessible and independent from remote image providers.
+    document.querySelectorAll('.site-header img[src*="images.unsplash.com"]').forEach((image) => {
+        const visual = document.createElement('div');
+        const label = image.alt || 'Serviço';
+        visual.className = 'menu-card-visual';
+        visual.setAttribute('aria-label', label);
+        visual.setAttribute('role', 'img');
+
+        const badge = document.createElement('span');
+        badge.textContent = label
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word[0])
+            .join('')
+            .toUpperCase();
+        visual.appendChild(badge);
+        image.replaceWith(visual);
+    });
+</script>

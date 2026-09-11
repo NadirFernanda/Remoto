@@ -171,7 +171,7 @@
 .fsp-skills { display: flex;flex-wrap: wrap;gap: .26rem; }
 .fsp-skill-tag {
     background: #f0f9ff;color: #0369a1;font-size: .66rem;
-    font-weight: 600;padding: .17rem .52rem;border-radius: 20px;border: 1px solid #bae6fd;
+    font-weight: 600;padding: .17rem .52rem;border-radius: 20px;border: 1px solid #c7d5ff;
 }
 .fsp-card-footer {
     margin-top: auto;padding-top: .65rem;border-top: 1px solid #f1f5f9;

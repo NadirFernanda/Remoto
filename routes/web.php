@@ -88,6 +88,15 @@ Route::post('/suporte', function (\Illuminate\Http\Request $request) {
         'mensagem.max' => 'A mensagem não pode ter mais de 2.000 caracteres.',
     ]);
 
+    $rateLimitKey = 'support-contact:' . $request->ip();
+    if (\Illuminate\Support\Facades\RateLimiter::tooManyAttempts($rateLimitKey, 5)) {
+        $seconds = \Illuminate\Support\Facades\RateLimiter::availableIn($rateLimitKey);
+        return back()->withInput()->withErrors([
+            'form' => "Muitas mensagens enviadas. Aguarde {$seconds} segundos.",
+        ]);
+    }
+    \Illuminate\Support\Facades\RateLimiter::hit($rateLimitKey, 60);
+
     \Illuminate\Support\Facades\Mail::raw(
         "Nova mensagem de suporte\n\n" .
         "Nome: {$data['nome']}\n" .
@@ -102,7 +111,7 @@ Route::post('/suporte', function (\Illuminate\Http\Request $request) {
     );
 
     return redirect()->route('suporte')->with('success', 'Mensagem enviada com sucesso! Respondemos em até 24 horas.');
-})->middleware('throttle:5,1')->name('suporte.enviar');
+})->name('suporte.enviar');
 
 // ─── OTP Verification ─────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {

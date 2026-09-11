@@ -38,7 +38,7 @@
             </form>
 
             <p style="text-align:center;margin-top:1.5rem;font-size:.875rem;color:#64748b;">
-                <a href="/login" style="color:#00baff;font-weight:700;text-decoration:none;">Voltar ao login</a>
+                <a href="/login" style="color:#0055ff;font-weight:700;text-decoration:none;">Voltar ao login</a>
             </p>
         </div>
     </div>
