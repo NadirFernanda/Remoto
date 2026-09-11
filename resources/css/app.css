@@ -63,6 +63,37 @@ body {
     color: var(--color-text-primary);
 }
 
+.auth-status-page,
+.livewire-page-shell {
+    background: var(--color-background);
+    color: var(--color-text-primary);
+}
+
+.auth-status-card {
+    background: #162238;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.auth-status-card p {
+    color: var(--color-text-secondary);
+}
+
+.auth-status-card .text-green-600 {
+    color: #86efac !important;
+}
+
+@media (max-width: 640px) {
+    .auth-status-page {
+        align-items: flex-start;
+        padding-top: 2.5rem;
+    }
+
+    .auth-status-card {
+        padding: 1.25rem !important;
+    }
+}
+
 html.notification-navigating::before,
 body.notification-navigating::before {
     content: '';

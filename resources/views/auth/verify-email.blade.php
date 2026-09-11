@@ -1,13 +1,13 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="bg-white p-8 rounded shadow max-w-md w-full text-center">
+<div class="auth-status-page flex items-center justify-center min-h-screen px-4 py-8">
+    <div class="auth-status-card p-6 sm:p-8 rounded-2xl shadow max-w-md w-full text-center">
         <h1 class="text-2xl font-bold mb-4">Verifique o seu e-mail</h1>
         <p class="mb-4">Antes de continuar, por favor verifique o seu endereço de e-mail clicando no link que lhe enviámos.</p>
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
-            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Reenviar e-mail de verificação</button>
+            <button type="submit" class="btn-primary w-full sm:w-auto">Reenviar e-mail de verificação</button>
         </form>
         @if (session('message'))
             <div class="mt-4 text-green-600 font-semibold">{{ session('message') }}</div>
