@@ -83,6 +83,160 @@ body {
     color: #86efac !important;
 }
 
+/* Social publishing management screen */
+.social-my-posts-card {
+    background: #162238;
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+}
+
+.social-my-posts-tabs {
+    border-color: var(--color-border);
+}
+
+.social-my-posts-tab {
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-md);
+}
+
+.social-my-posts-tab:hover,
+.social-my-posts-tab:focus-visible {
+    color: #fff;
+    background: rgba(0, 85, 255, .14);
+}
+
+.social-my-posts-tab.is-active {
+    color: #fff;
+    background: var(--color-primary);
+}
+
+.social-my-post-row {
+    border-color: rgba(148, 163, 184, .12);
+    transition: background-color .16s ease;
+}
+
+.social-my-post-row:hover {
+    background: rgba(255, 255, 255, .045);
+}
+
+.social-my-post-row.is-archived {
+    opacity: .62;
+}
+
+.social-my-post-type {
+    background: rgba(0, 85, 255, .14);
+    color: #7da7ff;
+}
+
+.social-my-post-row .text-gray-400,
+.social-my-posts-muted {
+    color: var(--color-text-secondary) !important;
+}
+
+.social-my-post-row .text-gray-700,
+.social-my-posts-muted-strong {
+    color: var(--color-text-primary) !important;
+}
+
+.social-my-post-row .platform-badge {
+    min-height: 1.9rem;
+    padding: .35rem .6rem !important;
+    font-size: .7rem;
+}
+
+.social-my-post-row .post-visibility-badge {
+    color: #fbbf24;
+    background: rgba(245, 158, 11, .14);
+    border: 1px solid rgba(245, 158, 11, .28);
+}
+
+.social-my-post-row .post-status-active {
+    color: #86efac;
+    background: rgba(34, 197, 94, .14);
+    border: 1px solid rgba(34, 197, 94, .28);
+}
+
+.social-my-post-row .post-status-archived {
+    color: #cbd5e1;
+    background: rgba(148, 163, 184, .14);
+    border: 1px solid rgba(148, 163, 184, .24);
+}
+
+.social-my-post-action {
+    border-radius: var(--radius-md);
+    border-color: var(--color-border);
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, .04);
+}
+
+.social-my-post-action:hover,
+.social-my-post-action:focus-visible {
+    color: #fff;
+    border-color: var(--color-primary);
+    background: rgba(0, 85, 255, .16);
+}
+
+.social-my-post-action--danger:hover,
+.social-my-post-action--danger:focus-visible {
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, .65);
+    background: rgba(239, 68, 68, .14);
+}
+
+.social-my-post-confirm {
+    border: 1px solid rgba(239, 68, 68, .65);
+    border-radius: var(--radius-md);
+    color: #fff;
+    background: #dc2626;
+}
+
+.social-my-post-cancel {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, .04);
+}
+
+@media (max-width: 640px) {
+    .social-my-posts-tabs {
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .social-my-posts-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .social-my-posts-tab {
+        flex: 1 0 auto;
+        min-height: 2.25rem;
+        padding-inline: .8rem;
+    }
+
+    .social-my-post-row {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: .75rem;
+        padding: 1rem;
+    }
+
+    .social-my-post-row > .flex-1 {
+        min-width: 0;
+    }
+
+    .social-my-post-row > .flex-shrink-0:last-child {
+        grid-column: 1 / -1;
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .social-my-post-row .platform-badge {
+        white-space: normal;
+        text-align: center;
+    }
+}
+
 @media (max-width: 640px) {
     .auth-status-page {
         align-items: flex-start;

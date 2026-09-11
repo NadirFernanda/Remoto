@@ -1,4 +1,4 @@
-<div class="max-w-5xl mx-auto space-y-6">
+<div class="social-my-posts max-w-5xl mx-auto space-y-6">
 
     {{-- Alerts --}}
     @if(session('success'))
@@ -27,20 +27,20 @@
     </div>
 
     {{-- Posts card --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm">
+    <div class="social-my-posts-card rounded-2xl border shadow-sm">
 
         {{-- Filter tabs --}}
-        <div class="flex gap-1 p-4 border-b border-gray-100">
+        <div class="social-my-posts-tabs flex gap-1 p-4 border-b">
             @foreach(['all' => 'Todas', 'active' => 'Activas', 'archived' => 'Arquivadas'] as $val => $label)
                 <button wire:click="$set('filter', '{{ $val }}')"
-                    class="px-4 py-1.5 rounded-xl text-sm font-semibold transition {{ $filter === $val ? 'bg-[#0055ff] text-white' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50' }}">
+                    class="social-my-posts-tab px-4 py-1.5 text-sm font-semibold transition {{ $filter === $val ? 'is-active' : '' }}">
                     {{ $label }}
                 </button>
             @endforeach
         </div>
 
         {{-- Posts list --}}
-        <div class="divide-y divide-gray-50">
+        <div class="social-my-posts-list divide-y">
         @forelse($posts as $post)
             @php
                 $typeIcons = [
@@ -58,10 +58,10 @@
                 $commentsCount = $post->comments->count();
             @endphp
 
-            <div wire:key="my-post-{{ $post->id }}" class="flex items-start gap-4 px-5 py-4 {{ $isArchived ? 'opacity-60' : '' }} hover:bg-gray-50 transition-colors">
+            <div wire:key="my-post-{{ $post->id }}" class="social-my-post-row flex items-start gap-4 px-5 py-4 {{ $isArchived ? 'is-archived' : '' }}">
 
                 {{-- Thumbnail / icon --}}
-                <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center overflow-hidden">
+                <div class="social-my-post-type flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center overflow-hidden">
                     @if($firstMedia && $post->type === 'image')
                         <img src="{{ Storage::url($firstMedia->path) }}" class="w-11 h-11 object-cover" loading="lazy">
                     @else
@@ -76,9 +76,9 @@
                     <div class="flex items-center gap-2 flex-wrap mb-1">
                         <span class="text-xs font-bold text-gray-400 uppercase tracking-wide">{{ ucfirst($post->type) }}</span>
                         @if($post->visibility === 'followers')
-                            <span class="text-xs bg-amber-100 text-amber-700 rounded-md px-1.5 py-0.5 font-semibold">Apenas assinantes</span>
+                            <span class="platform-badge text-xs font-semibold post-visibility-badge">Apenas assinantes</span>
                         @endif
-                        <span class="text-xs rounded-md px-1.5 py-0.5 font-semibold {{ $isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                        <span class="platform-badge text-xs font-semibold {{ $isActive ? 'post-status-active' : 'post-status-archived' }}">
                             {{ $isActive ? 'Activa' : 'Arquivada' }}
                         </span>
                     </div>
@@ -106,7 +106,7 @@
                 <div class="flex-shrink-0 flex items-center gap-2">
                     <button wire:click="toggleStatus({{ $post->id }})"
                             title="{{ $isActive ? 'Arquivar' : 'Reactivar' }}"
-                            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-[#0055ff] hover:text-[#0055ff] transition-all bg-white">
+                            class="social-my-post-action w-8 h-8 flex items-center justify-center border transition-all">
                         @if($isActive)
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
                         @else
@@ -116,17 +116,17 @@
 
                     @if($confirmDeleteId === $post->id)
                         <button wire:click="deletePost({{ $post->id }})"
-                                class="h-8 px-3 rounded-lg bg-red-500 text-white text-xs font-bold">
+                                class="social-my-post-confirm h-9 px-3 text-xs font-bold">
                             Confirmar
                         </button>
                         <button wire:click="$set('confirmDeleteId', null)"
-                                class="h-8 px-3 rounded-lg border border-gray-200 text-gray-500 text-xs font-medium">
+                                class="social-my-post-cancel h-9 px-3 text-xs font-medium">
                             Cancelar
                         </button>
                     @else
                         <button wire:click="$set('confirmDeleteId', {{ $post->id }})"
                                 title="Eliminar"
-                                class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:border-red-400 hover:text-red-500 transition-all bg-white">
+                                class="social-my-post-action social-my-post-action--danger w-8 h-8 flex items-center justify-center border transition-all">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
                         </button>
                     @endif
@@ -137,10 +137,10 @@
                 <svg class="w-12 h-12 text-gray-200 mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.3" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
                 </svg>
-                <p class="text-base font-bold text-gray-600">Ainda não tens publicações</p>
-                <p class="text-sm text-gray-400 mt-1 mb-4">Começa a criar conteúdo para o teu público</p>
+                <p class="text-base font-bold social-my-posts-muted-strong">Ainda não tens publicações</p>
+                <p class="text-sm social-my-posts-muted mt-1 mb-4">Começa a criar conteúdo para o teu público</p>
                 <a href="{{ route('social.create') }}"
-                   class="inline-flex items-center gap-1.5 bg-[#0055ff] hover:bg-[#009ad6] text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition">
+                   class="btn-primary inline-flex items-center gap-1.5 text-sm font-semibold">
                     + Nova publicação
                 </a>
             </div>
