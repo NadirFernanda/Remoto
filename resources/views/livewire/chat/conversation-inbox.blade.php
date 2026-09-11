@@ -125,7 +125,7 @@
                                 <span class="italic">Sem mensagens ainda</span>
                             @endif
                         </p>
-                        <span class="chat-status-{{ $service->status }} flex-shrink-0 text-[10px] px-2 py-0.5 rounded-full font-semibold border {{ $statusColor }}">
+                        <span class="platform-badge chat-status-{{ $service->status }} flex-shrink-0 text-[10px] font-semibold border {{ $statusColor }}">
                             {{ $statusLabel }}
                         </span>
                     </div>

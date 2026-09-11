@@ -14,9 +14,9 @@
 
             <div class="max-w-lg mt-5">
                 <div class="relative">
-                    <svg class="loja-search-icon absolute left-3.5 top-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <svg class="loja-search-icon absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     <input wire:model.live.debounce.400ms="busca" type="text"
-                        class="loja-search-input w-full pr-4 py-3.5 rounded-xl text-sm text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/60"
+                        class="loja-search-input w-full pl-12 pr-4 py-3.5 rounded-xl text-sm text-gray-800 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/60"
                         placeholder="Buscar e-books, áudios, literatura...">
                 </div>
             </div>
@@ -78,7 +78,7 @@
             @endphp
             @foreach($tipos as $value => $label)
                 <button type="button" wire:click="$set('tipo', '{{ $value }}')"
-                    class="px-4 py-2 rounded-full text-sm font-semibold transition border {{ $tipo === $value ? 'bg-[#0055ff] text-white border-[#0055ff] shadow' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]/50 hover:text-[#0055ff]' }}">
+                    class="platform-badge px-4 text-sm font-semibold transition border {{ $tipo === $value ? 'bg-[#0055ff] text-white border-[#0055ff] shadow' : 'bg-white text-gray-600 border-gray-200 hover:border-[#0055ff]/50 hover:text-[#0055ff]' }}">
                     {{ $label }}
                 </button>
             @endforeach

@@ -83,7 +83,7 @@
                                 <span class="text-slate-400 text-sm font-semibold">Kz</span>
                             </div>
                             <input type="number" wire:model.live.debounce.300ms="valor" min="{{ $valorMinimo }}" step="1"
-                                class="value-amount-input w-full bg-white text-slate-800 border border-slate-200 rounded-xl pr-4 py-3.5 text-lg font-bold focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
+                                class="value-amount-input w-full bg-white text-slate-800 border border-slate-200 rounded-xl pl-12 pr-4 py-3.5 text-lg font-bold focus:ring-2 focus:ring-blue-200 focus:border-[#0055ff] outline-none transition @error('valor') border-red-400 bg-red-50 @enderror"
                                 placeholder="{{ $valorMinimo }}">
                         </div>
                         @error('valor')

@@ -354,14 +354,14 @@
 
                         {{-- Função --}}
                         <td class="py-3 px-4">
-                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $funcaoClasse }}">
+                            <span class="platform-badge inline-block text-xs font-semibold {{ $funcaoClasse }}">
                                 {{ $funcaoLabel }}
                             </span>
                         </td>
 
                         {{-- Verificação de identidade --}}
                         <td class="py-3 px-4">
-                            <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $kycClasse }}">
+                            <span class="platform-badge inline-block text-xs font-semibold {{ $kycClasse }}">
                                 {{ $kycLabel }}
                             </span>
                         </td>
@@ -369,9 +369,9 @@
                         {{-- Estado --}}
                         <td class="py-3 px-4">
                             @if($user->is_suspended)
-                                <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-600">Suspenso</span>
+                                <span class="platform-badge inline-block text-xs font-semibold bg-red-100 text-red-600">Suspenso</span>
                             @else
-                                <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-700">Activo</span>
+                                <span class="platform-badge inline-block text-xs font-semibold bg-green-100 text-green-700">Activo</span>
                             @endif
                         </td>
 

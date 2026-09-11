@@ -40,7 +40,7 @@
             >
                 <div class="flex items-center justify-between gap-2">
                     <span class="font-medium text-sm text-gray-800 truncate flex-1">{{ $d->service->titulo ?? 'Serviço #'.$d->service_id }}</span>
-                    <span class="text-xs px-2 py-0.5 rounded-full font-semibold flex-shrink-0 {{ $d->status === 'aberta' ? 'bg-red-100 text-red-700' : '' }} {{ $d->status === 'em_mediacao'? 'bg-yellow-100 text-yellow-700' : '' }} {{ $d->status === 'resolvida' ? 'bg-green-100 text-green-700' : '' }} {{ $d->status === 'encerrada' ? 'bg-gray-100 text-gray-600' : '' }}">{{ ucfirst(str_replace('_',' ',$d->status)) }}</span>
+                    <span class="platform-badge text-xs font-semibold flex-shrink-0 {{ $d->status === 'aberta' ? 'bg-red-100 text-red-700' : '' }} {{ $d->status === 'em_mediacao'? 'bg-yellow-100 text-yellow-700' : '' }} {{ $d->status === 'resolvida' ? 'bg-green-100 text-green-700' : '' }} {{ $d->status === 'encerrada' ? 'bg-gray-100 text-gray-600' : '' }}">{{ ucfirst(str_replace('_',' ',$d->status)) }}</span>
                 </div>
                 <div class="text-xs text-gray-500 mt-1">{{ $d->opener->name ?? '—' }} · {{ $d->created_at->diffForHumans() }}</div>
                 <div class="text-xs text-gray-400 truncate mt-0.5">{{ \App\Models\Dispute::$reasons[$d->reason] ?? $d->reason }}</div>
@@ -119,7 +119,7 @@
                                 <span class="inline-flex items-center gap-1.5">Reembolsar <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg> Cliente</span>
                             </button>
                             @else
-                            <span class="px-2 py-1 bg-gray-100 text-gray-500 rounded-lg text-xs">Só financeiro/master pode movimentar este pagamento</span>
+                            <span class="platform-badge bg-gray-100 text-gray-500 text-xs">Só financeiro/master pode movimentar este pagamento</span>
                             @endif
                         @else
                             <span class="admin-dispute-success-badge">Pagamento já libertado</span>

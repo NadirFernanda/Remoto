@@ -71,7 +71,7 @@
                             @endif
                         </td>
                         <td class="p-3">
-                            <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $refund->status === 'aprovado' ? 'bg-emerald-100 text-emerald-700' : ($refund->status === 'rejeitado' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">
+                            <span class="platform-badge text-xs font-semibold {{ $refund->status === 'aprovado' ? 'bg-emerald-100 text-emerald-700' : ($refund->status === 'rejeitado' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">
                                 {{ ucfirst($refund->status) }}
                             </span>
                         </td>

@@ -131,7 +131,7 @@
                             <td class="py-4 px-5 font-medium text-slate-800">{{ $t->titulo ?? '—' }}</td>
                             <td class="py-4 px-5 font-semibold text-slate-800">{{ money_aoa($t->valor) }}</td>
                             <td class="py-4 px-5">
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $statusStyle }}">
+                                <span class="platform-badge inline-flex items-center text-xs font-semibold {{ $statusStyle }}">
                                     {{ $statusLabel }}
                                 </span>
                             </td>

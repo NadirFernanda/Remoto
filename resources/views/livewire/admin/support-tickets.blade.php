@@ -142,7 +142,7 @@
                     <div class="flex-1 min-w-0">
                         <h2 class="text-base font-bold text-gray-900">#{{ $selected->id }} · {{ $selected->subject }}</h2>
                         <div class="flex items-center gap-2 mt-1 flex-wrap">
-                            <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $sc2 }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
+                            <span class="platform-badge text-xs font-medium {{ $sc2 }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $pc2 }}">{{ \App\Models\SupportTicket::priorityLabel($selected->priority) }}</span>
                             <span class="text-xs text-gray-500">{{ \App\Models\SupportTicket::categoryLabel($selected->category) }}</span>
                         </div>

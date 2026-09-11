@@ -103,7 +103,7 @@
                         <td class="py-3 px-4 text-xs text-gray-500">{{ optional($log->user)->email ?? '—' }}</td>
                         <td class="py-3 px-4 text-xs text-gray-500 whitespace-nowrap">{{ $log->created_at->format('d/m/Y H:i') }}</td>
                         <td class="py-3 px-4">
-                            <span class="text-[11px] px-2 py-0.5 rounded-full font-medium {{ $statusColor }}">{{ $statusLabel }}</span>
+                            <span class="platform-badge text-[11px] font-medium {{ $statusColor }}">{{ $statusLabel }}</span>
                         </td>
                         <td class="py-3 px-4 text-xs text-gray-500">{{ $origem }}</td>
                         <td class="py-3 px-4 text-sm text-right font-semibold text-gray-800">{{ money_aoa(abs($log->valor)) }}</td>

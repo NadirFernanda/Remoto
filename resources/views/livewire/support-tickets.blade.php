@@ -51,7 +51,7 @@
                 @foreach(['normal' => ['Normal', 'bg-gray-100 text-gray-700', 'bg-gray-500'], 'alta' => ['Alta', 'bg-amber-100 text-amber-700', 'bg-amber-500'], 'urgente' => ['Urgente', 'bg-red-100 text-red-700', 'bg-red-500']] as $val => [$label, $cls, $dot])
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio" wire:model="priority" value="{{ $val }}" class="sr-only">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition cursor-pointer {{ $priority === $val ? $cls . ' border-current' : 'bg-white text-gray-500 border-gray-200' }}">
+                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold border-2 transition cursor-pointer {{ $priority === $val ? $cls . ' border-current' : 'bg-white text-gray-500 border-gray-200' }}">
                         <span class="w-1.5 h-1.5 rounded-full {{ $dot }}"></span>
                         {{ $label }}
                     </span>
@@ -120,7 +120,7 @@
             <div class="flex gap-2 flex-wrap">
                 @foreach(['' => 'Todos', 'aberto' => 'Abertos', 'em_andamento' => 'Em Andamento', 'fechado' => 'Fechados'] as $val => $label)
                 <button wire:click="$set('statusFilter', '{{ $val }}')"
-                    class="px-3 py-1 rounded-full text-xs font-medium border transition {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#0055ff]' }}">
+                    class="platform-badge px-3 text-xs font-medium border transition {{ $statusFilter === $val ? 'bg-[#0055ff] text-white border-[#0055ff]' : 'bg-white text-gray-500 border-gray-200 hover:border-[#0055ff]' }}">
                     {{ $label }}
                 </button>
                 @endforeach
@@ -149,7 +149,7 @@
                         <span class="w-2 h-2 rounded-full flex-shrink-0 {{ $priorityDot }}"></span>
                         <p class="text-sm font-semibold text-gray-800 truncate">#{{ $ticket->id }} · {{ $ticket->subject }}</p>
                     </div>
-                    <span class="text-xs px-2 py-0.5 rounded-full {{ $statusColor }} flex-shrink-0">
+                    <span class="platform-badge text-xs {{ $statusColor }} flex-shrink-0">
                         {{ \App\Models\SupportTicket::statusLabel($ticket->status) }}
                     </span>
                 </div>
@@ -197,7 +197,7 @@
                     <div>
                         <h2 class="text-base font-bold text-gray-900">#{{ $selected->id }} · {{ $selected->subject }}</h2>
                         <div class="flex items-center gap-2 mt-1 flex-wrap">
-                            <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $sc }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
+                            <span class="platform-badge text-xs font-medium {{ $sc }}">{{ \App\Models\SupportTicket::statusLabel($selected->status) }}</span>
                             <span class="text-xs px-2 py-0.5 rounded-full font-medium {{ $pc }}">{{ \App\Models\SupportTicket::priorityLabel($selected->priority) }}</span>
                             <span class="text-xs text-gray-400">{{ \App\Models\SupportTicket::categoryLabel($selected->category) }}</span>
                             <span class="text-xs text-gray-400">· {{ $selected->created_at->format('d/m/Y H:i') }}</span>

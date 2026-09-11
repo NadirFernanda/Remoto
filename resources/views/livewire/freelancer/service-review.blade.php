@@ -69,7 +69,7 @@
                         'draft'        => 'Rascunho',
                     ];
                 @endphp
-                <span class="status-badge status-{{ $service->status }} ml-2">{{ $statusLabels[$service->status] ?? $service->status }}</span>
+                <span class="platform-badge status-badge status-{{ $service->status }} ml-2">{{ $statusLabels[$service->status] ?? $service->status }}</span>
             </div>
         </div>
         @if(auth()->user() && $service->cliente_id !== auth()->id())

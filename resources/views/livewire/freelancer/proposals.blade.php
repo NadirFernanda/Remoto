@@ -70,7 +70,7 @@
                             <h3 class="font-bold text-gray-900 text-sm leading-snug">
                                 {{ $proposal->title ?? 'Sem título' }}
                             </h3>
-                            <span class="proposal-status flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border {{ $badge['class'] }}">
+                            <span class="platform-badge proposal-status flex-shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold border {{ $badge['class'] }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $badge['dot'] }} {{ $proposal->status === 'pending' ? 'animate-pulse' : '' }}"></span>
                                 {{ $badge['label'] }}
                             </span>
@@ -134,7 +134,7 @@
                                         Ir ao Chat
                                     </button>
                                 @else
-                                    <span class="proposal-status inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-50 text-red-400 text-xs font-semibold border border-red-100">
+                                    <span class="platform-badge proposal-status inline-flex items-center gap-1 bg-red-50 text-red-400 text-xs font-semibold border border-red-100">
                                         Recusada
                                     </span>
                                 @endif

@@ -197,7 +197,7 @@
 
                                 {{-- Category --}}
                                 <td class="py-3.5 px-4">
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold {{ $catMeta['bg'] }}">
+                                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold {{ $catMeta['bg'] }}">
                                         <span class="w-1.5 h-1.5 rounded-full {{ $catMeta['dot'] }}"></span>
                                         {{ $catLabel }}
                                     </span>
@@ -205,7 +205,7 @@
 
                                 {{-- Action --}}
                                 <td class="py-3.5 px-4">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $actionMeta }}">
+                                    <span class="platform-badge inline-flex items-center text-xs font-semibold {{ $actionMeta }}">
                                         {{ str_replace('_', ' ', ucfirst($log->action)) }}
                                     </span>
                                 </td>

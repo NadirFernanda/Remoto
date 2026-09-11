@@ -63,7 +63,7 @@
                             'encerrada'   => 'Encerrada',
                         ];
                     @endphp
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border {{ $statusColors[$dispute->status] ?? 'bg-gray-100 text-gray-500' }}">
+                    <span class="platform-badge inline-flex items-center text-xs font-semibold border {{ $statusColors[$dispute->status] ?? 'bg-gray-100 text-gray-500' }}">
                         {{ $statusLabels[$dispute->status] ?? ucfirst($dispute->status) }}
                     </span>
                 </div>

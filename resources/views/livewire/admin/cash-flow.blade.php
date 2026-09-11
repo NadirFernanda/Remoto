@@ -75,7 +75,7 @@
                 <div class="{{ $c['bg'] }} {{ $c['border'] }} border-b px-5 py-3 flex items-center justify-between">
                     <span class="{{ $c['text'] }} font-semibold text-sm">{{ $g['origem'] }}</span>
                     @if($g['comissao'] > 0)
-                        <span class="text-[11px] px-2 py-0.5 rounded-full {{ $c['badge'] }}">
+                        <span class="platform-badge text-[11px] {{ $c['badge'] }}">
                             Comissão: {{ money_aoa($g['comissao']) }}
                         </span>
                     @endif

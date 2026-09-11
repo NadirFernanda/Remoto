@@ -148,7 +148,7 @@
                     [$kycLabel, $kycClass] = $kycLabels[$kyc_status ?? 'pending'] ?? ['Pendente', 'bg-yellow-100 text-yellow-700'];
                 @endphp
                 <div class="flex items-center gap-3 mt-1">
-                    <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $kycClass }}">{{ $kycLabel }}</span>
+                    <span class="platform-badge px-3 text-sm font-semibold {{ $kycClass }}">{{ $kycLabel }}</span>
                     @if(($kyc_status ?? 'pending') !== 'verified')
                         <a href="{{ route('kyc.submit') }}" class="text-sm text-[#0055ff] hover:underline inline-flex items-center gap-1.5">
                             <span>Verificar identidade</span>

@@ -216,22 +216,22 @@
                             {{-- Status --}}
                             <td class="px-4 py-4 text-center">
                                 @if($produto->status === 'ativo')
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                         {{ $produto->statusLabel() }}
                                     </span>
                                 @elseif($produto->status === 'em_moderacao')
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                                         {{ $produto->statusLabel() }}
                                     </span>
                                 @elseif($produto->status === 'inativo')
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                                         {{ $produto->statusLabel() }}
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                                    <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
                                         <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                                         {{ $produto->statusLabel() }}
                                     </span>
@@ -334,22 +334,22 @@
                 {{-- Status badge --}}
                 <div class="flex items-center gap-3">
                     @if($produtoInspecao->status === 'em_moderacao')
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                        <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
                             <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
                             Em moderação (legado)
                         </span>
                     @elseif($produtoInspecao->status === 'ativo')
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                             Ativo
                         </span>
                     @elseif($produtoInspecao->status === 'inativo')
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
+                        <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-red-50 text-red-700 border border-red-200">
                             <span class="w-2 h-2 rounded-full bg-red-500"></span>
                             Rejeitado / Inativo
                         </span>
                     @else
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
+                        <span class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">
                             <span class="w-2 h-2 rounded-full bg-slate-400"></span>
                             {{ $produtoInspecao->statusLabel() }}
                         </span>

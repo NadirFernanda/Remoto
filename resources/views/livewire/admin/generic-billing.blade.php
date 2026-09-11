@@ -130,7 +130,7 @@
                     <td class="px-4 py-2.5 font-mono text-xs font-bold text-[#0070ff] whitespace-nowrap">{{ $row['fat_numero'] }}</td>
                     <td class="px-4 py-2.5 text-xs text-gray-500 whitespace-nowrap">{{ $row['data'] }}</td>
                     <td class="px-4 py-2.5">
-                        <span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold {{ $badge }}">{{ $row['tipo'] }}</span>
+                        <span class="platform-badge inline-block text-xs font-semibold {{ $badge }}">{{ $row['tipo'] }}</span>
                     </td>
                     <td class="px-4 py-2.5 text-gray-700 max-w-[200px] truncate" title="{{ $row['descricao'] }}">{{ $row['descricao'] }}</td>
                     <td class="px-4 py-2.5 text-gray-600 whitespace-nowrap">{{ $row['cliente'] }}</td>

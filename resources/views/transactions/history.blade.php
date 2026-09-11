@@ -46,7 +46,7 @@
                         @forelse($transactions as $t)
                             <tr class="hover:bg-sky-50/30 transition">
                                 <td class="px-4 py-3">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold {{ $t->valor > 0 ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-red-700 bg-red-50 border border-red-200' }}">
+                                    <span class="platform-badge inline-flex items-center text-xs font-semibold {{ $t->valor > 0 ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-red-700 bg-red-50 border border-red-200' }}">
                                         {{ $t->tipo }}
                                     </span>
                                 </td>
@@ -78,4 +78,3 @@
     </div>
 </div>
 @endsection
-

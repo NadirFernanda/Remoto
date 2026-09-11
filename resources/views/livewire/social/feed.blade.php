@@ -292,7 +292,7 @@
                         <div class="flex flex-wrap gap-2">
                             @forelse($trendingHashtags as $tag)
                             <a href="{{ route('social.feed', ['hashtag' => $tag]) }}"
-                               class="inline-block px-3 py-1 rounded-full text-xs font-semibold transition {{ $hashtag === $tag ? 'bg-[#0055ff] text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-[#0055ff]/10 hover:text-[#0055ff]' }}">
+                               class="platform-badge inline-block text-xs font-semibold transition {{ $hashtag === $tag ? 'bg-[#0055ff] text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-[#0055ff]/10 hover:text-[#0055ff]' }}">
                                 #{{ $tag }}
                             </a>
                             @empty

@@ -16,7 +16,7 @@
                         'pendente' => 'Pendente',
                     ];
                 @endphp
-                <span class="mt-2 inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold text-white {{ $status === 'aprovado' ? 'bg-emerald-500' : ($status === 'em análise' ? 'bg-amber-500' : ($status === 'recusado' ? 'bg-red-500' : 'bg-slate-400')) }}">
+                <span class="platform-badge mt-2 inline-flex items-center text-sm font-semibold text-white {{ $status === 'aprovado' ? 'bg-emerald-500' : ($status === 'em análise' ? 'bg-amber-500' : ($status === 'recusado' ? 'bg-red-500' : 'bg-slate-400')) }}">
                     {{ $sponsorshipStatusLabels[$status] ?? ucfirst($status) }}
                 </span>
             </div>

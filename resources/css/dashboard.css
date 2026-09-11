@@ -635,7 +635,7 @@ input[type="search"] {
 .filter-input::placeholder{ color: rgba(15,23,42,0.45); }
 
 /* Status badge */
-.status-pill{ display:inline-block; padding:.35rem .6rem; border-radius:999px; font-weight:700; font-size:.82rem; color:#021018; }
+.status-pill{ display:inline-flex; align-items:center; justify-content:center; min-height:2.25rem; padding:.45rem .75rem; border-radius:var(--radius-md); font-weight:700; font-size:.82rem; line-height:1.2; color:#021018; white-space:nowrap; }
 .status-published{ background: #0b1220; }
 .status-accepted{ background:#10b981; }
 .status-in_progress{ background:#f59e0b; }

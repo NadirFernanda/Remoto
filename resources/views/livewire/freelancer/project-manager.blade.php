@@ -70,7 +70,7 @@
     <div class="flex flex-wrap gap-2">
         @foreach(['accepted' => 'Aceite', 'negotiating' => 'Em Negociação', 'in_progress' => 'Em Andamento', 'revision_requested' => 'Revisão Pedida', 'delivered' => 'Entregue', 'completed' => 'Concluído'] as $key => $label)
             <button wire:click="$set('status', '{{ $key }}')"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-white border transition {{ $status === $key ? 'border-[#0052cc] text-[#0052cc] shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300' }}">
+                class="platform-badge inline-flex items-center gap-1.5 text-xs font-semibold bg-white border transition {{ $status === $key ? 'border-[#0052cc] text-[#0052cc] shadow-sm' : 'border-gray-200 text-gray-600 hover:border-gray-300' }}">
                 <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
@@ -123,7 +123,7 @@
                         <h3 class="font-bold text-gray-900 text-sm leading-snug line-clamp-2 flex-1">
                             {{ $project->titulo ?? 'Projecto #' . $project->id }}
                         </h3>
-                        <span class="flex-shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold border {{ $sc }}">
+                        <span class="platform-badge flex-shrink-0 inline-flex items-center gap-1 text-[11px] font-semibold border {{ $sc }}">
                             <svg class="w-3.5 h-3.5 text-[#0055ff]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                             </svg>

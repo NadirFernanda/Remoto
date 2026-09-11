@@ -106,7 +106,7 @@
                             </td>
                             {{-- Role badge + cargo --}}
                             <td class="py-3.5 px-4">
-                                <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $roleClass }}">
+                                <span class="platform-badge inline-block text-xs font-semibold {{ $roleClass }}">
                                     {{ $admin->adminRoleLabel() }}
                                 </span>
                                 @if($admin->admin_cargo)

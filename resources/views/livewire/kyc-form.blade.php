@@ -22,7 +22,7 @@
 
     <div class="mb-6 flex items-center gap-3">
         <span class="text-sm font-medium text-gray-500">Estado actual:</span>
-        <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $kycInfo['class'] }}">
+        <span class="platform-badge px-3 text-sm font-semibold {{ $kycInfo['class'] }}">
             {{ $kycInfo['label'] }}
         </span>
     </div>

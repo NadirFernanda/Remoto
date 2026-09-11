@@ -132,7 +132,7 @@
         @if($user->profile && $user->profile->interests)
             <div class="flex flex-wrap gap-2">
                 @foreach($user->profile->interests as $tag)
-                    <span class="px-3 py-1 rounded-full bg-gray-100 text-sm">{{ $tag }}</span>
+                    <span class="platform-badge px-3 bg-gray-100 text-sm">{{ $tag }}</span>
                 @endforeach
             </div>
         @else

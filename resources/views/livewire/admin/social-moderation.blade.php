@@ -46,7 +46,7 @@
                 @forelse($reports as $report)
                     <tr wire:key="report-{{ $report->id }}" class="hover:bg-gray-50 transition">
                         <td class="py-3 pr-3">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $report->reportable_type === 'post' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600' }}">
+                            <span class="platform-badge inline-flex items-center text-xs font-medium {{ $report->reportable_type === 'post' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600' }}">
                                 {{ $report->reportable_type === 'post' ? 'Post' : 'Utilizador' }}
                             </span>
                         </td>
@@ -54,7 +54,7 @@
                         <td class="py-3 pr-3 text-gray-700">{{ $report->reporter?->name ?? '—' }}</td>
                         <td class="py-3 pr-3 text-gray-600 max-w-xs truncate" title="{{ $report->reason }}">{{ $report->reason }}</td>
                         <td class="py-3 pr-3">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium {{ $report->status === 'pendente' ? 'bg-yellow-50 text-yellow-700' : ($report->status === 'resolvido' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500') }}">
+                            <span class="platform-badge inline-flex items-center text-xs font-medium {{ $report->status === 'pendente' ? 'bg-yellow-50 text-yellow-700' : ($report->status === 'resolvido' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500') }}">
                                 {{ ucfirst($report->status) }}
                             </span>
                         </td>
@@ -117,7 +117,7 @@
                     <div class="flex gap-2"><dt class="font-semibold text-gray-500 w-28">Motivo:</dt><dd class="text-gray-700">{{ $r->reason }}</dd></div>
                     <div class="flex gap-2"><dt class="font-semibold text-gray-500 w-28">Data:</dt><dd>{{ $r->created_at->format('d/m/Y H:i') }}</dd></div>
                     <div class="flex gap-2"><dt class="font-semibold text-gray-500 w-28">Status:</dt>
-                        <dd><span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $r->status === 'pendente' ? 'bg-yellow-50 text-yellow-700' : ($r->status === 'resolvido' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500') }}">
+                        <dd><span class="platform-badge text-xs font-medium {{ $r->status === 'pendente' ? 'bg-yellow-50 text-yellow-700' : ($r->status === 'resolvido' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500') }}">
                             {{ ucfirst($r->status) }}</span></dd>
                     </div>
                 </dl>
@@ -137,7 +137,7 @@
                                     <img src="{{ $post->user->avatarUrl() }}" class="w-7 h-7 rounded-full object-cover ring-1 ring-gray-200">
                                     <span class="text-xs font-semibold text-gray-700">{{ $post->user->name }}</span>
                                     <span class="text-xs text-gray-400">{{ $post->created_at?->format('d/m/Y H:i') }}</span>
-                                    <span class="ml-auto text-[10px] px-2 py-0.5 rounded-full {{ $post->status === 'removed' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-500' }}">
+                                    <span class="platform-badge ml-auto text-[10px] {{ $post->status === 'removed' ? 'bg-red-100 text-red-600' : 'bg-gray-100 text-gray-500' }}">
                                         {{ $post->status === 'removed' ? 'Removido' : ucfirst($post->status ?? 'activo') }}
                                     </span>
                                 </div>

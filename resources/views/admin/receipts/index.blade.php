@@ -102,7 +102,7 @@
                         <td class="px-4 py-3 text-gray-600 whitespace-nowrap">{{ $service->freelancer?->name ?? '—' }}</td>
                         <td class="px-4 py-3 font-semibold text-gray-800 whitespace-nowrap">{{ money_aoa($service->valor ?? 0) }}</td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold {{ match($service->status) { 'completed','concluido','delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'in_progress','accepted','em_andamento','em andamento' => 'bg-sky-50 text-sky-700 border border-sky-200', 'cancelled','cancelado' => 'bg-red-50 text-red-700 border border-red-200', default => 'bg-amber-50 text-amber-700 border border-amber-200', } }}">
+                            <span class="platform-badge inline-flex items-center text-xs font-semibold {{ match($service->status) { 'completed','concluido','delivered' => 'bg-emerald-50 text-emerald-700 border border-emerald-200', 'in_progress','accepted','em_andamento','em andamento' => 'bg-sky-50 text-sky-700 border border-sky-200', 'cancelled','cancelado' => 'bg-red-50 text-red-700 border border-red-200', default => 'bg-amber-50 text-amber-700 border border-amber-200', } }}">
                                 {{ match($service->status) {
                                     'published'       => 'Publicado',
                                     'accepted'        => 'Aceite',

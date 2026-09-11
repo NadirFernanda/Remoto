@@ -79,7 +79,7 @@
                 >
                     <div class="flex items-start justify-between gap-2">
                         <p class="text-sm font-semibold text-gray-800 line-clamp-1 flex-1">{{ $project->titulo }}</p>
-                        <span class="text-xs px-2 py-0.5 rounded-full {{ $statusColor }} flex-shrink-0">
+                        <span class="platform-badge text-xs {{ $statusColor }} flex-shrink-0">
                             {{ $statusLabels[$project->status] ?? $project->status }}
                         </span>
                     </div>
@@ -392,7 +392,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <span class="text-xs px-2.5 py-1 rounded-full font-medium flex-shrink-0 {{ $statusBadge[1] }}">
+                                            <span class="platform-badge text-xs font-medium flex-shrink-0 {{ $statusBadge[1] }}">
                                                 {{ $statusBadge[0] }}
                                             </span>
                                         </div>

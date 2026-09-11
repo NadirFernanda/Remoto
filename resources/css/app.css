@@ -604,6 +604,35 @@ p {
     transition: background-color .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease, opacity .16s ease;
 }
 
+/* Shared badge language: status labels use the same compact geometry as the
+   platform buttons instead of mixing unrelated radii and vertical padding. */
+.platform-badge,
+.admin-dispute-success-badge,
+[class*="pub-status-"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    min-height: 2.25rem;
+    padding: .45rem .75rem !important;
+    border-radius: var(--radius-md) !important;
+    line-height: 1.2;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+@media (max-width: 640px) {
+    .platform-badge,
+    .admin-dispute-success-badge,
+    [class*="pub-status-"] {
+        min-height: 2.25rem;
+        max-width: 100%;
+        padding: .45rem .7rem !important;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
 /* Project actions use the same compact geometry as the header install CTA. */
 .project-manager .btn,
 .project-manager .btn-primary,
@@ -938,7 +967,8 @@ html body button.rounded-full[class*="px-"] { border-radius: .6875rem !important
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    padding:.35rem .65rem;
+    min-height: 2.25rem;
+    padding:.45rem .75rem;
     border-radius:var(--radius-md);
     font-weight:700;
     font-size:.75rem;

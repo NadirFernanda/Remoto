@@ -101,7 +101,7 @@
                             {{ $s->valor ? money_aoa($s->valor) : '—' }}
                         </td>
                         <td class="py-2.5 px-3">
-                            <span class="text-[11px] px-2 py-0.5 rounded-full font-medium {{ $badgeCor }}">
+                            <span class="platform-badge text-[11px] font-medium {{ $badgeCor }}">
                                 {{ $statusLabels[$s->status] ?? ucfirst($s->status) }}
                             </span>
                         </td>

@@ -59,7 +59,7 @@
                             min="{{ (int) $saqueMinimo }}"
                             step="100"
                             placeholder="{{ (int) $saqueMinimo }}"
-                            class="financial-amount-input w-full pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
+                            class="financial-amount-input w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#0055ff] focus:ring-1 focus:ring-[#0055ff] outline-none text-sm transition @error('valorSaque') border-red-400 @enderror"
                         >
                     </div>
                     <p class="text-xs text-gray-400 mt-1.5">Saque mínimo: Kz {{ number_format($saqueMinimo, 0, ',', '.') }} — independentemente da origem do saldo.</p>
@@ -178,7 +178,7 @@
                     <tr>
                         <td class="py-3 text-gray-400 text-xs whitespace-nowrap">{{ $log->created_at->format('d/m/Y') }}</td>
                         <td class="py-3">
-                            <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $bgLabel }}">{{ $tipoLabel }}</span>
+                            <span class="platform-badge text-xs font-medium {{ $bgLabel }}">{{ $tipoLabel }}</span>
                         </td>
                         <td class="py-3 text-gray-500 text-xs max-w-xs truncate hidden sm:table-cell">{{ $log->descricao ?? '—' }}</td>
                         <td class="py-3 text-right font-semibold text-sm {{ $tipoCor }}">{{ $sinal }} Kz {{ number_format(abs($log->valor), 2, ',', '.') }}</td>

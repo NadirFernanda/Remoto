@@ -38,13 +38,13 @@
                                 <td class="px-4 py-3 text-slate-600">{{ $refund->reason }}</td>
                                 <td class="px-4 py-3">
                                     @if($refund->status === 'pending')
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-200">Em análise</span>
+                                        <span class="platform-badge inline-flex items-center bg-amber-50 text-amber-700 text-xs font-semibold border border-amber-200">Em análise</span>
                                     @elseif($refund->status === 'approved')
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">Aprovado</span>
+                                        <span class="platform-badge inline-flex items-center bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200">Aprovado</span>
                                     @elseif($refund->status === 'rejected')
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold border border-red-200">Recusado</span>
+                                        <span class="platform-badge inline-flex items-center bg-red-50 text-red-700 text-xs font-semibold border border-red-200">Recusado</span>
                                     @else
-                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">{{ ucfirst($refund->status) }}</span>
+                                        <span class="platform-badge inline-flex items-center bg-slate-100 text-slate-700 text-xs font-semibold border border-slate-200">{{ ucfirst($refund->status) }}</span>
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-slate-500">{{ $refund->created_at->format('d/m/Y H:i') }}</td>
