@@ -43,6 +43,86 @@
     --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.22);
 }
 
+/* Global interaction layer: subtle, consistent and disabled for reduced motion. */
+html::before {
+    content: "";
+    position: fixed;
+    inset: 0 auto auto 0;
+    z-index: 10001;
+    width: 0;
+    height: 3px;
+    pointer-events: none;
+    background: var(--color-primary);
+    box-shadow: 0 0 14px rgba(0,85,255,.55);
+    transition: width .22s ease;
+}
+
+html.is-navigating::before {
+    width: 72%;
+}
+
+html.ui-ready body {
+    transition: opacity .18s ease;
+}
+
+.ui-ripple-host {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.ui-ripple-host > :not(.ui-ripple) {
+    position: relative;
+    z-index: 1;
+}
+
+.ui-ripple {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    background: rgba(255,255,255,.26);
+    transform: scale(0);
+    animation: ui-ripple .52s ease-out forwards;
+}
+
+.is-interacting {
+    cursor: wait !important;
+}
+
+.is-interacting::after {
+    content: "";
+    display: inline-block;
+    width: .8rem;
+    height: .8rem;
+    margin-left: .45rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    vertical-align: -.1rem;
+    animation: ui-spin .65s linear infinite;
+}
+
+@keyframes ui-ripple {
+    to { opacity: 0; transform: scale(2.4); }
+}
+
+@keyframes ui-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html::before,
+    html.ui-ready body {
+        transition: none;
+    }
+
+    .ui-ripple,
+    .is-interacting::after {
+        animation: none;
+    }
+}
+
 /* =====================================================
    GLOBAL DESIGN SYSTEM HARMONIZATION
    ===================================================== */
