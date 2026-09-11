@@ -528,6 +528,17 @@ input[type="search"] {
     color: #94a3b8 !important;
 }
 
+.workspace-layout .platform-empty-state > p {
+    max-width: 32rem;
+    padding-inline: 1rem;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.workspace-layout .platform-empty-state > p + p {
+    margin-top: .35rem;
+}
+
 @media (max-width: 640px) {
     .workspace-layout .dashboard-page-header {
         align-items: flex-start;
@@ -536,6 +547,10 @@ input[type="search"] {
     .workspace-layout .platform-page-header {
         padding: .9rem 1rem !important;
         border-radius: .875rem !important;
+    }
+
+    .workspace-layout .platform-empty-state > p {
+        padding-inline: 1.25rem;
     }
 
     .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {

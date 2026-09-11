@@ -164,7 +164,7 @@
                 </div>
             </div>
         @empty
-            <div class="col-span-3 text-gray-500 text-center text-sm bg-white border border-dashed border-gray-300 rounded-xl py-10">
+            <div class="platform-empty-state col-span-3 text-gray-500 text-center text-sm bg-white border border-dashed border-gray-300 rounded-xl py-10">
                 Nenhum projecto disponível de momento. Volte mais tarde ou mantenha as suas notificações activas.
             </div>
         @endforelse
