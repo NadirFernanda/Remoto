@@ -1202,6 +1202,31 @@ main::before, main::after { display: none !important; content: none !important; 
     border-radius: .6875rem !important;
 }
 
+.notification-pagination nav button {
+    border-color: rgba(125,167,255,.28) !important;
+    color: #cbd5e1 !important;
+    background: #162238 !important;
+    transition: background-color .18s ease, border-color .18s ease,
+        color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.notification-pagination nav button:hover:not(:disabled),
+.notification-pagination nav button:focus-visible {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 16px rgba(0,85,255,.22);
+}
+
+.notification-pagination nav button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.notification-pagination nav button:disabled {
+    cursor: not-allowed;
+    opacity: .55;
+}
+
 @media (max-width: 768px) {
     .financial-page {
         width: 100%;
