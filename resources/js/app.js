@@ -45,6 +45,14 @@ const markLoading = (event) => {
     }, 1800);
 };
 
+const markTouchInteraction = (event) => {
+    const target = event.target.closest('button, a');
+    if (!target || target.matches('[disabled], [aria-disabled="true"]')) return;
+
+    target.classList.add('ui-touch-active');
+    window.setTimeout(() => target.classList.remove('ui-touch-active'), 180);
+};
+
 const showNavigationProgress = (event) => {
     const link = event.target.closest('a[href]');
     if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
@@ -56,6 +64,7 @@ const showNavigationProgress = (event) => {
 
 document.addEventListener('DOMContentLoaded', markPageReady, { once: true });
 document.addEventListener('pointerdown', addRipple, { passive: true });
+document.addEventListener('pointerdown', markTouchInteraction, { passive: true });
 document.addEventListener('submit', markLoading, true);
 document.addEventListener('click', showNavigationProgress, true);
 window.addEventListener('pageshow', () => {

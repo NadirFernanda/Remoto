@@ -118,8 +118,43 @@ html.ui-ready body {
     }
 
     .ui-ripple,
-    .is-interacting::after {
+    .is-interacting::after,
+    .ui-touch-active {
         animation: none;
+        transform: none;
+        filter: none;
+    }
+}
+
+@media (max-width: 640px) {
+    html::before {
+        height: 3px;
+        box-shadow: 0 0 10px rgba(0,85,255,.45);
+    }
+
+    html.is-navigating::before {
+        width: 88%;
+    }
+
+    .ui-touch-active {
+        transform: scale(.985);
+        filter: brightness(1.08);
+    }
+
+    .ui-ripple {
+        background: rgba(255,255,255,.32);
+    }
+
+    button,
+    a {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    .is-interacting::after {
+        width: .72rem;
+        height: .72rem;
+        margin-left: .35rem;
     }
 }
 
