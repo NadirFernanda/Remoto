@@ -319,8 +319,7 @@ input[type="search"] {
 
 /* Legacy Livewire screens keep their header inside the component. Keep it
    visually identical to the layout header without affecting content cards. */
-.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p),
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) {
+.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {
     margin-bottom: 1.25rem;
     padding: 1rem 1.15rem !important;
     border: 1px solid rgba(125,167,255,.45);
@@ -332,24 +331,18 @@ input[type="search"] {
 
 .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) h1,
 .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) h2,
-.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) p,
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) h1,
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) h2,
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) p {
+.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) p {
     color: #fff !important;
 }
 
 .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) h1,
-.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) h2,
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) h1,
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) h2 {
+.workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) h2 {
     font-size: clamp(1.25rem, 2vw, 1.65rem);
     line-height: 1.2;
     letter-spacing: -.025em;
 }
 
-.workspace-layout .dashboard-content-stack > :first-child:has(> a, > button):has(> h1, > h2),
-.workspace-layout .dashboard-content-stack > :first-child:has(> div > a, > div > button):has(> div > h1, > div > h2) {
+.workspace-layout .dashboard-content-stack > :first-child:has(> a, > button):has(> h1, > h2) {
     gap: .75rem;
 }
 
@@ -516,21 +509,17 @@ input[type="search"] {
         align-items: flex-start;
     }
 
-    .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p),
-    .workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) {
+    .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {
         padding: .9rem 1rem !important;
         border-radius: .875rem !important;
     }
 
-    .workspace-layout .dashboard-content-stack > :first-child:has(> div > h1, > div > h2):has(> div > p) > div,
     .workspace-layout .dashboard-content-stack > :first-child:has(> h1, > h2):has(> p) {
         align-items: flex-start;
     }
 
     .workspace-layout .dashboard-content-stack > :first-child:has(> a, > button) a,
-    .workspace-layout .dashboard-content-stack > :first-child:has(> a, > button) button,
-    .workspace-layout .dashboard-content-stack > :first-child:has(> div > a, > div > button) a,
-    .workspace-layout .dashboard-content-stack > :first-child:has(> div > a, > div > button) button {
+    .workspace-layout .dashboard-content-stack > :first-child:has(> a, > button) button {
         width: 100%;
         justify-content: center;
     }
