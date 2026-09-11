@@ -1192,14 +1192,14 @@ li.list-item {
 
 
 /* Action toolbar: default inline layout to avoid buttons expanding into separate cards */
-.action-row{ display:inline-flex; gap:.5rem; align-items:center; }
+.action-row{ display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
 .action-row > *{ flex: 0 0 auto; }
 
 /* When equal distribution is desired, add the 'equal' modifier */
 .action-row.equal{ display:flex; width:100%; }
 .action-row.equal > *{ flex:1 1 0; min-width:0; }
 .action-row a, .action-row button, .action-row form{ display:inline-flex; }
-.action-row .btn-eq{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.45rem .8rem; border-radius:9999px; font-weight:700; transition:transform .12s ease, box-shadow .12s ease; background:transparent; color:var(--accent-v); border:1px solid transparent; box-shadow:none; }
+.action-row .btn-eq{ display:inline-flex; align-items:center; justify-content:center; gap:.5rem; padding:.625rem 1rem; border-radius:var(--radius-md); font-weight:700; transition:transform .12s ease, box-shadow .12s ease; background:transparent; color:var(--accent-v); border:1px solid transparent; box-shadow:none; }
 .action-row .btn-eq.btn-primary{ background: var(--color-primary); color:#fff; box-shadow:0 8px 22px rgba(0,80,255,0.06); border: none; }
 .action-row .btn-eq.btn-outline{ background:transparent; border:1px solid rgba(0,80,255,0.12); color:var(--accent-v); box-shadow:none; }
 .action-row .btn-eq svg{ margin-right:.5rem; width:18px; height:18px; flex-shrink:0; }
@@ -1214,28 +1214,27 @@ li.list-item {
 @media (max-width:640px){
     .action-row{ flex-direction:column; gap:.5rem; }
     .action-row > *{ width:100%; flex:unset; }
+    .action-row > a,
+    .action-row > button,
+    .action-row > form,
+    .action-row > form > button {
+        width:100%;
+        max-width:none;
+    }
 }
 
 /* Enforce compact icon/button sizes to avoid oversized graphics */
-.action-row .btn-eq{ padding:.5rem .9rem; font-size:0.95rem; max-width:360px; }
+.action-row .btn-eq{ padding:.625rem 1rem; font-size:0.95rem; max-width:360px; }
 .action-row .btn-eq svg{ width:18px !important; height:18px !important; }
-.btn-eq.small{ padding:.35rem .75rem; font-size:.92rem; max-width:220px; border-radius:9999px; }
+.btn-eq.small{ padding:.45rem .75rem; font-size:.92rem; max-width:220px; border-radius:var(--radius-md); }
 
-/* Strong overrides: remove card/background/border/shadow applied by other rules inside action rows */
-.action-row, .action-row * { background: transparent !important; border: none !important; box-shadow: none !important; }
-
-/* Force inline appearance and remove any residual card-like styling from compiled CSS */
+/* Keep action rows compact without stripping the intentional button variants. */
 .action-row a, .action-row button, .action-row .btn-eq {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: .38rem .7rem !important;
     margin: 0 !important;
 }
-.action-row .btn-eq { color: var(--accent-v) !important; }
 
 /* Focus: visível apenas para navegação por teclado (não ao clicar com rato) */
 *:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; }

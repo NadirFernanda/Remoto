@@ -643,6 +643,14 @@ input[type="search"] {
 .status-completed{ background:#64748b; }
 .status-cancelled{ background:#ef4444; }
 
+@media (max-width: 640px) {
+    .status-pill {
+        max-width: 100%;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
 /* Stronger information hierarchy for dashboard actions */
 .dash-main .action-btn,
 .dash-main .btn-nowrap,
