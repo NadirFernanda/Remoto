@@ -71,7 +71,7 @@
 </head>
 @php $routeName = optional(request()->route())->getName(); @endphp
 @php $chatNotificationTransition = session('notification_chat_transition', false); @endphp
-<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }} {{ $chatNotificationTransition ? 'notification-chat-transition' : '' }}" style="height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
+<body class="site-theme {{ $routeName === 'profile.edit' ? 'profile-page' : '' }} {{ $routeName === 'home' ? 'homepage' : '' }} {{ $chatNotificationTransition ? 'notification-chat-transition' : '' }}" style="height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:#080d1a;">
     {{-- Banner de impersonation --}}
     @if(session('impersonating_admin_id'))
     <div style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#dc2626;color:#fff;display:flex;align-items:center;justify-content:center;gap:16px;padding:10px 16px;font-size:13px;font-weight:600;font-family:Arial,sans-serif;">

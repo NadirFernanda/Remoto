@@ -52,7 +52,7 @@
         transform: translateX(100%);
     }
 </style>
-<header x-data="{open:false, scrolled:false}" @close-mobile-navigation.window="open=false" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
+<header x-data="{open:false, scrolled:false}" @close-mobile-navigation.window="open=false" @click.window="if (open && (!$refs.mobileMenu || !$refs.mobileMenu.contains($event.target)) && (!$refs.mobileToggle || !$refs.mobileToggle.contains($event.target))) open=false" x-init="scrolled=window.location.pathname!='/';(function(){let sc=document.getElementById('page-scroll');if(sc)sc.addEventListener('scroll',function(){scrolled=window.location.pathname!='/'||sc.scrollTop>30;})})()" :class="{'scrolled': scrolled}" class="site-header w-full" style="position:sticky;top:0;z-index:50;flex-shrink:0;">
     <div class="header-container px-4" style="display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
 
         <!-- Esquerda: Logo + Nav agrupados -->
@@ -726,7 +726,7 @@
             @endguest
             @auth
             {{-- Utilizador autenticado: abre dropdown do menu móvel --}}
-            <button @click="open = !open" class="p-2 rounded-md text-white bg-[#0055ff]/20 border border-white/20 hover:bg-[#0055ff]/30 transition">
+            <button type="button" x-ref="mobileToggle" @click="open = !open" class="p-2 rounded-md text-white bg-[#0055ff]/20 border border-white/20 hover:bg-[#0055ff]/30 transition">
                 <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
@@ -736,7 +736,7 @@
             </button>
             @else
             {{-- Visitante: abre dropdown do menu público --}}
-            <button @click="open = !open" class="p-2 rounded-md text-white bg-[#0055ff]/20 border border-white/20 hover:bg-[#0055ff]/30 transition">
+            <button type="button" x-ref="mobileToggle" @click="open = !open" class="p-2 rounded-md text-white bg-[#0055ff]/20 border border-white/20 hover:bg-[#0055ff]/30 transition">
                 <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
@@ -748,7 +748,7 @@
         </div>
     </div>
 
-    <div x-show="open" x-transition class="px-4 pb-4 md:hidden" style="max-height:calc(100dvh - 4.5rem);overflow-y:auto;">
+    <div x-show="open" x-transition x-ref="mobileMenu" class="px-4 pb-4 md:hidden" style="max-height:calc(100vh - 4.5rem);max-height:calc(100dvh - 4.5rem);overflow-y:auto;-webkit-overflow-scrolling:touch;">
         <div class="mobile-menu-dropdown flex flex-col gap-1 bg-[#071422] border border-white/10 rounded-xl p-3 mt-2 shadow-xl">
             @guest
             <!-- Accordion: Contratar -->
