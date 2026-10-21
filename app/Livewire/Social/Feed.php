@@ -17,7 +17,7 @@ class Feed extends Component
 {
     use WithPagination;
 
-    public string $commentText = '';
+    public array $commentText = [];
     public ?int $commentingPostId = null;
     public ?int $editingPostId = null;
     public string $editContent = '';
@@ -42,7 +42,7 @@ class Feed extends Component
     }
 
     protected $rules = [
-        'commentText'  => 'required|string|min:1|max:1000',
+        'commentText.*' => 'required|string|min:1|max:1000',
         'reportReason' => 'required|string|max:500',
         'editContent'  => 'required|string|min:1|max:3000',
     ];
@@ -162,18 +162,24 @@ class Feed extends Component
     public function openComments(int $postId): void
     {
         $this->commentingPostId = ($this->commentingPostId === $postId) ? null : $postId;
-        $this->commentText = '';
+        unset($this->commentText[$postId]);
+        $this->resetValidation("commentText.{$postId}");
+        $this->dispatch('comment-draft-cleared', postId: $postId);
     }
 
-    public function submitComment(): void
+    public function submitComment(int $postId, string $content): void
     {
         $user = Auth::user();
         if (!$user) return;
 
-        $this->validateOnly('commentText');
+        $this->commentText[$postId] = $content;
+        $field = "commentText.{$postId}";
+        $this->validateOnly($field);
 
-        app(SocialInteractionService::class)->addComment($user, $this->commentingPostId, $this->commentText);
-        $this->commentText = '';
+        app(SocialInteractionService::class)->addComment($user, $postId, $this->commentText[$postId]);
+        unset($this->commentText[$postId]);
+        $this->resetValidation($field);
+        $this->dispatch('comment-draft-cleared', postId: $postId);
     }
 
     // ── Reports ───────────────────────────────────────────────────────────────

@@ -481,21 +481,29 @@
 
     {{-- ══ INLINE COMMENT INPUT — Instagram style ══════════════════════════════ --}}
     @auth
-        <div class="border-t border-gray-100 flex items-center gap-3 px-4 py-2.5">
+        <div class="border-t border-gray-100 flex items-center gap-3 px-4 py-2.5"
+             x-data="{ draft: '' }"
+             x-on:comment-draft-cleared.window="if ($event.detail.postId === {{ $post->id }}) draft = ''">
             <img src="{{ auth()->user()->avatarUrl() }}" alt=""
                  class="w-7 h-7 rounded-full object-cover flex-shrink-0"
                  onerror="this.src='{{ asset('img/default-avatar.svg') }}'">
-            <input wire:model="commentText"
+            <input wire:key="comment-input-{{ $post->id }}"
+                   x-model="draft"
                    type="text"
                    placeholder="Adicionar comentario..."
-                   wire:keydown.enter="submitComment"
+                   x-on:keydown.enter.prevent="$wire.submitComment({{ $post->id }}, draft)"
+                   wire:loading.attr="disabled"
+                   wire:target="submitComment"
                    class="flex-1 text-sm text-gray-800 bg-transparent placeholder-gray-400 focus:outline-none py-1">
-            <button wire:click="submitComment"
+            <button type="button"
+                x-on:click="$wire.submitComment({{ $post->id }}, draft)"
+                wire:loading.attr="disabled"
+                wire:target="submitComment"
                 class="text-sm font-bold text-[#0055ff] hover:text-[#009ad6] transition flex-shrink-0">
                 Publicar
             </button>
         </div>
-        @error('commentText') <p class="px-4 pb-2 text-red-500 text-xs">{{ $message }}</p> @enderror
+        @error("commentText.{$post->id}") <p class="px-4 pb-2 text-red-500 text-xs">{{ $message }}</p> @enderror
     @endauth
 
 </article>
