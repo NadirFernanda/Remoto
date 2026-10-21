@@ -10,11 +10,19 @@ echo "A fazer pull do repositório..."
 git fetch origin main
 git reset --hard origin/main
 
+echo "A instalar dependências npm a partir do lockfile..."
+npm ci
+
+echo "A verificar vulnerabilidades npm..."
+npm audit --audit-level=high
+
+echo "A verificar vulnerabilidades Composer..."
+composer audit --locked --no-dev
+
 echo "A instalar dependências PHP..."
 composer install --no-dev --optimize-autoloader
 
 echo "A instalar e compilar assets..."
-npm install --prefer-offline
 npm run build
 
 echo "A limpar e RECONSTRUIR todos os caches..."
