@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="min-h-screen pb-16">
+<div class="status-dark-surface min-h-screen pb-16">
 
     {{-- ── Header ── --}}
     <div class="bg-white border-b border-slate-100 shadow-sm">

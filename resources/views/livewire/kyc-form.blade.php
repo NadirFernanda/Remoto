@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto space-y-6">
 
     {{-- Header --}}
-    <div class="rounded-2xl p-6 text-white">
+    <div class="platform-page-header rounded-2xl p-6 text-white">
         <h2 class="text-2xl font-extrabold">Verificação de Identidade (KYC)</h2>
         <p class="text-sm text-white/75 mt-1">Envie os seus documentos para activar todas as funcionalidades da plataforma</p>
     </div>

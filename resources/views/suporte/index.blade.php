@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="pub-page" style="padding-top:0">
+<div class="pub-page status-dark-surface" style="padding-top:0">
     <style>
         #support-form input:-webkit-autofill,
         #support-form input:-webkit-autofill:hover,

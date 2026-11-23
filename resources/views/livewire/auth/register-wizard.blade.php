@@ -479,7 +479,7 @@
                     <label class="lf-label" for="reg-document-number">Número do documento</label>
                     <input class="lf-input @error('documentNumber') has-error @enderror"
                            type="text" id="reg-document-number" wire:model="documentNumber" spellcheck="false" autocapitalize="characters"
-                           style="padding-left:1rem;" placeholder="Ex.: 003456789LA042">
+                           style="padding-left:1rem;color:#1e293b !important;-webkit-text-fill-color:#1e293b !important;caret-color:#0055ff !important;" placeholder="Ex.: 003456789LA042">
                     <p style="font-size:.72rem;color:#94a3b8;margin-top:.3rem;">Usado apenas para impedir contas duplicadas — não é partilhado publicamente.</p>
                     @error('documentNumber') <p class="lf-error show">{{ $message }}</p> @enderror
                 </div>

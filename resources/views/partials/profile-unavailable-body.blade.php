@@ -1,4 +1,4 @@
-<div class="dash-main">
+<div class="dash-main status-dark-surface">
 <div class="max-w-md mx-auto px-4 py-20 text-center">
     <div class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-5">
         <svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">

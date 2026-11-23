@@ -2275,21 +2275,25 @@ li.list-item {
     }
 }
 
-/* Final form-colour contract: utility classes must never make entered values
-   depend on an inherited gray or transparent text colour. */
+/* Keep the value, caret and WebKit's painted text on the same colour token.
+   A focused control must not switch to white text on a light surface. */
 html body input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 html body textarea,
 html body select {
-    color: #f8fafc !important;
-    -webkit-text-fill-color: #f8fafc !important;
-    caret-color: #0055ff;
+    color: var(--form-field-text, #f8fafc) !important;
+    -webkit-text-fill-color: var(--form-field-text, #f8fafc) !important;
+    caret-color: var(--form-field-text, #f8fafc);
 }
 
-html body input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):focus,
-html body textarea:focus,
-html body select:focus {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
+/* Authentication controls have light backgrounds in both form steps. */
+html body .login-left,
+html body .reg-wrap {
+    --form-field-text: #1e293b;
+}
+
+/* Dashboard utility names such as bg-white are rendered as dark controls. */
+html body .dash-main :is(input, textarea, select) {
+    --form-field-text: #f8fafc;
 }
 
 html body input::placeholder,
@@ -2312,10 +2316,26 @@ html body .reg-wrap .lf-input::placeholder {
     -webkit-text-fill-color: #64748b !important;
 }
 
+/* The KYC document number is a light registration field, including after
+   Livewire re-renders the second step. */
+html body .reg-wrap #reg-document-number,
+html body .reg-wrap #reg-document-number:focus {
+    color: #1e293b !important;
+    -webkit-text-fill-color: #1e293b !important;
+    caret-color: #0055ff !important;
+}
+
+html body .reg-wrap #reg-document-number::placeholder {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+    opacity: 1 !important;
+}
+
 /* The administrative modal is the one light dashboard surface. */
 html body .admin-light-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 html body .admin-light-modal textarea,
 html body .admin-light-modal select {
+    --form-field-text: #111827;
     color: #111827 !important;
     -webkit-text-fill-color: #111827 !important;
     background-color: #ffffff !important;
@@ -2329,6 +2349,7 @@ html body .workspace-layout select,
 html body .admin-layout input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 html body .admin-layout textarea,
 html body .admin-layout select {
+    --form-field-text: #f8fafc;
     color: #f8fafc !important;
     -webkit-text-fill-color: #f8fafc !important;
 }
@@ -2336,6 +2357,7 @@ html body .admin-layout select {
 html body .admin-layout .admin-light-modal input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),
 html body .admin-layout .admin-light-modal textarea,
 html body .admin-layout .admin-light-modal select {
+    --form-field-text: #111827;
     color: #111827 !important;
     -webkit-text-fill-color: #111827 !important;
 }
@@ -3648,7 +3670,7 @@ html body .chat-window .chat-message-mine-time {
 .workspace-layout .rounded-2xl.bg-white .rounded-full.bg-\[\#e0f7fa\],
 .workspace-layout .rounded-xl.bg-white .rounded-full.bg-\[\#e0f7fa\] {
     background-color: rgba(0,85,255,.14) !important;
-    color: var(--color-primary) !important;
+    color: #93c5fd !important;
 }
 
 .workspace-layout .shadow-sm,
@@ -3968,7 +3990,7 @@ html body .chat-window .chat-message-mine-time {
 
 .freelancer-portfolio-document {
     background: #0b1220;
-    color: #0055ff;
+    color: #93c5fd;
 }
 
 .freelancer-portfolio-document:hover {
@@ -3986,7 +4008,7 @@ html body .chat-window .chat-message-mine-time {
 }
 
 .freelancer-profile-content .freelancer-profile-card .text-\[\#0055ff\] {
-    color: #0055ff !important;
+    color: #93c5fd !important;
 }
 
 .freelancer-profile-content .freelancer-profile-card .bg-\[\#0055ff\]\/8 {
@@ -4078,4 +4100,79 @@ html body .chat-window .chat-message-mine-time {
         justify-content: center;
         text-align: center;
     }
+}
+
+/* Status surfaces on dark dashboard and public pages use readable tints.
+   This covers KYC, support, transactions and profile notices. */
+:is(.workspace-layout, .status-dark-surface) :is(.bg-green-50, .bg-green-100, .bg-emerald-50, .bg-emerald-100) {
+    background-color: rgba(22, 163, 74, .14) !important;
+    border-color: rgba(134, 239, 172, .3) !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.bg-red-50, .bg-red-100) {
+    background-color: rgba(239, 68, 68, .13) !important;
+    border-color: rgba(252, 165, 165, .3) !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.bg-yellow-50, .bg-yellow-100, .bg-amber-50, .bg-amber-100) {
+    background-color: rgba(245, 158, 11, .13) !important;
+    border-color: rgba(252, 211, 77, .3) !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.bg-blue-50, .bg-blue-100, .bg-sky-50, .bg-sky-100) {
+    background-color: rgba(0, 85, 255, .15) !important;
+    border-color: rgba(147, 197, 253, .3) !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.text-green-600, .text-green-700, .text-green-800, .text-emerald-600, .text-emerald-700, .text-emerald-800) {
+    color: #86efac !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.text-red-600, .text-red-700, .text-red-800) {
+    color: #fca5a5 !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.text-yellow-600, .text-yellow-700, .text-yellow-800, .text-amber-600, .text-amber-700, .text-amber-800) {
+    color: #fcd34d !important;
+}
+
+:is(.workspace-layout, .status-dark-surface) :is(.text-blue-600, .text-blue-700, .text-blue-800, .text-sky-600, .text-sky-700, .text-sky-800) {
+    color: #93c5fd !important;
+}
+
+/* The admin manager intentionally uses light dialogs. Keep their notices light. */
+.workspace-layout .admin-light-modal :is(.bg-green-50, .bg-green-100, .bg-emerald-50, .bg-emerald-100) {
+    background-color: #f0fdf4 !important;
+    border-color: #bbf7d0 !important;
+}
+
+.workspace-layout .admin-light-modal :is(.bg-red-50, .bg-red-100) {
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+}
+
+.workspace-layout .admin-light-modal :is(.bg-yellow-50, .bg-yellow-100, .bg-amber-50, .bg-amber-100) {
+    background-color: #fffbeb !important;
+    border-color: #fde68a !important;
+}
+
+.workspace-layout .admin-light-modal :is(.bg-blue-50, .bg-blue-100, .bg-sky-50, .bg-sky-100) {
+    background-color: #eff6ff !important;
+    border-color: #bfdbfe !important;
+}
+
+.workspace-layout .admin-light-modal :is(.text-green-600, .text-green-700, .text-green-800, .text-emerald-600, .text-emerald-700, .text-emerald-800) {
+    color: #15803d !important;
+}
+
+.workspace-layout .admin-light-modal :is(.text-red-600, .text-red-700, .text-red-800) {
+    color: #b91c1c !important;
+}
+
+.workspace-layout .admin-light-modal :is(.text-yellow-600, .text-yellow-700, .text-yellow-800, .text-amber-600, .text-amber-700, .text-amber-800) {
+    color: #92400e !important;
+}
+
+.workspace-layout .admin-light-modal :is(.text-blue-600, .text-blue-700, .text-blue-800, .text-sky-600, .text-sky-700, .text-sky-800) {
+    color: #1d4ed8 !important;
 }
